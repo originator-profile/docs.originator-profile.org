@@ -8,7 +8,7 @@ sidebar_position: 2
 
 ![OP の仕組み](./assets/op-ihv.jpeg)
 
-情報発信者がレジストリに登録/確認を受けて証明書 ([SOP](/terminology/signed-originator-profile.md)) を受け取り、作成したコンテンツとその情報に署名した証明書 ([SDP](/terminology/signed-document-profile.md)) と一緒にブラウザに送信する仕組みです。ブラウザは SOP, SDP を検証して受け取った情報の信頼性を確認・表示します。
+情報発信者がレジストリに登録/確認を受けて証明書 ([SOP](#/terminology/signed-originator-profile.md)) を受け取り、作成したコンテンツとその情報に署名した証明書 ([SDP](#/terminology/signed-document-profile.md)) と一緒にブラウザに送信する仕組みです。ブラウザは SOP, SDP を検証して受け取った情報の信頼性を確認・表示します。
 
 将来的には検索エンジンなどのボット・クローラーや、ファクトチェックや広告品質に関する機関が、標準化された OP の仕組みを利用することを想定しています。
 
@@ -42,13 +42,13 @@ import SignedSpSvg from "./assets/signed-sp.svg";
   <tr>
     <td>名称</td>
     {/* prettier-ignore */}
-    <td>[Signed Originator Profile](/terminology/signed-originator-profile.md)</td>
+    <td>[Signed Originator Profile](#/terminology/signed-originator-profile.md)</td>
     {/* prettier-ignore */}
-    <td>[Signed Document Profile](/terminology/signed-document-profile.md)</td>
+    <td>[Signed Document Profile](#/terminology/signed-document-profile.md)</td>
     {/* prettier-ignore */}
-    <td>[Signed Advertisement Profile](/terminology/advertisement-profile.md)</td>
+    <td>[Signed Advertisement Profile](#/terminology/advertisement-profile.md)</td>
     {/* prettier-ignore */}
-    <td>[Signed Site Profile](/terminology/signed-site-profile.md)</td>
+    <td>[Signed Site Profile](#/terminology/signed-site-profile.md)</td>
   </tr>
   <tr>
     <td>主な用途</td>
@@ -95,17 +95,17 @@ import SignedSpSvg from "./assets/signed-sp.svg";
   </tr>
 </table>
 
-上の表のデータは全てデータモデルとして Verifiable Credential (VC) を採用しています。VC の仕様に基づき署名がされているため、記載情報の改ざんができません。また、 VC の IHV モデルの利点からこれらのデータを利用者が検証する際にレジストリ等にアクセスがなくプライバシーの懸念がないことも特徴です。Signed を省略してそれぞれ **[OP](/terminology/originator-profile.md)**, **[DP](/terminology/document-profile.md)**, **[AP](/terminology/advertisement-profile.md)**, [SP](/terminology/site-profile.md) と呼ぶことがあります。また、簡便のために SDP と SAP の区別をせず SDP と呼ぶことがあります。
+上の表のデータは全てデータモデルとして Verifiable Credential (VC) を採用しています。VC の仕様に基づき署名がされているため、記載情報の改ざんができません。また、 VC の IHV モデルの利点からこれらのデータを利用者が検証する際にレジストリ等にアクセスがなくプライバシーの懸念がないことも特徴です。Signed を省略してそれぞれ **[OP](#/terminology/originator-profile.md)**, **[DP](#/terminology/document-profile.md)**, **[AP](#/terminology/advertisement-profile.md)**, [SP](#/terminology/site-profile.md) と呼ぶことがあります。また、簡便のために SDP と SAP の区別をせず SDP と呼ぶことがあります。
 
-**[SOP](/terminology/signed-originator-profile.md)** は情報の発信者の身元を表明するためのデータです。内容には基本的な組織情報だけでなく、組織の情報発信者ポリシーや、信頼性を示す第三者認証など資格情報も含みます。 SOP の情報を見ることでユーザーは正しさの保証された情報から組織の信頼性を判断することができます。
+**[SOP](#/terminology/signed-originator-profile.md)** は情報の発信者の身元を表明するためのデータです。内容には基本的な組織情報だけでなく、組織の情報発信者ポリシーや、信頼性を示す第三者認証など資格情報も含みます。 SOP の情報を見ることでユーザーは正しさの保証された情報から組織の信頼性を判断することができます。
 
-**[SDP](/terminology/signed-document-profile.md)**, **[SAP](/terminology/signed-advertisement-profile.md)** はコンテンツの付帯情報を表明するためのデータです。記載情報には真正性があり、 `iss` クレームにある OP ID から SOP と紐づけて発信者の信頼性を確認することができます。また、ページ上のコンテンツの範囲を CSS セレクターで特定し、ユーザーに表示することができます。その範囲のコンテンツには署名がつけられ、改ざん防止に役立ちます。
+**[SDP](#/terminology/signed-document-profile.md)**, **[SAP](#/terminology/signed-advertisement-profile.md)** はコンテンツの付帯情報を表明するためのデータです。記載情報には真正性があり、 `iss` クレームにある OP ID から SOP と紐づけて発信者の信頼性を確認することができます。また、ページ上のコンテンツの範囲を CSS セレクターで特定し、ユーザーに表示することができます。その範囲のコンテンツには署名がつけられ、改ざん防止に役立ちます。
 
-Web サイトのドメインを特定の OP ID の組織が保有していることを表明する [Signed SP](/terminology/signed-site-profile.md) もあります。保有を表明したいドメインの `/.well-known/pp.json` パス に [Profile Pair](/terminology/profile-pair.md) として SOP と配置します。
+Web サイトのドメインを特定の OP ID の組織が保有していることを表明する [Signed SP](#/terminology/signed-site-profile.md) もあります。保有を表明したいドメインの `/.well-known/pp.json` パス に [Profile Pair](#/terminology/profile-pair.md) として SOP と配置します。
 
 :::note
 
-[Signed SP](/terminology/signed-site-profile.md) は広告の Supply Side Platform (SSP) と略称が重複するため、 SSP でなく Signed SP と略記しています。
+[Signed SP](#/terminology/signed-site-profile.md) は広告の Supply Side Platform (SSP) と略称が重複するため、 SSP でなく Signed SP と略記しています。
 
 :::
 
@@ -115,11 +115,11 @@ SDP, SAP, Signed SP はコンテンツ発信者・サイト保有者が署名を
 
 署名により情報の真正性が担保されているため、 SOP, SDP, SAP を自社サイト以外に流通させることができます。複雑な RTB ネットワークを通して Web ページに掲載される広告や、別メディアに再配信されるニュースなどのユースケースで活用できます。
 
-コンテンツに SDP, SAP を紐づける場合、署名者の SOP と合わせて [Profile Set](/terminology/profile-set.md) や [Profile Pair](/terminology/profile-pair.md) などのデータ構造にまとめて配信してください。 SDP に対応する SOP がない場合 SDP の検証ができません。
+コンテンツに SDP, SAP を紐づける場合、署名者の SOP と合わせて [Profile Set](#/terminology/profile-set.md) や [Profile Pair](#/terminology/profile-pair.md) などのデータ構造にまとめて配信してください。 SDP に対応する SOP がない場合 SDP の検証ができません。
 
 ## Web サイトでの利用
 
-SOP, SDP を Web サイト上で利用するためには、 Web ページの HTML に [Profile Set](/terminology/profile-set.md), [Profile Pair](/terminology/profile-pair.md) へのリンクを埋め込みます。ユーザーは OP 拡張機能を開くことで、コンテンツに紐づく SOP, SDP を確認することができます。
+SOP, SDP を Web サイト上で利用するためには、 Web ページの HTML に [Profile Set](#/terminology/profile-set.md), [Profile Pair](#/terminology/profile-pair.md) へのリンクを埋め込みます。ユーザーは OP 拡張機能を開くことで、コンテンツに紐づく SOP, SDP を確認することができます。
 
 import PopUpDp from "./assets/popup-dp.png";
 import popUpOp from "./assets/popup-op.png";
