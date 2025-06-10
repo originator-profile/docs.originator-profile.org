@@ -188,13 +188,13 @@ Payload:
     "postalCode": "000-0000",
     "addressRegion": "Tokyo",
     "addressLocality": "Chiyoda",
-    "streetAddress": "00-0"
-  },
-  "certificationSystem": {
-    "id": "urn:uuid:5374a35f-57ce-43fd-84c3-2c9b0163e3df",
-    "type": "CertificationSystem",
-    "name": "Corporate Number System Web-API",
-    "ref": "https://www.houjin-bangou.nta.go.jp/"
+    "streetAddress": "00-0",
+    "certificationSystem": {
+      "id": "urn:uuid:5374a35f-57ce-43fd-84c3-2c9b0163e3df",
+      "type": "CertificationSystem",
+      "name": "Corporate Number System Web-API",
+      "ref": "https://www.houjin-bangou.nta.go.jp/"
+    }
   },
   "iat": 1688623395,
   "exp": 1720245795

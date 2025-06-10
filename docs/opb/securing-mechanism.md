@@ -188,13 +188,13 @@ REQUIRED. [JWT (RFC 7519)](https://www.rfc-editor.org/rfc/rfc7519.html) の仕�
     "postalCode": "000-0000",
     "addressRegion": "東京都",
     "addressLocality": "千代田区",
-    "streetAddress": "○○○"
-  },
-  "certificationSystem": {
-    "id": "urn:uuid:5374a35f-57ce-43fd-84c3-2c9b0163e3df",
-    "type": "CertificationSystem",
-    "name": "法人番号システムWeb-API",
-    "ref": "https://www.houjin-bangou.nta.go.jp/"
+    "streetAddress": "○○○",
+    "certificationSystem": {
+      "id": "urn:uuid:5374a35f-57ce-43fd-84c3-2c9b0163e3df",
+      "type": "CertificationSystem",
+      "name": "法人番号システムWeb-API",
+      "ref": "https://www.houjin-bangou.nta.go.jp/"
+    }
   },
   "iat": 1688623395,
   "exp": 1720245795

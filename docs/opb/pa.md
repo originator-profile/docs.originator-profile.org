@@ -80,13 +80,13 @@ PA の具体例を次に示します。この例ではいくつかのプロパ�
     "postalCode": "100-8055",
     "addressRegion": "東京都",
     "addressLocality": "千代田区",
-    "streetAddress": "大手町1-7-1"
-  },
-  "certificationSystem": {
-    "id": "urn:uuid:5374a35f-57ce-43fd-84c3-2c9b0163e3df",
-    "type": "CertificationSystem",
-    "name": "法人番号システムWeb-API",
-    "ref": "https://www.houjin-bangou.nta.go.jp/"
+    "streetAddress": "大手町1-7-1",
+    "certificationSystem": {
+      "id": "urn:uuid:5374a35f-57ce-43fd-84c3-2c9b0163e3df",
+      "type": "CertificationSystem",
+      "name": "法人番号システムWeb-API",
+      "ref": "https://www.houjin-bangou.nta.go.jp/"
+    }
   }
 }
 ```

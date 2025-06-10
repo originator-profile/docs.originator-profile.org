@@ -81,13 +81,13 @@ Below is an example of PA. In this example, there are a few more properties adde
     "postalCode": "100-8055",
     "addressRegion": "Tokyo",
     "addressLocality": "Chiyoda",
-    "streetAddress": "Outemachi 1-7-1"
-  },
-  "certificationSystem": {
-    "id": "urn:uuid:5374a35f-57ce-43fd-84c3-2c9b0163e3df",
-    "type": "CertificationSystem",
-    "name": "Corporate Number System Web-API",
-    "ref": "https://www.houjin-bangou.nta.go.jp/"
+    "streetAddress": "Outemachi 1-7-1",
+    "certificationSystem": {
+      "id": "urn:uuid:5374a35f-57ce-43fd-84c3-2c9b0163e3df",
+      "type": "CertificationSystem",
+      "name": "Corporate Number System Web-API",
+      "ref": "https://www.houjin-bangou.nta.go.jp/"
+    }
   }
 }
 ```
