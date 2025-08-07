@@ -1,25 +1,26 @@
 ---
 sidebar_position: 1
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/e250880/docs/tech/about.mdx
 ---
 
-# Originator Profile とは
+# What is an Originator Profile?
 
-Originator Profile (OP) とは、インターネット上の情報（コンテンツ）の発信者の真正性・信頼性を、コンテンツ利用者が確認できるようにする技術です。
+Originator Profile (OP) is a technology that allows content users to verify the authenticity and reliability of the sender of information (content) on the Internet.
 
-コンテンツと発信者のそれぞれに対応する情報にデジタル署名を施すことで、それらの情報が改ざんされていないことを確認できます。
+By applying a digital signature to the information corresponding to the content and sender, it is possible to verify that the information has not been tampered with.
 
-発信者に対応する情報は Originator Profile (OP) というデータモデルで扱われます。OP は、発信者が [Originator Profile (OP) 憲章](https://originator-profile.org/ja-JP/charter/)に基づいた情報発信主体であることを示す証明書を含めることができます。
+Information about the originator is handled in a data model called the Originator Profile (OP). The OP can include a certificate indicating that the originator is an information originator under the [Originator Profile (OP) Charter](https://originator-profile.org/ja-JP/charter/).
 
-OP 憲章に基づいた証明書では、次の内容が扱われます。
+The certificate under the OP Charter covers the following:
 
-- 情報発信ポリシー
-- 実在性
-- 業種・業態に応じた適格性
-  - 業界団体の所属
-  - 認証の取得
+- an information transmission policy
+- Existence
+- Eligibility for Industry/Business Type
+  - Membership in industry associations
+  - Certifications obtained
 
-コンテンツに対応する情報は Content Attestation (CA) というデータモデルで扱われます。CA は、発信者が OP を保有していることと、コンテンツが改ざんされていないことが確認できる仕組みを提供します。
+Content-related information is handled by a data model called Content Attestation (CA), which provides a mechanism to verify that the originator has the OP and that the content has not been tampered with.
 
-OP, CA は Verifiable Credentials (VCs) を基盤としたデータモデルを採用しています。 VC は、 IHV モデルと呼ばれる VC を利用する人の役割分担を発行者、保有者、検証者の3者で考えるモデルに則っています。このモデルによりプライバシーの保護や検証時のサーバー負荷軽減などのメリットを享受できます。
+OP and CA use a data model based on Verifiable Credentials (VCs). VCs follow the IHV model, which divides the roles of users of VCs into three parties: issuer, holder, and verifier. This model provides benefits such as protecting privacy and reducing server load during verification.
 
-類似技術との関係については[既存技術との比較](./comparison.md)を参照してください。
+For the relationship with similar technologies, please refer to [Comparison with existing technologies](./comparison.md).
