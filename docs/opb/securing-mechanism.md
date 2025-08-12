@@ -4,11 +4,11 @@ sidebar_position: 12
 
 # OP VC Securing Mechanism Implementation Guidelines
 
-本文書は [Securing Verifiable Credentials using JOSE and COSE](https://w3c.github.io/vc-jose-cose/) に準拠した OP VC の各クレーム、プロパティの値を具体的に指定する文書です。
+本文書は [Securing Verifiable Credentials using JOSE and COSE](https://www.w3.org/TR/vc-jose-cose/) に準拠した OP VC の各クレーム、プロパティの値を具体的に指定する文書です。
 
 :::note
 
-現在 OP VC の Securing Mechanism を [Securing Verifiable Credentials using JOSE and COSE](https://w3c.github.io/vc-jose-cose/) のみに限定しています。今後他の方式を採用する可能性があります。
+現在 OP VC の Securing Mechanism を [Securing Verifiable Credentials using JOSE and COSE](https://www.w3.org/TR/vc-jose-cose/) のみに限定しています。今後他の方式を採用する可能性があります。
 
 :::
 

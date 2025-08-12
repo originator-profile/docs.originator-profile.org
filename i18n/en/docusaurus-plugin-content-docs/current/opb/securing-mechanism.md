@@ -5,11 +5,11 @@ original: https://github.com/originator-profile/docs.originator-profile.org/blob
 
 # OP VC Securing Mechanism Implementation Guidelines
 
-This document specifies the values ​​of each claim and property of OP VC in accordance with [Securing Verifiable Credentials using JOSE and COSE](https://w3c.github.io/vc-jose-cose/).
+This document specifies the values ​​of each claim and property of OP VC in accordance with [Securing Verifiable Credentials using JOSE and COSE](https://www.w3.org/TR/vc-jose-cose/).
 
 :::note
 
-Currently, OP VC's securing mechanism is limited to [Securing Verifiable Credentials using JOSE and COSE](https://w3c.github.io/vc-jose-cose/). Other methods may be adopted in the future.
+Currently, OP VC's securing mechanism is limited to [Securing Verifiable Credentials using JOSE and COSE](https://www.w3.org/TR/vc-jose-cose/). Other methods may be adopted in the future.
 :::
 
 ## Securing VC with JOSE
