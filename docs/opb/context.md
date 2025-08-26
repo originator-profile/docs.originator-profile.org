@@ -8,12 +8,19 @@ sidebar_position: 40
 
 ### The `sriString` Datatype
 
-[Verifiable Credentials Data Model v2.0 セクション B.3.1](https://www.w3.org/TR/vc-data-model-2.0/#the-sristring-datatype) の定義に準拠し (MUST)、かつハッシュを2つ以上含まない (MUST NOT) ようにしてください。使用可能なハッシュについては[ハッシュアルゴリズム](./algorithm.md#hash-algorithm)に準拠してください (MUST)。
+[Verifiable Credentials Data Model v2.0 セクション B.3.1](https://www.w3.org/TR/vc-data-model-2.0/#the-sristring-datatype) の定義に準拠してください (MUST)。使用可能なハッシュについては[ハッシュアルゴリズム](./algorithm.md#hash-algorithm)に準拠してください (MUST)。
 
-例:
+例1:
 
 ```
 sha256-GtNUUolQVlwIkQU9JknWkwkhfdiVmHr/BOnLFFHC5jI=
+```
+
+例2:
+
+```
+sha256-I4OoejARWbxpTQ1HEccoxIaOIMUjEIgxEfJXJDAjwoI=
+sha384-dN4FeVmV5DQb/C8iAY+sBUjLjFfB+knXZJ3RT2GyJg8Tco4SPQYwxNpe2M50b9ON
 ```
 
 ### The `image` Datatype
