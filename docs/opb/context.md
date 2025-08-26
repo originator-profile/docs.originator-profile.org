@@ -88,7 +88,6 @@ _このセクションは非規範的です。_
         }
       }
     },
-    "allowedOrigin": "https://schema.org/url",
     "allowedUrl": "https://schema.org/url",
     "PlainTextDescription": {
       "@id": "https://originator-profile.org/ns/credentials/v1#PlainTextDescription",
@@ -105,7 +104,6 @@ _このセクションは非規範的です。_
       "@id": "https://originator-profile.org/ns/credentials/v1#ContentAttestation",
       "@context": {
         "@protected": true,
-        "allowedOrigin": "op:allowedOrigin",
         "allowedUrl": "op:allowedUrl",
         "target": {
           "@id": "https://originator-profile.org/ns/credentials/v1#target",

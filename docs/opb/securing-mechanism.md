@@ -135,7 +135,7 @@ REQUIRED. [JWT (RFC 7519)](https://www.rfc-editor.org/rfc/rfc7519.html) の仕�
     "dateModified": "2023-07-04T19:14:00Z",
     "genre": "Arts & Entertainment"
   },
-  "allowedUrl": "https://media.example.com/articles/2024-06-30",
+  "allowedUrl": ["https://media.example.com/articles/2024-06-30"],
   "target": [
     {
       "type": "VisibleTextTargetIntegrity",

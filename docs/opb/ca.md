@@ -43,14 +43,31 @@ REQUIRED. CA ID でなければなりません (MUST)。 CA ID は [UUIDv4](http
 
 #### `allowedUrl`
 
-OPTIONAL. この CA によって表明される情報の対象となる URL です。
-文字列は必ず [URL Pattern string](https://urlpattern.spec.whatwg.org/#pattern-strings) でなければなりません (MUST)。このプロパティで CA が正当な URL の Web ページに設置されているかどうかを[検証](#allowed-url-validation)することができます。
+REQUIRED. この CA によって表明される情報の対象となる URL です。
+必ず [URL Pattern string](https://urlpattern.spec.whatwg.org/#pattern-strings) またはその配列でなければなりません (MUST)。
+空配列にしてはなりません (MUST NOT)。
+このプロパティで CA が正当な URL の Web ページに設置されているかどうかを[検証](#allowed-url-validation)することができます。
 
-#### `allowedOrigin`
+具体例:
 
-OPTIONAL. この CA によって表明される情報の対象となる [Origin](https://www.rfc-editor.org/rfc/rfc6454) の [ASCII Serialization](https://www.rfc-editor.org/rfc/rfc6454#section-6.2) 後の文字列です。このプロパティで CA が正当な Origin の Web ページに設置されているかどうかを[検証](#allowed-origin-validation)することができます。
+✅ 有効:
 
-具体例: `"https://example.com"`, `["https://a.example.com", "https://b.example.com"]`
+- `https://example.com/article/*` (ワイルドカードパターン)
+- `https://*.example.com/article/*` (サブドメインワイルドカード)
+- `["https://a.example.com/*", "https://b.example.com/*"]` (複数パターンの配列)
+
+❌ 無効:
+
+- `/article/*` (ベースURLが含まれていない)
+- `example.com/*` (`https://` が指定されていない)
+- `https://example.com/article/(` (構文エラー)
+- `[]` (空配列)
+
+:::note
+
+Webコンテンツ以外のURLを持たないコンテンツ (例: プライベートな非公開コンテンツ) を検証対象とする仕様拡張については今後の課題として検討中です。
+
+:::
 
 #### `target`
 
@@ -90,7 +107,7 @@ CA の具体例を示します。この CA は https://media.example.com/article
     "dateModified": "2023-07-04T19:14:00Z",
     "genre": "Arts & Entertainment"
   },
-  "allowedUrl": "https://media.example.com/articles/2024-06-30",
+  "allowedUrl": ["https://media.example.com/articles/2024-06-30"],
   "target": [
     {
       "type": "VisibleTextTargetIntegrity",
@@ -128,7 +145,7 @@ CA の具体例を示します。この CA は https://media.example.com/article
     },
     "landingPageUrl": "https://advertiser.example.com"
   },
-  "allowedOrigin": "https://ad.example.com",
+  "allowedUrl": ["https://ad.example.com/*"],
   "target": {
     "type": "ExternalResourceTargetIntegrity",
     "integrity": "sha256-rLDPDYArkNcCvnq0h4IgR7MVfJIOCCrx4z+w+uywc64="
@@ -167,8 +184,7 @@ CA の検証者は次のことを検証することができます。
 
 1. [OP VC Data Model に準拠した VC の検証](./op-vc-data-model.md#verification)
 2. `allowedUrl` の検証 (OPTIONAL)
-3. `allowedOrigin` の検証 (OPTIONAL)
-4. Target Integrity の検証
+3. Target Integrity の検証
 
 ### `allowedUrl` の検証 {#allowed-url-validation}
 
@@ -182,13 +198,6 @@ CA の検証者は次のことを検証することができます。
 パーセントエンコードは[RFC 3986 Section 2.1](https://www.rfc-editor.org/rfc/rfc3986#section-2.1)に沿って大文字に正規化してから比較を行います
 
 :::
-
-### `allowedOrigin` の検証 {#allowed-origin-validation}
-
-検証者は次の手順に従って `allowedOrigin` プロパティを検証できます (OPTIONAL)。
-
-1. CA が提示された Web ページの URL オリジンを取得します。
-2. `allowedOrigin` プロパティの文字列と 1\. で得た URL オリジンが一致するか確認します。
 
 ### Target Integrity の検証
 
@@ -218,7 +227,6 @@ _このセクションは非規範的です。_
 - [CaVerifyFailed](https://reference.originator-profile.org/ts/classes/_originator-profile_verify.CaVerifyFailed)
   - "Content Attestation verify failed" … OP VC Data Model に準拠した VC の検証失敗
   - "URL not allowed" … `allowedUrl` の検証失敗 (OPTIONAL)
-  - "Origin not allowed" … `allowedOrigin` の検証失敗 (OPTIONAL)
   - "Target integrity verification failed" … [Target Integrity](./target-guide/index.mdx) の検証失敗
 
 その他のデータの構造については次のリファレンスをご確認ください。
