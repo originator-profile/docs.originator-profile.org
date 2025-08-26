@@ -125,7 +125,8 @@ CA の具体例を示します。この CA は https://media.example.com/article
     "image": {
       "id": "https://ad.example.com/image.png",
       "digestSRI": "sha256-5uQVtkoRdTFbimAz3Wz5GQcuBRLt7tDMD5JRtGFo9/M="
-    }
+    },
+    "landingPageUrl": "https://advertiser.example.com"
   },
   "allowedOrigin": "https://ad.example.com",
   "target": {
