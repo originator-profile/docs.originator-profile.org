@@ -1,6 +1,6 @@
 ---
 sidebar_position: 40
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/e45538b/docs/opb/context.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/5d2ed86/docs/opb/context.md
 ---
 
 # Contexts, Vocabularies, and Types
@@ -9,12 +9,19 @@ original: https://github.com/originator-profile/docs.originator-profile.org/blob
 
 ### The `sriString` Datatype
 
-It MUST conform to the definition in [Verifiable Credentials Data Model v2.0 Section B.3.1](https://www.w3.org/TR/vc-data-model-2.0/#the-sristring-datatype) and MUST NOT contain more than one hash. For permitted hashes, they MUST conform to [hash algorithms](./algorithm.md#hash-algorithm).
+It MUST conform to the definition in [Verifiable Credentials Data Model v2.0 Section B.3.1](https://www.w3.org/TR/vc-data-model-2.0/#the-sristring-datatype). For permitted hashes, they MUST conform to [hash algorithms](./algorithm.md#hash-algorithm).
 
-Example:
+Example 1:
 
 ```
 sha256-GtNUUolQVlwIkQU9JknWkwkhfdiVmHr/BOnLFFHC5jI=
+```
+
+Example 2:
+
+```
+sha256-I4OoejARWbxpTQ1HEccoxIaOIMUjEIgxEfJXJDAjwoI=
+sha384-dN4FeVmV5DQb/C8iAY+sBUjLjFfB+knXZJ3RT2GyJg8Tco4SPQYwxNpe2M50b9ON
 ```
 
 ### The `image` Datatype
