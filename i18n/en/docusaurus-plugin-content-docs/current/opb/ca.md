@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/e45538b/docs/opb/ca.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/3167ab1/docs/opb/ca.md
 ---
 
 # Content Attestation Data Model
@@ -126,7 +126,8 @@ This CA is tied to advertising content served on web pages under https://ad.exam
     "image": {
       "id": "https://ad.example.com/image.png",
       "digestSRI": "sha256-5uQVtkoRdTFbimAz3Wz5GQcuBRLt7tDMD5JRtGFo9/M="
-    }
+    },
+    "landingPageUrl": "https://advertiser.example.com"
   },
   "allowedOrigin": "https://ad.example.com",
   "target": {
