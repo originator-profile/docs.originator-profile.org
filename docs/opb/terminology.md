@@ -32,6 +32,14 @@ Core Profile 保有組織の ID. [OP ID レジストリ](./op-id.md)に登録さ
 
 [Web Media Profile](./web-media-profile.md) で定義される VC。 OP ID 保有組織のことをユーザーに表示してどのような組織なのかをわかってもらうときに必要な情報が記述される。
 
+## Website Profile (WSP)
+
+[Website Profile](./website-profile.md) で定義される VC。OP ID 保有組織の Web サイトであることが表明される。
+
+## Site Profile (SP)
+
+[Site Profile](./site-profile.md) で定められている Originator Profile と Website Profile を配信するためのデータ形式
+
 ## OP 保有組織
 
 CP の `credentialSubject.id` プロパティが指す OP ID を保有する組織。
