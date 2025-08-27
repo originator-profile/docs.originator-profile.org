@@ -41,7 +41,7 @@ REQUIRED. 必ず `["VerifiableCredential", "Certificate"]` にしてください
 
 :::note
 
-Certificate が証明する内容、証明の根拠あるいは証拠が同種で、Certificate を保有する組織だけが異なるものは、同じ `ceritifacionSystem.id` の値であるべきです。
+Certificate が証明する内容、証明の根拠あるいは証拠が同種で、Certificate を保有する組織だけが異なるものは、同じ `certificationSystem.id` の値であるべきです。
 
 また、認証制度の名前、説明、URL は発行時点で最新の内容であるべきです。
 
