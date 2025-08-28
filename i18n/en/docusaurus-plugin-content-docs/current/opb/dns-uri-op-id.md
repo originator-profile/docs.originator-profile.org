@@ -37,4 +37,4 @@ To obtain OPS, obtain them from a specific domain using the methods defined in t
 
 :::note
 
-The process for retrieving an OP using the DNS URI OP ID alone is undefined. Instead, [did:op DID Method](./other/did-op.md) is being considered.
+The process for retrieving an OP using the DNS URI OP ID alone is undefined.

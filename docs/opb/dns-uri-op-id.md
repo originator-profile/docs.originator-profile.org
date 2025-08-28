@@ -36,6 +36,6 @@ OPS を得るには、[Site Profile](./site-profile.md) に定められた方法
 
 :::note
 
-DNS URI OP ID 単体での OP の取得プロセスは未定義です。代わりに [did:op DID Method](./other/did-op.md) が検討されています。
+DNS URI OP ID 単体での OP の取得プロセスは未定義です。
 
 :::
