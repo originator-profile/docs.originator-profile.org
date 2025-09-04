@@ -42,7 +42,7 @@ REQUIRED. It MUST be `["VerifiableCredential", "Certificate"]`.
 
 :::note
 
-Certificates that attest to the same content, basis, or evidence, and differ only in the organization holding the certificate, should have the same `certifacionSystem.id` value.
+Certificates that attest to the same content, basis, or evidence, and differ only in the organization holding the certificate, should have the same `certificationSystem.id` value.
 
 Additionally, the certification system name, description and URL should be up to date at the time of publication.
 
