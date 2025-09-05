@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/1c91455/docs/opb/cp.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/9ceac67/docs/opb/cp.md
 ---
 
 # Core Profile Data Model
