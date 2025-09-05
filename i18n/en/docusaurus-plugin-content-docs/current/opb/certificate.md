@@ -1,6 +1,6 @@
 ---
 sidebar_position: 6
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/e45538b/docs/opb/certificate.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/d46eeb3/docs/opb/certificate.md
 ---
 
 # Certificate Data Model
