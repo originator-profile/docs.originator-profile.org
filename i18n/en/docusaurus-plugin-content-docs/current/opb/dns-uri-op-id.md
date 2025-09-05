@@ -1,6 +1,6 @@
 ---
 sidebar_position: 33
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/6388d81/docs/opb/dns-uri-op-id.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/38604b2/docs/opb/dns-uri-op-id.md
 ---
 
 # DNS URI OP ID
