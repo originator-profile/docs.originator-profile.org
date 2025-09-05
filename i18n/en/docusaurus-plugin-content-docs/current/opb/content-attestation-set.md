@@ -1,6 +1,6 @@
 ---
 sidebar_position: 21
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/c9cc07f/docs/opb/content-attestation-set.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/9ceac67/docs/opb/content-attestation-set.md
 ---
 
 # Content Attestation Set
