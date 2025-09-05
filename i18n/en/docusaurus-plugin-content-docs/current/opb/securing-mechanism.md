@@ -1,6 +1,6 @@
 ---
 sidebar_position: 12
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/6388d81/docs/opb/securing-mechanism.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/a92c90a/docs/opb/securing-mechanism.md
 ---
 
 # OP VC Securing Mechanism Implementation Guidelines
@@ -135,7 +135,7 @@ Payload
     "dateModified": "2023-07-04T19:14:00Z",
     "genre": "Arts & Entertainment"
   },
-  "allowedUrl": "https://media.example.com/articles/2024-06-30",
+  "allowedUrl": ["https://media.example.com/articles/2024-06-30"],
   "target": [
     {
       "type": "VisibleTextTargetIntegrity",

@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/3167ab1/docs/opb/ca.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/a92c90a/docs/opb/ca.md
 ---
 
 # Content Attestation Data Model
@@ -44,14 +44,31 @@ REQUIRED. MUST be a CA ID. CA ID is a [UUIDv4](https://www.rfc-editor.org/rfc/rf
 
 #### `allowedUrl`
 
-OPTIONAL. The URL for which information is asserted by this CA.
-The string MUST be a [URL Pattern string](https://urlpattern.spec.whatwg.org/#pattern-strings). This property allows you to [verify](#allowed-url-validation) whether the CA is located on a web page with a valid URL.
+REQUIRED. The URL for which information is asserted by this CA.
+It MUST be a [URL Pattern string](https://urlpattern.spec.whatwg.org/#pattern-strings) or an array of such strings.
+It MUST NOT be an empty array.
+This property allows you to [verify](#allowed-url-validation) whether the CA is located on a web page with a valid URL.
 
-#### `allowedOrigin`
+Examples:
 
-OPTIONAL. The string following the [ASCII Serialization](https://www.rfc-editor.org/rfc/rfc6454#section-6.2) of the [Origin](https://www.rfc-editor.org/rfc/rfc6454) about which information asserted by this CA is the subject. This property allows you to [verify](#allowed-origin-validation) whether the CA is located on a web page of a valid origin.
+✅ Valid:
 
-Examples: `"https://example.com"`, `["https://a.example.com", "https://b.example.com"]`
+- `https://example.com/article/*` (wildcard pattern)
+- `https://*.example.com/article/*` (subdomain wildcard)
+- `["https://a.example.com/*", "https://b.example.com/*"]` (array of multiple patterns)
+
+❌ Invalid:
+
+- `/article/*` (no base URL included)
+- `example.com/*` (no `https://` specified)
+- `https://example.com/article/(` (syntax error)
+- `[]` (empty array)
+
+:::note
+
+Extensions for specifying content that does not have a URL outside of web content (e.g., private non-public content) as verification targets are under consideration for future work.
+
+:::
 
 #### `target`
 
@@ -91,7 +108,7 @@ Here is an example CA that is tied to content published at https://media.example
     "dateModified": "2023-07-04T19:14:00Z",
     "genre": "Arts & Entertainment"
   },
-  "allowedUrl": "https://media.example.com/articles/2024-06-30",
+  "allowedUrl": ["https://media.example.com/articles/2024-06-30"],
   "target": [
     {
       "type": "VisibleTextTargetIntegrity",
@@ -129,7 +146,7 @@ This CA is tied to advertising content served on web pages under https://ad.exam
     },
     "landingPageUrl": "https://advertiser.example.com"
   },
-  "allowedOrigin": "https://ad.example.com",
+  "allowedUrl": ["https://ad.example.com/*"],
   "target": {
     "type": "ExternalResourceTargetIntegrity",
     "integrity": "sha256-rLDPDYArkNcCvnq0h4IgR7MVfJIOCCrx4z+w+uywc64="
@@ -167,8 +184,7 @@ A CA verifier can verify:
 
 1. [Verification of VC conformance to the OP VC Data Model](./op-vc-data-model.md#verification)
 2. Verifying `allowedUrl` (Optional)
-3. Verifying `allowedOrigin` (Optional)
-4. Verifying Target Integrity
+3. Verifying Target Integrity
 
 ### `allowedUrl` validation {#allowed-url-validation}
 
@@ -182,14 +198,6 @@ Optionally, the verifier can verify the `allowedUrl` property by following these
 Percent-encoded characters are normalized to uppercase according to [RFC 3986 Section 2.1](https://www.rfc-editor.org/rfc/rfc3986#section-2.1) before comparison.
 
 :::
-
-### `allowedOrigin` validation {#allowed-origin-validation}
-
-A verifier can verify the `allowedOrigin` property by following these steps (OPTIONAL):
-
-1. Obtain the URL origin of the web page that CA refers to.
-2. If CA contains an `allowedOrigin` property, search that array for a URL origin of 1\.
-   1. If the `allowedOrigin` property is not included, validation is considered successful.
 
 ### Verifying Target Integrity
 
@@ -219,7 +227,6 @@ After running the verification, you need to communicate the results to your user
 - [CaVerifyFailed](https://reference.originator-profile.org/ts/classes/_originator-profile_verify.CaVerifyFailed)
   - "Content Attestation verify failed" ... Verification of VC conforming to OP VC Data Model failed
   - "URL not allowed" ... Verification of `allowedUrl` failed (OPTIONAL)
-  - "Origin not allowed" ... Verification of `allowedOrigin` failed (OPTIONAL)
   - "Target integrity verification failed" ... Verification of [Target Integrity](./target-guide/index.mdx) failed
 
 For other data structures, please see the following references:
