@@ -1,0 +1,2132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Originator Profile Framework &mdash; Architectural Overview v0.1 (Public Draft)</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <script
+      src="https://www.w3.org/Tools/respec/respec-w3c"
+      class="remove"
+    ></script>
+    <script type="text/javascript" class="remove">
+      var respecConfig = {
+        // specStatus: "WD",
+        latestVersion: null,
+        shortName: "op-aov",
+
+        editors: [ {
+          name: "Shigeya Suzuki",
+          company: "Originator Profile Collaborative Initiative Partnership, Keio University"
+        }],
+
+        authors: [ {
+          name: "Shigeya Suzuki",
+          company: "Originator Profile Collaborative Initiative Partnership, Keio University"
+        }, {
+          name: "Michiko Kuriyama",
+          company: "Originator Profile Collaborative Initiative Partnership"
+        }],
+
+        maxTocLevel: 3,
+        localBiblio: {
+          OPB: {
+            title: "Originator Profile Blueprints",
+            href: "https://docs.originator-profile.org/en/opb/",
+            publisher: "Originator Profile Collaboration Initiative Partnership"
+          },
+          "AModelForClaimValidation": {
+            title: "A Conceptual Model for Claim Validation Based on Cryptographically Signed Data",
+            href: "https://ieeexplore.ieee.org/document/10819374",
+            publisher: "IEEE Access",
+            authors: [
+              "Ryosuke Abe",
+              "Shigeya Suzuki",
+              "Osamu Nakamura"
+            ],
+            date: "2024"
+          },
+          "SoK-DR": {
+            title: "SoK: Delegation and Revocation, the Missing Links in the Web's Chain of Trust",
+            href: "https://ieeexplore.ieee.org/abstract/document/9230363",
+            publisher: "IEEE",
+            authors: [
+              "Laurent Chuat",
+              "AbdelRahman Abdou",
+              "Ralf Sasse",
+              "Christoph Sprenger",
+              "David Basin",
+              "Adrian Perrig"
+            ],
+            date: "2020"
+          },
+          "IaI-CR": {
+            title: "Investigate and Improve the Certificate Revocation in Web PKI",
+            href: "https://ieeexplore.ieee.org/document/10575605",
+            publisher: "IEEE",
+            authors: [
+              "Chengyuan Zhang",
+              "Changqing An",
+              "Tao Yu",
+              "Zhiyan Zheng",
+              "Jilong Wang"
+            ],
+            date: "2024"
+          },
+          "AATL": {
+            title: "Adobe Approved Trust List",
+            href: "https://helpx.adobe.com/acrobat/kb/approved-trust-list2.html",
+            publisher: "Adobe",
+          },
+          "IPTC-OVNPL": {
+            title: "IPTC Origin Verified News Publishers List",
+            href: "https://iptc.org/verified-news-publishers-list/",
+            publisher: "International Press Telecommunications Council",
+          },
+          "Trusted Web White Paper 3.0": {
+            title: "Trusted Web White Paper 3.0 (in Japanese)",
+            href: "https://trustedweb.go.jp/en/documents/",
+            publisher: "Trusted Web Promotion Council",
+          }
+        },
+        addSectionLinks: true, // Turn on § section marker
+        logos: [
+          {
+            src: "https://design.originator-profile.org/downloads/op_logos/png/cip-default-type-vertical.png",
+            url: "https://orignator-profile.org/",
+            alt: "Originator Profile CIP",
+            width: 180,
+            height: 80,
+            id: "op-cip-logo",
+          }
+        ]
+      }
+    </script>
+    <style>
+      pre .highlight {
+        font-weight: bold;
+        color: green;
+      }
+      pre .comment {
+        font-weight: bold;
+        color: Gray;
+      }
+      .color-text {
+        font-weight: bold;
+        text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+      }
+      ol.algorithm {
+        counter-reset: numsection;
+        list-style-type: none;
+      }
+      ol.algorithm li {
+        margin: 0.5em 0;
+      }
+      ol.algorithm li:before {
+        font-weight: bold;
+        counter-increment: numsection;
+        content: counters(numsection, ".") ") ";
+      }
+    </style>
+  </head>
+  <body>
+    <p class="copyright">
+        Copyright &copy; 2022-2025 Originator Profile Collaborative Initiative
+        Partnership (OP-CIP), all rights reserved.
+    </p>
+
+    <section id="abstract">
+      <p>
+        This document provides an architectural overview of the Originator
+        Profile Framework (OPF), a framework designed to establish rich
+        information about the origin of the information (Originator Profile
+        &mdash; OP), with content provenance originating from the origin in
+        digital media and advertising ecosystems. It introduces the key
+        concepts, data models, operational processes, and governance model
+        that enable verifiable profiles for content originators, supported by
+        third-party-validated originator attributes as part of Originator
+        Profile. The overview also includes comparisons to other similar
+        projects, and current use cases and distilled requirements. This
+        document is primarily intended for technical audiences and technically
+        knowledgeable end-users to understand the design and underlying design
+        choices of the Originator Profile Framework.
+      </p>
+    </section>
+
+    <section id="sotd" class="override">
+      <h2>Status of this Document</h2>
+      <p>
+        This document is a description of the current design of the Originator
+        Profile Framework (OPF) developed by the Originator Profile
+        Collaborative Initiative Partnership (OP-CIP). It is in DRAFT status,
+        which means it has no official standing of any kind and does not
+        represent the consensus of the OP-CIP Membership.
+      </p>
+    </section>
+
+    <section id="introduction">
+      <h2>Introduction</h2>
+
+      <p>
+        These days, we need to judge whether the information we receive is
+        legitimate or not. False information and misinformation spread,
+        primarily through fraudulent websites mimicking legitimate
+        organizations. In the advertisement ecosystem, media inadvertently
+        display fraudulent advertisements on their websites, causing damage to
+        their reputation through association with these ads. On the contrary,
+        advertisers unknowingly display their advertisements on fraudulent
+        websites, which causes brand reputation damage through fraudulent site
+        association. Thus, the situation is causing not only harm to the
+        readers but also affecting all of the stakeholders.
+      </p>
+
+      <p>
+        Then, what do the well-behaved stakeholders in the ecosystem expect?
+        From the reader's perspective, the media that provides information is
+        the one &mdash; or one of the kinds &mdash; the reader is expecting, and the
+        information provided by the media is expected to be reasonably
+        reliable. At the very least, the media must deliver information to the
+        readers accurately, as intended. The user must be able to verify the
+        origin of the information and also understand the origin's nature. Of
+        course, there are differing viewpoints on the accuracy of the
+        information's delivery; still, it should be delivered in a manner
+        intended by the media &mdash; accurate delivery of the information. From
+        the media's perspective, they will expect that information is
+        delivered accurately to readers. They will also expect that
+        appropriate advertisements are displayed on their websites.
+        Advertisers will expect that their advertisements are displayed on
+        appropriate media.
+      </p>
+      <p>
+        Originator Profile Framework is a set of technology and operational
+        guidelines primarily designed for web media and digital advertisement
+        use cases to answer these expectations. In technical terms, Originator
+        Profile provides content provenance with verifiable profile
+        information &mdash; Originator Profile. The profile information is
+        validated and provided by multiple third parties, composed into an
+        Originator Profile.
+      </p>
+      <p>
+        The document you are reading is one of the documents in the Originator
+        Profile Framework documentation series. Currently, the following two
+        sets of documents are being prepared:
+      </p>
+      <ul>
+        <li>
+            <b>Originator Profile Framework &mdash; Architecture Overview</b> (this
+            document) provides an introductory overview of the Originator
+            Profile Framework, including a discussion of what the framework
+            tries to address, high-level concepts and principles of the
+            design, the framework in multiple levels of abstraction, also
+            includes a brief description of the use cases and requirements.
+        </li>
+        <li>
+            <b>Originator Profile Blueprints (OPB)</b> are a series of
+            topic-specific documents describing various aspects of the
+            Originator Profile, not only the technology side, but also
+            including governance and operations. OPBs are available on the OP
+            blueprints website[[OPB]]. These documents will be ultimately
+            combined into the following three documents. Currently, most of
+            the OPBs are focusing on the technical implementation &mdash; how
+            to implement. We describe the reason behind the design in this
+            document.
+        </li>
+      </ul>
+
+      <p>
+        The following four documents will be compiled in the coming days
+        based on the above two documents &mdash; some parts of this document may be
+        moved into these three documents, too:
+      </p>
+      
+      <ul>
+        <li>
+            <b>Originator Profile Framework &mdash; Architecture Overview</b>
+            will be part of the documentation for the Originator Profile
+            Framework, providing a high-level view of its components and
+            interactions.
+        </li>
+        <li>
+            <b>Originator Profile Framework &mdash; Core Specification</b>
+            describes the shared part of the Originator Profile Framework,
+            apart from specifics to the use cases.
+        </li>
+        <li>
+            <b>Originator Profile Framework &mdash; Design and Implementation for Media</b>
+            describes the data model, the processes, the high-level governance
+            model, and the specification for the Media use case.
+        </li>
+        <li>
+            <b>Originator Profile Framework &mdash; Design and Implementation
+            for Advertisement</b>
+            describes the data model, the processes, the high-level governance
+            model, and the specification for the Advertisement use case.
+        </li>
+      </ul>
+
+      <p class="note">
+        The Originator Profile Blueprints are currently living documents
+        matching with the corresponding implementations. Since the OPBs are
+        living documents, this document refers to OPBs for implementation
+        details and relies on their descriptions. In such cases, we provide
+        references to the corresponding OPBs as necessary.
+        
+        The Originator Profile Blueprints may remain after the publication of
+        the above documents, to host the future improvement proposals and
+        discussions.
+      </p>
+
+      <p>
+        This document consists of the following sections:  
+      </p>
+      
+      <ul>
+        <li>
+            Section <a href="#terminology"></a> provides definitions of key
+            terms and concepts used throughout the document.
+        </li>
+
+        <li>
+            Section <a href="#architecture"></a> provides an overview of the
+            architectural components and their interactions, also introduces
+            design principles.
+        </li>
+
+        <li>
+            Section <a href="#base-model"></a> describes a model that shares
+            concepts among various use cases of the Originator Profile.
+        </li>
+
+        <li>
+            Section <a href="#jurisdiction-specific-model"></a> describes
+            models which designed specifically capture the unique requirements
+            and characteristics of a particular jurisdiction, including but
+            not limited to countries and regions.
+        </li>
+
+        <li>
+            Section <a href="#web-media-specific-model"></a> describes the Web
+            Media Specific Model, which extends on top of the Base Model to
+            meet the requirements for the Web Media use case.
+        </li>
+
+        <li>
+            Section <a href="#governance-and-policy"></a> describes the
+            Governance and Policy aspects of the Originator Profile Framework.
+        </li>
+
+        <li>
+            Section <a href="#comparison-to-related-works"></a> describes the
+            comparison of Originator Profile with related works or other
+            projects.
+        </li>
+
+        <li>
+            Section <a href="#known-issues-and-future-changes"></a> discusses
+            current known issues and potential changes in the future.
+        </li>
+
+        <li>
+            Finally, <a href="#use-cases"></a> describes Use Cases of
+            Originator Profile, and <a href="#requirements"></a> provides the requirements and entities distilled from the Use Cases.
+        </li>
+      </ul>
+
+      <p>
+        This document is intended for a technical audience, including
+        developers, architects, and decision-makers.
+      </p>
+
+    </section>
+
+    <section id="terminology">
+      <h1>Terminology</h1>
+      <p>
+        In this section, we describe several key terms and concepts which OP
+        depends, and also the terms used in the context of OP.
+      </p>
+      <p>
+        While some of terms and concepts are defined in various standards or
+        literatures, they are often differently described. To show our
+        intentions clearly, we describe these terms and concepts here.
+      </p>
+      <p>Terms appear in alphabetical order.</p>
+
+      <dl>
+        <dt>
+          <dfn>Attribute</dfn>
+          <dd>
+            An [=Attribute=] is a piece of information about the [=Originator=].
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Content</dfn>
+          <dd>
+            A [=Content=] is a piece of information that originates from
+            an [=Originator=].
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Content Aggregator</dfn>
+          <dd>
+            A [=Content Aggregator=] is a type of website that receives
+            [=Content=] from one or more [=Originators=], then aggregates the
+            [=Content=] and provides the aggregated [=Contents=] to
+            [=Recipients=].
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Content Attestation</dfn>
+          <dd>
+            A [=Content Attestation=] is a type of [=Signed Data with Policy=]
+            that confirms the [=Content=] originated from the corresponding
+            [=Originator=]. A [=Content Attestation=] can be [=Verified=] by
+            using the [=Verification Key=] contained in the [=Core Profile=],
+            which is part of the [=Originator Profile=].
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Content Integrity Descriptor</dfn>
+          <dd>
+            [=Content Integrity Descriptor=] (discussed in OPB as <a
+            href="https://docs.originator-profile.org/en/opb/target-guide">"Target
+            Integrity"</a>) is a data structure that specifies which
+            [=Content=] is being attested to, and the integrity requirements
+            for that [=Content=].
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Core Profile</dfn>
+          <dd>
+            A [=Core Profile=] is a set of essential [=Attributes=] about the
+            [=Originator=] that create various forms of [=Signed Data=] in the
+            ecosystem based on [=Originator Profile Framework=]. [=Core
+            Profile=] includes [=Verification Key=] to be used to [=Verify=]
+            the [=Signed Data=].
+
+            [=Core Profile=] is part of the [=Originator Profile=].
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Core Profile Issuer</dfn>
+          <dd>
+            A [=Core Profile Issuer=] is an entity that issues a [=Core Profile=].
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Core Profile Policy</dfn>
+          <dd>
+            A [=Core Profile Policy=] is a set of policies that govern the
+            issuance and management of [=Core Profiles=].
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Jurisdiction Specific Model</dfn>
+          <dd>
+            [=Jurisdiction Specific Model=] is set of concrete data models
+            that represent the specific requirements and characteristics of a
+            particular jurisdiction, including but not limited to region, or
+            country.
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Organization Profile</dfn>
+          <dd>
+            An [=Organization Profile=] is a set of [=Validated Attributes=]
+            about the [=Originator=]'s organizational context, such as, name,
+            address, registration information potentially localized to each of
+            the jurisdictions.
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Originator</dfn>
+          <dd>
+            An [=Originator=] is an entity that originates [=Content=].
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Originator Profile</dfn>
+          <dd>
+            An [=Originator Profile=] is a set of [=Attributes=] about the
+            [=Originator=] that create various forms of [=Signed Data=] in the
+            ecosystem based on [=Originator Profile Framework=].
+            [=Originator Profile=] includes details such as the
+            [=Originator=]'s [=Verification Key=] used to verify the signature
+            of [=Signed Data=], such as [=Content Attestation=].
+
+            [=Originator Profile=] consists of one [=Core Profile=] and one or
+            more [=Profile Annotations=]; the [=Core Profile=] contains the
+            essential information, such as [=Verification Key=] of the
+            [=Originator=], while the [=Profile Annotations=] provide
+            additional [=Attributes=] about the [=Originator=].
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Originator Profile Framework</dfn>
+          <dd>
+            [=Originator Profile Framework=] is a set of technological designs
+            and governance models that implements [=Originator Profile=] and
+            related models, including data models and related policies.
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Originator Profile Issuer</dfn>
+          <dd>
+            A [=Originator Profile Issuer=] is an entity that issues part of
+            an [=Originator Profile=], including [=Core Profile=] and
+            [=Profile Annotation=]. These entities are also [=Originators=],
+            thus they publish their own [=Originator Profile=] while
+            privately controlling the corresponding [=Signing Key=].
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Profile Annotation</dfn>
+          <dd>
+            A [=Profile Annotation=] is a set of [=Validated Attributes=] in
+            the form of [=Signed Data=] that adds [=Validated Attributes=] to
+            [=Core Profile=]. [=Profile Annotation Issuer=] issues [=Profile
+            Annotation=].
+
+            [=Profile Annotation=] is part of the [=Originator Profile=];
+            effectively, it adds [=Validated Attributes=] to the [=Originator
+            Profile=].
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Profile Annotation Issuer</dfn>
+          <dd>
+            A [=Profile Annotation Issuer=] is an entity that issues [=Profile
+            Annotations=].
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Profile Annotation Policy</dfn>
+          <dd>
+            A [=Profile Annotation Policy=] is a set of policies that govern the
+            issuance and management of [=Profile Annotations=].
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Recipient</dfn>
+          <dd>
+            A [=Recipient=] is an entity that receives the [=Content=].
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Signed Data</dfn>
+          <dd>
+            A [=Signed Data=] consists of three elements &mdash; [=Verification
+            Key=] or reference to it, payload, and signature &mdash; and provides a
+            way to verify that the signature is created on the payload, with
+            the [=Signing Key=] that is bound to the [=Verification Key=],
+            Thus the integrity of the payload is ensured, and use the
+            [=Verification Key=] to identify the entity which signed the data.
+            Please refer to <a href="#model-of-digital-certificates"></a> for the detailed discussion.
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Signed Data from Originator</dfn>
+          <dd>
+            [=Signed Data from Originator=] is an essential [=Signed Data=]
+            within [=Originator Profile Framework=]. It is an abstract data
+            model based on [=Signed Data with Policy=] originated from an
+            [=Originator=], assuming that it is signed with specific intent
+            corresponding to the policy stated by the [=Originator=].
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Signed Data with Policy</dfn>
+          <dd>
+            [=Signed Data with Policy=] is an abstract data model that represents the
+            signed data structure that is created under a specific policy.
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Signing Key</dfn>
+          <dd>
+            A Cryptographic [=Signing Key=] &mdash; also called Private Key &mdash; is
+            half of an asymmetric cryptography key pair used to create the
+            signature of a piece of [=Signed Data=]. The other half of the key
+            is [=Verification Key=]. [=Signing Key=] is privately controlled
+            by a specific entity &mdash; signer &mdash; and is used to generate the
+            signature to be part of [=Signed Data=].
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Validate</dfn>
+          <dd>
+            [=Validate=] is a function that an entity assesses the truthiness
+            of a piece of information by directly checking the entity itself,
+            or consulting highly reliable sources such as government
+            databases.
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Validated Attribute</dfn>
+          <dd>
+            A [=Validated Attribute=] is an [=Attribute=] that has been
+            verified for its truthiness by an entity. In [=Originator Profile
+            Framework=], [=Validated Attribute=] is part of the [=Core
+            Profile=] and [=Profile Annotation=], where the corresponding
+            [=Core Profile Issuer=] or [=Profile Annotation Issuer=] validates
+            the [=Attributes=] before the issuance.
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Verification Key</dfn>
+          <dd>
+            [=Verification Key=], also often called public key, is used to
+            verify the signature of a piece of [=Signed Data=]. It is
+            associated with a specific signer, which privately controls the
+            [=Signing Key=], and is used to [=Verify=] the integrity of the
+            [=Signed Data=].
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Verify</dfn>
+          <dd>
+            [=Verify=] is a function that merely verifies the integrity of
+            [=Signed Data=] by verifying its payload and the associated
+            signature using the [=Verification Key=] referenced or embedded in
+            the [=Signed Data=].
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Web Media Profile</dfn>
+          <dd>
+            A [=Web Media Profile=] is a set of [=Attributes=] about the
+            [=Originator=] who publishes contents via a website. It includes
+            domain-specific [=Attributes=] for the web media, such as
+            editorial policy, contact information, etc.
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Web Media Profile Issuer</dfn>
+          <dd>
+            A [=Web Media Profile Issuer=] is an entity that issues a [=Web
+            Media Profile=] for an [=Originator=] under [=Web Media Specific
+            Policy=]. The issuer is responsible for validating the
+            [=Attributes=] included in the profile and ensuring that they
+            accurately represent the [=Originator=].
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Web Media Specific Policy</dfn>
+          <dd>
+            A [=Web Media Specific Policy=] is a set of policies that govern the
+            issuance and management of [=Web Media Profile=] and [=Website Profile=].
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Website Profile</dfn>
+          <dd>
+            A [=Website Profile=] is a set of [=Attributes=] about a website
+            that is necessary for the securing mechanism of the [=Originator
+            Profile Framework=], issued by the [=Originator=] publishes
+            information via this website. This profile includes information
+            such as the website's valid domain.
+          </dd>
+        </dt>
+
+      </dl>
+    </section>
+  
+    <section id="architecture">
+      <h1>Architecture of the Originator Profile Framework</h1>
+      <p>
+        The architecture of the [=Originator Profile Framework=] is designed
+        to support a wide range of use cases and applications. It is a modular
+        framework that allows for easy integration with existing systems and
+        services.
+      </p>
+      <p>
+        In the following sections, we introduce high-level concepts and
+        components of the [=Originator Profile Framework=].
+      </p>
+
+      <section id="what-op-provides">
+        <h2>A Simple Picture: What Originator Profile Provides</h2>
+        <p>
+          <a href="#fig-what-op-provides"></a> shows what is possible with
+          [=Originator Profile Framework=] in a simple picture.
+        </p>
+        <figure id="fig-what-op-provides">
+          <img src="Drawings/Architecture-What-OP-Provides.drawio.svg" alt="What OP Provides"/>
+          <figcaption>What Originator Profile provides</figcaption>
+        </figure>
+        <p>
+          Firstly, Originator Profile Framework provides rich information about the
+          Originator &mdash; Originator Profile &mdash; which the name comes from (①).
+          It includes not only the basic attributes like about the
+          organization but also various attributes validated by multiple third
+          party that are useful for the recipient to assess the content.
+        </p>
+        <p>
+          Secondly, Originator Profile Framework provides a way to provide
+          integrity verification of the content and also the origin of the
+          content as a Originator Profile (②).
+        </p>
+        <p>
+          Finally, the recipient of the content can verify the integrity and
+          authenticity of the content using the information provided, and also
+          refer to the Originator Profile to know about the attributes of the
+          originator (③).
+        </p>
+        <p>
+          The framework is designed to be extensible and adaptable to various
+          use cases; for the [=Originator Profile=], it allows adding
+          validated attributes provided by multiple parties. For the content
+          integrity, the framework is extensible to accept different types of
+          medium in different types of serialization. For example, the Web
+          Media specific models allows to protect text fragment and other
+          medium within a web page.
+        </p>
+      </section>
+
+      <section id="model-of-digital-certificates">
+        <h2>Abstract Model: Signed Data with Policy</h2>
+        <p>
+          In this document, we define [=Signed Data=] and [=Signed Data with
+          Policy=] based on "Cryptographically Signed Data" as discussed in detail
+          in the paper [[AModelForClaimValidation]]. We define [=Core Profile=]
+          and [=Profile Annotation=] based on the "Certificate" concepts
+          presented in the same paper. In the following sections, we will
+          elaborate on definitions and their implications.
+        </p>
+        <section>
+          <h3>Signed Data</h3>
+          <p>
+            In [[AModelForClaimValidation]], "Cryptographically Signed Data" is a conceptual
+            model in which an originator signs a payload and bundles three
+            elements: (1) a verification key (or a reference to it), (2) the
+            payload (the subject being attested), and (3) the digital
+            signature over that key and payload. This structure lets a
+            recipient check source authenticity and payload integrity using
+            the corresponding verification key. 
+          </p>
+          <figure id="fig-signed-data">
+            <img src="Drawings/Architecture-Signed-Data.drawio.svg"/>
+            <figcaption>Signed Data</figcaption>
+          </figure>
+          <p>
+            Crucially, "Cryptographically Signed Data" alone does not establish
+            the truth of any claim encoded in the payload; it only confirms
+            authenticity of the source and integrity of the data. Determining
+            whether a claim is valid requires additional evidence and a
+            validator-specific validation policy (i.e., criteria/intent), which
+            is distinct from mere cryptographic verification. 
+          </p>
+          <p>
+            In this document,
+            A [=Signed Data=] consists of three elements &mdash; [=Verification
+            Key=] or reference to it, payload, and signature &mdash; and provides a
+            way to verify that the signature is created on the payload, with
+            the [=Signing Key=] that is bound to the [=Verification Key=],
+            Thus the integrity of the payload is ensured, and use the
+            [=Verification Key=] to identify the entity which signed the data.
+          </p>
+        </section>
+        <section>
+          <h3>Signed Data with Policy</h3>
+          <p>
+            In [=Originator Profile Framework=], all of the data model are
+            based on [=Signed Data=] under a specific policy. We refer to this
+            as [=Signed Data with Policy=]. A [=Signed Data with Policy=] can
+            provide a way to express the intent and context of the signed data
+            with the predefined shared policy. [=Signed Data with Policy=] is
+            an abstract concept of digital credentials (i.e.,
+            [[vc-data-model-2.0]]) and/or digital certificates (i.e.,
+            [[X509V3]]).
+          </p>
+          <figure id="fig-signed-data-with-policy">
+            <img src="Drawings/Architecture-Signed-Data-with-Policy.drawio.svg"/>
+            <figcaption>Signed Data with Policy</figcaption>
+          </figure>
+          <p>
+            In [[AModelForClaimValidation]], authors detailed the relationship
+            between signed data with policy and the related processes. A
+            "Certificate" is a form of signed data issued by a certifier that
+            (i) asserts the certifier has validated a specific claim and (ii)
+            attests that validation according to the certifier’s certification
+            policy (its criteria). Concretely, it bundles three elements &mdash; (1)
+            the certifier’s verification key (or a reference), (2) a payload
+            stating what has been certified, and (3) the certifier’s digital
+            signature over that key and payload. Its signature’s intent is to
+            show not just who issued it, but that the issuer certifies the
+            claim per its policy; validators can then accept the claim by
+            verifying the certificate and trusting that certifier under their
+            own validation policy. 
+            <p class="note">
+              We avoid using the term "Certificate" or "Credentials" to
+              describe the signed data within the [=Originator Profile
+              Framework=]. The term "Certificate" in digital contexts
+              typically refers to a public key certificate (i.e., [[X509V3]]),
+              and the term "Credentials" often implies a broader set of claims
+              or attributes. But in non-digital world, many of the concepts
+              around certification and credentials are more fluid and
+              context-dependent. Also, especially in relation to the specific
+              non-digital activities regarding "certification." Thus, using
+              these terms could lead to misunderstandings about the nature and
+              scope of the signed data being discussed here. 
+            </p>
+          </p>
+        </section>
+      </section>
+
+      <section id="limitation-of-digital-certificate-schemes">
+        <h2>Limitations of X.509 PKI to Implement Originator Profile Framework</h2>
+        <p>
+          On the use of digital signing scheme, there is a need to find a
+          [=Verification Key=] of the signer, and need to be sure about the
+          corresponding [=Signing Key=] is belong to the right entity. To
+          implement this, we typically relying on  X.509 [[X509V3]] public key
+          certificate scheme which is widely used in various applications, and
+          well understood.
+
+          However, to implement the [=Originator Profile Framework=], the
+          current design of X.509 lacks flexibility. This section discusses
+          such limitations we want to address.
+          <p class="note">
+            While we discuss limitation of X.509 here, and the current
+            Originator Profile implementation does not support yet, it is
+            still possible to leverage X.509 technology and its ecosystem
+            within the [=Originator Profile Framework=] to achieve certain
+            goals with limitations. Please refer to <a
+            href="#known-issues-and-future-changes"></a> for more details.
+          </p>
+        </p>
+        <ul>
+          <li><strong>Flexible addition of Attributes is difficult</strong>
+            <p>
+              With X.509 certificates, it is challenging to add attributes
+              required for specific application purposes freely. Even it is
+              possible to add some attributes, the certificate issuer must
+              validate all attributes included in the certificate.
+              Furthermore, since X.509 certificates are expressed as a single
+              certificate, it is not possible to split the certificate for
+              representation or combine certificates from different issuers.
+            </p>
+          </li>
+
+          <li><strong>Difficult to introduce amended issuance policy</strong>
+            <p>
+              While related to the discussion on adding attribute information,
+              certificate issuance policies are generally stringent and offer
+              no flexibility. There is use cases exist where specific
+              communities operate specialized sets of public key certificates
+              for particular purposes to signal that the public key used for
+              signing satisfies specific policy requirements. To implement
+              this type of "virtual list of certificates," it is potentially
+              necessary to establish an entire certificate tree, including
+              operation of a Certificate Authority (CA). Since operating such
+              a CA involves significant work and complexity, it is often not
+              feasible for smaller communities or specialized use cases.
+            </p>
+          </li>
+
+          <li><strong>Satisfying certificate status checking scalability requirement is challenging</strong>
+            <p>
+              Public key certificates require periodic or on-the-demand
+              validity checks. Protocols like [[OCSP]] and CRL are currently
+              in use. However, even within the scope of public key
+              certificates used by web servers, OCSP fails to meet scalability
+              requirements, and CRLs pose privacy concerns. There are some
+              discussions on improvement but there are no good solutions yet
+              [[SoK-DR]]. These factors contribute to the trend toward shorter
+              certificate lifetimes. Furthermore, in the domain targeted by
+              [=Originator Profile Framework=], considering that a much larger
+              number of entities will generate significantly more signature
+              data, which a vastly greater number of clients will verify, the
+              scale involved is expected to be orders of magnitude larger.
+              Therefore, a new approach that does not rely on current
+              mechanisms is necessary.
+            </p>
+          </li>
+        </ul>
+        <p>
+        In [=Originator Profile Framework=], these
+        limitations are addressed by a more flexible and extensible framework.
+        </p>
+      </section>
+
+      <section id="architectural-design-of-originator-profile-framework">
+        <h2>Architectural Design of Originator Profile Framework</h2>
+        <p>
+          While [=Originator Profile Framework=] aims to provide content
+          provenance, it needs to address the limitations of current digital
+          public key certificate schemes by providing a more flexible and
+          extensible framework to provide validated attributes. All of the
+          signed data are [=Signed Data from Originator=] that is a kind of
+          [=Signed Data with Policy=]; thus it is signed with intent under the
+          corresponding policy to the [=Originator=].
+        </p>
+        <p>
+          [=Originator Profile Framework=] architecture currently has three
+          groups of models: Base Model is a domain-agnostic model,
+          Jurisdiction Specific Model that extends Base Model that
+          provides support for specific jurisdictions, and Web Media
+          Specific Model is a model that extends the Base Model for Web
+          Media. We expect to introduce a similar supplemental model in each
+          of the future application domains. Each of the models are detailed in
+          their respective sections: <a href="#base-model">Base Model</a>,
+          <a href="#jurisdiction-specific-model">Jurisdiction Specific Model</a>,
+          and <a href="#web-media-specific-model">Web Media Specific Model</a>.
+        </p>
+        <p>
+          In the following subsections, we will delve into some details of
+          three key models: the [=Originator Profile=], [=Signed Data from
+          Originator=], and [=Profile Annotation=] and their specific role
+          within the [=Originator Profile Framework=]. The details of the
+          model are described in the <a href="#base-model"></a>.
+        </p>
+
+        <section>
+          <h3>Originator Profile</h3>
+          <p>
+            In [=Originator Profile Framework=], the information about the
+            [=Originator=] that is to be verifiable is a [=Signed Data from
+            Originator=]; the signed data is issued by the [=Originator=] under a
+            specific policy to the [=Originator=]. The [=Originator=]'s information
+            are expressed as an [=Originator Profile=]. An [=Originator Profile=]
+            consists of a [=Core Profile=], which contains the
+            originator's verification key, and one or more [=Profile Annotations=]
+            that attach [=Validated Attributes=] to the [=Core Profile=].
+          </p>
+          <figure id="architecture-issuing-op">
+            <img src="Drawings/Architecture-Originator_Profile.drawio.svg"/>
+            <figcaption>Issuing and using Originator Profile</figcaption>
+          </figure>
+          <p>
+            [=Core Profile=] includes the originator's verification key and is
+            one of [=Signed Data from Originator=] which will be described in
+            the following section. [=Core Profile=] contains essential
+            attributes of [=Originator Profile=]. [=Core Profile Issuers=]
+            issues it under [=Core Profile Policy=].
+          </p>
+          <p>
+            [=Profile Annotation=] is an additional attribute that is issued
+            by [=Profile Annotation Issuers=] independently of the [=Core
+            Profile Issuer=]. [=Profile Annotation=] is also based on [=Signed
+            Data from Originator=]. A [=Core Profile=] may be bound to one or more
+            [=Profile Annotations=] provided by multiple [=Profile Annotation
+            Issuers=], under [=Profile Annotation Policy=].
+          </p>
+        </section>
+
+        <section>
+          <h3>Signed Data from Originator</h3>
+          <p>
+            [=Signed Data from Originator=] is an essential data model within
+            [=Originator Profile Framework=]. It is an abstract data model
+            based on [=Signed Data with Policy=] originated from an
+            [=Originator=], assuming that it is signed with specific intent
+            corresponding to the policy stated by the [=Originator=]. The
+            reference to the [=Originator Profile=] is included in the
+            [=Signed Data from Originator=].
+          </p>
+          <figure id="fig-signed-data-from-originator">
+            <img src="Drawings/Architecture-Signed-Data-from-Originator.drawio.svg"/>
+            <figcaption>Signed Data from Originator</figcaption>
+          </figure>
+
+        </section>
+
+        <section>
+          <h3>Content Attestation</h3>
+          <p>
+            A [=Content Attestation=] is a type of [=Signed Data from
+            Originator=] that confirms the [=Content=] originated from the
+            corresponding [=Originator=] and also has not been altered. A
+            [=Content Attestation=] can be [=Verified=] by using the
+            [=Verification Key=] contained in the [=Core Profile=], which is
+            part of the [=Originator Profile=]. The [=Recipient=] can verify
+            the integrity of the content alongside the [=Originator Profile=]
+            to know the profile of the [=Originator=] including the
+            [=Originator=]'s policy.
+          </p>
+          <figure id="architecture-content-attestation">
+            <img src="Drawings/Architecture-Content_Attestation.drawio.svg"/>
+            <figcaption>Creating and using Content Attestation</figcaption>
+          </figure>
+          <p>
+            [=Content Attestation=] is provided within, or alongside with, the
+            [=Content=] itself. [=Content Integrity Descriptor=] which is the
+            part of payload of the [=Content Attestation=] provides additional
+            information about the content's integrity. Please refer
+            <a href="#web-media-content-integrity-descriptor"></a> for
+            [=Content Integrity Descriptor=] discussion for the web media.
+          </p>
+        </section>
+      </section>
+
+    </section>
+
+    <section id="base-model">
+      <h2>Base Model</h2>
+      <p>
+        In this section, we describe the Base Model.
+      </p>
+
+      <section id="base-model-entities">
+        <h2>Entities</h2>
+        <p>
+          The following are the key entities in the Base Model.
+        </p>
+        <ul>
+          <li>[=Originator=]</li>
+          <li>[=Recipient=]</li>
+          <li>[=Originator Profile Issuer=]
+            <ul>
+              <li>[=Core Profile Issuer=]</li>
+              <li>[=Profile Annotation Issuer=]</li>
+            </ul>
+          </li>
+        </ul>
+      </section>
+
+      <section id="base-model-data-models">
+        <h2>Data Models</h2>
+        <p>
+          This section describes four data models for the Base Model:
+          [=Signed Data from Originator=], [=Core Profile=], [=Profile Annotation=], and
+          [=Content Attestation=].
+        </p>
+        <section>
+          <h3>Signed Data from Originator</h3>
+          <p>
+            [=Signed Data from Originator=] is an abstract data model that represents the
+            [=Signed Data=] used in the [=Originator Profile=]. It includes
+            all the necessary information to verify the authenticity and
+            integrity of the signed data.
+          </p>
+          <p>[=Signed Data from Originator=] includes the following property:</p>
+          <ul>
+            <li>Issuer &mdash; a reference to the [=Originator=]'s [=Originator Profile=].</li>
+          </ul>
+          <p>
+            In addition to the above, various properties are included as
+            payload for each of the concrete data models.
+          </p>
+        </section>
+
+        <section>
+          <h3>Core Profile</h3>
+          <p>
+            [=Core Profile=] is one of [=Signed Data from Originator=]. [=Core Profile=]
+            contains essential attributes of [=Originator Profile=]. [=Core
+            Profile Issuers=] issues it under [=Core Profile Policy=].
+          </p>
+          <p>
+            [=Core Profile=] includes the following properties, in addition
+            to the properties in the [=Signed Data from Originator=]:
+          </p>
+          <ul>
+            <li>Origin Key &mdash; a set of keys used by the [=Originator=].</li>
+          </ul>
+          <p>
+            Please refer [[OPB]]: <a
+            href="https://docs.originator-profile.org/en/opb/cp/">OPB: Core
+            Profile Data Model</a> for current implementation details.
+          </p>
+          <p class="note">
+            In the future, we expect to change the embedded key to a more
+            flexible key reference/embedding scheme to allow Key Rollover.
+            Please refer to the discussions in <a href="#issue-key-rollover"></a>.
+          </p>
+        </section>
+
+        <section>
+          <h3>Profile Annotation</h3>
+          <p>
+            [=Profile Annotation=] is additional [=Validated Attributes=] to
+            the [=Core Profile=] that is issued by [=Profile Annotation
+            Issuers=] independently of the [=Core Profile Issuer=]. [=Profile
+            Annotation=] is based on [=Signed Data from Originator=]. A [=Core
+            Profile=] may be bound to one or more [=Profile Annotations=]
+            provided by multiple [=Profile Annotation Issuers=], under
+            [=Profile Annotation Policy=].
+          </p>
+          <p>[=Profile Annotation=] includes the following properties:</p>
+          <ul>
+            <li>Subject &mdash; Reference to a [=Core Profile=], which this
+            annotation is  annotating to.</li>
+            <li>Attributes &mdash; Additional Attributes describing the annotation,
+            depends on concrete annotation type</li>
+          </ul>
+          <p>
+            Please refer [[OPB]]: <a
+            href="https://docs.originator-profile.org/en/opb/pa/">OPB: Profile
+            Annotation Data Model</a> for current
+            implementation details. Please refer to <a
+            href="#organization-model-japan"></a> for concrete example of
+            [=Profile Annotation=]. Also refer to
+            <a href="https://docs.originator-profile.org/en/opb/pa-guide/">PA
+            Implementation Guidelines</a> for more information on implementing
+            profile annotations in general.
+          </p>
+
+        </section>
+
+        <section id="base-content-attestation">
+          <h3>Content Attestation</h3>
+          <p>
+            [=Content Attestation=] is a specific type of [=Signed Data from Originator=]
+            that focuses on the provenance of [=Content=].
+          </p>
+          <p>[=Content Attestation=] includes the following properties:</p>
+          <ul>
+            <li>Target &mdash; is a [=Content Integrity Descriptor=] that describes
+            the target item being attested to and the integrity requirements
+            for that item.</li>
+          </ul>
+          <p>
+            [=Content Integrity Descriptor=] is a structured representation of
+            the integrity requirements for a specific type of content. It
+            includes metadata such as content type, content locator, and
+            content hash. Currently, all of the [=Content Integrity
+            Descriptor=] types are designed for Web Media, thus, all of the details about
+            [=Content Integrity Descriptor=] are described in the Web Media
+            Specific Model section.
+          </p>
+          <p>
+            Please refer [[OPB]]: <a
+            href="https://docs.originator-profile.org/en/opb/ca/">OPB: Content
+            Attestation Data Model</a> for current implementation details.
+            Also, please refer to <a
+            href="https://docs.originator-profile.org/en/opb/target-guide/">Content
+            Integrity Descriptor</a> (Currently named "Target Integrity") for
+            the details on the [=Content Integrity Descriptor=].
+          </p>
+        </section>
+      </section>
+
+      <section id="base-model-processes">
+        <h2>Processes</h2>
+        <p>
+          This section describes two processes for the Base Model: Issuing
+          [=Originator Profile=] and Delivering [=Content=] with
+          [=Content Attestation=].
+        </p>
+        <section id="process-issuing-an-originator-profile">
+          <h3>Issuing Originator Profile</h3>
+          <figure id="issuing-op">
+            <img src="Drawings/BaseModel-Issuing_OP_CP+PA.drawio.svg"/>
+            <figcaption>Issuing Originator Profile</figcaption>
+          </figure>
+          <p>
+            This process involves the following steps:
+          </p>
+          <ol class="algorithm">
+            <li>The [=Originator=] creates a key pair ([=Signing Key=], [=Verification Key=]).
+            </li>
+            <li>The [=Originator=] sends a request with an application
+            including enough amount of information including the
+            [=Verification Key=] to [=Core Profile Issuer=] to issue a [=Core
+            Profile=]. The application needs to include enough information to
+            satisfy the [=Core Profile Policy=] on issuing [=Core
+            Profile=].</li>
+            <li>The [=Core Profile Issuer=] verifies whether the
+            [=Originator=]'s application meets the requirements in the [=Core
+            Profile Policy=] and issues a [=Core Profile=].</li>
+            <li>The [=Originator=] requests one or more [=Profile
+            Annotations=] from [=Profile Annotation Issuers=].</li>
+            <li>Each [=Profile Annotation Issuer=] validates the relevant
+            attributes and issues [=Profile Annotations=].</li>
+            <li>The [=Originator=] collects the [=Core Profile=] and [=Profile
+            Annotations=] to form the [=Originator Profile=].</li>
+          </ol>
+        </section>
+        <section id="process-delivering-a-content">
+          <h3>Delivering Content with Content Attestation</h3>
+          <figure>
+            <img src="Drawings/BaseModel-Originator-Recipient-Detailed.drawio.svg"/>
+            <figcaption>Delivering Content with Content Attestation</figcaption>
+          </figure>
+          <p>
+            This process involves the following steps:
+          </p>
+          <ol class="algorithm">
+            <li>The [=Originator=] prepares the [=Content=] for delivery.</li>
+            <li>The [=Originator=] attaches its [=Originator Profile=] as
+            necessary. [=Originator=] may provide the reference to the
+            [=Originator Profile=] instead.</li>
+            <li>The [=Originator=] sends the attested [=Content=] with
+            [=Content Attestation=] to the [=Recipient=].</li>
+            <li>The [=Recipient=] verifies the [=Content Attestation=].</li>
+            <li>The [=Recipient=] verifies the [=Originator Profile=], which
+            includes [=Core Profile=] and [=Profile Annotations=].</li>
+          </ol>
+        </section>
+      </section>
+  
+      <section id="base-model-policy">
+        <h2>Policy</h2>
+        <p>
+          In this section, we discuss high-level policies for Base Model
+          governing the issuance and management of [=Core Profile=] and
+          [=Profile Annotation=]. These are not concrete policies but rather
+          provide design direction that inform the development of specific
+          policies and procedures. Discussion on the overall governance model
+          is provided in <a href="#governance-and-policy"></a>.
+        </p>
+        <section id="core-profile-policy">
+          <h3>Core Profile Policy</h3>
+          <p>
+            On the issuance of [=Core Profile=], the [=Core Profile Issuer=]
+            acts as a trusted authority to validate the identity and
+            attributes of the [=Originator=]. The [=Core Profile Issuer=] is
+            responsible for ensuring that the [=Core Profile=] is issued in
+            accordance with the established policies and procedures.
+          </p>
+          <p>
+            The required steps for the [=Core Profile Issuer=] to issue a
+            [=Core Profile=] include:
+          </p>
+          <ul>
+            <li>Validation of the [=Originator=]'s identity and
+            attributes.</li>
+            <li>Assessment of the [=Originator=]'s compliance with the [=Core
+            Profile Policy=].</li>
+            <li>Issuance of the [=Core Profile=] upon successful validation
+            and assessment.</li>
+          </ul>
+          <p>
+            The [=Core Profile Issuer=] must maintain a record of all issued
+            [=Core Profiles=] and their associated [=Originators=]. This record
+            must include details of the validation and assessment processes
+            undertaken, as well as any supporting documentation.
+          </p>
+          <p>
+            The policy is similar to the one like X.509 based Certificate
+            Authority (CA) policies, and a lot can be learn from the
+            experiences of the eco system. However, due to the decomposed
+            nature of the [=Core Profile=] and [=Profile Annotations=],
+            additional considerations may be necessary to address the unique
+            aspects of each component.
+          </p>
+          <p>
+            OP-CIP is currently developing initial [=Core Profile Policy=] for
+            initial deployment alongside with other policies.
+          </p>
+        </section>
+
+        <section id="profile-annotation-policy">
+          <h3>Profile Annotation Policy</h3>
+          <p>
+            On the issuance of [=Profile Annotation=], the [=Profile
+            Annotation Issuer=] acts as a trusted authority to validate the
+            identity, then refer to specific attributes of the [=Originator=],
+            which to be part of the [=Profile Annotation=]. The [=Profile
+            Annotation Issuer=] is responsible for ensuring that the [=Profile
+            Annotation=] is issued in accordance with the established policies
+            and procedures.
+          </p>
+          <ul>
+            <li>The [=Profile Annotation Issuer=] must validate the identity
+            of the [=Originator=] using [=Core Profile=] before issuing the
+            [=Profile Annotation=].</li>
+            <li>The [=Profile Annotation=] must include specific attributes of
+            the [=Originator=] as defined by the established policies and
+            procedures.</li>
+            <li>The [=Profile Annotation=] must be issued upon successful
+            validation and assessment of the [=Originator=]'s identity and
+            the attributes concerned for the [=Profile Annotation=].</li>
+          </ul>
+          <p>
+            The details of the policy is depends on the specific use-cases and
+            domain requirements. Thus, [=Profile Annotation=] is specialized
+            for the purposes, and the policy for the specialized annotation
+            needs to be prepared.
+          </p>
+          <p>
+            OP-CIP is currently developing initial [=Profile Annotation
+            Policy=] for initial deployment alongside with other policies.
+          </p>
+        </section>
+      </section>
+  
+    </section>
+
+    <section id="jurisdiction-specific-model">
+      <h1>Jurisdiction Specific Model</h1>
+      <p>
+        This section discusses [=Jurisdiction Specific Model=]. Jurisdiction specific
+        models address the unique requirements of different jurisdictions. In
+        the context of [=Originator Profile=], jurisdiction specific models may
+        define additional attributes or validation mechanisms that are
+        specific to a particular jurisdiction.
+      </p>
+      <p>
+        While we are designing the [=Originator Profile Framework=] for global
+        deployment, currently, as we initially deploy the [=Originator Profile
+        Framework=] within Japan, current implementation focusing on the
+        specific requirements and regulations of the Japanese market. Thus,
+        current country specific model includes one model which describes
+        organization data model for Japan.
+      </p>
+      <section id="organization-profile-model">
+        <h2>Organization Profile</h2>
+        <p>
+          While providing validated information about the organization &mdash;
+          [=Organization Profile=] &mdash; is one of crucial information about
+          the [=Originator=], how the validation works, or registration of an
+          organization in each jurisdiction is uniquely different. In this
+          section, we provide an design for Japan to provide basis of
+          discussion.
+        </p>
+        <p>
+          It is important to note that we need an abstract data model which
+          can represent the key attributes of organizations across different
+          jurisdictions. While the information will be provided as a type of
+          [=Profile Annotation=], requirements for the data model needs
+          further analysis among jurisdictions to ensure all relevant aspects
+          are captured.
+        </p>
+        <p>
+          The model may include attributes such as:
+        </p>
+        <ul>
+          <li>Name</li>
+          <li>Address</li>
+          <li>Contact Information</li>
+          <li>Registration Details</li>
+        </ul>
+        <p>
+          with consideration for the specific requirements of each
+          jurisdiction, especially the Registration Details are different. It
+          is also important to note multilingual support is required for the
+          audience outside of the specific jurisdiction.
+        </p>
+        <section id="organization-model-japan">
+          <h3>Data Model for Japanese Organizations</h3>
+          <p>
+            In Japan, the validation of an organization's existence typically
+            involves checking the registration status of the organization with
+            the relevant government authorities. This may include verifying
+            the organization's registration number, tax identification number,
+            and other official documentation (note: registration number and
+            tax identification number are different). Additionally,
+            organizations may be required to provide proof of their physical
+            presence in Japan, such as a local business address and contact
+            information.
+          </p>
+          <p>
+            On the other hand, if the company registration number is validated
+            and provided in verifiable manner, it can provide a way to
+            retrieve detailed information relying on by the registration number.
+          </p>
+          <p>
+            Please refer [[OPB]]: <a
+            href="https://docs.originator-profile.org/en/opb/pa-guide/existence/">OPB:
+            Existence Certificate in Japan Implementation Guidelines</a> for
+            current implementation details.
+          </p>
+        </section>
+      </section>
+
+    </section>
+
+    <section id="web-media-specific-model">
+      <h2>Web Media Specific Model</h2>
+      <p>
+        In this section, we describe Web Media Specific Model.
+      </p>
+
+      <section id="web-media-specific-model-entities">
+        <h2>Entities</h2>
+        <p>
+          In addition to the Entities discussed in <a
+          href="#base-model-entities"></a>, Web Media Specific
+          Model introduces the following entity:
+        </p>
+        <ul>
+          <li>[=Content Aggregator=]</li>
+        </ul>
+      </section>
+
+      <section id="web-media-specific-model-data-models">
+        <h2>Data Models</h2>
+        <p>
+          Web Media Specific model defines two data models: [=Web Media Profile=]
+          and [=Website Profile=].
+        </p>
+
+        <section>
+          <h3>Web Media Profile</h3>
+          <p>
+            [=Web Media Profile=], that extends [=Profile Annotation=] adds
+            additional [=Validated Attributes=] for the Web Media. It is
+            issued by one of [=Profile Annotation Issuers=].
+          </p>
+          <p>
+            [=Web Media Profile=] includes, additional information about the
+            [=Originator=], other than organization registration information
+            specific to a web media, such as editorial policy, privacy policy,
+            contact information, logo, and official URL of the organization.
+          </p>
+          <p>
+            For concrete information on current implementations, please refer
+            to <a
+            href="https://docs.originator-profile.org/en/opb/web-media-profile/">OPB:
+            Web Media Profile</a>.
+          </p>
+        </section>
+
+        <section>
+          <h3>Website Profile</h3>
+          <p>
+            [=Website Profile=] is a set of [=Attributes=] about a website
+            that is necessary for the securing mechanism of the [=Originator
+            Profile Framework=]. [=Website Profile=] is one of the [=Signed
+            Data from Originator=], but this data is issued by the
+            [=Originator=] of the [=Contents=], which has control of the web
+            site.
+          </p>
+          <p>
+            [=Website Profile=] includes the website location which is
+            legitimate for the delivery of the contents from the organization.
+            This information eliminates the possibility of content being
+            misplaced in unwanted locations by the media. The location is
+            specified as a string or array of strings that represents the
+            [[RFC6454]] origin (scheme, hostname, port number) in ASCII format
+            to identify the website to be presented. It MUST NOT include a
+            path, query, or fragment. In addition, the default port (e.g. 443
+            for https:, 80 for http:) is expressed in an abbreviated format
+            based on the [[URL]].
+          </p>
+          <p>
+            For concrete information on current implementations, please refer
+            to <a
+            href="https://docs.originator-profile.org/en/opb/web-site-profile/">OPB:
+            Website Profile</a>
+          </p>
+        </section>
+        <section id="web-media-content-integrity-descriptor">
+          <h3>Content Integrity Descriptor type for Web Media</h3>
+          <p>
+            The following types of [=Content Integrity Descriptor=] are
+            defined for Web Media:
+          </p>
+          <ul>
+            <li>HTML fragment (using outerHTML)</li>
+            <li>Text within DOM (using textContent)</li>
+            <li>Visible Text within DOM (using innerText)</li>
+            <li>External Resource</li>
+          </ul>
+          <p>
+            Please refer to <a
+            href="https://docs.originator-profile.org/en/opb/target-guide/">Content
+            Integrity Descriptor</a> (Currently named "Target Integrity") for details.
+          </p>
+        </section>
+      </section>
+
+      <section id="web-media-specific-model-processes">
+        <h2>Processes</h2>
+        <p>
+          This section describes two processes for the Web Media Specific
+          Model: Delivering [=Content=] as a Web Page and Delivering [=Content=] via
+          a [=Content Aggregator=].
+        </p>
+        <p>
+          This section describes one process for the Web Media Specific
+          Model: Delivering [=Content=] as a Web Page.
+        </p>
+
+        <section id="process-issuing-web-media-profile-and-website-profile">
+          <h3>Issuing Web Media Profile and Website Profile</h3>
+          <p>
+            [=Web Media Profile=] is supposed to be issued by the [=Originator
+            Profile Issuer=], alongside with [=Core Profile=] to be part of
+            the [=Originator Profile=] for the web site the [=Originator=]
+            intends to publish its contents.
+          </p>
+          <p>
+            [=Website Profile=] is supposed to be issued by the [=Originator=], who
+            is controlling the web site.
+          </p>
+        </section>
+
+        <section id="process-delivering-a-web-page">
+          <h3>Delivering Contents as a Web Page</h3>
+          <p>
+            This section describes the process of delivering [=Content=] as a
+            web page.
+          </p>
+          <figure id="figure-process-delivering-content-via-a-web-page">
+            <img src="Drawings/WebSpecificModel-Originator-Recipient-Detailed.drawio.svg"/>
+            <figcaption>Delivering Contents as a Web Page</figcaption>
+          </figure>
+          <p>
+            This process involves the following steps:
+          </p>
+          <ol class="algorithm">
+            <li>The [=Originator=] prepares the [=Content=] for delivery</li>
+            <li>The [=Originator=] creates a [=Content Attestation=] that binds the
+            [=Content=] to its [=Originator Profile=] (or provides a reference to the
+            profile).</li>
+            <li>The [=Originator=] publishes the web page including the [=Content=],
+            [=Content Attestation=], and [=Originator Profile=] (if necessary) on its
+            website.</li>
+            <li>The web server delivers the web page to [=Recipient=].</li>
+            <li>The [=Recipient=] discovers [=Content=] with [=Content
+            Attestation=]. Then, find or retrieve [=Originator Profile=]</li>
+            <li>The [=Recipient=] [=Verify=] the [=Originator Profile=].</li>
+            <li>The [=Recipient=] [=Verify=] the [=Content Attestation=] using the
+            [=Verification Key=] in the [=Core Profile=], and [=Verify=] any [=Profile
+            Annotations=].</li>
+          </ol>
+        </section>
+
+
+      </section>
+
+      <section id="web-media-specific-model-policy">
+        <h2>Policy</h2>
+        <section id="web-media-specific-profile-policy">
+          <h3>Web Media Specific Policy</h3>
+          <p>
+            On the issuance of the [=Web Media Profile=], corresponding [=Web
+            Media Specific Policy=] is consulted. In addition to the
+            [=Organization Profile=], the [=Web Media Specific Policy=] also
+            takes into account the specific requirements to validate the
+            attributes specific to the [=Web Media Profile=].
+          </p>
+          <p>
+            OP-CIP is currently developing initial [=Web Media Specific Policy=]
+            alongside with other policies.
+          </p>
+        </section>
+      </section>
+
+      <section id="web-media-specific-model-presentation">
+        <h2>Presentation</h2>
+        <p>
+          In this section, we provides current status of the presentation
+          aspects of the Originator Profile for Web Media, including currently
+          implemented browser extensions and potential modification to
+          browsers.
+        </p>
+
+        <section id="web-media-specific-model-presentation-browser-extension">
+          <h3>Browser Extension Implementation</h3>
+          <p>
+            The browser extension which provides user interface to present
+            various data within the [=Originator Profile Framework=] is
+            implemented and provided. This is the user interface we
+            demonstrated in various places in the past occasions.
+          </p>
+          <p>
+            We will provide the extension to multiple browsers in the near
+            future.
+          </p>
+        </section>
+
+        <section id="web-media-specific-model-presentation-browser-modification">
+          <h3>Browser Modification Concepts</h3>
+          <p>
+            Other than the browser extension, we are also exploring potential
+            modifications to the browser itself to provide better key visual information
+            which might be useful to [=Recipients=].
+          </p>
+          <p>
+            We will provide the conceptual design in the near future.
+          </p>
+        </section>
+      </section>
+
+    </section>
+
+    <section id="governance-and-policy">
+      <h1>Governance and Policy</h1>
+      <p>
+        This section describes the governance and the policy aspects of
+        the Originator Profile Framework.
+      </p>
+      <p class="ednote">
+        This section is under construction and will be updated soon, in early
+        September 2025.
+      </p>
+
+    </section>
+
+    <section id="comparison-to-related-works">
+      <h1>Comparison to related works or projects</h1>
+      <p class="ednote">
+        This section is under construction and will be updated soon, in early
+        September 2025.
+      </p>
+      <section>
+        <h2>Comparison to C2PA</h2>
+        <p>
+          <strong>Coalition for Content Provenance and Authenticity</strong>
+          (C2PA)  is a consortium of leading media and technology companies
+          collaborating to establish an open standard for content provenance
+          and authenticity. The goal of C2PA is to provide a framework for
+          creating, sharing, and verifying content authenticity metadata,
+          enabling users to trust the content they consume.
+        </p>
+        <p>
+          The project primarily focuses on addressing the challenges of
+          content provenance and authenticity in digital media, including
+          ensuring the integrity of media files and providing verifiable
+          information about their origins. Thus, the scope of C2PA overlaps
+          with the [=Originator Profile Framework=] in its goals and
+          objectives. Thus we hope to collaborate and align our efforts
+          to achieve common objectives.
+        </p>
+        <p>
+          That said, there are some key differences between C2PA and the
+          [=Originator Profile Framework=].
+        </p>
+        <ul>
+          <li><strong>C2PA focuses on media files</strong>, while [=Originator
+          Profile Framework=] primarily aims to provide various content within
+          the Web Media, including text, images, and videos. C2PA focuses on
+          media files specifically.</li>
+          <li><strong>C2PA provides historical data</strong>, while
+          [=Originator Profile Framework=] primarily focuses on verification
+          by the end-user, rather than the internal work of Web Media. While
+          historical data is essential, it appears to be more than sufficient
+          for the end-user.
+          <br/>
+          <blockquote><strong>Note:</strong> Some members of OP-CIP have an
+          interest in providing content archives, and that naturally may
+          include historical information. However, it will be implemented
+          differently &mdash; probably, outside of the media data itself.
+          </blockquote>
+          </li>
+          <li><strong>[=Originator Profile Framework=] aims to provide rich
+          information about the [=Originator=]</strong> through multiple
+          [=Validated Attribute=] providers, accommodating various use cases
+          and stakeholder requirements within a flexible framework.</li>
+          <li><strong>C2PA's trust model is based on X.509 PKI</strong>, thus
+          it shares the same issues we discussed in <a
+          href="#limitation-of-digital-certificate-schemes"></a></li>
+          <li><strong>C2PA's trust model is centralized</strong>, while there
+          is an available trust list for C2PA, such as Adobe's Adobe Approved
+          Trust List [[AATL]] and IPTC Origin Verified News Publishers List
+          [[IPTC-OVNPL]]. It is a challenge to establish a trust list for
+          specific use cases that meets the requirements of any new target
+          ecosystem.</li>
+          </ul>
+      </section>
+
+
+    </section>
+
+    <section id="known-issues-and-future-changes">
+      <h1>Known Issues and Future Changes</h1>
+      <p class="ednote">
+        This section require extensive updates.
+      </p>
+
+      <section>
+        <h2>Terminologies</h2>
+        <p>
+          When working in standardization, there always are terminology
+          challenges. Current version of OPBs are mostly consistent within the
+          document series, but some of the terminology may confuse other
+          stakeholders especially in the standardization body. In the
+          following, we highlight some key terms in this regards to clarify
+          our intentions to select these words.
+        </p>
+        <section>
+          <h3>Validate vs Verify</h3>
+          <p>
+            In this document, the term [=Validate=] is used to describe
+            confirmation of the validity of a subject according to a
+            validator’s criteria representing its intent &mdash; with a policy
+            specific to the context &mdash; while the term [=Verify=] is used to
+            describe the process of merely checking the integrity of a piece
+            of information, with identification of the source of the data.
+          </p>
+          <p>
+            Thus, with [=Signed Data=], [=Verify=] is possible, but
+            [=Validate=] the result is only possible with a context specific
+            policy.
+          </p>
+          <p>
+            Please refer to SECTION V. of [[AModelForClaimValidation]] for discussions.
+          </p>
+        </section>
+        <section>
+          <h3>Certificate</h3>
+          <p>
+            The word “Certificate” require special attention, since the term
+            is often used both in real world and digital world, and they are
+            supposed to be conceptually same. Unfortunately, there are
+            inconsistencies in how these terms are defined and used across
+            different contexts, which can lead to confusion. In the physical
+            world, there are many "certificates" we rely on everyday. And
+            there are some assumptions that the digital world works same. Some
+            of the people treats that "Certificate" is a digitally signed data
+            provided by somebody, which is conceptually same as a physical
+            certificate. However, in the digital world, this assumption does not
+            always hold true.
+          </p>
+          <p>
+            In the design of the OP, we needed a special attention in this
+            context:
+            <ul>
+              <li>
+                Certificate ecosystem is often complex and involves multiple
+                parties; Certificate issuer and the certifier who actually
+                verify whether the certificate recipients meets the
+                requirements set forth in the certificate. And the treatment
+                of "verify" and "validate" needs to be carefully used, and it
+                adds more complexities.
+              </li>
+              <li>
+                We used word [=Profile Annotation=] instead of "Certificate",
+                since there are different attributes associated with the
+                [=Originator=] and some of the such annotation does not
+                conceptually match with the concept of "Certificate"</li>
+            </ul>
+          </p>
+          <p>
+            Due to the above complexities, we avoid using word "Certificate"
+            in this document. Some part of the [[OPB]] still uses the word,
+            but they will be adjusted.
+          </p>
+        </section>
+      </section>
+
+      <section>
+        <h2>Internationalization and Multilingual support</h2>
+        <p>
+          There are some internationalization and multilingual challenges
+          exists on use of [[vc-data-model-2.0]]. Current version of the data
+          model suggest to use a single language for each of the signed data
+          objects. This is due to the fact that current JSON-LD based
+          multilingual structure is hard to decode in the verifier side,
+          which, in our case, within a browser. The cost is not negligible
+          thus we currently apply one language to entire [=Profile
+          Annotation=] model which potentially contain multilingual strings.
+          While it is possible to provide multiple PAs in same type with
+          different languages, current extension does not support this yet.
+        </p>
+      </section>
+
+      <section id="issue-key-rollover">
+        <h2>Key delivery and discovery</h2>
+        <p>
+          Current version embeds keys in various places as a temporary
+          measure. Eventually, we need to address concerns and improvements:
+          <ul>
+            <li>Key Rollover</li>
+            <li>Better key discovery</li>
+          </ul>
+          Current Version of the data model embeds verification key into models
+          directly using JWKS[[RFC7517]]. Effectively, current model do not allow
+          key rollover.
+        </p>
+        <p>
+          We’re designing key rollover scheme using DNS/DNSSEC. DNSSEC
+          provides a good way to:
+          <ol>
+            <li>Allowing multiple keys to co-exist, with all of the keys may
+            have different valid period</li>
+            <li>Revoking key is possible by just removing resource record(s)</li>
+          </ol>
+          It also allow us to provide reliable key discovery mechanism with
+          high scalability.
+        </p>
+        <p>
+          While our scheme is not based on X.509[[X509V3]]-based certificates,
+          it is possible to embed X.509 certificate within the [=Core
+          Profile=], then annotate with multiple [=Profile Annotations=].
+          Unfortunately, if X.509 certificate are used, it not only
+          complicates the key rollover process, but also miss the benefits of
+          DNSSEC, especially the low-overhead revoking. Note that latest
+          movement of the X.509 certificate to address revocation check is
+          reducing the validity period, which is not ideal for our use case.
+        </p>
+      </section>
+
+      <section>
+        <h2>Profile Delivery/Retrieval</h2>
+        <p>
+          Currently, [=Originator Profile=] consists of [=Core Profile=],
+          [=Profile Annotation=], [=Web Media Profile=], [=Website Profile=]
+          and the OP is delivered via well-known URI of the web site. Each
+          component of the [=Originator Profile=] may be distributed via
+          different channels, then combined to be user at verifier side.
+        </p>
+        <p>
+          [=Core Profile=] can be delivered via DNS, and that’s relates to the
+          aforementioned key rollover design.
+        </p>
+      </section>
+
+    </section>
+
+    <!-- <section id="conformance">
+      <h1>Conformance</h1>
+    </section> -->
+
+    <section id="use-cases" class="appendix">
+      <h1>Use Cases</h1>
+      <p>
+        In this section, we introduce some of the use cases we are currently
+        trying to address. A list of requirements for that use case follows
+        each use case narrative. This section loosely follows <a
+        href="https://www.w3.org/TR/vc-use-cases/">W3C’s Verifiable
+        Credentials Use Cases</a> style.
+      </p>
+      <p>
+        The use cases are divided into three categories: Web Media Use Cases,
+        Local Government Use Cases, and Web Service Site Use Cases.
+      </p>
+      
+      <section>
+        <h2>Web Media Use Cases</h2>
+        <p>
+          The Web Media Use Cases focus on scenarios where users accessing
+          with media outlets, such as newspaper sites or broadcasting sites.
+        </p>
+
+        <section>
+          <h3>Paul: A user who reads news articles on a media site</h3>
+          <p>
+            Paul is an avid reader of news articles, usually reading articles from
+            his favorite newspapers on their websites. Newspaper websites are
+            curated as a whole, not just individual articles, making it easy to
+            access articles Paul wants to read at any given time. If the site
+            utilizes OP, it is easy to confirm that Paul is accessing the correct
+            site he always visits, reducing the risk of accidentally connecting to
+            fake sites, which is appreciated. Recently, a change in the editorial
+            policy of a broadcasting company was announced. Paul noticed this and
+            wanted to check the editorial policy of the newspaper company in
+            question. Still, OP allows him to easily and reliably access
+            information about the newspaper company's code of conduct. Media
+            operational guidelines provided through OP are available through the
+            same interface regardless of the site, making it easy to access the
+            information and contact the relevant parties if necessary.
+          </p>
+          <p><strong>Requirements:</strong></p>
+          <ul>
+            <li>Finding OPs bound to a web page</li>
+            <li>Verifying an OP</li>
+            <li>Finding secured content in a web page</li>
+            <li>Showing the basic information in the OPs</li>
+            <li>Showing the originator’s policy in the OPs</li>
+            <li>Showing the originator’s contact in the OPs</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Nancy: A user who reads news articles via a portal site</h3>
+          <p>
+            Nancy is a user who wants to spend as little time as possible using a
+            computer. She thinks it is enough to get the bare minimum of news, so
+            she mainly skims through news articles provided on the portal site she
+            is familiar with. Today, she stumbled upon an article on the portal
+            site that caught her attention, but she was skeptical because it
+            seemed too well-written, so she wanted to know where the article came
+            from. The article had an OP attached, so the source of the article was
+            clear. Furthermore, since the article was a summary, she visited the
+            source site to read the full text. Since the summary includes the link
+            to the original article, which is secured via OP framework, she can
+            safely click and follow the link to access the article. She can
+            confirm the relationship between the original article and the summary,
+            who is responsible for the summary, and whether the original article
+            includes a link that has been altered without permission.
+          </p>
+          <p><strong>Requirements:</strong></p>
+          <ul>
+            <li>Finding secured content in a web page</li>
+            <li>Finding OPs bound to a secured content</li>
+            <li>Showing information about an attested content</li>
+            <li>Showing basic information in the OPs</li>
+            <li>Finding the original article location in the content</li>
+            <li>Verifying a content</li>
+            <li>Verifying an OP</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>John: A user who receives the latest news from social networks</h3>
+          <p>
+            John is an internet user who makes active use of social networks.
+            He subscribes to online newspapers and occasionally visits their
+            websites, but he primarily relies on news from social networks
+            because it’s easy. Some of the articles shared on social networks
+            catch his interest, and he occasionally clicks on them to learn
+            more. However, he often finds that the headlines and photos on
+            social networks that entice clicks do not match the actual
+            articles, which has caused him frustration on multiple occasions.
+            Additionally, there is a possibility that the linked articles may
+            be related to criminal content, leading him to feel a strong sense
+            of risk. If the relationship between the headlines on social
+            networks and the actual articles were more reliable, it is
+            anticipated that concerns about risks could be reduced, thereby
+            minimizing specific issues
+          </p>
+          <p><strong>Requirements:</strong></p>
+          <ul>
+            <li>Finding secured content in a web page</li>
+            <li>Finding OPs bound to a secured content</li>
+            <li>Showing basic information in the OPs</li>
+            <li>Finding the original article location in the content</li>
+            <li>Verifying a content</li>
+            <li>Verifying an OP</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Robert: A PC expert who visits news websites directly</h3>
+          <p>
+            Robert is a highly skilled PC expert who has been using the
+            internet since before search engines were introduced. He finds it
+            more comfortable to operate the computer using only the keyboard
+            rather than relying on the mouse. When browsing websites, he
+            directly inputs the URL into the URL bar to specify the site he
+            wants to visit. Since he frequently visits most sites, the browser
+            automatically completes the URL, allowing him to reach the desired
+            website. However, he occasionally makes mistakes when typing.
+            Criminals sometimes use website names that resemble well-known
+            sites but are prone to typos. One day, Robert accidentally visited
+            such a site. Fortunately, Robert had installed OP's web extension
+            in his browser, so he noticed that the site did not have OP
+            attached. Since the websites Robert usually uses have OP, he
+            noticed the anomaly and avoided any issues.
+          </p>
+          <p><strong>Requirements:</strong></p>
+          <ul>
+            <li>Finding OPs bound to a web page</li>
+            <li>Verifying an OP</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Emma: A user who views an ad on social media</h3>
+          <p>
+            Emma is an individual investor and a reader of business articles
+            on her favorite social media. One day, she noticed an ad for a
+            seminar conducted by Z Securities Company displayed alongside an
+            article that caught her attention. She clicked the ad to open the
+            website and checked the site's OP just to be sure, but could not
+            find any valid attested OP on it. Then she returned to the ad
+            image and found that there was no valid OP either. Emma knew that
+            Z Securities usually advertises on TV and the Internet, and it
+            uses OP on its website. As a result, she identified that both the
+            ad and the website were fraudulent imitations of Z Securities, and
+            she was able to avoid falling for an investment scam.   
+          </p>
+          <p><strong>Requirements:</strong></p>
+          <ul>
+            <li>Finding secured content in a web page</li>
+            <li>Finding OPs bound to a secured content</li>
+            <li>Finding a signal that there is verified OP on the ad</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Ichiro: A user who determines candidates' policies on social
+          media ahead of an election</h3>
+          <p>
+            While researching for the upcoming election, Ichiro came across a
+            post on social media from a well-known media outlet. It included a
+            link to a video of a candidate's speech. He thought there was a
+            problem with the content of the speech and considered sharing the
+            post to inform more people about it. Before doing so, he checked
+            the OP. The official website of the media outlet usually has a
+            valid OP, but the linked site, which appeared to be the media
+            outlet's website, did not. Ichiro quickly identified the website
+            as mimicking and avoided spreading potentially deceptive content.
+          </p>
+          <p><strong>Requirements:</strong></p>
+          <ul>
+            <li>Finding secured content in a web page</li>
+            <li>Finding OPs bound to a secured content</li>
+            <li>Finding OPs that shows the content is created by AI</li>
+            <li>Verifying an OP</li>
+          </ul>
+        </section>
+      </section>
+
+      <section>
+        <h2>Local Government Use Cases</h2>
+        <p>
+          This section describes various use cases for local government sites
+          utilizing OP framework.
+        </p>
+        <section>
+          <h3>Ken: A public relations officer at a local government office on the day of a major earthquake</h3>
+          <p>
+            A major earthquake hit the village where Ken works.
+            Immediately after the quake, videos began to be spread on social
+            media claiming that a tsunami had struck the village. But these
+            videos were actually taken in a different location on a different
+            day. And in reality, no tsunami had hit Ken's village.
+          </p>
+          <p>
+            Nevertheless, the office received numerous inquiries from people
+            who had seen the social media posts about the tsunami. A claim such
+            as "Social media reports that a tsunami has struck location A and
+            residents are stranded. Please dispatch a rescue team" causes
+            disruptions to many kinds of operations during the time of
+            emergency.
+          </p>
+          <p>
+            Ken posted the following message on the office's website: "If you
+            see footage of a disaster in the village on social media, first
+            check the OP of the content. If there is an OP, it means that the
+            information was posted responsibly by the originator." As a
+            result, the confusion gradually subsided.
+          </p>
+          <p><strong>Requirements:</strong></p>
+          <ul>
+            <li>Finding OPs bound to a web page</li>
+            <li>Finding secured content in a web page</li>
+            <li>Finding OPs bound to a secured content</li>
+            <li>Verifying an OP</li>
+          </ul>
+        </section>
+      </section>
+
+      <section>
+        <h2>Web Service Site Use Cases</h2>
+        <p>
+          This section describes various use cases for web service sites
+          utilizing OP framework.
+        </p>
+        <section>
+          <h3>Rodney: A user accesses a credit card service website</h3>
+          <p>
+            The credit card company Rodney is using, Japan Express, provides
+            online services. He usually uses a smartphone app to access his
+            account information securely. Rodney accesses the Japan Express
+            website once a month to download billing information. Japan
+            Express fully adopts the [=Originator Profile=]. When accessing the
+            Japan Express website, Rodney can confirm both an icon indicating
+            that the site is operated by a Japanese company and an icon
+            indicating that it provides credit card services, ensuring that
+            Rodney is not being redirected to a phishing site and enabling him
+            to conduct transactions with peace of mind.
+          </p>
+          <p><strong>Requirements:</strong></p>
+          <ul>
+            <li>Finding OPs bound to a web page</li>
+            <li>Verifying an OP</li>
+            <li>Refer to a verifiable attribute in the OP</li>
+            <li>Showing the attributes in OP via Icons in the URL Bar</li>
+          </ul>
+        </section>
+
+        <!-- <section>
+          <h3>George: </h3>
+          <p>
+            George uses an account at AAA Bank on a daily basis. One day, he
+            received an email from a sender claiming to be AAA Bank, stating:
+            "Due to suspicious activity in your account, we have temporarily
+            suspended it. Please visit our website to reactivate your account."
+            He had previously read in a brochure from the bank that its website
+            uses OP for user protection. Therefore, he clicked on the link in
+            the email to check the website’s OP—but found no valid OP. He could
+            immediately identify the site as a fraudulent bank website.
+          </p>
+          <p><strong>Requirements:</strong></p>
+          <ul>
+            <li>Finding OPs bound to a web page</li>
+            <li>Verifying an OP</li>
+            <li>Refer to a verifiable attribute in the OP</li>
+            <li>Showing the attributes in OP via Icons in the URL Bar</li>
+          </ul>
+        </section> -->
+
+      </section>
+
+    </section>
+
+    <section id="requirements" class="appendix">
+      <h1>Requirements</h1>
+      <p>
+        In this section, we describe the requirements for the
+        [=Originator Profile Framework=], distilled from the use cases.
+        Please Refer to Appendix <a href="#use-cases"></a> for the details.
+      </p>
+
+      <section>
+        <h2>Entities of OP</h2>
+        <p>The following entities are identified from the use cases:</p>
+        <ul>
+          <li>[=Originator=]</li>
+          <li>[=Recipient=]</li>
+          <li>[=Originator Profile Issuer=]
+            <ul>
+              <li>[=Core Profile Issuer=]</li>
+              <li>[=Profile Annotation Issuer=]</li>
+            </ul>
+          </li>
+          <li>[=Content Aggregator=]</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Requirements from the Use Cases</h2>
+        <p>The following requirements are identified from the use cases:</p>
+        <ul>
+          <li>Initial Setup for a [=Originator=]</li>
+          <ul>
+            <li>[=Originator=] to prepare its [=Originator Profile=], by
+            requesting [=Core Profile=] and [=Profile Annotation=] from the
+            respective issuers.</li>
+          </ul>
+          <li>Finding secured contents</li>
+            <ul>
+            <li>Finding secured content in a web page</li>
+            </ul>
+          <li>Finding OPs</li>
+            <ul>
+              <li>Finding OPs bound to a secured content</li>
+              <li>Finding OPs bound to a web page</li>
+            </ul>
+          <li>Showing OP</li>
+            <ul>
+              <li>Showing the basic information in the OPs</li>
+              <li>Showing the originator’s policy in the OPs</li>
+              <li>Showing the originator’s contact in the OPs</li>
+              <li>Showing the attributes in OP via Icons in the URL Bar</li>
+            </ul>
+          <li>Refer to OPs to find third party validation of attributes</li>
+          <li>Showing information on an attested content</li>
+          <li>Verifying a content</li>
+          <li>Verifying an OP</li>
+          <li>Using detailed information in the content</li>
+          <li>Finding the original article location in the content</li>
+          <!-- <li>Finding a signal that there is verified OP on the ad</li> -->
+        </ul>
+      </section>
+    </section>
+
+  </body>
+</html>

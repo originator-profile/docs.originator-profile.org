@@ -1,1 +1,6 @@
 pnpm-lock.yaml
+
+# AOV (Architecture Overview) from external repository
+# ReSpec formatted HTML should not be formatted by Prettier
+aov-source/
+static/aov/
