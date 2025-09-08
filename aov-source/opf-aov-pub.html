@@ -33,7 +33,7 @@
             href: "https://docs.originator-profile.org/en/opb/",
             publisher: "Originator Profile Collaboration Initiative Partnership"
           },
-          "AModelForClaimValidation": {
+          "A Model For Claim Validation": {
             title: "A Conceptual Model for Claim Validation Based on Cryptographically Signed Data",
             href: "https://ieeexplore.ieee.org/document/10819374",
             publisher: "IEEE Access",
@@ -85,6 +85,18 @@
             title: "Trusted Web White Paper 3.0 (in Japanese)",
             href: "https://trustedweb.go.jp/en/documents/",
             publisher: "Trusted Web Promotion Council",
+            date: 2023
+          },
+          "A Study on Governance funded by JFSA": {
+            title: "A Study on Governance for Decentralized Finance Systems Using Blockchain Technologies",
+            authors: ["Keio Research Institute at SFC"],
+            href: "https://www.fsa.go.jp/en/policy/bgin/information.html",
+            publisher: "The Financial Services Agency, Japan",
+            date: 2020
+          },
+          "ICANN": {
+            title: "Internet Corporation for Assigned Names and Numbers",
+            href: "https://www.icann.org/",
           }
         },
         addSectionLinks: true, // Turn on § section marker
@@ -309,8 +321,8 @@
         </li>
 
         <li>
-            Section <a href="#governance-and-policy"></a> describes the
-            Governance and Policy aspects of the Originator Profile Framework.
+            Section <a href="#governance"></a> describes the
+            Governance aspects of the Originator Profile Framework.
         </li>
 
         <li>
@@ -414,7 +426,7 @@
         <dt>
           <dfn>Core Profile Issuer</dfn>
           <dd>
-            A [=Core Profile Issuer=] is an entity that issues a [=Core Profile=].
+            A [=Core Profile Issuer=] is an [=Entity=] that issues a [=Core Profile=].
           </dd>
         </dt>
 
@@ -423,6 +435,13 @@
           <dd>
             A [=Core Profile Policy=] is a set of policies that govern the
             issuance and management of [=Core Profiles=].
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Entity</dfn>
+          <dd>
+            An [=Entity=] is a distinct, identifiable actor that performs a specific role.
           </dd>
         </dt>
 
@@ -449,7 +468,7 @@
         <dt>
           <dfn>Originator</dfn>
           <dd>
-            An [=Originator=] is an entity that originates [=Content=].
+            An [=Originator=] is an [=Entity=] that originates [=Content=].
           </dd>
         </dt>
 
@@ -483,11 +502,12 @@
         <dt>
           <dfn>Originator Profile Issuer</dfn>
           <dd>
-            A [=Originator Profile Issuer=] is an entity that issues part of
-            an [=Originator Profile=], including [=Core Profile=] and
-            [=Profile Annotation=]. These entities are also [=Originators=],
-            thus they publish their own [=Originator Profile=] while
-            privately controlling the corresponding [=Signing Key=].
+            A [=Originator Profile Issuer=] is an [=Entity=] that issues part
+            of an [=Originator Profile=], including [=Core Profile=] and
+            [=Profile Annotation=]; [=Core Profile Issuer=] and [=Profile
+            Annotation Issuer=]. These [=Entities=] are also [=Originators=],
+            thus they publish their own [=Originator Profile=] while privately
+            controlling the corresponding [=Signing Key=].
           </dd>
         </dt>
 
@@ -508,7 +528,7 @@
         <dt>
           <dfn>Profile Annotation Issuer</dfn>
           <dd>
-            A [=Profile Annotation Issuer=] is an entity that issues [=Profile
+            A [=Profile Annotation Issuer=] is an [=Entity=] that issues [=Profile
             Annotations=].
           </dd>
         </dt>
@@ -524,7 +544,7 @@
         <dt>
           <dfn>Recipient</dfn>
           <dd>
-            A [=Recipient=] is an entity that receives the [=Content=].
+            A [=Recipient=] is an [=Entity=] that receives the [=Content=].
           </dd>
         </dt>
 
@@ -536,7 +556,7 @@
             way to verify that the signature is created on the payload, with
             the [=Signing Key=] that is bound to the [=Verification Key=],
             Thus the integrity of the payload is ensured, and use the
-            [=Verification Key=] to identify the entity which signed the data.
+            [=Verification Key=] to identify the [=Entity=] which signed the data.
             Please refer to <a href="#model-of-digital-certificates"></a> for the detailed discussion.
           </dd>
         </dt>
@@ -567,7 +587,7 @@
             half of an asymmetric cryptography key pair used to create the
             signature of a piece of [=Signed Data=]. The other half of the key
             is [=Verification Key=]. [=Signing Key=] is privately controlled
-            by a specific entity &mdash; signer &mdash; and is used to generate the
+            by a specific [=Entity=] &mdash; signer &mdash; and is used to generate the
             signature to be part of [=Signed Data=].
           </dd>
         </dt>
@@ -575,8 +595,8 @@
         <dt>
           <dfn>Validate</dfn>
           <dd>
-            [=Validate=] is a function that an entity assesses the truthiness
-            of a piece of information by directly checking the entity itself,
+            [=Validate=] is a function that an [=Entity=] assesses the truthiness
+            of a piece of information by directly checking the [=Entity=] itself,
             or consulting highly reliable sources such as government
             databases.
           </dd>
@@ -586,7 +606,7 @@
           <dfn>Validated Attribute</dfn>
           <dd>
             A [=Validated Attribute=] is an [=Attribute=] that has been
-            verified for its truthiness by an entity. In [=Originator Profile
+            verified for its truthiness by an [=Entity=]. In [=Originator Profile
             Framework=], [=Validated Attribute=] is part of the [=Core
             Profile=] and [=Profile Annotation=], where the corresponding
             [=Core Profile Issuer=] or [=Profile Annotation Issuer=] validates
@@ -628,7 +648,7 @@
         <dt>
           <dfn>Web Media Profile Issuer</dfn>
           <dd>
-            A [=Web Media Profile Issuer=] is an entity that issues a [=Web
+            A [=Web Media Profile Issuer=] is an [=Entity=] that issues a [=Web
             Media Profile=] for an [=Originator=] under [=Web Media Specific
             Policy=]. The issuer is responsible for validating the
             [=Attributes=] included in the profile and ensuring that they
@@ -678,7 +698,8 @@
           [=Originator Profile Framework=] in a simple picture.
         </p>
         <figure id="fig-what-op-provides">
-          <img src="Drawings/Architecture-What-OP-Provides.drawio.svg" alt="What OP Provides"/>
+          <img src="Drawings/Architecture-What-OP-Provides.drawio.svg"
+            alt="What Originator Profile Provides" width="70%"/>
           <figcaption>What Originator Profile provides</figcaption>
         </figure>
         <p>
@@ -715,7 +736,7 @@
         <p>
           In this document, we define [=Signed Data=] and [=Signed Data with
           Policy=] based on "Cryptographically Signed Data" as discussed in detail
-          in the paper [[AModelForClaimValidation]]. We define [=Core Profile=]
+          in the paper [[A Model For Claim Validation]]. We define [=Core Profile=]
           and [=Profile Annotation=] based on the "Certificate" concepts
           presented in the same paper. In the following sections, we will
           elaborate on definitions and their implications.
@@ -723,7 +744,7 @@
         <section>
           <h3>Signed Data</h3>
           <p>
-            In [[AModelForClaimValidation]], "Cryptographically Signed Data" is a conceptual
+            In [[A Model For Claim Validation]], "Cryptographically Signed Data" is a conceptual
             model in which an originator signs a payload and bundles three
             elements: (1) a verification key (or a reference to it), (2) the
             payload (the subject being attested), and (3) the digital
@@ -732,14 +753,15 @@
             the corresponding verification key. 
           </p>
           <figure id="fig-signed-data">
-            <img src="Drawings/Architecture-Signed-Data.drawio.svg"/>
+            <img src="Drawings/Architecture-Signed-Data.drawio.svg"
+              alt="Signed Data" width="70%"/>
             <figcaption>Signed Data</figcaption>
           </figure>
           <p>
             Crucially, "Cryptographically Signed Data" alone does not establish
             the truth of any claim encoded in the payload; it only confirms
             authenticity of the source and integrity of the data. Determining
-            whether a claim is valid requires additional evidence and a
+            whether a claim is valid requires additional evidence and a 
             validator-specific validation policy (i.e., criteria/intent), which
             is distinct from mere cryptographic verification. 
           </p>
@@ -750,7 +772,7 @@
             way to verify that the signature is created on the payload, with
             the [=Signing Key=] that is bound to the [=Verification Key=],
             Thus the integrity of the payload is ensured, and use the
-            [=Verification Key=] to identify the entity which signed the data.
+            [=Verification Key=] to identify the [=Entity=] which signed the data.
           </p>
         </section>
         <section>
@@ -766,11 +788,12 @@
             [[X509V3]]).
           </p>
           <figure id="fig-signed-data-with-policy">
-            <img src="Drawings/Architecture-Signed-Data-with-Policy.drawio.svg"/>
+            <img src="Drawings/Architecture-Signed-Data-with-Policy.drawio.svg"
+              alt="Signed Data with Policy" width="70%"/>
             <figcaption>Signed Data with Policy</figcaption>
           </figure>
           <p>
-            In [[AModelForClaimValidation]], authors detailed the relationship
+            In [[A Model For Claim Validation]], authors detailed the relationship
             between signed data with policy and the related processes. A
             "Certificate" is a form of signed data issued by a certifier that
             (i) asserts the certifier has validated a specific claim and (ii)
@@ -805,7 +828,7 @@
         <p>
           On the use of digital signing scheme, there is a need to find a
           [=Verification Key=] of the signer, and need to be sure about the
-          corresponding [=Signing Key=] is belong to the right entity. To
+          corresponding [=Signing Key=] is belong to the right [=Entity=]. To
           implement this, we typically relying on  X.509 [[X509V3]] public key
           certificate scheme which is widely used in various applications, and
           well understood.
@@ -862,7 +885,7 @@
               [[SoK-DR]]. These factors contribute to the trend toward shorter
               certificate lifetimes. Furthermore, in the domain targeted by
               [=Originator Profile Framework=], considering that a much larger
-              number of entities will generate significantly more signature
+              number of [=Entities=] will generate significantly more signature
               data, which a vastly greater number of clients will verify, the
               scale involved is expected to be orders of magnitude larger.
               Therefore, a new approach that does not rely on current
@@ -920,7 +943,8 @@
             that attach [=Validated Attributes=] to the [=Core Profile=].
           </p>
           <figure id="architecture-issuing-op">
-            <img src="Drawings/Architecture-Originator_Profile.drawio.svg"/>
+            <img src="Drawings/Architecture-Originator_Profile.drawio.svg"
+              alt="Issuing and using Originator Profile" width="70%"/>
             <figcaption>Issuing and using Originator Profile</figcaption>
           </figure>
           <p>
@@ -952,7 +976,8 @@
             [=Signed Data from Originator=].
           </p>
           <figure id="fig-signed-data-from-originator">
-            <img src="Drawings/Architecture-Signed-Data-from-Originator.drawio.svg"/>
+            <img src="Drawings/Architecture-Signed-Data-from-Originator.drawio.svg"
+              alt="Signed Data from Originator" width="70%"/>
             <figcaption>Signed Data from Originator</figcaption>
           </figure>
 
@@ -972,7 +997,8 @@
             [=Originator=]'s policy.
           </p>
           <figure id="architecture-content-attestation">
-            <img src="Drawings/Architecture-Content_Attestation.drawio.svg"/>
+            <img src="Drawings/Architecture-Content_Attestation.drawio.svg"
+              alt="Creating and using Content Attestation" width="70%"/>
             <figcaption>Creating and using Content Attestation</figcaption>
           </figure>
           <p>
@@ -997,7 +1023,7 @@
       <section id="base-model-entities">
         <h2>Entities</h2>
         <p>
-          The following are the key entities in the Base Model.
+          The following are the key [=Entities=] in the Base Model.
         </p>
         <ul>
           <li>[=Originator=]</li>
@@ -1137,7 +1163,8 @@
         <section id="process-issuing-an-originator-profile">
           <h3>Issuing Originator Profile</h3>
           <figure id="issuing-op">
-            <img src="Drawings/BaseModel-Issuing_OP_CP+PA.drawio.svg"/>
+            <img src="Drawings/BaseModel-Issuing_OP_CP+PA.drawio.svg"
+              alt="Issuing Originator Profile" width="70%"/>
             <figcaption>Issuing Originator Profile</figcaption>
           </figure>
           <p>
@@ -1166,7 +1193,8 @@
         <section id="process-delivering-a-content">
           <h3>Delivering Content with Content Attestation</h3>
           <figure>
-            <img src="Drawings/BaseModel-Originator-Recipient-Detailed.drawio.svg"/>
+            <img src="Drawings/BaseModel-Originator-Recipient-Detailed.drawio.svg"
+              alt="Delivering Content with Content Attestation" width="70%"/>
             <figcaption>Delivering Content with Content Attestation</figcaption>
           </figure>
           <p>
@@ -1194,7 +1222,7 @@
           [=Profile Annotation=]. These are not concrete policies but rather
           provide design direction that inform the development of specific
           policies and procedures. Discussion on the overall governance model
-          is provided in <a href="#governance-and-policy"></a>.
+          is provided in <a href="#governance"></a>.
         </p>
         <section id="core-profile-policy">
           <h3>Core Profile Policy</h3>
@@ -1362,9 +1390,9 @@
       <section id="web-media-specific-model-entities">
         <h2>Entities</h2>
         <p>
-          In addition to the Entities discussed in <a
+          In addition to the [=Entities=] discussed in <a
           href="#base-model-entities"></a>, Web Media Specific
-          Model introduces the following entity:
+          Model introduces the following [=Entity=]:
         </p>
         <ul>
           <li>[=Content Aggregator=]</li>
@@ -1481,7 +1509,8 @@
             web page.
           </p>
           <figure id="figure-process-delivering-content-via-a-web-page">
-            <img src="Drawings/WebSpecificModel-Originator-Recipient-Detailed.drawio.svg"/>
+            <img src="Drawings/WebSpecificModel-Originator-Recipient-Detailed.drawio.svg"
+              alt="Delivering Contents as a Web Page" width="90%"/>
             <figcaption>Delivering Contents as a Web Page</figcaption>
           </figure>
           <p>
@@ -1564,16 +1593,252 @@
 
     </section>
 
-    <section id="governance-and-policy">
-      <h1>Governance and Policy</h1>
+    <section id="governance">
+      <h1>Governance</h1>
       <p>
-        This section describes the governance and the policy aspects of
-        the Originator Profile Framework.
+        This section describes the governance and policy aspects of the
+        Originator Profile Framework.
       </p>
-      <p class="ednote">
-        This section is under construction and will be updated soon, in early
-        September 2025.
+      <p>
+        The architectural design of the data models enables [=Originator
+        Profile Framework=] to provide a flexible governance model that
+        accommodates various use cases and stakeholder requirements; In other
+        words, [=Originator Profile Framework=] is designed to support the
+        diverse needs of various stakeholders involved in the content
+        ecosystem and beyond.
       </p>
+      <p>
+        In the framework, [=Originator=]'s identity &mdash; including
+        [=Verification Key=] and [=Validated Attributes=] &mdash; is unbundled
+        into [=Core Profile=] and multiple [=Profile Annotations=], to allow
+        later flexible composition. Each of the [=Validated Attributes=] may
+        be bound to specific policies. These policies and the issuance
+        operation are governed by the governance body appropriately.
+      </p>
+      <p>
+        In the following sections, we first introduce a generic governance
+        model, then show the X.509 PKI-based system as an example of the
+        governance model. Then, we provide examples of governance models for
+        various use cases, including the minimal governance model for
+        the [=Originator Profile Framework=] planned in Japan. We extend the
+        discussion to governance models for other jurisdictions and, finally,
+        for the global community. Each of the extensions requires increasing
+        stakeholder involvement to govern the system effectively.
+      </p>
+
+      <section>
+        <h2>A Generic Governance Model</h2>
+        <p>
+          The figure below shows a highly simplified generic governance model
+          distilled from the discussion in the [[Trusted Web White Paper
+          3.0]]. (Note: the governance model discussed in the white paper is
+          based on the discussion by one of the authors, in the paper [[A
+          Study on Governance funded by JFSA]], which includes an analysis of
+          [[ICANN]] multistakeholder model)
+        </p>
+        <figure id="generic-governance-model">
+          <img src="Drawings/Governance-HighLevel.drawio.svg"
+            alt="Generic Governance Model based on the Trusted Web discussion" width="70%"/>
+          <figcaption>Generic Governance Model based on the Trusted Web discussion</figcaption>
+        </figure>
+        <p>
+          The governance in the digital ecosystem usually revolves around
+          "Data Under Governance." The "Governing Body" is controlling the
+          "Operator." The "Operator" manages the "Data Under Governance." The
+          "Operator" is responsible for overseeing the management and
+          protection of this data under the "Policy," which includes
+          operational policy. The "Operator" operates under the policy
+          faithfully, and the "Governance Body" is able to control "Data Under
+          Governance" through the "Policy."
+        </p>
+      </section>
+
+      <section>
+        <h2>X.509 PKI based system with the Generic Governance Model</h2>
+        <p>
+          Following is an simplified representation of the governance model
+          for an X.509 PKI system, based on the Generic model discussed in the
+          previous section.
+        </p>
+        <figure id="x509-goverance-example">
+          <img src="Drawings/Governance-Simplified-X509.drawio.svg"
+            alt="Example of Governance of X.509 PKI" width="70%">
+          <figcaption>Simplified Governance model of X.509 PKI</figcaption>
+        </figure>
+        <p>
+          This figure presents a simplified governance structure of the X.509
+          Public Key Infrastructure (PKI) system. At the top of the hierarchy
+          is the governing body, which establishes the overarching policies
+          and trust framework for the PKI ecosystem. The Trust List, alongside
+          with the governing body are the root of trust of the community which
+          shared the same root of trust.
+        </p>
+        <p>
+          Under the governing body, Certificate Authorities (CAs) are
+          responsible for issuing and managing digital certificates in
+          accordance with these policies. The CAs act as trusted third
+          parties, validating the identities of entities requesting
+          certificates and ensuring compliance with governance requirements.
+          Relying parties, such as users, applications, or organizations,
+          depend on the trustworthiness of the CAs and the integrity of the
+          certificates they issue to authenticate identities and secure
+          communications. The figure illustrates the flow of trust, policy
+          enforcement, and operational responsibilities among these entities,
+          clarifying how governance is maintained and how trust is propagated
+          within the X.509 PKI environment.
+        </p>
+        <p>
+          The verifying entity in the figure refers to the "Trust List" via
+          the operating system or application, which includes the list of
+          trusted root CAs. The operating system or application vendor
+          typically manages the trust list, and it is updated through a
+          software update mechanism.
+        </p>
+        <p>
+          Thus, from the verifying entity's perspective, which occurs through
+          the operating library or application, the trust list is usually
+          invisible; therefore, the operating system or application
+          automatically trusts the root CAs in the trust list. Also, since the
+          governing mechanism is hardbound to the entire trust tree, the only
+          policy it can refer to and rely on is the policies defined by the
+          governing bodies, which are maintaining the trust list, and each of
+          the CAs.
+        </p>
+      </section>
+      <section>
+        <h2>Governance model for Web Media while in the bootstrap phase in Japan</h2>
+        <p>
+          The following is a simplified representation of the Originator
+          Profile Governance Model planned for Japanese Media, within Japan,
+          during the Bootstrap phase.
+        </p>
+        <figure id="governance-bootstrap-phase-japan">
+          <img src="Drawings/Governance-Simplified-OP-Current-Japan.drawio.svg"
+            alt="Governance model of Originator Profile for the bootstrap phase in Japan (Planned)" width="75%"/>
+          <figcaption>Governance model of Originator Profile for the bootstrap
+          phase in Japan (Planned)</figcaption>
+        </figure>
+        <p>
+          Firstly, in the Web Media ecosystem,  [=Originator Profile=] is
+          composed of four sets of [=Validated Attributes=] &mdash; [=Core
+          Profile=], [=Organization Profile=], [=Web Media Profile=], and
+          potentially, at least one "Media Association's Membership."
+        </p>
+        <p>
+          For the bootstrap phase in Japan, [=Core Profile=], [=Organization
+          Profile=], and [=Web Media Profile=] are issued by the OP-CIP.
+        </p>
+        <p>
+          For the "Media Association's Membership," we plan to have it issued
+          by one of the media associations in Japan. The actual issuance of a
+          "Media Association's Membership" is potentially operated by OP-CIP
+          on behalf of the media association, while the media association
+          controls and is responsible for the validation of the membership.
+        </p>
+        <p>
+          The [=Originator=] (Media) requests the [=Core Profile=] and [=Web
+          Media Profile=] from OP-CIP by providing the necessary information
+          to satisfy the [=Core Profile Policy=] and [=Web Media Specific
+          Policy=]. OP-CIP validates the information and issues the profiles
+          to the [=Originator=]. OP-CIP also issues the [=Organization
+          Profile=] by validating the organization's existence in Japan.
+        </p>
+        <p>
+          The [=Recipient=] will verify the [=Originator Profile=] of the
+          [=Originator=] by referring to the [=Verification Key=] included in
+          the [=Core Profile=] of the OP-CIP. Then, the [=Recipient=] verifies
+          the [=Content Attestation=] using the [=Verification Key=] in the
+          [=Core Profile=] of the [=Originator=].
+        </p>
+        <p>
+          The current implementation of the browser extension embeds the
+          [=Verification Key=] of OP-CIP within the extension itself. Thus,
+          the extension can verify the [=Originator Profile=] issued by OP-CIP
+          without referring to any external trust list. Current implementation
+          merely embeds and refers to the [=Verification Key=] of OP-CIP.
+        </p>
+        <p>
+          In the figures in the following sections, for brevity, we only show
+          the issuing part of the governance models, which is marked "(A)" in
+          <a href="#governance-bootstrap-phase-japan"></a>.
+        </p>
+      </section>
+
+      <section>
+        <h2>Governance Model for other Jurisdictions</h2>
+        <p>
+          The following is a simplified representation of the Originator
+          Profile Governance Model, which is planned for use in other
+          jurisdictions.
+        </p>
+        <figure id="planned-op-goverance-1">
+          <img src="Drawings/Governance-Simplified-OP-Future-Other-Jurisdictions.drawio.svg"
+            alt="Governance Model for other jurisdictions (Planned)" width="75%"/>
+          <figcaption>Governance Model for other jurisdictions (Planned)</figcaption>
+        </figure>
+        <p>
+          In this model, the [=Core Profile=] and [=Organization Profile=] are
+          issued by OP-CIP, similar to the model for Japan. However, the
+          [=Organization Profile=] (localized for jurisdiction XX) is issued
+          by an [=Originator Profile Issuer=] in jurisdiction XX, which OP-CIP
+          recognizes. The local [=Originator Profile Issuer=] is responsible
+          for validating the attributes specific to the organization's
+          existence in that jurisdiction, ensuring compliance with local
+          regulations and standards.
+        </p>
+        <p>
+          We need to establish a mechanism to recognize the local [=Originator
+          Profile Issuer=] by OP-CIP. This may involve a formal recognition
+          process, where OP-CIP evaluates the local issuer's policies,
+          procedures, and trustworthiness before granting them the authority
+          to issue [=Organization Profiles=] localized for the jurisdiction.
+          OP-CIP may issue a special kind of [=Profile Annotation=] to the
+          local [=Originator Profile Issuer=] to indicate its recognition.
+        </p>
+      </section>
+
+      <section>
+        <h2>Governance Model for Global Community</h2>
+        <p>
+          The following is a simplified representation of the Originator
+          Profile Governance Model planned for Global Community.
+        </p>
+        <figure id="planned-op-goverance-global">
+          <img src="Drawings/Governance-Simplified-OP-Future-Global.drawio.svg"
+            alt="Governance Model for Global Community (Planned)" width="90%"/>
+          <figcaption>Governance Model for Global Community (Planned)</figcaption>
+        </figure>
+        <p>
+          In this model, multiple [=Core Profile Issuers=] exist, each responsible
+          for issuing [=Core Profiles=] to [=Originators=] and operating under its own
+          governance. All [=Core Profile Issuers=] are recognized by "OP Root,"
+          which is represented by a special type of [=Originator Profile=], "Core
+          OP Root," as shown in the figure. The [=Core Profile Issuers=] may also
+          issue other types of [=Profile Annotations=], such as the [=Web Media
+          Profile=], based on their governance and policies.
+        </p>
+        <p>
+          By establishing this model, centralization of the governance is
+          avoidable, and diversity of the governance is achievable. Governance
+          of "OP Root" should be designed to be inclusive, allowing for the
+          participation of various stakeholders and the incorporation of
+          diverse perspectives &mdash; similar to the multistakeholder
+          governance model of [[ICANN]].
+        </p>
+        <p>
+          Establishing and operating such a multistakeholder governance model
+          requires careful planning, ongoing collaboration, and a commitment
+          to transparency and accountability from all participants. It is
+          essential to create a shared understanding of roles,
+          responsibilities, and decision-making processes to ensure the
+          effective functioning of the governance framework. A lot can be
+          learned from the experience of [[ICANN]]. One of the author's
+          papers, [[A Study on Governance funded by JFSA]], may provide some
+          insights into the challenges and opportunities associated with
+          multistakeholder governance models and is helpful for starters who
+          are interested in the context.
+        </p>
+      </section>
 
     </section>
 
@@ -1674,7 +1939,7 @@
             policy.
           </p>
           <p>
-            Please refer to SECTION V. of [[AModelForClaimValidation]] for discussions.
+            Please refer to SECTION V. of [[A Model For Claim Validation]] for discussions.
           </p>
         </section>
         <section>
@@ -2077,7 +2342,7 @@
 
       <section>
         <h2>Entities of OP</h2>
-        <p>The following entities are identified from the use cases:</p>
+        <p>The following [=Entities=] are identified from the use cases:</p>
         <ul>
           <li>[=Originator=]</li>
           <li>[=Recipient=]</li>
