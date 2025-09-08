@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/e45538b/docs/opb/web-media-profile.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/9ceac67/docs/opb/web-media-profile.md
 ---
 
 # Web Media Profile Data Model Implementation Guidelines
