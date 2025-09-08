@@ -1,6 +1,6 @@
 ---
 sidebar_position: 23
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/bfc7af2/docs/opb/site-profile.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/9ceac67/docs/opb/site-profile.md
 ---
 
 # Site Profile
