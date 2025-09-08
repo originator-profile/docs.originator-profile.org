@@ -53,6 +53,10 @@ sha384-dN4FeVmV5DQb/C8iAY+sBUjLjFfB+knXZJ3RT2GyJg8Tco4SPQYwxNpe2M50b9ON
 - `id`: REQUIRED. Web ページの URL です。
 - `name`: REQUIRED. Web ページのタイトルです。
 
+### The `dateTimeStamp` Datatype
+
+`dateTimeStamp` データ型の値は、 [W3C XML Schema Definition Language (XSD) 1.1 Part 2: Datatypes セクション 3.3.7 dateTime](https://www.w3.org/TR/xmlschema11-2/#dateTime) の `dateTimeStamp` 文字列でなければなりません (MUST)。 JSON-LD Context では http://www.w3.org/2001/XMLSchema#dateTime データ型に対応します。
+
 ## Contexts
 
 _このセクションは非規範的です。_
