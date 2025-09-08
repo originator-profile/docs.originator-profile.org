@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/d709f8f/docs/opb/terminology.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/3d0649e/docs/opb/terminology.md
 ---
 
 # Terminology
@@ -36,14 +36,22 @@ VC describing information about the organization. Appropriate entities will sign
 VC defined in [Web Media Profile](./web-media-profile.md).
 This describes the information required to display information about the organization that holds the OP ID to users so that they can understand what kind of organization it is.
 
+## Website Profile (WSP)
+
+A VC defined in a [Website Profile](./website-profile.md) that represents the website of the OP ID-holding organization.
+
+## Site Profile (SP)
+
+Data format for delivering the Originator Profile and Website Profile defined in [Site Profile](./site-profile.md).
+
 ## OP holding organization
 
 The organization that owns the OP ID pointed to by the CP's `credentialSubject.id` property.
 
-## OP Server (Provisional name)
+## OP Registry
 
 An organization that reviews organizations seeking OP IDs and issues OP IDs and Core Profiles.
-The Core Profile is signed by the OP Server (Provisional name).
+The Core Profile is signed by the OP Registry.
 
 ## Verifier
 
