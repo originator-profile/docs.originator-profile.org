@@ -34,15 +34,7 @@ REQUIRED. 次のプロパティを含む JSON-LD Node Object です。
 
 #### `id`
 
-REQUIRED. Web サイトの URL を含めてください (MUST)。
-
-:::note
-
-id プロパティの形式と用途（検証に使用するのか、表示に使用するのか、どのような URL であるべきなのかなど）については検討中です。
-
-[仕様変更案: WSP id/url プロパティの目的明確化 · Issue #27 · originator-profile/prior-research](https://github.com/originator-profile/prior-research/issues/27)
-
-:::
+REQUIRED. Web サイトの URL を含めてください (MUST)。複数の URL に同じコンテンツが存在する場合は、最も代表的な URL を指定します。
 
 #### `type`
 
@@ -60,20 +52,12 @@ OPTIONAL. Web サイトのサムネイル画像です。 [`image` データ型](
 
 OPTIONAL. Web サイトの説明です。
 
-#### `url`
+#### `allowedOrigin`
 
 REQUIRED. 提示するWebサイトを識別するための [RFC 6454](https://www.rfc-editor.org/rfc/rfc6454) オリジン (スキーム、ホスト名、ポート番号) をASCII形式で表した文字列あるいはその文字列の配列です。
 パス、クエリ、フラグメントは含めてはなりません (MUST NOT)。
 また、デフォルトポート (例: `https:` の 443、`http:` の 80) は、[W3C URL Standard](https://url.spec.whatwg.org/) に基づき省略された形式で表現します。
-このプロパティでWSPが正当なオリジンのWebサイトに設置されているかどうかを[検証](#url-の検証)することができます。
-
-:::note
-
-url プロパティの形式（プロパティ名、[URL Pattern string](https://urlpattern.spec.whatwg.org/#pattern-strings)への見直しなど）については検討中です。
-
-[仕様変更案: WSP id/url プロパティの目的明確化 · Issue #27 · originator-profile/prior-research](https://github.com/originator-profile/prior-research/issues/27)
-
-:::
+このプロパティでWSPが正当なオリジンのWebサイトに設置されているかどうかを[検証](#verification)することができます。
 
 具体例:
 
@@ -89,19 +73,19 @@ url プロパティの形式（プロパティ名、[URL Pattern string](https:/
 - `http://example.com/?query=1` (クエリが含まれている)
 - `https://example.com#section` (フラグメントが含まれている)
 
-## 検証プロセス{#verification}
+## 検証プロセス {#verification}
 
 WSP の検証者は次のことを検証することができます。
 
 - [OP VC Data Model に準拠した VC の検証](./op-vc-data-model.md#verification)
-- `url` の検証
+- `allowedOrigin` の検証
 
-### `url` の検証
+### `allowedOrigin` の検証
 
-検証者は次の手順に従って `url` プロパティを検証できます (OPTIONAL)。
+検証者は次の手順に従って `allowedOrigin` プロパティを検証できます (OPTIONAL)。
 
 1. WSP が提示された Web ページの URL オリジンを取得します。
-2. `url` プロパティの文字列と 1\. で得た URL オリジンが一致するか確認します。
+2. `allowedOrigin` プロパティの文字列と 1\. で得た URL オリジンが一致するか確認します。
 
 ## Appendix
 
@@ -130,7 +114,7 @@ Website Profile データモデルの非規範的な例を次に示します。
       "id": "https://media.example.com/image.png",
       "digestSRI": "sha256-Upwn7gYMuRmJlD1ZivHk876vXHzokXrwXj50VgfnMnY="
     },
-    "url": "https://media.example.com"
+    "allowedOrigin": ["https://media.example.com"]
   }
 }
 ```

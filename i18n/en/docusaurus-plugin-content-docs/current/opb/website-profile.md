@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/e45538b/docs/opb/website-profile.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/7d1b231/docs/opb/website-profile.md
 ---
 
 # Website Profile (WSP) Data Model
@@ -35,15 +35,7 @@ REQUIRED. It is a JSON-LD Node Object with the following properties:
 
 #### `id`
 
-REQUIRED. It MUST be the Web site URL.
-
-:::note
-
-The format and use of the id property (e.g., whether to use it for verification or display, what the URL should be, etc.) is under consideration.
-
-[Proposed specification change: Clarify the purpose of WSP id/url properties · Issue #27 · originator-profile/prior-research](https://github.com/originator-profile/prior-research/issues/27)
-
-:::
+REQUIRED. It MUST be the Web site URL. If the same content exists on multiple URLs, specify the most representative URL.
 
 #### `type`
 
@@ -61,18 +53,10 @@ OPTIONAL. A thumbnail image for the website. It MUST be a JSON-LD Node Object of
 
 OPTIONAL. A description of the Web site.
 
-#### `url`
+#### `allowedOrigin`
 
 REQUIRED. A string or array of strings that represents the [RFC 6454](https://www.rfc-editor.org/rfc/rfc6454) origin (scheme, hostname, port number) in ASCII format to identify the website to be presented. It MUST NOT include a path, query, or fragment. In addition, the default port (e.g. 443 for `https:`, 80 for `http:`) is expressed in an abbreviated format based on the [W3C URL Standard](https://url.spec.whatwg.org/).
-This property allows you to [verify](#url-verification) whether the WSP is installed on a website of a legitimate origin.
-
-:::note
-
-The format of the url property (such as reviewing the property name, [URL Pattern string](https://urlpattern.spec.whatwg.org/#pattern-strings)) is under consideration.
-
-[Proposed change: Clarify purpose of WSP id/url properties · Issue #27 · originator-profile/prior-research](https://github.com/originator-profile/prior-research/issues/27)
-
-:::
+This property allows you to [verify](#verification) whether the WSP is installed on a website of a legitimate origin.
 
 Examples:
 
@@ -88,19 +72,19 @@ Examples:
 - `http://example.com/?query=1` (query included)
 - `https://example.com#section` (fragment included)
 
-## Verification process{#verification}
+## Verification process {#verification}
 
 The WSP verifier can verify the following:
 
 - [Verification of VC conformance to the OP VC Data Model](./op-vc-data-model.md#verification)
-- `url` verification
+- `allowedOrigin` verification
 
-### Verification of `url`
+### Verification of `allowedOrigin`
 
-The verifier can verify the `url` property by following these steps (OPTIONAL):
+The verifier can verify the `allowedOrigin` property by following these steps (OPTIONAL):
 
 1. Get the URL origin of the web page that presented the WSP.
-2. Check whether the string in the `url` property matches the URL origin obtained in 1\.
+2. Check whether the string in the `allowedOrigin` property matches the URL origin obtained in 1\.
 
 ## Appendix
 
@@ -129,7 +113,7 @@ Below is a non-normative example of Website Profile Data Model.
       "id": "https://media.example.com/image.png",
       "digestSRI": "sha256-Upwn7gYMuRmJlD1ZivHk876vXHzokXrwXj50VgfnMnY="
     },
-    "url": "https://media.example.com"
+    "allowedOrigin": ["https://media.example.com"]
   }
 }
 ```
