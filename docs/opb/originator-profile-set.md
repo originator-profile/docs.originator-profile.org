@@ -36,11 +36,11 @@ REQUIRED. Core Profile です。
 
 ### `annotations`
 
-OPTIONAL. Profile Annotation の配列です。このプロパティを含める場合、各要素は `core` の Core Profile と `credenialSubject.id` が等しくなければなりません (MUST)。 `credentialSubject.id` の OP ID 保有組織の信頼性に OPS の受信者が関心がある場合、このプロパティを含めるべきです (SHOULD)。
+OPTIONAL. Profile Annotation の配列です。このプロパティを含める場合、各要素は `core` の Core Profile と `credentialSubject.id` が等しくなければなりません (MUST)。 `credentialSubject.id` の OP ID 保有組織の信頼性に OPS の受信者が関心がある場合、このプロパティを含めるべきです (SHOULD)。
 
 ### `media`
 
-OPTIONAL. Web Media Profile です。このプロパティを含める場合、 `core` の Core Profile と `credenialSubject.id` が等しくなければなりません (MUST)。
+OPTIONAL. Web Media Profile です。このプロパティを含める場合、 `core` の Core Profile と `credentialSubject.id` が等しくなければなりません (MUST)。
 
 ## OPS の JSON Serialization
 

@@ -37,12 +37,12 @@ REQUIRED. Core Profile
 
 ### `annotations`
 
-OPTIONAL. An array of Profile Annotation. If this property is included, then for each element, the Core Profile in `core` and `credenialSubject.id` MUST be equal.
+OPTIONAL. An array of Profile Annotation. If this property is included, then for each element, the Core Profile in `core` and `credentialSubject.id` MUST be equal.
 This property SHOULD be included if the OPS recipient has an interest in the trustworthiness of the OP ID holding organization in `credentialSubject.id`.
 
 ### `media`
 
-OPTIONAL. The Web Media Profile. If this property is included, the Core Profile of `core` and `credenialSubject.id` MUST be equal.
+OPTIONAL. The Web Media Profile. If this property is included, the Core Profile of `core` and `credentialSubject.id` MUST be equal.
 
 ## JSON Serialization for OPS
 
