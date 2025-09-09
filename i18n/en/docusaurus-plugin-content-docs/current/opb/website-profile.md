@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/9ceac67/docs/opb/website-profile.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/2f3250e/docs/opb/website-profile.md
 ---
 
 # Website Profile (WSP) Data Model
