@@ -8,7 +8,7 @@ sidebar_position: 4
 
 CAの検証対象として検討したのは、(1) ページロード完了時に利用者の能動的な確認操作などに起因する特定イベントベースでの検証、 (2) リアルタイムでの動的な DOM の読み込み・書き換え中の検証であるが、(2)のリアルタイム性の高いタイミングはCAの検証対象として想定外としている。
 
-その理由は、CSS セレクターの対象要素の変更や [Visible Text Target](./target-guide/visible-text.md)のようにレンダリング済みのテキストを 署名対象とするアルゴリズムが DOM 書き換え中のリアルタイム検証とは相性が悪いこと、 ブラウザの性能/消費電力に対するインパクトがあるからである。
+その理由は、CSS セレクターの対象要素の変更や [Visible Text Target](./content-integrity-descriptor/visible-text.md)のようにレンダリング済みのテキストを 署名対象とするアルゴリズムが DOM 書き換え中のリアルタイム検証とは相性が悪いこと、 ブラウザの性能/消費電力に対するインパクトがあるからである。
 
 OPが想定する情報発信者の検証は、危険なサイトのページに埋め込まれたブロックとは異なり、読み込みすること自体を避けるセキュリティ上の必要性まではない。前述の通りレンダリング済みテキストを対象とする署名検証アルゴリズムを含めており検証タイミングの制約があるし、読み込み/レンダリングはブロックせず読み込み後に検証した上で、 検証が通らない場合には対象コンテンツを一旦隠し警告を表示するなど、読込のブロック以外のブラウザの振る舞いも考え得る。以上より、CAの検証タイミングとしては現状、読込時点やレンダリング処理中などリアルタイム性の高いタイミングは想定外としている。
 
@@ -21,7 +21,7 @@ OPが想定する情報発信者の検証は、危険なサイトのページに
 - Originator Profile (OP)
 - Originator Profile Identifier (OP ID)
 - Content Attestation (CA)
-- Target Integrity
+- Content Integrity Descriptor
 
 ## Content Attestation (CA) のデータモデル
 
@@ -71,10 +71,10 @@ Webコンテンツ以外のURLを持たないコンテンツ (例: プライベ�
 
 #### `target`
 
-REQUIRED. Target Integrity でなければなりません (MUST)。
+REQUIRED. Content Integrity Descriptor でなければなりません (MUST)。
 
-Target Integrity はコンテンツの一部の完全性を保証するための仕組みです。このプロパティで CA と対応するコンテンツ内の特定の情報が改ざんされていないかを[検証](#target-integrity-の検証)することができます。
-[Target Integrity Registry](./target-guide/index.mdx)に登録されているものを使用できます。
+Content Integrity Descriptor はコンテンツの一部の完全性を保証するための仕組みです。このプロパティで CA と対応するコンテンツ内の特定の情報が改ざんされていないかを[検証](#target-integrity-の検証)することができます。
+[Content Integrity Type Registry](./content-integrity-descriptor/index.mdx)に登録されているものを使用できます。
 
 ## 例
 
@@ -174,9 +174,9 @@ Originator Profile 技術研究組合が開発するアプリケーションで�
 
 :::
 
-### Target Integrity の拡張性
+### Content Integrity Descriptor の拡張性
 
-[Target Integrity](./target-guide/index.mdx) を参照してください。
+[Content Integrity Descriptor](./content-integrity-descriptor/index.mdx) を参照してください。
 
 ## 検証プロセス {#verification}
 
@@ -184,7 +184,7 @@ CA の検証者は次のことを検証することができます。
 
 1. [OP VC Data Model に準拠した VC の検証](./op-vc-data-model.md#verification)
 2. `allowedUrl` の検証 (OPTIONAL)
-3. Target Integrity の検証
+3. Content Integrity Descriptor の検証
 
 ### `allowedUrl` の検証 {#allowed-url-validation}
 
@@ -199,17 +199,17 @@ CA の検証者は次のことを検証することができます。
 
 :::
 
-### Target Integrity の検証
+### Content Integrity Descriptor の検証
 
-検証者は `target` プロパティの Target Integrity について、Target Integrity のそれぞれの type で定めてある検証プロセスが実施可能である限り、検証すべきです (SHOULD)。
+検証者は `target` プロパティの Content Integrity Descriptor について、Content Integrity Descriptor のそれぞれの type で定めてある検証プロセスが実施可能である限り、検証すべきです (SHOULD)。
 
 :::note
 
-Target Integrity のタイプによっては、検証者の環境では検証が不可能な場合があります。たとえば、ブラウザによる描画が実行できない環境では、ブラウザによる描画結果が検証時必要な Target Integrity は検証が不可能です。
+Content Integrity Descriptor のタイプによっては、検証者の環境では検証が不可能な場合があります。たとえば、ブラウザによる描画が実行できない環境では、ブラウザによる描画結果が検証時必要な Content Integrity Descriptor は検証が不可能です。
 
 :::
 
-検証者は Target Integrity のタイプごとに定義される検証方法で検証しなければならず (MUST)、検証に失敗した場合にはその Target Integrity の検証が失敗したことを閲覧者に提示してください (RECOMMENDED)。Target Integrity の検証失敗を、 CA の検証失敗と同じまたはより高い深刻度 (Severity) でユーザーに表示することは避けてください (RECOMMENDED)。
+検証者は Content Integrity Descriptor のタイプごとに定義される検証方法で検証しなければならず (MUST)、検証に失敗した場合にはその Content Integrity Descriptor の検証が失敗したことを閲覧者に提示してください (RECOMMENDED)。Content Integrity Descriptor の検証失敗を、 CA の検証失敗と同じまたはより高い深刻度 (Severity) でユーザーに表示することは避けてください (RECOMMENDED)。
 
 ### 検証結果の報告
 
@@ -227,7 +227,7 @@ _このセクションは非規範的です。_
 - [CaVerifyFailed](https://reference.originator-profile.org/ts/classes/_originator-profile_verify.CaVerifyFailed)
   - "Content Attestation verify failed" … OP VC Data Model に準拠した VC の検証失敗
   - "URL not allowed" … `allowedUrl` の検証失敗 (OPTIONAL)
-  - "Target integrity verification failed" … [Target Integrity](./target-guide/index.mdx) の検証失敗
+  - "Target integrity verification failed" … [Content Integrity Descriptor](./content-integrity-descriptor/index.mdx) の検証失敗
 
 その他のデータの構造については次のリファレンスをご確認ください。
 

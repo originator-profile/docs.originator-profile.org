@@ -9,7 +9,7 @@ original: https://github.com/originator-profile/docs.originator-profile.org/blob
 
 The subjects of CA verification were (1) verification based on specific events caused by active confirmation operations by users when a page load is completed, and (2) verification during dynamic loading and rewriting of DOM in real time, but (2) highly real-time timing is not expected as a target of CA verification.
 
-The reason is that algorithms that target rendered text as the signature target, such as changing the target element of a CSS selector or [Visible Text Target](/opb/target-guide/visible-text.md), are not compatible with real-time verification during DOM rewriting, and there is an impact on browser performance/power consumption.
+The reason is that algorithms that target rendered text as the signature target, such as changing the target element of a CSS selector or [Visible Text Target](/opb/content-integrity-descriptor/visible-text.md), are not compatible with real-time verification during DOM rewriting, and there is an impact on browser performance/power consumption.
 
 The verification of information senders assumed by OP is different from the blocks embedded in the pages of dangerous sites, and there is no security need to avoid loading itself. As mentioned above, it includes a signature verification algorithm that targets rendered text, so there are restrictions on the verification timing, and browser behavior other than blocking loading is also possible, such as not blocking loading/rendering but verifying after loading, and if the verification does not pass, hiding the target content and displaying a warning. For the above reasons, CA verification is currently not anticipated to take place at times that require real-time processing, such as at the time of loading or during rendering processing.
 
@@ -22,7 +22,7 @@ For terms not explained in this document, please see [Terminology](./terminology
 - Originator Profile (OP)
 - Originator Profile Identifier (OP ID)
 - Content Attestation (CA)
-- Target Integrity
+- Content Integrity Descriptor
 
 ## Content Attestation (CA) Data Model
 
@@ -72,10 +72,10 @@ Extensions for specifying content that does not have a URL outside of web conten
 
 #### `target`
 
-REQUIRED. It MUST be Target Integrity.
+REQUIRED. It MUST be Content Integrity Descriptor.
 
-Target Integrity is a mechanism for ensuring the integrity of parts of content. This property allows you to [verify](#target-integrity-validation) that specific information in the content that corresponds to the CA has not been tampered with.
-You can use the ones registered in the [Target Integrity Registry](./target-guide/index.mdx).
+Content Integrity Descriptor is a mechanism for ensuring the integrity of parts of content. This property allows you to [verify](#target-integrity-validation) that specific information in the content that corresponds to the CA has not been tampered with.
+You can use the ones registered in the [Content Integrity Type Registry](./content-integrity-descriptor/index.mdx).
 
 ## Examples
 
@@ -174,9 +174,9 @@ For information about properties used in applications developed by the Originato
 
 :::
 
-### Target Integrity Scalability
+### Content Integrity Descriptor Scalability
 
-See [Target Integrity](./target-guide/index.mdx).
+See [Content Integrity Descriptor](./content-integrity-descriptor/index.mdx).
 
 ## Verification Process {#verification}
 
@@ -184,7 +184,7 @@ A CA verifier can verify:
 
 1. [Verification of VC conformance to the OP VC Data Model](./op-vc-data-model.md#verification)
 2. Verifying `allowedUrl` (Optional)
-3. Verifying Target Integrity
+3. Verifying Content Integrity Descriptor
 
 ### `allowedUrl` validation {#allowed-url-validation}
 
@@ -199,17 +199,17 @@ Percent-encoded characters are normalized to uppercase according to [RFC 3986 Se
 
 :::
 
-### Verifying Target Integrity
+### Verifying Content Integrity Descriptor
 
-Verifiers SHOULD verify the Target Integrity of the `target` property as long as the verification process defined for each Target Integrity type is feasible.
+Verifiers SHOULD verify the Content Integrity Descriptor of the `target` property as long as the verification process defined for each Content Integrity Descriptor type is feasible.
 
 :::note
 
-Depending on the type of Target Integrity, verification may not be possible in the verifier's environment. For example, in an environment where browser rendering is not possible, Target Integrity that requires browser rendering results for verification cannot be verified.
+Depending on the type of Content Integrity Descriptor, verification may not be possible in the verifier's environment. For example, in an environment where browser rendering is not possible, Content Integrity Descriptor that requires browser rendering results for verification cannot be verified.
 
 :::
 
-Verifiers MUST verify the Target Integrity using the verification methods defined for each type of Target Integrity, and if the verification fails, it is RECOMMENDED that the Target Integrity verification fail be displayed to the viewer. It is RECOMMENDED that the Target Integrity verification failure be not displayed to the user with the same or higher severity as the CA verification failure.
+Verifiers MUST verify the Content Integrity Descriptor using the verification methods defined for each type of Content Integrity Descriptor, and if the verification fails, it is RECOMMENDED that the Content Integrity Descriptor verification fail be displayed to the viewer. It is RECOMMENDED that the Content Integrity Descriptor verification failure be not displayed to the user with the same or higher severity as the CA verification failure.
 
 ### Reporting the verification results
 
@@ -227,7 +227,7 @@ After running the verification, you need to communicate the results to your user
 - [CaVerifyFailed](https://reference.originator-profile.org/ts/classes/_originator-profile_verify.CaVerifyFailed)
   - "Content Attestation verify failed" ... Verification of VC conforming to OP VC Data Model failed
   - "URL not allowed" ... Verification of `allowedUrl` failed (OPTIONAL)
-  - "Target integrity verification failed" ... Verification of [Target Integrity](./target-guide/index.mdx) failed
+  - "Target integrity verification failed" ... Verification of [Content Integrity Descriptor](./content-integrity-descriptor/index.mdx) failed
 
 For other data structures, please see the following references:
 

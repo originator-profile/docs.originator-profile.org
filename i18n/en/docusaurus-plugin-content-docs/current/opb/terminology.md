@@ -74,13 +74,13 @@ The ID specified in the CA's `credentialSubject.id` property. It has one-to-one 
 
 A representation format for presenting multiple Content Attestations defined in the [Content Attestation Set Originator Profile Blueprint (OPB) document](./content-attestation-set.md)
 
-## Target Integrity
+## Content Integrity Descriptor
 
 A piece of data contained in a CA that is used to ensure the integrity of content. It includes data to identify the location of the content and the output of a one-way hash function such as SHA-256.
 
 ## Target Element
 
-The DOM element that Target Integrity identifies.
+The DOM element that Content Integrity Descriptor identifies.
 
 ## Target Location
 

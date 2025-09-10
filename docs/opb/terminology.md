@@ -68,13 +68,13 @@ CA の `credentialSubject.id` プロパティに指定される ID。 Web Conten
 
 [Content Attestation Set Originator Profile Blueprint (OPB) 文書](./content-attestation-set.md)で定義される複数の Content Attestation を提示するための表現形式
 
-## Target Integrity
+## Content Integrity Descriptor
 
 CA に含まれるデータの一つであり、コンテンツの完全性を保証するために使う。コンテンツの位置を特定するためのデータと SHA-256 などの一方向ハッシュ関数の出力を含む。
 
 ## Target Element
 
-Target Integrity が特定する DOM 要素。
+Content Integrity Descriptor が特定する DOM 要素。
 
 ## Target Location
 

@@ -1,0 +1,26 @@
+---
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/5773be6/docs/opb/content-integrity-descriptor/index.mdx
+---
+
+# Content Integrity Descriptor
+
+Content Integrity Descriptor is a mechanism for ensuring the integrity of specific information within content. Various types of Content Integrity Descriptor can be defined. Each Content Integrity Descriptor has a method for identifying the location of the target information, a method for obtaining the information, and a method for verifying the integrity of that information. You can use different types depending on the information you want to ensure the integrity of, or define new ones.
+
+## Registration Process
+
+When creating a new Content Integrity Descriptor, you MUST define at least the following:
+
+- Type name
+- Property definitions
+- The method to apply it to HTML
+- Validation Process
+- The method to identify element location
+
+In addition, to avoid type name collisions, the defined Content Integrity Descriptor MUST be registered in the [Content Integrity Type Registry](#registry).
+
+## Content Integrity Type Registry \{#registry}
+
+- `HTMLTargetIntegrity`: [HTML Fragment Integrity](./html.md)
+- `TextTargetIntegrity`: [Text within DOM Integrity](./text.md)
+- `VisibleTextTargetIntegrity`: [Visible Text within DOM Integrity](./visible-text.md)
+- `ExternalResourceTargetIntegrity`: [External Resource Integrity](./external-resource.md)

@@ -50,7 +50,7 @@ For the time being, applications developed by the Originator Profile Collaborati
 
 ## Hash algorithm {#hash-algorithm}
 
-Applications that comply with the OP's specifications MUST meet the following requirements for the hash algorithms used when generating and verifying the `integrity` property value of the CA's Target Integrity and when generating and verifying the `digestSRI` property value of each VC.
+Applications that comply with the OP's specifications MUST meet the following requirements for the hash algorithms used when generating and verifying the `integrity` property value of the CA's Content Integrity Descriptor and when generating and verifying the `digestSRI` property value of each VC.
 
 Verifiers MUST support verification using SHA-256 hash values, and MAY support verification using SHA-384 and SHA-512 hash values.
 
