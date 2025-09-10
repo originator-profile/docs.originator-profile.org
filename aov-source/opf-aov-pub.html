@@ -1514,15 +1514,15 @@
     <section id="web-media-specific-model">
       <h2>Web Media Specific Model</h2>
       <p>
-        In this section, we describe Web Media Specific Model.
+        In this section, we describe the [=Web Media Specific Model=].
       </p>
 
       <section id="web-media-specific-model-entities">
         <h2>Entities</h2>
         <p>
           In addition to the [=Entities=] discussed in <a
-          href="#base-model-entities"></a>, Web Media Specific
-          Model introduces the following [=Entity=]:
+          href="#base-model-entities"></a>, [=Web Media Specific Model=]
+          introduces the following [=Entity=]:
         </p>
         <ul>
           <li>[=Content Aggregator=]</li>
@@ -1539,12 +1539,12 @@
         <section>
           <h3>Web Media Profile</h3>
           <p>
-            [=Web Media Profile=], that extends [=Profile Annotation=] adds
-            additional [=Validated Attributes=] for the Web Media. It is
-            issued by one of [=Profile Annotation Issuers=].
+            [=Web Media Profile=], which extends [=Profile Annotation=] adds
+            additional [=Validated Attributes=] for Web Media. It is issued by
+            one of [=Profile Annotation Issuers=].
           </p>
           <p>
-            [=Web Media Profile=] includes, additional information about the
+            [=Web Media Profile=] includes additional information about the
             [=Originator=], other than organization registration information
             specific to a web media, such as editorial policy, privacy policy,
             contact information, logo, and official URL of the organization.
@@ -1560,24 +1560,24 @@
         <section>
           <h3>Website Profile</h3>
           <p>
-            [=Website Profile=] is a set of [=Attributes=] about a website
-            that is necessary for the securing mechanism of the [=Originator
-            Profile Framework=]. [=Website Profile=] is one of the [=Signed
-            Data from Originator=], but this data is issued by the
-            [=Originator=] of the [=Contents=], which has control of the web
-            site.
+            [=Website Profile=] is a set of [=Validated Attributes=] about a
+            website that is necessary for the securing mechanism of the
+            [=Originator Profile Framework=]. [=Website Profile=] is one of
+            the [=Signed Data from Originator=], but this data is issued by
+            the [=Originator=] of the [=Contents=], who has control of the
+            website.
           </p>
           <p>
-            [=Website Profile=] includes the website location which is
-            legitimate for the delivery of the contents from the organization.
-            This information eliminates the possibility of content being
-            misplaced in unwanted locations by the media. The location is
-            specified as a string or array of strings that represents the
-            [[RFC6454]] origin (scheme, hostname, port number) in ASCII format
-            to identify the website to be presented. It MUST NOT include a
-            path, query, or fragment. In addition, the default port (e.g. 443
-            for https:, 80 for http:) is expressed in an abbreviated format
-            based on the [[URL]].
+            [=Website Profile=] includes the website location, which is
+            legitimate for the delivery of the [=Contents=] from the
+            organization. This information eliminates the possibility of
+            [=Content=] being misplaced in unwanted locations by the media.
+            The location is specified as a string or array of strings that
+            represents the [[RFC6454]] origin (scheme, hostname, port number)
+            in ASCII format to identify the website to be presented. It MUST
+            NOT include a path, query, or fragment. In addition, the default
+            port (e.g. 443 for https:, 80 for http:) is expressed in an
+            abbreviated format based on the [[URL]].
           </p>
           <p>
             For concrete information on current implementations, please refer
@@ -1587,7 +1587,7 @@
           </p>
         </section>
         <section id="web-media-content-integrity-descriptor">
-          <h3>Content Integrity Descriptor type for Web Media</h3>
+          <h3>Content Integrity Descriptor for Web Media</h3>
           <p>
             The following types of [=Content Integrity Descriptor=] are
             defined for Web Media:
@@ -1613,22 +1613,14 @@
           Model: Delivering [=Content=] as a Web Page and Delivering [=Content=] via
           a [=Content Aggregator=].
         </p>
-        <p>
-          This section describes one process for the Web Media Specific
-          Model: Delivering [=Content=] as a Web Page.
-        </p>
 
         <section id="process-issuing-web-media-profile-and-website-profile">
           <h3>Issuing Web Media Profile and Website Profile</h3>
           <p>
             [=Web Media Profile=] is supposed to be issued by the [=Originator
-            Profile Issuer=], alongside with [=Core Profile=] to be part of
-            the [=Originator Profile=] for the web site the [=Originator=]
-            intends to publish its contents.
-          </p>
-          <p>
-            [=Website Profile=] is supposed to be issued by the [=Originator=], who
-            is controlling the web site.
+            Profile Issuer=], alongside the [=Core Profile=] to be part of the
+            [=Originator Profile=] for the website the [=Originator=] intends
+            to publish its contents.
           </p>
         </section>
 
@@ -1648,9 +1640,8 @@
           </p>
           <ol class="algorithm">
             <li>The [=Originator=] prepares the [=Content=] for delivery</li>
-            <li>The [=Originator=] creates a [=Content Attestation=] that binds the
-            [=Content=] to its [=Originator Profile=] (or provides a reference to the
-            profile).</li>
+            <li>The [=Originator=] creates a [=Content Attestation=] with
+            reference to [=Originator Profile=].</li>
             <li>The [=Originator=] publishes the web page including the [=Content=],
             [=Content Attestation=], and [=Originator Profile=] (if necessary) on its
             website.</li>
@@ -1672,15 +1663,15 @@
         <section id="web-media-specific-profile-policy">
           <h3>Web Media Specific Policy</h3>
           <p>
-            On the issuance of the [=Web Media Profile=], corresponding [=Web
-            Media Specific Policy=] is consulted. In addition to the
+            On the issuance of the [=Web Media Profile=], the corresponding
+            [=Web Media Specific Policy=] is consulted. In addition to the
             [=Organization Profile=], the [=Web Media Specific Policy=] also
             takes into account the specific requirements to validate the
             attributes specific to the [=Web Media Profile=].
           </p>
           <p>
-            OP-CIP is currently developing initial [=Web Media Specific Policy=]
-            alongside with other policies.
+            OP-CIP is currently developing an initial [=Web Media Specific
+            Policy=] alongside other policies.
           </p>
         </section>
       </section>
@@ -1688,19 +1679,19 @@
       <section id="web-media-specific-model-presentation">
         <h2>Presentation</h2>
         <p>
-          In this section, we provides current status of the presentation
+          In this section, we provide the current status of the presentation
           aspects of the Originator Profile for Web Media, including currently
-          implemented browser extensions and potential modification to
+          implemented browser extensions and potential modifications to
           browsers.
         </p>
 
         <section id="web-media-specific-model-presentation-browser-extension">
           <h3>Browser Extension Implementation</h3>
           <p>
-            The browser extension which provides user interface to present
-            various data within the [=Originator Profile Framework=] is
-            implemented and provided. This is the user interface we
-            demonstrated in various places in the past occasions.
+            The browser extension, which provides a user interface to present
+            various data within the [=Originator Profile Framework=], is
+            implemented and provided. The extension is the user interface we
+            demonstrated in various places on past occasions.
           </p>
           <p>
             We will provide the extension to multiple browsers in the near
@@ -1711,9 +1702,9 @@
         <section id="web-media-specific-model-presentation-browser-modification">
           <h3>Browser Modification Concepts</h3>
           <p>
-            Other than the browser extension, we are also exploring potential
-            modifications to the browser itself to provide better key visual information
-            which might be useful to [=Recipients=].
+            In addition to the browser extension, we are also exploring
+            potential modifications to the browser itself to provide better
+            key visual information, which might be helpful to [=Recipients=].
           </p>
           <p>
             We will provide the conceptual design in the near future.
