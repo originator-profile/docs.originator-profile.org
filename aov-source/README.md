@@ -1,1 +1,1 @@
-Oritinator Profile Framework - Architectural Overview
+Originator Profile Framework - Architectural Overview
