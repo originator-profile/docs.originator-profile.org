@@ -1436,37 +1436,34 @@
     <section id="jurisdiction-specific-model">
       <h1>Jurisdiction Specific Model</h1>
       <p>
-        This section discusses [=Jurisdiction Specific Model=]. Jurisdiction specific
-        models address the unique requirements of different jurisdictions. In
-        the context of [=Originator Profile=], jurisdiction specific models may
-        define additional attributes or validation mechanisms that are
-        specific to a particular jurisdiction.
+        This section discusses [=Jurisdiction Specific Model=].
+        Jurisdiction-specific models address the distinct needs of various
+        jurisdictions. First and foremost, the models need to capture unique
+        aspects of each jurisdiction's entity model differences, such as, but
+        not limited to, differences in definitions of legal entities.
+        Jurisdiction-specific models may define additional attributes or
+        validation mechanisms that are specific to a particular jurisdiction.
       </p>
       <p>
-        While we are designing the [=Originator Profile Framework=] for global
-        deployment, currently, as we initially deploy the [=Originator Profile
-        Framework=] within Japan, current implementation focusing on the
-        specific requirements and regulations of the Japanese market. Thus,
-        current country specific model includes one model which describes
-        organization data model for Japan.
+        While we design the [=Originator Profile Framework=] for global
+        deployment, we are currently focusing on the requirements specific to
+        Japan as we initially deploy the framework within Japan. However, we
+        anticipate introducing similar models for other jurisdictions in the
+        future.
       </p>
       <section id="organization-profile-model">
         <h2>Organization Profile</h2>
         <p>
-          While providing validated information about the organization &mdash;
-          [=Organization Profile=] &mdash; is one of crucial information about
-          the [=Originator=], how the validation works, or registration of an
-          organization in each jurisdiction is uniquely different. In this
-          section, we provide an design for Japan to provide basis of
-          discussion.
+          [=Organization Profile=] is one of the concrete types of [=Profile
+          Annotation=] that provides validated information about the
+          organization behind the [=Originator=].
         </p>
         <p>
-          It is important to note that we need an abstract data model which
-          can represent the key attributes of organizations across different
-          jurisdictions. While the information will be provided as a type of
-          [=Profile Annotation=], requirements for the data model needs
-          further analysis among jurisdictions to ensure all relevant aspects
-          are captured.
+          While we recognize that an abstract data model is necessary to
+          represent the key attributes of organizations across different
+          jurisdictions, the requirements for this model require further
+          analysis among jurisdictions to ensure that all relevant aspects are
+          captured.
         </p>
         <p>
           The model may include attributes such as:
@@ -1478,28 +1475,30 @@
           <li>Registration Details</li>
         </ul>
         <p>
-          with consideration for the specific requirements of each
-          jurisdiction, especially the Registration Details are different. It
-          is also important to note multilingual support is required for the
-          audience outside of the specific jurisdiction.
+          With consideration for the specific requirements of each
+          jurisdiction, especially regarding registration details, they can
+          vary considerably. It is also essential to note that multilingual
+          support is required for the audience outside of the specific
+          jurisdiction.
         </p>
         <section id="organization-model-japan">
           <h3>Data Model for Japanese Organizations</h3>
           <p>
             In Japan, the validation of an organization's existence typically
-            involves checking the registration status of the organization with
-            the relevant government authorities. This may include verifying
-            the organization's registration number, tax identification number,
-            and other official documentation (note: registration number and
-            tax identification number are different). Additionally,
-            organizations may be required to provide proof of their physical
-            presence in Japan, such as a local business address and contact
-            information.
+            involves verifying the organization's registration status with the
+            relevant government authorities. Such validation may include
+            verifying the organization's registration number, tax
+            identification number, and other official documentation (note:
+            registration number and tax identification number are different).
+            Additionally, organizations will be required to provide proof of
+            their physical presence in Japan, such as a local business address
+            and contact information.
           </p>
           <p>
-            On the other hand, if the company registration number is validated
-            and provided in verifiable manner, it can provide a way to
-            retrieve detailed information relying on by the registration number.
+            On the other hand, once the company registration number is
+            validated and provided in verifiable manner, it can provide a way
+            to retrieve detailed information from the relevant government
+            authorities relying on the registration number.
           </p>
           <p>
             Please refer [[Originator Profile Blueprints]]: <a
