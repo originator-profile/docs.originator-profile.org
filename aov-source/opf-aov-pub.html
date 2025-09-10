@@ -97,6 +97,11 @@
           "ICANN": {
             title: "Internet Corporation for Assigned Names and Numbers",
             href: "https://www.icann.org/",
+          },
+          "The Originator Profile Charter": {
+            title: "The Originator Profile Charter",
+            href: "https://originator-profile.org/en-US/charter/",
+            publisher: "Originator Profile Collaborative Initiative Partnership",
           }
         },
         addSectionLinks: true, // Turn on § section marker
@@ -479,6 +484,16 @@
           </dd>
         </dt>
 
+
+        <dt>
+          <dfn>Key Identifier</dfn>
+          <dd>
+            [=Key Identifier=] is a unique identifier that identifies one of
+            the [=Originator Verification Key=] from a set of keys, used for
+            the signing process.
+          </dd>
+        </dt>
+
         <dt>
           <dfn>Organization Profile</dfn>
           <dd>
@@ -539,6 +554,14 @@
             [=Entities=] are also [=Originators=], thus they publish their own
             [=Originator Profile=] while privately controlling the
             corresponding [=Signing Key=].
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Originator Verification Key</dfn>
+          <dd>
+            An [=Originator Verification Key=] is a [=Verification Key=] used
+            by the [=Originator=].
           </dd>
         </dt>
 
@@ -1124,18 +1147,33 @@
         <section>
           <h3>Signed Data from Originator</h3>
           <p>
-            [=Signed Data from Originator=] is an abstract data model that represents the
-            [=Signed Data=] used in the [=Originator Profile=]. It includes
-            all the necessary information to verify the authenticity and
-            integrity of the signed data.
+            [=Signed Data from Originator=] is an abstract data model that
+            represents the [=Signed Data=] used in the [=Originator Profile=].
+            It includes all the necessary information to [=Verify=] the
+            authenticity and integrity of the [=Signed Data=].
           </p>
           <p>[=Signed Data from Originator=] includes the following property:</p>
           <ul>
-            <li>Issuer &mdash; a reference to the [=Originator=]'s [=Originator Profile=].</li>
+            <li>Originator &mdash; a reference to the [=Originator=]'s
+            [=Originator Profile=].</li>
+            <li>Key Identifier &mdash; a unique identifier that identifies
+            the [=Originator Verification Key=] used for the signing
+            process.</li>
           </ul>
           <p>
             In addition to the above, various properties are included as
             payload for each of the concrete data models.
+          </p>
+          <p class="note">
+            Currently, the [=Originator Verification Key=] is embedded
+            directly in the [=Core Profile=] as part of the payload. Thus, it
+            identifies one [=Verification Key=] directly; thus, [=Key
+            Identifier=] is meaningless for the current implementation. This
+            approach has limitations, particularly in scenarios involving key
+            rotation or when multiple keys are in use. In the future, we plan
+            to explore more flexible key reference/embedding schemes to
+            address these limitations. Please refer to the discussions in <a
+            href="#issue-key-rollover"></a>.
           </p>
         </section>
 
@@ -1151,12 +1189,15 @@
             to the properties in the [=Signed Data from Originator=]:
           </p>
           <ul>
-            <li>Origin Key &mdash; a set of keys used by the [=Originator=].</li>
+            <li>[=Originator Verification Keys=] &mdash; is a set of keys used
+            by the [=Originator=] to sign [=Signed Data from
+            Originator=].</li>
           </ul>
           <p>
-            Please refer [[Originator Profile Blueprints]]: <a
-            href="https://docs.originator-profile.org/en/opb/cp/">OPB: Core
-            Profile Data Model</a> for current implementation details.
+            Please refer to <a
+            href="https://docs.originator-profile.org/en/opb/cp/">Originator
+            Profile Blueprints: Core Profile Data Model</a> for current
+            implementation details.
           </p>
           <p class="note">
             In the future, we expect to change the embedded key to a more
@@ -1168,31 +1209,34 @@
         <section>
           <h3>Profile Annotation</h3>
           <p>
-            [=Profile Annotation=] is additional [=Validated Attributes=] to
-            the [=Core Profile=] that is issued by [=Profile Annotation
-            Issuers=] independently of the [=Core Profile Issuer=]. [=Profile
-            Annotation=] is based on [=Signed Data from Originator=]. A [=Core
-            Profile=] may be bound to one or more [=Profile Annotations=]
-            provided by multiple [=Profile Annotation Issuers=], under
-            [=Profile Annotation Policy=].
+            [=Profile Annotation=] is an abstract model that adds [=Validated
+            Attributes=] to the [=Core Profile=]. [=Profile Annotation=] is
+            based on [=Signed Data from Originator=]. A kind of [=Profile
+            Annotation=] is issued by corresponding [=Profile Annotation
+            Issuers=], typically independently of the [=Core Profile Issuer=].
+            A [=Core Profile=] may be bound to one or more [=Profile
+            Annotations=] provided by multiple [=Profile Annotation Issuers=],
+            as specified in the [=Profile Annotation Policy=].
           </p>
           <p>[=Profile Annotation=] includes the following properties:</p>
           <ul>
             <li>Subject &mdash; Reference to a [=Core Profile=], which this
-            annotation is  annotating to.</li>
-            <li>Attributes &mdash; Additional Attributes describing the annotation,
-            depends on concrete annotation type</li>
+            annotation annotates.</li>
+            <li><i>Annotation Data</i> &mdash; Additional [=Attributes=] or
+            other information describing the annotation, depending on the
+            concrete annotation type.</li>
           </ul>
           <p>
-            Please refer [[Originator Profile Blueprints]]: <a
-            href="https://docs.originator-profile.org/en/opb/pa/">OPB: Profile
-            Annotation Data Model</a> for current
+            Please refer to <a
+            href="https://docs.originator-profile.org/en/opb/pa/">Originator
+            Profile Blueprints: Profile Annotation Data Model</a> for current
             implementation details. Please refer to <a
-            href="#organization-model-japan"></a> for concrete example of
-            [=Profile Annotation=]. Also refer to
-            <a href="https://docs.originator-profile.org/en/opb/pa-guide/">PA
-            Implementation Guidelines</a> for more information on implementing
-            profile annotations in general.
+            href="#organization-model-japan"></a> for one of the concrete
+            example of [=Profile Annotation=]. Also refer to
+            <a
+            href="https://docs.originator-profile.org/en/opb/pa-guide/">Originator
+            Profile Blueprints: PA Implementation Guidelines</a> for more
+            information on implementing profile annotations in general.
           </p>
 
         </section>
@@ -1214,9 +1258,9 @@
             the integrity requirements for a specific type of content. It
             includes metadata such as content type, content locator, and
             content hash. Currently, all of the [=Content Integrity
-            Descriptor=] types are designed for Web Media, thus, all of the details about
-            [=Content Integrity Descriptor=] are described in the Web Media
-            Specific Model section.
+            Descriptor=] types are designed for Web Media; thus, all of the
+            details about [=Content Integrity Descriptor=] are described in
+            <a href="#web-media-specific-model"></a>.
           </p>
           <p>
             Please refer [[Originator Profile Blueprints]]: <a
@@ -1250,18 +1294,18 @@
           <ol class="algorithm">
             <li>The [=Originator=] creates a key pair ([=Signing Key=], [=Verification Key=]).
             </li>
-            <li>The [=Originator=] sends a request with an application
-            including enough amount of information including the
+            <li>The [=Originator=] sends a request with an application that
+            includes an adequate amount of information, including the
             [=Verification Key=] to [=Core Profile Issuer=] to issue a [=Core
             Profile=]. The application needs to include enough information to
             satisfy the [=Core Profile Policy=] on issuing [=Core
             Profile=].</li>
-            <li>The [=Core Profile Issuer=] verifies whether the
+            <li>The [=Core Profile Issuer=] [=Validates=] whether the
             [=Originator=]'s application meets the requirements in the [=Core
             Profile Policy=] and issues a [=Core Profile=].</li>
             <li>The [=Originator=] requests one or more [=Profile
             Annotations=] from [=Profile Annotation Issuers=].</li>
-            <li>Each [=Profile Annotation Issuer=] validates the relevant
+            <li>Each [=Profile Annotation Issuer=] [=Validates=] the relevant
             attributes and issues [=Profile Annotations=].</li>
             <li>The [=Originator=] collects the [=Core Profile=] and [=Profile
             Annotations=] to form the [=Originator Profile=].</li>
@@ -1275,18 +1319,18 @@
             <figcaption>Delivering Content with Content Attestation</figcaption>
           </figure>
           <p>
-            This process involves the following steps:
+            Assuming that the [=Originator=] has already obtained an
+            [=Originator Profile=], this process involves the following steps:
           </p>
           <ol class="algorithm">
             <li>The [=Originator=] prepares the [=Content=] for delivery.</li>
-            <li>The [=Originator=] attaches its [=Originator Profile=] as
-            necessary. [=Originator=] may provide the reference to the
-            [=Originator Profile=] instead.</li>
             <li>The [=Originator=] sends the attested [=Content=] with
-            [=Content Attestation=] to the [=Recipient=].</li>
+            [=Content Attestation=], to the [=Recipient=]. The [=Originator=]
+            also sends the [=Originator Profile=] as necessary.</li>
             <li>The [=Recipient=] verifies the [=Content Attestation=].</li>
             <li>The [=Recipient=] verifies the [=Originator Profile=], which
-            includes [=Core Profile=] and [=Profile Annotations=].</li>
+            includes [=Core Profile=] and [=Profile Annotations=] as
+            necessary.</li>
           </ol>
         </section>
       </section>
@@ -1297,16 +1341,16 @@
           In this section, we discuss high-level policies for [=Base Model=]
           governing the issuance and management of [=Core Profile=] and
           [=Profile Annotation=]. These are not concrete policies but rather
-          provide design direction that inform the development of specific
-          policies and procedures. Discussion on the overall governance model
-          is provided in <a href="#governance"></a>.
+          provide design direction that informs the development of specific
+          policies and procedures. A discussion on the overall governance
+          model is provided in <a href="#governance"></a>.
         </p>
         <section id="core-profile-policy">
           <h3>Core Profile Policy</h3>
           <p>
             On the issuance of [=Core Profile=], the [=Core Profile Issuer=]
-            acts as a trusted authority to validate the identity and
-            attributes of the [=Originator=]. The [=Core Profile Issuer=] is
+            [=Validates=] the identity and [=Attributes=] of the
+            [=Originator=] as required. The [=Core Profile Issuer=] is
             responsible for ensuring that the [=Core Profile=] is issued in
             accordance with the established policies and procedures.
           </p>
@@ -1329,9 +1373,9 @@
             undertaken, as well as any supporting documentation.
           </p>
           <p>
-            The policy is similar to the one like X.509 based Certificate
+            The policy is similar to that of X. 509-based Certificate
             Authority (CA) policies, and a lot can be learn from the
-            experiences of the eco system. However, due to the decomposed
+            experiences of the ecosystem. However, due to the decomposed
             nature of the [=Core Profile=] and [=Profile Annotations=],
             additional considerations may be necessary to address the unique
             aspects of each component.
@@ -1339,6 +1383,17 @@
           <p>
             OP-CIP is currently developing initial [=Core Profile Policy=] for
             initial deployment alongside with other policies.
+            <p class="note">
+              Currently, issuance of an [=Originator Profile=], the OP-CIP
+              mandates that the [=Originator=]'s commitment to the [[The
+              Originator Profile Charter]]. This requirement is to ensure that
+              all [=Originators=] adhere to a standard set of principles and
+              practices, thereby fostering trust and reliability within the
+              ecosystem. However, it is essential to note that this
+              requirement is specific to the initial deployment phase and may
+              be subject to change in the future as the ecosystem evolves and
+              matures.
+            </p>
           </p>
         </section>
 
@@ -1346,33 +1401,32 @@
           <h3>Profile Annotation Policy</h3>
           <p>
             On the issuance of [=Profile Annotation=], the [=Profile
-            Annotation Issuer=] acts as a trusted authority to validate the
-            identity, then refer to specific attributes of the [=Originator=],
-            which to be part of the [=Profile Annotation=]. The [=Profile
-            Annotation Issuer=] is responsible for ensuring that the [=Profile
-            Annotation=] is issued in accordance with the established policies
-            and procedures.
+            Annotation Issuer=] [=Validate=] the identity, then refers to
+            specific attributes of the [=Originator=], which are part of the
+            [=Profile Annotation=]. The [=Profile Annotation Issuer=] is
+            responsible for ensuring that the [=Profile Annotation=] is issued
+            in accordance with the established policies and procedures.
           </p>
           <ul>
-            <li>The [=Profile Annotation Issuer=] must validate the identity
+            <li>The [=Profile Annotation Issuer=] must [=Validate=] the identity
             of the [=Originator=] using [=Core Profile=] before issuing the
             [=Profile Annotation=].</li>
-            <li>The [=Profile Annotation=] must include specific attributes of
-            the [=Originator=] as defined by the established policies and
-            procedures.</li>
+            <li>The [=Profile Annotation=] includes specific attributes of the
+            [=Originator=] or other information as defined by the established
+            policies and procedures.</li>
             <li>The [=Profile Annotation=] must be issued upon successful
             validation and assessment of the [=Originator=]'s identity and
             the attributes concerned for the [=Profile Annotation=].</li>
           </ul>
           <p>
-            The details of the policy is depends on the specific use-cases and
+            The details of the policy depend on the specific use cases and
             domain requirements. Thus, [=Profile Annotation=] is specialized
-            for the purposes, and the policy for the specialized annotation
+            for these purposes, and the policy for the specialized annotation
             needs to be prepared.
           </p>
           <p>
-            OP-CIP is currently developing initial [=Profile Annotation
-            Policy=] for initial deployment alongside with other policies.
+            OP-CIP is currently developing an initial [=Profile Annotation
+            Policy=] for initial deployment alongside other policies.
           </p>
         </section>
       </section>
@@ -1988,7 +2042,7 @@
       <p class="ednote">
         This section require extensive updates.
       </p>
-      <section>
+      <section id="lacking-op-and-ca">
         <h2>This document is not integrity protected and is not accompanied by an Originator Profile</h2>
         <p>This issue SHOULD be fixed appropriately.</p>
       </section>
@@ -1997,11 +2051,11 @@
         <h2>Terminologies</h2>
         <p>
           When working in standardization, there always are terminology
-          challenges. Current version of OPBs are mostly consistent within the
-          document series, but some of the terminology may confuse other
-          stakeholders especially in the standardization body. In the
-          following, we highlight some key terms in this regards to clarify
-          our intentions to select these words.
+          challenges. Current version of [[Originator Profile Blueprints]] are
+          mostly consistent within the document series, but some of the
+          terminology may confuse other stakeholders especially in the
+          standardization body. In the following, we highlight some key terms
+          in this regards to clarify our intentions to select these words.
         </p>
         <section>
           <h3>Validate vs Verify</h3>
