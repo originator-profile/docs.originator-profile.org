@@ -93,17 +93,6 @@ _このセクションは非規範的です。_
       }
     },
     "allowedUrl": "https://schema.org/url",
-    "PlainTextDescription": {
-      "@id": "https://originator-profile.org/ns/credentials/v1#PlainTextDescription",
-      "@context": {
-        "@protected": true,
-        "type": "@type",
-        "data": {
-          "@id": "https://originator-profile.org/ns/credentials/v1#data",
-          "@type": "https://schema.org/Text"
-        }
-      }
-    },
     "ContentAttestation": {
       "@id": "https://originator-profile.org/ns/credentials/v1#ContentAttestation",
       "@context": {

@@ -50,7 +50,7 @@ REQUIRED. Web メディアの発信者を表す JSON-LD Node Object です。
 - `contactPoint`: OPTIONAL. お問い合わせページの情報です。 [`page` データ型](./context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。
 - `informationTransmissionPolicy`: OPTIONAL. 情報発信ポリシーページの情報です。 [`page` データ型](./context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。
 - `privacyPolicy`: OPTIONAL. プライバシーポリシーページの情報です。 [`page` データ型](./context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。
-- `description`: OPTIONAL. 組織に関する説明です。
+- `description`: OPTIONAL. 組織に関する説明です（文字列）。
 
 :::note
 

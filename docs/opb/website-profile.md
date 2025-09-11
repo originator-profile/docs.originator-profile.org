@@ -50,7 +50,7 @@ OPTIONAL. Web サイトのサムネイル画像です。 [`image` データ型](
 
 #### `description`
 
-OPTIONAL. Web サイトの説明です。
+OPTIONAL. Web サイトの説明です (文字列)。
 
 #### `allowedOrigin`
 
