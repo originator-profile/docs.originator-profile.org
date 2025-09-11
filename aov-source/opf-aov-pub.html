@@ -2041,7 +2041,7 @@
     <section id="known-issues-and-future-changes">
       <h1>Known Issues and Future Changes</h1>
       <p class="ednote">
-        This section require extensive updates.
+        This section will be updated as we get feedback.
       </p>
       <section id="lacking-op-and-ca">
         <h2>This document is not integrity protected and is not accompanied by an Originator Profile</h2>
@@ -2049,125 +2049,119 @@
       </section>
 
       <section>
-        <h2>Terminologies</h2>
+        <h2>Terminology Challenges</h2>
         <p>
-          When working in standardization, there always are terminology
-          challenges. Current version of [[Originator Profile Blueprints]] are
-          mostly consistent within the document series, but some of the
-          terminology may confuse other stakeholders especially in the
-          standardization body. In the following, we highlight some key terms
-          in this regards to clarify our intentions to select these words.
+          When working in standardization, there are always terminology
+          challenges.
         </p>
-        <section>
-          <h3>Validate vs Verify</h3>
-          <p>
-            In this document, the term [=Validate=] is used to describe
-            confirmation of the validity of a subject according to a
-            validator’s criteria representing its intent &mdash; with a policy
-            specific to the context &mdash; while the term [=Verify=] is used to
-            describe the process of merely checking the integrity of a piece
-            of information, with identification of the source of the data.
-          </p>
-          <p>
-            Thus, with [=Signed Data=], [=Verify=] is possible, but
-            [=Validate=] the result is only possible with a context specific
-            policy.
-          </p>
-          <p>
-            Please refer to SECTION V. of [[A Model For Claim Validation]] for discussions.
-          </p>
-        </section>
-        <section>
-          <h3>Certificate</h3>
-          <p>
-            The word “Certificate” require special attention, since the term
-            is often used both in real world and digital world, and they are
-            supposed to be conceptually same. Unfortunately, there are
-            inconsistencies in how these terms are defined and used across
-            different contexts, which can lead to confusion. In the physical
-            world, there are many "certificates" we rely on everyday. And
-            there are some assumptions that the digital world works same. Some
-            of the people treats that "Certificate" is a digitally signed data
-            provided by somebody, which is conceptually same as a physical
-            certificate. However, in the digital world, this assumption does not
-            always hold true.
-          </p>
-          <p>
-            In the design of the OP, we needed a special attention in this
-            context:
-            <ul>
-              <li>
-                Certificate ecosystem is often complex and involves multiple
-                parties; Certificate issuer and the certifier who actually
-                verify whether the certificate recipients meets the
-                requirements set forth in the certificate. And the treatment
-                of "verify" and "validate" needs to be carefully used, and it
-                adds more complexities.
-              </li>
-              <li>
-                We used word [=Profile Annotation=] instead of "Certificate",
-                since there are different attributes associated with the
-                [=Originator=] and some of the such annotation does not
-                conceptually match with the concept of "Certificate"</li>
-            </ul>
-          </p>
-          <p>
-            Due to the above complexities, we avoid using word "Certificate"
-            in this document. Some part of the [[Originator Profile
-            Blueprints]] still uses the word, but they will be adjusted.
-          </p>
-        </section>
+        <p>
+          We understand that some terms are used differently or may be
+          counterintuitive to specific stakeholders. The following terms
+          require special attention:
+        </p>
+        <ul>
+          <li>Certificate</li>
+          <li>Validate and Verify</li>
+        </ul>
+        <p>
+          We attempted to be cautious when introducing concepts in <a
+          href="#architecture"></a>, and provided additional notes. Please
+          provide feedback not only on these terms but also on the overall
+          document.
+        </p>
+        <p>
+          Also, note that some inconsistencies still exist in the terminology
+          used within the currently available documents. The [[Originator
+          Profile Blueprints]] are mostly consistent within the document
+          series, but some of the terminology is used slightly differently
+          from this Architectural Overview document. We will address these
+          inconsistencies while incorporating the [[Originator Profile
+          Blueprints]] into the [=Originator Profile Framework=] documentation
+          series.
+        </p>
       </section>
 
       <section>
-        <h2>Internationalization and Multilingual support</h2>
+        <h2>Internationalization and Multilingual Support</h2>
         <p>
-          There are some internationalization and multilingual challenges
-          exists on use of [[vc-data-model-2.0]]. Current version of the data
-          model suggest to use a single language for each of the signed data
-          objects. This is due to the fact that current JSON-LD based
-          multilingual structure is hard to decode in the verifier side,
-          which, in our case, within a browser. The cost is not negligible
-          thus we currently apply one language to entire [=Profile
-          Annotation=] model which potentially contain multilingual strings.
-          While it is possible to provide multiple PAs in same type with
-          different languages, current extension does not support this yet.
+          There are some internationalization and multilingual challenges in
+          the use of [[vc-data-model-2.0]]. The current version of the data
+          model suggests using a single language for each of the signed data
+          objects. This decision is due to the fact that the current
+          JSON-LD-based multilingual structure is complex to decode on the
+          verifier side, which, in our case, is within a browser. The cost is
+          not negligible; thus, we currently apply one language to the
+          entire [=Profile Annotation=] model, which potentially contains
+          multilingual strings. While it is possible to provide multiple PAs
+          of the same type with different languages, the current extension
+          does not yet support this.
+        </p>
+        <p>
+          Also note that, while the contents of the Web Media use case usually
+          do not require extensive multilingual support since the contents are
+          typically in one language per page, the information within the
+          [=Originator Profile=] requires multilingual support regardless of
+          the contents.
+        </p>
+        <p>
+          The other challenge is selecting the languages to be included. For
+          Japanese, inclusion of both Japanese and English is necessary, but
+          it is not clear for other languages.
+        </p>
+        <p>
+          We are exploring various options to address this issue and may
+          propose a different scheme that is more suitable for our use case.
         </p>
       </section>
 
       <section id="issue-key-rollover">
         <h2>Key delivery and discovery</h2>
         <p>
-          Current version embeds keys in various places as a temporary
-          measure. Eventually, we need to address concerns and improvements:
-          <ul>
-            <li>Key Rollover</li>
-            <li>Better key discovery</li>
-          </ul>
-          Current Version of the data model embeds verification key into models
-          directly using JWKS[[RFC7517]]. Effectively, current model do not allow
-          key rollover.
+          The current version of the data model directly embeds a verification
+          key in the format of JWKS [[RFC7517]]. Effectively, the current
+          model does not allow key rollover. Also, there is no key discovery
+          mechanism yet, since keys are usually not difficult to retrieve for
+          the Web Media use cases. At the same time, we assume the website is
+          operated by the [=Originator=] itself, and is reliable enough.
+          </p>
+        <p>
+          Without a doubt, this is not always the case. Especially, if we
+          extend the use of the [=Originator Profile Framework=] to other use
+          cases, including the Web Advertisement, we need to have a better
+          mechanism.
         </p>
         <p>
-          We’re designing key rollover scheme using DNS/DNSSEC. DNSSEC
-          provides a good way to:
+          We are designing a key discovery and rollover scheme using DNS/DNSSEC.
+          DNSSEC provides benefits, including but not limited to the following:
           <ol>
-            <li>Allowing multiple keys to co-exist, with all of the keys may
-            have different valid period</li>
-            <li>Revoking key is possible by just removing resource record(s)</li>
+            <li>Allowing multiple keys for an identifier (such as DNS, Full
+            Qualified Domain Name &mdash; FQDN) to coexist, with each key
+            having different parameters, including validity period and
+            algorithm selection.</li>
+            <li>Multiple signatures can be associated with a set of resource
+            records, each of which can be linked to one of the currently
+            published keys alongside its corresponding signature. This scheme
+            allows for the simultaneous publication of both old keys and new
+            keys for a specified period, facilitating a smooth key
+            rollover.</li>
+            <li>Revoking a key is possible by just removing expired resource
+            records.</li>
           </ol>
-          It also allow us to provide reliable key discovery mechanism with
-          high scalability.
+          These benefits also allow us to provide a reliable key discovery
+          mechanism. Also, since DNS is highly scalable, it can accommodate a
+          large number of keys without significant overhead.
         </p>
         <p>
-          While our scheme is not based on X.509[[X509V3]]-based certificates,
-          it is possible to embed X.509 certificate within the [=Core
-          Profile=], then annotate with multiple [=Profile Annotations=].
-          Unfortunately, if X.509 certificate are used, it not only
-          complicates the key rollover process, but also miss the benefits of
-          DNSSEC, especially the low-overhead revoking. Note that latest
-          movement of the X.509 certificate to address revocation check is
-          reducing the validity period, which is not ideal for our use case.
+          While the current design of the [=Originator Profile Framework=]
+          scheme does not rely on X.509[[X509V3]]-based certificates, it is
+          possible to embed an X.509 certificate within the [=Core Profile=],
+          then annotate it with multiple [=Profile Annotations=].
+          Unfortunately, if an X.509 certificate is used, it not only
+          complicates the key rollover process, but also misses the benefits
+          of DNSSEC, especially the low-overhead revocation. Note that the
+          latest trend in operating X.509 certificates to address revocation
+          checks is reducing the validity period, which is not ideal for our
+          use case.
         </p>
       </section>
 
@@ -2175,22 +2169,81 @@
         <h2>Profile Delivery/Retrieval</h2>
         <p>
           Currently, [=Originator Profile=] consists of [=Core Profile=],
-          [=Profile Annotation=], [=Web Media Profile=], [=Website Profile=]
-          and the OP is delivered via well-known URI of the web site. Each
-          component of the [=Originator Profile=] may be distributed via
-          different channels, then combined to be user at verifier side.
+          [=Profile Annotation=], [=Web Media Profile=], [=Website Profile=],
+          and the [=Originator Profile=] is delivered via a well-known URL of
+          the website. Each component of the [=Originator Profile=] may be
+          distributed via different channels, then combined to be used at the
+          [=Recipient=] side.
         </p>
         <p>
-          [=Core Profile=] can be delivered via DNS, and that’s relates to the
-          aforementioned key rollover design.
+          [=Core Profile=] is designed to be compact and deliverable via
+          DNS, which relates to the aforementioned key rollover design.
+          [=Profile Annotations=] may be delivered via different channels.
         </p>
+      </section>
+
+      <section>
+        <h2>Extension of Profile Annotation</h2>
+        <p>
+          One of the key features of the [=Originator Profile Framework=] is
+          its extensibility, which is achieved through the use of [=Profile
+          Annotations=]. Each [=Profile Annotation=] can be defined to
+          accommodate specific use cases and requirements, allowing for a
+          flexible and adaptable framework. The following are some potential
+          uses of the [=Profile Annotation=].
+        </p>
+        <section>
+          <h3>Profile Annotation Issuer Recognition</h3>
+          <p>
+            A kind of membership annotation is an example of [=Profile
+            Annotation=] extensibility.
+          </p>
+          <p>
+            Interestingly, the existence of a [=Profile Annotation=] issued by
+            the specific [=Profile Annotation Issuer=] itself, without
+            additional [=Validated Attributes=] under the [=Profile Annotation
+            Policy=], is useful enough to show the [=Profile Annotation
+            Issuer=]'s intent. For example, if a media association issues a
+            membership [=Profile Annotation=] to a media company, the
+            existence of the membership [=Profile Annotation=] itself is
+            sufficient to indicate that the media company is a member of the
+            association, even if the [=Profile Annotation=] does not include
+            additional [=Validated Attributes=].
+          </p>
+          <p>
+            This approach allows for a lightweight and efficient way to
+            recognize the affiliation or membership of an [=Originator=]
+            without the need for extensive data within the [=Profile
+            Annotation=].
+          </p>
+          <p>
+            This concept can be applied to various use cases that require
+            creating a kind of list of [=Originators=] who meet specific
+            criteria, without creating and managing a list as a database.
+          </p>
+        </section>
+        <section>
+          <h3>Vocabularies and Profile Annotations</h3>
+          <p>
+            Vocabularies will play a crucial role in defining the semantics of
+            [=Profile Annotations=]. They provide a standardized way to
+            represent and communicate specific concepts, making it easier for
+            different systems to understand and process the information
+            contained within a [=Profile Annotation=]. By leveraging existing
+            vocabularies or creating new ones, we can enhance the
+            expressiveness and interoperability of [=Profile Annotations=].
+          </p>
+          <p>
+            Multiple existing vocabularies and schemas exist and can be
+            utilized for [=Profile Annotations=]. These vocabularies provide a
+            rich set of terms and definitions that can be used to describe
+            various aspects of an [=Originator=] or its attributes.
+          </p>    
+        </section>
       </section>
 
     </section>
 
-    <!-- <section id="conformance">
-      <h1>Conformance</h1>
-    </section> -->
 
     <section id="use-cases" class="appendix">
       <h1>Use Cases</h1>
@@ -2441,27 +2494,6 @@
             <li>Showing the attributes in OP via Icons in the URL Bar</li>
           </ul>
         </section>
-
-        <!-- <section>
-          <h3>George: </h3>
-          <p>
-            George uses an account at AAA Bank on a daily basis. One day, he
-            received an email from a sender claiming to be AAA Bank, stating:
-            "Due to suspicious activity in your account, we have temporarily
-            suspended it. Please visit our website to reactivate your account."
-            He had previously read in a brochure from the bank that its website
-            uses OP for user protection. Therefore, he clicked on the link in
-            the email to check the website’s OP—but found no valid OP. He could
-            immediately identify the site as a fraudulent bank website.
-          </p>
-          <p><strong>Requirements:</strong></p>
-          <ul>
-            <li>Finding OPs bound to a web page</li>
-            <li>Verifying an OP</li>
-            <li>Refer to a verifiable attribute in the OP</li>
-            <li>Showing the attributes in OP via Icons in the URL Bar</li>
-          </ul>
-        </section> -->
 
       </section>
 
