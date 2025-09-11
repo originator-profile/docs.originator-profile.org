@@ -1,6 +1,6 @@
 ---
 sidebar_position: 40
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/a92c90a/docs/opb/context.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/f3ab96e/docs/opb/context.md
 ---
 
 # Contexts, Vocabularies, and Types
@@ -54,6 +54,10 @@ A verifier can verify properties of the `image` datatype by following these step
 
 - `id`: REQUIRED. The URL of the Web page.
 - `name`: REQUIRED. The title of the Web page.
+
+### The `dateTimeStamp` Datatype
+
+The value of the `dateTimeStamp` data type MUST be a `dateTimeStamp` string from [W3C XML Schema Definition Language (XSD) 1.1 Part 2: Datatypes section 3.3.7 dateTime](https://www.w3.org/TR/xmlschema11-2/#dateTime), which corresponds to the http://www.w3.org/2001/XMLSchema#dateTime data type in the JSON-LD context.
 
 ## Contexts
 
