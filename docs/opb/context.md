@@ -92,6 +92,17 @@ _このセクションは非規範的です。_
         }
       }
     },
+    "page": {
+      "@id": "https://originator-profile.org/ns/v1#page",
+      "@protected": true,
+      "@context": {
+        "id": {
+          "@id": "https://schema.org/url",
+          "@type": "@id"
+        },
+        "name": "https://schema.org/name"
+      }
+    },
     "allowedUrl": "https://schema.org/url",
     "ContentAttestation": {
       "@id": "https://originator-profile.org/ns/credentials/v1#ContentAttestation",
@@ -260,7 +271,33 @@ _このセクションは非規範的です。_
         "title": "https://schema.org/title",
         "image": "op:image",
         "description": "https://schema.org/description",
-        "landingPageUrl": "https://schema.org/url"
+        "landingPageUrl": "https://schema.org/url",
+        "adReportContact": {
+          "@id": "https://originator-profile.org/ns/cip/v1#adReportContact",
+          "@type": "https://originator-profile.org/ns/v1#page"
+        },
+        "adReviewGuidelines": {
+          "@id": "https://originator-profile.org/ns/cip/v1#adReviewGuidelines",
+          "@type": "https://originator-profile.org/ns/v1#page"
+        },
+        "targetingPolicy": {
+          "@id": "https://originator-profile.org/ns/cip/v1#targetingPolicy",
+          "@type": "https://originator-profile.org/ns/v1#page"
+        },
+        "adDataHandlingPolicy": {
+          "@id": "https://originator-profile.org/ns/cip/v1#adDataHandlingPolicy",
+          "@type": "https://originator-profile.org/ns/v1#page"
+        },
+        "adDisplayRationale": {
+          "@id": "https://originator-profile.org/ns/cip/v1#adDisplayRationale",
+          "@context": {
+            "page": {
+              "@id": "https://originator-profile.org/ns/v1#page",
+              "@type": "@id"
+            },
+            "description": "https://schema.org/description"
+          }
+        }
       }
     },
     "Integrity": {

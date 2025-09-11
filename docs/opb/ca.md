@@ -143,7 +143,30 @@ CA の具体例を示します。この CA は https://media.example.com/article
       "id": "https://ad.example.com/image.png",
       "digestSRI": "sha256-5uQVtkoRdTFbimAz3Wz5GQcuBRLt7tDMD5JRtGFo9/M="
     },
-    "landingPageUrl": "https://advertiser.example.com"
+    "landingPageUrl": "https://advertiser.example.com",
+    "adReportContact": {
+      "id": "https://ad.example.com/contact",
+      "name": "広告に対する報告窓口"
+    },
+    "adReviewGuidelines": {
+      "id": "https://ad.example.com/guidelines",
+      "name": "広告審査ガイドライン"
+    },
+    "targetingPolicy": {
+      "id": "https://ad.example.com/targeting",
+      "name": "ターゲティング広告に関するポリシー"
+    },
+    "adDataHandlingPolicy": {
+      "id": "https://ad.example.com/datahandling",
+      "name": "広告配信に関する情報の取り扱いについての説明"
+    },
+    "adDisplayRationale": {
+      "page": {
+        "id": "https://ad.example.com/rationale",
+        "name": "この広告が表示されている理由"
+      },
+      "description": "現在閲覧中のコンテンツと関連性が高いため。"
+    }
   },
   "allowedUrl": ["https://ad.example.com/*"],
   "target": {
