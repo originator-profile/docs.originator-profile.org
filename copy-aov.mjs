@@ -1,5 +1,5 @@
 /**
- * AOV（Architecture Overview）文書をstaticディレクトリにコピーし、適切にリネームする
+ * AOV（Architectural Overview）文書をstaticディレクトリにコピーし、適切にリネームする
  *
  * @example
  * ```shell
