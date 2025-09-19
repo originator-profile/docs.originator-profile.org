@@ -76,7 +76,7 @@ Below is an example of PA. In this example, there are a few more properties adde
     "id": "dns:localhost",
     "type": "Organization",
     "addressCountry": "JP",
-    "name": "Originator Profile Collaborative Innovation Partnership (for develoment purposes)",
+    "name": "Originator Profile Collaborative Initiative Partnership (for develoment purposes)",
     "corporateNumber": "8010005035933",
     "postalCode": "100-8055",
     "addressRegion": "Tokyo",
