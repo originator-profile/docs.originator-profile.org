@@ -37,7 +37,7 @@ REQUIRED. [OP VC Data Model](./op-vc-data-model.md) に従ってください (MU
 
 #### `issuer`
 
-REQUIRED. PA 発行者の OP ID です (MUST)。
+REQUIRED. PA 発行者の OP ID でなければなりません (MUST)。
 
 #### `credentialSubject.id`
 

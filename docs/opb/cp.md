@@ -22,7 +22,7 @@ Core Profile は OP VC DM 準拠文書でなければなりません (MUST)。�
 
 #### `@context` {#context}
 
-REQUIRED. URL の順序つき配列。必ず先頭が `https://www.w3.org/ns/credentials/v2`, その次が `https://originator-profile.org/ns/credentials/v1` でなければなりません (MUST)。
+REQUIRED. URL の順序つき配列。必ず先頭が `https://www.w3.org/ns/credentials/v2`、その次が `https://originator-profile.org/ns/credentials/v1` である配列でなければなりません (MUST)。
 
 #### `type` {#type}
 

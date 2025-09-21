@@ -71,7 +71,7 @@ Webコンテンツ以外のURLを持たないコンテンツ (例: プライベ�
 
 #### `target`
 
-REQUIRED. Content Integrity Descriptor でなければなりません (MUST)。
+REQUIRED. Content Integrity Descriptor の配列でなければなりません (MUST)。
 
 Content Integrity Descriptor はコンテンツの一部の完全性を保証するための仕組みです。このプロパティで CA と対応するコンテンツ内の特定の情報が改ざんされていないかを[検証](#target-integrity-の検証)することができます。
 [Content Integrity Type Registry](./content-integrity-descriptor/index.mdx)に登録されているものを使用できます。

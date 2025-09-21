@@ -14,7 +14,7 @@ OP の仕様ではいくつかの VC を定めています。それらの VC は
 
 #### `@context` {#context}
 
-REQUIRED. URL の順序つき配列。必ず先頭が `https://www.w3.org/ns/credentials/v2`, その次が `https://originator-profile.org/ns/credentials/v1` でなければなりません (MUST)。また、配列の末尾の要素で VC 内の文字列の言語を `@language` タグで示さなければなりません (MUST)。つまり、言語が日本語だとすると `{"@language": "ja"}` を配列の末尾に含めてください。
+REQUIRED. URL の順序つき配列。必ず先頭が `https://www.w3.org/ns/credentials/v2`、その次が `https://originator-profile.org/ns/credentials/v1` である配列でなければなりません (MUST)。また、配列の末尾の要素で VC 内の文字列の言語を `@language` タグで示さなければなりません (MUST)。つまり、言語が日本語だとすると `{"@language": "ja"}` を配列の末尾に含めてください。
 
 #### `type` {#type}
 

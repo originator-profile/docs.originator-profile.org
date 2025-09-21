@@ -72,7 +72,7 @@ Extensions for specifying content that does not have a URL outside of web conten
 
 #### `target`
 
-REQUIRED. It MUST be Content Integrity Descriptor.
+REQUIRED. It MUST be an array of Content Integrity Descriptor.
 
 Content Integrity Descriptor is a mechanism for ensuring the integrity of parts of content. This property allows you to [verify](#target-integrity-validation) that specific information in the content that corresponds to the CA has not been tampered with.
 You can use the ones registered in the [Content Integrity Type Registry](./content-integrity-descriptor/index.mdx).
