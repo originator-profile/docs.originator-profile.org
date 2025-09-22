@@ -35,6 +35,9 @@ importers:
       docusaurus-plugin-image-zoom:
         specifier: ^3.0.1
         version: 3.0.1(@docusaurus/theme-classic@3.8.1(@docusaurus/faster@3.8.1(@docusaurus/types@3.8.1(@swc/core@1.13.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)))(@rspack/core@1.5.2)(@swc/core@1.13.5)(@types/react@19.1.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.7.3))
+      gray-matter:
+        specifier: ^4.0.3
+        version: 4.0.3
       prettier:
         specifier: ^3.6.2
         version: 3.6.2
