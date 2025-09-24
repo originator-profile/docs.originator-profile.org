@@ -44,7 +44,7 @@ The C2PA 2.0 signature algorithms allowed list includes `EdDSA`[^1], **but at th
 
 :::note
 
-For the time being, applications developed by the Originator Profile Collaborative Initiative Partnership (OP CIP) will only support the ES256 signature algorithm.
+For the time being, applications developed by the Originator Profile Collaborative Innovation Partnership (OP CIP) will only support the ES256 signature algorithm.
 
 :::
 

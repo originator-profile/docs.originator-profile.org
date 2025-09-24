@@ -28,7 +28,7 @@ A JWT payload MAY contain both data model properties and JWT claims, but if it d
 
 :::note
 
-In applications developed by the Originator Profile Collaborative Initiative Partnership (OP CIP), both data model properties and JWT claims are included in the JWT payload and signed.
+In applications developed by the Originator Profile Collaborative Innovation Partnership (OP CIP), both data model properties and JWT claims are included in the JWT payload and signed.
 
 :::
 

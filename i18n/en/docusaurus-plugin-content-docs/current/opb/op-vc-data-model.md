@@ -50,4 +50,4 @@ A VC that conforms to the data model in this document can be verified by followi
 
 :::info
 
-For information on the Securing Mechanisms used in applications developed by the Originator Profile Collaborative Initiative Partnership, see [OP VC Securing Mechanism Implementation Guidelines](./securing-mechanism.md).
+For information on the Securing Mechanisms used in applications developed by the Originator Profile Collaborative Innovation Partnership, see [OP VC Securing Mechanism Implementation Guidelines](./securing-mechanism.md).
