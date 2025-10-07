@@ -1,8 +1,10 @@
 ---
-sidebar_position: 6
+sidebar_position: 23
+tags:
+  - Profile Annotation
 ---
 
-# Certificate Data Model
+# Certificate
 
 ## 用語
 

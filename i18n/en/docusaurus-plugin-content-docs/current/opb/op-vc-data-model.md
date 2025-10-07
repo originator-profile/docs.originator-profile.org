@@ -1,5 +1,5 @@
 ---
-sidebar_position: 10
+sidebar_position: 11
 original: https://github.com/originator-profile/docs.originator-profile.org/blob/9ceac67/docs/opb/op-vc-data-model.md
 ---
 
@@ -50,4 +50,4 @@ A VC that conforms to the data model in this document can be verified by followi
 
 :::info
 
-For information on the Securing Mechanisms used in applications developed by the Originator Profile Collaborative Innovation Partnership, see [OP VC Securing Mechanism Implementation Guidelines](./securing-mechanism.md).
+For information on the Securing Mechanisms used in applications developed by the Originator Profile Collaborative Innovation Partnership, see [OP VC Securing Mechanism](./securing-mechanism.md).

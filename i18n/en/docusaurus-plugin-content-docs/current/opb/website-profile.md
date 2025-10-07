@@ -1,9 +1,11 @@
 ---
-sidebar_position: 5
+sidebar_position: 29
 original: https://github.com/originator-profile/docs.originator-profile.org/blob/2f3250e/docs/opb/website-profile.md
+tags:
+  - Web Media Specific Model
 ---
 
-# Website Profile (WSP) Data Model
+# Website Profile
 
 ## Terminology
 
@@ -13,7 +15,7 @@ For terms not explained in this document, please see [Terminology](./terminology
 - OP VC Data Model Conforming Document (OP VC DM Compliance Document)
 - Website Profile (WSP)
 
-## Website Profile Data Model
+## Website Profile (WSP) Data Model
 
 The Website Profile MUST be an OPVC DM compliant document and includes the following properties:
 

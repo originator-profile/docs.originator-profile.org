@@ -1,5 +1,5 @@
 ---
-sidebar_position: 20
+sidebar_position: 31
 original: https://github.com/originator-profile/docs.originator-profile.org/blob/9ceac67/docs/opb/originator-profile-set.md
 ---
 

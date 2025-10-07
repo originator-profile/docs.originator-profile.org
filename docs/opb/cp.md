@@ -1,8 +1,10 @@
 ---
-sidebar_position: 2
+sidebar_position: 21
+tags:
+  - Base Model
 ---
 
-# Core Profile Data Model
+# Core Profile
 
 ## 用語
 

@@ -1,3 +1,9 @@
+---
+tags:
+  - Content Integrity Descriptor
+  - Web Media Specific Model
+---
+
 # HTML Fragment Integrity
 
 ## 概要

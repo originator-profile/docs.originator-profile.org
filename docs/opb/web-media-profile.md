@@ -1,8 +1,8 @@
 ---
-sidebar_position: 4
+sidebar_position: 28
 ---
 
-# Web Media Profile Data Model Implementation Guidelines
+# Web Media Profile
 
 ## 用語
 
@@ -12,7 +12,7 @@ sidebar_position: 4
 - Originator Profile Identifier (OP ID)
 - Web Media Profile (WMP)
 
-## Web Media Profile のデータモデル
+## Web Media Profile (WMP) のデータモデル
 
 Web Media Profile は OP VC DM 準拠文書でなければなりません (MUST)。他に以下のプロパティを含みます。
 

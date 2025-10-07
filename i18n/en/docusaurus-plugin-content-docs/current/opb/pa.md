@@ -1,11 +1,14 @@
 ---
-sidebar_position: 3
+sidebar_position: 22
 original: https://github.com/originator-profile/docs.originator-profile.org/blob/7a2ce79/docs/opb/pa.md
+tags:
+  - Base Model
+  - Profile Annotation
 ---
 
-# Profile Annotation Data Model
+# Profile Annotation
 
-The Profile Annotation Data Model is VC's common data model for expressing information about Core Profile subjects.
+The Profile Annotation is VC's common data model for expressing information about Core Profile subjects.
 
 :::note
 

@@ -1,3 +1,9 @@
+---
+tags:
+  - Content Integrity Descriptor
+  - Web Media Specific Model
+---
+
 # Text within DOM Integrity
 
 ## 概要

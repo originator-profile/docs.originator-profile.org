@@ -1,9 +1,11 @@
 ---
-sidebar_position: 4
+sidebar_position: 28
 original: https://github.com/originator-profile/docs.originator-profile.org/blob/9ceac67/docs/opb/web-media-profile.md
+tags:
+  - Web Media Specific Model
 ---
 
-# Web Media Profile Data Model Implementation Guidelines
+# Web Media Profile
 
 ## Terminology
 
@@ -13,7 +15,7 @@ For terms not explained in this document, please see [Terminology](./terminology
 - Originator Profile Identifier (OP ID)
 - Web Media Profile (WMP)
 
-## Web Media Profile Data Model
+## Web Media Profile (WMP) Data Model
 
 The Web Media Profile MUST be an OP VC DM compliant document and includes the following properties:
 

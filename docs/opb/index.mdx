@@ -2,7 +2,7 @@
 
 _この文書は非規範的です。_
 
-Originator Profile の技術仕様の文書化を目指します。
+Originator Profile (OP) の技術仕様の文書化を目指します。
 
 これらの文書では、Originator Profile の技術的側面について説明しています。
 Originator Profile 技術は、特定のコンテンツの善悪の価値判断を提供するものではなく、暗号的に検証可能な手段を提供することで、誰もが信頼性を評価できるようになることを目指しています。
@@ -27,52 +27,41 @@ Originator Profile 技術は、特定のコンテンツの善悪の価値判断�
 
 ![](./assets/spec-overview.svg)
 
-OP の仕様は VC とその配布方法を定義します。
-仕様全体で共通の用語の定義が[用語集](./terminology.md)にあります。
+OP の仕様は Verifiable Credentials (VCs) とその配布方法を定義します。
+仕様全体で共通の用語の定義が[用語](./terminology.md)にあります。
 
-OP は VC 共通の仕様として次の仕様を定めます。
+OP は VCs 共通の仕様として次の仕様を定めます。
 
-- [OP VC Data Model](./op-vc-data-model.md): OP で定める VC が準拠するデータモデル
-- [Securing Mechanism](./securing-mechanism.md): OP で定める VC の Securing Mechanism
+- [OP VC Data Model](./op-vc-data-model.md): OP で定める VCs が準拠するデータモデル
+- [Securing Mechanism](./securing-mechanism.md): OP で定める VCs の Securing Mechanism
 
-組織の ID として次を定義し、各 VC で利用します。
+組織が発信者であることの検証ができる鍵を示すための VCs のデータモデルを次の文書で定めます。
 
-- [OP ID](./op-id.md): OP ID
-- [DNS URI OP ID](./dns-uri-op-id.md): ドメイン名を利用した OP ID
+- [Core Profile (CP)](./cp.md)
 
-中心的な役割を果たす3つの VC のデータモデルを定めた文書が次になります。
+発信者に対して、適切な主体が検証した追加の情報を示すための VCs のデータモデルを次の文書で定めます。
 
-- [Core Profile](./cp.md): 組織の OP ID と公開鍵の VC
-- [Profile Annotation](./pa.md): PA には、送信者の組織が実在することの証明書、さまざまな認証機関によって付与された証明書に関する情報、さまざまな組織からの加盟証明書が含まれ、それぞれは適切な組織によって署名されています。
-- [Content Attestation](./ca.md): OP が作成や管理する Web Content などに関する情報や対象コンテンツの特定、検証方法などを記載し CP 保有者が署名するデータ
+- [Profile Annotation (PA)](./pa.md)
 
-他に次の VC も定義します。
+様々なユースケースに応じた PA のデータモデルを次の文書で定めます。
 
-- [Web Media Profile](./web-media-profile.md): Web での OP の利用においてユーザーに表示する情報を記述する VC。 CP 発行者が署名する。
-- [Website Profile](./website-profile.md): Web サイトを保有していることを示す VC。 CP 保有者が署名する。
+- [Certificate Data Model](./certificate.md): 証明書 PA のデータモデル。
+  - [組織実在性証明書](./pa-model/existence.md)
+  - [広告認証証明書](./pa-model/advertising-certification.md)
+  - [報道機関登録証明書](./pa-model/news-media-registration.md)
+  - [自治体認証証明書](./pa-model/municipality-certificate.md)
 
-[Profile Annotation](./pa.md), [Content Attestation](./ca.md) を実際に利用する際にはアプリケーションに応じて具体的なプロパティを定義する必要があります。
-OP-CIP で利用するプロパティ定義は次の実装者ガイドで定めています。
+発信者が発信するコンテンツを示すための VCs のデータモデルを次の文書で定めます。
 
-- Content Attestation
-  - [Article Data Model](./ca-guide/article.md): インターネット上の記事に紐づく CA のデータモデル。
-  - [Online Ad Data Model](./ca-guide/online-ad.md): インターネット広告に紐づく CA のデータモデル。
-  - [記事広告](./ca-guide/advertorial.md): インターネット上の記事広告に紐づく CA のデータモデル。
-- Profile Annotation
-  - [Certificate Data Model](./certificate.md): 証明書 PA のデータモデル。
-    - [組織実在性証明書](./pa-guide/existence.md)
-    - [広告認証証明書](./pa-guide/advertising-certification.md)
-    - [報道機関登録証明書](./pa-guide/news-media-registration.md)
-    - [自治体認証証明書](./pa-guide/municipality-certificate.md)
+- [Content Attestation (CA)](./ca.md)
 
-これら VC をまとめて配布する際のデータ形式として次のものを定義します。
+様々なユースケースに応じた CA のデータモデルを次の文書で定めます。
 
-- [Content Attestation Set](./content-attestation-set.md): CA の配布形式
-- [Originator Profile Set](./originator-profile-set.md): CP, PA, Web Media Profile の配布形式
-- [Site Profile](./site-profile.md): Website Profile の配布形式
-- [Linking](./link-to-html.md): CAS, OPS を HTML ページに紐づける方法
+- [Article Data Model](./ca-model/article.md): インターネット上の記事に紐づく CA のデータモデル。
+- [Online Ad Data Model](./ca-model/online-ad.md): インターネット広告に紐づく CA のデータモデル。
+- [記事広告](./ca-model/advertorial.md): インターネット上の記事広告に紐づく CA のデータモデル。
 
-CA にはコンテンツの改ざんを防ぐ仕組みとして Content Integrity Descriptor があります。次の実装ガイドがそれらの仕様です。
+また、CA で示されたコンテンツの改ざんを防ぐ仕組みである Content Integrity Descriptor の仕様を次の文書で定めます。
 
 - [Content Integrity Type Registry](./content-integrity-descriptor/index.mdx): Content Integrity Descriptor のレジストリ
 - [HTML Target](./content-integrity-descriptor/html.md): 対象 DOM 要素の HTML 文字列としての完全性検証
@@ -80,14 +69,38 @@ CA にはコンテンツの改ざんを防ぐ仕組みとして Content Integrit
 - [Visible Text Target](./content-integrity-descriptor/visible-text.md): 対象要素のレンダリングされているテキストの完全性検証
 - [External Resource Target](./content-integrity-descriptor/external-resource.md): 外部リソースの完全性検証
 
+発信者がウェブメディアとして表明する名称等を示すための VCs のデータモデルを次の文書で定めます。
+
+- [Web Media Profile (WMP)](./web-media-profile.md)
+
+発信者が運営するウェブサイトを示すための VCs のデータモデルを次の文書で定めます。
+
+- [Website Profile (WSP)](./website-profile.md)
+
+OP で定める VCs をまとめて配布する際のデータ形式として次のものを定義します。
+
+- [Originator Profile Set](./originator-profile-set.md): CP, PA, Web Media Profile の配布形式
+- [Content Attestation Set](./content-attestation-set.md): CA の配布形式
+- [Site Profile](./site-profile.md): Website Profile の配布形式
+- [Linking](./link-to-html.md): CAS, OPS を HTML ページに紐づける方法
+
+組織の ID として Originator Profile Identifier (OP ID) を定義し、各 VC で利用します。
+
+- [Originator Profile Identifier (OP ID)](./op-id.md): 組織の ID
+- [DNS URI OP ID](./dns-uri-op-id.md): ドメイン名を利用した OP ID
+
+VCs 全体で使われる JSON-LD のコンテキストは次の文書に記載しています。
+
+- [JSON-LD Context](./context.md)
+
 OP の枠組み全体のセキュリティを担保する文書として次のものがあります。
 
 - [暗号アルゴリズム](./algorithm.md): OP で推奨される暗号アルゴリズム
 
-VC 全体で使われる JSON-LD のコンテキストは次の文書に記載しています。
+## モデルの分類
 
-- [JSON-LD Context](./context.md)
+[Architectual Overview](pathname:///aov/) で定義されるモデルに属するデータモデルは、次のリンクから参照してください。
 
-import DocCardList from "@theme/DocCardList";
-
-<DocCardList />
+- [Base Model](/tags/base-model/)
+- [Jurisdiction Specific Model](/tags/jurisdiction-specific-model/)
+- [Web Media Specific Model](/tags/web-media-specific-model/)

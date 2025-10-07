@@ -1,8 +1,11 @@
 ---
-sidebar_position: 4
+sidebar_position: 25
+tags:
+  - Base Model
+  - Content Attestation
 ---
 
-# Content Attestation Data Model
+# Content Attestation
 
 :::note
 
@@ -192,8 +195,8 @@ CA の具体例を示します。この CA は https://media.example.com/article
 
 Originator Profile 技術研究組合が開発するアプリケーションで使用されるプロパティについては、次の Originator Profile Blueprint (OPB) 文書を参照してください。
 
-- [Article Data Model](./ca-guide/article.md)
-- [Online Ad Data Model](./ca-guide/online-ad.md)
+- [Article Data Model](./ca-model/article.md)
+- [Online Ad Data Model](./ca-model/online-ad.md)
 
 :::
 

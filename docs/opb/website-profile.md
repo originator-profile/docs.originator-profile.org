@@ -1,8 +1,8 @@
 ---
-sidebar_position: 5
+sidebar_position: 29
 ---
 
-# Website Profile (WSP) Data Model
+# Website Profile
 
 ## 用語
 
@@ -12,7 +12,7 @@ sidebar_position: 5
 - OP VC Data Model Conforming Document (OP VC DM 準拠文書)
 - Website Profile (WSP)
 
-## Website Profile のデータモデル
+## Website Profile (WSP) のデータモデル
 
 Website Profile は OP VC DM 準拠文書でなければなりません (MUST)。他に以下のプロパティを含みます。
 

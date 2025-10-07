@@ -1,9 +1,11 @@
 ---
-sidebar_position: 2
+sidebar_position: 21
 original: https://github.com/originator-profile/docs.originator-profile.org/blob/9ceac67/docs/opb/cp.md
+tags:
+  - Base Model
 ---
 
-# Core Profile Data Model
+# Core Profile
 
 ## Terminology
 

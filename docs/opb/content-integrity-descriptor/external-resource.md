@@ -1,3 +1,9 @@
+---
+tags:
+  - Content Integrity Descriptor
+  - Web Media Specific Model
+---
+
 # External Resource Integrity
 
 ## 概要

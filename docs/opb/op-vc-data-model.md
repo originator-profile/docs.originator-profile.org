@@ -1,5 +1,5 @@
 ---
-sidebar_position: 10
+sidebar_position: 11
 ---
 
 # OP VC Data Model
@@ -49,6 +49,6 @@ REQUIRED. VC 発行組織の [OP ID](./op-id.md) でなければなりません 
 
 :::info
 
-Originator Profile 技術研究組合が開発するアプリケーションで使用される Securing Mechanisms については、[OP VC Securing Mechanism Implementation Guidelines](./securing-mechanism.md) を参照してください。
+Originator Profile 技術研究組合が開発するアプリケーションで使用される Securing Mechanisms については、[OP VC Securing Mechanism](./securing-mechanism.md) を参照してください。
 
 :::

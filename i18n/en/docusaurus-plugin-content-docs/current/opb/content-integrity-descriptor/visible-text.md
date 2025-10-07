@@ -1,5 +1,8 @@
 ---
 original: https://github.com/originator-profile/docs.originator-profile.org/blob/5773be6/docs/opb/content-integrity-descriptor/visible-text.md
+tags:
+  - Content Integrity Descriptor
+  - Web Media Specific Model
 ---
 
 # Visible Text within DOM Integrity

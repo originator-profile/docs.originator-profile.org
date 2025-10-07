@@ -6,7 +6,7 @@ original: https://github.com/originator-profile/docs.originator-profile.org/blob
 
 _This document is non-normative._
 
-Aiming to document the technical specifications of the Originator Profile
+Aiming to document the technical specifications of the Originator Profile (OP)
 
 These documents on this site describe the technical aspects of Originator Profile.
 Originator Profile technology does not provide a value judgment of the correctness, falsity, or inaccuracy of any particular piece of content, but aims to provide a cryptographically verifiable means by which anyone can assess its trustworthiness.
@@ -30,52 +30,41 @@ Our technical specification documents, previously known as "Originator Profile R
 
 ![](./assets/spec-overview.svg)
 
-The OP specification defines a Verifiable Credential (VC) and how it is distributed.
-Definitions of terms common throughout this specification are provided in the [Glossary](./terminology.md).
+The OP specification defines Verifiable Credentials (VCs) and how it is distributed.
+Definitions of terms common throughout this specification are provided in the [Terminology](./terminology.md).
 
-The OP defines the following specifications as common specifications for VC.
+The OP defines the following specifications as common specifications for VCs.
 
 - [OP VC Data Model](./op-vc-data-model.md): VC-compliant data model defined in OP
-- [Securing Mechanism](./securing-mechanism.md): Securing Mechanism of VC as defined in OP
+- [Securing Mechanism](./securing-mechanism.md): Securing Mechanism of VCs as defined in OP
 
-The OP defines the following as organization IDs and uses them in each VC:
+This document defines a data model for VCs to indicate keys that can verify an organization is the originator.
 
-- [OP ID](./op-id.md): OP ID
-- [DNS URI OP ID](./dns-uri-op-id.md): OP ID using a domain name
+- [Core Profile (CP)](./cp.md)
 
-The following documents define the data models for the three VCs that play a central role in OP:
+This document defines a data model for VCs to assert additional information about the originator, where that information has been validated by an appropriate entity.
 
-- [Core Profile(CP)](./cp.md): CP consists of an organization's OP ID and a VC of its public key.
-- [Profile Annotation(PA)](./pa.md): PA may include proof of the sender's entity identity, information about certificates granted by various certification authorities, and membership certificates from various organizations, each signed by the appropriate entity.
-- [Content Attestation(CA)](./ca.md): CA contains information about the Web Content created and managed by the CP holder, as well as information about the target content and verification methods, and is signed by the CP holder.
+- [Profile Annotation (PA)](./pa.md)
 
-In addition to these, the following VCs are defined:
+The following documents define a data model for PA corresponding to various use cases.
 
-- [Web Media Profile(WMP)](./web-media-profile.md): WMP is a VC that describes the information to be displayed to users when using the OP on the Web (such as the sender's policy statement, contact information, etc.) and is signed by the CP holder.
-- [Web Site Profile(WSP)](./website-profile.md): WSP is a VC that indicates that the sender owns a website. It is signed by the CP holder.
+- [Certificate Data Model](./certificate.md): The Certificate PA Data Model
+  - [Organization Existence Certificate](./pa-model/existence.md): Data model for organization existence certificate.
+  - [Advertising Certification Certificate](./pa-model/advertising-certification.md): Data model for advertising certification certificate.
+  - [News Media Registration Certificate](./pa-model/news-media-registration.md): Data model for news media registration certificate.
+  - [Municipality Certification Certificate](./pa-model/municipality-certificate.md): Data model for municipality certification certificate.
 
-[Profile Annotation(PA)](./pa.md), [Content Attestation](./ca.md) When actually using PA and CA, it is necessary to define specific properties according to the application.
-The property definitions used in OP-CIP are defined in the following implementer's guide:
+This document defines a data model for VCs to indicate the content originated by the originator.
 
-- Content Attestation
-  - [Article Data Model](./ca-guide/article.md): CA data model linked to articles on the Internet.
-  - [Online Ad Data Model](./ca-guide/online-ad.md): CA data model linked to Online advertising.
-  - [Advertorial](./ca-guide/advertorial.md): CA data model linked to advertorials on the Internet.
-- Profile Annotation
-  - [Certificate Data Model](./certificate.md): The Certificate PA Data Model
-    - [Organization Existence Certificate](./pa-guide/existence.md): Data model for organization existence certificate.
-    - [Advertising Certification Certificate](./pa-guide/advertising-certification.md): Data model for advertising certification certificate.
-    - [News Media Registration Certificate](./pa-guide/news-media-registration.md): Data model for news media registration certificate.
-    - [Municipality Certification Certificate](./pa-guide/municipality-certificate.md): Data model for municipality certification certificate.
+- [Content Attestation (CA)](./ca.md)
 
-The following data formats are defined for distributing these VCs together.
+The following documents define a data model for CA corresponding to various use cases.
 
-- [Content Attestation Set(CAS)](./content-attestation-set.md): CAS is the distribution format of CA.
-- [Originator Profile Set（OPS)](./originator-profile-set.md): OPS is a distribution format for CP, PA, and WMP.
-- [Site Profile(SP)](./site-profile.md): SP is the distribution format of WSP
-- [Linking](./link-to-html.md): This is how to link CAS and OPS to HTML pages.
+- [Article Data Model](./ca-model/article.md): CA data model linked to articles on the Internet.
+- [Online Ad Data Model](./ca-model/online-ad.md): CA data model linked to Online advertising.
+- [Advertorial](./ca-model/advertorial.md): CA data model linked to advertorials on the Internet.
 
-CA has a mechanism to prevent content tampering called Content Integrity Descriptor. The following implementation guide is the specification for it.
+Furthermore, the following documents define the specification for the Content Integrity Descriptor, which is a mechanism to prevent tampering with the content indicated by the CA.
 
 - [Content Integrity Type Registry](./content-integrity-descriptor/index.mdx): Registry server for Content Integrity Descriptor
 - [HTML Target](./content-integrity-descriptor/html.md): Verifies the integrity of the target DOM element as an HTML string.
@@ -83,14 +72,38 @@ CA has a mechanism to prevent content tampering called Content Integrity Descrip
 - [Visible Text Target](./content-integrity-descriptor/visible-text.md): Verifies the integrity of the rendered text of the target element
 - [External Resource Target](./content-integrity-descriptor/external-resource.md): Verifies the integrity of external resources.
 
+This document defines a data model for VCs to assert the name and other identifiers that the originator claims as a web publisher.
+
+- [Web Media Profile (WMP)](./web-media-profile.md)
+
+This document defines a data model for VCs to indicate the website operated by the originator.
+
+- [Web Site Profile (WSP)](./website-profile.md)
+
+The following data formats are defined for the collective distribution of the VCs as defined by the OP.
+
+- [Originator Profile Set（OPS)](./originator-profile-set.md): OPS is a distribution format for CP, PA, and WMP.
+- [Content Attestation Set(CAS)](./content-attestation-set.md): CAS is the distribution format of CA.
+- [Site Profile(SP)](./site-profile.md): SP is the distribution format of WSP
+- [Linking](./link-to-html.md): This is how to link CAS and OPS to HTML pages.
+
+The OP defines the following as organization IDs and uses them in each VC:
+
+- [Originator Profile Identifier (OP ID)](./op-id.md): Organization IDs
+- [DNS URI OP ID](./dns-uri-op-id.md): OP ID using a domain name
+
+The JSON-LD context used throughout VCs is documented in the following document:
+
+- [JSON-LD Context](./context.md)
+
 The following documents ensure the security of the entire OP framework.
 
 - [Cryptographic algorithm](./algorithm.md): The cryptographic algorithm recommended by the OP
 
-The JSON-LD context used throughout VC is documented in the following document:
+## Model Classification
 
-- [JSON-LD Context](./context.md)
+Please refer to the data models belonging to the model defined in the [Architectual Overview](pathname:///aov/) via the following link.
 
-import DocCardList from "@theme/DocCardList";
-
-<DocCardList />
+- [Base Model](/tags/base-model/)
+- [Jurisdiction Specific Model](/tags/jurisdiction-specific-model/)
+- [Web Media Specific Model](/tags/web-media-specific-model/)

@@ -1,9 +1,11 @@
 ---
-sidebar_position: 6
+sidebar_position: 23
 original: https://github.com/originator-profile/docs.originator-profile.org/blob/f3ab96e/docs/opb/certificate.md
+tags:
+  - Profile Annotation
 ---
 
-# Certificate Data Model
+# Certificate
 
 ## Terminology
 

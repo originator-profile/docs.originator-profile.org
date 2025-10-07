@@ -1,5 +1,5 @@
 ---
-sidebar_position: 22
+sidebar_position: 34
 ---
 
 # Linking Content Attestation Set and Originator Profile Set to A HTML Document

@@ -1,5 +1,5 @@
 ---
-sidebar_position: 1
+sidebar_position: 1000
 original: https://github.com/originator-profile/docs.originator-profile.org/blob/3d0649e/docs/opb/terminology.md
 ---
 

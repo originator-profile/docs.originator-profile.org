@@ -1,9 +1,12 @@
 ---
-sidebar_position: 4
+sidebar_position: 25
 original: https://github.com/originator-profile/docs.originator-profile.org/blob/a92c90a/docs/opb/ca.md
+tags:
+  - Base Model
+  - Content Attestation
 ---
 
-# Content Attestation Data Model
+# Content Attestation
 
 :::note
 
@@ -169,8 +172,8 @@ Issuers MAY add properties that are not defined in the [OP VC Data Model](./op-v
 
 For information about properties used in applications developed by the Originator Profile Collaborative Innovation Partnership, please refer to the following Originator Profile Blueprint (OPB) documents:
 
-- [Article Data Model](./ca-guide/article.md)
-- [Online Ad Data Model](./ca-guide/online-ad.md)
+- [Article Data Model](./ca-model/article.md)
+- [Online Ad Data Model](./ca-model/online-ad.md)
 
 :::
 

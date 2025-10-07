@@ -3,9 +3,9 @@ sidebar_position: 12
 original: https://github.com/originator-profile/docs.originator-profile.org/blob/a92c90a/docs/opb/securing-mechanism.md
 ---
 
-# OP VC Securing Mechanism Implementation Guidelines
+# OP VC Securing Mechanism
 
-This document specifies the values ​​of each claim and property of OP VC in accordance with [Securing Verifiable Credentials using JOSE and COSE](https://www.w3.org/TR/vc-jose-cose/).
+This document specifies the values of each claim and property of OP VC in accordance with [Securing Verifiable Credentials using JOSE and COSE](https://www.w3.org/TR/vc-jose-cose/).
 
 :::note
 

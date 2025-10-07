@@ -1,5 +1,8 @@
 ---
 original: https://github.com/originator-profile/docs.originator-profile.org/blob/5773be6/docs/opb/content-integrity-descriptor/external-resource.md
+tags:
+  - Content Integrity Descriptor
+  - Web Media Specific Model
 ---
 
 # External Resource Integrity

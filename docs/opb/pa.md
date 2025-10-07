@@ -1,10 +1,13 @@
 ---
-sidebar_position: 3
+sidebar_position: 22
+tags:
+  - Base Model
+  - Profile Annotation
 ---
 
-# Profile Annotation Data Model
+# Profile Annotation
 
-Profile Annotation Data Model は Core Profile の主体に関する情報を表明するための VC の共通データモデルです。
+Profile Annotation は Core Profile の主体に関する情報を表明するための VC の共通データモデルです。
 
 :::note
 
