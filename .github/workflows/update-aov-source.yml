@@ -8,7 +8,7 @@ jobs:
   update-subtree:
     environment:
       name: update-aov-source
-      url: https://github.com/originator-profile/doc-opf-architectural-overview
+      url: https://github.com/originator-profile/docs.originator-profile.org/tree/main/aov-source
     runs-on: ubuntu-latest
     permissions:
       contents: write
