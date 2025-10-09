@@ -1,0 +1,31 @@
+name: Update aov-source subtree
+on:
+  schedule:
+    # 毎日 JST 9:00 (UTC 0:00) に実行
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+jobs:
+  update-subtree:
+    environment:
+      name: update-aov-source
+      url: https://github.com/originator-profile/doc-opf-architectural-overview
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          ssh-key: "${{ secrets.AOV_REPO_DEPLOY_KEY }}"
+      - name: Configure Git
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email github-actions[bot]@users.noreply.github.com
+      - name: Update subtree
+        run: |
+          git subtree pull --prefix=aov-source git@github.com:originator-profile/doc-opf-architectural-overview.git main --squash -m update
+      - name: Check for changes and push
+        run: |
+          if git log --oneline origin/main..@ | read; then
+            git push origin main
+          fi
