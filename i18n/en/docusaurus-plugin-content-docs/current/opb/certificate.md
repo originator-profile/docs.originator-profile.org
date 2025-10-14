@@ -1,6 +1,6 @@
 ---
 sidebar_position: 23
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/f3ab96e/docs/opb/certificate.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/b10a57d/docs/opb/certificate.md
 tags:
   - Profile Annotation
 ---
@@ -32,14 +32,14 @@ REQUIRED. It MUST be `["VerifiableCredential", "Certificate"]`.
 
 - `id`: REQUIRED. The OP ID of the organization that holds the certificate.
 - `type`: REQUIRED. This is specified in the document that defines the individual Certificate.
-- `description`: OPTIONAL. A description of this certificate.
+- `description`: OPTIONAL. A description of this certificate (string).
 - `image`: OPTIONAL. It MUST be a JSON-LD Node Object of type [`image` datatype](./context.md#the-image-datatype). This property allows you to [verify](./context.md#image-datatype-verification) that the certificate image has not been tampered with.
 - `certifier`: OPTIONAL. The name of the certification authority.
 - `verifier`: OPTIONAL. The name of the verification authority.
 - `certificationSystem.id`: REQUIRED. Please specify the ID of the certification system in URI format.
 - `certificationSystem.type`: REQUIRED. MUST be `CertificationSystem`.
 - `certificationSystem.name`: REQUIRED. The name of the certification system.
-- `certificationSystem.description`: OPTIONAL. A description of the certification system.
+- `certificationSystem.description`: OPTIONAL. A description of the certification system (string).
 - `certificationSystem.ref`: RECOMMENDED. A URL for people to read to find out more about the certification system.
 
 :::note
