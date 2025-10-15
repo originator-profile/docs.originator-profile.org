@@ -1,6 +1,7 @@
 ---
 sidebar_position: 25
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/a92c90a/docs/opb/ca.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/b10a57d/docs/opb/ca.md
+
 tags:
   - Base Model
   - Content Attestation
@@ -147,7 +148,30 @@ This CA is tied to advertising content served on web pages under https://ad.exam
       "id": "https://ad.example.com/image.png",
       "digestSRI": "sha256-5uQVtkoRdTFbimAz3Wz5GQcuBRLt7tDMD5JRtGFo9/M="
     },
-    "landingPageUrl": "https://advertiser.example.com"
+    "landingPageUrl": "https://advertiser.example.com",
+    "adReportContact": {
+      "id": "https://ad.example.com/contact",
+      "name": "Contact point for reporting ads"
+    },
+    "adReviewGuidelines": {
+      "id": "https://ad.example.com/guidelines",
+      "name": "Ad Review Guidelines"
+    },
+    "targetingPolicy": {
+      "id": "https://ad.example.com/targeting",
+      "name": "Targeted Advertising Policy"
+    },
+    "adDataHandlingPolicy": {
+      "id": "https://ad.example.com/datahandling",
+      "name": "Explanation of how we handle information about ad distribution"
+    },
+    "adDisplayRationale": {
+      "page": {
+        "id": "https://ad.example.com/rationale",
+        "name": "An explanation of why the ad is being displayed"
+      },
+      "description": "Because it's relevant to the content you're currently viewing."
+    }
   },
   "allowedUrl": ["https://ad.example.com/*"],
   "target": {
