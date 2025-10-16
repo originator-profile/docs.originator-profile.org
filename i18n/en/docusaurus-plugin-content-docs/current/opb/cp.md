@@ -1,6 +1,6 @@
 ---
 sidebar_position: 21
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/9ceac67/docs/opb/cp.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/b10a57d/docs/opb/cp.md
 tags:
   - Base Model
 ---
@@ -25,7 +25,7 @@ The Core Profile MUST be an OP VC DM compliant document and includes the followi
 
 #### `@context` {#context}
 
-REQUIRED. An ordered array of URLs, which MUST start with `https://www.w3.org/ns/credentials/v2`, followed by `https://originator-profile.org/ns/credentials/v1`.
+REQUIRED. An ordered array of URLs. The array MUST start with `https://www.w3.org/ns/credentials/v2`, followed by `https://originator-profile.org/ns/credentials/v1`.
 
 #### `type` {#type}
 
