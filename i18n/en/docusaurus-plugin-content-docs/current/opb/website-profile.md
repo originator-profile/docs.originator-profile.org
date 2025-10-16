@@ -81,7 +81,7 @@ The WSP verifier can verify the following:
 - [Verification of VC conformance to the OP VC Data Model](./op-vc-data-model.md#verification)
 - `allowedOrigin` verification
 
-### Verification of `allowedOrigin`
+### Verification of `allowedOrigin` {#allowed-origin-validation}
 
 The verifier can verify the `allowedOrigin` property by following these steps (OPTIONAL):
 

@@ -80,7 +80,7 @@ WSP の検証者は次のことを検証することができます。
 - [OP VC Data Model に準拠した VC の検証](./op-vc-data-model.md#verification)
 - `allowedOrigin` の検証
 
-### `allowedOrigin` の検証
+### `allowedOrigin` の検証 {#allowed-origin-validation}
 
 検証者は次の手順に従って `allowedOrigin` プロパティを検証できます (OPTIONAL)。
 
