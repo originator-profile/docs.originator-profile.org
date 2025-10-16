@@ -1,6 +1,6 @@
 ---
 sidebar_position: 102
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/f3ab96e/docs/opb/context.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/b10a57d/docs/opb/context.md
 ---
 
 # Contexts, Vocabularies, and Types
@@ -94,18 +94,18 @@ _This section is non-normative._
         }
       }
     },
-    "allowedUrl": "https://schema.org/url",
-    "PlainTextDescription": {
-      "@id": "https://originator-profile.org/ns/credentials/v1#PlainTextDescription",
+    "page": {
+      "@id": "https://originator-profile.org/ns/v1#page",
+      "@protected": true,
       "@context": {
-        "@protected": true,
-        "type": "@type",
-        "data": {
-          "@id": "https://originator-profile.org/ns/credentials/v1#data",
-          "@type": "https://schema.org/Text"
-        }
+        "id": {
+          "@id": "https://schema.org/url",
+          "@type": "@id"
+        },
+        "name": "https://schema.org/name"
       }
     },
+    "allowedUrl": "https://schema.org/url",
     "ContentAttestation": {
       "@id": "https://originator-profile.org/ns/credentials/v1#ContentAttestation",
       "@context": {
@@ -273,7 +273,33 @@ _This section is non-normative._
         "title": "https://schema.org/title",
         "image": "op:image",
         "description": "https://schema.org/description",
-        "landingPageUrl": "https://schema.org/url"
+        "landingPageUrl": "https://schema.org/url",
+        "adReportContact": {
+          "@id": "https://originator-profile.org/ns/cip/v1#adReportContact",
+          "@type": "https://originator-profile.org/ns/v1#page"
+        },
+        "adReviewGuidelines": {
+          "@id": "https://originator-profile.org/ns/cip/v1#adReviewGuidelines",
+          "@type": "https://originator-profile.org/ns/v1#page"
+        },
+        "targetingPolicy": {
+          "@id": "https://originator-profile.org/ns/cip/v1#targetingPolicy",
+          "@type": "https://originator-profile.org/ns/v1#page"
+        },
+        "adDataHandlingPolicy": {
+          "@id": "https://originator-profile.org/ns/cip/v1#adDataHandlingPolicy",
+          "@type": "https://originator-profile.org/ns/v1#page"
+        },
+        "adDisplayRationale": {
+          "@id": "https://originator-profile.org/ns/cip/v1#adDisplayRationale",
+          "@context": {
+            "page": {
+              "@id": "https://originator-profile.org/ns/v1#page",
+              "@type": "@id"
+            },
+            "description": "https://schema.org/description"
+          }
+        }
       }
     },
     "Integrity": {
