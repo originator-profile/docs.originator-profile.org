@@ -1,6 +1,6 @@
 ---
 sidebar_position: 11
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/9ceac67/docs/opb/op-vc-data-model.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/b10a57d/docs/opb/op-vc-data-model.md
 ---
 
 # OP VC Data Model
@@ -15,7 +15,7 @@ It MUST conform to the [VC DM 2.0 Conforming Document](https://www.w3.org/TR/vc-
 
 #### `@context` {#context}
 
-REQUIRED. An ordered array of URLs. The first element MUST be `https://www.w3.org/ns/credentials/v2`, followed by `https://originator-profile.org/ns/credentials/v1` . The last element in the array MUST indicate the language of the string in the VC with the `@language` tag . For example, if the language is Japanese, include `{"@language": "ja"}` at the end of the array.
+REQUIRED. An ordered array of URLs. The array MUST start with `https://www.w3.org/ns/credentials/v2`, followed by `https://originator-profile.org/ns/credentials/v1`. The last element of the array MUST indicate the language of the string in VC with the `@language` tag. For example, if the language is Japanese, include `{"@language": "ja"}` at the end of the array.
 
 #### `type` {#type}
 
