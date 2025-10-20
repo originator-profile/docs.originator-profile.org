@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1000
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/3d0649e/docs/opb/terminology.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/b10a57d/docs/opb/terminology.md
 ---
 
 # Terminology
