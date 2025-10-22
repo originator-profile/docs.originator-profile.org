@@ -1,5 +1,7 @@
 ---
 sidebar_position: 28
+tags:
+  - Web Media Specific Model
 ---
 
 # Web Media Profile
