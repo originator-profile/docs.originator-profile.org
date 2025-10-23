@@ -59,6 +59,35 @@ A verifier can verify properties of the `image` datatype by following these step
 
 The value of the `dateTimeStamp` data type MUST be a `dateTimeStamp` string from [W3C XML Schema Definition Language (XSD) 1.1 Part 2: Datatypes section 3.3.7 dateTime](https://www.w3.org/TR/xmlschema11-2/#dateTime), which corresponds to the http://www.w3.org/2001/XMLSchema#dateTime data type in the JSON-LD context.
 
+### The `description` Datatype
+
+A subset of the https://schema.org/description data type. It is either a string or a JSON-LD Node Object that contains the following properties:
+
+- `text`: REQUIRED. The Text Content (string).
+- `encodingFormat`: REQUIRED. The encoding format for the text content. It MUST be a [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/MIME_types).
+
+Example of JSON-LD Node Object:
+
+```json
+{
+  "text": "<!doctype html><title>Example</title><h1>Headline</h1>",
+  "encodingFormat": "text/html"
+}
+```
+
+:::note Security Considerations
+
+Application implementers should take the following points into consideration for text content other than the `text/plain` format:
+
+- Do not assume that text content will be encoded into another format (e.g. converting from `text/markdown` to `text/html`), due to the risk of XSS vulnerabilities in the conversion process.
+- When using `text/html` text content for display, the following countermeasures should be taken:
+  - Prohibition of external resource loading, or restriction via an allow list
+  - Rendering in a sandboxed iframe with CSP restrictions
+  - Prohibition of stylesheet loading, or restriction via an allow list
+- If an array of the `description` datatype is available, consider prioritizing reference to text content in a lower security risk format (such as `text/plain`).
+
+:::
+
 ## Contexts
 
 _This section is non-normative._

@@ -52,11 +52,17 @@ REQUIRED. Web メディアの発信者を表す JSON-LD Node Object です。
 - `contactPoint`: OPTIONAL. お問い合わせページの情報です。 [`page` データ型](./context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。
 - `informationTransmissionPolicy`: OPTIONAL. 情報発信ポリシーページの情報です。 [`page` データ型](./context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。
 - `privacyPolicy`: OPTIONAL. プライバシーポリシーページの情報です。 [`page` データ型](./context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。
-- `description`: OPTIONAL. 組織に関する説明です（文字列）。
+- `description`: OPTIONAL. 組織に関する自由形式テキスト。[`description` データ型](./context.md#the-description-datatype)またはその配列でなければなりません (MUST)。
 
 :::note
 
 `informationTransmissionPolicy` プロパティに含める情報発信ポリシーは [Originator Profile 憲章](https://originator-profile.org/ja-JP/charter/) の第3条1号において OP ID 付与の必須条件とされています。
+
+:::
+
+:::note
+
+`description` プロパティに2つ以上の `description` データ型の要素が含まれている場合、同じ内容のテキストコンテンツを複数の符号化形式で表現することを目的とすべきです。また、複数の符号化形式でテキストコンテンツを提供するのであれば、アプリケーション実装者が定めるセキュリティポリシーに対応できるように、要素の1つは `text/plain` 形式のテキストコンテンツにすることを推奨します。
 
 :::
 
@@ -104,7 +110,10 @@ WMP の具体例を次に示します。
       "id": "https://wmp-holder.example.jp/privacy",
       "name": "プライバシーポリシー"
     },
-    "description": "この文章はこの Web メディアに関する補足情報です。"
+    "description": {
+      "text": "<!doctype html><title>description</title><p>この文章はこの Web メディアに関する<strong>補足情報</strong>です。</p>",
+      "encodingFormat": "text/html"
+    }
   }
 }
 ```

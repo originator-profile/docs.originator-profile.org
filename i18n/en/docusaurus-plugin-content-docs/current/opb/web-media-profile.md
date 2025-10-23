@@ -53,11 +53,17 @@ REQUIRED. A JSON-LD Node Object that represents the originator of the web media.
 - `contactPoint`: OPTIONAL. Contact page information. It MUST be a JSON-LD Node Object of type [`page` datatype](./context.md#the-page-datatype).
 - `informationTransmissionPolicy`: OPTIONAL. Information about the information transmission policy page. It MUST be a JSON-LD Node Object of type [`page` datatype](./context.md#the-page-datatype).
 - `privacyPolicy`: OPTIONAL. Privacy policy page information. It MUST be a JSON-LD Node Object of type [`page` datatype](./context.md#the-page-datatype).
-- `description`: OPTIONAL. A description of the organization.
+- `description`: OPTIONAL. A free-form text about the organization. It MUST be of [`description` datatype](./context.md#the-description-datatype) or an array of such type.
 
 :::note
 
 The information transmission policy to be included in the `informationTransmissionPolicy` property is a required condition for granting an OP ID under Article 3, Paragraph 1 of the [Originator Profile Charter](https://originator-profile.org/en-US/charter/).
+
+:::
+
+:::note
+
+When the `description` property contains two or more elements of the `description` datatype, the intention should be to represent the same text content in multiple encoding formats. Furthermore, if text content is provided in multiple encoding formats, we recommend that one of the elements be `text/plain` content so that application implementers can comply with their defined security policy.
 
 :::
 
@@ -105,7 +111,10 @@ Below is an example of WMP
       "id": "https://wmp-holder.example.jp/privacy",
       "name": "Privacy Policy"
     },
-    "description": "This document is supplemental information for this Web media."
+    "description": {
+      "text": "<!doctype html><title>description</title><p>This document is <strong>supplemental information</strong> for this Web media.",
+      "encodingFormat": "text/html"
+    }
   }
 }
 ```

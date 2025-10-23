@@ -57,6 +57,35 @@ sha384-dN4FeVmV5DQb/C8iAY+sBUjLjFfB+knXZJ3RT2GyJg8Tco4SPQYwxNpe2M50b9ON
 
 `dateTimeStamp` データ型の値は、 [W3C XML Schema Definition Language (XSD) 1.1 Part 2: Datatypes セクション 3.3.7 dateTime](https://www.w3.org/TR/xmlschema11-2/#dateTime) の `dateTimeStamp` 文字列でなければなりません (MUST)。 JSON-LD Context では http://www.w3.org/2001/XMLSchema#dateTime データ型に対応します。
 
+### The `description` Datatype
+
+https://schema.org/description データ型のサブセットです。文字列または次のプロパティを含む JSON-LD Node Object です。
+
+- `text`: REQUIRED. テキストコンテンツ (文字列)。
+- `encodingFormat`: REQUIRED. テキストコンテンツの符号化形式。[MIME タイプ](https://developer.mozilla.org/ja/docs/Web/HTTP/Guides/MIME_types)でなければなりません (MUST)。
+
+JSON-LD Node Object の例:
+
+```json
+{
+  "text": "<!doctype html><title>Example</title><h1>Headline</h1>",
+  "encodingFormat": "text/html"
+}
+```
+
+:::note セキュリティの考慮事項
+
+アプリケーション実装者は、`text/plain` 形式以外のテキストコンテンツについて、次の点に考慮してください。
+
+- テキストコンテンツの別の形式への符号化（例えば、`text/markdown` 形式から `text/html` 形式への変換など）を前提とすることは、変換処理のXSS脆弱性へのリスクから避けるべきです。
+- `text/html` 形式のテキストコンテンツを表示に使用する場合は、次のような対策を講じるべきです。
+  - 外部リソース読み込みの禁止、または許可リストによる制限
+  - CSP 制限を設けた sandbox iframe での描画
+  - スタイルシート読み込みの禁止、または許可リストによる制限
+- `description` データ型の配列が取得できる場合は、よりセキュリティリスクの少ない形式（`text/plain` 形式など）のテキストコンテンツを優先して参照することを検討してください。
+
+:::
+
 ## Contexts
 
 _このセクションは非規範的です。_
