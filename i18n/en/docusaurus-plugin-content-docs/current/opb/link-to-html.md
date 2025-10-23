@@ -55,7 +55,7 @@ Below is an example of embedding an OPS containing a single OP:
   {
     "core": "eyJ...",
     "annotations": ["eyJ..."],
-    "media": "eyJ..."
+    "media": ["eyJ..."]
   }
 ]
 </script>

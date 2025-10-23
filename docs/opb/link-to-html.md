@@ -54,7 +54,7 @@ _このセクションは非規範的です。_
   {
     "core": "eyJ...",
     "annotations": ["eyJ..."],
-    "media": "eyJ..."
+    "media": ["eyJ..."]
   }
 ]
 </script>

@@ -28,7 +28,7 @@ OPS は JSON オブジェクトの配列でなければなりません (MUST)。
 
 - `core`: Core Profile (REQUIRED)
 - `annotations`: Profile Annotation の配列 (OPTIONAL)
-- `media`: Web Media Profile (OPTIONAL)
+- `media`: Web Media Profile の配列 (OPTIONAL)
 
 ### `core`
 
@@ -40,7 +40,7 @@ OPTIONAL. Profile Annotation の配列です。このプロパティを含める
 
 ### `media`
 
-OPTIONAL. Web Media Profile です。このプロパティを含める場合、 `core` の Core Profile と `credentialSubject.id` が等しくなければなりません (MUST)。
+OPTIONAL. Web Media Profile の配列です。このプロパティを含める場合、各要素について、その `credentialSubject.id` は `core` の Core Profile の `credentialSubject.id` と等しくなければなりません (MUST)。
 
 ## OPS の JSON Serialization
 
@@ -57,7 +57,7 @@ _このセクションは非規範的です。_
   {
     "core": "eyJ...",
     "annotations": ["eyJ..."],
-    "media": "eyJ..."
+    "media": ["eyJ..."]
   }
 ]
 ```
@@ -69,15 +69,21 @@ _このセクションは非規範的です。_
   {
     "core": "eyJ...",
     "annotations": ["eyJ...", "eyJ..."],
-    "media": "eyJ..."
+    "media": ["eyJ..."]
   },
   {
     "core": "eyJ...",
     "annotations": ["eyJ..."],
-    "media": "eyJ..."
+    "media": ["eyJ..."]
   }
 ]
 ```
+
+## 国際化 {#internationalization}
+
+Originator Profile Set 配布者は、アプリケーションがロケールに応じて VCs を抽出できるように、`annotations` プロパティと `media` プロパティのそれぞれに異なる言語が指定された 2 つ以上の VCs を含めて配布することができます (MAY)。
+
+VCs への言語の指定方法は [OP VC Data Model の国際化](/opb/op-vc-data-model.md#internationalization)に準じます。
 
 ## 検証プロセス
 

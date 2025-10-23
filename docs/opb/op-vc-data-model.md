@@ -14,7 +14,7 @@ OP の仕様ではいくつかの VC を定めています。それらの VC は
 
 #### `@context` {#context}
 
-REQUIRED. URL の順序つき配列。必ず先頭が `https://www.w3.org/ns/credentials/v2`、その次が `https://originator-profile.org/ns/credentials/v1` である配列でなければなりません (MUST)。また、配列の末尾の要素で VC 内の文字列の言語を `@language` タグで示さなければなりません (MUST)。つまり、言語が日本語だとすると `{"@language": "ja"}` を配列の末尾に含めてください。
+REQUIRED. URL の順序つき配列。必ず先頭が `https://www.w3.org/ns/credentials/v2`、その次が `https://originator-profile.org/ns/credentials/v1` である配列でなければなりません (MUST)。また、配列の末尾の要素で VC 内の文字列の言語を `@language` タグで示すべきです (SHOULD)。つまり、言語が日本語だとすると `{"@language": "ja"}` を配列の末尾に含めてください。
 
 #### `type` {#type}
 
@@ -35,6 +35,19 @@ REQUIRED. 識別子です。識別子の形式は各 VC のデータモデルを
 #### `issuer` {#issuer}
 
 REQUIRED. VC 発行組織の [OP ID](./op-id.md) でなければなりません (MUST)。
+
+## 国際化 {#internationalization}
+
+各 VC で使用する言語は、[OP VC データモデル `@context` プロパティ](/opb/op-vc-data-model.md#context)に指定される `@language` タグによって識別できます。アプリケーション実装者は、アプリケーション利用者のロケールに合わせて、適切な言語で記述された VCs を表示に使用するべきです (SHOULD)。
+
+:::note 実装上の注意点
+
+アプリケーション実装者は、利用者のロケールが得られない場合や、利用者のロケールと一致する VCs が得られない場合には、次のような配慮が必要です。
+
+1. 言語コードが `en` の VCs へのフォールバック
+2. 1\. の VCs が得られない場合は、取得した VCs へのフォールバック
+
+:::
 
 ## 検証プロセス {#verification}
 

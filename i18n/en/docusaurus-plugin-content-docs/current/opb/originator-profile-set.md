@@ -29,7 +29,7 @@ Each JSON object has the following properties:
 
 - `core`: Core Profile (REQUIRED)
 - `annotations`: An array of Profile Annotation (OPTIONAL)
-- `media`: Web Media Profile (OPTIONAL)
+- `media`: An array of Web Media Profile (OPTIONAL)
 
 ### `core`
 
@@ -42,7 +42,7 @@ This property SHOULD be included if the OPS recipient has an interest in the tru
 
 ### `media`
 
-OPTIONAL. The Web Media Profile. If this property is included, the Core Profile of `core` and `credentialSubject.id` MUST be equal.
+OPTIONAL. An array of Web Media Profile. If this property is included, the `credentialSubject.id` of each element and the `credentialSubject.id` of the Core Profile in `core` MUST be equal.
 
 ## JSON Serialization for OPS
 
@@ -59,7 +59,7 @@ Below is an example of an OPS that contains only VCs from a single organization:
   {
     "core": "eyJ...",
     "annotations": ["eyJ..."],
-    "media": "eyJ..."
+    "media": ["eyJ..."]
   }
 ]
 ```
@@ -71,15 +71,21 @@ Below is an example of an OPS that includes VCs from multiple organizations.
   {
     "core": "eyJ...",
     "annotations": ["eyJ...", "eyJ..."],
-    "media": "eyJ..."
+    "media": ["eyJ..."]
   },
   {
     "core": "eyJ...",
     "annotations": ["eyJ..."],
-    "media": "eyJ..."
+    "media": ["eyJ..."]
   }
 ]
 ```
+
+## Internationalization {#internationalization}
+
+Originator Profile Set distributors MAY include two or more VCs with different languages specified in their respective `annotations` and `media` properties, to allow applications to extract VCs based on locale.
+
+The method for specifying the language(s) in VCs conforms to the [internationalization section of the OP VC Data Model](/opb/op-vc-data-model.md#internationalization).
 
 ## Validation Process
 

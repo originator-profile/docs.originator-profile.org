@@ -15,7 +15,7 @@ It MUST conform to the [VC DM 2.0 Conforming Document](https://www.w3.org/TR/vc-
 
 #### `@context` {#context}
 
-REQUIRED. An ordered array of URLs. The array MUST start with `https://www.w3.org/ns/credentials/v2`, followed by `https://originator-profile.org/ns/credentials/v1`. The last element of the array MUST indicate the language of the string in VC with the `@language` tag. For example, if the language is Japanese, include `{"@language": "ja"}` at the end of the array.
+REQUIRED. An ordered array of URLs. The array MUST start with `https://www.w3.org/ns/credentials/v2`, followed by `https://originator-profile.org/ns/credentials/v1`. The last element of the array SHOULD indicate the language of the string in VC with the `@language` tag. For example, if the language is Japanese, include `{"@language": "ja"}` at the end of the array.
 
 #### `type` {#type}
 
@@ -36,6 +36,19 @@ REQUIRED. An identifier. The format of the identifier is specified in the data m
 #### `issuer` {#issuer}
 
 REQUIRED. It MUST be the [OP ID](./op-id.md) of the VC issuing organization.
+
+## Internationalization {#internationalization}
+
+The language used in each VC can be identified by the `@language` tag specified in the [@context property of the OP VC Data Model](/opb/op-vc-data-model.md#context). Application implementers SHOULD use VCs written in the appropriate language for display, matching the application user's locale.
+
+:::note Implementation Notes
+
+Application implementers must take the following considerations when the user's locale cannot be obtained, or when VCs matching the user's locale are unavailable:
+
+1. Fallback to VCs with the language code `en`.
+2. If VCs from step 1 are unavailable, fallback to any obtained VCs.
+
+:::
 
 ## Verification Process {#verification}
 
