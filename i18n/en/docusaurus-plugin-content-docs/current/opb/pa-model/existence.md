@@ -1,5 +1,5 @@
 ---
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/64413dd/docs/opb/pa-guide/existence.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/b10a57d/docs/opb/pa-model/existence.md
 tags:
   - Jurisdiction Specific Model
   - Profile Annotation
@@ -29,7 +29,7 @@ REQUIRED. It is JSON-LD Node Object that represents organization existence certi
 
 - `id`: REQUIRED. OP ID of the certificate holding organization.
 - `type`: REQUIRED. It should be `Organization`.
-- `description`: OPTIONAL. A description of this certificate.
+- `description`: OPTIONAL. A description of this certificate (string).
 - `name`: REQUIRED. Company name
 - `corporateNumber`: REQUIRED. Corporate number
 - `postalCode`: REQUIRED. postal code
@@ -40,7 +40,7 @@ REQUIRED. It is JSON-LD Node Object that represents organization existence certi
 - `certificationSystem.id`: REQUIRED. Specify the ID of the certification system in URI format.
 - `certificationSystem.type`: REQUIRED. It MUST be `CertificationSystem`.
 - `certificationSystem.name`: REQUIRED. The name of the certification system.
-- `certificationSystem.description`: OPTIONAL. Explaining the certification system
+- `certificationSystem.description`: OPTIONAL. Explaining the certification system (string).
 - `certificationSystem.ref`: RECOMMENDED. The URL of a human-readable page to learn more about the certification system.
 
 :::note
