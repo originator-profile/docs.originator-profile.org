@@ -1,6 +1,6 @@
 ---
 sidebar_position: 29
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/2f3250e/docs/opb/website-profile.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/e851a21/docs/opb/website-profile.md
 tags:
   - Web Media Specific Model
 ---
@@ -53,7 +53,7 @@ OPTIONAL. A thumbnail image for the website. It MUST be a JSON-LD Node Object of
 
 #### `description`
 
-OPTIONAL. A description of the Web site.
+OPTIONAL. A description of the Web site (string).
 
 #### `allowedOrigin`
 
