@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Page Not Found</title>
+    <script>
+      (async function () {
+        const currentPath = window.location.pathname;
+
+        // If already on a localized path, load localized 404 content
+        if (currentPath.startsWith("/ja/")) {
+          try {
+            const response = await fetch("/ja/404.html");
+            if (response.ok) {
+              const html = await response.text();
+              document.open();
+              document.write(html);
+              document.close();
+            } else {
+              console.error(
+                "Failed to load Japanese 404 page:",
+                response.status,
+              );
+            }
+          } catch (error) {
+            console.error("Failed to load Japanese 404 page:", error);
+          }
+          return;
+        }
+        if (currentPath.startsWith("/en/")) {
+          try {
+            const response = await fetch("/en/404.html");
+            if (response.ok) {
+              const html = await response.text();
+              document.open();
+              document.write(html);
+              document.close();
+            } else {
+              console.error(
+                "Failed to load English 404 page:",
+                response.status,
+              );
+            }
+          } catch (error) {
+            console.error("Failed to load English 404 page:", error);
+          }
+          return;
+        }
+
+        // Skip if locale-independent path
+        if (currentPath.startsWith("/aov/")) {
+          return;
+        }
+
+        // Get browser languages
+        const browserLanguages = navigator.languages || [navigator.language];
+
+        // Check which languages are preferred
+        /** @type {"en" | "ja"} */
+        let preferredLanguage = "ja"; // デフォルトは日本語
+        const availableLanguages = ["en", "ja"];
+
+        for (const tag of browserLanguages) {
+          const lang = tag.split("-")[0].toLowerCase();
+
+          if (availableLanguages.includes(lang)) {
+            preferredLanguage = lang;
+            break;
+          }
+        }
+
+        // Redirect to the preferred language path
+        const newPath = `/${preferredLanguage}${currentPath}`;
+        window.location.replace(newPath);
+      })();
+    </script>
+  </head>
+  <body>
+    <p>Loading...</p>
+  </body>
+</html>
