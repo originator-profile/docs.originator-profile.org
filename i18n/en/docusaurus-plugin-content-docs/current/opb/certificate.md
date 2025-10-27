@@ -116,8 +116,7 @@ The following is a concrete example of Certificate Data Model :
       "name": "<The name of the certification scheme>",
       "description": "<A description of the certification scheme>",
       "ref": "https://certification.example.org/about"
-    },
-    "description": "A description of this certificate"
+    }
   },
   "validFrom": "2024-03-31T15:00:00Z",
   "validUntil": "2030-03-31T14:59:59Z"

@@ -115,8 +115,7 @@ Certificate のデータモデルの具体例を次に示します。
       "name": "<認証制度名>",
       "description": "<認証制度の説明>",
       "ref": "https://certification.example.org/about"
-    },
-    "description": "この証明書の説明"
+    }
   },
   "validFrom": "2024-03-31T15:00:00Z",
   "validUntil": "2030-03-31T14:59:59Z"
