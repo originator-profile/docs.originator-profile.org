@@ -1,5 +1,5 @@
 ---
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/f3ab96e/docs/opb/pa-guide/news-media-registration.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/b10a57d/docs/opb/pa-model/news-media-registration.md
 tags:
   - Jurisdiction Specific Model
   - Profile Annotation
@@ -41,14 +41,14 @@ Currently, news media registration certificates are issued by OP registries that
 
 - `id`: REQUIRED. It is the OP ID of the organization holding the certificate.
 - `type`: REQUIRED. Set it to `CertificateProperties`.
-- `description`: OPTIONAL. It is a description of this certificate.
+- `description`: OPTIONAL. It is a description of this certificate (string).
 - `image`: OPTIONAL. It MUST be a JSON-LD Node Object of type [`image` datatype](../context.md#the-image-datatype). This property allows you to [verify](../context.md#image-datatype-validation) that the image in the Certificate has not been tampered with.
 - `certifier`: OPTIONAL. The name of the certification authority.
 - `verifier`: OPTIONAL. The name of the verifier.
 - `certificationSystem.id`: REQUIRED. Specify the ID of the certification system in URI format.
 - `certificationSystem.type`: REQUIRED. MUST be `CertificationSystem`.
 - `certificationSystem.name`: REQUIRED. The name of the certification system.
-- `certificationSystem.description`: OPTIONAL. A description of the certification system.
+- `certificationSystem.description`: OPTIONAL. A description of the certification system (string).
 - `certificationSystem.ref`: RECOMMENDED. A URL for people to read to find out more about the certification system.
 
 #### `validFrom`
