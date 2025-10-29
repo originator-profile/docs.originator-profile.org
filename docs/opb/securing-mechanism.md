@@ -219,11 +219,11 @@ VC の検証者は [VC DM 2.0 に準拠した検証の実装](https://www.w3.org
 
 検証プロセスで扱うデータの構造については次のリファレンスを確認してください。
 
-- [未復号 VC](https://reference.originator-profile.org/ts/types/_originator-profile_securing-mechanism.UndecodedVc)
-- [VcVerifyFailed](https://reference.originator-profile.org/ts/classes/_originator-profile_securing-mechanism.VcVerifyFailed)
-- [VcValidateFailed](https://reference.originator-profile.org/ts/classes/_originator-profile_securing-mechanism.VcValidateFailed)
-- [OP VC DM 検証者](https://reference.originator-profile.org/ts/types/_originator-profile_securing-mechanism.VcValidator)
-- [検証済み VC](https://reference.originator-profile.org/ts/types/_originator-profile_securing-mechanism.VerifiedVc)
+- 未復号 VC
+- VcVerifyFailed
+- VcValidateFailed
+- OP VC DM 検証者
+- 検証済み VC
 
 ```mermaid
 flowchart TD

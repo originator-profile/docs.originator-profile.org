@@ -95,10 +95,10 @@ The verification process implemented in [@originator-profile/verify](https://git
 
 Please refer to the following reference for the structure of the data handled in the verification process.
 
-- [OpsInvalid](https://reference.originator-profile.org/ts/classes/_originator-profile_verify.OpsInvalid)
-- [OpVerifyFailed](https://reference.originator-profile.org/ts/classes/_originator-profile_verify.OpVerifyFailed)
-- [OpsVerifyFailed](https://reference.originator-profile.org/ts/classes/_originator-profile_verify.OpsVerifyFailed)
-- [Verified OPS](https://reference.originator-profile.org/ts/types/_originator-profile_verify.VerifiedOps)
+- OpsInvalid
+- OpVerifyFailed
+- OpsVerifyFailed
+- Verified OPS
 
 Details of the CP / PA / WMP verification process are in accordance with [Verification of VCs Compliant with the OP VC Data Model](./op-vc-data-model.md#verification). However, CP verification is performed using the validation key and OP ID of a pre-approved CP issuer, and does not require obtaining a verification key from the OPS.
 

@@ -102,9 +102,9 @@ _このセクションは非規範的です。_
 
 検証プロセスで扱うデータの構造については次のリファレンスを確認してください。
 
-- [SiteProfileInvalid](https://reference.originator-profile.org/ts/classes/_originator-profile_verify.SiteProfileInvalid)
-- [SiteProfileVerifyFailed](https://reference.originator-profile.org/ts/classes/_originator-profile_verify.SiteProfileVerifyFailed)
-- [検証済み SP](https://reference.originator-profile.org/ts/types/_originator-profile_verify.VerifiedSp)
+- SiteProfileInvalid
+- SiteProfileVerifyFailed
+- 検証済み SP
 
 OPS の検証プロセスの詳細は [OPS の検証](./originator-profile-set.md#verification) に準じます。また、WSP の検証プロセスの詳細は [WSP の検証](./website-profile.md#verification) に準じます。
 

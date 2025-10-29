@@ -249,22 +249,22 @@ After running the verification, you need to communicate the results to your user
 
 [OP Extension](https://github.com/originator-profile/profile-share/tree/main/apps/web-ext) may return the following error when validating the CA:
 
-- [CaInvalid](https://reference.originator-profile.org/ts/classes/_originator-profile_verify.CaInvalid)
-- [CoreProfileNotFound](https://reference.originator-profile.org/ts/classes/_originator-profile_verify.CoreProfileNotFound)
-- [CaVerifyFailed](https://reference.originator-profile.org/ts/classes/_originator-profile_verify.CaVerifyFailed)
+- CaInvalid
+- CoreProfileNotFound
+- CaVerifyFailed
   - "Content Attestation verify failed" ... Verification of VC conforming to OP VC Data Model failed
   - "URL not allowed" ... Verification of `allowedUrl` failed (OPTIONAL)
   - "Target integrity verification failed" ... Verification of [Content Integrity Descriptor](./content-integrity-descriptor/index.mdx) failed
 
 For other data structures, please see the following references:
 
-- [Verified Content Attestation (CA)](https://reference.originator-profile.org/ts/types/_originator-profile_verify.VerifiedCa)
+- Verified Content Attestation (CA)
 
 Input:
 
 - Content Attestation (CA)
 - The URL of the web page that presented the CA (OPTIONAL)
-- [Verified Originator Profile (OP)](https://reference.originator-profile.org/ts/types/_originator-profile_verify.VerifiedOp)
+- Verified Originator Profile (OP)
 
 ```mermaid
 flowchart TD

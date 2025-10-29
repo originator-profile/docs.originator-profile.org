@@ -103,9 +103,9 @@ The verification process implemented in [@originator-profile/verify](https://git
 
 Please see the following reference for the data structure handled in the verification process.
 
-- [SiteProfileInvalid](https://reference.originator-profile.org/ts/classes/_originator-profile_verify.SiteProfileInvalid)
-- [SiteProfileVerifyFailed](https://reference.originator-profile.org/ts/classes/_originator-profile_verify.SiteProfileVerifyFailed)
-- [Verified SP](https://reference.originator-profile.org/ts/types/_originator-profile_verify.VerifiedSp)
+- SiteProfileInvalid
+- SiteProfileVerifyFailed
+- Verified SP
 
 Details of OPS verification process are as follows: [OPS verification](./originator-profile-set.md#verification), and details of WSP verification process are as follows: [WSP verification](./website-profile.md#verification).
 

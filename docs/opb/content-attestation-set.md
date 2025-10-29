@@ -55,9 +55,9 @@ _このセクションは非規範的です。_
 「[OP 拡張機能](https://github.com/originator-profile/profile-share/tree/main/apps/web-ext)」では、CA の検証時、次のエラーを返却することがあります。
 
 - CasVerifyFailed
-  - [CaInvalid](https://reference.originator-profile.org/ts/classes/_originator-profile_verify.CaInvalid)
-  - [CoreProfileNotFound](https://reference.originator-profile.org/ts/classes/_originator-profile_verify.CoreProfileNotFound)
-  - [CaVerifyFailed](https://reference.originator-profile.org/ts/classes/_originator-profile_verify.CaVerifyFailed)
+  - CaInvalid
+  - CoreProfileNotFound
+  - CaVerifyFailed
 - 検証済み CAS
 
 詳細は「[CA の検証](./ca.md#verification)」と OP 拡張機能のソースコードのご確認ください。
@@ -66,7 +66,7 @@ _このセクションは非規範的です。_
 
 - Content Attestation Set (CAS)
 - CAS を提示した Web ページの URL
-- [検証済み Originator Profile Set (OPS)](https://reference.originator-profile.org/ts/types/_originator-profile_verify.VerifiedOps)
+- 検証済み Originator Profile Set (OPS)
 
 ```mermaid
 flowchart TD

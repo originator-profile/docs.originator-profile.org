@@ -56,9 +56,9 @@ After running the verification, you need to communicate the results to your user
 [OP Extension](https://github.com/originator-profile/profile-share/tree/main/apps/web-ext) may return the following error when verifying the CA:
 
 - CasVerifyFailed
-  - [CaInvalid](https://reference.originator-profile.org/ts/classes/_originator-profile_verify.CaInvalid)
-  - [CoreProfileNotFound](https://reference.originator-profile.org/ts/classes/_originator-profile_verify.CoreProfileNotFound)
-  - [CaVerifyFailed](https://reference.originator-profile.org/ts/classes/_originator-profile_verify.CaVerifyFailed)
+  - CaInvalid
+  - CoreProfileNotFound
+  - CaVerifyFailed
 - Verified CAS
 
 For details, see "CA Verification" and the OP extension source code.
@@ -67,7 +67,7 @@ Input:
 
 - Content Attestation Set (CAS)
 - URL of the web page that presented the CAS
-- [Verified Originator Profile Set (OPS)](https://reference.originator-profile.org/ts/types/_originator-profile_verify.VerifiedOps)
+- Verified Originator Profile Set (OPS)
 
 ```mermaid
 flowchart TD

@@ -93,10 +93,10 @@ _このセクションは非規範的です。_
 
 検証プロセスで扱うデータの構造については次のリファレンスを確認してください。
 
-- [OpsInvalid](https://reference.originator-profile.org/ts/classes/_originator-profile_verify.OpsInvalid)
-- [OpVerifyFailed](https://reference.originator-profile.org/ts/classes/_originator-profile_verify.OpVerifyFailed)
-- [OpsVerifyFailed](https://reference.originator-profile.org/ts/classes/_originator-profile_verify.OpsVerifyFailed)
-- [検証済み OPS](https://reference.originator-profile.org/ts/types/_originator-profile_verify.VerifiedOps)
+- OpsInvalid
+- OpVerifyFailed
+- OpsVerifyFailed
+- 検証済み OPS
 
 CP / PA / WMP の検証プロセスの詳細は [OP VC Data Model に準拠した VC の検証](./op-vc-data-model.md#verification) に準じます。ただし、CP 検証ではあらかじめ認めた CP 発行者の検証鍵と CP 発行者の OP ID で検証をおこない、OPS から検証鍵の取得はおこないません。
 

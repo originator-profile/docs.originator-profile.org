@@ -248,22 +248,22 @@ _このセクションは非規範的です。_
 
 「[OP 拡張機能](https://github.com/originator-profile/profile-share/tree/main/apps/web-ext)」では、CA の検証時、次のエラーを返却することがあります。
 
-- [CaInvalid](https://reference.originator-profile.org/ts/classes/_originator-profile_verify.CaInvalid)
-- [CoreProfileNotFound](https://reference.originator-profile.org/ts/classes/_originator-profile_verify.CoreProfileNotFound)
-- [CaVerifyFailed](https://reference.originator-profile.org/ts/classes/_originator-profile_verify.CaVerifyFailed)
+- CaInvalid
+- CoreProfileNotFound
+- CaVerifyFailed
   - "Content Attestation verify failed" … OP VC Data Model に準拠した VC の検証失敗
   - "URL not allowed" … `allowedUrl` の検証失敗 (OPTIONAL)
   - "Target integrity verification failed" … [Content Integrity Descriptor](./content-integrity-descriptor/index.mdx) の検証失敗
 
 その他のデータの構造については次のリファレンスをご確認ください。
 
-- [検証済み Content Attestation (CA)](https://reference.originator-profile.org/ts/types/_originator-profile_verify.VerifiedCa)
+- 検証済み Content Attestation (CA)
 
 入力:
 
 - Content Attestation (CA)
 - CA を提示した Web ページの URL (OPTIONAL)
-- [検証済み Originator Profile (OP)](https://reference.originator-profile.org/ts/types/_originator-profile_verify.VerifiedOp)
+- 検証済み Originator Profile (OP)
 
 ```mermaid
 flowchart TD

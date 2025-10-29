@@ -219,11 +219,11 @@ The validation process implemented in [@originator-profile/securing-mechanism](h
 
 Please refer to the following reference for the structure of the data handled in the verification process.
 
-- [Undecrypted VC](https://reference.originator-profile.org/ts/types/_originator-profile_securing-mechanism.UndecodedVc)
-- [VcVerifyFailed](https://reference.originator-profile.org/ts/classes/_originator-profile_securing-mechanism.VcVerifyFailed)
-- [VcValidateFailed](https://reference.originator-profile.org/ts/classes/_originator-profile_securing-mechanism.VcValidateFailed)
-- [OP VC DM verifier](https://reference.originator-profile.org/ts/types/_originator-profile_securing-mechanism.VcValidator)
-- [Verified VC](https://reference.originator-profile.org/ts/types/_originator-profile_securing-mechanism.VerifiedVc)
+- Undecrypted VC
+- VcVerifyFailed
+- VcValidateFailed
+- OP VC DM verifier
+- Verified VC
 
 ```mermaid
     flowchart TD
