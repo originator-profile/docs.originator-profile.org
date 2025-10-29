@@ -14,7 +14,7 @@ tags:
 
 この target について実証実験の参加企業の方々からフィードバックをいただく予定です。また関連する仕様のアップデートの状況を見ながらよりよい方法を将来追加する可能性があります。
 
-参考: [画像加工を伴う CDN 利用時の検証可能化方法の検討 · Issue #1426 · originator-profile/profile](https://github.com/originator-profile/profile/issues/1426)
+参考: 画像加工を伴う CDN 利用時の検証可能化方法の検討
 
 :::
 

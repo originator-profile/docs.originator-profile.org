@@ -215,7 +215,7 @@ In the future, we may define a [ProblemDetails object](https://www.w3.org/TR/vc-
 
 :::
 
-The validation process implemented in [@originator-profile/securing-mechanism](https://github.com/originator-profile/profile-share/tree/main/packages/securing-mechanism) follows this process:
+The validation process implemented in @originator-profile/securing-mechanism follows this process:
 
 Please refer to the following reference for the structure of the data handled in the verification process.
 

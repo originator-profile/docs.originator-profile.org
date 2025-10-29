@@ -8,7 +8,7 @@ sidebar_position: 103
 
 暗号アルゴリズムのサポートについて何を参考にしてどのような基準で仕様として決めていくかは議論中です。
 
-参考: [危殆化に備えた鍵・アルゴリズムの指定・推奨の検討 · Issue #1502 · originator-profile/profile](https://github.com/originator-profile/profile/issues/1502)
+参考: 危殆化に備えた鍵・アルゴリズムの指定・推奨の検討
 
 :::
 

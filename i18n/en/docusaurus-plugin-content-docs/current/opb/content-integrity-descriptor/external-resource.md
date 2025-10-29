@@ -15,7 +15,7 @@ The External Resource Target defined in this document is a Content Attestation (
 
 We plan to receive feedback on this target from the companies participating in the pilot experiments. We may add better methods in the future while monitoring the status of updates to related specifications.
 
-Reference: [Consideration of a method to enable verification when using CDN with image processing · Issue #1426 · originator-profile/profile](https://github.com/originator-profile/profile/issues/1426)
+Reference: Consideration of a method to enable verification when using CDN with image processing
 
 :::
 

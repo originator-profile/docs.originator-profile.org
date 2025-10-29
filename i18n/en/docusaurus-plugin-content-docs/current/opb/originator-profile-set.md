@@ -91,7 +91,7 @@ The method for specifying the language(s) in VCs conforms to the [internationali
 
 _This section is non-normative._
 
-The verification process implemented in [@originator-profile/verify](https://github.com/originator-profile/profile-share/tree/main/packages/verify) follows the following process.
+The verification process implemented in @originator-profile/verify follows the following process.
 
 Please refer to the following reference for the structure of the data handled in the verification process.
 

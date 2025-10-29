@@ -99,7 +99,7 @@ The internationalization method for the `originators` property conforms to the [
 
 _This section is non-normative_
 
-The verification process implemented in [@originator-profile/verify](https://github.com/originator-profile/profile-share/tree/main/packages/verify) follows this process:
+The verification process implemented in @originator-profile/verify follows this process:
 
 Please see the following reference for the data structure handled in the verification process.
 

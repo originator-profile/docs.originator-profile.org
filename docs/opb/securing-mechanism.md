@@ -215,7 +215,7 @@ VC の検証者は [VC DM 2.0 に準拠した検証の実装](https://www.w3.org
 
 :::
 
-[@originator-profile/securing-mechanism](https://github.com/originator-profile/profile-share/tree/main/packages/securing-mechanism) において実装されている検証処理は次のプロセスでおこなわれます。
+@originator-profile/securing-mechanism において実装されている検証処理は次のプロセスでおこなわれます。
 
 検証プロセスで扱うデータの構造については次のリファレンスを確認してください。
 

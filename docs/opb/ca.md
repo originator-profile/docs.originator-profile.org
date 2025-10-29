@@ -246,7 +246,7 @@ _このセクションは非規範的です。_
 - CA の検証に成功した場合、検証済みの CA としてユーザーに表示
 - CA の検証に失敗した場合、その種類と原因について簡潔な説明をユーザーに通知
 
-「[OP 拡張機能](https://github.com/originator-profile/profile-share/tree/main/apps/web-ext)」では、CA の検証時、次のエラーを返却することがあります。
+「OP 拡張機能」では、CA の検証時、次のエラーを返却することがあります。
 
 - CaInvalid
 - CoreProfileNotFound

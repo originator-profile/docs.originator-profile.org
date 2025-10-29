@@ -89,7 +89,7 @@ VCs への言語の指定方法は [OP VC Data Model の国際化](/opb/op-vc-da
 
 _このセクションは非規範的です。_
 
-[@originator-profile/verify](https://github.com/originator-profile/profile-share/tree/main/packages/verify) において実装されている検証処理は次のプロセスでおこなわれます。
+@originator-profile/verify において実装されている検証処理は次のプロセスでおこなわれます。
 
 検証プロセスで扱うデータの構造については次のリファレンスを確認してください。
 

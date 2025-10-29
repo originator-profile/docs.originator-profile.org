@@ -53,7 +53,7 @@ After running the verification, you need to communicate the results to your user
   - If the CA is successfully verified, it will be displayed to the user as a verified CA.
   - If CA verification fails, inform the user with a brief explanation of the type and reason.
 
-[OP Extension](https://github.com/originator-profile/profile-share/tree/main/apps/web-ext) may return the following error when verifying the CA:
+OP Extension may return the following error when verifying the CA:
 
 - CasVerifyFailed
   - CaInvalid

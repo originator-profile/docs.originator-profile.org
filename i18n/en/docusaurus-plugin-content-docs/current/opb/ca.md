@@ -247,7 +247,7 @@ After running the verification, you need to communicate the results to your user
 - If the CA is successfully verified, it will be displayed to the user as a verified CA.
 - If the CA fails to be verified, a brief explanation of the type and reason will be provided to the user.
 
-[OP Extension](https://github.com/originator-profile/profile-share/tree/main/apps/web-ext) may return the following error when validating the CA:
+OP Extension may return the following error when validating the CA:
 
 - CaInvalid
 - CoreProfileNotFound
