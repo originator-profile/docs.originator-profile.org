@@ -45,7 +45,7 @@ REQUIRED. 必ず `["VerifiableCredential", "ContentAttestation"]` にしてく�
 - `targetingPolicy`: OPTIONAL. ターゲティング広告に関するポリシー。 [`page` データ型](../context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。
 - `adDataHandlingPolicy`: OPTIONAL. 広告配信に関する情報の取り扱いに関しての情報。 [`page` データ型](../context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。
 - `adDisplayRationale.page`: OPTIONAL. この広告が表示されている理由 (Web ページ)。[`page` データ型](../context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。
-- `adDisplayRationale.description` OPTIONAL. この広告が表示されている理由 (文字列)。
+- `adDisplayRationale.description`: OPTIONAL. この広告が表示されている理由 (文字列)。
 
 #### `allowedUrl`
 
