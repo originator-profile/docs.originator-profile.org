@@ -1,0 +1,27 @@
+{
+  "name": "@originator-profile/docs",
+  "description": "Originator Profile Documentation",
+  "homepage": "https://docs.originator-profile.org",
+  "repository": "https://github.com/originator-profile/docs.originator-profile.org",
+  "private": true,
+  "scripts": {
+    "format": "prettier --write .",
+    "build": "git fetch --unshallow; docusaurus build --out-dir pages; node copy-aov.mjs; node copy-public.mjs",
+    "preview": "node copy-aov.mjs; docusaurus start"
+  },
+  "devDependencies": {
+    "@docusaurus/core": "^3.9.1",
+    "@docusaurus/faster": "^3.9.1",
+    "@docusaurus/preset-classic": "^3.9.1",
+    "@docusaurus/theme-mermaid": "^3.9.1",
+    "@docusaurus/types": "^3.9.1",
+    "@easyops-cn/docusaurus-search-local": "^0.46.1",
+    "@r74tech/docusaurus-plugin-panzoom": "^2.4.0",
+    "dedent": "^1.7.0",
+    "docusaurus-plugin-image-zoom": "^3.0.1",
+    "gray-matter": "^4.0.3",
+    "prettier": "^3.6.2",
+    "shelljs": "^0.10.0"
+  },
+  "packageManager": "pnpm@9.15.4+sha512.b2dc20e2fc72b3e18848459b37359a32064663e5627a51e4c74b2c29dd8e8e0491483c3abb40789cfd578bf362fb6ba8261b05f0387d76792ed6e23ea3b1b6a0"
+}

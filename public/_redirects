@@ -1,0 +1,32 @@
+/rfc      /opb
+/rfc/*    /opb/:splat
+/ja/rfc   /ja/opb
+/ja/rfc/* /ja/opb/:splat
+/en/rfc   /en/opb
+/en/rfc/* /en/opb/:splat
+
+# Redirect locale-prefixed /aov/ paths to locale-independent /aov/
+/ja/aov/* /aov/:splat 301
+/en/aov/* /aov/:splat 301
+
+# https://github.com/originator-profile/cip.docs.originator-profile.org/issues/510
+/opb/pa-guide/jicdaq/             /opb/pa-guide/advertising-certification/
+/opb/pa-guide/japan-pressnet/     /opb/pa-guide/news-media-registration/
+/en/opb/pa-guide/jicdaq/          /en/opb/pa-guide/advertising-certification/
+/en/opb/pa-guide/japan-pressnet/  /en/opb/pa-guide/news-media-registration/
+
+# https://github.com/originator-profile/cip.docs.originator-profile.org/issues/516
+/opb/target-guide       /opb/content-integrity-descriptor
+/opb/target-guide/*     /opb/content-integrity-descriptor/:splat
+/en/opb/target-guide    /en/opb/content-integrity-descriptor
+/en/opb/target-guide/*  /en/opb/content-integrity-descriptor/:splat
+
+# https://github.com/originator-profile/cip.docs.originator-profile.org/issues/517
+/opb/ca-guide       /opb/ca-model
+/opb/ca-guide/*     /opb/ca-model/:splat
+/opb/pa-guide       /opb/pa-model
+/opb/pa-guide/*     /opb/pa-model/:splat
+/en/opb/ca-guide    /en/opb/ca-model
+/en/opb/ca-guide/*  /en/opb/ca-model/:splat
+/en/opb/pa-guide    /en/opb/pa-model
+/en/opb/pa-guide/*  /en/opb/pa-model/:splat
