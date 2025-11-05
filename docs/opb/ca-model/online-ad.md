@@ -35,9 +35,12 @@ REQUIRED. 必ず `["VerifiableCredential", "ContentAttestation"]` にしてく�
 :::
 
 - `type`: REQUIRED. `OnlineAd` でなければなりません (MUST)。
-- `name`: REQUIRED. 広告のタイトル。
-- `description`: REQUIRED. 広告の説明（文字列）。
+- `name`: OPTIONAL. 広告のタイトル。
+- `description`: OPTIONAL. 広告の説明（文字列）。
 - `image`: OPTIONAL. 広告のサムネイル画像。サムネイル画像があるならば指定するべきです (RECOMMENDED)。 [`image` データ型](../context.md#the-image-datatype) の JSON-LD Node Object でなければなりません (MUST)。このプロパティで CA を[検証](../context.md#image-datatype-の検証)することができます。
+
+**注意:** `name` 、 `description` 、 `image` プロパティはそれぞれ OPTIONAL ですが、3つのうち少なくとも1つを含まなければなりません (MUST)。
+
 - `genre`: OPTIONAL. 文字列。
 - `landingPageUrl`: OPTIONAL. 広告をクリックした際、最終的に表示されるページ（ランディングページ）の URL 。
 - `adReportContact`: OPTIONAL. 広告に対する報告窓口。 [`page` データ型](../context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。
@@ -46,6 +49,12 @@ REQUIRED. 必ず `["VerifiableCredential", "ContentAttestation"]` にしてく�
 - `adDataHandlingPolicy`: OPTIONAL. 広告配信に関する情報の取り扱いに関しての情報。 [`page` データ型](../context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。
 - `adDisplayRationale.page`: OPTIONAL. この広告が表示されている理由 (Web ページ)。[`page` データ型](../context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。
 - `adDisplayRationale.description`: OPTIONAL. この広告が表示されている理由 (文字列)。
+
+:::note
+
+画像・バナー広告以外の広告に関するプロパティの定義については、今後の課題として検討中です。
+
+:::
 
 #### `allowedUrl`
 
