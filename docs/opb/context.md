@@ -90,12 +90,6 @@ JSON-LD Node Object の例:
 
 _このセクションは非規範的です。_
 
-:::note
-
-これらのコンテキスト定義は最新の仕様を反映していません。各 VC, プロパティの定義については各仕様文書を参照してください。
-
-:::
-
 ### https://originator-profile.org/ns/credentials/v1
 
 _このセクションは非規範的です。_
@@ -107,7 +101,7 @@ _このセクションは非規範的です。_
     "@base": "https://originator-profile.org/ns/credentials/v1",
     "@protected": true,
     "op": "https://originator-profile.org/ns/credentials/v1#",
-    "Image": {
+    "image": {
       "@id": "https://originator-profile.org/ns/credentials/v1#image",
       "@context": {
         "@protected": true,
@@ -158,44 +152,50 @@ _このセクションは非規範的です。_
     },
     "ProfileAnnotation": "https://originator-profile.org/ns/credentials/v1#ProfileAnnotation",
     "WebMediaProfile": "https://originator-profile.org/ns/credentials/v1#WebMediaProfile",
-    "WebMediaSubject": {
-      "@id": "https://originator-profile.org/ns/credentials/v1#WebMediaSubject",
+    "OnlineBusiness": {
+      "@id": "https://originator-profile.org/ns/credentials/v1#OnlineBusiness",
       "@context": {
         "@protected": true,
         "id": "@id",
         "type": "@type",
         "url": "https://schema.org/url",
         "name": "https://schema.org/name",
-        "logo": "op:Image",
+        "logo": {
+          "@id": "https://schema.org/logo",
+          "@type": "op:image"
+        },
         "email": "https://schema.org/email",
         "telephone": "https://schema.org/telephone",
-        "title": "https://schema.org/title",
-        "image": "op:Image",
         "description": "https://schema.org/description",
-        "origin": {
-          "@id": "https://originator-profile.org/ns/credentials/v1#origin",
-          "@type": "https://schema.org/url"
+        "contactPoint": {
+          "@id": "https://schema.org/contactPoint",
+          "@type": "op:page"
         },
-        "contactTitle": "https://schema.org/title",
-        "contactUrl": "https://schema.org/url",
-        "privacyPolicyTitle": "https://schema.org/title",
-        "privacyPolicyUrl": "https://schema.org/url",
-        "publishingPrincipleTitle": "https://schema.org/title",
-        "publishingPrincipleUrl": "https://schema.org/url"
+        "informationTransmissionPolicy": {
+          "@id": "https://originator-profile.org/ns/credentials/v1#informationTransmissionPolicy",
+          "@type": "op:page"
+        },
+        "privacyPolicy": {
+          "@id": "https://schema.org/privacyPolicy",
+          "@type": "op:page"
+        }
       }
     },
     "WebsiteProfile": "https://originator-profile.org/ns/credentials/v1#WebsiteProfile",
-    "Website": {
-      "@id": "https://originator-profile.org/ns/credentials/v1#Website",
+    "WebSite": {
+      "@id": "https://originator-profile.org/ns/credentials/v1#WebSite",
       "@context": {
         "@protected": true,
         "id": "@id",
         "type": "@type",
-        "title": "https://schema.org/title",
-        "image": "op:Image",
+        "name": "https://schema.org/name",
+        "image": {
+          "@id": "https://schema.org/image",
+          "@type": "op:image"
+        },
         "description": "https://schema.org/description",
-        "origin": {
-          "@id": "https://originator-profile.org/ns/credentials/v1#origin",
+        "allowedOrigin": {
+          "@id": "https://originator-profile.org/ns/credentials/v1#allowedOrigin",
           "@type": "https://schema.org/url"
         }
       }
@@ -216,22 +216,6 @@ _このセクションは非規範的です。_
     "@protected": true,
     "cip": "https://originator-profile.org/ns/cip/v1#",
     "op": "https://originator-profile.org/ns/credentials/v1#",
-    "CertificateSubject": {
-      "@id": "https://originator-profile.org/ns/cip/v1#CertificateSubject",
-      "@context": {
-        "@protected": true,
-        "id": "@id",
-        "type": "@type",
-        "description": "https://schema.org/description",
-        "image": "op:image",
-        "certificationSystem": {
-          "@id": "https://originator-profile.org/ns/cip/v1#certificationSystem",
-          "@type": "@id"
-        },
-        "verifier": "https://schema.org/name",
-        "certifier": "https://schema.org/name"
-      }
-    },
     "CertificationSystem": {
       "@id": "https://originator-profile.org/ns/cip/v1#CertificationSystem",
       "@context": {
@@ -246,49 +230,61 @@ _このセクションは非規範的です。_
         }
       }
     },
-    "ECJP": {
-      "@id": "https://originator-profile.org/ns/cip/v1#ECJP",
+    "Article": {
+      "@id": "https://originator-profile.org/ns/cip/v1#Article",
       "@context": {
         "@protected": true,
-        "id": "@id",
-        "type": "@type",
-        "addressCountry": "https://schema.org/addressCountry",
-        "name": "https://schema.org/name",
-        "corporateNumber": "https://schema.org/identifier",
-        "postalCode": "https://schema.org/postalCode",
-        "addressRegion": "https://schema.org/addressRegion",
-        "addressLocality": "https://schema.org/addressLocality",
-        "streetAddress": "https://schema.org/streetAddress",
-        "certificationSystem": {
-          "@id": "https://originator-profile.org/ns/cip/v1#certificationSystem",
-          "@type": "@id"
-        }
+        "headline": "https://schema.org/headline",
+        "description": "https://schema.org/description",
+        "image": "op:image",
+        "datePublished": {
+          "@id": "https://schema.org/datePublished",
+          "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+        },
+        "dateModified": {
+          "@id": "https://schema.org/dateModified",
+          "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+        },
+        "author": "https://schema.org/author",
+        "editor": "https://schema.org/editor",
+        "genre": "https://schema.org/genre"
       }
     },
+    "Advertorial": {
+      "@id": "https://originator-profile.org/ns/cip/v1#Advertorial",
+      "@context": {
+        "@protected": true,
+        "headline": "https://schema.org/headline",
+        "description": "https://schema.org/description",
+        "image": "op:image",
+        "datePublished": {
+          "@id": "https://schema.org/datePublished",
+          "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+        },
+        "dateModified": {
+          "@id": "https://schema.org/dateModified",
+          "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+        },
+        "author": "https://schema.org/author",
+        "editor": "https://schema.org/editor",
+        "sponsor": "https://schema.org/sponsor",
+        "genre": "https://schema.org/genre"
+      }
+    },
+    "Organization": "https://originator-profile.org/ns/cip/v1#Organization",
+    "CertificateProperties": "https://originator-profile.org/ns/cip/v1#CertificateProperties",
     "Certificate": {
       "@id": "https://originator-profile.org/ns/cip/v1#Certificate",
       "@context": {
         "@protected": true,
+        "description": "https://schema.org/description",
+        "image": "op:image",
+        "certifier": "https://schema.org/name",
+        "verifier": "https://schema.org/name",
         "certificationSystem": {
           "@id": "https://originator-profile.org/ns/cip/v1#certificationSystem",
           "@type": "@id"
         }
-      }
-    },
-    "ExistenceCertificateInJapan": "https://originator-profile.org/ns/cip/v1#ExistenceCertificateInJapan",
-    "WebArticle": {
-      "@id": "https://originator-profile.org/ns/cip/v1#WebArticle",
-      "@context": {
-        "@protected": true,
-        "title": "https://schema.org/title",
-        "image": "op:image",
-        "source": "https://schema.org/url",
-        "description": "https://schema.org/description",
-        "author": "https://schema.org/author",
-        "editor": "https://schema.org/editor",
-        "datePublished": "https://schema.org/datePublished",
-        "dateModified": "https://schema.org/dateModified",
-        "category": "cip:category"
       }
     },
     "OnlineAd": {
@@ -297,10 +293,14 @@ _このセクションは非規範的です。_
         "@protected": true,
         "id": "@id",
         "type": "@type",
-        "title": "https://schema.org/title",
-        "image": "op:image",
+        "name": "https://schema.org/name",
         "description": "https://schema.org/description",
-        "landingPageUrl": "https://schema.org/url",
+        "image": "op:image",
+        "genre": "https://schema.org/genre",
+        "landingPageUrl": {
+          "@id": "https://schema.org/url",
+          "@type": "@id"
+        },
         "adReportContact": {
           "@id": "https://originator-profile.org/ns/cip/v1#adReportContact",
           "@type": "https://originator-profile.org/ns/v1#page"
