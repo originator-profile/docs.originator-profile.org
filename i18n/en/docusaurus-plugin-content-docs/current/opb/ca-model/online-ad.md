@@ -37,9 +37,14 @@ We plan to decide the extent to which we will comply with schema.org regarding t
 :::
 
 - `type`: REQUIRED. It MUST be `OnlineAd`.
-- `name`: REQUIRED. It is the title of the ad.
-- `description`: REQUIRED. It is ad description (plain text)
+- `name`: OPTIONAL. It is the title of the ad.
+- `description`: OPTIONAL. It is ad description (plain text)
 - `image`: OPTIONAL. It is a thumbnail image for the ad. It is RECOMMENDED that a thumbnail image be specified if one is available. It MUST be a JSON-LD Node Object of type [`image` datatype](../context.md#the-image-datatype). This property allows you to [verify](../context.md#image-datatype-validate) the CA.
+
+:::info[Attention]
+The `name`, `description`, and `image` properties are each OPTIONAL, but at least one of the three MUST be included.
+:::
+
 - `genre`: OPTIONAL. It is character string.
 - `landingPageUrl`: OPTIONAL. The URL of the page (landing page) that is ultimately displayed when the ad is clicked.
 - `adReportContact`: OPTIONAL. Contact point for reporting ads. MUST be a JSON-LD Node Object of type [`page` datatype](../context.md#the-page-datatype).
@@ -48,6 +53,12 @@ We plan to decide the extent to which we will comply with schema.org regarding t
 - `adDataHandlingPolicy`: OPTIONAL. Information regarding the handling of information related to ad serving. MUST be a JSON-LD Node Object of type [`page`](../context.md#the-page-datatype).
 - `adDisplayRationale.page`: OPTIONAL. The reason this ad is being displayed(web page). MUST be a JSON-LD Node Object of type [`page`](../context.md#the-page-datatype).
 - `adDisplayRationale.description` OPTIONAL. The reason this ad is being displayed (string).
+
+:::note
+
+The definition of properties for advertisements other than image or banner ads is under consideration for future work.
+
+:::
 
 #### `allowedUrl`
 
