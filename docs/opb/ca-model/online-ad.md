@@ -39,7 +39,9 @@ REQUIRED. 必ず `["VerifiableCredential", "ContentAttestation"]` にしてく�
 - `description`: OPTIONAL. 広告の説明（文字列）。
 - `image`: OPTIONAL. 広告のサムネイル画像。サムネイル画像があるならば指定するべきです (RECOMMENDED)。 [`image` データ型](../context.md#the-image-datatype) の JSON-LD Node Object でなければなりません (MUST)。このプロパティで CA を[検証](../context.md#image-datatype-の検証)することができます。
 
-**注意:** `name` 、 `description` 、 `image` プロパティはそれぞれ OPTIONAL ですが、3つのうち少なくとも1つを含まなければなりません (MUST)。
+:::info[注意]
+`name` 、 `description` 、 `image` プロパティはそれぞれ OPTIONAL ですが、3つのうち少なくとも1つを含まなければなりません (MUST)。
+:::
 
 - `genre`: OPTIONAL. 文字列。
 - `landingPageUrl`: OPTIONAL. 広告をクリックした際、最終的に表示されるページ（ランディングページ）の URL 。
