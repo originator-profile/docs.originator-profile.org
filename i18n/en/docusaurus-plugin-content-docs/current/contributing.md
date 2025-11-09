@@ -16,6 +16,6 @@ When contributing to the technical specifications or software developed under th
 Depending on the nature, scope, or scale of your contribution, you may also be asked to agree to one of the following CLAs (Contributor License Agreements):
 
 - [Corporate Contributor License Agreement](pathname:///cla/Corporate_Contributor_License_Agreement.pdf)
-- [Individual Contributor License Agreement](pathname:///cla/Individual_Contributor_License Agreement.pdf)
+- [Individual Contributor License Agreement](pathname:///cla/Individual_Contributor_License_Agreement.pdf)
 
 Thank you for helping improve Originator Profile!
