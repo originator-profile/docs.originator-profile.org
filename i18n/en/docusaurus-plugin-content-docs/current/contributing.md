@@ -4,8 +4,6 @@ sidebar_position: 300
 
 # Contributor Guide
 
-# How to Participate and Contribute
-
 As an open-source project, we welcome community contributions to the Originator Profile repositories.  
 By agreeing to the DCO (Developer Certificate of Origin) or signing a CLA (Contributor License Agreement), your contributions can be freely used and shared across the entire community.
 
