@@ -62,7 +62,7 @@ REQUIRED. Web メディアの発信者を表す JSON-LD Node Object です。
 
 :::note
 
-Originator Profile 憲章（第3条1号）への遵守を検証可能な形で表明するための、`informationTransmissionPolicy` プロパティ等の一部または WMP 全体への WMP 保有組織による署名を含める仕様については、検討中です。
+Originator Profile 憲章第3条1号への遵守を検証可能な形で表明するための、`informationTransmissionPolicy` プロパティ等の一部または WMP 全体への WMP 保有組織による署名を含める仕様については、検討中です。
 
 - `informationTransmissionPolicy` プロパティ等の一部への WMP 保有組織による署名: [JWS Compact Serialization](https://www.rfc-editor.org/rfc/rfc7515.html#section-3.1) 形式のプロパティの追加
 - WMP 全体への発行者と WMP 保有組織による二重署名: [JWS JSON Serialization](https://www.rfc-editor.org/rfc/rfc7515.html#section-3.2)形式による WMP の署名
