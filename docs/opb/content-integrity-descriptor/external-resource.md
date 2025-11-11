@@ -84,6 +84,7 @@ External Resource Target:
   <img
     src="https://cdn.example.com/image.jpg"
     integrity="sha256-t7WZSGxDdqGvGg/FLw6wk9KFQy5StT1MquCf/htwjBo= sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
+    crossorigin
   />
 </picture>
 ```
@@ -111,6 +112,7 @@ External Resource Target:
 <video
   integrity="sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w= sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
   poster="https://cdn.example.com/poster.jpg"
+  crossorigin
 >
   <source
     src="https://cdn.example.com/video.mp4"
@@ -157,7 +159,7 @@ External Resource Target:
 
 :::info
 
-[SRI セクション 5.3](https://www.w3.org/TR/sri/#cross-origin-data-leakage) にあるように、攻撃者が既知あるいは事前に計算したハッシュ値により、[同一オリジンポリシー](https://developer.mozilla.org/ja/docs/Web/Security/Same-origin_policy)に違反して外部リソースの内容を推測することを防ぐために、CORSプロトコルを使用 (本文書との関連では、integrity 属性を指定している要素へ [crossorigin 属性](https://developer.mozilla.org/ja/docs/Web/HTML/Reference/Attributes/crossorigin)を指定)してください (RECOMMENDED)。
+[SRI セクション 5.3](https://www.w3.org/TR/sri/#cross-origin-data-leakage) にあるように、攻撃者が既知あるいは事前に計算したハッシュ値により、[同一オリジンポリシー](https://developer.mozilla.org/ja/docs/Web/Security/Same-origin_policy)に違反して外部リソースの内容を推測することを防ぐために、CORSプロトコルを使用 (本文書との関連では、integrity 属性を指定している audio, img, link, script, video 要素へ [crossorigin 属性](https://developer.mozilla.org/ja/docs/Web/HTML/Reference/Attributes/crossorigin)を指定)してください (RECOMMENDED)。
 
 :::
 
