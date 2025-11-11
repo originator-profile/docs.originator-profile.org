@@ -159,7 +159,7 @@ External Resource Target:
 
 :::info
 
-[SRI セクション 5.3](https://www.w3.org/TR/sri/#cross-origin-data-leakage) にあるように、攻撃者が既知あるいは事前に計算したハッシュ値により、[同一オリジンポリシー](https://developer.mozilla.org/ja/docs/Web/Security/Same-origin_policy)に違反して外部リソースの内容を推測することを防ぐために、CORSプロトコルを使用 (本文書との関連では、integrity 属性を指定している audio, img, link, script, video 要素へ [crossorigin 属性](https://developer.mozilla.org/ja/docs/Web/HTML/Reference/Attributes/crossorigin)を指定)してください (RECOMMENDED)。
+[SRI セクション 5.3](https://www.w3.org/TR/sri/#cross-origin-data-leakage) にあるように、攻撃者が既知あるいは事前に計算したハッシュ値により、[同一オリジンポリシー](https://developer.mozilla.org/ja/docs/Web/Security/Same-origin_policy)に違反して外部リソースの内容を推測することを防ぐために、integrity 属性を指定している audio, img, link, script, video 要素に対する [crossorigin 属性](https://developer.mozilla.org/ja/docs/Web/HTML/Reference/Attributes/crossorigin)の指定によりCORSプロトコルを使用してください (RECOMMENDED)。
 
 :::
 
