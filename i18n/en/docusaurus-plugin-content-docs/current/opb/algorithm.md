@@ -61,3 +61,52 @@ Implementers should periodically review hash algorithms and avoid using compromi
 For the time being, applications developed by OP-CIP will only support the SHA-256 hash algorithm.
 
 :::
+
+## Security Considerations {#security-considerations}
+
+_This section is non-normative._
+
+This section is included to inform of the expected algorithm migration as required by [RFC7696 Section 2.2.3](https://www.rfc-editor.org/rfc/rfc7696.html#section-2.2.3), and it references [NIST SP 800-57 Part 1](https://doi.org/10.6028/NIST.SP.800-57pt1r5), a document on U.S. Federal agency key management recommendations for guidance on key refresh and periodic review of cryptographic algorithms, as well as [NIST SP 800-131A](https://doi.org/10.6028/NIST.SP.800-131Ar2), a document on the transitioning of cryptographic algorithm use, as follows:
+
+### Security Strengths
+
+[The initial public draft of NIST SP 800-131A Rev.3](https://doi.org/10.6028/NIST.SP.800-131Ar3.ipd), based on the security strengths defined in NIST SP 800-57 Part 1, recommends against the use of various cryptographic algorithms and key lengths with a security strength of 112-bit or more but less than 128-bit beginning in 2031. It further calls for a migration to a security strength of 128-bit or greater or to post-quantum cryptographic algorithms.
+
+The security strengths corresponding to the allowed list of cryptographic algorithms defined in this document are as follows:
+
+Signing Algorithms
+
+- ES256: 128-bit
+- ES384: 192-bit
+- ES512: 256-bit
+- PS256: ~128-bit (Depends on key size. RSA keys of 3072-bit or greater are recommended. 2048-bit RSA keys provide 112-bit.)
+- PS384: ~192-bit (Depends on key size. RSA keys of 3072-bit or greater are recommended. 2048-bit RSA keys provide 112-bit.)
+- PS512: ~256-bit (Depends on key size. RSA keys of 3072-bit or greater are recommended. 2048-bit RSA keys provide 112-bit.)
+
+Hash Algorithms
+
+- SHA-256: 128-bit
+- SHA-384: 192-bit
+- SHA-512: 256-bit
+
+### Recommended Cryptoperiods
+
+NIST SP 800-57 Part 1 Section 5.3.6 provides the recommended cryptoperiods for the following key types:
+
+- Signing Keys: 1 to 3 years for the period of use for signing.
+- Verification Keys: A few years (dependent on key size).
+
+It is advisable to update keys based on these recommended cryptoperiods, and for establishing longer cryptoperiods, the necessity of key updates due to key compromise should be considered.
+
+### Migration to New Cryptographic Algorithms and Key Lengths
+
+NIST SP 800-57 Part 1 Section 5.6.4 discusses the considerations for migration due to the lifetime of the cryptographic algorithms and key lengths in use (the point at which the protection of data by that algorithm and key length is no longer considered secure).
+
+If the period for which signature verification must be possible exceeds the lifetime of the cryptographic algorithm and key length, no new signatures should be created with that algorithm and key length. Furthermore, data that is already within the signature verification period should be re-signed with a different cryptographic algorithm and key length to provide protection for the remaining period.
+
+### Cryptographic Key Protection and Assurance Requirements
+
+NIST SP 800-57 Part 1 Section 6.1.1 outlines the cryptographic key protection and assurance requirements as follows:
+
+- Signing Keys: Assurance of confidentiality and integrity throughout their possession, from generation until the end of the cryptoperiod.
+- Verification Keys: Assurance of integrity and availability of their validity, from generation until the signed data no longer requires verification.
