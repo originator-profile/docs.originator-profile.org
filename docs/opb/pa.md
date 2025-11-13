@@ -76,7 +76,7 @@ PA の具体例を次に示します。この例ではいくつかのプロパ�
   "issuer": "dns:localhost",
   "credentialSubject": {
     "id": "dns:localhost",
-    "type": "Organization",
+    "type": "CertificateProperties",
     "addressCountry": "JP",
     "name": "Originator Profile 技術研究組合 (開発用)",
     "corporateNumber": "8010005035933",

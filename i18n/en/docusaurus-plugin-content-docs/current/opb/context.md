@@ -273,7 +273,6 @@ _This section is non-normative._
         "genre": "https://schema.org/genre"
       }
     },
-    "Organization": "https://originator-profile.org/ns/cip/v1#Organization",
     "CertificateProperties": "https://originator-profile.org/ns/cip/v1#CertificateProperties",
     "Certificate": {
       "@id": "https://originator-profile.org/ns/cip/v1#Certificate",
