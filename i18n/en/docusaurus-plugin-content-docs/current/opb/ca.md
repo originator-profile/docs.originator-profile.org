@@ -1,7 +1,6 @@
 ---
 sidebar_position: 25
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/b10a57d/docs/opb/ca.md
-
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/a3fb119/docs/opb/ca.md
 tags:
   - Base Model
   - Content Attestation
@@ -192,6 +191,7 @@ The example includes properties not defined in this document, see [Extensibility
 Issuers MUST NOT add properties to a Content Attestation that are not defined in the [OP VC Data Model](./op-vc-data-model.md) and this document.
 
 Issuers MAY add properties that are not defined in the [OP VC Data Model](./op-vc-data-model.md) and this document, but are RECOMMENDED to do so as per [Verifiable Credentials Data Model 2.0 Section 5.2](https://www.w3.org/TR/vc-data-model-2.0/#extensibility).
+
 :::info
 
 For information about properties used in applications developed by the Originator Profile Collaborative Innovation Partnership, please refer to the following Originator Profile Blueprint (OPB) documents:

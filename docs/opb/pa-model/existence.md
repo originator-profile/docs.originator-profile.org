@@ -27,7 +27,7 @@ REQUIRED. [OP VC Data Model](../op-vc-data-model.md) に従ってください (M
 REQUIRED. 日本における実在性を表す JSON-LD Node Object です。
 
 - `id`: REQUIRED. 証明書保有組織の OP ID です。
-- `type`: REQUIRED. `Organization` にしてください。
+- `type`: REQUIRED. `CertificateProperties` にしてください。
 - `description`: OPTIONAL. この証明書に関する説明です（文字列）。
 - `name`: REQUIRED. 法人名
 - `corporateNumber`: REQUIRED. 法人番号

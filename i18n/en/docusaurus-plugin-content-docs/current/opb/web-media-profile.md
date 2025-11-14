@@ -63,6 +63,15 @@ The information transmission policy to be included in the `informationTransmissi
 
 :::note
 
+The specification is currently under consideration to include the signature of the WMP holder organization on a part of the WMP, such as the `informationTransmissionPolicy` property, or on the entire WMP, to verify the Originator Profile organization's explicit affirmation of compliance with Article 3, Paragraph 1 of the Charter.
+
+- Signature by the WMP holder organization on a part of the WMP (e.g., the `informationTransmissionPolicy` property): Adding a property in the [JWS Compact Serialization](https://www.rfc-editor.org/rfc/rfc7515.html#section-3.1) format.
+- Dual signature by the issuer and the WMP holder organization on the entire WMP: Signing the WMP using the [JWS JSON Serialization](https://www.rfc-editor.org/rfc/rfc7515.html#section-3.2) format.
+
+:::
+
+:::note
+
 When the `description` property contains two or more elements of the `description` datatype, the intention should be to represent the same text content in multiple encoding formats. Furthermore, if text content is provided in multiple encoding formats, we recommend that one of the elements be `text/plain` content so that application implementers can comply with their defined security policy.
 
 :::

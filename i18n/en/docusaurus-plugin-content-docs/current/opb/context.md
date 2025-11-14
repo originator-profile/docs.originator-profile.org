@@ -1,6 +1,6 @@
 ---
 sidebar_position: 102
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/b10a57d/docs/opb/context.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/74197a7/docs/opb/context.md
 ---
 
 # Contexts, Vocabularies, and Types
@@ -273,7 +273,6 @@ _This section is non-normative._
         "genre": "https://schema.org/genre"
       }
     },
-    "Organization": "https://originator-profile.org/ns/cip/v1#Organization",
     "CertificateProperties": "https://originator-profile.org/ns/cip/v1#CertificateProperties",
     "Certificate": {
       "@id": "https://originator-profile.org/ns/cip/v1#Certificate",
