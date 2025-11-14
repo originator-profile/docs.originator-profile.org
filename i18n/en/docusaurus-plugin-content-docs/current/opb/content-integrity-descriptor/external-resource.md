@@ -85,7 +85,6 @@ In this case, add the `integrity` attribute to the HTML source element and img e
   <img
     src="https://cdn.example.com/image.jpg"
     integrity="sha256-t7WZSGxDdqGvGg/FLw6wk9KFQy5StT1MquCf/htwjBo= sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
-    crossorigin
   />
 </picture>
 ```
@@ -113,7 +112,6 @@ In this case, add the `integrity` attribute to the HTML source element and video
 <video
   integrity="sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w= sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
   poster="https://cdn.example.com/poster.jpg"
-  crossorigin
 >
   <source
     src="https://cdn.example.com/video.mp4"
@@ -158,12 +156,6 @@ In this case, add the `integrity` attribute to the HTML a element of the web pag
 >
 ```
 
-:::info
-
-As described in [SRI Section 5.3](https://www.w3.org/TR/sri/#cross-origin-data-leakage), in order to prevent an attacker from inferring the content of an external resource in violation of the [Same-Origin Policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy) by using a known or pre-calculated hash value, the CORS protocol should be used (RECOMMENDED), by specifying the [crossorigin attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/crossorigin) on $\text{audio}$, $\text{img}$, $\text{link}$, $\text{script}$, and $\text{video}$ elements that specify the $\text{integrity}$ attribute (as relevant to this document).
-
-:::
-
 ## Validation Process
 
 1. Searches for elements whose `integrity` HTML attribute contains the same value as the `integrity` property.
@@ -176,6 +168,12 @@ As described in [SRI Section 5.3](https://www.w3.org/TR/sri/#cross-origin-data-l
    - If a network error occurs, it may be treated as a verification failure (e.g. [`TypeError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError) `Failed to fetch.`, etc.).
 3. Validate the result and its integrity property using the methods specified in [SRI section 3.3.5](https://www.w3.org/TR/SRI/#does-response-match-metadatalist).
    - If an unsupported hash algorithm is used, it may be treated as a verification failure.
+
+:::note Implementation Notes
+
+As described in [SRI Section 5.3](https://www.w3.org/TR/sri/#cross-origin-data-leakage), in order to prevent an attacker from inferring the content of a cross-origin resource in violation of the [Same-Origin Policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy) by using a known or precomputed hash, when using the SRI validation result to determine the loadability of the cross-origin resource, ensure beforehand that the cross-origin resource is explicitly shared with the request initiator using the [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS) protocol.
+
+:::
 
 ## How to identify element location
 
