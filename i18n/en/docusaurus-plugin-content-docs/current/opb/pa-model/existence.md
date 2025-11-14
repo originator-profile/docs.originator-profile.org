@@ -28,7 +28,7 @@ REQUIRED. It MUST comply with [OP VC Data Model](../op-vc-data-model.md) . In ad
 REQUIRED. It is JSON-LD Node Object that represents organization existence certificate.
 
 - `id`: REQUIRED. OP ID of the certificate holding organization.
-- `type`: REQUIRED. It should be `Organization`.
+- `type`: REQUIRED. It should be `CertificateProperties`.
 - `description`: OPTIONAL. A description of this certificate (string).
 - `name`: REQUIRED. Company name
 - `corporateNumber`: REQUIRED. Corporate number

@@ -77,7 +77,7 @@ Below is an example of PA. In this example, there are a few more properties adde
   "issuer": "dns:localhost",
   "credentialSubject": {
     "id": "dns:localhost",
-    "type": "Organization",
+    "type": "CertificateProperties",
     "addressCountry": "JP",
     "name": "Originator Profile Collaborative Innovation Partnership (for develoment purposes)",
     "corporateNumber": "8010005035933",
