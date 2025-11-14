@@ -1,13 +1,15 @@
 ---
 sidebar_position: 103
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/b10a57d/docs/opb/algorithm.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/a3fb119/docs/opb/algorithm.md
 ---
 
 # Cryptographic algorithms
 
 :::note
 
-At this time, we are considering the cryptographic algorithms that OP will support based on Section 3.2 of Subresource Integrity (https://www.w3.org/TR/SRI/#introduction). However, there are cases where the security of things that were previously considered secure may no longer be certain. We are currently discussing what to refer to and what standards to use to determine the specifications for the cryptographic algorithms that OP will support.
+Regarding support for cryptographic algorithms, we are currently discussing what standards to use as references when deciding on specifications.
+
+Reference: Consideration of specifying and recommending keys and algorithms in preparation for compromise.
 
 :::
 

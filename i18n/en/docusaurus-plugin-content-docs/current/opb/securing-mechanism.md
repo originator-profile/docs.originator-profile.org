@@ -181,7 +181,7 @@ Payload:
   "issuer": "dns:pa-issuer.example.org",
   "credentialSubject": {
     "id": "dns:pa-holder.example.jp",
-    "type": "ECJP",
+    "type": "CertificateProperties",
     "addressCountry": "JP",
     "name": "ABCD Newspaper (※Development Sample)",
     "corporateNumber": "0000000000000",
