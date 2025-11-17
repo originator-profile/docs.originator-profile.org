@@ -10,9 +10,9 @@ Originator Profile 技術研究組合では、情報の作成者や発信者の�
 - [Originator Profile について](tech/)
 - [Originator Profile Blueprint (OPB)](opb/)
 
-## Github リポジトリ
+## GitHub リポジトリ
 
-Originator Profile の Github では以下のようなリポジトリで議論やソースコードを公開しています。
+Originator Profile の GitHub では以下のようなリポジトリで議論やソースコードを公開しています。
 
 - https://github.com/originator-profile/originator-profile
   - メインリポジトリです。共通ライブラリ、検証UIサンプルの拡張機能、CA 生成ツール、WordPress プラグインなどを含みます。
