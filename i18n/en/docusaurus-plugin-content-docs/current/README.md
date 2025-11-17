@@ -15,7 +15,7 @@ This site is the technical documentation site for the Originator Profile project
 The Originator Profile project publishes discussions and source code in the following GitHub repositories:
 
 - https://github.com/originator-profile/originator-profile
-  - Main repository. It includes common libraries, a sample browser extension, CA generation tools, a WordPress plugin, etc.
+  - Main repository. This includes common libraries, a verification UI sample browser extension, CA generation tools, a WordPress plugin, and more.
 - https://github.com/originator-profile/doc-opf-architectural-overview
   - Repository for the Architectural Overview document.
 - https://github.com/originator-profile/docs.originator-profile.org
