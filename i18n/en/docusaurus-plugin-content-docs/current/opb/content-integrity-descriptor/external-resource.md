@@ -169,6 +169,12 @@ In this case, add the `integrity` attribute to the HTML a element of the web pag
 3. Validate the result and its integrity property using the methods specified in [SRI section 3.3.5](https://www.w3.org/TR/SRI/#does-response-match-metadatalist).
    - If an unsupported hash algorithm is used, it may be treated as a verification failure.
 
+:::note Implementation Notes
+
+As described in [SRI Section 5.3](https://www.w3.org/TR/sri/#cross-origin-data-leakage), in order to prevent an attacker from inferring the content of a cross-origin resource in violation of the [Same-Origin Policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy) by using a known or precomputed hash, when using the SRI validation result to determine the loadability of the cross-origin resource, ensure beforehand that the cross-origin resource is explicitly shared with the request initiator using the [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS) protocol.
+
+:::
+
 ## How to identify element location
 
 Searches for elements whose `integrity` HTML attribute exactly matches the `integrity` property.

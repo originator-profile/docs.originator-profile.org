@@ -155,6 +155,12 @@ External Resource Target:
 >
 ```
 
+:::note 実装上の注意点
+
+[SRI セクション 5.3](https://www.w3.org/TR/sri/#cross-origin-data-leakage) にあるように、攻撃者が既知あるいは事前に計算したハッシュ値により、[同一オリジンポリシー](https://developer.mozilla.org/ja/docs/Web/Security/Same-origin_policy)に違反してクロスオリジンリソースの内容を推測することを防ぐために、SRI 検証結果をクロスオリジンリソースの読み込み可否に使用する場合には、事前に[CORS](https://developer.mozilla.org/ja/docs/Web/HTTP/Guides/CORS) プロトコルを使用してクロスオリジンリソースがリクエスト元と明示的に共有されていることを確認してください。
+
+:::
+
 ## 検証プロセス
 
 1. `integrity` プロパティと同じ値を `integrity` HTML 属性に含む要素を検索します。
