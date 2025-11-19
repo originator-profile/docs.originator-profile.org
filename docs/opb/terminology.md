@@ -90,11 +90,11 @@ Content Integrity Descriptor が特定する DOM 要素。
 
 ## 認証制度 (Certification System)
 
-[Certificate](./certificate.md) が暗号論的に証明する情報が実際に事実であることを担保するための制度。認証機関によって運営される。
+[Profile Annotation](./pa.md) の発行根拠となる第三者[認証制度](./pa-model/certification-system.md)を識別し、その詳細情報を提供する。
 
 ## 認証機関 (Certifier)
 
-認証制度 (Certification System) を運用する主体。Certificate の発行者とは限らない。
+[認証制度 (Certification System)](./pa-model/certification-system.md) を運用する主体。Profile Annotation の発行者とは限らない。
 
 ## JSON-LD Node Object
 

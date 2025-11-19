@@ -37,10 +37,7 @@ REQUIRED. It MUST be `["VerifiableCredential", "Certificate"]`.
 - `certifier`: OPTIONAL. The name of the certification authority.
 - `verifier`: OPTIONAL. The name of the verification authority.
 - `certificationSystem.id`: REQUIRED. Please specify the ID of the certification system in URI format.
-- `certificationSystem.type`: REQUIRED. MUST be `CertificationSystem`.
-- `certificationSystem.name`: REQUIRED. The name of the certification system.
-- `certificationSystem.description`: OPTIONAL. A description of the certification system (string).
-- `certificationSystem.ref`: RECOMMENDED. A URL for people to read to find out more about the certification system.
+- `certificationSystem`: REQUIRED. MUST be a [Certification System](./pa-model/certification-system.md).
 
 :::note
 

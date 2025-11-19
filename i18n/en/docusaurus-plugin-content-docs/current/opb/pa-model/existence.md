@@ -37,11 +37,7 @@ REQUIRED. It is JSON-LD Node Object that represents organization existence certi
 - `addressRegion`: REQUIRED. Prefectures
 - `addressLocality`: REQUIRED. City,town,village
 - `streetAddress`: REQUIRED. Street address and building name
-- `certificationSystem.id`: REQUIRED. Specify the ID of the certification system in URI format.
-- `certificationSystem.type`: REQUIRED. It MUST be `CertificationSystem`.
-- `certificationSystem.name`: REQUIRED. The name of the certification system.
-- `certificationSystem.description`: OPTIONAL. Explaining the certification system (string).
-- `certificationSystem.ref`: RECOMMENDED. The URL of a human-readable page to learn more about the certification system.
+- `certificationSystem`: REQUIRED. MUST be a [Certification System](./certification-system.md).
 
 :::note
 The properties of the organization existence certificate outside of Japan are currently under consideration.

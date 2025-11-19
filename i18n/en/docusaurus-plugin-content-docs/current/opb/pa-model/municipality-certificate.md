@@ -33,11 +33,7 @@ REQUIRED. It is a JSON-LD Node Object representing a Municipality Certification 
 - `image`: OPTIONAL. MUST be a JSON-LD Node Object of type `image`. This property allows you to verify that the image in the Certificate has not been tampered with.
 - `certifier`: OPTIONAL. The name of the certification authority.
 - `verifier`: OPTIONAL. The name of the verifier.
-- `certificationSystem.id`: REQUIRED. Specify the ID of the certification system in URI format.
-- `certificationSystem.type`: REQUIRED. MUST be a `CertificationSystem`.
-- `certificationSystem.name`: REQUIRED. The name of the certification system.
-- `certificationSystem.description`: OPTIONAL. A description of the certification system (string).
-- `certificationSystem.ref`: RECOMMENDED. The URL of a page people can read to learn more about the certification system.
+- `certificationSystem`: REQUIRED. MUST be a [Certification System](./certification-system.md).
 
 :::note
 

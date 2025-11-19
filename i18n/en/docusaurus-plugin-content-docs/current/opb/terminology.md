@@ -96,11 +96,11 @@ The target element of a target integrity is converted to a string representation
 
 ## Certification System
 
-A system for cryptographically verifying that the information a [Certificate](./certificate.md) cryptographically attests to is actually true, operated by a certification authority.
+Identify the third-party [Certification System](./pa-model/certification-system.md) that serves as the basis for issuing a Profile Annotation, and provide detailed information about it.
 
 ## Certifier
 
-The entity that operates the certification system. It is not necessarily the issuer of the certificate.
+The entity that operates the [Certification System](./pa-model/certification-system.md). It is not necessarily the issuer of the Profile Annotation.
 
 ## JSON-LD Node Object
 

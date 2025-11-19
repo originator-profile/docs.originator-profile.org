@@ -36,11 +36,7 @@ REQUIRED. 日本における実在性を表す JSON-LD Node Object です。
 - `addressRegion`: REQUIRED. 都道府県
 - `addressLocality`: REQUIRED. 市区町村
 - `streetAddress`: REQUIRED. 番地・ビル名
-- `certificationSystem.id`: REQUIRED. 認証制度の ID を URI 形式で指定してください。
-- `certificationSystem.type`: REQUIRED. `CertificationSystem` でなければなりません (MUST)。
-- `certificationSystem.name`: REQUIRED. 認証制度の名前です。
-- `certificationSystem.description`: OPTIONAL. 認証制度の説明です（文字列）。
-- `certificationSystem.ref`: RECOMMENDED. 認証制度の詳細を知るための人が読むためのページの URL です。
+- `certificationSystem`: REQUIRED. [認証制度](./certification-system.md)でなければなりません (MUST)。
 
 :::note
 日本以外の組織実在性証明書のプロパティに関しては検討中です。

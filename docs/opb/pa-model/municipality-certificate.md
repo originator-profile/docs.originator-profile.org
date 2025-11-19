@@ -32,11 +32,7 @@ REQUIRED. 自治体認証証明書を表す JSON-LD Node Object です。
 - `image`: OPTIONAL. [`image` データ型](../context.md#the-image-datatype) の JSON-LD Node Object でなければなりません (MUST)。このプロパティで Certificate の画像が改ざんされていないかを[検証](../context.md#image-datatype-の検証)することができます。
 - `certifier`: OPTIONAL. 認証機関の名前です。
 - `verifier`: OPTIONAL. 検証機関の名前です。
-- `certificationSystem.id`: REQUIRED. 認証制度の ID を URI 形式で指定してください。
-- `certificationSystem.type`: REQUIRED. `CertificationSystem` でなければなりません (MUST)。
-- `certificationSystem.name`: REQUIRED. 認証制度の名前です。
-- `certificationSystem.description`: OPTIONAL. 認証制度の説明です（文字列）。
-- `certificationSystem.ref`: RECOMMENDED. 認証制度の詳細を知るための人が読むためのページの URL です。
+- `certificationSystem`: REQUIRED. [認証制度](./certification-system.md)でなければなりません (MUST)。
 
 :::note
 
