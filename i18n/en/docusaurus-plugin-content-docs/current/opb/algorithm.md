@@ -79,11 +79,11 @@ Signing Algorithms
 - ES256: 128 bits
 - ES384: 192 bits
 - ES512: 256 bits
-- PS256: ~128 bits [^1] (Depends on key size. RSA keys of 3072 bits or greater are recommended. 2048-bit RSA keys provide 112 bits.)
-- PS384: ~192 bits  [^1](Depends on key size. RSA keys of 3072 bits or greater are recommended. 2048-bit RSA keys provide 112 bits.)
-- PS512: ~256 bits  [^1](Depends on key size. RSA keys of 3072 bits or greater are recommended. 2048-bit RSA keys provide 112 bits.)
+- PS256: ~128 bits [^1]
+- PS384: ~192 bits  [^1]
+- PS512: ~256 bits  [^1]
 
-[^1]: Depends on key size. For a key length of 3072 bits: 112 bits
+[^1]: Depends on key size. For a key length of 3072 bits: 128 bits
 
 Hash Algorithms
 
