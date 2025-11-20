@@ -7,9 +7,7 @@ original: https://github.com/originator-profile/docs.originator-profile.org/blob
 
 :::note
 
-Regarding support for cryptographic algorithms, we are currently discussing what standards to use as references when deciding on specifications.
-
-Reference: Consideration of specifying and recommending keys and algorithms in preparation for compromise.
+Regarding the support for cryptographic algorithms, the references and standards for specification need continuous discussion.
 
 :::
 
