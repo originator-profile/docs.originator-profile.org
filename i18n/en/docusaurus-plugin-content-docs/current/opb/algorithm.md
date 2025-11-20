@@ -66,7 +66,7 @@ For the time being, applications developed by OP-CIP will only support the SHA-2
 
 _This section is non-normative._
 
-This section is included to inform of the expected algorithm migration as required by [RFC7696 Section 2.2.3](https://www.rfc-editor.org/rfc/rfc7696.html#section-2.2.3), and it references [NIST SP 800-57 Part 1](https://doi.org/10.6028/NIST.SP.800-57pt1r5), a document on U.S. Federal agency key management recommendations for guidance on key refresh and periodic review of cryptographic algorithms, as well as [NIST SP 800-131A](https://doi.org/10.6028/NIST.SP.800-131Ar2), a document on the transitioning of cryptographic algorithm use, as follows:
+This section is included to inform of the expected algorithm migration as required by [RFC 7696 Section 2.2.3](https://www.rfc-editor.org/rfc/rfc7696.html#section-2.2.3), and it references [NIST SP 800-57 Part 1](https://doi.org/10.6028/NIST.SP.800-57pt1r5), a document on U.S. Federal agency key management recommendations for guidance on key refresh and periodic review of cryptographic algorithms, as well as [NIST SP 800-131A](https://doi.org/10.6028/NIST.SP.800-131Ar2), a document on the transitioning of cryptographic algorithm use, as follows:
 
 ### Security Strengths
 
