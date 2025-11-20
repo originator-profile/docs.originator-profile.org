@@ -66,11 +66,11 @@ For the time being, applications developed by OP-CIP will only support the SHA-2
 
 _This section is non-normative._
 
-This section is included to inform of the expected algorithm migration as required by [RFC 7696 Section 2.2.3](https://www.rfc-editor.org/rfc/rfc7696.html#section-2.2.3), and it references [NIST SP 800-57 Part 1](https://doi.org/10.6028/NIST.SP.800-57pt1r5), a document on U.S. Federal agency key management recommendations for guidance on key refresh and periodic review of cryptographic algorithms, as well as [NIST SP 800-131A](https://doi.org/10.6028/NIST.SP.800-131Ar2), a document on the transitioning of cryptographic algorithm use, as follows:
+This section is included to inform of the expected algorithm migration as required by [RFC 7696 Section 2.2.3](https://www.rfc-editor.org/rfc/rfc7696.html#section-2.2.3), and it references [NIST SP 800-57 Part 1](https://doi.org/10.6028/NIST.SP.800-57pt1r5), a document on U.S. Federal agency key management recommendations for guidance on key refresh and periodic review of cryptographic algorithms, as well as [NIST SP 800-131A Rev.3 (Initial Public Draft)](https://doi.org/10.6028/NIST.SP.800-131Ar3.ipd), a document on the transitioning of cryptographic algorithm use, as follows:
 
 ### Security Strengths
 
-[The initial public draft of NIST SP 800-131A Rev.3](https://doi.org/10.6028/NIST.SP.800-131Ar3.ipd), based on the security strengths defined in NIST SP 800-57 Part 1, recommends against the use of various cryptographic algorithms and key lengths with a security strength of 112 bits or more but less than 128 bits beginning in 2031. It further calls for a migration to a security strength of 128 bits or greater or to post-quantum cryptographic algorithms.
+The NIST SP 800-131A Rev.3 (Initial Public Draft), based on the security strengths defined in NIST SP 800-57 Part 1, recommends against the use of various cryptographic algorithms and key lengths with a security strength of less than 128 bits beginning in 2031. It further calls for a migration to a security strength of 128 bits or greater or to post-quantum cryptographic algorithms.
 
 The security strengths corresponding to the allowed list of cryptographic algorithms defined in this document are as follows:
 
