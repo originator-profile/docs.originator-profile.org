@@ -7,7 +7,7 @@ original: https://github.com/originator-profile/docs.originator-profile.org/blob
 
 :::note
 
-Regarding the support for cryptographic algorithms, the references and standards for specification need continuous discussion.
+The references and standards for cryptographic algorithm support are subject to ongoing review and may be updated as needed.
 
 :::
 
