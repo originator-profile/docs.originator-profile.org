@@ -70,24 +70,24 @@ This section is included to inform of the expected algorithm migration as requir
 
 ### Security Strengths
 
-[The initial public draft of NIST SP 800-131A Rev.3](https://doi.org/10.6028/NIST.SP.800-131Ar3.ipd), based on the security strengths defined in NIST SP 800-57 Part 1, recommends against the use of various cryptographic algorithms and key lengths with a security strength of 112-bit or more but less than 128-bit beginning in 2031. It further calls for a migration to a security strength of 128-bit or greater or to post-quantum cryptographic algorithms.
+[The initial public draft of NIST SP 800-131A Rev.3](https://doi.org/10.6028/NIST.SP.800-131Ar3.ipd), based on the security strengths defined in NIST SP 800-57 Part 1, recommends against the use of various cryptographic algorithms and key lengths with a security strength of 112 bits or more but less than 128 bits beginning in 2031. It further calls for a migration to a security strength of 128 bits or greater or to post-quantum cryptographic algorithms.
 
 The security strengths corresponding to the allowed list of cryptographic algorithms defined in this document are as follows:
 
 Signing Algorithms
 
-- ES256: 128-bit
-- ES384: 192-bit
-- ES512: 256-bit
-- PS256: ~128-bit (Depends on key size. RSA keys of 3072-bit or greater are recommended. 2048-bit RSA keys provide 112-bit.)
-- PS384: ~192-bit (Depends on key size. RSA keys of 3072-bit or greater are recommended. 2048-bit RSA keys provide 112-bit.)
-- PS512: ~256-bit (Depends on key size. RSA keys of 3072-bit or greater are recommended. 2048-bit RSA keys provide 112-bit.)
+- ES256: 128 bits
+- ES384: 192 bits
+- ES512: 256 bits
+- PS256: ~128 bits (Depends on key size. RSA keys of 3072 bits or greater are recommended. 2048-bit RSA keys provide 112 bits.)
+- PS384: ~192 bits (Depends on key size. RSA keys of 3072 bits or greater are recommended. 2048-bit RSA keys provide 112 bits.)
+- PS512: ~256 bits (Depends on key size. RSA keys of 3072 bits or greater are recommended. 2048-bit RSA keys provide 112 bits.)
 
 Hash Algorithms
 
-- SHA-256: 128-bit
-- SHA-384: 192-bit
-- SHA-512: 256-bit
+- SHA-256: 128 bits
+- SHA-384: 192 bits
+- SHA-512: 256 bits
 
 ### Recommended Cryptoperiods
 
