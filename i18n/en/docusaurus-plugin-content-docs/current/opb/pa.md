@@ -1,6 +1,6 @@
 ---
 sidebar_position: 22
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/b10a57d/docs/opb/pa.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/188b3f2/docs/opb/pa.md
 tags:
   - Base Model
   - Profile Annotation
