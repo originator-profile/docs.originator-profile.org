@@ -1,6 +1,6 @@
 ---
 sidebar_position: 12
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/b10a57d/docs/opb/securing-mechanism.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/188b3f2/docs/opb/securing-mechanism.md
 ---
 
 # OP VC Securing Mechanism
