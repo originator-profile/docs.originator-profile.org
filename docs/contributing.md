@@ -25,11 +25,11 @@ $ git config core.hooksPath .githooks
 
 Public リポジトリにある[.githooks/prepare-commit-msg](https://github.com/originator-profile/originator-profile/blob/main/.githooks/prepare-commit-msg) を、local にクローンしたリポジトリの .git/hooks/prepare-commit-msg に手動でコピーします。
 
-## サインオフ(Sigend-off-by 行)を付与する方法
+## サインオフ(Signed-off-by 行)を付与する方法
 
-各Github リポジトリへのコミット時のオプションで、「サインオフ(Sigend-off-by 行) 」を指定することでコミットメッセージに署名を追加できます。
+各Github リポジトリへのコミット時のオプションで、「サインオフ(Signed-off-by 行) 」を指定することでコミットメッセージに署名を追加できます。
 
-サインオフ(Sigend-off-by 行)の例:
+サインオフ(Signed-off-by 行)の例:
 
 ```
 Signed-off-by: YOUR NAME <your_email@example.com>
@@ -47,7 +47,7 @@ $ git commit -s
 
 ### [TortoiseGit](https://tortoisegit.org/)の場合
 
-コミットする際に、`Add Sigend-off-by` ボタンを押してください。
+コミットする際に、`Add Signed-off-by` ボタンを押してください。
 
 コミットウィンドウの例:
 
