@@ -27,7 +27,7 @@ Public リポジトリにある[.githooks/prepare-commit-msg](https://github.com
 
 ## サインオフ(Signed-off-by 行)を付与する方法
 
-各Github リポジトリへのコミット時のオプションで、「サインオフ(Signed-off-by 行) 」を指定することでコミットメッセージに署名を追加できます。
+各GitHub リポジトリへのコミット時のオプションで、「サインオフ(Signed-off-by 行) 」を指定することでコミットメッセージに署名を追加できます。
 
 サインオフ(Signed-off-by 行)の例:
 
