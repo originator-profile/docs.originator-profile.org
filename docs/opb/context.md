@@ -135,6 +135,23 @@ _このセクションは非規範的です。_
       }
     },
     "allowedUrl": "https://schema.org/url",
+    "annotationScheme": {
+      "@id": "https://originator-profile.org/ns/credentials/v1#annotationScheme",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "annotation": "op:ProfileAnnotationPolicy",
+    "ProfileAnnotationPolicy": {
+      "@id": "https://originator-profile.org/ns/credentials/v1#ProfileAnnotationPolicy",
+      "@context": {
+        "@protected": true,
+        "id": "@id",
+        "type": "@type",
+        "name": "https://schema.org/name",
+        "description": "https://schema.org/description",
+        "ref": "op:page"
+      }
+    },
     "ContentAttestation": {
       "@id": "https://originator-profile.org/ns/credentials/v1#ContentAttestation",
       "@context": {
@@ -158,7 +175,19 @@ _このセクションは非規範的です。_
         }
       }
     },
-    "ProfileAnnotation": "https://originator-profile.org/ns/credentials/v1#ProfileAnnotation",
+    "ProfileAnnotation": {
+      "@id": "https://originator-profile.org/ns/credentials/v1#ProfileAnnotation",
+      "@context": {
+        "@protected": true,
+        "id": "@id",
+        "type": "@type",
+        "name": "https://schema.org/name",
+        "description": "https://schema.org/description",
+        "image": "op:image",
+        "annotationScheme": "op:annotationScheme",
+        "annotation": "op:annotation"
+      }
+    },
     "WebMediaProfile": "https://originator-profile.org/ns/credentials/v1#WebMediaProfile",
     "OnlineBusiness": {
       "@id": "https://originator-profile.org/ns/credentials/v1#OnlineBusiness",
@@ -224,6 +253,54 @@ _このセクションは非規範的です。_
     "@protected": true,
     "cip": "https://originator-profile.org/ns/cip/v1#",
     "op": "https://originator-profile.org/ns/credentials/v1#",
+    "ProfileAnnotatorRegistration": {
+      "@id": "https://originator-profile.org/ns/cip/v1#ProfileAnnotatorRegistration",
+      "@context": {
+        "@protected": true,
+        "id": "@id",
+        "type": "@type",
+        "annotatorName": "https://schema.org/name"
+      }
+    },
+    "OVAC": {
+      "@id": "https://originator-profile.org/ns/cip/v1#OVAC",
+      "@context": {
+        "@protected": true,
+        "id": "@id",
+        "type": "@type",
+        "corporateName": "https://schema.org/legalName",
+        "corporateNumber": "https://schema.org/taxID",
+        "postalCode": "https://schema.org/postalCode",
+        "addressCountry": "https://schema.org/addressCountry",
+        "addressRegion": "https://schema.org/addressRegion",
+        "addressLocality": "https://schema.org/addressLocality",
+        "streetAddress": "https://schema.org/streetAddress"
+      }
+    },
+    "AdCert": {
+      "@id": "https://originator-profile.org/ns/cip/v1#AdCert",
+      "@context": {
+        "@protected": true,
+        "id": "@id",
+        "type": "@type"
+      }
+    },
+    "MedReg": {
+      "@id": "https://originator-profile.org/ns/cip/v1#MedReg",
+      "@context": {
+        "@protected": true,
+        "id": "@id",
+        "type": "@type"
+      }
+    },
+    "LGAC": {
+      "@id": "https://originator-profile.org/ns/cip/v1#LGAC",
+      "@context": {
+        "@protected": true,
+        "id": "@id",
+        "type": "@type"
+      }
+    },
     "CertificationSystem": {
       "@id": "https://originator-profile.org/ns/cip/v1#CertificationSystem",
       "@context": {
