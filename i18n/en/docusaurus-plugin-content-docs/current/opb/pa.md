@@ -141,7 +141,7 @@ Below is an example of PA.
       "type": "ProfileAnnotationPolicy",
       "name": "<Profile Annotation Policy Name>",
       "description": "<Description of Profile Annotation Policy>",
-      "ref": "https://annotation.example.org/about/"
+      "ref": "https://annotation.example.org/about"
     }
   }
 }
