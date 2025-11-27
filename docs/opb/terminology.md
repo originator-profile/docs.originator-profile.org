@@ -84,17 +84,17 @@ Content Integrity Descriptor が特定する DOM 要素。
 
 ある target integrity の target element をその target integrity が指定する方法で文字列表現に変換した値。 target integrity はこの値の完全性を保証する。
 
-## Certificate
+## Profile Annotation (PA)
 
-[Certificate](./certificate.md) Originator Profile Blueprint (OPB) 文書で定義される、発行者が OP 保有組織に対して内容を記述したことを証明する情報。証明書。
+[Profile Annotation](./pa.md) で定義される、発信者に対して適切な主体が検証した追加の情報。
 
-## 認証制度 (Certification System)
+## Profile Annotation Policy
 
-[Certificate](./certificate.md) が暗号論的に証明する情報が実際に事実であることを担保するための制度。認証機関によって運営される。
+[Profile Annotation](./pa.md) の発行ポリシーを表明するデータモデル。
 
-## 認証機関 (Certifier)
+## Profile Annotator
 
-認証制度 (Certification System) を運用する主体。Certificate の発行者とは限らない。
+[Profile Annotation](./pa.md) を発行する主体。
 
 ## JSON-LD Node Object
 

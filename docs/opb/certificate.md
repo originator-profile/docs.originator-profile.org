@@ -6,6 +6,12 @@ tags:
 
 # Certificate
 
+:::warning 非推奨になりました
+
+2026-12-01 以降、Certificate は検証できなくなります。それまでに [Profile Annotation](./pa.md) を発行するよう変更してください。
+
+:::
+
 ## 用語
 
 本文書に説明のない用語については、[用語](./terminology.md)を参照してください。

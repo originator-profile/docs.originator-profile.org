@@ -5,13 +5,81 @@ tags:
   - Profile Annotation
 ---
 
-# News Media Registration Certificate
+# News Media Registration PA
 
 ## Terminology
 
 For terms not explained in this document, please see [Terminology](../terminology.md).
 
-- News Media Registration Certificate: Certificate that guarantees the news media affiliation of the OP-holding organization
+- Profile Annotation (PA)
+- News Media Registration PA: PA that guarantees the news media affiliation of the OP-holding organization
+
+## News Media Registration PA Properties
+
+[Profile Annotation](../pa.md) に従います。
+
+### Property
+
+#### `@context`
+
+REQUIRED. It MUST comply with [OP VC Data Model](../op-vc-data-model.md) . In addition, the third value MUST be `"https://originator-profile.org/ns/cip/v1"`.
+
+#### `credentialSubject`
+
+- `id`: REQUIRED. The OP ID of an organization holding the PA.
+- `type`: REQUIRED. Set it to `MedReg`
+- `name`: OPTIONAL. The name of this PA (string).
+- `description`: OPTIONAL. It is a description of this PA (string).
+- `image`: OPTIONAL. MUST be a JSON-LD Node Object of type `image`. This property allows you to verify that the image in the PA has not been tampered with.
+- `annotation`: REQUIRED. It MUST be a [Profile Annotation Policy](./pa-policy.md).
+
+#### `validFrom`
+
+OPTIONAL. Conforms to the [Profile Annotation](../pa.md#validfrom). If included, please include the start time of the date your media organization registration was established.
+
+## Appendix
+
+### Example
+
+_This is non-normative._
+
+Below is a concrete example of a news media registration PA.
+
+```json
+{
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://originator-profile.org/ns/credentials/v1",
+    "https://originator-profile.org/ns/cip/v1",
+    {
+      "@language": "en"
+    }
+  ],
+  "type": ["VerifiableCredential", "ProfileAnnotation"],
+  "issuer": "dns:medreg.exp.originator-profile.org",
+  "credentialSubject": {
+    "id": "dns:pa-holder.example.jp",
+    "type": "MedReg",
+    "image": {
+      "id": "https://medreg.exp.originator-profile.org/image.png"
+    },
+    "annotation": {
+      "id": "urn:uuid:2dbf9afe-af9c-4c6a-b6df-70a9565fec5e",
+      "type": "ProfileAnnotationPolicy",
+      "name": "Fictitious News Media Organization Registration Center Registration Certificate",
+      "description": "This organization holds a registration with the Fictitious News Media Organization Registration Center.",
+      "ref": "https://medreg.exp.originator-profile.org/"
+    }
+  },
+  "validFrom": "2024-03-31T15:00:00Z"
+}
+```
+
+:::warning Migration Required
+
+If you are using a previous format that extends [Certificate](../certificate.md), such as the one below, it will become unverifiable after 2026-12-01. The issuer MUST migrate to the format defined in this document by then.
+
+---
 
 ## News Media Registration Certificate Properties
 
@@ -93,3 +161,5 @@ Below is a concrete example of a news media registration certificate.
   }
 }
 ```
+
+::::
