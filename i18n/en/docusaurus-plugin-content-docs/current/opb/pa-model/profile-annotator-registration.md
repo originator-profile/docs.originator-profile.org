@@ -97,6 +97,7 @@ Below is an example of Profile Annotator Registration PA.
     ],
     "annotation": {
       "id": "urn:uuid:5927e1da-e422-47c8-a5b8-efa6f5a45dd7",
+      "type": "ProfileAnnotationPolicy",
       "name": "OP Registry Profile Annotator Registration Scheme",
       "description": "This is the Profile Annotator registration scheme operated by the OP Registry. The Profile Annotator PA is issued to organizations that meet the registration requirements.",
       "ref": "https://op-registry.example.org/pa-issuer-registration"
