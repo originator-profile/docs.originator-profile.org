@@ -31,6 +31,7 @@ REQUIRED. It is JSON-LD Node Object that represents organization existence certi
 - `type`: REQUIRED. Set it to `OVAC`.
 - `name`: OPTIONAL. The name of this PA (string).
 - `description`: OPTIONAL. A description of this PA (string).
+- `image`: OPTIONAL. MUST be a JSON-LD Node Object of type `image`. This property allows you to verify that the image in the PA has not been tampered with.
 - `corporateName`: REQUIRED. Company name.
 - `corporateNumber`: REQUIRED. Corporate number
 - `postalCode`: REQUIRED. postal code
