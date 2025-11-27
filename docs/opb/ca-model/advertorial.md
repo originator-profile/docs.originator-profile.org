@@ -4,7 +4,7 @@ tags:
   - Web Media Specific Model
 ---
 
-# 記事広告
+# Content Attestation of Advertorial
 
 ## 用語
 
