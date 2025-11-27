@@ -104,7 +104,7 @@ Complies with [Certificate](../certificate.md).
 
 #### `@context`
 
-REQUIRED. It MUST comply with [OP VC Data Model](../op-vc-data-model.md) . In addition, the third value MUST be `https://originator-profile.org/ns/cip/v1" `.
+REQUIRED. It MUST comply with [OP VC Data Model](../op-vc-data-model.md) . In addition, the third value MUST be `"https://originator-profile.org/ns/cip/v1" `.
 
 #### `credentialSubject`
 
