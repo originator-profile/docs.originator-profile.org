@@ -97,6 +97,7 @@ Profile Annotator 登録証 PA のデータモデルの具体例を次に示し�
     ],
     "annotation": {
       "id": "urn:uuid:5927e1da-e422-47c8-a5b8-efa6f5a45dd7",
+      "type": "ProfileAnnotationPolicy",
       "name": "OP レジストリ Profile Annotator 登録制度",
       "description": "OP レジストリが運営する Profile Annotator の登録制度です。登録要件を満たした組織に対して Profile Annotator PA を発行します。",
       "ref": "https://op-registry.example.org/pa-issuer-registration"
