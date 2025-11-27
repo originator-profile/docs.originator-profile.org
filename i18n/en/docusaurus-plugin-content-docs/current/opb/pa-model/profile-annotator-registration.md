@@ -35,7 +35,7 @@ The Profile Annotator Registration PA is a PA issued by the OP Registry. The OP 
 #### `credentialSubject`
 
 - `id`: REQUIRED. It MUST be the OP ID of the organization holding the Profile Annotator Registration PA (the Profile Annotator).
-- `type`: REQUIRED. It MUST Be `ProfileAnnotatorRegistration`.
+- `type`: REQUIRED. It MUST be `ProfileAnnotatorRegistration`.
 - `annotatorName`: REQUIRED. The name of the Profile Annotator (string).
 - `description`: OPTIONAL. The description regarding this Profile Annotator (string).
 - `annotationScheme`: REQUIRED. It MUST be an array of URIs that uniquely identify the Profile Annotations which this Profile Annotator is authorized to issue.
