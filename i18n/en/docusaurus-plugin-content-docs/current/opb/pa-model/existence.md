@@ -21,17 +21,17 @@ It MUST comply with [Profile Annotation](../pa.md) .
 
 #### `@context`
 
-REQUIRED. It MUST comply with [OP VC Data Model](../op-vc-data-model.md) . In addition, the third value MUST be `https://originator-profile.org/ns/cip/v1" `.
+REQUIRED. It MUST comply with [OP VC Data Model](../op-vc-data-model.md) . In addition, the third value MUST be `https://originator-profile.org/ns/cip/v1`.
 
 #### `credentialSubject`
 
 REQUIRED. It is JSON-LD Node Object that represents organization existence certificate.
 
 - `id`: REQUIRED. The OP ID of an organization holding the PA.
-- `type`: REQUIRED. Set it to `OVAC`
+- `type`: REQUIRED. Set it to `OVAC`.
 - `name`: OPTIONAL. The name of this PA (string).
 - `description`: OPTIONAL. A description of this PA (string).
-- `corporateName`: REQUIRED. Company name
+- `corporateName`: REQUIRED. Company name.
 - `corporateNumber`: REQUIRED. Corporate number
 - `postalCode`: REQUIRED. postal code
 - `addressCountry`: REQUIRED. Specifies the ISO 3166-1 alpha-2 country code, for example `JP` for Japan.

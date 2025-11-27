@@ -27,11 +27,11 @@ REQUIRED. [OP VC Data Model](../op-vc-data-model.md) に従ってください (M
 
 REQUIRED. 日本における実在性を表す JSON-LD Node Object です。
 
-- `id`: REQUIRED. 証明書保有組織の OP ID です。
+- `id`: REQUIRED. PA 保有組織の OP ID です。
 - `type`: REQUIRED. `OVAC` にしてください。
 - `name`: OPTIONAL. この PA の名前です (文字列)。
 - `description`: OPTIONAL. この PA に関する説明です（文字列）。
-- `image`: OPTIONAL. [`image` データ型](../context.md#the-image-datatype) の JSON-LD Node Object でなければなりません (MUST)。このプロパティで Certificate の画像が改ざんされていないかを[検証](../context.md#image-datatype-の検証)することができます。
+- `image`: OPTIONAL. [`image` データ型](../context.md#the-image-datatype) の JSON-LD Node Object でなければなりません (MUST)。このプロパティで PA の画像が改ざんされていないかを[検証](../context.md#image-datatype-の検証)することができます。
 - `corporateName`: REQUIRED. 法人名
 - `corporateNumber`: REQUIRED. 法人番号
 - `postalCode`: REQUIRED. 郵便番号
