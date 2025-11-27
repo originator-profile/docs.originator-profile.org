@@ -99,9 +99,9 @@ If this value is not specified, it indicates no expiration date (unlimited).
 
 :::note
 
-This value is the expiration date of the information contained in the Certificate and is different from the expiration date of the VC signature. In JWTs of [VC-JOSE-COSE](https://www.w3.org/TR/vc-jose-cose/), the Securing Mechanism currently adopted by OPs, the expiration date of the signature is specified by the `exp` (expired at) claim of the JWT. The value of the `validUntil` property can be different from the `exp` claim.
+This value is the expiration date of the information contained in the Profile Annotation and is different from the expiration date of the VC signature. In JWTs of [VC-JOSE-COSE](https://www.w3.org/TR/vc-jose-cose/), the Securing Mechanism currently adopted by OPs, the expiration date of the signature is specified by the `exp` (expired at) claim of the JWT. The value of the `validUntil` property can be different from the `exp` claim.
 
-A scenario in which you might want to specify a different value is when you want to periodically reissue a VC that attests to a third-party certificate whose expiration date is far in the future. For example, suppose you issue a Certificate based on this specification that contains a third-party certificate that expires on `2050-12-31T15:00:00Z`. In that case, you might consider periodically reissuing the Certificate to reduce security risks caused by signature compromise or key leakage. To encourage periodic reissues, you can set an expiration date for the signature, and have the signature expire every year. In this case, you can specify the signature expiration date (one year later) in the `exp` claim, and set `validUntil` to `2050-12-31T15:00:00Z` regardless of the reissue date, thereby accurately representing the expiration date of the third-party certificate while reissuing it.
+A scenario in which you might want to specify a different value is when you want to periodically reissue a VC that attests to a third-party certificate whose expiration date is far in the future. For example, suppose you issue a Profile Annotation based on this specification that contains a third-party certificate that expires on `2050-12-31T15:00:00Z`. In that case, you might consider periodically reissuing the Profile Annotation to reduce security risks caused by signature compromise or key leakage. To encourage periodic reissues, you can set an expiration date for the signature, and have the signature expire every year. In this case, you can specify the signature expiration date (one year later) in the `exp` claim, and set `validUntil` to `2050-12-31T15:00:00Z` regardless of the reissue date, thereby accurately representing the expiration date of the third-party certificate while reissuing it.
 
 See [VC Data Model 2.0 Section 4.9 Validity Period](https://www.w3.org/TR/vc-data-model-2.0/#validity-period) for property definitions.
 
@@ -136,7 +136,7 @@ Below is an example of PA.
     "id": "dns:pa-holder.example.org",
     "name": "<PA Name>",
     "description": "<Description of PA>",
-    "certificationSystem": {
+    "annotation": {
       "id": "urn:uuid:14270f8f-9f1c-4f89-9fa4-8c93767a8404",
       "type": "ProfileAnnotationPolicy",
       "name": "<Profile Annotation Policy Name>",
