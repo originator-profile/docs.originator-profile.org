@@ -84,10 +84,6 @@ Content Integrity Descriptor が特定する DOM 要素。
 
 ある target integrity の target element をその target integrity が指定する方法で文字列表現に変換した値。 target integrity はこの値の完全性を保証する。
 
-## Profile Annotation (PA)
-
-[Profile Annotation](./pa.md) で定義される、発信者に対して適切な主体が検証した追加の情報。
-
 ## Profile Annotation Policy
 
 [Profile Annotation](./pa.md) の発行ポリシーを表明するデータモデル。

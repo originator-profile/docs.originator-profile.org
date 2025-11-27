@@ -90,10 +90,6 @@ The position of the target element specified by a given target integrity, or the
 
 The target element of a target integrity is converted to a string representation in a manner specified by the target integrity. The target integrity guarantees the integrity of this value.
 
-## Profile Annotation (PA)
-
-Additional information, verified by an appropriate entity, that is defined in the [Profile Annotation](./pa.md), for the sender.
-
 ## Profile Annotation Policy
 
 A data model that states the [Profile Annotation](./pa.md) issuance policy.
