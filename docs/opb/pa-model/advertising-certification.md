@@ -57,7 +57,7 @@ _このセクションは非規範的です。_
     "https://originator-profile.org/ns/credentials/v1",
     "https://originator-profile.org/ns/cip/v1",
     {
-      "@language": "ja-JP"
+      "@language": "ja"
     }
   ],
   "type": ["VerifiableCredential", "ProfileAnnotation"],
