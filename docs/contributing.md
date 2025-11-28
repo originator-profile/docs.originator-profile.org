@@ -8,7 +8,7 @@ sidebar_position: 300
 
 ## 同意手続き
 
-Originator Profile で開発する技術仕様やソフトウェアに貢献いただく際には、[DCO (Developer Certificate of Origin)](https://developercertificate.org/) に同意し各 GitHub リポジトリへのプルリクエストでサインオフ (Signed-off-by 行) を付与していただくようお願いします。
+Originator Profile で開発する技術仕様やソフトウェアに貢献いただく際には、[DCO (Developer Certificate of Origin)](https://developercertificate.org/) に同意し、各 GitHub リポジトリへのプルリクエストで提出する全てのコミットにサインオフ (Signed-off-by 行) を付与していただくようお願いします。
 
 貢献いただく内容・対象や規模によっては次の何れかの CLA (Contributor License Agreement) への同意をお願いすることがあります。
 
