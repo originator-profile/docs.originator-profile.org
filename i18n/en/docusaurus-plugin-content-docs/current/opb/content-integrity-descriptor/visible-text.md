@@ -1,5 +1,5 @@
 ---
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/b10a57d/docs/opb/content-integrity-descriptor/visible-text.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/4a7db5d/docs/opb/content-integrity-descriptor/visible-text.md
 tags:
   - Content Integrity Descriptor
   - Web Media Specific Model
