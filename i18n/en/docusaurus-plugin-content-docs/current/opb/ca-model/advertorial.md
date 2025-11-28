@@ -5,7 +5,7 @@ tags:
   - Web Media Specific Model
 ---
 
-# Advertorial
+# Content Attestation of Advertorial
 
 ## Terminology
 
