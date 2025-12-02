@@ -53,7 +53,7 @@ When committing, press the `Add Signed-off-by` button.
 
 Example commit window:
 
-![TortoiseGit example](/docs/assets/tortoisegit_en.png)
+![TortoiseGit example](./assets/tortoisegit_en.png)
 
 ### For [Sourcetree](https://www.sourcetreeapp.com/)
 
@@ -61,4 +61,4 @@ When committing, please specify `Sign off` in the commit Options... on the right
 
 Example commit window:
 
-![Sourcetree example](/docs/assets/sourcetree_en.png)
+![Sourcetree example](./assets/sourcetree_en.png)
