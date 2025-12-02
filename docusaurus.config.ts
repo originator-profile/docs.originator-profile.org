@@ -7,6 +7,7 @@ const url = pkg.homepage;
 const title = pkg.description;
 const description = pkg.description;
 const editUrl = `${pkg.repository}/blob/main`;
+const githubUrl = "https://github.com/originator-profile/originator-profile";
 const locales = ["ja", "en"];
 const docsRouteBasePath = "/";
 
@@ -73,6 +74,11 @@ export default {
       items: [
         {
           type: "localeDropdown",
+          position: "right",
+        },
+        {
+          href: githubUrl,
+          label: "GitHub",
           position: "right",
         },
         {
