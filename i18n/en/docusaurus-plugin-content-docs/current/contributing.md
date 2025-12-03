@@ -10,7 +10,7 @@ By agreeing to the DCO (Developer Certificate of Origin) or signing a CLA (Contr
 
 ## Agreement Process
 
-When contributing technical specifications or software developed with Originator Profile, please agree to the [DCO (Developer Certificate of Origin)](https://developercertificate.org/) and add a sign-off (Signed-off-by line) to all commits submitted in pull requests to each GitHub repository.
+When contributing to the technical specifications or software developed under the Originator Profile project, please agree to the [DCO (Developer Certificate of Origin)](https://developercertificate.org/) and add a sign-off (Signed-off-by line) to all commits submitted in pull requests to each GitHub repository.
 
 Depending on the nature, scope, or scale of your contribution, you may also be asked to agree to one of the following CLAs (Contributor License Agreements):
 
