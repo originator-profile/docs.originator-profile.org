@@ -1,4 +1,4 @@
-#                Originator Profile Docs
+# Originator Profile Docs
 
 [日本語版はこちら 🇯🇵](./README.ja.md)
 
