@@ -52,6 +52,7 @@ REQUIRED. A JSON-LD Node Object that represents the originator of the web media.
 - `telephone`: OPTIONAL. The main phone number of your organization.
 - `contactPoint`: OPTIONAL. Contact page information. It MUST be a JSON-LD Node Object of type [`page` datatype](./context.md#the-page-datatype).
 - `informationTransmissionPolicy`: OPTIONAL. Information about the information transmission policy page. It MUST be a JSON-LD Node Object of type [`page` datatype](./context.md#the-page-datatype).
+- `publishingPrinciple`: OPTIONAL. Information about the editorial guidelines. It MUST be a JSON-LD Node Object of type [`page` datatype](./context.md#the-page-datatype).
 - `privacyPolicy`: OPTIONAL. Privacy policy page information. It MUST be a JSON-LD Node Object of type [`page` datatype](./context.md#the-page-datatype).
 - `description`: OPTIONAL. A free-form text about the organization. It MUST be of [`description` datatype](./context.md#the-description-datatype) or an array of such type.
 
@@ -115,6 +116,10 @@ Below is an example of WMP
     "informationTransmissionPolicy": {
       "id": "https://wmp-holder.example.jp/statement",
       "name": "Information Transmission Policy"
+    },
+    "publishingPrinciple": {
+      "id": "https://wmp-holder.example.jp/editorial-guidelines",
+      "name": "Editorial Guidelines"
     },
     "privacyPolicy": {
       "id": "https://wmp-holder.example.jp/privacy",

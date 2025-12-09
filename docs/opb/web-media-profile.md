@@ -116,6 +116,10 @@ WMP の具体例を次に示します。
       "id": "https://wmp-holder.example.jp/statement",
       "name": "情報発信ポリシー"
     },
+    "publishingPrinciple": {
+      "id": "https://wmp-holder.example.jp/editorial-guidelines",
+      "name": "編集ガイドライン"
+    },
     "privacyPolicy": {
       "id": "https://wmp-holder.example.jp/privacy",
       "name": "プライバシーポリシー"
