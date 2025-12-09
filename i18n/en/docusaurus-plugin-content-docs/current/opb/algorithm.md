@@ -1,6 +1,6 @@
 ---
 sidebar_position: 103
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/a3fb119/docs/opb/algorithm.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/0ed3e2e/docs/opb/algorithm.md
 ---
 
 # Cryptographic algorithms
