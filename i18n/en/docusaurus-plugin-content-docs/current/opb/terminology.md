@@ -90,17 +90,13 @@ The position of the target element specified by a given target integrity, or the
 
 The target element of a target integrity is converted to a string representation in a manner specified by the target integrity. The target integrity guarantees the integrity of this value.
 
-## Certificate
+## Profile Annotation Policy
 
-[Certificate](./certificate.md) Information defined in an Originator Profile Blueprint (OPB) document that proves that the issuer has stated the contents to the OP-holding organization. Certificate.
+A data model that states the [Profile Annotation](./pa.md) issuance policy.
 
-## Certification System
+## Profile Annotator
 
-A system for cryptographically verifying that the information a [Certificate](./certificate.md) cryptographically attests to is actually true, operated by a certification authority.
-
-## Certifier
-
-The entity that operates the certification system. It is not necessarily the issuer of the certificate.
+An entity that issues [Profile Annotation](./pa.md).
 
 ## JSON-LD Node Object
 
