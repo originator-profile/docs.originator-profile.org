@@ -125,10 +125,16 @@ Below is an example of WMP
       "id": "https://wmp-holder.example.jp/privacy",
       "name": "Privacy Policy"
     },
-    "description": {
-      "text": "<!doctype html><title>description</title><p>This document is <strong>supplemental information</strong> for this Web media.",
-      "encodingFormat": "text/html"
-    }
+    "description": [
+      {
+        "text": "This text is supplementary information about this web media.",
+        "encodingFormat": "text/plain"
+      },
+      {
+        "text": "<p>This text is supplementary information about this web media.</p>",
+        "encodingFormat": "text/html"
+      }
+    ]
   }
 }
 ```

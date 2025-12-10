@@ -68,7 +68,7 @@ JSON-LD Node Object の例:
 
 ```json
 {
-  "text": "<!doctype html><title>Example</title><h1>Headline</h1>",
+  "text": "<p>This is an example description in HTML format.</p>",
   "encodingFormat": "text/html"
 }
 ```
@@ -83,6 +83,14 @@ JSON-LD Node Object の例:
   - CSP 制限を設けた sandbox iframe での描画
   - スタイルシート読み込みの禁止、または許可リストによる制限
 - `description` データ型の配列が取得できる場合は、よりセキュリティリスクの少ない形式（`text/plain` 形式など）のテキストコンテンツを優先して参照することを検討してください。
+
+:::
+
+:::note
+
+OP-CIPが開発したアプリケーションでは、HTMLタグの許可リストとして `<br>`, `<p>`, `<ol>`, `<ul>`, `<li>` のみを許可しています。
+
+[実装例を参照](https://github.com/originator-profile/originator-profile/blob/v0.4.0-beta.5/packages/ui/src/utils/use-sanitized-html-for-description.ts#L18-L25)
 
 :::
 

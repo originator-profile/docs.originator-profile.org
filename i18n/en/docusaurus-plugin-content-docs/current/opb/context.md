@@ -70,7 +70,7 @@ Example of JSON-LD Node Object:
 
 ```json
 {
-  "text": "<!doctype html><title>Example</title><h1>Headline</h1>",
+  "text": "<p>This is an example description in HTML format.</p>",
   "encodingFormat": "text/html"
 }
 ```
@@ -85,6 +85,14 @@ Application implementers should take the following points into consideration for
   - Rendering in a sandboxed iframe with CSP restrictions
   - Prohibition of stylesheet loading, or restriction via an allow list
 - If an array of the `description` datatype is available, consider prioritizing reference to text content in a lower security risk format (such as `text/plain`).
+
+:::
+
+:::note
+
+In the applications developed by OP-CIP, only the following HTML tags are allowed: `<br>`, `<p>`, `<ol>`, `<ul>`, and `<li>`.
+
+[Reference implementation](https://github.com/originator-profile/originator-profile/blob/v0.4.0-beta.5/packages/ui/src/utils/use-sanitized-html-for-description.ts#L18-L25)
 
 :::
 
