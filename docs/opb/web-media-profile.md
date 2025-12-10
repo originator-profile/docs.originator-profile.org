@@ -124,10 +124,16 @@ WMP の具体例を次に示します。
       "id": "https://wmp-holder.example.jp/privacy",
       "name": "プライバシーポリシー"
     },
-    "description": {
-      "text": "<!doctype html><title>description</title><p>この文章はこの Web メディアに関する<strong>補足情報</strong>です。</p>",
-      "encodingFormat": "text/html"
-    }
+    "description": [
+      {
+        "text": "この文章はこの Web メディアに関する補足情報です。",
+        "encodingFormat": "text/plain"
+      },
+      {
+        "text": "<p>この文章はこの Web メディアに関する補足情報です</p>",
+        "encodingFormat": "text/html"
+      }
+    ]
   }
 }
 ```
