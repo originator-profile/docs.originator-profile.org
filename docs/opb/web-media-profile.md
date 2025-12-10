@@ -130,7 +130,7 @@ WMP の具体例を次に示します。
         "encodingFormat": "text/plain"
       },
       {
-        "text": "<p>この文章はこの Web メディアに関する補足情報です</p>",
+        "text": "<p>この文章はこの Web メディアに関する補足情報です。</p>",
         "encodingFormat": "text/html"
       }
     ]
