@@ -88,7 +88,7 @@ JSON-LD Node Object の例:
 
 :::note
 
-OP-CIPが開発したアプリケーションでは、HTMLタグの許可リストとして `<br>`, `<p>`, `<ol>`, `<ul>`, `<li>` のみを許可しています。
+OP-CIPが開発するアプリケーションでは、HTMLタグの許可リストとして `<br>`, `<p>`, `<ol>`, `<ul>`, `<li>` のみを許可しています。属性の記載は `data-*` 属性を含めて許可されません。
 
 [実装例を参照](https://github.com/originator-profile/originator-profile/blob/v0.4.0-beta.5/packages/ui/src/utils/use-sanitized-html-for-description.ts#L18-L25)
 
