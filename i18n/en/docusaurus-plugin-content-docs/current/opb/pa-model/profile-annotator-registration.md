@@ -86,7 +86,7 @@ Below is an example of Profile Annotator Registration PA.
   "type": ["VerifiableCredential", "ProfileAnnotation"],
   "issuer": "dns:op-registry.example.org",
   "credentialSubject": {
-    "id": "dns:pa-issuer.example.jp",
+    "id": "dns:profile-annotator.example.jp",
     "type": "ProfileAnnotatorRegistration",
     "name": "Profile Annotator Certificate",
     "description": "This Profile Annotator is authorized to issue Organization Existence Certificates and Ad Verification Certificates.",
@@ -100,10 +100,10 @@ Below is an example of Profile Annotator Registration PA.
       "type": "ProfileAnnotationPolicy",
       "name": "OP Registry Profile Annotator Registration Scheme",
       "description": "This is the Profile Annotator registration scheme operated by the OP Registry. The Profile Annotator PA is issued to organizations that meet the registration requirements.",
-      "ref": "https://op-registry.example.org/pa-issuer-registration"
+      "ref": "https://op-registry.example.org/profile-annotator-registration"
     }
   }
 }
 ```
 
-In this example, the OP Registry, `dns:op-registry.example.org`, issues a Profile Annotator Registration PA to the organization, `dns:pa-issuer.example.jp`. This organization is authorized to issue PAs that comply with two certification schemes (Organization Existence Certification and Ad Certification).
+In this example, the OP Registry, `dns:op-registry.example.org`, issues a Profile Annotator Registration PA to the organization, `dns:profile-annotator.example.jp`. This organization is authorized to issue PAs that comply with two certification schemes (Organization Existence Certification and Ad Certification).

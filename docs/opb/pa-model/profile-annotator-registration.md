@@ -86,7 +86,7 @@ Profile Annotator 登録証 PA のデータモデルの具体例を次に示し�
   "type": ["VerifiableCredential", "ProfileAnnotation"],
   "issuer": "dns:op-registry.example.org",
   "credentialSubject": {
-    "id": "dns:pa-issuer.example.jp",
+    "id": "dns:profile-annotator.example.jp",
     "type": "ProfileAnnotatorRegistration",
     "name": "Profile Annotator 登録証",
     "description": "組織実在性証明書および広告認証証明書の発行を認められた Profile Annotator です。",
@@ -100,10 +100,10 @@ Profile Annotator 登録証 PA のデータモデルの具体例を次に示し�
       "type": "ProfileAnnotationPolicy",
       "name": "OP レジストリ Profile Annotator 登録制度",
       "description": "OP レジストリが運営する Profile Annotator の登録制度です。登録要件を満たした組織に対して Profile Annotator PA を発行します。",
-      "ref": "https://op-registry.example.org/pa-issuer-registration"
+      "ref": "https://op-registry.example.org/profile-annotator-registration"
     }
   }
 }
 ```
 
-この例では、`dns:op-registry.example.org` という OP レジストリが、`dns:pa-issuer.example.jp` という組織に対して Profile Annotator 登録証 PA を発行しています。この組織は2つの認証制度（組織実在性証明と広告認証）に準拠した PA を発行する資格を持っています。
+この例では、`dns:op-registry.example.org` という OP レジストリが、`dns:profile-annotator.example.jp` という組織に対して Profile Annotator 登録証 PA を発行しています。この組織は2つの認証制度（組織実在性証明と広告認証）に準拠した PA を発行する資格を持っています。
