@@ -304,20 +304,6 @@ _This section is non-normative._
         "type": "@type"
       }
     },
-    "CertificationSystem": {
-      "@id": "https://originator-profile.org/ns/cip/v1#CertificationSystem",
-      "@context": {
-        "@protected": true,
-        "id": "@id",
-        "type": "@type",
-        "name": "https://schema.org/name",
-        "description": "https://schema.org/description",
-        "ref": {
-          "@id": "https://originator-profile.org/ns/cip/v1#ref",
-          "@type": "@id"
-        }
-      }
-    },
     "Article": {
       "@id": "https://originator-profile.org/ns/cip/v1#Article",
       "@context": {
@@ -357,21 +343,6 @@ _This section is non-normative._
         "editor": "https://schema.org/editor",
         "sponsor": "https://schema.org/sponsor",
         "genre": "https://schema.org/genre"
-      }
-    },
-    "CertificateProperties": "https://originator-profile.org/ns/cip/v1#CertificateProperties",
-    "Certificate": {
-      "@id": "https://originator-profile.org/ns/cip/v1#Certificate",
-      "@context": {
-        "@protected": true,
-        "description": "https://schema.org/description",
-        "image": "op:image",
-        "certifier": "https://schema.org/name",
-        "verifier": "https://schema.org/name",
-        "certificationSystem": {
-          "@id": "https://originator-profile.org/ns/cip/v1#certificationSystem",
-          "@type": "@id"
-        }
       }
     },
     "OnlineAd": {
