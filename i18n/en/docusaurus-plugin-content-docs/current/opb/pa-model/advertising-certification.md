@@ -32,7 +32,7 @@ REQUIRED. It is a JSON-LD Node Object representing an Advertising Certification 
 - `type`: REQUIRED. Set it to `AdvertisingQualityCertificate`
 - `name`: OPTIONAL. The name of this PA (string).
 - `description`: OPTIONAL. It is a description of this PA (string).
-- `image`: OPTIONAL. MUST be a JSON-LD Node Object of type `image`. This property allows you to verify that the image in the PA has not been tampered with.
+- `image`: OPTIONAL. MUST be a JSON-LD Node Object of type [`image` datatype](./context.md#the-image-datatype). This property allows you to [verify](./context.md#image-datatype-verification) that the PA image has not been tampered with.
 - `verifier`: OPTIONAL. The name of the verifier.
 - `annotation`: REQUIRED. It MUST be a [Profile Annotation Policy](./pa-policy.md).
 
