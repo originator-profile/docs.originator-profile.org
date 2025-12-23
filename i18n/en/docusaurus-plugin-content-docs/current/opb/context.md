@@ -264,8 +264,8 @@ _This section is non-normative._
         "annotatorName": "https://schema.org/name"
       }
     },
-    "OrganizationExistenceCertificate": {
-      "@id": "https://originator-profile.org/ns/cip/v1#OrganizationExistenceCertificate",
+    "JP-OrganizationExistenceCertificate": {
+      "@id": "https://originator-profile.org/ns/cip/v1#JP-OrganizationExistenceCertificate",
       "@context": {
         "@protected": true,
         "id": "@id",
@@ -295,8 +295,8 @@ _This section is non-normative._
         "type": "@type"
       }
     },
-    "LocalGovernmentCertificate": {
-      "@id": "https://originator-profile.org/ns/cip/v1#LocalGovernmentCertificate",
+    "JP-LocalGovernmentCertificate": {
+      "@id": "https://originator-profile.org/ns/cip/v1#JP-LocalGovernmentCertificate",
       "@context": {
         "@protected": true,
         "id": "@id",

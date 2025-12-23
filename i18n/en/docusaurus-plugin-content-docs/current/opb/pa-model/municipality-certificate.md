@@ -29,7 +29,7 @@ REQUIRED. It MUST comply with [OP VC Data Model](../op-vc-data-model.md) . In ad
 REQUIRED. It is a JSON-LD Node Object representing a Municipality Certification PA.
 
 - `id`: REQUIRED. The OP ID of an organization holding the PA.
-- `type`: REQUIRED. Set it to `LocalGovernmentCertificate`
+- `type`: REQUIRED. Set it to `JP-LocalGovernmentCertificate`
 - `name`: OPTIONAL. The name of this PA (string).
 - `description`: OPTIONAL. It is a description of this PA (string).
 - `image`: OPTIONAL. MUST be a JSON-LD Node Object of type `image`. This property allows you to verify that the image in the PA has not been tampered with.
@@ -63,7 +63,7 @@ Below is a concrete example of a municipality certification PA.
   "issuer": "dns:lgac.exp.originator-profile.org",
   "credentialSubject": {
     "id": "dns:pa-holder.example.jp",
-    "type": "LocalGovernmentCertificate",
+    "type": "JP-LocalGovernmentCertificate",
     "image": {
       "id": "https://lgac.exp.originator-profile.org/image.png"
     },
