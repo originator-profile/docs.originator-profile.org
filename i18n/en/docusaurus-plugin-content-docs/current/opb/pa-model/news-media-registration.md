@@ -16,7 +16,7 @@ For terms not explained in this document, please see [Terminology](../terminolog
 
 ## News Media Registration PA Properties
 
-[Profile Annotation](../pa.md) に従います。
+It MUST comply with [Profile Annotation](../pa.md) .
 
 ### Property
 
