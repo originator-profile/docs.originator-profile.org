@@ -32,6 +32,7 @@ REQUIRED. 広告認証 PA を表す JSON-LD Node Object です。
 - `name`: OPTIONAL. この PA の名前です (文字列)。
 - `description`: OPTIONAL. この PA に関する説明です（文字列）。
 - `image`: OPTIONAL. [`image` データ型](../context.md#the-image-datatype) の JSON-LD Node Object でなければなりません (MUST)。このプロパティで Profile Annotation の画像が改ざんされていないかを[検証](../context.md#image-datatype-の検証)することができます。
+- `verifier`: OPTIONAL. 検証機関の名前です。
 - `annotation`: REQUIRED. [Profile Annotation Policy](./pa-policy.md) でなければなりません (MUST)。
 
 #### `validFrom`
@@ -68,6 +69,7 @@ _このセクションは非規範的です。_
     "image": {
       "id": "https://adcert.exp.originator-profile.org/image.png"
     },
+    "verifier": "架空広告監査機構",
     "annotation": {
       "id": "urn:uuid:8029ece0-b327-4a7e-b586-3e442cb82d92",
       "type": "ProfileAnnotationPolicy",

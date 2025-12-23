@@ -282,7 +282,8 @@ _このセクションは非規範的です。_
       "@context": {
         "@protected": true,
         "id": "@id",
-        "type": "@type"
+        "type": "@type",
+        "verifier": "https://schema.org/name",
       }
     },
     "NewsMediaRegistration": {

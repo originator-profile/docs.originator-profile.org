@@ -33,6 +33,7 @@ REQUIRED. It is a JSON-LD Node Object representing an Advertising Certification 
 - `name`: OPTIONAL. The name of this PA (string).
 - `description`: OPTIONAL. It is a description of this PA (string).
 - `image`: OPTIONAL. MUST be a JSON-LD Node Object of type `image`. This property allows you to verify that the image in the PA has not been tampered with.
+- `verifier`: OPTIONAL. The name of the verifier.
 - `annotation`: REQUIRED. It MUST be a [Profile Annotation Policy](./pa-policy.md).
 
 #### `validFrom`
@@ -69,6 +70,7 @@ Below is a concrete example of an advertising certification PA.
     "image": {
       "id": "https://adcert.exp.originator-profile.org/image.png"
     },
+    "verifier": "Fictitious Advertising Audit Bureau",
     "annotation": {
       "id": "urn:uuid:8029ece0-b327-4a7e-b586-3e442cb82d92",
       "type": "ProfileAnnotationPolicy",
