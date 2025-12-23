@@ -131,29 +131,11 @@ External Resource Target:
 
 :::
 
-a 要素を External Resource Target から参照する場合の具体例を次に示します。
+:::note
 
-External Resource Target:
+a 要素の `href` 属性で指定された外部リソースを検証可能にするための仕様は検討中です。現在の検証プロセスでは `src` 属性または `currentSrc` プロパティを使用したリソース取得のみが定義されています。詳しくは GitHub Issue [#127](https://github.com/originator-profile/docs.originator-profile.org/issues/127) をご確認ください。
 
-```json
-[
-  {
-    "type": "ExternalResourceTargetIntegrity",
-    "integrity": "sha256-Ip3vuwzubwJnOlzeKQ0Gc+daDcMc7EOYnIqypOyn4bs="
-  }
-]
-```
-
-このとき Web ページの HTML の a 要素に次のように `integrity` 属性を付与します。
-
-```html
-<a
-  href="https://cdn.example.com/document.pdf"
-  integrity="sha256-Ip3vuwzubwJnOlzeKQ0Gc+daDcMc7EOYnIqypOyn4bs="
-  type="application/pdf"
-  >PDF</a
->
-```
+:::
 
 :::note 実装上の注意点
 
