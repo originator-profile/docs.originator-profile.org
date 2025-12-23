@@ -109,9 +109,7 @@ See [VC Data Model 2.0 Section 4.9 Validity Period](https://www.w3.org/TR/vc-dat
 
 ## Extensibility {#extensibility}
 
-The issuer MAY add properties not defined in the [OP VC Data Model](./op-vc-data-model.md) and this document, but in that case, the credentialSubject.annotation.id property MUST be set to a different value.
-
-Additionally, consideration SHOULD be given to extensions in accordance with the [Verifiable Credentials Data Model 2.0 Section 5.2](https://www.w3.org/TR/vc-data-model-2.0/#extensibility) (RECOMMENDED).
+The issuer MAY add properties not defined in the [OP VC Data Model](./op-vc-data-model.md) and this document, but in such cases, they MUST follow the [registration process](./pa-model/index.mdx#registration-process).
 
 ## Appendix
 

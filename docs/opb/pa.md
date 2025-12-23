@@ -102,9 +102,7 @@ OPTIONAL. Profile Annotation の有効期限です。[VC Data Model 2.0 4.9節 V
 
 ## 拡張性 {#extensibility}
 
-発行者は [OP VC Data Model](./op-vc-data-model.md) および本文書に未定義のプロパティを追加してもよいです (MAY) が、その場合は `credentialSubject.annotation.id` プロパティを異なる値にしなければなりません (MUST)。
-
-また、[Verifiable Credentials Data Model 2.0 セクション 5.2](https://www.w3.org/TR/vc-data-model-2.0/#extensibility)に従って拡張することを検討してください (RECOMMENDED)。
+発行者は [OP VC Data Model](./op-vc-data-model.md) および本文書に未定義のプロパティを追加してもよいです (MAY) が、その場合は[登録プロセス](./pa-model/index.mdx#登録プロセス)に従ってください (MUST)。
 
 ## Appendix
 
