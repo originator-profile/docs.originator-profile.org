@@ -28,7 +28,7 @@ REQUIRED. It MUST comply with [OP VC Data Model](../op-vc-data-model.md) . In ad
 REQUIRED. It is JSON-LD Node Object that represents organization existence certificate.
 
 - `id`: REQUIRED. The OP ID of an organization holding the PA.
-- `type`: REQUIRED. Set it to `OVAC`.
+- `type`: REQUIRED. Set it to `OrganizationExistenceCertificate`.
 - `name`: OPTIONAL. The name of this PA (string).
 - `description`: OPTIONAL. A description of this PA (string).
 - `image`: OPTIONAL. MUST be a JSON-LD Node Object of type `image`. This property allows you to verify that the image in the PA has not been tampered with.
@@ -67,7 +67,7 @@ Below is a concrete example of an organization existence PA.
   "issuer": "dns:ovac.exp.originator-profile.org",
   "credentialSubject": {
     "id": "dns:pa-holder.example.jp",
-    "type": "OVAC",
+    "type": "OrganizationExistenceCertificate",
     "image": {
       "id": "https://ovac.exp.originator-profile.org/image.png",
       "digestSRI": "sha256-mnvgmCrOr6G7F3CqphnQxVDBeQob5EFstF/n7jNNVwg="

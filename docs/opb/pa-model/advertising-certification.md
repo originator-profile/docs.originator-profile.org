@@ -28,7 +28,7 @@ REQUIRED. [OP VC Data Model](../op-vc-data-model.md) に従ってください (M
 REQUIRED. 広告認証 PA を表す JSON-LD Node Object です。
 
 - `id`: REQUIRED. PA 保有組織の OP ID です。
-- `type`: REQUIRED. `AdCert` にしてください。
+- `type`: REQUIRED. `AdvertisingQualityCertificate` にしてください。
 - `name`: OPTIONAL. この PA の名前です (文字列)。
 - `description`: OPTIONAL. この PA に関する説明です（文字列）。
 - `image`: OPTIONAL. [`image` データ型](../context.md#the-image-datatype) の JSON-LD Node Object でなければなりません (MUST)。このプロパティで Profile Annotation の画像が改ざんされていないかを[検証](../context.md#image-datatype-の検証)することができます。
@@ -64,7 +64,7 @@ _このセクションは非規範的です。_
   "issuer": "dns:adcert.exp.originator-profile.org",
   "credentialSubject": {
     "id": "dns:pa-holder.example.jp",
-    "type": "AdCert",
+    "type": "AdvertisingQualityCertificate",
     "image": {
       "id": "https://adcert.exp.originator-profile.org/image.png"
     },

@@ -264,8 +264,8 @@ _This section is non-normative._
         "annotatorName": "https://schema.org/name"
       }
     },
-    "OVAC": {
-      "@id": "https://originator-profile.org/ns/cip/v1#OVAC",
+    "OrganizationExistenceCertificate": {
+      "@id": "https://originator-profile.org/ns/cip/v1#OrganizationExistenceCertificate",
       "@context": {
         "@protected": true,
         "id": "@id",
@@ -279,24 +279,24 @@ _This section is non-normative._
         "streetAddress": "https://schema.org/streetAddress"
       }
     },
-    "AdCert": {
-      "@id": "https://originator-profile.org/ns/cip/v1#AdCert",
+    "AdvertisingQualityCertificate": {
+      "@id": "https://originator-profile.org/ns/cip/v1#AdvertisingQualityCertificate",
       "@context": {
         "@protected": true,
         "id": "@id",
         "type": "@type"
       }
     },
-    "MedReg": {
-      "@id": "https://originator-profile.org/ns/cip/v1#MedReg",
+    "NewsMediaRegistration": {
+      "@id": "https://originator-profile.org/ns/cip/v1#NewsMediaRegistration",
       "@context": {
         "@protected": true,
         "id": "@id",
         "type": "@type"
       }
     },
-    "LGAC": {
-      "@id": "https://originator-profile.org/ns/cip/v1#LGAC",
+    "LocalGovernmentCertificate": {
+      "@id": "https://originator-profile.org/ns/cip/v1#LocalGovernmentCertificate",
       "@context": {
         "@protected": true,
         "id": "@id",

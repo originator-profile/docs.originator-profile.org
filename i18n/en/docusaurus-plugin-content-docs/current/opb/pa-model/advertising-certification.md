@@ -29,7 +29,7 @@ REQUIRED. It MUST comply with [OP VC Data Model](../op-vc-data-model.md) . In ad
 REQUIRED. It is a JSON-LD Node Object representing an Advertising Certification PA.
 
 - `id`: REQUIRED. The OP ID of an organization holding the PA.
-- `type`: REQUIRED. Set it to `AdCert`
+- `type`: REQUIRED. Set it to `AdvertisingQualityCertificate`
 - `name`: OPTIONAL. The name of this PA (string).
 - `description`: OPTIONAL. It is a description of this PA (string).
 - `image`: OPTIONAL. MUST be a JSON-LD Node Object of type `image`. This property allows you to verify that the image in the PA has not been tampered with.
@@ -65,7 +65,7 @@ Below is a concrete example of an advertising certification PA.
   "issuer": "dns:adcert.exp.originator-profile.org",
   "credentialSubject": {
     "id": "dns:pa-holder.example.jp",
-    "type": "AdCert",
+    "type": "AdvertisingQualityCertificate",
     "image": {
       "id": "https://adcert.exp.originator-profile.org/image.png"
     },

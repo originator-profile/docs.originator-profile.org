@@ -27,7 +27,7 @@ REQUIRED. It MUST comply with [OP VC Data Model](../op-vc-data-model.md) . In ad
 #### `credentialSubject`
 
 - `id`: REQUIRED. The OP ID of an organization holding the PA.
-- `type`: REQUIRED. Set it to `MedReg`
+- `type`: REQUIRED. Set it to `NewsMediaRegistration`
 - `name`: OPTIONAL. The name of this PA (string).
 - `description`: OPTIONAL. It is a description of this PA (string).
 - `image`: OPTIONAL. MUST be a JSON-LD Node Object of type `image`. This property allows you to verify that the image in the PA has not been tampered with.
@@ -59,7 +59,7 @@ Below is a concrete example of a news media registration PA.
   "issuer": "dns:medreg.exp.originator-profile.org",
   "credentialSubject": {
     "id": "dns:pa-holder.example.jp",
-    "type": "MedReg",
+    "type": "NewsMediaRegistration",
     "image": {
       "id": "https://medreg.exp.originator-profile.org/image.png"
     },
