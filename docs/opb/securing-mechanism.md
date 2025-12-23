@@ -152,7 +152,7 @@ REQUIRED. [JWT (RFC 7519)](https://www.rfc-editor.org/rfc/rfc7519.html) の仕�
 }
 ```
 
-##### Profile Annotation (Certificate)
+##### Profile Annotation
 
 ヘッダー:
 
@@ -169,7 +169,7 @@ REQUIRED. [JWT (RFC 7519)](https://www.rfc-editor.org/rfc/rfc7519.html) の仕�
 
 ```json
 {
-  "iss": "dns:pa-issuer.example.org",
+  "iss": "dns:profile-annotator.example.org",
   "sub": "dns:pa-holder.example.jp",
   "@context": [
     "https://www.w3.org/ns/credentials/v2",
@@ -177,11 +177,11 @@ REQUIRED. [JWT (RFC 7519)](https://www.rfc-editor.org/rfc/rfc7519.html) の仕�
     "https://originator-profile.org/ns/cip/v1",
     { "@language": "ja" }
   ],
-  "type": ["VerifiableCredential", "Certificate"],
-  "issuer": "dns:pa-issuer.example.org",
+  "type": ["VerifiableCredential", "ProfileAnnotation"],
+  "issuer": "dns:profile-annotator.example.org",
   "credentialSubject": {
     "id": "dns:pa-holder.example.jp",
-    "type": "CertificateProperties",
+    "type": "JP-OrganizationExistenceCertificate",
     "addressCountry": "JP",
     "name": "○○新聞社 (※開発用サンプル)",
     "corporateNumber": "0000000000000",
@@ -189,11 +189,12 @@ REQUIRED. [JWT (RFC 7519)](https://www.rfc-editor.org/rfc/rfc7519.html) の仕�
     "addressRegion": "東京都",
     "addressLocality": "千代田区",
     "streetAddress": "○○○",
-    "certificationSystem": {
-      "id": "urn:uuid:5374a35f-57ce-43fd-84c3-2c9b0163e3df",
-      "type": "CertificationSystem",
-      "name": "法人番号システムWeb-API",
-      "ref": "https://www.houjin-bangou.nta.go.jp/"
+    "annotation": {
+      "id": "urn:uuid:def09cbd-6e8e-4c73-856d-5e00dffde643",
+      "type": "ProfileAnnotationPolicy",
+      "name": "架空組織実在性検証局 実在証明",
+      "description": "この組織は、法人登記の照会等により組織が実在していることが確認できました。",
+      "ref": "https://ovac.exp.originator-profile.org/"
     }
   },
   "iat": 1688623395,
