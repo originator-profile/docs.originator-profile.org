@@ -111,7 +111,7 @@ REQUIRED. 広告認証証明書を表す JSON-LD Node Object です。
 - `verifier`: OPTIONAL. 検証機関の名前です。
 - `certificationSystem.id`: REQUIRED. 認証制度の ID を URI 形式で指定してください。
 - `certificationSystem.type`: REQUIRED. `CertificationSystem` でなければなりません (MUST)。
-- `certificationSystem.name`: REQUIRED.　認証制度の名前です。
+- `certificationSystem.name`: REQUIRED. 認証制度の名前です。
 - `certificationSystem.description`: OPTIONAL. 認証制度の説明です（文字列）。
 - `certificationSystem.ref`: RECOMMENDED. 認証制度の詳細を知るための人が読むためのページの URL です。
 
