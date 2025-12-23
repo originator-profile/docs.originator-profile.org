@@ -284,8 +284,8 @@ _This section is non-normative._
       "@context": {
         "@protected": true,
         "id": "@id",
-        "type": "@type"
-        "verifier": "https://schema.org/name",
+        "type": "@type",
+        "verifier": "https://schema.org/name"
       }
     },
     "NewsMediaRegistration": {
