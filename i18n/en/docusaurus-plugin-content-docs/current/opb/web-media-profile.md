@@ -1,6 +1,6 @@
 ---
 sidebar_position: 28
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/0fcac88/docs/opb/web-media-profile.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/6a11fb4/docs/opb/web-media-profile.md
 tags:
   - Web Media Specific Model
 ---
