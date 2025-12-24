@@ -1,6 +1,6 @@
 ---
 sidebar_position: 102
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/188b3f2/docs/opb/context.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/9d911a5/docs/opb/context.md
 ---
 
 # Contexts, Vocabularies, and Types
@@ -90,7 +90,7 @@ Application implementers should take the following points into consideration for
 
 :::note
 
-In the applications developed by OP-CIP, only the following HTML tags are allowed: `<br>`, `<p>`, `<ol>`, `<ul>`, and `<li>`.
+In the applications developed by OP-CIP, only the following HTML tags are allowed: `<br>`, `<p>`, `<ol>`, `<ul>`, and `<li>`. No attribute entries are allowed, including `data-*` attributes.
 
 [Reference implementation](https://github.com/originator-profile/originator-profile/blob/v0.4.0-beta.5/packages/ui/src/utils/use-sanitized-html-for-description.ts#L18-L25)
 
