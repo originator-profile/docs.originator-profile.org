@@ -1,5 +1,5 @@
 ---
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/09fc060/docs/opb/content-integrity-descriptor/external-resource.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/39c1489/docs/opb/content-integrity-descriptor/external-resource.md
 tags:
   - Content Integrity Descriptor
   - Web Media Specific Model
@@ -132,29 +132,17 @@ In this case, the external resource specified in the src attribute is validated,
 
 :::
 
-Below is an example of referencing an a element from an External Resource Target.
+:::note
 
-External Resource Target:
+A specification is under consideration to enable verification of external resources specified in the `href` attribute of the a element. The current verification process only defines resource retrieval using the `src` attribute or the `currentSrc` property. For more information, see GitHub Issue [#127](https://github.com/originator-profile/docs.originator-profile.org/issues/127).
 
-```json
-[
-  {
-    "type": "ExternalResourceTargetIntegrity",
-    "integrity": "sha256-Ip3vuwzubwJnOlzeKQ0Gc+daDcMc7EOYnIqypOyn4bs="
-  }
-]
-```
+:::
 
-In this case, add the `integrity` attribute to the HTML a element of the web page as follows:
+:::note Implementation Notes
 
-```html
-<a
-  href="https://cdn.example.com/document.pdf"
-  integrity="sha256-Ip3vuwzubwJnOlzeKQ0Gc+daDcMc7EOYnIqypOyn4bs="
-  type="application/pdf"
-  >PDF</a
->
-```
+As described in [SRI Section 5.3](https://www.w3.org/TR/sri/#cross-origin-data-leakage), in order to prevent an attacker from inferring the content of a cross-origin resource in violation of the [Same-Origin Policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy) by using a known or precomputed hash, when using the SRI validation result to determine the loadability of the cross-origin resource, ensure beforehand that the cross-origin resource is explicitly shared with the request initiator using the [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS) protocol.
+
+:::
 
 ## Validation Process
 
@@ -168,12 +156,6 @@ In this case, add the `integrity` attribute to the HTML a element of the web pag
    - If a network error occurs, it may be treated as a verification failure (e.g. [`TypeError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError) `Failed to fetch.`, etc.).
 3. Validate the result and its integrity property using the methods specified in [SRI section 3.3.5](https://www.w3.org/TR/SRI/#does-response-match-metadatalist).
    - If an unsupported hash algorithm is used, it may be treated as a verification failure.
-
-:::note Implementation Notes
-
-As described in [SRI Section 5.3](https://www.w3.org/TR/sri/#cross-origin-data-leakage), in order to prevent an attacker from inferring the content of a cross-origin resource in violation of the [Same-Origin Policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy) by using a known or precomputed hash, when using the SRI validation result to determine the loadability of the cross-origin resource, ensure beforehand that the cross-origin resource is explicitly shared with the request initiator using the [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS) protocol.
-
-:::
 
 ## How to identify element location
 
