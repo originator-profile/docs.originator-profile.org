@@ -135,6 +135,23 @@ _このセクションは非規範的です。_
       }
     },
     "allowedUrl": "https://schema.org/url",
+    "annotationScheme": {
+      "@id": "https://originator-profile.org/ns/credentials/v1#annotationScheme",
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "annotation": "op:ProfileAnnotationPolicy",
+    "ProfileAnnotationPolicy": {
+      "@id": "https://originator-profile.org/ns/credentials/v1#ProfileAnnotationPolicy",
+      "@context": {
+        "@protected": true,
+        "id": "@id",
+        "type": "@type",
+        "name": "https://schema.org/name",
+        "description": "https://schema.org/description",
+        "ref": "op:page"
+      }
+    },
     "ContentAttestation": {
       "@id": "https://originator-profile.org/ns/credentials/v1#ContentAttestation",
       "@context": {
@@ -158,7 +175,19 @@ _このセクションは非規範的です。_
         }
       }
     },
-    "ProfileAnnotation": "https://originator-profile.org/ns/credentials/v1#ProfileAnnotation",
+    "ProfileAnnotation": {
+      "@id": "https://originator-profile.org/ns/credentials/v1#ProfileAnnotation",
+      "@context": {
+        "@protected": true,
+        "id": "@id",
+        "type": "@type",
+        "name": "https://schema.org/name",
+        "description": "https://schema.org/description",
+        "image": "op:image",
+        "annotationScheme": "op:annotationScheme",
+        "annotation": "op:annotation"
+      }
+    },
     "WebMediaProfile": "https://originator-profile.org/ns/credentials/v1#WebMediaProfile",
     "OnlineBusiness": {
       "@id": "https://originator-profile.org/ns/credentials/v1#OnlineBusiness",
@@ -224,18 +253,53 @@ _このセクションは非規範的です。_
     "@protected": true,
     "cip": "https://originator-profile.org/ns/cip/v1#",
     "op": "https://originator-profile.org/ns/credentials/v1#",
-    "CertificationSystem": {
-      "@id": "https://originator-profile.org/ns/cip/v1#CertificationSystem",
+    "ProfileAnnotatorRegistration": {
+      "@id": "https://originator-profile.org/ns/cip/v1#ProfileAnnotatorRegistration",
       "@context": {
         "@protected": true,
         "id": "@id",
         "type": "@type",
-        "name": "https://schema.org/name",
-        "description": "https://schema.org/description",
-        "ref": {
-          "@id": "https://originator-profile.org/ns/cip/v1#ref",
-          "@type": "@id"
-        }
+        "annotatorName": "https://schema.org/name"
+      }
+    },
+    "JP-OrganizationExistenceCertificate": {
+      "@id": "https://originator-profile.org/ns/cip/v1#JP-OrganizationExistenceCertificate",
+      "@context": {
+        "@protected": true,
+        "id": "@id",
+        "type": "@type",
+        "corporateName": "https://schema.org/legalName",
+        "corporateNumber": "https://schema.org/taxID",
+        "postalCode": "https://schema.org/postalCode",
+        "addressCountry": "https://schema.org/addressCountry",
+        "addressRegion": "https://schema.org/addressRegion",
+        "addressLocality": "https://schema.org/addressLocality",
+        "streetAddress": "https://schema.org/streetAddress"
+      }
+    },
+    "AdvertisingQualityCertificate": {
+      "@id": "https://originator-profile.org/ns/cip/v1#AdvertisingQualityCertificate",
+      "@context": {
+        "@protected": true,
+        "id": "@id",
+        "type": "@type",
+        "verifier": "https://schema.org/name"
+      }
+    },
+    "NewsMediaRegistration": {
+      "@id": "https://originator-profile.org/ns/cip/v1#NewsMediaRegistration",
+      "@context": {
+        "@protected": true,
+        "id": "@id",
+        "type": "@type"
+      }
+    },
+    "JP-LocalGovernmentCertificate": {
+      "@id": "https://originator-profile.org/ns/cip/v1#JP-LocalGovernmentCertificate",
+      "@context": {
+        "@protected": true,
+        "id": "@id",
+        "type": "@type"
       }
     },
     "Article": {
@@ -277,21 +341,6 @@ _このセクションは非規範的です。_
         "editor": "https://schema.org/editor",
         "sponsor": "https://schema.org/sponsor",
         "genre": "https://schema.org/genre"
-      }
-    },
-    "CertificateProperties": "https://originator-profile.org/ns/cip/v1#CertificateProperties",
-    "Certificate": {
-      "@id": "https://originator-profile.org/ns/cip/v1#Certificate",
-      "@context": {
-        "@protected": true,
-        "description": "https://schema.org/description",
-        "image": "op:image",
-        "certifier": "https://schema.org/name",
-        "verifier": "https://schema.org/name",
-        "certificationSystem": {
-          "@id": "https://originator-profile.org/ns/cip/v1#certificationSystem",
-          "@type": "@id"
-        }
       }
     },
     "OnlineAd": {

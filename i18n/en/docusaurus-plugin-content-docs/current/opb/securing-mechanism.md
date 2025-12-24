@@ -152,7 +152,7 @@ Payload
 }
 ```
 
-##### Profile Annotation (Certificate)
+##### Profile Annotation
 
 Header:
 
@@ -169,7 +169,7 @@ Payload:
 
 ```json
 {
-  "iss": "dns:pa-issuer.example.org",
+  "iss": "dns:profile-annotator.example.org",
   "sub": "dns:pa-holder.example.jp",
   "@context": [
     "https://www.w3.org/ns/credentials/v2",
@@ -177,11 +177,11 @@ Payload:
     "https://originator-profile.org/ns/cip/v1",
     { "@language": "en" }
   ],
-  "type": ["VerifiableCredential", "Certificate"],
-  "issuer": "dns:pa-issuer.example.org",
+  "type": ["VerifiableCredential", "ProfileAnnotation"],
+  "issuer": "dns:profile-annotator.example.org",
   "credentialSubject": {
     "id": "dns:pa-holder.example.jp",
-    "type": "CertificateProperties",
+    "type": "JP-OrganizationExistenceCertificate",
     "addressCountry": "JP",
     "name": "ABCD Newspaper (※Development Sample)",
     "corporateNumber": "0000000000000",
@@ -189,11 +189,12 @@ Payload:
     "addressRegion": "Tokyo",
     "addressLocality": "Chiyoda",
     "streetAddress": "00-0",
-    "certificationSystem": {
-      "id": "urn:uuid:5374a35f-57ce-43fd-84c3-2c9b0163e3df",
-      "type": "CertificationSystem",
-      "name": "Corporate Number System Web-API",
-      "ref": "https://www.houjin-bangou.nta.go.jp/"
+    "annotation": {
+      "id": "urn:uuid:def09cbd-6e8e-4c73-856d-5e00dffde643",
+      "type": "ProfileAnnotationPolicy",
+      "name": "Fictitious Organization Verification Authority Existence Certification",
+      "description": "This organization has been verified to exist through corporate registration inquiry and other means.",
+      "ref": "https://ovac.exp.originator-profile.org/"
     }
   },
   "iat": 1688623395,

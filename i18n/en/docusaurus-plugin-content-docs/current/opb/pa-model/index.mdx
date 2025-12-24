@@ -11,3 +11,20 @@ These are the data models of [Profile Annotation](../pa.md) (PA). This defines t
 import DocCardList from "@theme/DocCardList";
 
 <DocCardList />
+
+## Registration Process
+
+When creating a new type of Profile Annotation, you MUST define at least the following:
+
+- Type name
+- Property definitions
+
+In addition, to avoid type name collisions, the defined Profile Annotation MUST be registered in the [Profile Annotation Type Registry](#registry).
+
+## Profile Annotation Type Registry {#registry}
+
+- `AdvertisingQualityCertificate`: [Advertising Certification PA](./advertising-certification.md)
+- `JP-OrganizationExistenceCertificate`: [Organization Existence PA](./existence.md)
+- `JP-LocalGovernmentCertificate`: [Municipality Certification PA](./municipality-certificate.md)
+- `NewsMediaRegistration`: [News Media Registration PA](./news-media-registration.md)
+- `ProfileAnnotatorRegistration`: [Profile Annotator Registration PA](./profile-annotator-registration.md)

@@ -10,3 +10,20 @@ tags:
 import DocCardList from "@theme/DocCardList";
 
 <DocCardList />
+
+## 登録プロセス
+
+新しい型の Profile Annotation を作る場合、少なくとも次のことを定義してください (MUST):
+
+- 型名
+- プロパティ定義
+
+また、型名の衝突を避けるため、定義した Profile Annotation は [Profile Annotation Type Registry](#registry) に登録してください (MUST)。
+
+## Profile Annotation Type Registry {#registry}
+
+- `AdvertisingQualityCertificate`: [広告認証 PA](./advertising-certification.md)
+- `JP-OrganizationExistenceCertificate`: [組織実在証 PA](./existence.md)
+- `JP-LocalGovernmentCertificate`: [自治体認証 PA](./municipality-certificate.md)
+- `NewsMediaRegistration`: [報道機関登録証 PA](./news-media-registration.md)
+- `ProfileAnnotatorRegistration`: [Profile Annotator 登録証 PA](./profile-annotator-registration.md)

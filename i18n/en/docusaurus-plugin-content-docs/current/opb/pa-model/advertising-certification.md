@@ -5,13 +5,90 @@ tags:
   - Profile Annotation
 ---
 
-# Advertising Certification Certificate
+# Advertising Certification PA
 
 ## Terminology
 
 For terms not explained in this document, please see [Terminology](../terminology.md).
 
-- Advertising Certification Certificate: Certificate that guarantees the advertising certification of the OP-holding organization
+- Profile Annotation (PA)
+- Advertising Certification PA: Profile Annotation that guarantees the advertising certification of the OP-holding organization
+
+## Advertising Certification PA Properties
+
+It MUST comply with [Profile Annotation](../pa.md) .
+
+### Property
+
+#### `@context`
+
+REQUIRED. It MUST comply with [OP VC Data Model](../op-vc-data-model.md) . In addition, the third value MUST be `"https://originator-profile.org/ns/cip/v1"`.
+
+#### `credentialSubject`
+
+REQUIRED. It is a JSON-LD Node Object representing an Advertising Certification PA.
+
+- `id`: REQUIRED. The OP ID of an organization holding the PA.
+- `type`: REQUIRED. Set it to `AdvertisingQualityCertificate`
+- `name`: OPTIONAL. The name of this PA (string).
+- `description`: OPTIONAL. It is a description of this PA (string).
+- `image`: OPTIONAL. MUST be a JSON-LD Node Object of type [`image` datatype](../context.md#the-image-datatype). This property allows you to [verify](../context.md#image-datatype-verification) that the PA image has not been tampered with.
+- `verifier`: OPTIONAL. The name of the verifier.
+- `annotation`: REQUIRED. It MUST be a [Profile Annotation Policy](./pa-policy.md).
+
+#### `validFrom`
+
+OPTIONAL. Conforms to the [Profile Annotation](../pa.md#validfrom). Specify the earliest time on the date the advertising certification was issued.
+
+#### `validUntil`
+
+OPTIONAL. Conforms to the [Profile Annotation](../pa.md#validuntil). Specify the latest time for the expiration date and time of the advertising certification.
+
+## Appendix
+
+### Example
+
+_This section is non-normative._
+
+Below is a concrete example of an advertising certification PA.
+
+```json
+{
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://originator-profile.org/ns/credentials/v1",
+    "https://originator-profile.org/ns/cip/v1",
+    {
+      "@language": "en"
+    }
+  ],
+  "type": ["VerifiableCredential", "ProfileAnnotation"],
+  "issuer": "dns:adcert.exp.originator-profile.org",
+  "credentialSubject": {
+    "id": "dns:pa-holder.example.jp",
+    "type": "AdvertisingQualityCertificate",
+    "image": {
+      "id": "https://adcert.exp.originator-profile.org/image.png"
+    },
+    "verifier": "Fictitious Advertising Audit Bureau",
+    "annotation": {
+      "id": "urn:uuid:8029ece0-b327-4a7e-b586-3e442cb82d92",
+      "type": "ProfileAnnotationPolicy",
+      "name": "Fictitious Advertisement Certification Center Brand Safety Certified",
+      "description": "This organization is committed to preventing the display of advertisements on illegal or inappropriate sites, content, or applications that could potentially harm the brand value of advertisers.",
+      "ref": "https://adcert.exp.originator-profile.org/"
+    }
+  },
+  "validFrom": "2024-03-31T15:00:00Z",
+  "validUntil": "2030-03-31T14:59:59Z"
+}
+```
+
+:::warning Migration Required
+
+If you are using a previous format that extends [Certificate](../certificate.md), such as the one below, it will become unverifiable after 2027-01-01. The issuer MUST migrate to the format defined in this document by then.
+
+---
 
 ## Advertising Certification Certificate Properties
 
@@ -86,3 +163,5 @@ Below is a concrete example of an advertising certification certificate.
   }
 }
 ```
+
+:::
