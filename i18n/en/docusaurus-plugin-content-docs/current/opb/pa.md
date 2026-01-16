@@ -57,7 +57,7 @@ OPTIONAL. Description of the PA. It MUST be a string.
 
 #### `credentialSubject.image`
 
-OPTIONAL. It MUST be a JSON-LD Node Object of type [`image` datatype](./context.md#the-image-datatype). This property allows you to [verify](./context.md#image-datatype-verification) that the PA image has not been tampered with.
+OPTIONAL. It MUST be a JSON-LD Node Object of type [`image` datatype](./context.md#the-image-datatype). This property allows you to [verify](./context.md#verifying-image-datatype) that the PA image has not been tampered with.
 
 #### `credentialSubject.annotationScheme`
 
