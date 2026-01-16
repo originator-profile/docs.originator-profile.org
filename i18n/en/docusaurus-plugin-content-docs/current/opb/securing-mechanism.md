@@ -183,7 +183,7 @@ Payload:
     "id": "dns:pa-holder.example.jp",
     "type": "JP-OrganizationExistenceCertificate",
     "addressCountry": "JP",
-    "name": "ABCD Newspaper (※Development Sample)",
+    "corporateName": "ABCD Newspaper (※Development Sample)",
     "corporateNumber": "0000000000000",
     "postalCode": "000-0000",
     "addressRegion": "Tokyo",

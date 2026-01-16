@@ -183,7 +183,7 @@ REQUIRED. [JWT (RFC 7519)](https://www.rfc-editor.org/rfc/rfc7519.html) の仕�
     "id": "dns:pa-holder.example.jp",
     "type": "JP-OrganizationExistenceCertificate",
     "addressCountry": "JP",
-    "name": "○○新聞社 (※開発用サンプル)",
+    "corporateName": "○○新聞社 (※開発用サンプル)",
     "corporateNumber": "0000000000000",
     "postalCode": "000-0000",
     "addressRegion": "東京都",
