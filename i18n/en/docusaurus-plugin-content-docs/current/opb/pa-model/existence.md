@@ -11,6 +11,7 @@ tags:
 
 For terms not explained in this document, please see [Terminology](../terminology.md).
 
+- Profile Annotation (PA)
 - Organization Existence PA: PA that guarantees the existence of the OP-holding organization
 
 ## Organization Existence PA Properties
