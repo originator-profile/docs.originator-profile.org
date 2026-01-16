@@ -39,7 +39,7 @@ The Profile Annotator Registration PA is a PA issued by the OP Registry. The OP 
 - `annotatorName`: REQUIRED. The name of the Profile Annotator (string).
 - `description`: OPTIONAL. The description regarding this Profile Annotator (string).
 - `annotationScheme`: REQUIRED. It MUST be an array of URIs that uniquely identify the Profile Annotations which this Profile Annotator is authorized to issue.
-- `annotation`: REQUIRED. It MUST be a Profile Annotation Policy that indicates the Profile Annotator registration scheme.
+- `annotation`: REQUIRED. It MUST be a [Profile Annotation Policy](./pa-policy.md) that indicates the Profile Annotator registration scheme.
 
 :::note
 
