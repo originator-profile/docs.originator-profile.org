@@ -1,20 +1,20 @@
 ---
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/4a7db5d/docs/opb/pa-model/municipality-certificate.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/4a7db5d/docs/opb/pa-model/local-government-certification.md
 tags:
   - Jurisdiction Specific Model
   - Profile Annotation
 ---
 
-# Municipality Certification PA
+# Local Government Certification PA
 
 ## Terminology
 
 For terms not explained in this document, please see [Terminology](../terminology.md).
 
 - Profile Annotation (PA)
-- Municipality Certification PA: Certificate that guarantees the municipal certification of the OP-holding organization
+- Local Government Certification PA: A Profile Annotation that guarantees certification by the local government of the OP-holding organization.
 
-## Municipality Certification PA Properties
+## Local Government Certification PA Properties
 
 It MUST comply with [Profile Annotation](../pa.md) .
 
@@ -26,7 +26,7 @@ REQUIRED. It MUST comply with [OP VC Data Model](../op-vc-data-model.md) . In ad
 
 #### `credentialSubject`
 
-REQUIRED. It is a JSON-LD Node Object representing a Municipality Certification PA.
+REQUIRED. It is a JSON-LD Node Object representing a Local Government Certification PA.
 
 - `id`: REQUIRED. The OP ID of an organization holding the PA.
 - `type`: REQUIRED. Set it to `JP-LocalGovernmentCertificate`
@@ -37,7 +37,7 @@ REQUIRED. It is a JSON-LD Node Object representing a Municipality Certification 
 
 :::note
 
-Properties for municipality certification PA outside of Japan are under consideration.
+Properties for local government certification PA outside of Japan are under consideration.
 
 :::
 
@@ -47,7 +47,7 @@ Properties for municipality certification PA outside of Japan are under consider
 
 _This section is non-normative._
 
-Below is a concrete example of a municipality certification PA.
+Below is a concrete example of a local government certification PA.
 
 ```json
 {
@@ -70,7 +70,7 @@ Below is a concrete example of a municipality certification PA.
     "annotation": {
       "id": "urn:uuid:203a2553-f1a8-40ba-9df0-4e508aa8511d",
       "type": "ProfileAnnotationPolicy",
-      "name": "Fictitious Municipality Certification Center Municipal Certification",
+      "name": "Fictitious Local Government Authentication Center Local Government Certification",
       "description": "This organization is a local public entity organized and operated in accordance with the Local Autonomy Law.",
       "ref": "https://lgac.exp.originator-profile.org/"
     }
