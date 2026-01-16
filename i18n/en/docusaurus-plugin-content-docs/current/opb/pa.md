@@ -10,12 +10,6 @@ tags:
 
 The Profile Annotation is VC's common data model for expressing information about Core Profile subjects.
 
-:::note
-
-When issuing Profile Annotation as VC, it must be extended according to [extensibility](#extensibility). It must not be issued as PA without extension.
-
-:::
-
 ## Terminology
 
 For terms not explained in this document, please see [Terminology](./terminology.md).
