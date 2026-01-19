@@ -7,6 +7,12 @@ tags:
 
 # Certificate
 
+:::warning Deprecation Warning
+
+Certificates will become unverifiable after 2027-01-01. Please make the necessary changes to issue a [Profile Annotation](./pa.md) by then.
+
+:::
+
 ## Terminology
 
 For terms not explained in this document, please see [Terminology](./terminology.md).
@@ -33,7 +39,7 @@ REQUIRED. It MUST be `["VerifiableCredential", "Certificate"]`.
 - `id`: REQUIRED. The OP ID of the organization that holds the certificate.
 - `type`: REQUIRED. This is specified in the document that defines the individual Certificate.
 - `description`: OPTIONAL. A description of this certificate (string).
-- `image`: OPTIONAL. It MUST be a JSON-LD Node Object of type [`image` datatype](./context.md#the-image-datatype). This property allows you to [verify](./context.md#image-datatype-verification) that the certificate image has not been tampered with.
+- `image`: OPTIONAL. It MUST be a JSON-LD Node Object of type [`image` datatype](./context.md#the-image-datatype). This property allows you to [verify](./context.md#verifying-image-datatype) that the certificate image has not been tampered with.
 - `certifier`: OPTIONAL. The name of the certification authority.
 - `verifier`: OPTIONAL. The name of the verification authority.
 - `certificationSystem.id`: REQUIRED. Please specify the ID of the certification system in URI format.
