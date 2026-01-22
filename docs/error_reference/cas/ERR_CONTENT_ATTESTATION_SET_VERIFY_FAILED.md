@@ -1,13 +1,13 @@
 ---
-sidebar: 52
+sidebar: 1
 tags:
-  - Trouble Shooting
+  - Troubleshooting
   - Content Attestation
 ---
 
 # ERR_CONTENT_ATTESTATION_SET_VERIFY_FAILED
 
-## エラーコード：ERR_CONTENT_ATTESTATION_SET_VERIFY_FAILED
+## エラーコード: ERR_CONTENT_ATTESTATION_SET_VERIFY_FAILED
 
 Content Attestation Set に含まれている Content Attestation の検証に失敗した場合に発生します。
 

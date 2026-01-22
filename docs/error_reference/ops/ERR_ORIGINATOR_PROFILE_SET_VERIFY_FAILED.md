@@ -1,12 +1,12 @@
 ---
-sidebar: 59
+sidebar: 2
 tags:
-  - Trouble Shooting
+  - Troubleshooting
 ---
 
 # ERR_ORIGINATOR_PROFILE_SET_VERIFY_FAILED
 
-## エラーコード：ERR_ORIGINATOR_PROFILE_SET_VERIFY_FAILED
+## エラーコード: ERR_ORIGINATOR_PROFILE_SET_VERIFY_FAILED
 
 Originator Profile Set の検証に失敗した場合に発生します。
 

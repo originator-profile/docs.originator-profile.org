@@ -1,15 +1,14 @@
 ---
-sidebar: 57
+sidebar: 4
 tags:
-  - Trouble Shooting
-  - Core Profile
+  - Troubleshooting
   - Profile Annotation
   - Web Media Specific Model
 ---
 
 # ERR_ORIGINATOR_PROFILE_VERIFY_FAILED
 
-## エラーコード：ERR_ORIGINATOR_PROFILE_VERIFY_FAILED
+## エラーコード: ERR_ORIGINATOR_PROFILE_VERIFY_FAILED
 
 Originator Profile の検証に失敗した場合に発生します。
 
@@ -35,7 +34,7 @@ Originator Profile の検証に失敗した場合に発生します。
 - Web Media Profile 発行者の Core Profile が見つからなかった可能性があります。
   [`ERR_CORE_PROFILE_NOT_FOUND`](./ERR_CORE_PROFILE_NOT_FOUND.md) にてより詳しい原因を知ることができます。
 - 署名の検証に失敗した可能性があります。
-- Profile Annotation の有効期限外となっている可能性があります。
+- Profile Annotation が有効期限外となっている可能性があります。
   [`ERR_CERTIFICATE_EXPIRED`](./ERR_CERTIFICATE_EXPIRED.md) にてより詳しい原因を知ることができます。
 
 ## 例

@@ -1,12 +1,12 @@
 ---
-sidebar: 63
+sidebar: 4
 tags:
-  - Trouble Shooting
+  - Troubleshooting
 ---
 
 # ERR_SITE_PROFILE_VERIFY_FAILED
 
-## エラーコード：ERR_SITE_PROFILE_VERIFY_FAILED
+## エラーコード: ERR_SITE_PROFILE_VERIFY_FAILED
 
 Site Profile の検証に失敗した場合に発生します。
 
@@ -63,15 +63,16 @@ Site Profile の検証に失敗した場合に発生します。
       "id": "https://media.example.com/image.png",
       "digestSRI": "sha256-Upwn7gYMuRmJlD1ZivHk876vXHzokXrwXj50VgfnMnY="
     },
-    "allowedOrigin": ["https://media.example.com"]
+    "allowedOrigin": ["https://another.com"]
   }
 }
 ```
 
 ## 解決策
 
-- Originator Profile Set が検証失敗となっている場合は、検証に失敗している Core Profile、Profile Annotation、Web Media Profile の内容をご確認ください。
-- Website Profile が検証失敗となっている場合は、[Website Profile](../../opb/website-profile.md) にてより詳しい原因を知ることができます。
+- 検証に失敗している Core Profile、Profile Annotation、Web Media Profile の内容をご確認ください。
+- Website Profile の内容をご確認ください。
+  より詳しくは [Website Profile](../../opb/website-profile.md) にて確認することができます。
 - Website Profile の `allowedOrigin` が適切な値となっているかご確認ください。
 
 ## 関連情報

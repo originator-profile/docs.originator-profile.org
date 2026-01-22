@@ -1,12 +1,12 @@
 ---
-sidebar: 58
+sidebar: 1
 tags:
-  - Trouble Shooting
+  - Troubleshooting
 ---
 
 # ERR_ORIGINATOR_PROFILE_SET_INVALID
 
-## エラーコード：ERR_ORIGINATOR_PROFILE_SET_INVALID
+## エラーコード: ERR_ORIGINATOR_PROFILE_SET_INVALID
 
 Originator Profile Set が無効な形式になっている場合に発生します。
 

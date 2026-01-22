@@ -1,12 +1,12 @@
 ---
-sidebar: 53
+sidebar: 1
 tags:
-  - Trouble Shooting
+  - Troubleshooting
 ---
 
 # ERR_FETCH_CREDENTIALS_MESSAGING_FAILED
 
-## エラーコード：ERR_FETCH_CREDENTIALS_MESSAGING_FAILED
+## エラーコード: ERR_FETCH_CREDENTIALS_MESSAGING_FAILED
 
 クレデンシャルを取得するメッセージの通信に失敗した場合に発生します。
 

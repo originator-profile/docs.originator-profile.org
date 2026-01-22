@@ -1,15 +1,14 @@
 ---
-sidebar: 56
+sidebar: 3
 tags:
-  - Trouble Shooting
-  - Core Profile
+  - Troubleshooting
   - Profile Annotation
   - Web Media Specific Model
 ---
 
 # ERR_ORIGINATOR_PROFILE_INVALID
 
-## エラーコード：ERR_ORIGINATOR_PROFILE_INVALID
+## エラーコード: ERR_ORIGINATOR_PROFILE_INVALID
 
 Originator Profile が無効な形式になっている場合に発生します。
 
@@ -44,38 +43,31 @@ Originator Profile が無効な形式になっている場合に発生します�
 ```
 
 - Core Profile の `credentialSubject.id` と Profile Annotation の `credentialSubject.id` を異なるものにして発行。
-  Core Profile の `credentialSubject.id` が `dns:cert-holder.example.jp` の時、 Profile Annotation の `issuer` を `dns:another.org` とする。
+  Core Profile の `credentialSubject.id` が `dns:cert-holder.example.jp` の時、 Profile Annotation の `credentialSubject.id` を `dns:another.org` とする。
 
 ```
 {
   "@context": [
     "https://www.w3.org/ns/credentials/v2",
     "https://originator-profile.org/ns/credentials/v1",
-    "https://originator-profile.org/ns/cip/v1",
-    { "@language": "ja" }
+    {
+      "@language": "ja"
+    }
   ],
-  "type": ["VerifiableCredential", "Certificate"],
-  "issuer": "dns:cert-issuer.example.org",
+  "type": ["VerifiableCredential", "ProfileAnnotation"],
+  "issuer": "dns:profile-annotator.example.org",
   "credentialSubject": {
     "id": "dns:another.org",
-    "type": "CertificateProperties",
-    "description": "この事業者は、〇〇の審査を経て〇〇の認証を取得しました。",
-    "image": {
-      "id": "https://example.com/certification-mark.svg",
-      "digestSRI": "sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w="
-    },
-    "certifier": "〇〇認証機構",
-    "verifier": "〇〇協会",
-    "certificationSystem": {
+    "name": "<PA 名>",
+    "description": "<PA の説明>",
+    "annotation": {
       "id": "urn:uuid:14270f8f-9f1c-4f89-9fa4-8c93767a8404",
-      "type": "CertificationSystem",
-      "name": "<認証制度名>",
-      "description": "<認証制度の説明>",
-      "ref": "https://certification.example.org/about"
+      "type": "ProfileAnnotationPolicy",
+      "name": "<Profile Annotation Policy 名>",
+      "description": "<Profile Annotation Policy の説明>",
+      "ref": "https://annotation.example.org/about"
     }
-  },
-  "validFrom": "2024-03-31T15:00:00Z",
-  "validUntil": "2030-03-31T14:59:59Z"
+  }
 }
 ```
 
@@ -83,9 +75,9 @@ Originator Profile が無効な形式になっている場合に発生します�
 
 - 無効な形式となっている Core Profile、Profile Annotation、Web Media Profile をご確認ください。
   より詳しくは [`ERR_VC_DECODE_FAILED`](../vc/ERR_VC_DECODE_FAILED.md) にて確認することができます。
-- Core Profile と Profile Annotation の credentialSubject.id が一致しているかご確認ください。
+- Core Profile と Profile Annotation の `credentialSubject.id` が一致しているかご確認ください。
   より詳しくは [Core Profile](../../opb/cp.md) と [Profile Annotation](../../opb/pa.md) にて確認することができます。
-- Core Profile と Web Media Profile の credentialSubject.id が一致しているかご確認ください。
+- Core Profile と Web Media Profile の `credentialSubject.id` が一致しているかご確認ください。
   より詳しくは [Core Profile](../../opb/cp.md) と [Web Media Profile](../../opb/web-media-profile.md) にて確認することができます。
 
 ## 関連情報

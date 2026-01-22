@@ -1,12 +1,12 @@
 ---
-sidebar: 61
+sidebar: 2
 tags:
-  - Trouble Shooting
+  - Troubleshooting
 ---
 
 # ERR_SITE_PROFILE_FETCH_INVALID
 
-## エラーコード：ERR_SITE_PROFILE_FETCH_INVALID
+## エラーコード: ERR_SITE_PROFILE_FETCH_INVALID
 
 Site Profile 取得時に Site Profile が無効な形式になっている場合に発生します。
 

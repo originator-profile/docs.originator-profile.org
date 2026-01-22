@@ -1,12 +1,12 @@
 ---
-sidebar: 64
+sidebar: 1
 tags:
-  - Trouble Shooting
+  - Troubleshooting
 ---
 
 # ERR_VC_DECODE_FAILED
 
-## エラーコード：ERR_VC_DECODE_FAILED
+## エラーコード: ERR_VC_DECODE_FAILED
 
 VC の復号に失敗している場合に発生します。
 

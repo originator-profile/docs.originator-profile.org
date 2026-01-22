@@ -1,12 +1,12 @@
 ---
-sidebar: 60
+sidebar: 1
 tags:
-  - Trouble Shooting
+  - Troubleshooting
 ---
 
 # ERR_SITE_PROFILE_FETCH_FAILED
 
-## エラーコード：ERR_SITE_PROFILE_FETCH_FAILED
+## エラーコード: ERR_SITE_PROFILE_FETCH_FAILED
 
 Site Profile の取得に失敗した場合に発生します。
 

@@ -1,13 +1,14 @@
 ---
-sidebar: 51
+sidebar: 2
 tags:
-  - Trouble Shooting
+  - Troubleshooting
   - Content Attestation
+  - Content Integrity Descriptor
 ---
 
 # ERR_CONTENT_ATTESTATION_VERIFY_FAILED
 
-## エラーコード：ERR_CONTENT_ATTESTATION_VERIFY_FAILED
+## エラーコード: ERR_CONTENT_ATTESTATION_VERIFY_FAILED
 
 Content Attestation の検証に失敗した場合に発生します。
 

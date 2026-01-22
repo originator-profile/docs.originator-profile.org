@@ -1,18 +1,18 @@
 ---
-sidebar: 65
+sidebar: 2
 tags:
-  - Trouble Shooting
+  - Troubleshooting
 ---
 
 # ERR_VC_VERIFY_FAILED
 
-## エラーコード：ERR_VC_VERIFY_FAILED
+## エラーコード: ERR_VC_VERIFY_FAILED
 
 VC の検証に失敗した場合に発生します。
 
 ## エラーメッセージ
 
-- JWT VC Verification Failure
+- "JWT VC Verification Failure"
 
 ## エラーの原因
 

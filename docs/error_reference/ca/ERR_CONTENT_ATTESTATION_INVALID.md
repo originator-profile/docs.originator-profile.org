@@ -1,13 +1,13 @@
 ---
-sidebar: 50
+sidebar: 1
 tags:
-  - Trouble Shooting
+  - Troubleshooting
   - Content Attestation
 ---
 
 # ERR_CONTENT_ATTESTATION_INVALID
 
-## エラーコード：ERR_CONTENT_ATTESTATION_INVALID
+## エラーコード: ERR_CONTENT_ATTESTATION_INVALID
 
 Content Attestation が無効な形式になっている場合に発生します。
 
@@ -23,7 +23,7 @@ Content Attestation が無効な形式になっている場合に発生します
 - Content Attestation の復号に失敗している可能性があります。
   [`ERR_VC_DECODE_FAILED`](../vc/ERR_VC_DECODE_FAILED.md) にてより詳しい原因を知ることができます。
 - Content Attestation の VC の妥当性確認に失敗している可能性があります。
-- Content Attestation に allowedUrl と allowedOrigin の両方が含まれている可能性があります。
+- Content Attestation に `allowedUrl` と `allowedOrigin` の両方が含まれている可能性があります。
 - Content Attestation の `target` プロパティが空となっている可能性があります。
 
 ## 例
@@ -76,7 +76,7 @@ Content Attestation が無効な形式になっている場合に発生します
 ## 解決策
 
 - 無効な形式となっている Content Attestation の内容をご確認ください。
-- Content Attestation に allowedUrl と allowedOrigin 両方を含まないでください。
+- Content Attestation に `allowedUrl` と `allowedOrigin` 両方を含まないでください。
   より詳しくは [Content Attestation](../../opb/ca.md) にて確認することができます。
   allowedOrigin は非推奨です。
 
