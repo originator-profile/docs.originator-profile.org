@@ -17,7 +17,11 @@ sidebar_position: 0
 
 **症状**
 
-コンソールに `Access-Control-Allow-Origin` に関するエラーメッセージが表示される。
+コンソールに以下のような警告メッセージが表示される。
+
+```
+Cross-Origin Request Blocked: The Same Origin Policy disallows reading the remote resource at [URL].
+```
 
 **原因**
 
