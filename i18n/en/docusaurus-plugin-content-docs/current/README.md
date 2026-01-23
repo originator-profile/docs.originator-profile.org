@@ -13,6 +13,7 @@ This site is the technical documentation site for the Originator Profile project
 - [Originator Profile Framework - Architectural Overview](pathname:///aov/)
 - [About Originator Profile](tech/)
 - [Originator Profile Blueprint (OPB)](opb/)
+- [Error Reference](error-reference/)
 
 ## GitHub Repositories
 
