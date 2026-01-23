@@ -14,10 +14,10 @@ Content Attestation の検証に失敗した場合に発生します。
 
 ## エラーメッセージ
 
-- "URL not allowed. Expected:<期待される URL> Actual:<実際の URL>"
-- "Origin not allowed. Expected:<期待される Origin> Actual:<実際の Origin>"
+- "URL not allowed. Expected: `<期待される URL>` Actual: `<実際の URL>`"
+- "Origin not allowed. Expected: `<期待される Origin>` Actual: `<実際の Origin>`"
 - "Content Attestation verify failed"
-- "Content Attestation Target integrity verification failed for element(s): <メッセージ>"
+- "Content Attestation Target integrity verification failed for element(s): `<メッセージ>`"
 
 ## エラーの原因
 

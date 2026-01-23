@@ -13,7 +13,7 @@ Site Profile の取得に失敗した場合に発生します。
 ## エラーメッセージ
 
 - "Site Profile fetch failed"
-- "Site Profile fetch failed:<メッセージ>"
+- "Site Profile fetch failed: `<メッセージ>`"
 - "Unknown Error"
 
 ## エラーの原因

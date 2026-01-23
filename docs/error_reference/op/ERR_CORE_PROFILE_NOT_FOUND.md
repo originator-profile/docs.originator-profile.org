@@ -15,7 +15,7 @@ Core Profile が見つからなかった場合に発生します。
 
 ## エラーメッセージ
 
-- "Missing Core Profile <issuer>"
+- "Missing Core Profile `<issuer>`"
 - "Appropriate Core Profile not found"
 
 ## エラーの原因

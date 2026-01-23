@@ -36,7 +36,7 @@ Site Profile の検証に失敗した場合に発生します。
       ],
       "media": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImpKWXM1X0lMZ1VjODE4MEwtcEJQeEJwZ0EzUUM3ZVp1OXdLT2toOW1ZUFUiLCJ0eXAiOiJ2Yytqd3QiLCJjdHkiOiJ2YyJ..."
     }
-  ],,
+  ],
   "credential": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImpKWXM1X0lMZ1VjODE4ME...GUyq3sbQiEO_tCjS2UY3gi9vOTS8NvlA_htihDJZUT8DZliZ7mgkrr3NRxDGVUeT9s2svRLt2gA"
 }
 ```
