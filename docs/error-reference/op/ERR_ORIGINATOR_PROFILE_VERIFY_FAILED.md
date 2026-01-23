@@ -58,27 +58,22 @@ Originator Profile の検証に失敗した場合に発生します。
   "@context": [
     "https://www.w3.org/ns/credentials/v2",
     "https://originator-profile.org/ns/credentials/v1",
-    "https://originator-profile.org/ns/cip/v1",
-    { "@language": "ja" }
+    {
+      "@language": "ja"
+    }
   ],
-  "type": ["VerifiableCredential", "Certificate"],
-  "issuer": "dns:cert-issuer.example.org",
+  "type": ["VerifiableCredential", "ProfileAnnotation"],
+  "issuer": "dns:profile-annotator.example.org",
   "credentialSubject": {
-    "id": "dns:cert-holder.example.jp",
-    "type": "CertificateProperties",
-    "description": "この事業者は、〇〇の審査を経て〇〇の認証を取得しました。",
-    "image": {
-      "id": "https://example.com/certification-mark.svg",
-      "digestSRI": "sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w="
-    },
-    "certifier": "〇〇認証機構",
-    "verifier": "〇〇協会",
-    "certificationSystem": {
+    "id": "dns:pa-holder.example.org",
+    "name": "<PA 名>",
+    "description": "<PA の説明>",
+    "annotation": {
       "id": "urn:uuid:14270f8f-9f1c-4f89-9fa4-8c93767a8404",
-      "type": "CertificationSystem",
-      "name": "<認証制度名>",
-      "description": "<認証制度の説明>",
-      "ref": "https://certification.example.org/about"
+      "type": "ProfileAnnotationPolicy",
+      "name": "<Profile Annotation Policy 名>",
+      "description": "<Profile Annotation Policy の説明>",
+      "ref": "https://annotation.example.org/about"
     }
   },
   "validFrom": "2030-03-31T14:59:59Z"

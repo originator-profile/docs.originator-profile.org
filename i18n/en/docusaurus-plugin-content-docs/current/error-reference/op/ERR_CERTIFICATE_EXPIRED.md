@@ -30,10 +30,11 @@ This error occurs when the system fails to validate the certificate validity per
   "@context": [
     "https://www.w3.org/ns/credentials/v2",
     "https://originator-profile.org/ns/credentials/v1",
-    "https://originator-profile.org/ns/cip/v1",
-    { "@language": "en" }
+    {
+      "@language": "en"
+    }
   ],
-  "type": ["VerifiableCredential", "Certificate"],
+  "type": ["VerifiableCredential", "ProfileAnnotation"],
   "issuer": "dns:profile-annotator.example.org",
   "credentialSubject": {
     "id": "dns:pa-holder.example.org",
@@ -58,10 +59,11 @@ This error occurs when the system fails to validate the certificate validity per
   "@context": [
     "https://www.w3.org/ns/credentials/v2",
     "https://originator-profile.org/ns/credentials/v1",
-    "https://originator-profile.org/ns/cip/v1",
-    { "@language": "en" }
+    {
+      "@language": "en"
+    }
   ],
-  "type": ["VerifiableCredential", "Certificate"],
+  "type": ["VerifiableCredential", "ProfileAnnotation"],
   "issuer": "dns:profile-annotator.example.org",
   "credentialSubject": {
     "id": "dns:pa-holder.example.org",

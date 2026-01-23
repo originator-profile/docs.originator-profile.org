@@ -58,10 +58,11 @@ Verification failures may include the following causes:
   "@context": [
     "https://www.w3.org/ns/credentials/v2",
     "https://originator-profile.org/ns/credentials/v1",
-    "https://originator-profile.org/ns/cip/v1",
-    { "@language": "en" }
+    {
+      "@language": "en"
+    }
   ],
-  "type": ["VerifiableCredential", "Certificate"],
+  "type": ["VerifiableCredential", "ProfileAnnotation"],
   "issuer": "dns:profile-annotator.example.org",
   "credentialSubject": {
     "id": "dns:pa-holder.example.org",

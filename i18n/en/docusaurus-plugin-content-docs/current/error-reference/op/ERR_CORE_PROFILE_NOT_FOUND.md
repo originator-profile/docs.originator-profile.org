@@ -34,10 +34,11 @@ This error occurs when the Core Profile cannot be found.
   "@context": [
     "https://www.w3.org/ns/credentials/v2",
     "https://originator-profile.org/ns/credentials/v1",
-    "https://originator-profile.org/ns/cip/v1",
-    { "@language": "en" }
+    {
+      "@language": "en"
+    }
   ],
-  "type": ["VerifiableCredential", "Certificate"],
+  "type": ["VerifiableCredential", "ProfileAnnotation"],
   "issuer": "dns:another.org",
   "credentialSubject": {
     "id": "dns:pa-holder.example.org",
