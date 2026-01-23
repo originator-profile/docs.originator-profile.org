@@ -31,7 +31,7 @@ Content Attestation の検証に失敗した場合に発生します。
 
 - Core Profile と合わないプライベート鍵を使用して Content Attestation を発行。
 - `allowedUrl` に Content Attestation を設置する Web ページの URL を含めていない。
-  Content Attestaion を https://media.example.com/articles/2024-06-30 に設置しようとしたが、`allowedUrl` を https://media.example.com/articles/2024-06-31 とした場合。
+  Content Attestation を https://media.example.com/articles/2024-06-30 に設置しようとしたが、`allowedUrl` を https://media.example.com/articles/2024-06-31 とした場合。
 
 ```
 {
