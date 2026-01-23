@@ -1,7 +1,7 @@
 ---
 sidebar: 4
 tags:
-  - Troubleshooting
+  - Error Reference
 ---
 
 # ERR_SITE_PROFILE_VERIFY_FAILED

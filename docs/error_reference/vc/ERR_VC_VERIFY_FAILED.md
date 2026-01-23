@@ -1,7 +1,7 @@
 ---
 sidebar: 2
 tags:
-  - Troubleshooting
+  - Error Reference
 ---
 
 # ERR_VC_VERIFY_FAILED

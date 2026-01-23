@@ -1,7 +1,7 @@
 ---
 sidebar: 2
 tags:
-  - Troubleshooting
+  - Error Reference
   - Profile Annotation
   - Web Media Specific Model
   - Content Attestation

@@ -1,7 +1,7 @@
 ---
 sidebar: 3
 tags:
-  - Troubleshooting
+  - Error Reference
 ---
 
 # ERR_SITE_PROFILE_INVALID

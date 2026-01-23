@@ -1,7 +1,7 @@
 ---
 sidebar: 2
 tags:
-  - Troubleshooting
+  - Error Reference
 ---
 
 # ERR_ORIGINATOR_PROFILE_SET_VERIFY_FAILED

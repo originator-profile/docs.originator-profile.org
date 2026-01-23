@@ -1,7 +1,7 @@
 ---
 sidebar: 1
 tags:
-  - Troubleshooting
+  - Error Reference
 ---
 
 # ERR_FETCH_CREDENTIALS_MESSAGING_FAILED

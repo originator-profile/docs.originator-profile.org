@@ -1,7 +1,7 @@
 ---
 sidebar: 1
 tags:
-  - Troubleshooting
+  - Error Reference
   - Content Attestation
 ---
 

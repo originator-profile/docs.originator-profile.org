@@ -1,7 +1,7 @@
 ---
 sidebar: 4
 tags:
-  - Troubleshooting
+  - Error Reference
   - Profile Annotation
   - Web Media Specific Model
 ---
