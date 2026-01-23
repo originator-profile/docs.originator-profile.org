@@ -12,7 +12,7 @@ tags:
 
 ## エラーメッセージ
 
-- "Fetch frame credentials error occured"
+- "Fetch frame credentials error occurred"
 
 ## エラーの原因
 

@@ -12,7 +12,7 @@ This error occurs when the message exchange for retrieving the credential fails.
 
 ## Error Message
 
-- "Fetch frame credentials error occured"
+- "Fetch frame credentials error occurred"
 
 ## Causes
 
