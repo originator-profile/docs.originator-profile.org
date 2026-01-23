@@ -26,6 +26,7 @@ This error occurs when retrieval of the Site Profile fails.
 
 - The extension was used on web page where no Site Profile is located.
 - The Site Profile's JSON is in an invalid format.
+  JSON syntax error caused by a double comma.
 
 ```
 {
