@@ -9,6 +9,7 @@ Originator Profile 技術研究組合では、情報の作成者や発信者の�
 - [Originator Profile Framework - Architectural Overview](pathname:///aov/)
 - [Originator Profile について](tech/)
 - [Originator Profile Blueprint (OPB)](opb/)
+- [トラブルシューティング](troubleshooting/)
 
 ## GitHub リポジトリ
 
