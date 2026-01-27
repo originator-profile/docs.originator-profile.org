@@ -18,6 +18,12 @@ The error occurs when verification of the VC fails.
 
 - Verification of the JWT may have failed.
 
+Verification failures may include the following causes:
+
+- JWTInvalid: The JWT may be in an invalid format.
+- JWTExpired: The `exp` claim may have passed its expiration time.
+- JWKSNoMatchingKey: No key matching the `kid` header claim could be found.
+
 ## Examples
 
 - The JWT is placed with part of its footer missing.
@@ -31,6 +37,8 @@ The error occurs when verification of the VC fails.
 ## Resolution
 
 - Review the VC specification.
+- Reissue the VC.
+- Reissue the VC using the key pair specified at the time of OP issuance.
 
 ## Related Information
 
