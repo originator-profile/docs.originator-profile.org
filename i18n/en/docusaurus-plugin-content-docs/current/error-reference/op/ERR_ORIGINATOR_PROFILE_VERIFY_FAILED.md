@@ -83,7 +83,7 @@ Verification failures may include the following causes:
 ## Resolution
 
 - Review the [Core Profile](../../opb/cp.md), [Profile Annotation](../../opb/pa.md), and [Web Media Profile](../../opb/web-media-profile.md) that failed verification.
-  Addtinal details can be found in the error code documentation corresponding to the cause of the failure or in the relevant specifications.
+  Additional details can be found in the error code documentation corresponding to the cause of the failure or in the relevant specifications.
 
 ## Related Information
 

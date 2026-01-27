@@ -16,7 +16,7 @@ The error occurs when verification of the VC fails.
 
 ## Causes
 
-- Verification of the JWT may have failed .
+- Verification of the JWT may have failed.
 
 ## Examples
 

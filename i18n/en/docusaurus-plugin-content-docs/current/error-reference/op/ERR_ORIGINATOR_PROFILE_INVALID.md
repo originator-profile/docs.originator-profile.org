@@ -73,7 +73,7 @@ This error occurs when the Originator Profile is in an invalid format.
 
 ## Resolution
 
-- Review that the Core Profile, Profile Annotation, and Web Media Profile and correct any invalid formatting..
+- Review that the Core Profile, Profile Annotation, and Web Media Profile and correct any invalid formatting.
   Additional details can be found in [`ERR_VC_DECODE_FAILED`](../vc/ERR_VC_DECODE_FAILED.md).
 - Confirm that the `credentialSubject.id` values in the Core Profile and Profile Annotation match.
   Additional details can be found in [Core Profile](../../opb/cp.md) and [Profile Annotation](../../opb/pa.md).
