@@ -44,7 +44,7 @@ This error occurs when verification of the Site Profile fails.
 ```
 
 - The `allowedOrigin` property does not include the origin of the web page where the Website Profile is placed.
-  The Site Profile was intended to be placed at https://media.example.com, but `allowedOrigin` property was set to https://another.com.
+  For example, while the Site Profile is intended to be placed at https://media.example.com, the Website Profile actually has the `allowedOrigin` property set to https://another.com.
 
 ```
 {
