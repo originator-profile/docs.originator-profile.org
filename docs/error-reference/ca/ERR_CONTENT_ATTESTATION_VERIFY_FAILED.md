@@ -31,7 +31,7 @@ Content Attestation の検証に失敗した場合に発生します。
 
 - Core Profile と合わないプライベート鍵を使用して Content Attestation を発行。
 - `allowedUrl` に Content Attestation を設置する Web ページの URL を含めていない。
-  Content Attestation を https://media.example.com/articles/2024-06-30 に設置しようとしたが、`allowedUrl` を https://media.example.com/articles/2024-06-31 とした場合。
+  次の例では、Content Attestation を https://media.example.com/articles/2024-06-30 に設置しようとしたが、`allowedUrl` を https://media.example.com/articles/2024-06-31 とした場合。
 
 ```
 {
@@ -80,7 +80,7 @@ Content Attestation の検証に失敗した場合に発生します。
 - 検証に失敗している Content Attestation の内容をご確認ください。
 - Content Attestation に含まれている `allowedUrl` の値が適切かご確認ください。
 - Content Attestation に含まれている `allowedOrigin` の値が適切かご確認ください。
-  `allowedOrigin` は非推奨です。
+  また、`allowedOrigin` が非推奨であることに留意してご対応ください。
 - Content Attestation に含まれている Target Integrity の値が適切かご確認ください。
   より詳しくは [Content Attestation](../../opb/ca.md) にて確認することができます。
 

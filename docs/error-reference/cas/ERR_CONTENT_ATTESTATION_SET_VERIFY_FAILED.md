@@ -31,7 +31,7 @@ Content Attestation Set に含まれている Content Attestation の検証に�
 ## 例
 
 - Content Attestation の `issuer` を Core Profile の `credentialSubject.id` と異なるものにして発行。
-  Core Profile の `credentialSubject.id` が `dns:example.com` の時、 Content Attestation の `issuer` を `dns:another.com` として発行。
+  次の例では、Core Profile の `credentialSubject.id` が `dns:example.com` の時、 Content Attestation の `issuer` を `dns:another.com` として発行。
 
 ```
 {

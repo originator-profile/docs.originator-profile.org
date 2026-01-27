@@ -78,7 +78,7 @@ Content Attestation が無効な形式になっている場合に発生します
 - 無効な形式となっている Content Attestation の内容をご確認ください。
 - Content Attestation に `allowedUrl` と `allowedOrigin` 両方を含まないでください。
   より詳しくは [Content Attestation](../../opb/ca.md) にて確認することができます。
-  allowedOrigin は非推奨です。
+  また、`allowedOrigin` が非推奨であることに留意してご対応ください。
 
 ## 関連情報
 

@@ -42,7 +42,7 @@ Site Profile の検証に失敗した場合に発生します。
 ```
 
 - `allowedOrigin` プロパティが異なる Website Profile を Site Profile に配置。
-  Site Profile を 設置するサイトの Origin が https://media.example.com のもので、 `allowedOrigin` プロパティを https://another.com として Website Profile を発行。
+  次の例では、Origin が https://media.example.com のサイトに設置する Site Profile に対して、 `allowedOrigin` プロパティを https://another.com として Website Profile を発行。
 
 ```
 {

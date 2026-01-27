@@ -45,7 +45,7 @@ Site Profile 検証時に Site Profile が無効な形式になっている場�
 ```
 
 - Website Profile の `issuer` を Core Profile の `credentialSubject.id` と異なるものにして発行。
-  Core Profile の `credentialSubject.id` が `dns:example.com` の時、 Website Profile の `issuer` を `dns:another.com` とする。
+  次の例では、Core Profile の `credentialSubject.id` が `dns:example.com` の時、 Website Profile の `issuer` を `dns:another.com` とする。
 
 ```
 {

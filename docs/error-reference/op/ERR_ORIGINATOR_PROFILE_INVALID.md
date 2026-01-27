@@ -43,7 +43,7 @@ Originator Profile が無効な形式になっている場合に発生します�
 ```
 
 - Core Profile の `credentialSubject.id` と Profile Annotation の `credentialSubject.id` を異なるものにして発行。
-  Core Profile の `credentialSubject.id` が `dns:cert-holder.example.jp` の時、 Profile Annotation の `credentialSubject.id` を `dns:another.org` とする。
+  次の例では、Core Profile の `credentialSubject.id` が `dns:cert-holder.example.jp` の時、 Profile Annotation の `credentialSubject.id` を `dns:another.org` とする。
 
 ```
 {
