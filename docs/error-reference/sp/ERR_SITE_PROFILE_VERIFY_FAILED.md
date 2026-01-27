@@ -1,5 +1,5 @@
 ---
-sidebar: 4
+sidebar_position: 4
 tags:
   - Error Reference
 ---

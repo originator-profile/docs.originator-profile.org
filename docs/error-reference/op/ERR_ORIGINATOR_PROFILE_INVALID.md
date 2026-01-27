@@ -1,5 +1,5 @@
 ---
-sidebar: 3
+sidebar_position: 3
 tags:
   - Error Reference
   - Profile Annotation
