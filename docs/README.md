@@ -12,7 +12,7 @@ Originator Profile 技術研究組合では、情報の作成者や発信者の�
 - [トラブルシューティング](troubleshooting/)
 - [エラーリファレンス](error-reference/)
 - [用語](terminology/)
-- [参加・貢献するには](contributing/)
+- [参加・貢献するには](contributing)
 
 ## GitHub リポジトリ
 
