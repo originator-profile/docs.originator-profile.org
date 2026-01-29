@@ -15,6 +15,8 @@ This site is the technical documentation site for the Originator Profile project
 - [Originator Profile Blueprint (OPB)](opb/)
 - [Troubleshooting](troubleshooting/)
 - [Error Reference](error-reference/)
+- [Terminology](terminology/)
+- [Contributing](contributing/)
 
 ## GitHub Repositories
 
