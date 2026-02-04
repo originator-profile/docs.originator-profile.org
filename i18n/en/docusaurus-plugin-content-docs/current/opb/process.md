@@ -1,6 +1,6 @@
 ---
 sidebar_position: 101
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/4a7db5d/docs/opb/process.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/aed3ba9/docs/opb/process.md
 ---
 
 # Originator Profile Blueprint
@@ -19,8 +19,22 @@ Example: docs/opb/process.md … This document
 
 The community will discuss and revise the code via GitHub Pull Requests.
 
+### Implementation Correspondence
+
+Once you submit a draft OPB, or at the latest once the draft OPB has been reviewed and approved for merging, you must take one of the following actions:
+
+1. Submit your implementation of the draft as a pull request to the [reference implementation repository](https://github.com/originator-profile/originator-profile).
+2. If 1. is difficult due to factors such as the volume of implementation, write the following in the draft.
+   - Link to the implementation issue you filed in the reference implementation repository.
+   - How to check the implementation status (e.g., "Please refer to \[Issue #XXX](link) for the implementation status").
+   - Delete the content once the implementation is complete (when the implementation pull request is merged).
+  
+This clarifies the correspondence between specifications and implementations, making it easier for OP users to determine which specifications their current implementations correspond to.
+
+### Activation
+
 An OPB is considered active when a GitHub Pull Request has been merged into the default branch.
-An OPB is active when it means that the community is ready to accept an implementation based on the OPB.
+An OPB being active means that the community has agreed to proceed with an implementation based on the OPB, and that implementation is underway or complete.
 
 Updates to active OPBs will be made through discussions on GitHub Issues and changes via GitHub Pull Requests.
 
