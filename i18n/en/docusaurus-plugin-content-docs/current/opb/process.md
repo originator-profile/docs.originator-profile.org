@@ -28,7 +28,7 @@ Once you submit a draft OPB, or at the latest once the draft OPB has been review
    - Link to the implementation issue you filed in the reference implementation repository.
    - How to check the implementation status (e.g., "Please refer to \[Issue #XXX](link) for the implementation status").
    - Delete the content once the implementation is complete (when the implementation pull request is merged).
-  
+
 This clarifies the correspondence between specifications and implementations, making it easier for OP users to determine which specifications their current implementations correspond to.
 
 ### Activation
