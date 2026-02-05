@@ -16,7 +16,7 @@ Check the response for any error codes.
 
 ### CORS Errors
 
-**Condition**
+**Symptoms**
 
 The following warning message appears in the console:
 
@@ -40,9 +40,9 @@ Alternatively, if you want to allow only specific origins, specify the origin fr
 
 ### Image does not exist（HTTP 404）
 
-**Condition**
+**Symptoms**
 
-n the Network tab, the status code is `404 Not Found`.
+In the Network tab, the status code is `404 Not Found`.
 
 **Cause**
 
@@ -55,13 +55,13 @@ The image file does not exist at the specified URL.
 
 ### No access permissions（HTTP 403）
 
-**Condition**
+**Symptoms**
 
 In the Network tab, the status code is `403 Forbidden`.
 
 **Cause**
 
-サーバーが画像へのアクセスを拒否しています。
+The server is denying access to the image.
 
 **Solutions**
 
@@ -70,9 +70,9 @@ In the Network tab, the status code is `403 Forbidden`.
 
 ### Caching issues
 
-**Condition**
+**Symptoms**
 
-I updated the image but the old image is still displayed, or no image is displayed.
+The image was updated but the old image is still displayed, or no image is displayed.
 
 **Cause**
 
@@ -85,7 +85,7 @@ The browser or CDN is returning a stale cached response.
 
 ### Content-Type mismatch
 
-**Condition**
+**Symptoms**
 
 The network tab shows the request was successful (200), but the image is not displayed.
 
