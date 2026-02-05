@@ -1,5 +1,6 @@
 ---
 sidebar_position: 1
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/d9582d4/docs/error-reference/credentials/ERR_FETCH_CREDENTIALS_MESSAGING_FAILED.md
 tags:
   - Error Reference
 ---
