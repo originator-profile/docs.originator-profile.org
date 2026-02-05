@@ -1,105 +1,102 @@
 ---
 sidebar_position: 0
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/10274dc/docs/troubleshooting/image-access-error.md
 ---
 
-# 画像が表示されない
+# No image displayed
 
-:::warning
-この文書の英語対応は現在行われていません
-:::
+The image is not accessible. To display the image correctly, you must allow external access to the image.
 
-画像にアクセスできない状態です。画像を正しく表示するには、その画像への外部からのアクセスを許可する必要があります。
+## How to check
 
-## 確認方法
+To determine why an image is failing to load, open your browser's developer tools and in the Network tab, find the request for the image that isn't being displayed.
+Check the response for any error codes.
 
-画像の読み込み失敗の原因を判断するには、ブラウザの開発者ツールを開き、ネットワークタブで、表示されていない画像のリクエストを見つけます。  
-そのリクエストのレスポンスにエラーコードがないか確認します。
+## Causes and Solutions
 
-## 原因と解決方法
+### CORS Errors
 
-### CORS エラー
+**Condition**
 
-**症状**
-
-コンソールに以下のような警告メッセージが表示される。
+The following warning message appears in the console:
 
 ```
 Cross-Origin Request Blocked: The Same Origin Policy disallows reading the remote resource at [URL].
 ```
 
-**原因**
+**Cause**
 
-画像を配信しているサーバーが、拡張機能からのクロスオリジンリクエストを許可していません。
+The server serving the image does not allow cross-origin requests from your extension.
 
-**解決方法**
+**Solutions**
 
-画像を配信しているサーバーで、適切な CORS ヘッダーを設定してください。
+Make sure to set the appropriate CORS headers on the server that is serving the image.
 
 ```
 Access-Control-Allow-Origin: *
 ```
 
-または、特定のオリジンのみ許可する場合は、リクエスト元のオリジンを指定してください。
+Alternatively, if you want to allow only specific origins, specify the origin from which the request originates.
 
-### 画像が存在しない（HTTP 404）
+### Image does not exist（HTTP 404）
 
-**症状**
+**Condition**
 
-ネットワークタブでステータスコードが `404 Not Found` になっている。
+n the Network tab, the status code is `404 Not Found`.
 
-**原因**
+**Cause**
 
-指定した URL に画像ファイルが存在しません。
+The image file does not exist at the specified URL.
 
-**解決方法**
+**Solutions**
 
-- URL のパスやファイル名にタイプミスがないか確認してください
-- 画像ファイルが指定した場所に正しくアップロードされているか確認してください
+- Check for typos in the URL path or filename.
+- Please check if the image file has been uploaded correctly to the specified location.
 
-### アクセス権限がない（HTTP 403）
+### No access permissions（HTTP 403）
 
-**症状**
+**Condition**
 
-ネットワークタブでステータスコードが `403 Forbidden` になっている。
+In the Network tab, the status code is `403 Forbidden`.
 
-**原因**
+**Cause**
 
 サーバーが画像へのアクセスを拒否しています。
 
-**解決方法**
+**Solutions**
 
-- 画像ファイルのアクセス権限を確認してください
-- サーバーの設定で、外部からのアクセスが許可されているか確認してください
+- Check the access permissions for the image file.
+- Check your server settings to make sure external access is allowed.
 
-### キャッシュの問題
+### Caching issues
 
-**症状**
+**Condition**
 
-画像を更新したのに古い画像が表示される、または画像が表示されない。
+I updated the image but the old image is still displayed, or no image is displayed.
 
-**原因**
+**Cause**
 
-ブラウザまたは CDN がキャッシュした古いレスポンスを返しています。
+The browser or CDN is returning a stale cached response.
 
-**解決方法**
+**Solutions**
 
-- ブラウザのキャッシュをクリアしてページを再読み込みしてください
-- 開発者ツールの「ネットワーク」タブで「キャッシュを無効化」オプションを有効にしてテストしてください
+- Please clear your browser cache and reload the page.
+- Test with the "Disable Cache" option enabled in the "Network" tab of the Developer Tools.
 
-### Content-Type の不一致
+### Content-Type mismatch
 
-**症状**
+**Condition**
 
-ネットワークタブでリクエストは成功（200）しているが、画像が表示されない。
+The network tab shows the request was successful (200), but the image is not displayed.
 
-**原因**
+**Cause**
 
-サーバーが返す `Content-Type` ヘッダーが画像の実際の形式と一致していません。
+The `Content-Type` header returned by the server does not match the actual format of the image.
 
-**解決方法**
+**Solutions**
 
-- ネットワークタブでレスポンスヘッダーの `Content-Type` を確認してください
-- 画像形式に応じた正しい Content-Type を設定してください
+- Check the response header `Content-Type` in the Network tab.
+- Please set the correct Content-Type for your image format.
   - PNG: `image/png`
   - JPEG: `image/jpeg`
   - SVG: `image/svg+xml`
