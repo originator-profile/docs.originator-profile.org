@@ -28,6 +28,7 @@ Cross-Origin Request Blocked: The Same Origin Policy disallows reading the remot
 The server serving the image does not allow cross-origin requests from your extension.
 
 **Solutions**
+
 Please make sure to set the appropriate CORS headers on the server that is serving the image.
 
 ```
