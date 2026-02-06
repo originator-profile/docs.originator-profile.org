@@ -1,5 +1,6 @@
 ---
 sidebar_position: 4
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/d9582d4/docs/error-reference/sp/ERR_SITE_PROFILE_VERIFY_FAILED.md
 tags:
   - Error Reference
 ---
