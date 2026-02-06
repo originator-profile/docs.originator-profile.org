@@ -9,8 +9,7 @@ The image is not accessible. To display the image correctly, you must allow exte
 
 ## How to check
 
-To determine why an image is failing to load, open your browser's developer tools and in the Network tab, find the request for the image that isn't being displayed.
-Check the response for any error codes.
+To determine why an image is failing to load, open your browser's developer tools and in the Network tab, find the request for the image that isn't being displayed. Please check the response for any error codes.
 
 ## Causes and Solutions
 
@@ -29,14 +28,13 @@ Cross-Origin Request Blocked: The Same Origin Policy disallows reading the remot
 The server serving the image does not allow cross-origin requests from your extension.
 
 **Solutions**
-
-Make sure to set the appropriate CORS headers on the server that is serving the image.
+Please make sure to set the appropriate CORS headers on the server that is serving the image.
 
 ```
 Access-Control-Allow-Origin: *
 ```
 
-Alternatively, if you want to allow only specific origins, specify the origin from which the request originates.
+Alternatively, if you want to allow only specific origins, please specify the origin from which the request originates.
 
 ### Image does not exist（HTTP 404）
 
@@ -81,7 +79,7 @@ The browser or CDN is returning a stale cached response.
 **Solutions**
 
 - Please clear your browser cache and reload the page.
-- Test with the "Disable Cache" option enabled in the "Network" tab of the Developer Tools.
+- Please test with the "Disable Cache" option enabled in the "Network" tab of the Developer Tools.
 
 ### Content-Type mismatch
 
@@ -95,7 +93,7 @@ The `Content-Type` header returned by the server does not match the actual forma
 
 **Solutions**
 
-- Check the response header `Content-Type` in the Network tab.
+- Please check the response header `Content-Type` in the Network tab.
 - Please set the correct Content-Type for your image format.
   - PNG: `image/png`
   - JPEG: `image/jpeg`
