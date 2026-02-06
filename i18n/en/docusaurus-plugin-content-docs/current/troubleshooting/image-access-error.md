@@ -50,7 +50,7 @@ The image file does not exist at the specified URL.
 
 **Solutions**
 
-- Check for typos in the URL path or filename.
+- Please check for typos in the URL path or filename.
 - Please check if the image file has been uploaded correctly to the specified location.
 
 ### No access permissions（HTTP 403）
@@ -65,14 +65,14 @@ The server is denying access to the image.
 
 **Solutions**
 
-- Check the access permissions for the image file.
-- Check your server settings to make sure external access is allowed.
+- Please check the access permissions for the image file.
+- Please check your server settings to make sure external access is allowed.
 
 ### Caching issues
 
 **Symptoms**
 
-The image was updated but the old image is still displayed, or no image is displayed.
+I updated the image but the old image is still displayed, or no image is displayed.
 
 **Cause**
 
