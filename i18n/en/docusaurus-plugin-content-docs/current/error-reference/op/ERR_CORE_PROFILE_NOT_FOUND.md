@@ -1,5 +1,6 @@
 ---
 sidebar_position: 2
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/d9582d4/docs/error-reference/op/ERR_CORE_PROFILE_NOT_FOUND.md
 tags:
   - Error Reference
   - Profile Annotation
