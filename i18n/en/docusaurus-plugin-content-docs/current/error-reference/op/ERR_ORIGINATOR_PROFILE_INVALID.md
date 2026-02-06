@@ -1,5 +1,6 @@
 ---
 sidebar_position: 3
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/d9582d4/docs/error-reference/op/ERR_ORIGINATOR_PROFILE_INVALID.md
 tags:
   - Error Reference
   - Profile Annotation
