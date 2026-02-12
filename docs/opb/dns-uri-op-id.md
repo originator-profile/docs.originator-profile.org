@@ -19,7 +19,6 @@ sidebar_position: 41
 ID は、[RFC 4501](https://www.rfc-editor.org/rfc/rfc4501.html) の定義する DNS URI のうち、`dnsauthority` および `dnsquery` を含まない形式 `dns:<dnsname>` でなければならない。
 当該 `dnsname` は [RFC 1034](https://www.rfc-editor.org/rfc/rfc1034) および [RFC 1035](https://www.rfc-editor.org/rfc/rfc1035) の定める完全修飾ドメイン名 (FQDN) であり、かつ [RFC 1123](https://www.rfc-editor.org/rfc/rfc1123) が規定するホスト名に適合しなければならない。国際化ドメイン名を使用する場合は [RFC 5890](https://www.rfc-editor.org/rfc/rfc5890) に従い A-label 表現 (Punycode) を用いなければならない。いずれの場合も末尾に `.` を含めてはならない (MUST)。
 
-
 例:
 
 ✅ 有効:
