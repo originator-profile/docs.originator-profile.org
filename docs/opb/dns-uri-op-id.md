@@ -16,13 +16,33 @@ sidebar_position: 41
 
 ## 形式
 
-[DNS URI](https://www.rfc-editor.org/rfc/rfc4501.html) でなければなりません (MUST)。
+ID は、[RFC 4501](https://www.rfc-editor.org/rfc/rfc4501.html) の定義する DNS URI のうち、`dnsauthority` および `dnsquery` を含まない形式 `dns:<dnsname>` でなければならない。
+当該 `dnsname` は [RFC 1034](https://www.rfc-editor.org/rfc/rfc1034) および [RFC 1035](https://www.rfc-editor.org/rfc/rfc1035) の定める完全修飾ドメイン名 (FQDN) であり、かつ [RFC 1123](https://www.rfc-editor.org/rfc/rfc1123) が規定するホスト名に適合しなければならない。国際化ドメイン名を使用する場合は [RFC 5890](https://www.rfc-editor.org/rfc/rfc5890) に従い A-label 表現 (Punycode) を用いなければならない。いずれの場合も末尾に `.` を含めてはならない (MUST)。
+
 
 例:
 
-```
-dns:example.org
-```
+✅ 有効:
+
+- `dns:example.org`
+- `dns:docs.example.org`
+- `xn--fsq.jp` (`例.jp` の A-label 表現)
+
+❌ 無効:
+
+- `dns:example.com.` (末尾に `.` を含めてはならない)
+- `dns:example_domain.org` (ホスト名は LDH すなわち英数字とハイフンだけが利用でき `_` などは使えない)
+- `dns:_dmarc.example.com` (アンダースコア名としては有効だがホスト名には適合しない)
+- `dns://8.8.8.8/example.com` (dnsquthority を含む)
+- `dns:example.com?TYPE=A` (dnsquery を含む)
+- `dns:*.example.com` (ワイルドカード)
+
+:::note
+
+運用上認めるホスト名は更に制限されることがあり得ます。
+例えば、OP 保有組織が保有するドメインであり、かつその組織の情報が掲載された公式 Web サイトが公開されていることを登録要件とすることなどが考えられます。
+
+:::
 
 ## 公開鍵の配布 {#public-key-distribution}
 
