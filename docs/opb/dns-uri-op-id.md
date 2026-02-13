@@ -32,7 +32,7 @@ ID は、[RFC 4501](https://www.rfc-editor.org/rfc/rfc4501.html) の定義する
 - `dns:example.com.` (末尾に `.` を含めてはならない)
 - `dns:example_domain.org` (ホスト名は LDH すなわち英数字とハイフンだけが利用でき `_` などは使えない)
 - `dns:_dmarc.example.com` (アンダースコア名としては有効だがホスト名には適合しない)
-- `dns://8.8.8.8/example.com` (dnsquthority を含む)
+- `dns://8.8.8.8/example.com` (dnsauthority を含む)
 - `dns:example.com?TYPE=A` (dnsquery を含む)
 - `dns:*.example.com` (ワイルドカード)
 
