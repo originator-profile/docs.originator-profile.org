@@ -25,7 +25,7 @@ ID は、[RFC 4501](https://www.rfc-editor.org/rfc/rfc4501.html) の定義する
 
 - `dns:example.org`
 - `dns:docs.example.org`
-- `xn--fsq.jp` (`例.jp` の A-label 表現)
+- `dns:xn--eckwd4c7cu47r2wf.jp` (`ドメイン名例.jp` の A-label 表現)
 
 ❌ 無効:
 
