@@ -28,7 +28,7 @@ Example:
 - `dns:docs.example.org`
 - `dns:xn--eckwd4c7cu47r2wf.jp` (A-label representation of `domainname.jp`)
 
-❌ Disabled:
+❌ Invalid:
 
 - `dns:example.com.` (Do not include the trailing `.`)
 - `dns:example_domain.org` (Hostname must be LDH, i.e. alphanumeric characters and hyphens only, no `_` etc.)
