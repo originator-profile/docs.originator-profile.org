@@ -29,6 +29,7 @@ Example:
 - `dns:xn--eckwd4c7cu47r2wf.jp` (A-label representation of `domainname.jp`)
 
 ❌ Disabled:
+
 - `dns:example.com.` (Do not include the trailing `.`)
 - `dns:example_domain.org` (Hostname must be LDH, i.e. alphanumeric characters and hyphens only, no `_` etc.)
 - `dns:_dmarc.example.com` (valid as an underscore name, but not a hostname)
