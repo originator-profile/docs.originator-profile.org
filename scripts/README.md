@@ -23,8 +23,10 @@ pnpm install
 ### 使い方
 
 ```console
-$ node scripts/check-original-commits.js
-❌ README.md: latest commit 71686843add89eea55e7e2fa93d03c287c41b360 (frontmatter a1e3410)
+$ node --no-warnings scripts/check-original-commits.js --fix
+❌ i18n/en/docusaurus-plugin-content-docs/current/README.md: outdated commit (recorded: 1234567, latest: abcdef0)
+   fixed: https://github.com/originator-profile/docs.originator-profile.org/blob/abcdef0/docs/README.md
 
 1 issue(s) detected.
+1 file(s) updated.
 ```

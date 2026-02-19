@@ -17,6 +17,7 @@
     "@docusaurus/types": "^3.9.2",
     "@easyops-cn/docusaurus-search-local": "^0.52.3",
     "@r74tech/docusaurus-plugin-panzoom": "^2.4.0",
+    "@types/shelljs": "^0.10.0",
     "dedent": "^1.7.1",
     "docusaurus-plugin-image-zoom": "^3.0.1",
     "gray-matter": "^4.0.3",
