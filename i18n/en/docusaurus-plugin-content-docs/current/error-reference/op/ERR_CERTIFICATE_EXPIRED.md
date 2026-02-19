@@ -4,6 +4,7 @@ original: https://github.com/originator-profile/docs.originator-profile.org/blob
 tags:
   - Error Reference
   - Profile Annotation
+slug: /error-reference/ERR_CERTIFICATE_EXPIRED
 ---
 
 # ERR_CERTIFICATE_EXPIRED

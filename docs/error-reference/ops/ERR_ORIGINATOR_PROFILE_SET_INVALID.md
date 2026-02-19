@@ -2,6 +2,7 @@
 sidebar_position: 1
 tags:
   - Error Reference
+slug: /error-reference/ERR_ORIGINATOR_PROFILE_SET_INVALID
 ---
 
 # ERR_ORIGINATOR_PROFILE_SET_INVALID

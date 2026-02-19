@@ -4,6 +4,7 @@ tags:
   - Error Reference
   - Profile Annotation
   - Web Media Specific Model
+slug: /error-reference/ERR_ORIGINATOR_PROFILE_INVALID
 ---
 
 # ERR_ORIGINATOR_PROFILE_INVALID

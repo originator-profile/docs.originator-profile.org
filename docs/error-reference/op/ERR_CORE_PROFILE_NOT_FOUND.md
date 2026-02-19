@@ -5,6 +5,7 @@ tags:
   - Profile Annotation
   - Web Media Specific Model
   - Content Attestation
+slug: /error-reference/ERR_CORE_PROFILE_NOT_FOUND
 ---
 
 # ERR_CORE_PROFILE_NOT_FOUND

@@ -2,6 +2,7 @@
 sidebar_position: 1
 tags:
   - Error Reference
+slug: /error-reference/ERR_SITE_PROFILE_FETCH_FAILED
 ---
 
 # ERR_SITE_PROFILE_FETCH_FAILED
