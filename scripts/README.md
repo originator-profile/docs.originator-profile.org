@@ -32,7 +32,7 @@ pnpm install
 ### 使い方
 
 ```console
-$ node scripts/check-numbering.js
+$ scripts/check-numbering.js
 ✅ 採番規約に違反するエントリはありません。
 ```
 
