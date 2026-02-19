@@ -127,9 +127,8 @@ ${text}`;
   } else if (!hasOriginal) {
     updated = text.replace(
       /^---\s*$/m,
-      `\
-original: ${newUrl}
----`,
+      `---
+original: ${newUrl}`,
     );
   } else {
     updated = text.replace(re, `original: ${newUrl}`);
