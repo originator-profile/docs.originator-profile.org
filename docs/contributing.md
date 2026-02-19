@@ -1,5 +1,5 @@
 ---
-sidebar_position: 300
+sidebar_position: 320
 ---
 
 # 参加・貢献するには
