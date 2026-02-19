@@ -40,7 +40,7 @@ $ node scripts/check-numbering.js
 
 ```console
 $ node scripts/check-numbering.js
-❌ docs/terminology/_category_.yml: position 250 は規約範囲外です（期待値: 210–219）
+❌ docs/terminology/_category_.yml: position 250 は規約範囲外です（期待値: 200-299）
 
 1 issue(s) detected.
 ```
