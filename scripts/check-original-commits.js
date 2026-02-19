@@ -112,9 +112,29 @@ function getLatestCommit(filePath) {
  */
 async function fixOriginalUrl(file, newUrl) {
   const raw = await readFile(file);
-  const updated = raw
-    .toString()
-    .replace(/^(original:\s*)(.+)$/m, (_, $1) => `${$1}${newUrl}`);
+  const text = raw.toString();
+  const hasFrontmatter = text.startsWith("---");
+  const re = /^original:\s*(.+)\s*$/m;
+  const hasOriginal = re.test(text);
+
+  let updated;
+  if (!hasFrontmatter) {
+    updated = `\
+---
+original: ${newUrl}
+---
+${text}`;
+  } else if (!hasOriginal) {
+    updated = text.replace(
+      /^---\s*$/m,
+      `\
+original: ${newUrl}
+---`,
+    );
+  } else {
+    updated = text.replace(re, `original: ${newUrl}`);
+  }
+
   await writeFile(file, updated);
 }
 
