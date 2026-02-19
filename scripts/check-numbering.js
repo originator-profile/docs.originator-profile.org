@@ -103,7 +103,7 @@ for (const [name, [min, max]] of Object.entries(TOP_LEVEL_RULES)) {
       continue;
     }
     const position = await readCategoryPosition(categoryFile);
-    if (!position) {
+    if (position === null) {
       issues.push({
         type: "missingPosition",
         target: `docs/${name}/_category_.yml`,
