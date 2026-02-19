@@ -29,7 +29,7 @@ Diátaxisグループに基づく採番規約（position値）を検査する。
 - 対象ファイル/ディレクトリの存在確認
 
 ```bash
-node scripts/check-numbering.js
+scripts/check-numbering.js
 ```
 
 **出力例:**
@@ -50,8 +50,8 @@ node scripts/check-numbering.js
 - コミットが最新か（古い翻訳の検出）
 
 ```bash
-node scripts/check-original-commits.js
-node scripts/check-original-commits.js --locale=ja
+scripts/check-original-commits.js
+scripts/check-original-commits.js --locale=en
 ```
 
 **出力例:**
@@ -69,7 +69,7 @@ node scripts/check-original-commits.js --locale=ja
 
 ```bash
 # 両方まとめて実行
-node scripts/check-numbering.js && node scripts/check-original-commits.js
+pnpm check
 ```
 
 ## 前提条件
