@@ -30,6 +30,7 @@ const TOP_LEVEL_RULES = {
   troubleshooting: RANGE_HOW_TO,
   "error-reference": RANGE_HOW_TO,
   "contributing.md": RANGE_HOW_TO,
+  "playground.md": RANGE_HOW_TO,
 };
 
 const issues = [];
