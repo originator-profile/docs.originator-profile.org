@@ -88,6 +88,6 @@ flowchart TD
     SP -->|OFF| OPS[OPS 検証]
 
     SP-OPS --> CAS{CAS 検証}
-    OPS --> CAS{CAS 検証}
+    OPS --> CAS
     CAS -->|ON| F[Content Attestation 検証]
 ```
