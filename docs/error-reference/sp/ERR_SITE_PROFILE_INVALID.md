@@ -2,6 +2,7 @@
 sidebar_position: 3
 tags:
   - Error Reference
+slug: /error-reference/ERR_SITE_PROFILE_INVALID
 ---
 
 # ERR_SITE_PROFILE_INVALID

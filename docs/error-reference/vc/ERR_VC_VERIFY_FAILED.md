@@ -2,6 +2,7 @@
 sidebar_position: 2
 tags:
   - Error Reference
+slug: /error-reference/ERR_VC_VERIFY_FAILED
 ---
 
 # ERR_VC_VERIFY_FAILED

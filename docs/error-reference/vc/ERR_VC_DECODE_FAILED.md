@@ -2,6 +2,7 @@
 sidebar_position: 1
 tags:
   - Error Reference
+slug: /error-reference/ERR_VC_DECODE_FAILED
 ---
 
 # ERR_VC_DECODE_FAILED

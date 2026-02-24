@@ -3,6 +3,7 @@ sidebar_position: 1
 original: https://github.com/originator-profile/docs.originator-profile.org/blob/d9582d4/docs/error-reference/ops/ERR_ORIGINATOR_PROFILE_SET_INVALID.md
 tags:
   - Error Reference
+slug: /error-reference/ERR_ORIGINATOR_PROFILE_SET_INVALID
 ---
 
 # ERR_ORIGINATOR_PROFILE_SET_INVALID

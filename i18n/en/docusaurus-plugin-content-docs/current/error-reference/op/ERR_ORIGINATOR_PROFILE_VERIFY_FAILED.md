@@ -5,6 +5,7 @@ tags:
   - Error Reference
   - Profile Annotation
   - Web Media Specific Model
+slug: /error-reference/ERR_ORIGINATOR_PROFILE_VERIFY_FAILED
 ---
 
 # ERR_ORIGINATOR_PROFILE_VERIFY_FAILED

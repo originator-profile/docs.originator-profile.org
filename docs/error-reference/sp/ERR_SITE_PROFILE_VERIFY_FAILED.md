@@ -2,6 +2,7 @@
 sidebar_position: 4
 tags:
   - Error Reference
+slug: /error-reference/ERR_SITE_PROFILE_VERIFY_FAILED
 ---
 
 # ERR_SITE_PROFILE_VERIFY_FAILED

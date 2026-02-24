@@ -3,6 +3,7 @@ sidebar_position: 1
 original: https://github.com/originator-profile/docs.originator-profile.org/blob/d9582d4/docs/error-reference/vc/ERR_VC_DECODE_FAILED.md
 tags:
   - Error Reference
+slug: /error-reference/ERR_VC_DECODE_FAILED
 ---
 
 # ERR_VC_DECODE_FAILED
