@@ -22,12 +22,12 @@ pnpm install
 
 採番規約の概要:
 
-| 範囲 | Diátaxisグループ              | 対象                                                                     |
-| ---- | ----------------------------- | ------------------------------------------------------------------------ |
-| 1xx  | 理解指向・理論（Explanation） | `docs/tech/`                                                             |
-| 2xx  | 情報指向・理論（Reference）   | `docs/opb/`, `docs/terminology/`                                         |
-| 3xx  | 目標指向・実践（How-to）      | `docs/troubleshooting/`, `docs/error-reference/`, `docs/contributing.md` |
-| 4xx  | 学習指向・実践（Tutorial）    | （未使用）                                                               |
+| 範囲 | Diátaxisグループ              |
+| ---- | ----------------------------- |
+| 1xx  | 理解指向・理論（Explanation） |
+| 2xx  | 情報指向・理論（Reference）   |
+| 3xx  | 目標指向・実践（How-to）      |
+| 4xx  | 学習指向・実践（Tutorial）    |
 
 ### 使い方
 
