@@ -12,7 +12,7 @@
 
 ```shell
 git clone git@github.com:originator-profile/docs.originator-profile.org.git
-cd docs.originator-profile
+cd docs.originator-profile.org
 pnpm install
 ```
 
