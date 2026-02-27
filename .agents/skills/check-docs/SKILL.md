@@ -36,7 +36,7 @@ scripts/check-numbering.js
 
 ```
 ✅ 採番規約に違反するエントリはありません。
-❌ docs/terminology/_category_.yml: position 250 は規約範囲外です（期待値: 200-299）
+❌ docs/terminology/_category_.yml: position 350 は規約範囲外です（期待値: 200-299）
 ```
 
 ### 2. 翻訳コミット整合性チェック: `scripts/check-original-commits.js`
