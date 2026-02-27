@@ -50,7 +50,7 @@ HTML フィールドでは入力方式 (HTML Input Type) を選択できます�
 
 ### Site Profile 検証 (Verify Site Profile ON の場合)
 
-[Site Profile の検証プロセス](/opb/site-profile/#verification-process)に従い、SP の署名検証と Originator Profile の結合を確認します。
+[Site Profile の検証プロセス](/opb/site-profile.md#verification)に従い、SP の署名検証と Originator Profile の結合を確認します。
 
 - SP データをフェッチまたはパースします。
 - URL Origin を取得します。
