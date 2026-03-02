@@ -53,6 +53,11 @@ curl -X POST https://playground.originator-profile.org/sp \
 
 ブラウザ拡張機能をインストールした状態で、Site Profile を配置したウェブサイトにアクセスすることで検証を行えます。
 検証するにはテストビルド版のブラウザー拡張機能が必要です。
+
+:::warning
+テストビルド版の拡張機能は Playground 環境専用です。本番環境の Content Attestation を検証できません。また、Playground で発行した Content Attestation や Site Profile は通常ビルド版の拡張機能で検証できません。
+:::
+
 [GitHub Releases (canary)](https://github.com/originator-profile/originator-profile/releases/tag/canary) からブラウザ拡張機能 (テストビルド) をダウンロードし、インストールできます。
 
 | ブラウザ | ファイル名                                                                     |
