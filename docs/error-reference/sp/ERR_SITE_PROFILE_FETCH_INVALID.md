@@ -2,6 +2,7 @@
 sidebar_position: 2
 tags:
   - Error Reference
+slug: /error-reference/ERR_SITE_PROFILE_FETCH_INVALID
 ---
 
 # ERR_SITE_PROFILE_FETCH_INVALID

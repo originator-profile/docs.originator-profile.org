@@ -12,11 +12,11 @@ const docsRoot = path.join(repoRoot, "docs");
  *
  * 百の位がDiátaxisグループを表す。
  *
- * 範囲  Diátaxisグループ                      ディレクトリ / ファイル
- * 1xx   理解指向・理論（Explanation）          tech/
- * 2xx   情報指向・理論（Reference）            opb/, terminology/
- * 3xx   目標指向・実践（How-to, Guide）        troubleshooting/, error-reference/, contributing.md
- * 4xx   学習指向・実践（Tutorial, Learn）      (未使用)
+ * 範囲  Diátaxisグループ
+ * 1xx   理解指向・理論（Explanation）
+ * 2xx   情報指向・理論（Reference）
+ * 3xx   目標指向・実践（How-to, Guide）
+ * 4xx   学習指向・実践（Tutorial, Learn）
  */
 
 const RANGE_EXPLANATION /* */ = [100, 199]; // 1xx: 理解指向・理論（Explanation）
@@ -30,8 +30,13 @@ const TOP_LEVEL_RULES = {
   troubleshooting: RANGE_HOW_TO,
   "error-reference": RANGE_HOW_TO,
   "contributing.md": RANGE_HOW_TO,
+  "web-ext.md": RANGE_HOW_TO,
+  "debugger.md": RANGE_HOW_TO,
   "playground.md": RANGE_HOW_TO,
 };
+
+/** TOP_LEVEL_RULES への登録が不要なエントリ */
+const IGNORED_ENTRIES = new Set(["assets"]);
 
 const issues = [];
 
@@ -71,53 +76,46 @@ function checkRange(position, [min, max]) {
   return min <= position && position <= max;
 }
 
-for (const [name, [min, max]] of Object.entries(TOP_LEVEL_RULES)) {
-  if (name.endsWith(".md") || name.endsWith(".mdx")) {
-    const file = path.join(docsRoot, name);
-    try {
-      await fs.access(file);
-    } catch {
-      issues.push({ type: "missing", target: `docs/${name}` });
-      continue;
-    }
-    const position = await readSidebarPosition(file);
-    if (position === null) {
-      issues.push({
-        type: "missingPosition",
-        target: `docs/${name}`,
-        detail: "sidebar_position が見つかりません",
-      });
-    } else if (!checkRange(position, [min, max])) {
-      issues.push({
-        type: "outOfRange",
-        target: `docs/${name}`,
-        position,
-        expected: `${min}-${max}`,
-      });
-    }
-  } else {
-    const categoryFile = path.join(docsRoot, name, "_category_.yml");
-    try {
-      await fs.access(path.join(docsRoot, name));
-    } catch {
-      issues.push({ type: "missing", target: `docs/${name}/` });
-      continue;
-    }
-    const position = await readCategoryPosition(categoryFile);
-    if (position === null) {
-      issues.push({
-        type: "missingPosition",
-        target: `docs/${name}/_category_.yml`,
-        detail: "position が見つかりません",
-      });
-    } else if (!checkRange(position, [min, max])) {
-      issues.push({
-        type: "outOfRange",
-        target: `docs/${name}/_category_.yml`,
-        position,
-        expected: `${min}-${max}`,
-      });
-    }
+const entries = await fs.readdir(docsRoot, { withFileTypes: true });
+const seen = new Set();
+
+for (const entry of entries) {
+  const name = entry.name;
+  if (IGNORED_ENTRIES.has(name)) continue;
+
+  if (!(name in TOP_LEVEL_RULES)) {
+    issues.push({ type: "unregistered", target: `docs/${name}` });
+    continue;
+  }
+  seen.add(name);
+
+  // @ts-expect-error name は in チェック済みだが string 型のままなので
+  const range = TOP_LEVEL_RULES[name];
+  const isFile = name.endsWith(".md") || name.endsWith(".mdx");
+  const target = isFile ? `docs/${name}` : `docs/${name}/_category_.yml`;
+  const position = isFile
+    ? await readSidebarPosition(path.join(docsRoot, name))
+    : await readCategoryPosition(path.join(docsRoot, name, "_category_.yml"));
+
+  if (position === null) {
+    const detail = isFile
+      ? "sidebar_position が見つかりません"
+      : "position が見つかりません";
+    issues.push({ type: "missingPosition", target, detail });
+  } else if (!checkRange(position, range)) {
+    issues.push({
+      type: "outOfRange",
+      target,
+      position,
+      expected: `${range[0]}-${range[1]}`,
+    });
+  }
+}
+
+for (const name of Object.keys(TOP_LEVEL_RULES)) {
+  if (!seen.has(name)) {
+    const suffix = name.endsWith(".md") || name.endsWith(".mdx") ? "" : "/";
+    issues.push({ type: "missing", target: `docs/${name}${suffix}` });
   }
 }
 
@@ -138,6 +136,11 @@ for (const issue of issues) {
     case "outOfRange":
       console.log(
         `${prefix}: position ${issue.position} は規約範囲外です（期待値: ${issue.expected}）`,
+      );
+      break;
+    case "unregistered":
+      console.log(
+        `${prefix}: TOP_LEVEL_RULES に未登録です（IGNORED_ENTRIES に追加するか、規約に登録してください）`,
       );
       break;
   }

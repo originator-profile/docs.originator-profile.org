@@ -4,6 +4,7 @@ tags:
   - Error Reference
   - Content Attestation
   - Content Integrity Descriptor
+slug: /error-reference/ERR_CONTENT_ATTESTATION_VERIFY_FAILED
 ---
 
 # ERR_CONTENT_ATTESTATION_VERIFY_FAILED

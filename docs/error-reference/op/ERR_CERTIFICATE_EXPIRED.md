@@ -3,6 +3,7 @@ sidebar_position: 1
 tags:
   - Error Reference
   - Profile Annotation
+slug: /error-reference/ERR_CERTIFICATE_EXPIRED
 ---
 
 # ERR_CERTIFICATE_EXPIRED

@@ -3,6 +3,7 @@ sidebar_position: 1
 tags:
   - Error Reference
   - Content Attestation
+slug: /error-reference/ERR_CONTENT_ATTESTATION_INVALID
 ---
 
 # ERR_CONTENT_ATTESTATION_INVALID
