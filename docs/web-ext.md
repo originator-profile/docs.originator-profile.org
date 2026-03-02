@@ -165,7 +165,7 @@ Website Profile の画像は、幅 240px × 高さ 44px の表示領域にアス
 
 ## 関連
 
-- [Debugger](./debugger/) - Originator Profile のデバッグツール
-- [Content Attestation Server Playground](./playground/) - Content Attestation の発行・検証テスト環境
-- [トラブルシューティング](./troubleshooting/image-access-error/) - 画像が表示されない場合の対処法
-- [エラーリファレンス](./error-reference/) - エラーコードの詳細
+- [Debugger](/debugger/) - Originator Profile のデバッグツール
+- [Content Attestation Server Playground](/playground/) - Content Attestation の発行・検証テスト環境
+- [トラブルシューティング](/troubleshooting/image-access-error/) - 画像が表示されない場合の対処法
+- [エラーリファレンス](/error-reference/) - エラーコードの詳細
