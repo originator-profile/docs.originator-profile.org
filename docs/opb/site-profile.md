@@ -94,7 +94,7 @@ VCs への言語の指定方法は [OP VC Data Model の国際化](/opb/op-vc-da
 
 `originators` プロパティの国際化方法は [Originator Profile Set の国際化](/opb/originator-profile-set.md#internationalization)に準じます。
 
-## 検証プロセス
+## 検証プロセス {#verification}
 
 _このセクションは非規範的です。_
 

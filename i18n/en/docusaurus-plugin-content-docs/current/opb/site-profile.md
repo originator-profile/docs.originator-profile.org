@@ -95,7 +95,7 @@ The method for specifying the language(s) in VCs conforms to the [internationali
 
 The internationalization method for the `originators` property conforms to the [internationalization section of the Originator Profile Set](/opb/originator-profile-set.md#internationalization).
 
-## Verification Process
+## Verification Process {#verification}
 
 _This section is non-normative_
 
