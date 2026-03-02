@@ -61,7 +61,8 @@ Below is a concrete example of a news media registration PA.
     "id": "dns:pa-holder.example.jp",
     "type": "NewsMediaRegistration",
     "image": {
-      "id": "https://medreg.exp.originator-profile.org/image.png"
+      "id": "https://medreg.exp.originator-profile.org/image.png",
+      "digestSRI": "sha256-DP800gBJ225266yAyzf2VefM0OD+3nFSSKh6gy8WUnQ="
     },
     "annotation": {
       "id": "urn:uuid:2dbf9afe-af9c-4c6a-b6df-70a9565fec5e",
@@ -155,7 +156,8 @@ Below is a concrete example of a news media registration certificate.
     },
     "certifier": "Fictitious News Media Organization Registration Center",
     "image": {
-      "id": "https://medreg.exp.originator-profile.org/image.png"
+      "id": "https://medreg.exp.originator-profile.org/image.png",
+      "digestSRI": "sha256-DP800gBJ225266yAyzf2VefM0OD+3nFSSKh6gy8WUnQ="
     },
     "validFrom": "2024-03-31T15:00:00Z"
   }
