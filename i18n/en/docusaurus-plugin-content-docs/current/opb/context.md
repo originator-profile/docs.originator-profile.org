@@ -29,7 +29,7 @@ sha384-dN4FeVmV5DQb/C8iAY+sBUjLjFfB+knXZJ3RT2GyJg8Tco4SPQYwxNpe2M50b9ON
 The value of the `image` data type is a JSON-LD Node Object and contains the following properties:
 
 - `id`: REQUIRED. The URL of the image.
-- `digestSRI`: RECOMMENDED. A hash value to ensure the integrity of the image. It MUST be of the [`sriString` datatype](#the-sristring-datatype).
+- `digestSRI`: REQUIRED. A hash value to ensure the integrity of the image. It MUST be of the [`sriString` datatype](#the-sristring-datatype).
 
 Example:
 
