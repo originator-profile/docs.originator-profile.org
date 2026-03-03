@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/d9582d4/docs/error-reference/ops/ERR_ORIGINATOR_PROFILE_SET_INVALID.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/0eea912/docs/error-reference/ops/ERR_ORIGINATOR_PROFILE_SET_INVALID.md
 tags:
   - Error Reference
 slug: /error-reference/ERR_ORIGINATOR_PROFILE_SET_INVALID
