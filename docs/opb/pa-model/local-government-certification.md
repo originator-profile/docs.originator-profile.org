@@ -64,7 +64,8 @@ _このセクションは非規範的です。_
     "id": "dns:pa-holder.example.jp",
     "type": "JP-LocalGovernmentCertificate",
     "image": {
-      "id": "https://lgac.exp.originator-profile.org/image.png"
+      "id": "https://lgac.exp.originator-profile.org/image.png",
+      "digestSRI": "sha256-sbXuUuLz8dhRdPPpoiu4U+sjWLqIjjzJ7DPGxDZYxNM="
     },
     "annotation": {
       "id": "urn:uuid:203a2553-f1a8-40ba-9df0-4e508aa8511d",
@@ -147,7 +148,8 @@ _このセクションは非規範的です。_
     },
     "certifier": "架空組織実在性検証局",
     "image": {
-      "id": "https://lgac.exp.originator-profile.org/image.png"
+      "id": "https://lgac.exp.originator-profile.org/image.png",
+      "digestSRI": "sha256-sbXuUuLz8dhRdPPpoiu4U+sjWLqIjjzJ7DPGxDZYxNM="
     }
   }
 }

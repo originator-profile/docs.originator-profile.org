@@ -68,7 +68,8 @@ Below is a concrete example of an advertising certification PA.
     "id": "dns:pa-holder.example.jp",
     "type": "AdvertisingQualityCertificate",
     "image": {
-      "id": "https://adcert.exp.originator-profile.org/image.png"
+      "id": "https://adcert.exp.originator-profile.org/image.png",
+      "digestSRI": "sha256-3NHzrzdlO0zbE/57iK6kLKe8WtKR7ezVh7xL0q4poFg="
     },
     "verifier": "Fictitious Advertising Audit Bureau",
     "annotation": {
@@ -156,7 +157,8 @@ Below is a concrete example of an advertising certification certificate.
     },
     "certifier": "Fictitious Advertisement Certification Center",
     "image": {
-      "id": "https://adcert.exp.originator-profile.org/image.png"
+      "id": "https://adcert.exp.originator-profile.org/image.png",
+      "digestSRI": "sha256-3NHzrzdlO0zbE/57iK6kLKe8WtKR7ezVh7xL0q4poFg="
     },
     "validFrom": "2024-03-31T15:00:00Z",
     "validUntil": "2030-03-31T14:59:59Z"

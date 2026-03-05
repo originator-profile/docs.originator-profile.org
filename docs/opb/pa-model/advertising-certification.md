@@ -67,7 +67,8 @@ _このセクションは非規範的です。_
     "id": "dns:pa-holder.example.jp",
     "type": "AdvertisingQualityCertificate",
     "image": {
-      "id": "https://adcert.exp.originator-profile.org/image.png"
+      "id": "https://adcert.exp.originator-profile.org/image.png",
+      "digestSRI": "sha256-3NHzrzdlO0zbE/57iK6kLKe8WtKR7ezVh7xL0q4poFg="
     },
     "verifier": "架空広告監査機構",
     "annotation": {
@@ -155,7 +156,8 @@ _このセクションは非規範的です。_
     },
     "certifier": "架空広告認証センター",
     "image": {
-      "id": "https://adcert.exp.originator-profile.org/image.png"
+      "id": "https://adcert.exp.originator-profile.org/image.png",
+      "digestSRI": "sha256-3NHzrzdlO0zbE/57iK6kLKe8WtKR7ezVh7xL0q4poFg="
     },
     "validFrom": "2024-03-31T15:00:00Z",
     "validUntil": "2030-03-31T14:59:59Z"

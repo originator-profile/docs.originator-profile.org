@@ -28,7 +28,7 @@ sha384-dN4FeVmV5DQb/C8iAY+sBUjLjFfB+knXZJ3RT2GyJg8Tco4SPQYwxNpe2M50b9ON
 `image` データ型の値は、 JSON-LD Node Object であり、次のプロパティを含みます。
 
 - `id`: REQUIRED. 画像の URL です。
-- `digestSRI`: RECOMMENDED. 画像の完全性を保証するためのハッシュ値です。 [`sriString` データ型](#the-sristring-datatype) でなければなりません (MUST)。
+- `digestSRI`: REQUIRED. 画像の完全性を保証するためのハッシュ値です。 [`sriString` データ型](#the-sristring-datatype) でなければなりません (MUST)。
 
 例:
 
