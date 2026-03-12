@@ -1,5 +1,5 @@
 ---
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/c759397/docs/opb/pa-model/advertising-certification.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/7d651b3/docs/opb/pa-model/advertising-certification.md
 tags:
   - Jurisdiction Specific Model
   - Profile Annotation
