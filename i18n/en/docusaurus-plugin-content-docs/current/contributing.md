@@ -1,6 +1,6 @@
 ---
-sidebar_position: 390
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/d497a68/docs/contributing.md
+sidebar_position: 300
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/63daf71/docs/contributing.md
 ---
 
 # Contributor Guide
