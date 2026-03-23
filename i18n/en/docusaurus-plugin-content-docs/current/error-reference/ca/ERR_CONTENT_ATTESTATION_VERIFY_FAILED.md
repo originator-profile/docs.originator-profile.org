@@ -36,7 +36,7 @@ This error occurs when verification of the Content Attestation fails.
 - A Content Attestation was issued using a private key that does not match the Core Profile.
 - The `allowedUrl` property does not include the URL of the web page where the Content Attestation is placed.
 - An invalid URLPattern is set in `allowedUrl` (e.g., using only `*`, providing an incomplete pattern).
-  
+
 For example, the Content Attestation was intended to be placed at https://media.example.com/articles/2024-06-30, but `allowedUrl` was set to https://media.example.com/articles/2024-06-31.
 
 ```
