@@ -20,20 +20,24 @@ This error occurs when verification of the Content Attestation fails.
 - "Origin not allowed. Expected: `<expected Origin>` Actual: `<actual Origin>`"
 - "Content Attestation verify failed"
 - "Content Attestation Target integrity verification failed for element(s): `<message>`"
+- "Content Attestation Target integrity fetch failed for element(s): `<message>`"
 
 ## Causes
 
 - Verification of the Content Attestation's VC may have failed.
   Additional details can be found in [`ERR_VC_VERIFY_FAILED`](../vc/ERR_VC_VERIFY_FAILED.md).
-- The `allowedUrl` specified in the Content Attestation may not match the actual URL.
+- The `allowedUrl` specified in the Content Attestation may not match the actual URL, or it may be formatted in a way that is invalid as a URLPattern.
 - The `allowedOrigin` specified in the Content Attestation may not match the actual origin.
 - Verification of the Target Integrity included in the Content Attestation may have failed.
+- Retrieval of the Target Integrity included in the Content Attestation may have failed(e.g., due to CORS restrictions).
 
 ## Examples
 
 - A Content Attestation was issued using a private key that does not match the Core Profile.
 - The `allowedUrl` property does not include the URL of the web page where the Content Attestation is placed.
-  For example, the Content Attestation was intended to be placed at https://media.example.com/articles/2024-06-30, but `allowedUrl` was set to https://media.example.com/articles/2024-06-31.
+- An invalid URLPattern is set in `allowedUrl` (e.g., using only `*`, providing an incomplete pattern).
+  
+For example, the Content Attestation was intended to be placed at https://media.example.com/articles/2024-06-30, but `allowedUrl` was set to https://media.example.com/articles/2024-06-31.
 
 ```
 {
@@ -76,15 +80,20 @@ This error occurs when verification of the Content Attestation fails.
 ```
 
 - The Target Integrity value does not match.
+- The integrity information for the image or resource cannot be retrieved due to CORS restrictions.
 
 ## Resolution
 
 - Review the Content Attestation that failed verification and ensure its contents are correct.
 - Confirm that the value of `allowedUrl` included in the Content Attestation is appropriate.
+  - Configure `allowedUrl` according to the URLPattern specification.
+    If the value is not a valid URLPattern, an error will appear in the browser's developer console, where you can check additional details.
 - Confirm that the value of `allowedOrigin` included in the Content Attestation is appropriate.
   Note that `allowedOrigin` is deprecated.
 - Confirm that the value of Target Integrity included in the Content Attestation is appropriate.
   Additional details can be found in [Content Attestation](../../opb/ca.md).
+  - If the retrieval of the Integrity value is blocked by CORS restrictions, a CORS error will be shown in the browser's developer console.
+    Ensure that the server hosting the target resource is configured with the appropriate CORS settings.
 
 ## Related Information
 

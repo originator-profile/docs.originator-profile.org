@@ -19,20 +19,24 @@ Content Attestation の検証に失敗した場合に発生します。
 - "Origin not allowed. Expected: `<期待される Origin>` Actual: `<実際の Origin>`"
 - "Content Attestation verify failed"
 - "Content Attestation Target integrity verification failed for element(s): `<メッセージ>`"
+- "Content Attestation Target integrity fetch failed for element(s): `<メッセージ>`"
 
 ## エラーの原因
 
 - Content Attestation の VC の検証に失敗している可能性があります。
   [`ERR_VC_VERIFY_FAILED`](../vc/ERR_VC_VERIFY_FAILED.md) にてより詳しい原因を知ることができます。
-- Content Attestation に含まれている `allowedUrl` と 実際の URL が異なっている可能性があります。
+- Content Attestation に含まれている `allowedUrl` と 実際の URL が異なっている、または `allowedUrl` が URLPattern として無効な形式になっている可能性があります。
 - Content Attestation に含まれている `allowedOrigin` と 実際の Origin が異なっている可能性があります。
 - Content Attestation に含まれている Target integrity の検証に失敗している可能性があります。
+- Content Attestation に含まれている Target integrity の取得に失敗している可能性があります（CORS ポリシーなど）。
 
 ## 例
 
 - Core Profile と合わないプライベート鍵を使用して Content Attestation を発行。
 - `allowedUrl` に Content Attestation を設置する Web ページの URL を含めていない。
-  次の例では、Content Attestation を https://media.example.com/articles/2024-06-30 に設置しようとしたが、`allowedUrl` を https://media.example.com/articles/2024-06-31 とした場合。
+- `allowedUrl` に不正な URLPattern を設定している（`*` のみを指定している、構造が不完全など）。
+
+次の例では、Content Attestation を https://media.example.com/articles/2024-06-30 に設置しようとしたが、`allowedUrl` を https://media.example.com/articles/2024-06-31 とした場合。
 
 ```
 {
@@ -75,15 +79,20 @@ Content Attestation の検証に失敗した場合に発生します。
 ```
 
 - Target Integrity の値が異なる。
+- CORS ポリシーにより、画像やリソースの Integrity 情報を取得できない。
 
 ## 解決策
 
 - 検証に失敗している Content Attestation の内容をご確認ください。
 - Content Attestation に含まれている `allowedUrl` の値が適切かご確認ください。
+  - URLPattern の仕様に従って `allowedUrl` を設定してください。
+    URLPattern として無効な場合、ブラウザの開発者ツールのコンソールにエラーが表示されるため、そちらでも詳細を確認できます。
 - Content Attestation に含まれている `allowedOrigin` の値が適切かご確認ください。
   また、`allowedOrigin` が非推奨であることに留意してご対応ください。
 - Content Attestation に含まれている Target Integrity の値が適切かご確認ください。
   より詳しくは [Content Attestation](../../opb/ca.md) にて確認することができます。
+  - Integrity の取得が CORS ポリシーによりブロックされている場合、ブラウザの開発者ツールに CORS エラーが表示されます。
+    対象リソースのサーバー側で適切な CORS 設定を行ってください。
 
 ## 関連情報
 
