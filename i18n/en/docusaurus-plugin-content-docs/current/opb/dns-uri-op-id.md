@@ -19,6 +19,7 @@ For terms not explained in this document, please see [Terminology](./terminology
 
 The ID MUST be of the form `dns:<dnsname>`, as defined in [RFC 4501](https://www.rfc-editor.org/rfc/rfc4501.html), excluding the `dnsauthority` and `dnsquery` components.
 The `dnsname` must be a fully qualified domain name (FQDN) as defined in [RFC 1034](https://www.rfc-editor.org/rfc/rfc1034) and [RFC 1035](https://www.rfc-editor.org/rfc/rfc1035), and must conform to the hostname specification in [RFC 1123](https://www.rfc-editor.org/rfc/rfc1123). If an internationalized domain name is used, it must use the A-label representation (Punycode) as specified in [RFC 5890](https://www.rfc-editor.org/rfc/rfc5890). In either case, it MUST NOT contain a trailing `.`.
+However, `dns:localhost` is a special form that uses the special-use domain name `localhost` defined in [RFC 6761](https://www.rfc-editor.org/rfc/rfc6761.html), and as an exception to the FQDN requirement it MAY be used only in development and test environments. It MUST NOT be used in production.
 
 Example:
 
@@ -27,6 +28,7 @@ Example:
 - `dns:example.org`
 - `dns:docs.example.org`
 - `dns:xn--eckwd4c7cu47r2wf.jp` (A-label representation of `domainname.jp`)
+- `dns:localhost` (development and test environments only)
 
 ❌ Invalid:
 
