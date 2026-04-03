@@ -15,21 +15,21 @@ sidebar_position: 340
 
 #### 入力フィールド
 
-| フィールド               | 説明                                          | 表示条件                                     |
-| ------------------------ | --------------------------------------------- | -------------------------------------------- |
-| **Core Profile Issuers** | トラストチェーンの起点となる OPS (JSON)。     | 常時表示 (必須)                              |
-| **URL**                  | 検証対象の Web サイト URL                     | Site Profile 検証または CAS 検証が ON の場合 |
-| **Verify Site Profile**  | Site Profile 検証を有効化するチェックボックス | 常時表示                                     |
-| **SP**                   | Site Profile データ                           | Site Profile 検証 ON の場合                  |
-| **OPS**                  | OriginatorProfileSet データ                   | Site Profile 検証 OFF の場合                 |
-| **Verify CAS**           | CAS 検証を有効化するチェックボックス          | 常時表示                                     |
-| **CAS**                  | Content Attestation データ                    | CAS 検証 ON の場合                           |
-| **HTML**                 | 検証対象の HTML コンテンツ                    | CAS 検証 ON の場合                           |
+| フィールド               | 説明                                      | 表示条件           |
+| ------------------------ | ----------------------------------------- | ------------------ |
+| **Core Profile Issuers** | トラストチェーンの起点となる OPS (JSON)。 | 常時表示 (必須)    |
+| **URL**                  | 検証対象の Web サイト URL                 | 常時表示           |
+| **SP**                   | Site Profile データ                       | Verify SP タブ     |
+| **OPS**                  | OriginatorProfileSet データ               | Verify OPS タブ    |
+| **Verify CAS**           | CAS 検証を有効化するチェックボックス      | 常時表示           |
+| **CAS**                  | Content Attestation データ                | CAS 検証 ON の場合 |
+| **HTML**                 | 検証対象の HTML コンテンツ                | CAS 検証 ON の場合 |
 
+1. **Verify SP** / **Verify OPS** から検証モードを選択します。
 1. **URL** に検証対象の Web サイト URL を入力します。
-2. 必要に応じて **Verify Site Profile** や **Verify CAS** を ON にし、各データを入力します。
-3. **Verify** ボタンをクリックして検証を実行します。
-4. 各ステップの結果が順次表示されます。失敗時、エラー種別と原因を確認できます。
+1. 必要に応じて **Verify CAS** を ON にし、各データを入力します。
+1. **Verify** ボタンをクリックして検証を実行します。
+1. 各ステップの結果が順次表示されます。失敗時、エラー種別と原因を確認できます。
 
 #### パラメーターの形式
 
