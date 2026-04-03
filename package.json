@@ -16,14 +16,14 @@
     "@docusaurus/preset-classic": "^3.9.2",
     "@docusaurus/theme-mermaid": "^3.9.2",
     "@docusaurus/types": "^3.9.2",
-    "@easyops-cn/docusaurus-search-local": "^0.52.3",
-    "@r74tech/docusaurus-plugin-panzoom": "^2.4.0",
+    "@easyops-cn/docusaurus-search-local": "^0.55.1",
+    "@r74tech/docusaurus-plugin-panzoom": "^2.4.2",
     "@types/shelljs": "^0.10.0",
-    "dedent": "^1.7.1",
+    "dedent": "^1.7.2",
     "docusaurus-plugin-image-zoom": "^3.0.1",
     "gray-matter": "^4.0.3",
     "prettier": "^3.8.1",
     "shelljs": "^0.10.0"
   },
-  "packageManager": "pnpm@9.15.4+sha512.b2dc20e2fc72b3e18848459b37359a32064663e5627a51e4c74b2c29dd8e8e0491483c3abb40789cfd578bf362fb6ba8261b05f0387d76792ed6e23ea3b1b6a0"
+  "packageManager": "pnpm@10.33.0+sha512.10568bb4a6afb58c9eb3630da90cc9516417abebd3fabbe6739f0ae795728da1491e9db5a544c76ad8eb7570f5c4bb3d6c637b2cb41bfdcdb47fa823c8649319"
 }
