@@ -2,6 +2,7 @@
 sidebar_position: 23
 tags:
   - Profile Annotation
+deprecated: true
 ---
 
 # Certificate
