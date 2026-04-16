@@ -3,30 +3,6 @@ import type { Config } from "@docusaurus/types";
 import search from "@easyops-cn/docusaurus-search-local";
 import * as pkg from "./package.json";
 
-type SidebarItemBase = {
-  type: string;
-};
-
-type SidebarItemDoc = SidebarItemBase & {
-  type: "doc";
-  id: string;
-  label?: string;
-};
-
-type SidebarItemCategory = SidebarItemBase & {
-  type: "category";
-  label: string;
-  items: SidebarItem[];
-};
-
-type SidebarItemLink = SidebarItemBase & {
-  type: "link";
-  label: string;
-  href: string;
-};
-
-type SidebarItem = SidebarItemDoc | SidebarItemCategory | SidebarItemLink;
-
 const url = pkg.homepage;
 const title = pkg.description;
 const description = pkg.description;
@@ -121,43 +97,6 @@ export default {
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
           sidebarPath: "sidebar.config.ts",
-          // deprecated が true のドキュメントについて、sidebar でアイコンを表示させる
-          sidebarItemsGenerator: async function ({
-            defaultSidebarItemsGenerator,
-            ...args
-          }) {
-            const items = (await defaultSidebarItemsGenerator(
-              args,
-            )) as SidebarItem[];
-
-            function isDocItem(item: SidebarItem): item is SidebarItemDoc {
-              return item.type === "doc" && typeof item.id === "string";
-            }
-
-            function isCategory(
-              item: SidebarItem,
-            ): item is SidebarItemCategory {
-              return item.type === "category";
-            }
-
-            function markDeprecated(item: SidebarItem) {
-              if (isDocItem(item)) {
-                const docMetadata = args.docs.find((d) => d.id === item.id);
-
-                if (docMetadata?.frontMatter?.deprecated) {
-                  const baseLabel = item.label ?? docMetadata.title ?? item.id;
-                  item.label = `${baseLabel} [DEPRECATED]`;
-                }
-              }
-
-              if (isCategory(item)) {
-                item.items.forEach(markDeprecated);
-              }
-            }
-
-            items.forEach(markDeprecated);
-            return items;
-          },
         },
       } satisfies Preset.Options,
     ],
