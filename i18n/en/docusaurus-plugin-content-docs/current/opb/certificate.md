@@ -3,10 +3,9 @@ sidebar_position: 23
 original: https://github.com/originator-profile/docs.originator-profile.org/blob/c759397/docs/opb/certificate.md
 tags:
   - Profile Annotation
-deprecated: true
 ---
 
-# Certificate
+# Certificate ⚠
 
 :::warning Deprecation Warning
 

@@ -37,6 +37,11 @@ https://docs.originator-profile.org/
 - `pnpm preview`: ドキュメントサイトをプレビューするためのローカルサーバーを起動します
 - `pnpm preview --locale en`: ドキュメントサイトの英語コンテンツをプレビューするためのローカルサーバーを起動します
 
+### 文書作成時の規約
+
+- 非推奨（deprecated）となった仕様に関する文書は、タイトルに「⚠」をつけてください。
+  例: `# Certificate ⚠`
+
 ### Architectural Overview (AOV) 文書の統合
 
 本リポジトリでは、[Architectural Overview 文書](https://github.com/originator-profile/doc-opf-architectural-overview)を Git Subtree を使用して統合し、https://docs.originator-profile.org/aov/ で公開しています。
