@@ -4,7 +4,7 @@ tags:
   - Profile Annotation
 ---
 
-# Certificate
+# Certificate ⚠
 
 :::warning 非推奨になりました
 
