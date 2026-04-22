@@ -25,67 +25,44 @@ tags:
 
 ### プロパティ
 
-#### `@context`
-
-REQUIRED. [OP VC Data Model](./op-vc-data-model.md) に従ってください (MUST)。さらに、3つ目の値を `"https://originator-profile.org/ns/cip/v1"` にしなければなりません (MUST)。
-
-#### `type`
-
-REQUIRED. 必ず `["VerifiableCredential", "Certificate"]` にしてください (MUST)。
-
-#### `credentialSubject`
-
-- `id`: REQUIRED. Certificate を保有する組織の OP ID です。
-- `type`: REQUIRED. 個別の Certificate を定義している文書で指定します。
-- `description`: OPTIONAL. この証明書に関する説明です（文字列）。
-- `image`: OPTIONAL. [`image` データ型](./context.md#the-image-datatype) の JSON-LD Node Object でなければなりません (MUST)。このプロパティで Certificate の画像が改ざんされていないかを[検証](./context.md#image-datatype-の検証)することができます。
-- `certifier`: OPTIONAL. 認証機関の名前です。
-- `verifier`: OPTIONAL. 検証機関の名前です。
-- `certificationSystem.id`: REQUIRED. 認証制度の ID を URI 形式で指定してください。
-- `certificationSystem.type`: REQUIRED. `CertificationSystem` でなければなりません (MUST)。
-- `certificationSystem.name`: REQUIRED. 認証制度の名前です。
-- `certificationSystem.description`: OPTIONAL. 認証制度の説明です（文字列）。
-- `certificationSystem.ref`: RECOMMENDED. 認証制度の詳細を知るための人が読むためのページの URL です。
+#### Certificate のプロパティ一覧 {#certificate-properties}
+| Name | Type | Description |
+|------|------|-------------|
+| `@context` | `array` | **REQUIRED.** [OP VC Data Model](./op-vc-data-model.md) に従ってください (MUST)。さらに、3つ目の値を `"https://originator-profile.org/ns/cip/v1"` にしなければなりません (MUST)。|
+| `type` | `array` | **REQUIRED.** 必ず `["VerifiableCredential", "Certificate"]` にしてください (MUST)。 |
+| `crendentialSubject` | `object` | **REQUIRED.** 次の [credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。 |
+| `validFrom` | `string` | **OPTIONAL.** 認証の有効期間の開始日時です。[VC Data Model 2.0 4.9節 Validity Period](https://www.w3.org/TR/vc-data-model-2.0/#validity-period) に準拠します。[`dateTimeStamp` データ型](./context.md#the-datetimestamp-datatype) でなければなりません (MUST)。この値を指定しないとき、有効期間の開始日時はなし（`validUntil` より過去のどの時点でも有効とする）を示します。 |
+| `validUntil` | `string` | **OPTIONAL.** 認証の有効期限です。[VC Data Model 2.0 4.9節 Validity Period](https://www.w3.org/TR/vc-data-model-2.0/#validity-period) に準拠します。[`dateTimeStamp` データ型](./context.md#the-datetimestamp-datatype) でなければなりません (MUST)。このプロパティの値は、 Certificate が含む情報が正しい最後の時刻を表します。この値を指定しないとき、有効期限なし（無期限）を示します。
 
 :::note
 
-Certificate が証明する内容、証明の根拠あるいは証拠が同種で、Certificate を保有する組織だけが異なるものは、同じ `certificationSystem.id` の値であるべきです。
+`validFrom`、`validUntil` は Profile Annotation が含む情報の有効期間の開始日時、および有効期限であり、 VC の署名の有効期間の開始日時、有効期限とは異なります。現在 OP で採用している Securing Mechanism である [VC-JOSE-COSE](https://www.w3.org/TR/vc-jose-cose/) の JWT では、署名の有効期間の開始日時、有効期限は JWT の `iat` (issued at)、`exp` (expired at) クレームで指定します。 `validFrom`、`validUntil` プロパティの値は `iat`、`exp` クレームとは異なる値にすることができます。
 
-また、認証制度の名前、説明、URL は発行時点で最新の内容であるべきです。
-
-:::
-
-#### `validFrom`
-
-OPTIONAL. 認証の有効期間の開始日時です。[VC Data Model 2.0 4.9節 Validity Period](https://www.w3.org/TR/vc-data-model-2.0/#validity-period) に準拠します。[`dateTimeStamp` データ型](./context.md#the-datetimestamp-datatype) でなければなりません (MUST)。
-
-この値を指定しないとき、有効期間の開始日時はなし（`validUntil` より過去のどの時点でも有効とする）を示します。
-
-:::note
-
-`validUntil` プロパティと同様に、この値は Certificate が含む情報の有効期間の開始日時であり、 VC の署名の有効期間の開始日時とは異なります。現在 OP で採用している Securing Mechanism である [VC-JOSE-COSE](https://www.w3.org/TR/vc-jose-cose/) の JWT における `exp` (expired at) クレームや `iat` (issued at) クレームとは異なる意味を持ち、異なる値を指定することができます。
-
-詳細は `validUntil` プロパティの注釈を参照してください。
-
-:::
-
-#### `validUntil`
-
-OPTIONAL. 認証の有効期限です。[VC Data Model 2.0 4.9節 Validity Period](https://www.w3.org/TR/vc-data-model-2.0/#validity-period) に準拠します。[`dateTimeStamp` データ型](./context.md#the-datetimestamp-datatype) でなければなりません (MUST)。
-
-このプロパティの値は、 Certificate が含む情報が正しい最後の時刻を表します。
-
-この値を指定しないとき、有効期限なし（無期限）を示します。
-
-:::note
-
-この値は Certificate が含む情報の有効期限であり、 VC の署名の有効期限とは異なります。現在 OP で採用している Securing Mechanism である [VC-JOSE-COSE](https://www.w3.org/TR/vc-jose-cose/) の JWT では、署名の有効期限は JWT の `exp` (expired at) クレームで指定します。 `validUntil` プロパティの値は `exp` クレームとは異なる値にすることができます。
-
-異なる値を指定したいシナリオとして、有効期限が遠い将来の第三者認証を証明する VC を、定期的に再発行したいケースがあります。例えば、 `2050-12-31T15:00:00Z` に失効する第三者認証をこの仕様に基づいて Certificate として発行する場合です。そのとき、署名の危殆化や鍵の漏洩によるセキュリティリスクを軽減するために、 Certificate を定期的に再発行することが考えられます。定期的な再発行を促すため、署名に有効期限を設け、1年ごとに署名が失効するようにします。その場合、署名の有効期限（1年後）を `exp` クレームに指定し、 `validUntil` は再発行した日付によらず `2050-12-31T15:00:00Z` にすることで、再発行を行いながら、第三者認証の有効期限を正確に表現することができます。
+異なる値を指定したいシナリオとして、有効期限が遠い将来の第三者認証を証明する VC を、定期的に再発行したいケースがあります。例えば、 `2050-12-31T15:00:00Z` に失効する第三者認証をこの仕様に基づいて Profile Annotation として発行する場合です。そのとき、署名の危殆化や鍵の漏洩によるセキュリティリスクを軽減するために、Profile Annotation を定期的に再発行することが考えられます。定期的な再発行を促すため、署名に有効期限を設け、1年ごとに署名が失効するようにします。その場合、署名の有効期限（1年後）を `exp` クレームに指定し、 `validUntil` は再発行した日付によらず `2050-12-31T15:00:00Z` にすることで、再発行を行いながら、第三者認証の有効期限を正確に表現することができます。
 
 プロパティの定義については [VC Data Model 2.0 4.9節 Validity Period](https://www.w3.org/TR/vc-data-model-2.0/#validity-period) を参照ください。
 
 :::
+
+#### credentialSubject のプロパティ一覧 {#credential-subject-properties}
+| Name | Type | Description |
+|------|------|-------------|
+| `id` | `string` | **REQUIRED.** Certificate を保有する組織の [OP ID](./op-id.md) です。 |
+| `type` | `string` | **REQUIRED.** 個別の Certificate を定義している文書で指定します。 |
+| `description` | `string` | **OPTIONAL.** この証明書に関する説明です。 |
+| `image` | `object` | **OPTIONAL.** [`image` データ型](./context.md#the-image-datatype) の JSON-LD Node Object でなければなりません (MUST)。このプロパティで Certificate の画像が改ざんされていないかを[検証](./context.md#image-datatype-の検証)することができます。 |
+| `certifier` | `string` | **OPTIONAL.** 認証機関の名前です。 |
+| `verifier` | `string` | **OPTIONAL.** 検証機関の名前です。 |
+| `certificationSystem` | `object` | **REQUIRED.** 次の [certificationSystem のプロパティ](#certification-system-properties)を含む JSON-LD Node Object です。 |
+
+#### certificationSystem のプロパティ一覧 {#certification-system-properties}
+| Name | Type | Description |
+|------|------|-------------|
+| `id` | `string` | **REQUIRED.** 認証制度の ID を URI 形式で指定してください。 |
+| `type` | `string` | **REQUIRED.** `CertificationSystem` でなければなりません (MUST)。 |
+| `name` | `string` | **REQUIRED.** 認証制度の名前です。 |
+| `decription` | `string` | **OPTIONAL.** 認証制度の説明です。 |
+| `ref` | `string` | **RECOMMENDED.** 認証制度の詳細を知るための人が読むためのページの URL です。 |
 
 ## Appendix
 

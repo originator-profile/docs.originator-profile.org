@@ -22,33 +22,20 @@ Core Profile は OP VC DM 準拠文書でなければなりません (MUST)。�
 
 ### プロパティ {#properties}
 
-#### `@context` {#context}
+#### Core Profile のプロパティ一覧 {#core-profile-properties}
+| Name | Type | Description |
+|------|------|-------------|
+| `@context` | `array` | **REQUIRED.** 必ず先頭が `https://www.w3.org/ns/credentials/v2`、その次が `https://originator-profile.org/ns/credentials/v1` である配列でなければなりません (MUST)。 |
+| `type` | `array` | **REQUIRED.** 必ず `["VerifiableCredential", "CoreProfile"]` にしてください (MUST)。 |
+| `issuer` | `string` | **REQUIRED.** VC 発行組織の [OP ID](./op-id.md) でなければなりません (MUST)。 |
+| `credentialSubject` | `object` | **REQUIRED.** 次の [credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。 |
 
-REQUIRED. URL の順序つき配列。必ず先頭が `https://www.w3.org/ns/credentials/v2`、その次が `https://originator-profile.org/ns/credentials/v1` である配列でなければなりません (MUST)。
-
-#### `type` {#type}
-
-REQUIRED. 必ず `["VerifiableCredential", "CoreProfile"]` にしてください (MUST)。
-
-#### `credentialSubject` {#credential-subject}
-
-REQUIRED. JSON-LD Node Object です。
-
-#### `credentialSubject.id` {#credential-subject-id}
-
-REQUIRED. CP 保有組織の OP ID でなければなりません (MUST)。
-
-#### `credentialSubject.type` {#credential-subject-type}
-
-REQUIRED. `Core` でなければなりません (MUST)。
-
-#### `credentialSubject.jwks` {#credential-subject-jwks}
-
-REQUIRED. [JWK Set](https://www.rfc-editor.org/rfc/rfc7517.html#section-5) でなければなりません (MUST)。CP 保有組織の公開鍵の集合です。
-
-#### `issuer` {#issuer}
-
-REQUIRED. VC 発行組織の [OP ID](./op-id.md) でなければなりません (MUST)。
+#### credentialSubject のプロパティ一覧 {#credential-subject-properties}
+| Name | Type | Description |
+|------|------|-------------|
+| `id` | `string` | **REQUIRED.** CP 保有組織の [OP ID](./op-id.md) でなければなりません (MUST)。 |
+| `type` | `string` | **REQUIRED.** `Core` でなければなりません (MUST)。 |
+| `jwks` | `object` | **REQUIRED.** [JWK Set](https://www.rfc-editor.org/rfc/rfc7517.html#section-5) でなければなりません (MUST)。CP 保有組織の公開鍵の集合です。 |
 
 ## 拡張性 {#extensibility}
 

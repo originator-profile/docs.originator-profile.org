@@ -18,50 +18,25 @@ tags:
 
 Website Profile は OP VC DM 準拠文書でなければなりません (MUST)。他に以下のプロパティを含みます。
 
-### `@context`
+#### Website Profile (WSP) のプロパティ一覧
+| Name | Type | Description |
+|------|------|-------------|
+| `@context` | `array` | **REQUIRED.** [OP VC Data Model](./op-vc-data-model.md#vc-properties) に従ってください (MUST)。さらに、3つ目の値を `"https://originator-profile.org/ns/cip/v1"` にしなければなりません (MUST)。 |
+| `type` | `array` | **REQUIRED.** [OP VC Data Model](./op-vc-data-model.md#vc-properties) に従ってください (MUST)。さらに、3つ目の値を `"https://originator-profile.org/ns/cip/v1"` にしなければなりません (MUST)。 |
+| `issuer` | `string` | **REQUIRED.** Web サイト保有組織の [OP ID](./op-id.md) にしてください (MUST)。 |
+| `credentialSubject`| `object` | **REQUIRED.** 次の [credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。 |
 
-REQUIRED. [OP VC Data Model](./op-vc-data-model.md#context) に従ってください (MUST)。さらに、3つ目の値を `"https://originator-profile.org/ns/cip/v1"` にしなければなりません (MUST)。
+#### credentialSubject のプロパティ一覧 {#credential-subject-properties}
+| Name | Type | Description |
+|------|------|-------------|
+| `id` | `string` | **REQUIRED.** Web サイトの URL を含めてください (MUST)。複数の URL に同じコンテンツが存在する場合は、最も代表的な URL を指定します。 |
+| `type` | `string` | **REQUIRED.** `WebSite` でなければなりません (MUST)。|
+| `name` | `string` | **REQUIRED.** Web サイトの名称です。 |
+| `image` | `object` | **OPTIONAL.** Web サイトのサムネイル画像です。 [`image` データ型](./context.md#the-image-datatype) の JSON-LD Node Object でなければなりません (MUST)。このプロパティで WSP のサムネイル画像が改ざんされていないかを[検証](./context.md#image-datatype-の検証)することができます。 |
+| `description` | `string` | **OPTIONAL.** Web サイトの説明です。 |
+| `allowedOrigin` | `string` \| `array` | **REQUIRED.** 提示するWebサイトを識別するための [RFC 6454](https://www.rfc-editor.org/rfc/rfc6454) オリジン (スキーム、ホスト名、ポート番号) をASCII形式で表した文字列あるいはその文字列の配列です。パス、クエリ、フラグメントは含めてはなりません (MUST NOT)。また、デフォルトポート (例: `https:` の 443、`http:` の 80) は、[W3C URL Standard](https://url.spec.whatwg.org/) に基づき省略された形式で表現します。このプロパティでWSPが正当なオリジンのWebサイトに設置されているかどうかを[検証](#verification)することができます。 |
 
-### `type`
-
-REQUIRED. 必ず `["VerifiableCredential", "WebsiteProfile"]` にしてください (MUST)。
-
-### `issuer`
-
-REQUIRED. Web サイト保有組織の OP ID にしてください (MUST)。
-
-### `credentialSubject`
-
-REQUIRED. 次のプロパティを含む JSON-LD Node Object です。
-
-#### `id`
-
-REQUIRED. Web サイトの URL を含めてください (MUST)。複数の URL に同じコンテンツが存在する場合は、最も代表的な URL を指定します。
-
-#### `type`
-
-REQUIRED. `WebSite` でなければなりません (MUST)。
-
-#### `name`
-
-REQUIRED. Web サイトの名称です。
-
-#### `image`
-
-OPTIONAL. Web サイトのサムネイル画像です。 [`image` データ型](./context.md#the-image-datatype) の JSON-LD Node Object でなければなりません (MUST)。このプロパティで WSP のサムネイル画像が改ざんされていないかを[検証](./context.md#image-datatype-の検証)することができます。
-
-#### `description`
-
-OPTIONAL. Web サイトの説明です (文字列)。
-
-#### `allowedOrigin`
-
-REQUIRED. 提示するWebサイトを識別するための [RFC 6454](https://www.rfc-editor.org/rfc/rfc6454) オリジン (スキーム、ホスト名、ポート番号) をASCII形式で表した文字列あるいはその文字列の配列です。
-パス、クエリ、フラグメントは含めてはなりません (MUST NOT)。
-また、デフォルトポート (例: `https:` の 443、`http:` の 80) は、[W3C URL Standard](https://url.spec.whatwg.org/) に基づき省略された形式で表現します。
-このプロパティでWSPが正当なオリジンのWebサイトに設置されているかどうかを[検証](#verification)することができます。
-
-具体例:
+#### `alloweOrigin` の具体例
 
 ✅ 有効:
 

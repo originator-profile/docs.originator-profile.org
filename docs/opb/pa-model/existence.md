@@ -19,27 +19,28 @@ tags:
 
 ### プロパティ
 
-#### `@context`
+#### 組織実在証 PA のプロパティ一覧 {#existence-properties}
+| Name | Type | Description |
+|------|------|-------------|
+| `@context` | `array` | **REQUIRED.** [OP VC Data Model](../op-vc-data-model.md) に従ってください (MUST)。さらに、3つ目の値を `"https://originator-profile.org/ns/cip/v1"` にしなければなりません (MUST)。 |
+| `credentialSubject` | `object` | **REQUIRED.** 次の [credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。 |
 
-REQUIRED. [OP VC Data Model](../op-vc-data-model.md) に従ってください (MUST)。さらに、3つ目の値を `"https://originator-profile.org/ns/cip/v1"` にしなければなりません (MUST)。
-
-#### `credentialSubject`
-
-REQUIRED. 日本における実在性を表す JSON-LD Node Object です。
-
-- `id`: REQUIRED. PA 保有組織の OP ID です。
-- `type`: REQUIRED. `JP-OrganizationExistenceCertificate` にしてください。
-- `name`: OPTIONAL. この PA の名前です (文字列)。
-- `description`: OPTIONAL. この PA に関する説明です（文字列）。
-- `image`: OPTIONAL. [`image` データ型](../context.md#the-image-datatype) の JSON-LD Node Object でなければなりません (MUST)。このプロパティで PA の画像が改ざんされていないかを[検証](../context.md#image-datatype-の検証)することができます。
-- `corporateName`: REQUIRED. 法人名
-- `corporateNumber`: REQUIRED. 法人番号
-- `postalCode`: REQUIRED. 郵便番号
-- `addressCountry`: REQUIRED. ISO 3166-1 alpha-2 国コードを指定します。日本の場合は `JP` です。
-- `addressRegion`: REQUIRED. 都道府県
-- `addressLocality`: REQUIRED. 市区町村
-- `streetAddress`: REQUIRED. 番地・ビル名
-- `annotation`: REQUIRED. [Profile Annotation Policy](./pa-policy.md) でなければなりません (MUST)。
+#### credentialSubject のプロパティ一覧 {#credential-subject-properties}
+| Name | Type | Description |
+|------|------|-------------|
+| `id` | `string` | **REQUIRED.** PA 保有組織の [OP ID](../op-id.md) です。|
+| `type` | `string` | **REQUIRED.** `JP-OrganizationExistenceCertificate` にしてください。|
+| `name` | `string` | **OPTIONAL.** この PA の名前です。|
+| `description` | `string` | **OPTIONAL.** この PA に関する説明です。 |
+| `image` | `object` | **OPTIONAL.** [`image` データ型](../context.md#the-image-datatype) の JSON-LD Node Object でなければなりません (MUST)。このプロパティで PA の画像が改ざんされていないかを[検証](../context.md#image-datatype-の検証)することができます。|
+| `corporateName` | `string` | **REQUIRED.** 法人名です。 |
+| `corporateNumber` | `string` | **REQUIRED.** 法人番号です。 |
+| `postalCode` | `string` | **REQUIRED.** 郵便番号です。 |
+| `addressCountry` | `string` | **REQUIRED.** ISO 3166-1 alpha-2 国コードを指定します。日本の場合は `JP` です。 |
+| `addressRegion` | `string` | **REQUIRED.** 都道府県です。 |
+| `addressLocality` | `string` | **REQUIRED.** 市区町村です。 |
+| `streetAddress` | `string` | **REQUIRED.** 番地・ビル名です。 |
+| `annotation` | `object` | **REQUIRED.** [Profile Annotation Policy](./pa-policy.md) でなければなりません (MUST)。 |
 
 :::note
 日本以外の組織実在証 PA のプロパティに関しては検討中です。

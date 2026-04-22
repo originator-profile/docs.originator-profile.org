@@ -18,36 +18,28 @@ tags:
 
 ### プロパティ
 
-#### `@context`
+#### 記事広告のプロパティ一覧 {#advertorial-properties}
+| Name | Type | Description |
+|------|------|-------------|
+| `@context` | `array` | **REQUIRED.** [OP VC Data Model](../op-vc-data-model.md) に従ってください (MUST)。さらに、3つ目の値を `"https://originator-profile.org/ns/cip/v1"` にしなければなりません (MUST)。 |
+| `type` | `array` | **REQUIRED.** 必ず `["VerifiableCredential", "ContentAttestation"]` にしてください (MUST)。 |
+| `credentialSubject` | `object` | **REQUIRED.** 次の [credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。 |
+| `allowedUrl` | `array` | **REQUIRED.** Content Attestation に定義済みのプロパティです。空配列にしてはなりません (MUST NOT)。 |
+| `target` | `array` | **REQUIRED.** Content Attestation に定義済みのプロパティです。空配列にしてはなりません (MUST NOT)。 |
 
-REQUIRED. [OP VC Data Model](../op-vc-data-model.md) に従ってください (MUST)。さらに、3つ目の値を `"https://originator-profile.org/ns/cip/v1"` にしなければなりません (MUST)。
-
-#### `type`
-
-REQUIRED. 必ず `["VerifiableCredential", "ContentAttestation"]` にしてください (MUST)。
-
-#### `credentialSubject`
-
-記事広告を表す JSON-LD Node Object です。OP-CIP の開発したアプリケーションは、次のプロパティを利用します。
-
-- `type`: REQUIRED. `Advertorial` でなければなりません (MUST)。
-- `headline`: REQUIRED. 記事広告のタイトル。
-- `description`: REQUIRED. 記事広告の説明（文字列）。
-- `image`: OPTIONAL. 記事広告のサムネイル画像。サムネイル画像がある場合指定するべきです (RECOMMENDED)。 [`image` データ型](../context.md#the-image-datatype) の JSON-LD Node Object でなければなりません (MUST)。このプロパティで CA を[検証](../context.md#image-datatype-の検証)することができます。
-- `datePublished`: OPTIONAL. 公開日時 (ISO 8601)
-- `dateModified`: OPTIONAL. 最終更新日時 (ISO 8601)
-- `author`: OPTIONAL. 著者名（文字列）の配列
-- `editor`: OPTIONAL. 編集者名（文字列）の配列
-- `sponsor`: OPTIONAL. スポンサー名 (文字列) の配列
-- `genre`: OPTIONAL. ジャンル（文字列）
-
-#### `allowedUrl`
-
-REQUIRED. Content Attestation に定義済みのプロパティ。空配列にしてはなりません (MUST NOT)。
-
-#### `target`
-
-REQUIRED. Content Attestation に定義済みのプロパティ。空配列にしてはなりません (MUST NOT)。
+#### credentialSubject のプロパティ一覧 {#credential-subject-properties}
+| Name | Type | Description |
+|------|------|-------------|
+| `type` | `string` | **REQUIRED.** `Advertorial` でなければなりません (MUST)。 |
+| `headline` | `string` | **REQUIRED.** 記事広告のタイトルです。|
+| `description` | `string` | **REQUIRED.** 記事広告の説明です。 |
+| `image` | `object` | **OPTIONAL.** 記事広告のサムネイル画像です。サムネイル画像がある場合指定するべきです (RECOMMENDED)。 [`image` データ型](../context.md#the-image-datatype) の JSON-LD Node Object でなければなりません (MUST)。このプロパティで CA を[検証](../context.md#image-datatype-の検証)することができます。 |
+| `datePublished` | `string` | **OPTIONAL.** 公開日時 (ISO 8601) です。 |
+| `dateModified` | `string` | **OPTIONAL.** 最終更新日時 (ISO 8601) です。 |
+| `author` | `array` | **OPTIONAL.** 著者名の配列です。 |
+| `editor` | `array` | **OPTIONAL.** 編集者名の配列です。 |
+| `sponsor` | `array` | **OPTIONAL.** スポンサー名の配列です。 |
+| `genre` | `string` | **OPTIONAL.** ジャンルです。 |
 
 ## Appendix
 

@@ -46,8 +46,10 @@ External Resource Target の具体例を次に示します。
 
 以下のプロパティが定義されます:
 
-- `type`: REQUIRED. 必ず `ExternalResourceTargetIntegrity` でなければなりません (MUST)。
-- `integrity`: REQUIRED. [`sriString` データ型](../context.md#the-sristring-datatype) でなければなりません (MUST)。使用可能なハッシュ関数については[ハッシュアルゴリズム](../algorithm.md#hash-algorithm)に準拠してください (MUST)。具体例: `sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U=`
+| Name | Type | Description |
+|------|------|-------------|
+| `type` | `string` | **REQUIRED.** 必ず `ExternalResourceTargetIntegrity` でなければなりません (MUST)。 |
+| `integrity` | `string` | **REQUIRED.** [`sriString` データ型](../context.md#the-sristring-datatype) でなければなりません (MUST)。使用可能なハッシュ関数については[ハッシュアルゴリズム](../algorithm.md#hash-algorithm)に準拠してください (MUST)。具体例: `sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U=` |
 
 ## 設定方法
 
