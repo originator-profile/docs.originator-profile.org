@@ -1,6 +1,7 @@
 ---
 original: https://github.com/originator-profile/docs.originator-profile.org/blob/ff1666a/README.ja.md
 ---
+
 # Technical Document Site of Originator Profile
 
 [日本語版はこちら 🇯🇵](./README.ja.md)
@@ -40,11 +41,10 @@ This repository uses [Docusaurus's multilingual support feature](https://docusau
 - `pnpm preview`: Starts a local server to preview the documentation site
 - `pnpm preview --locale en`: Starts a local server to preview the English content of the documentation site
 
-
 ### Documentation Guidelines
 
 - Documents concerning deprecated specifications should have a "⚠" symbol in the title.
-　Example: `# Certificate ⚠`
+  　Example: `# Certificate ⚠`
 
 ### Integration of Architectural Overview (AOV) Documents
 
