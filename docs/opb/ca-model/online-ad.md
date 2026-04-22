@@ -41,7 +41,7 @@ tags:
 | `image` | `object` | **OPTIONAL.** 広告のサムネイル画像です。サムネイル画像があるならば指定するべきです (RECOMMENDED)。 [`image` データ型](../context.md#the-image-datatype) の JSON-LD Node Object でなければなりません (MUST)。このプロパティで CA を[検証](../context.md#image-datatype-の検証)することができます。 |
 | `genre` | `string` | **OPTIONAL.** ジャンルです。 |
 | `landingPageUrl` | `string` | **OPTIONAL.** 広告をクリックした際、最終的に表示されるページ（ランディングページ）の URL です。 |
-| `adReportContact` | `object` | **OPTIONAL.** 広告に対する報告窓口です。 [`page` データ型](../context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。
+| `adReportContact` | `object` | **OPTIONAL.** 広告に対する報告窓口です。 [`page` データ型](../context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。 |
 | `adReviewGuidelines` | `object` | **OPTIONAL.** 広告審査ガイドラインの情報です。 [`page` データ型](../context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。 |
 | `targetingPolicy` | `object` | **OPTIONAL.** ターゲティング広告に関するポリシーです。 [`page` データ型](../context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。 |
 | `adDataHandlingPolicy` | `object` | **OPTIONAL.** 広告配信に関する情報の取り扱いに関しての情報です。 [`page` データ型](../context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。 |

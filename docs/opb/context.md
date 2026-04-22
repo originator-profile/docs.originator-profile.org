@@ -29,8 +29,8 @@ sha384-dN4FeVmV5DQb/C8iAY+sBUjLjFfB+knXZJ3RT2GyJg8Tco4SPQYwxNpe2M50b9ON
 
 | Name | Type | Description |
 |------|------|-------------|
-| `id` | `string` | **REQUIRED**. 画像の URL です。 |
-| `digestSRI` | `string` | **REQUIRED**. 画像の完全性を保証するためのハッシュ値です。 [`sriString` データ型](#the-sristring-datatype) でなければなりません (MUST)。 |
+| `id` | `string` | **REQUIRED.** 画像の URL です。 |
+| `digestSRI` | `string` | **REQUIRED.** 画像の完全性を保証するためのハッシュ値です。 [`sriString` データ型](#the-sristring-datatype) でなければなりません (MUST)。 |
 
 例:
 

@@ -39,7 +39,7 @@ Content Attestation は OP VC DM 準拠文書でなければなりません (MUS
 | `type` | `array` | **REQUIRED.** 必ず `["VerifiableCredential", "ContentAttestation"]` にしてください (MUST)。 |
 | `issuer` | `string` | **REQUIRED.** CA 発行者の [OP ID](./op-id.md) でなければなりません (MUST)。 | 
 | `credentialSubject` | `object` | **REQUIRED.** 次の[credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。 |
-| `allowedUrl` | `array` | **REQUIRED.** この CA によって表明される情報の対象となる URL です。必ず [URL Pattern string](https://urlpattern.spec.whatwg.org/#pattern-strings) またはその配列でなければなりません (MUST)。空配列にしてはなりません (MUST NOT)。このプロパティで CA が正当な URL の Web ページに設置されているかどうかを[検証](#allowed-url-validation)することができます。 |
+| `allowedUrl` | `string` \| `array` | **REQUIRED.** この CA によって表明される情報の対象となる URL です。必ず [URL Pattern string](https://urlpattern.spec.whatwg.org/#pattern-strings) またはその配列でなければなりません (MUST)。空配列にしてはなりません (MUST NOT)。このプロパティで CA が正当な URL の Web ページに設置されているかどうかを[検証](#allowed-url-validation)することができます。 |
 | `target` | `array` | **REQUIRED.** Content Integrity Descriptor の配列でなければなりません (MUST)。Content Integrity Descriptor はコンテンツの一部の完全性を保証するための仕組みです。このプロパティで CA と対応するコンテンツ内の特定の情報が改ざんされていないかを[検証](#target-integrity-validation)することができます。[Content Integrity Type Registry](./content-integrity-descriptor/index.mdx)に登録されているものを使用できます。 |
 
 #### credentialSubject のプロパティ一覧 {#credential-subject-properties}

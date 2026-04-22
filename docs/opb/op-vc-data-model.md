@@ -23,7 +23,7 @@ OP の仕様ではいくつかの VC を定めています。それらの VC は
 #### credentialSubject のプロパティ一覧 {#credential-subject-properties}
 | Name | Type | Description |
 |------|------|-------------|
-| `type` | `string` | **OPTIONAL.** 値は [JSON-LD 語彙](https://www.w3.org/TR/json-ld11/#terms)かその配列でなければなりません (MUST)。 |
+| `type` | `string` \| `array` | **OPTIONAL.** 値は [JSON-LD 語彙](https://www.w3.org/TR/json-ld11/#terms)かその配列でなければなりません (MUST)。 |
 | `id` | `string` | **REQUIRED.** 識別子です。識別子の形式は各 VC のデータモデルを定める文書で取り扱います。 |
 
 ## 国際化 {#internationalization}

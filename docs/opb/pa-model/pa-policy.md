@@ -20,7 +20,7 @@ tags:
 | Name | Type | Description |
 |------|------|-------------|
 | `id` | `string` | **REQUIRED.** Profile Annotation Policy の ID を URI 形式で指定してください。 |
-| `type` | `array` | **REQUIRED.** `ProfileAnnotationPolicy` でなければなりません (MUST)。 |
+| `type` | `string` | **REQUIRED.** `ProfileAnnotationPolicy` でなければなりません (MUST)。 |
 | `name` | `string` | **REQUIRED.** Profile Annotation Policy の名前です。 |
 | `description` | `string` | **OPTIONAL.** Profile Annotation Policy の説明です。 |
 | `ref` | `string` | **RECOMMENDED.** Profile Annotation Policy の詳細を知るための人が読むためのページの URL です。 |
