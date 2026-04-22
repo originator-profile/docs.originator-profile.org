@@ -27,7 +27,7 @@ This repository uses [Docusaurus's multilingual support feature](https://docusau
 - i18n/en/docusaurus-plugin-content-docs/current/ — English documentation (translation)
   - English documentation is created with the same directory and file names as the Japanese documentation.
 - static/ —— [Static Assets](https://docusaurus.io/docs/static-assets)
--   Copied to each locale directory (`/ja/`, `/en/`) during Docusaurus build
+  - Copied to each locale directory (`/ja/`, `/en/`) during Docusaurus build
 - public/ —— Locale-independent root-level files
   - Files placed directly in the root of `pages/` after build
   - public/index.html —— Redirects to `/ja/` or `/en/` depending on the browser language on the root page (`/`)
