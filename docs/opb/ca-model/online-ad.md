@@ -17,14 +17,15 @@ tags:
 ### プロパティ
 
 #### Online Ad のプロパティ一覧 {#online-ad-properties}
-| Name | Type | Description |
-|------|------|-------------|
-| `@context` | `array` | **REQUIRED.** [OP VC Data Model](../op-vc-data-model.md) に従ってください (MUST)。さらに、3つ目の値を `"https://originator-profile.org/ns/cip/v1"` にしなければなりません (MUST)。 |
-| `type` | `array` | **REQUIRED.** 必ず `["VerifiableCredential", "ContentAttestation"]` にしてください (MUST)。 |
-| `issuer` | `string` | **REQUIRED.** CA 発行者の [OP ID](../op-id.md) でなければなりません (MUST)。 | 
-| `credentialSubject` | `object` | **REQUIRED.** 次の [credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。 |
-| `allowedUrl` | `array` | **REQUIRED.** Content Attestation に定義済みのプロパティです。空配列にしてはなりません (MUST NOT)。 |
-| `target` | `array` | **REQUIRED.** Content Attestation に定義済みのプロパティです。空配列にしてはなりません (MUST NOT)。 |
+
+| Name                | Type     | Description                                                                                                                                                                        |
+| ------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@context`          | `array`  | **REQUIRED.** [OP VC Data Model](../op-vc-data-model.md) に従ってください (MUST)。さらに、3つ目の値を `"https://originator-profile.org/ns/cip/v1"` にしなければなりません (MUST)。 |
+| `type`              | `array`  | **REQUIRED.** 必ず `["VerifiableCredential", "ContentAttestation"]` にしてください (MUST)。                                                                                        |
+| `issuer`            | `string` | **REQUIRED.** CA 発行者の [OP ID](../op-id.md) でなければなりません (MUST)。                                                                                                       |
+| `credentialSubject` | `object` | **REQUIRED.** 次の [credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。                                                               |
+| `allowedUrl`        | `array`  | **REQUIRED.** Content Attestation に定義済みのプロパティです。空配列にしてはなりません (MUST NOT)。                                                                                |
+| `target`            | `array`  | **REQUIRED.** Content Attestation に定義済みのプロパティです。空配列にしてはなりません (MUST NOT)。                                                                                |
 
 #### credentialSubject のプロパティ一覧 {#credential-subject-properties}
 
@@ -34,26 +35,27 @@ tags:
 
 :::
 
-| Name | Type | Description |
-|------|------|-------------|
-| `id` | `string` | **REQUIRED.** CA ID でなければなりません (MUST)。 CA ID は [UUIDv4](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-4) の URN 形式の文字列です。コンテンツと CA ID は一対一対応します。|
-| `type` | `string` | **REQUIRED.** `OnlineAd` でなければなりません (MUST)。 |
-| `name` | `string` | **OPTIONAL.** 広告のタイトルです。 |
-| `description` | `string` | **OPTIONAL.** 広告の説明です。 |
-| `image` | `object` | **OPTIONAL.** 広告のサムネイル画像です。サムネイル画像があるならば指定するべきです (RECOMMENDED)。 [`image` データ型](../context.md#the-image-datatype) の JSON-LD Node Object でなければなりません (MUST)。このプロパティで CA を[検証](../context.md#image-datatype-の検証)することができます。 |
-| `genre` | `string` | **OPTIONAL.** ジャンルです。 |
-| `landingPageUrl` | `string` | **OPTIONAL.** 広告をクリックした際、最終的に表示されるページ（ランディングページ）の URL です。 |
-| `adReportContact` | `object` | **OPTIONAL.** 広告に対する報告窓口です。 [`page` データ型](../context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。 |
-| `adReviewGuidelines` | `object` | **OPTIONAL.** 広告審査ガイドラインの情報です。 [`page` データ型](../context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。 |
-| `targetingPolicy` | `object` | **OPTIONAL.** ターゲティング広告に関するポリシーです。 [`page` データ型](../context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。 |
-| `adDataHandlingPolicy` | `object` | **OPTIONAL.** 広告配信に関する情報の取り扱いに関しての情報です。 [`page` データ型](../context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。 |
-| `adDisplayRationale` | `object` | **OPTIONAL.** 次の [adDisplayRationale のプロパティ](#adDisplayRationale-properties)を含む JSON-LD Node Object です。 |
+| Name                   | Type     | Description                                                                                                                                                                                                                                                                                       |
+| ---------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`                   | `string` | **REQUIRED.** CA ID でなければなりません (MUST)。 CA ID は [UUIDv4](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-4) の URN 形式の文字列です。コンテンツと CA ID は一対一対応します。                                                                                             |
+| `type`                 | `string` | **REQUIRED.** `OnlineAd` でなければなりません (MUST)。                                                                                                                                                                                                                                            |
+| `name`                 | `string` | **OPTIONAL.** 広告のタイトルです。                                                                                                                                                                                                                                                                |
+| `description`          | `string` | **OPTIONAL.** 広告の説明です。                                                                                                                                                                                                                                                                    |
+| `image`                | `object` | **OPTIONAL.** 広告のサムネイル画像です。サムネイル画像があるならば指定するべきです (RECOMMENDED)。 [`image` データ型](../context.md#the-image-datatype) の JSON-LD Node Object でなければなりません (MUST)。このプロパティで CA を[検証](../context.md#image-datatype-の検証)することができます。 |
+| `genre`                | `string` | **OPTIONAL.** ジャンルです。                                                                                                                                                                                                                                                                      |
+| `landingPageUrl`       | `string` | **OPTIONAL.** 広告をクリックした際、最終的に表示されるページ（ランディングページ）の URL です。                                                                                                                                                                                                   |
+| `adReportContact`      | `object` | **OPTIONAL.** 広告に対する報告窓口です。 [`page` データ型](../context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。                                                                                                                                                  |
+| `adReviewGuidelines`   | `object` | **OPTIONAL.** 広告審査ガイドラインの情報です。 [`page` データ型](../context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。                                                                                                                                            |
+| `targetingPolicy`      | `object` | **OPTIONAL.** ターゲティング広告に関するポリシーです。 [`page` データ型](../context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。                                                                                                                                    |
+| `adDataHandlingPolicy` | `object` | **OPTIONAL.** 広告配信に関する情報の取り扱いに関しての情報です。 [`page` データ型](../context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。                                                                                                                          |
+| `adDisplayRationale`   | `object` | **OPTIONAL.** 次の [adDisplayRationale のプロパティ](#adDisplayRationale-properties)を含む JSON-LD Node Object です。                                                                                                                                                                             |
 
 #### adDisplayRationale のプロパティ一覧 {#adDisplayRationale-properties}
-| Name | Type | Description |
-|------|------|-------------|
-| `page` | `object` | **OPTIONAL.** この広告が表示されている理由 (Web ページ)です。[`page` データ型](../context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。 |
-| `description` | `string` | **OPTIONAL.** この広告が表示されている理由です。 |
+
+| Name          | Type     | Description                                                                                                                                                          |
+| ------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `page`        | `object` | **OPTIONAL.** この広告が表示されている理由 (Web ページ)です。[`page` データ型](../context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。 |
+| `description` | `string` | **OPTIONAL.** この広告が表示されている理由です。                                                                                                                     |
 
 :::note
 

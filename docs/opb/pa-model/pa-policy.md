@@ -17,13 +17,14 @@ tags:
 ### プロパティ
 
 #### Profile Annotation Policy のプロパティ一覧 {#profile-annotation-policy-properties}
-| Name | Type | Description |
-|------|------|-------------|
-| `id` | `string` | **REQUIRED.** Profile Annotation Policy の ID を URI 形式で指定してください。 |
-| `type` | `string` | **REQUIRED.** `ProfileAnnotationPolicy` でなければなりません (MUST)。 |
-| `name` | `string` | **REQUIRED.** Profile Annotation Policy の名前です。 |
-| `description` | `string` | **OPTIONAL.** Profile Annotation Policy の説明です。 |
-| `ref` | `string` | **RECOMMENDED.** Profile Annotation Policy の詳細を知るための人が読むためのページの URL です。 |
+
+| Name          | Type     | Description                                                                                    |
+| ------------- | -------- | ---------------------------------------------------------------------------------------------- |
+| `id`          | `string` | **REQUIRED.** Profile Annotation Policy の ID を URI 形式で指定してください。                  |
+| `type`        | `string` | **REQUIRED.** `ProfileAnnotationPolicy` でなければなりません (MUST)。                          |
+| `name`        | `string` | **REQUIRED.** Profile Annotation Policy の名前です。                                           |
+| `description` | `string` | **OPTIONAL.** Profile Annotation Policy の説明です。                                           |
+| `ref`         | `string` | **RECOMMENDED.** Profile Annotation Policy の詳細を知るための人が読むためのページの URL です。 |
 
 ## Appendix
 

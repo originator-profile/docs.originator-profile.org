@@ -25,14 +25,15 @@ Profile Annotation は OP VC DM 準拠文書でなければなりません (MUST
 ### プロパティ
 
 #### Profile Annotation のプロパティ一覧 {#profile-annotation-properties}
-| Name | Type | Description |
-|------|------|-------------|
-| `@context` | `array` | **REQUIRED.** [OP VC Data Model](./op-vc-data-model.md) に従ってください (MUST)。 |
-| `type` | `array` | **REQUIRED.** 必ず `["VerifiableCredential", "ProfileAnnotation"]` にしてください (MUST)。 |
-| `issuer` | `string` | **REQUIRED.** PA 発行者の [OP ID](./op-id.md) でなければなりません (MUST)。|
-| `credentialSubject` | `object` | **REQUIRED.** 次の [credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。 |
-| `validFrom` | `string` | **OPTIONAL.** Profile Annotation の有効期間の開始日時です。[VC Data Model 2.0 4.9節 Validity Period](https://www.w3.org/TR/vc-data-model-2.0/#validity-period) に準拠します。[`dateTimeStamp` データ型](./context.md#the-datetimestamp-datatype) でなければなりません (MUST)。この値を指定しないとき、有効期間の開始日時はなし（`validUntil` より過去のどの時点でも有効とする）を示します。|
-| `validUntil` | `string` | **OPTIONAL.** Profile Annotation の有効期限です。[VC Data Model 2.0 4.9節 Validity Period](https://www.w3.org/TR/vc-data-model-2.0/#validity-period) に準拠します。[`dateTimeStamp` データ型](./context.md#the-datetimestamp-datatype) でなければなりません (MUST)。このプロパティの値は、Profile Annotation が含む情報が正しい最後の時刻を表します。この値を指定しないとき、有効期限なし（無期限）を示します。|
+
+| Name                | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                                     |
+| ------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@context`          | `array`  | **REQUIRED.** [OP VC Data Model](./op-vc-data-model.md) に従ってください (MUST)。                                                                                                                                                                                                                                                                                                                               |
+| `type`              | `array`  | **REQUIRED.** 必ず `["VerifiableCredential", "ProfileAnnotation"]` にしてください (MUST)。                                                                                                                                                                                                                                                                                                                      |
+| `issuer`            | `string` | **REQUIRED.** PA 発行者の [OP ID](./op-id.md) でなければなりません (MUST)。                                                                                                                                                                                                                                                                                                                                     |
+| `credentialSubject` | `object` | **REQUIRED.** 次の [credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。                                                                                                                                                                                                                                                                                            |
+| `validFrom`         | `string` | **OPTIONAL.** Profile Annotation の有効期間の開始日時です。[VC Data Model 2.0 4.9節 Validity Period](https://www.w3.org/TR/vc-data-model-2.0/#validity-period) に準拠します。[`dateTimeStamp` データ型](./context.md#the-datetimestamp-datatype) でなければなりません (MUST)。この値を指定しないとき、有効期間の開始日時はなし（`validUntil` より過去のどの時点でも有効とする）を示します。                     |
+| `validUntil`        | `string` | **OPTIONAL.** Profile Annotation の有効期限です。[VC Data Model 2.0 4.9節 Validity Period](https://www.w3.org/TR/vc-data-model-2.0/#validity-period) に準拠します。[`dateTimeStamp` データ型](./context.md#the-datetimestamp-datatype) でなければなりません (MUST)。このプロパティの値は、Profile Annotation が含む情報が正しい最後の時刻を表します。この値を指定しないとき、有効期限なし（無期限）を示します。 |
 
 :::note
 
@@ -45,14 +46,15 @@ Profile Annotation は OP VC DM 準拠文書でなければなりません (MUST
 :::
 
 #### credentialSubject のプロパティ一覧 {#credential-subject-properties}
-| Name | Type | Description |
-|------|------|-------------|
-| `id` | `string` | **REQUIRED.** PA 保有組織の [OP ID](./op-id.md) でなければなりません (MUST)。 |
-| `name` | `string` | **OPTIONAL.** PA 名です。 |
-| `description` | `string` | **OPTIONAL.** PA の説明です。 |
-| `image` | `object` | **OPTIONAL.** [`image` データ型](./context.md#the-image-datatype) の JSON-LD Node Object でなければなりません (MUST)。このプロパティで Profile Annotation の画像が改ざんされていないかを[検証](./context.md#image-datatype-の検証)することができます。 |
-| `annotationScheme` | `array` | **OPTIONAL.** `credentialSubject` JSON-LD Node Object で表明される PA のほかに、 `credentialSubject.annotation` プロパティの Profile Annotation Policy に基づいて発行される一連の Profile Annotation の集合です。Profile Annotation を一意に識別する URI の配列でなければなりません (MUST)。 |
-| `annotation` | `object` | **REQUIRED.** [Profile Annotation Policy](./pa-model/pa-policy.md) でなければなりません (MUST)。 |
+
+| Name               | Type     | Description                                                                                                                                                                                                                                                                                  |
+| ------------------ | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`               | `string` | **REQUIRED.** PA 保有組織の [OP ID](./op-id.md) でなければなりません (MUST)。                                                                                                                                                                                                                |
+| `name`             | `string` | **OPTIONAL.** PA 名です。                                                                                                                                                                                                                                                                    |
+| `description`      | `string` | **OPTIONAL.** PA の説明です。                                                                                                                                                                                                                                                                |
+| `image`            | `object` | **OPTIONAL.** [`image` データ型](./context.md#the-image-datatype) の JSON-LD Node Object でなければなりません (MUST)。このプロパティで Profile Annotation の画像が改ざんされていないかを[検証](./context.md#image-datatype-の検証)することができます。                                       |
+| `annotationScheme` | `array`  | **OPTIONAL.** `credentialSubject` JSON-LD Node Object で表明される PA のほかに、 `credentialSubject.annotation` プロパティの Profile Annotation Policy に基づいて発行される一連の Profile Annotation の集合です。Profile Annotation を一意に識別する URI の配列でなければなりません (MUST)。 |
+| `annotation`       | `object` | **REQUIRED.** [Profile Annotation Policy](./pa-model/pa-policy.md) でなければなりません (MUST)。                                                                                                                                                                                             |
 
 :::note
 

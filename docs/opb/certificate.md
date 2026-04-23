@@ -26,14 +26,15 @@ tags:
 ### プロパティ
 
 #### Certificate のプロパティ一覧 {#certificate-properties}
-| Name | Type | Description |
-|------|------|-------------|
-| `@context` | `array` | **REQUIRED.** [OP VC Data Model](./op-vc-data-model.md) に従ってください (MUST)。さらに、3つ目の値を `"https://originator-profile.org/ns/cip/v1"` にしなければなりません (MUST)。|
-| `type` | `array` | **REQUIRED.** 必ず `["VerifiableCredential", "Certificate"]` にしてください (MUST)。 |
-| `issuer` | `string` | **REQUIRED.** Certificate 発行者の [OP ID](./op-id.md) でなければなりません (MUST)。 |
-| `credentialSubject` | `object` | **REQUIRED.** 次の [credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。 |
-| `validFrom` | `string` | **OPTIONAL.** 認証の有効期間の開始日時です。[VC Data Model 2.0 4.9節 Validity Period](https://www.w3.org/TR/vc-data-model-2.0/#validity-period) に準拠します。[`dateTimeStamp` データ型](./context.md#the-datetimestamp-datatype) でなければなりません (MUST)。この値を指定しないとき、有効期間の開始日時はなし（`validUntil` より過去のどの時点でも有効とする）を示します。 |
-| `validUntil` | `string` | **OPTIONAL.** 認証の有効期限です。[VC Data Model 2.0 4.9節 Validity Period](https://www.w3.org/TR/vc-data-model-2.0/#validity-period) に準拠します。[`dateTimeStamp` データ型](./context.md#the-datetimestamp-datatype) でなければなりません (MUST)。このプロパティの値は、 Certificate が含む情報が正しい最後の時刻を表します。この値を指定しないとき、有効期限なし（無期限）を示します。
+
+| Name                | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                |
+| ------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `@context`          | `array`  | **REQUIRED.** [OP VC Data Model](./op-vc-data-model.md) に従ってください (MUST)。さらに、3つ目の値を `"https://originator-profile.org/ns/cip/v1"` にしなければなりません (MUST)。                                                                                                                                                                                                          |
+| `type`              | `array`  | **REQUIRED.** 必ず `["VerifiableCredential", "Certificate"]` にしてください (MUST)。                                                                                                                                                                                                                                                                                                       |
+| `issuer`            | `string` | **REQUIRED.** Certificate 発行者の [OP ID](./op-id.md) でなければなりません (MUST)。                                                                                                                                                                                                                                                                                                       |
+| `credentialSubject` | `object` | **REQUIRED.** 次の [credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。                                                                                                                                                                                                                                                                       |
+| `validFrom`         | `string` | **OPTIONAL.** 認証の有効期間の開始日時です。[VC Data Model 2.0 4.9節 Validity Period](https://www.w3.org/TR/vc-data-model-2.0/#validity-period) に準拠します。[`dateTimeStamp` データ型](./context.md#the-datetimestamp-datatype) でなければなりません (MUST)。この値を指定しないとき、有効期間の開始日時はなし（`validUntil` より過去のどの時点でも有効とする）を示します。               |
+| `validUntil`        | `string` | **OPTIONAL.** 認証の有効期限です。[VC Data Model 2.0 4.9節 Validity Period](https://www.w3.org/TR/vc-data-model-2.0/#validity-period) に準拠します。[`dateTimeStamp` データ型](./context.md#the-datetimestamp-datatype) でなければなりません (MUST)。このプロパティの値は、 Certificate が含む情報が正しい最後の時刻を表します。この値を指定しないとき、有効期限なし（無期限）を示します。 |
 
 :::note
 
@@ -46,24 +47,26 @@ tags:
 :::
 
 #### credentialSubject のプロパティ一覧 {#credential-subject-properties}
-| Name | Type | Description |
-|------|------|-------------|
-| `id` | `string` | **REQUIRED.** Certificate を保有する組織の [OP ID](./op-id.md) です。 |
-| `type` | `string` | **REQUIRED.** 個別の Certificate を定義している文書で指定します。 |
-| `description` | `string` | **OPTIONAL.** この証明書に関する説明です。 |
-| `image` | `object` | **OPTIONAL.** [`image` データ型](./context.md#the-image-datatype) の JSON-LD Node Object でなければなりません (MUST)。このプロパティで Certificate の画像が改ざんされていないかを[検証](./context.md#image-datatype-の検証)することができます。 |
-| `certifier` | `string` | **OPTIONAL.** 認証機関の名前です。 |
-| `verifier` | `string` | **OPTIONAL.** 検証機関の名前です。 |
-| `certificationSystem` | `object` | **REQUIRED.** 次の [certificationSystem のプロパティ](#certification-system-properties)を含む JSON-LD Node Object です。 |
+
+| Name                  | Type     | Description                                                                                                                                                                                                                                     |
+| --------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`                  | `string` | **REQUIRED.** Certificate を保有する組織の [OP ID](./op-id.md) です。                                                                                                                                                                           |
+| `type`                | `string` | **REQUIRED.** 個別の Certificate を定義している文書で指定します。                                                                                                                                                                               |
+| `description`         | `string` | **OPTIONAL.** この証明書に関する説明です。                                                                                                                                                                                                      |
+| `image`               | `object` | **OPTIONAL.** [`image` データ型](./context.md#the-image-datatype) の JSON-LD Node Object でなければなりません (MUST)。このプロパティで Certificate の画像が改ざんされていないかを[検証](./context.md#image-datatype-の検証)することができます。 |
+| `certifier`           | `string` | **OPTIONAL.** 認証機関の名前です。                                                                                                                                                                                                              |
+| `verifier`            | `string` | **OPTIONAL.** 検証機関の名前です。                                                                                                                                                                                                              |
+| `certificationSystem` | `object` | **REQUIRED.** 次の [certificationSystem のプロパティ](#certification-system-properties)を含む JSON-LD Node Object です。                                                                                                                        |
 
 #### certificationSystem のプロパティ一覧 {#certification-system-properties}
-| Name | Type | Description |
-|------|------|-------------|
-| `id` | `string` | **REQUIRED.** 認証制度の ID を URI 形式で指定してください。 |
-| `type` | `string` | **REQUIRED.** `CertificationSystem` でなければなりません (MUST)。 |
-| `name` | `string` | **REQUIRED.** 認証制度の名前です。 |
-| `description` | `string` | **OPTIONAL.** 認証制度の説明です。 |
-| `ref` | `string` | **RECOMMENDED.** 認証制度の詳細を知るための人が読むためのページの URL です。 |
+
+| Name          | Type     | Description                                                                  |
+| ------------- | -------- | ---------------------------------------------------------------------------- |
+| `id`          | `string` | **REQUIRED.** 認証制度の ID を URI 形式で指定してください。                  |
+| `type`        | `string` | **REQUIRED.** `CertificationSystem` でなければなりません (MUST)。            |
+| `name`        | `string` | **REQUIRED.** 認証制度の名前です。                                           |
+| `description` | `string` | **OPTIONAL.** 認証制度の説明です。                                           |
+| `ref`         | `string` | **RECOMMENDED.** 認証制度の詳細を知るための人が読むためのページの URL です。 |
 
 ## Appendix
 

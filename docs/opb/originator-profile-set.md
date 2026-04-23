@@ -26,11 +26,11 @@ OPS は JSON オブジェクトの配列でなければなりません (MUST)。
 
 各 JSON オブジェクトには以下のプロパティが定義されます:
 
-| Name | Type | Description |
-|------|------|-------------|
-| `core` | `string` | **REQUIRED.** Core Profile です。 |
-| `annotations` | `array` | **OPTIONAL.** Profile Annotation の配列です。このプロパティを含める場合、各要素は `core` の Core Profile と `credentialSubject.id` が等しくなければなりません (MUST)。 `credentialSubject.id` の [OP ID](./op-id.md) 保有組織の信頼性に OPS の受信者が関心がある場合、このプロパティを含めるべきです (SHOULD)。 |
-| `media` | `array` | **OPTIONAL.** Web Media Profile の配列です。このプロパティを含める場合、各要素について、その `credentialSubject.id` は `core` の Core Profile の `credentialSubject.id` と等しくなければなりません (MUST)。 |
+| Name          | Type     | Description                                                                                                                                                                                                                                                                                                     |
+| ------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `core`        | `string` | **REQUIRED.** Core Profile です。                                                                                                                                                                                                                                                                               |
+| `annotations` | `array`  | **OPTIONAL.** Profile Annotation の配列です。このプロパティを含める場合、各要素は `core` の Core Profile と `credentialSubject.id` が等しくなければなりません (MUST)。 `credentialSubject.id` の [OP ID](./op-id.md) 保有組織の信頼性に OPS の受信者が関心がある場合、このプロパティを含めるべきです (SHOULD)。 |
+| `media`       | `array`  | **OPTIONAL.** Web Media Profile の配列です。このプロパティを含める場合、各要素について、その `credentialSubject.id` は `core` の Core Profile の `credentialSubject.id` と等しくなければなりません (MUST)。                                                                                                     |
 
 ## OPS の JSON Serialization
 

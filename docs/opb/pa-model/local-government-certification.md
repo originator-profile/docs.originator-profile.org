@@ -20,22 +20,24 @@ tags:
 ### プロパティ
 
 #### 自治体認証 PA のプロパティ一覧 {#local-government-certification-properties}
-| Name | Type | Description |
-|------|------|-------------|
-| `@context` | `array` | **REQUIRED.** [OP VC Data Model](../op-vc-data-model.md) に従ってください (MUST)。さらに、3つ目の値を `"https://originator-profile.org/ns/cip/v1"` にしなければなりません (MUST)。 |
-| `type` | `array` | **REQUIRED.** 必ず `["VerifiableCredential", "ProfileAnnotation"]` にしてください (MUST)。 |
-| `issuer` | `string` | **REQUIRED.** PA 発行者の [OP ID](../op-id.md) でなければなりません (MUST)。|
-| `credentialSubject` | `object` | **REQUIRED.** 次の [credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。 |
+
+| Name                | Type     | Description                                                                                                                                                                        |
+| ------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@context`          | `array`  | **REQUIRED.** [OP VC Data Model](../op-vc-data-model.md) に従ってください (MUST)。さらに、3つ目の値を `"https://originator-profile.org/ns/cip/v1"` にしなければなりません (MUST)。 |
+| `type`              | `array`  | **REQUIRED.** 必ず `["VerifiableCredential", "ProfileAnnotation"]` にしてください (MUST)。                                                                                         |
+| `issuer`            | `string` | **REQUIRED.** PA 発行者の [OP ID](../op-id.md) でなければなりません (MUST)。                                                                                                       |
+| `credentialSubject` | `object` | **REQUIRED.** 次の [credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。                                                               |
 
 #### credentialSubject のプロパティ一覧 {#credential-subject-properties}
-| Name | Type | Description |
-|------|------|-------------|
-| `id` | `string` | **REQUIRED.** PA 保有組織の [OP ID](../op-id.md) です。 |
-| `type` | `string` | **REQUIRED.** `JP-LocalGovernmentCertificate` にしてください。 |
-| `name` | `string` | **OPTIONAL.** この PA の名前です。 |
-| `description` | `string` | **OPTIONAL.** この PA に関する説明です。 |
-| `image` | `object` | **OPTIONAL.** [`image` データ型](../context.md#the-image-datatype) の JSON-LD Node Object でなければなりません (MUST)。このプロパティで Profile Annotation の画像が改ざんされていないかを[検証](../context.md#image-datatype-の検証)することができます。|
-| `annotation` | `object` | **REQUIRED.** [Profile Annotation Policy](./pa-policy.md) でなければなりません (MUST)。 |
+
+| Name          | Type     | Description                                                                                                                                                                                                                                              |
+| ------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`          | `string` | **REQUIRED.** PA 保有組織の [OP ID](../op-id.md) です。                                                                                                                                                                                                  |
+| `type`        | `string` | **REQUIRED.** `JP-LocalGovernmentCertificate` にしてください。                                                                                                                                                                                           |
+| `name`        | `string` | **OPTIONAL.** この PA の名前です。                                                                                                                                                                                                                       |
+| `description` | `string` | **OPTIONAL.** この PA に関する説明です。                                                                                                                                                                                                                 |
+| `image`       | `object` | **OPTIONAL.** [`image` データ型](../context.md#the-image-datatype) の JSON-LD Node Object でなければなりません (MUST)。このプロパティで Profile Annotation の画像が改ざんされていないかを[検証](../context.md#image-datatype-の検証)することができます。 |
+| `annotation`  | `object` | **REQUIRED.** [Profile Annotation Policy](./pa-policy.md) でなければなりません (MUST)。                                                                                                                                                                  |
 
 :::note
 

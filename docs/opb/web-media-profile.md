@@ -21,28 +21,30 @@ Web Media Profile は OP VC DM 準拠文書でなければなりません (MUST)
 ### プロパティ
 
 #### Web Media Profile (WMP) のプロパティ一覧 {#web-media-profile-properties}
-| Name | Type | Description |
-|------|------|-------------|
-| `@context` | `array` | **REQUIRED.** [OP VC Data Model](./op-vc-data-model.md#vc-properties) に従ってください (MUST)。 |
-| `type` | `array` | **REQUIRED.** 必ず `["VerifiableCredential", "WebMediaProfile"]` にしてください (MUST)。 |
-| `issuer` | `string` | **REQUIRED.** WMP 保有組織の Core Profile の発行者でなければなりません (MUST)。 |
-| `credentialSubject` | `object` | **REQUIRED.**  次の [credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。 |
+
+| Name                | Type     | Description                                                                                                          |
+| ------------------- | -------- | -------------------------------------------------------------------------------------------------------------------- |
+| `@context`          | `array`  | **REQUIRED.** [OP VC Data Model](./op-vc-data-model.md#vc-properties) に従ってください (MUST)。                      |
+| `type`              | `array`  | **REQUIRED.** 必ず `["VerifiableCredential", "WebMediaProfile"]` にしてください (MUST)。                             |
+| `issuer`            | `string` | **REQUIRED.** WMP 保有組織の Core Profile の発行者でなければなりません (MUST)。                                      |
+| `credentialSubject` | `object` | **REQUIRED.** 次の [credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。 |
 
 #### credentialSubject のプロパティ一覧 {#credential-subject-properties}
-| Name | Type | Description |
-|------|------|-------------|
-| `id` | `string` | **REQUIRED.** WMP 保有組織の [OP ID](./op-id.md) でなければなりません (MUST)。 |
-| `type` | `string` | **REQUIRED.** `OnlineBusiness` でなければなりません (MUST)。 |
-| `url` | `string` | **REQUIRED.** 組織の公式ページへの URL でなければなりません (MUST)。 |
-| `name` | `string` | **REQUIRED.** 組織名です。 |
-| `logo` | `object` | **OPTIONAL.** 組織のロゴ画像です。 [`image` データ型](./context.md#the-image-datatype) の JSON-LD Node Object でなければなりません (MUST)。このプロパティで WMP のロゴ画像が改ざんされていないかを[検証](./context.md#image-datatype-の検証)することができます。 |
-| `email` | `string` | **OPTIONAL.** 組織の代表メールアドレスです。 |
-| `telephone` | `string` | **OPTIONAL.** 組織の代表電話番号です。 |
-| `contactPoint` | `object` | **OPTIONAL.** お問い合わせページの情報です。 [`page` データ型](./context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。 |
-| `informationTransmissionPolicy` | `object` | **OPTIONAL.** 情報発信ポリシーページの情報です。 [`page` データ型](./context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。 |
-| `publishingPrinciple` | `object` | **OPTIONAL.** 編集ガイドラインの情報です。 [`page` データ型](./context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。 |
-| `privacyPolicy` | `object` | **OPTIONAL.** プライバシーポリシーページの情報です。 [`page` データ型](./context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。 |
-| `description` | `object` \| `array` | **OPTIONAL.** 組織に関する自由形式テキストです。[`description` データ型](./context.md#the-description-datatype)またはその配列でなければなりません (MUST)。 |
+
+| Name                            | Type                | Description                                                                                                                                                                                                                                                      |
+| ------------------------------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`                            | `string`            | **REQUIRED.** WMP 保有組織の [OP ID](./op-id.md) でなければなりません (MUST)。                                                                                                                                                                                   |
+| `type`                          | `string`            | **REQUIRED.** `OnlineBusiness` でなければなりません (MUST)。                                                                                                                                                                                                     |
+| `url`                           | `string`            | **REQUIRED.** 組織の公式ページへの URL でなければなりません (MUST)。                                                                                                                                                                                             |
+| `name`                          | `string`            | **REQUIRED.** 組織名です。                                                                                                                                                                                                                                       |
+| `logo`                          | `object`            | **OPTIONAL.** 組織のロゴ画像です。 [`image` データ型](./context.md#the-image-datatype) の JSON-LD Node Object でなければなりません (MUST)。このプロパティで WMP のロゴ画像が改ざんされていないかを[検証](./context.md#image-datatype-の検証)することができます。 |
+| `email`                         | `string`            | **OPTIONAL.** 組織の代表メールアドレスです。                                                                                                                                                                                                                     |
+| `telephone`                     | `string`            | **OPTIONAL.** 組織の代表電話番号です。                                                                                                                                                                                                                           |
+| `contactPoint`                  | `object`            | **OPTIONAL.** お問い合わせページの情報です。 [`page` データ型](./context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。                                                                                                              |
+| `informationTransmissionPolicy` | `object`            | **OPTIONAL.** 情報発信ポリシーページの情報です。 [`page` データ型](./context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。                                                                                                          |
+| `publishingPrinciple`           | `object`            | **OPTIONAL.** 編集ガイドラインの情報です。 [`page` データ型](./context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。                                                                                                                |
+| `privacyPolicy`                 | `object`            | **OPTIONAL.** プライバシーポリシーページの情報です。 [`page` データ型](./context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。                                                                                                      |
+| `description`                   | `object` \| `array` | **OPTIONAL.** 組織に関する自由形式テキストです。[`description` データ型](./context.md#the-description-datatype)またはその配列でなければなりません (MUST)。                                                                                                       |
 
 :::note
 
