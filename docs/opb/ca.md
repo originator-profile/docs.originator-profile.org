@@ -163,10 +163,12 @@ CA の具体例を示します。この CA は https://media.example.com/article
     }
   },
   "allowedUrl": ["https://ad.example.com/*"],
-  "target": {
-    "type": "ExternalResourceTargetIntegrity",
-    "integrity": "sha256-rLDPDYArkNcCvnq0h4IgR7MVfJIOCCrx4z+w+uywc64="
-  }
+  "target": [
+    {
+      "type": "ExternalResourceTargetIntegrity",
+      "integrity": "sha256-rLDPDYArkNcCvnq0h4IgR7MVfJIOCCrx4z+w+uywc64="
+    }
+  ]
 }
 ```
 
