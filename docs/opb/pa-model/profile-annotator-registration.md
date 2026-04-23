@@ -31,6 +31,7 @@ Profile Annotator 登録証 PA は、OP レジストリが登録要件として�
 |------|------|-------------|
 | `id` | `string` | **REQUIRED.** Profile Annotator 登録証 PA を保有する組織（Profile Annotator）の [OP ID](../op-id.md) でなければなりません (MUST)。 |
 | `type` | `string` | **REQUIRED.** `ProfileAnnotatorRegistration` でなければなりません (MUST)。 |
+| `name` | `string` | **OPTIONAL.** PA 名です。 |
 | `annotatorName`  | `string` | **REQUIRED.** Profile Annotator の名称です。 |
 | `description` | `string` | **OPTIONAL.** この Profile Annotator に関する説明です。 |
 | `annotationScheme` | `array` | **REQUIRED.** この Profile Annotator が発行を認められている Profile Annotation を一意に識別する URI の配列でなければなりません (MUST)。 |

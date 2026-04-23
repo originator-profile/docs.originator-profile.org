@@ -23,6 +23,8 @@ tags:
 | Name | Type | Description |
 |------|------|-------------|
 | `@context` | `array` | **REQUIRED.** [OP VC Data Model](../op-vc-data-model.md) に従ってください (MUST)。さらに、3つ目の値を `"https://originator-profile.org/ns/cip/v1"` にしなければなりません (MUST)。 |
+| `type` | `array` | **REQUIRED.** 必ず `["VerifiableCredential", "ProfileAnnotation"]` にしてください (MUST)。 |
+| `issuer` | `string` | **REQUIRED.** PA 発行者の [OP ID](../op-id.md) でなければなりません (MUST)。|
 | `credentialSubject` | `object` | **REQUIRED.** 次の [credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。 |
 
 #### credentialSubject のプロパティ一覧 {#credential-subject-properties}

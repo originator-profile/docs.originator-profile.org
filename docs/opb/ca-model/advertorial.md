@@ -23,6 +23,7 @@ tags:
 |------|------|-------------|
 | `@context` | `array` | **REQUIRED.** [OP VC Data Model](../op-vc-data-model.md) に従ってください (MUST)。さらに、3つ目の値を `"https://originator-profile.org/ns/cip/v1"` にしなければなりません (MUST)。 |
 | `type` | `array` | **REQUIRED.** 必ず `["VerifiableCredential", "ContentAttestation"]` にしてください (MUST)。 |
+| `issuer` | `string` | **REQUIRED.** CA 発行者の [OP ID](../op-id.md) でなければなりません (MUST)。 |
 | `credentialSubject` | `object` | **REQUIRED.** 次の [credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。 |
 | `allowedUrl` | `array` | **REQUIRED.** Content Attestation に定義済みのプロパティです。空配列にしてはなりません (MUST NOT)。 |
 | `target` | `array` | **REQUIRED.** Content Attestation に定義済みのプロパティです。空配列にしてはなりません (MUST NOT)。 |
@@ -30,6 +31,7 @@ tags:
 #### credentialSubject のプロパティ一覧 {#credential-subject-properties}
 | Name | Type | Description |
 |------|------|-------------|
+| `id` | `string` | **REQUIRED.** CA ID でなければなりません (MUST)。 CA ID は [UUIDv4](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-4) の URN 形式の文字列です。コンテンツと CA ID は一対一対応します。|
 | `type` | `string` | **REQUIRED.** `Advertorial` でなければなりません (MUST)。 |
 | `headline` | `string` | **REQUIRED.** 記事広告のタイトルです。|
 | `description` | `string` | **REQUIRED.** 記事広告の説明です。 |
