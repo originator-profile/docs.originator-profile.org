@@ -18,14 +18,14 @@ tags:
 
 #### Online Ad のプロパティ一覧 {#online-ad-properties}
 
-| Name                | Type     | Description                                                                                                                                                                        |
-| ------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `@context`          | `array`  | **REQUIRED.** [OP VC Data Model](../op-vc-data-model.md) に従ってください (MUST)。さらに、3つ目の値を `"https://originator-profile.org/ns/cip/v1"` にしなければなりません (MUST)。 |
-| `type`              | `array`  | **REQUIRED.** 必ず `["VerifiableCredential", "ContentAttestation"]` にしてください (MUST)。                                                                                        |
-| `issuer`            | `string` | **REQUIRED.** CA 発行者の [OP ID](../op-id.md) でなければなりません (MUST)。                                                                                                       |
-| `credentialSubject` | `object` | **REQUIRED.** 次の [credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。                                                               |
-| `allowedUrl`        | `array`  | **REQUIRED.** Content Attestation に定義済みのプロパティです。空配列にしてはなりません (MUST NOT)。                                                                                |
-| `target`            | `array`  | **REQUIRED.** Content Attestation に定義済みのプロパティです。空配列にしてはなりません (MUST NOT)。                                                                                |
+| Name                | Type                   | Description                                                                                                                                                                        |
+| ------------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@context`          | `string[]`             | **REQUIRED.** [OP VC Data Model](../op-vc-data-model.md) に従ってください (MUST)。さらに、3つ目の値を `"https://originator-profile.org/ns/cip/v1"` にしなければなりません (MUST)。 |
+| `type`              | `string[]`             | **REQUIRED.** 必ず `["VerifiableCredential", "ContentAttestation"]` にしてください (MUST)。                                                                                        |
+| `issuer`            | `string`               | **REQUIRED.** CA 発行者の [OP ID](../op-id.md) でなければなりません (MUST)。                                                                                                       |
+| `credentialSubject` | `object`               | **REQUIRED.** 次の [credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。                                                               |
+| `allowedUrl`        | `string` \| `string[]` | **REQUIRED.** Content Attestation に定義済みのプロパティです。空配列にしてはなりません (MUST NOT)。                                                                                |
+| `target`            | `object[]`             | **REQUIRED.** Content Attestation に定義済みのプロパティです。空配列にしてはなりません (MUST NOT)。                                                                                |
 
 #### credentialSubject のプロパティ一覧 {#credential-subject-properties}
 

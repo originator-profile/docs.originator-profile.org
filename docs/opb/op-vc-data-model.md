@@ -14,19 +14,19 @@ OP の仕様ではいくつかの VC を定めています。それらの VC は
 
 #### VC のプロパティ一覧 {#vc-properties}
 
-| Name                | Type     | Description                                                                                                                                                                                                                                                                                                                                                         |
-| ------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `@context`          | `array`  | **REQUIRED.** URL の順序つき配列。必ず先頭が `https://www.w3.org/ns/credentials/v2`、その次が `https://originator-profile.org/ns/credentials/v1` である配列でなければなりません (MUST)。また、配列の末尾の要素で VC 内の文字列の言語を `@language` タグで示すべきです (SHOULD)。つまり、言語が日本語だとすると `{"@language": "ja"}` を配列の末尾に含めてください。 |
-| `type`              | `array`  | **REQUIRED.** 必ず値が `VerifiableCredential` であるか、値に `VerifiableCredential` を含む [JSON-LD 語彙](https://www.w3.org/TR/json-ld11/#terms)の配列でなければなりません (MUST)。                                                                                                                                                                                |
-| `credentialSubject` | `object` | **REQUIRED.** 次の [credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。                                                                                                                                                                                                                                                |
-| `issuer`            | `string` | **REQUIRED.** VC 発行組織の [OP ID](./op-id.md) でなければなりません (MUST)。                                                                                                                                                                                                                                                                                       |
+| Name                | Type       | Description                                                                                                                                                                                                                                                                                                                                                             |
+| ------------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@context`          | `string[]` | **REQUIRED.** URL の順序つき配列です。必ず先頭が `https://www.w3.org/ns/credentials/v2`、その次が `https://originator-profile.org/ns/credentials/v1` である配列でなければなりません (MUST)。また、配列の末尾の要素で VC 内の文字列の言語を `@language` タグで示すべきです (SHOULD)。つまり、言語が日本語だとすると `{"@language": "ja"}` を配列の末尾に含めてください。 |
+| `type`              | `string[]` | **REQUIRED.** 必ず値が `VerifiableCredential` であるか、値に `VerifiableCredential` を含む [JSON-LD 語彙](https://www.w3.org/TR/json-ld11/#terms)の配列でなければなりません (MUST)。                                                                                                                                                                                    |
+| `credentialSubject` | `object`   | **REQUIRED.** 次の [credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。                                                                                                                                                                                                                                                    |
+| `issuer`            | `string`   | **REQUIRED.** VC 発行組織の [OP ID](./op-id.md) でなければなりません (MUST)。                                                                                                                                                                                                                                                                                           |
 
 #### credentialSubject のプロパティ一覧 {#credential-subject-properties}
 
-| Name   | Type                | Description                                                                                                      |
-| ------ | ------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `type` | `string` \| `array` | **OPTIONAL.** 値は [JSON-LD 語彙](https://www.w3.org/TR/json-ld11/#terms)かその配列でなければなりません (MUST)。 |
-| `id`   | `string`            | **REQUIRED.** 識別子です。識別子の形式は各 VC のデータモデルを定める文書で取り扱います。                         |
+| Name   | Type                   | Description                                                                                                      |
+| ------ | ---------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `type` | `string` \| `string[]` | **OPTIONAL.** 値は [JSON-LD 語彙](https://www.w3.org/TR/json-ld11/#terms)かその配列でなければなりません (MUST)。 |
+| `id`   | `string`               | **REQUIRED.** 識別子です。識別子の形式は各 VC のデータモデルを定める文書で取り扱います。                         |
 
 ## 国際化 {#internationalization}
 

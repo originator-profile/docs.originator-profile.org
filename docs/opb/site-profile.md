@@ -21,10 +21,10 @@ Site Profile は Website Profile を特定のドメインに紐づけるため�
 
 Site Profile は OPS と WSP をまとめた次のような JSON です。
 
-| Name          | Type    | Description                    |
-| ------------- | ------- | ------------------------------ |
-| `originators` | `array` | **REQUIRED.** OPS です。       |
-| `sites`       | `array` | **REQUIRED.** WSP の配列です。 |
+| Name          | Type       | Description                    |
+| ------------- | ---------- | ------------------------------ |
+| `originators` | `object[]` | **REQUIRED.** OPS の配列です。 |
+| `sites`       | `string[]` | **REQUIRED.** WSP の配列です。 |
 
 :::note
 

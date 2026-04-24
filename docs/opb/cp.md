@@ -24,12 +24,12 @@ Core Profile は OP VC DM 準拠文書でなければなりません (MUST)。�
 
 #### Core Profile のプロパティ一覧 {#core-profile-properties}
 
-| Name                | Type     | Description                                                                                                                                                          |
-| ------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `@context`          | `array`  | **REQUIRED.** 必ず先頭が `https://www.w3.org/ns/credentials/v2`、その次が `https://originator-profile.org/ns/credentials/v1` である配列でなければなりません (MUST)。 |
-| `type`              | `array`  | **REQUIRED.** 必ず `["VerifiableCredential", "CoreProfile"]` にしてください (MUST)。                                                                                 |
-| `issuer`            | `string` | **REQUIRED.** VC 発行組織の [OP ID](./op-id.md) でなければなりません (MUST)。                                                                                        |
-| `credentialSubject` | `object` | **REQUIRED.** 次の [credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。                                                 |
+| Name                | Type       | Description                                                                                                                                                          |
+| ------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@context`          | `string[]` | **REQUIRED.** 必ず先頭が `https://www.w3.org/ns/credentials/v2`、その次が `https://originator-profile.org/ns/credentials/v1` である配列でなければなりません (MUST)。 |
+| `type`              | `string[]` | **REQUIRED.** 必ず `["VerifiableCredential", "CoreProfile"]` にしてください (MUST)。                                                                                 |
+| `issuer`            | `string`   | **REQUIRED.** VC 発行組織の [OP ID](./op-id.md) でなければなりません (MUST)。                                                                                        |
+| `credentialSubject` | `object`   | **REQUIRED.** 次の [credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。                                                 |
 
 #### credentialSubject のプロパティ一覧 {#credential-subject-properties}
 
