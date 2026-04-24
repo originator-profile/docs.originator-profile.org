@@ -23,7 +23,7 @@ Website Profile は OP VC DM 準拠文書でなければなりません (MUST)�
 | Name                | Type       | Description                                                                                                                                                                                     |
 | ------------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `@context`          | `string[]` | **REQUIRED.** [OP VC Data Model](./op-vc-data-model.md#vc-properties) に従ってください (MUST)。さらに、3つ目の値を `"https://originator-profile.org/ns/cip/v1"` にしなければなりません (MUST)。 |
-| `type`              | `string[]` | **REQUIRED.** 必ず ["VerifiableCredential", "WebsiteProfile"] にしてください (MUST)。                                                                                                           |
+| `type`              | `string[]` | **REQUIRED.** 必ず `["VerifiableCredential", "WebsiteProfile"]` にしてください (MUST)。                                                                                                         |
 | `issuer`            | `string`   | **REQUIRED.** Web サイト保有組織の [OP ID](./op-id.md) にしてください (MUST)。                                                                                                                  |
 | `credentialSubject` | `object`   | **REQUIRED.** 次の [credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。                                                                            |
 
