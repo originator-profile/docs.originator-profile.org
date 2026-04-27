@@ -68,6 +68,14 @@ tags:
 | `description` | `string` | **OPTIONAL.** 認証制度の説明です。                                           |
 | `ref`         | `string` | **RECOMMENDED.** 認証制度の詳細を知るための人が読むためのページの URL です。 |
 
+:::note
+
+Certificate が証明する内容、証明の根拠あるいは証拠が同種で、Certificate を保有する組織だけが異なるものは、同じ `certificationSystem.id` の値であるべきです。
+
+また、認証制度の名前、説明、URL は発行時点で最新の内容であるべきです。
+
+:::
+
 ## Appendix
 
 ### 例
