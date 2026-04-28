@@ -34,11 +34,11 @@ The Core Profile MUST be an OP VC DM compliant document and includes the followi
 
 #### credentialSubject Properties {#credential-subject-properties}
 
-| Name   | Type     | Description                                                                                                                                                     |
-| ------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `id`   | `string` | **REQUIRED.** It MUST be the [OP ID](./op-id.md) of the CP holding organization.                                                                                |
-| `type` | `string` | **REQUIRED.** It MUST be `Core`.                                                                                                                                |
-| `jwks` | `object` | **REQUIRED.** It MUST be a [JWK Set](https://www.rfc-editor.org/rfc/rfc7517.html#section-5), which is the set of public keys of the CP-holding organizations.。 |
+| Name   | Type     | Description                                                                                                                                                   |
+| ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`   | `string` | **REQUIRED.** It MUST be the [OP ID](./op-id.md) of the CP holding organization.                                                                              |
+| `type` | `string` | **REQUIRED.** It MUST be `Core`.                                                                                                                              |
+| `jwks` | `object` | **REQUIRED.** It MUST be a [JWK Set](https://www.rfc-editor.org/rfc/rfc7517.html#section-5), which is the set of public keys of the CP-holding organizations. |
 
 ## Extensibility {#extensibility}
 
