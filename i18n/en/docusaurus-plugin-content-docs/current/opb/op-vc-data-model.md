@@ -31,7 +31,7 @@ It MUST conform to the [VC DM 2.0 Conforming Document](https://www.w3.org/TR/vc-
 
 ## Internationalization {#internationalization}
 
-The language used in each VC can be identified by the `@language` tag specified in the [@context property of the OP VC Data Model](/opb/op-vc-data-model.md#context). Application implementers SHOULD use VCs written in the appropriate language for display, matching the application user's locale.
+The language used in each VC can be identified by the `@language` tag specified in the [@context property of the OP VC Data Model](/opb/op-vc-data-model.md#vc-properties). Application implementers SHOULD use VCs written in the appropriate language for display, matching the application user's locale.
 
 :::note Implementation Notes
 

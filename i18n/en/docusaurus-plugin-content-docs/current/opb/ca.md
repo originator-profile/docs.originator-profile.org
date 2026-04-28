@@ -219,7 +219,7 @@ Percent-encoded characters are normalized to uppercase according to [RFC 3986 Se
 
 :::
 
-### Verifying Content Integrity Descriptor
+### Verifying Content Integrity Descriptor {#target-integrity-validation}
 
 Verifiers SHOULD verify the Content Integrity Descriptor of the `target` property as long as the verification process defined for each Content Integrity Descriptor type is feasible.
 

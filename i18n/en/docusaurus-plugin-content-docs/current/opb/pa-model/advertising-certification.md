@@ -22,14 +22,14 @@ It MUST comply with [Profile Annotation](../pa.md) .
 
 #### Advertising Certification PA Properties {#advertising-certification-properties}
 
-| Name                | Type       | Description                                                                                                                                                         |
-| ------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `@context`          | `string[]` | **REQUIRED.** It MUST comply with [OP VC Data Model](../op-vc-data-model.md) . In addition, the third value MUST be `"https://originator-profile.org/ns/cip/v1"`.   |
-| `type`              | `string[]` | **REQUIRED.** It MUST be `["VerifiableCredential", "ProfileAnnotation"]`.                                                                                           |
-| `issuer`            | `string`   | **REQUIRED.** It MUST be the [OP ID](../op-id.md) of the PA issuer.                                                                                                 |
-| `credentialSubject` | `object`   | **REQUIRED.** A JSON-LD Node Object containing the following [credentialSubject properties](#credential-subject-properties).                                        |
-| `validFrom`         | `string`   | **OPTIONAL.** Conforms to the [Profile Annotation](../pa.md#validfrom). Specify the earliest time on the date the advertising certification was issued.             |
-| `validUntil`        | `string`   | **OPTIONAL.** Conforms to the [Profile Annotation](../pa.md#validuntil). Specify the latest time for the expiration date and time of the advertising certification. |
+| Name                | Type       | Description                                                                                                                                                                            |
+| ------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@context`          | `string[]` | **REQUIRED.** It MUST comply with [OP VC Data Model](../op-vc-data-model.md) . In addition, the third value MUST be `"https://originator-profile.org/ns/cip/v1"`.                      |
+| `type`              | `string[]` | **REQUIRED.** It MUST be `["VerifiableCredential", "ProfileAnnotation"]`.                                                                                                              |
+| `issuer`            | `string`   | **REQUIRED.** It MUST be the [OP ID](../op-id.md) of the PA issuer.                                                                                                                    |
+| `credentialSubject` | `object`   | **REQUIRED.** A JSON-LD Node Object containing the following [credentialSubject properties](#credential-subject-properties).                                                           |
+| `validFrom`         | `string`   | **OPTIONAL.** Conforms to the [Profile Annotation](../pa.md#profile-annotation-properties). Specify the earliest time on the date the advertising certification was issued.            |
+| `validUntil`        | `string`   | **OPTIONAL.** Conforms to the [Profile Annotation](../pa.md#profile-annotation-properties). Specify the latest time for the expiration date and time of the advertising certification. |
 
 #### credentialSubject properties {#credential-subject-properties}
 
@@ -118,11 +118,11 @@ REQUIRED. It is a JSON-LD Node Object representing an Advertising Certification 
 
 #### `validFrom`
 
-OPTIONAL. Conforms to the [Certificate Data Model](../certificate.md#validfrom). Specify the earliest time on the date the advertising certification was issued.
+OPTIONAL. Conforms to the [Certificate Data Model](../certificate.md#certificate-properties). Specify the earliest time on the date the advertising certification was issued.
 
 #### `validUntil`
 
-OPTIONAL. Conforms to the [Certificate Data Model](../certificate.md#validuntil). Specify the latest time for the expiration date and time of the advertising certification.
+OPTIONAL. Conforms to the [Certificate Data Model](../certificate.md#certificate-properties). Specify the latest time for the expiration date and time of the advertising certification.
 
 ## Appendix
 

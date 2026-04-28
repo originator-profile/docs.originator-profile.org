@@ -75,7 +75,7 @@ Originator Profile Set distributors MAY include two or more VCs with different l
 
 The method for specifying the language(s) in VCs conforms to the [internationalization section of the OP VC Data Model](/opb/op-vc-data-model.md#internationalization).
 
-## Validation Process
+## Validation Process {#verification}
 
 _This section is non-normative._
 

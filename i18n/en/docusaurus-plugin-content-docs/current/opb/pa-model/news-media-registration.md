@@ -22,13 +22,13 @@ It MUST comply with [Profile Annotation](../pa.md) .
 
 #### News Media Registration PA Properties {#news-media-registration}
 
-| Name                | Type       | Description                                                                                                                                                                          |
-| ------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `@context`          | `string[]` | **REQUIRED.** It MUST comply with [OP VC Data Model](../op-vc-data-model.md) . In addition, the third value MUST be `"https://originator-profile.org/ns/cip/v1"`.                    |
-| `type`              | `string[]` | **REQUIRED.** It MUST be `["VerifiableCredential", "ProfileAnnotation"]`.                                                                                                            |
-| `issuer`            | `string`   | **REQUIRED.** It MUST be the [OP ID](../op-id.md) of the PA issuer.                                                                                                                  |
-| `credentialSubject` | `object`   | **REQUIRED.** A JSON-LD Node Object containing the following [credentialSubject properties](#credential-subject-properties).                                                         |
-| `validFrom`         | `string`   | **OPTIONAL.** Conforms to the [Profile Annotation](../pa.md#validfrom). If included, please include the start time of the date your media organization registration was established. |
+| Name                | Type       | Description                                                                                                                                                                                              |
+| ------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@context`          | `string[]` | **REQUIRED.** It MUST comply with [OP VC Data Model](../op-vc-data-model.md) . In addition, the third value MUST be `"https://originator-profile.org/ns/cip/v1"`.                                        |
+| `type`              | `string[]` | **REQUIRED.** It MUST be `["VerifiableCredential", "ProfileAnnotation"]`.                                                                                                                                |
+| `issuer`            | `string`   | **REQUIRED.** It MUST be the [OP ID](../op-id.md) of the PA issuer.                                                                                                                                      |
+| `credentialSubject` | `object`   | **REQUIRED.** A JSON-LD Node Object containing the following [credentialSubject properties](#credential-subject-properties).                                                                             |
+| `validFrom`         | `string`   | **OPTIONAL.** Conforms to the [Profile Annotation](../pa.md#profile-annotation-properties). If included, please include the start time of the date your media organization registration was established. |
 
 #### credentialSubject Properties {#credential-subject-properties}
 
@@ -115,7 +115,7 @@ Currently, news media registration certificates are issued by OP registries that
 - `id`: REQUIRED. It is the OP ID of the organization holding the certificate.
 - `type`: REQUIRED. Set it to `CertificateProperties`.
 - `description`: OPTIONAL. It is a description of this certificate (string).
-- `image`: OPTIONAL. It MUST be a JSON-LD Node Object of type [`image` datatype](../context.md#the-image-datatype). This property allows you to [verify](../context.md#image-datatype-validation) that the image in the Certificate has not been tampered with.
+- `image`: OPTIONAL. It MUST be a JSON-LD Node Object of type [`image` datatype](../context.md#the-image-datatype). This property allows you to [verify](../context.md#verifying-image-datatype) that the image in the Certificate has not been tampered with.
 - `certifier`: OPTIONAL. The name of the certification authority.
 - `verifier`: OPTIONAL. The name of the verifier.
 - `certificationSystem.id`: REQUIRED. Specify the ID of the certification system in URI format.
@@ -126,7 +126,7 @@ Currently, news media registration certificates are issued by OP registries that
 
 #### `validFrom`
 
-OPTIONAL. Conforms to the [Certificate Data Model](../certificate.md#validfrom). If included, please include the start time of the date your media organization registration was established.
+OPTIONAL. Conforms to the [Certificate Data Model](../certificate.md#certificate-properties). If included, please include the start time of the date your media organization registration was established.
 
 ## Appendix
 
