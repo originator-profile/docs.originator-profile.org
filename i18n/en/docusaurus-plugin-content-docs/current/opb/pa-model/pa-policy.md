@@ -17,25 +17,15 @@ For terms not explained in this document, please see [Terminology](../terminolog
 
 ### Property
 
-#### `id`
+#### Profile Annotation Policy Properties {#profile-annotation-policy-properties}
 
-REQUIRED. Specify the ID of the Profile Annotation Policy in URI format.
-
-#### `type`
-
-REQUIRED. It MUST be `ProfileAnnotationPolicy`.
-
-#### `name`
-
-REQUIRED. The name of the Profile Annotation Policy (string).
-
-#### `description`
-
-OPTIONAL. The description of the Profile Annotation Policy (string).
-
-#### `ref`
-
-RECOMMENDED. The URL of a human-readable page for details about the Profile Annotation Policy.
+| Name          | Type     | Description                                                                                        |
+| ------------- | -------- | -------------------------------------------------------------------------------------------------- |
+| `id`          | `string` | **REQUIRED.** Specify the ID of the Profile Annotation Policy in URI format.                       |
+| `type`        | `string` | **REQUIRED.** It MUST be `ProfileAnnotationPolicy`.                                                |
+| `name`        | `string` | **REQUIRED.** The name of the Profile Annotation Policy.                                           |
+| `description` | `string` | **OPTIONAL.** The description of the Profile Annotation Policy.                                    |
+| `ref`         | `string` | **RECOMMENDED.** The URL of a human-readable page for details about the Profile Annotation Policy. |
 
 ## Appendix
 

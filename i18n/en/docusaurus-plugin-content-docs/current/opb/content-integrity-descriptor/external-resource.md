@@ -47,8 +47,10 @@ Below is an example of an External Resource Target:
 
 The following properties are defined:
 
-- `type`: REQUIRED. It MUST be `ExternalResourceTargetIntegrity`.
-- `integrity`: REQUIRED. It MUST be the [`sriString` data type](../context.md#the-sristring-datatype). For available hash functions, it MUST conform to [Hash Algorithm](../algorithm.md#hash-algorithm). Example: `sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U=`
+| Name        | Type     | Description                                                                                                                                                                                                                                                   |
+| ----------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `type`      | `string` | **REQUIRED.** It MUST be `ExternalResourceTargetIntegrity`.                                                                                                                                                                                                   |
+| `integrity` | `string` | **REQUIRED.** It MUST be the [`sriString` data type](../context.md#the-sristring-datatype). For available hash functions, it MUST conform to [Hash Algorithm](../algorithm.md#hash-algorithm). Example: `sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U=` |
 
 ## How to set it up
 

@@ -33,26 +33,24 @@ Content Attestation MUST be an OP VC DM compliant document and contain the follo
 
 ### Property
 
-#### `@context`
+#### Content Attestation (CA) Properties {#content-attestation-properties}
 
-It MUST conform to the [OP VC Data Model](./op-vc-data-model.md#context).
+| Name                | Type                   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| ------------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@context`          | `string[]`             | **REQUIRED.** It MUST conform to the [OP VC Data Model](./op-vc-data-model.md#vc-properties).                                                                                                                                                                                                                                                                                                                                                        |
+| `type`              | `string[]`             | **REQUIRED.** It MUST be `["VerifiableCredential", "ContentAttestation"]`.                                                                                                                                                                                                                                                                                                                                                                           |
+| `issuer`            | `string`               | **REQUIRED.** It MUST be the [OP ID](./op-id.md) of the CA issuer.                                                                                                                                                                                                                                                                                                                                                                                   |
+| `credentialSubject` | `object`               | **REQUIRED.** A JSON-LD Node Object containing the following [credentialSubject properties](#credential-subject-properties).                                                                                                                                                                                                                                                                                                                         |
+| `allowedUrl`        | `string` \| `string[]` | **REQUIRED.** The URL for which information is asserted by this CA. It MUST be a [URL Pattern string](https://urlpattern.spec.whatwg.org/#pattern-strings) or an array of such strings. It MUST NOT be an empty array. This property allows you to [verify](#allowed-url-validation) whether the CA is located on a web page with a valid URL.                                                                                                       |
+| `target`            | `object[]`             | **REQUIRED.** It MUST be an array of Content Integrity Descriptor.Content Integrity Descriptor is a mechanism for ensuring the integrity of parts of content. This property allows you to [verify](#target-integrity-validation) that specific information in the content that corresponds to the CA has not been tampered with. You can use the ones registered in the [Content Integrity Type Registry](./content-integrity-descriptor/index.mdx). |
 
-#### `type`
+#### credentialSubject Properties {#credential-subject-properties}
 
-REQUIRED. It MUST be `["VerifiableCredential", "ContentAttestation"]`.
+| Name | Type     | Description                                                                                                                                                                                             |
+| ---- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id` | `string` | **REQUIRED.** MUST be a CA ID. CA ID is a [UUIDv4](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-4) URN format string. There is a one-to-one correspondence between content and CA IDs. |
 
-#### `credentialSubject.id`
-
-REQUIRED. MUST be a CA ID. CA ID is a [UUIDv4](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-4) URN format string. There is a one-to-one correspondence between content and CA IDs.
-
-#### `allowedUrl`
-
-REQUIRED. The URL for which information is asserted by this CA.
-It MUST be a [URL Pattern string](https://urlpattern.spec.whatwg.org/#pattern-strings) or an array of such strings.
-It MUST NOT be an empty array.
-This property allows you to [verify](#allowed-url-validation) whether the CA is located on a web page with a valid URL.
-
-Examples:
+#### `allowedUrl` Examples:
 
 ✅ Valid:
 
@@ -72,13 +70,6 @@ Examples:
 Extensions for specifying content that does not have a URL outside of web content (e.g., private non-public content) as verification targets are under consideration for future work.
 
 :::
-
-#### `target`
-
-REQUIRED. It MUST be an array of Content Integrity Descriptor.
-
-Content Integrity Descriptor is a mechanism for ensuring the integrity of parts of content. This property allows you to [verify](#target-integrity-validation) that specific information in the content that corresponds to the CA has not been tampered with.
-You can use the ones registered in the [Content Integrity Type Registry](./content-integrity-descriptor/index.mdx).
 
 ## Examples
 

@@ -20,22 +20,26 @@ It MUST comply with [Profile Annotation](../pa.md) .
 
 ### Property
 
-#### `@context`
+#### News Media Registration PA Properties {#news-media-registration}
 
-REQUIRED. It MUST comply with [OP VC Data Model](../op-vc-data-model.md) . In addition, the third value MUST be `"https://originator-profile.org/ns/cip/v1"`.
+| Name                | Type       | Description                                                                                                                                                                          |
+| ------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `@context`          | `string[]` | **REQUIRED.** It MUST comply with [OP VC Data Model](../op-vc-data-model.md) . In addition, the third value MUST be `"https://originator-profile.org/ns/cip/v1"`.                    |
+| `type`              | `string[]` | **REQUIRED.** It MUST be `["VerifiableCredential", "ProfileAnnotation"]`.                                                                                                            |
+| `issuer`            | `string`   | **REQUIRED.** It MUST be the [OP ID](../op-id.md) of the PA issuer.                                                                                                                  |
+| `credentialSubject` | `object`   | **REQUIRED.** A JSON-LD Node Object containing the following [credentialSubject properties](#credential-subject-properties).                                                         |
+| `validFrom`         | `string`   | **OPTIONAL.** Conforms to the [Profile Annotation](../pa.md#validfrom). If included, please include the start time of the date your media organization registration was established. |
 
-#### `credentialSubject`
+#### credentialSubject Properties {#credential-subject-properties}
 
-- `id`: REQUIRED. The OP ID of an organization holding the PA.
-- `type`: REQUIRED. Set it to `NewsMediaRegistration`
-- `name`: OPTIONAL. The name of this PA (string).
-- `description`: OPTIONAL. It is a description of this PA (string).
-- `image`: OPTIONAL. MUST be a JSON-LD Node Object of type [`image` datatype](../context.md#the-image-datatype). This property allows you to [verify](../context.md#verifying-image-datatype) that the PA image has not been tampered with.
-- `annotation`: REQUIRED. It MUST be a [Profile Annotation Policy](./pa-policy.md).
-
-#### `validFrom`
-
-OPTIONAL. Conforms to the [Profile Annotation](../pa.md#validfrom). If included, please include the start time of the date your media organization registration was established.
+| Name          | Type     | Description                                                                                                                                                                                                                          |
+| ------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `id`          | `string` | **REQUIRED.** The [OP ID](../op-id.md) of an organization holding the PA.                                                                                                                                                            |
+| `type`        | `string` | **REQUIRED.** Set it to `NewsMediaRegistration`.                                                                                                                                                                                     |
+| `name`        | `string` | **OPTIONAL.** The name of this PA.                                                                                                                                                                                                   |
+| `description` | `string` | **OPTIONAL.** It is a description of this PA.                                                                                                                                                                                        |
+| `image`       | `object` | **OPTIONAL.** MUST be a JSON-LD Node Object of type [`image` datatype](../context.md#the-image-datatype). This property allows you to [verify](../context.md#verifying-image-datatype) that the PA image has not been tampered with. |
+| `annotation`  | `object` | **REQUIRED.** It MUST be a [Profile Annotation Policy](./pa-policy.md).                                                                                                                                                              |
 
 ## Appendix
 

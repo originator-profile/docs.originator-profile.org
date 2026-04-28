@@ -19,28 +19,26 @@ Complies with the [Profile Annotation](../pa.md).
 
 ### Property
 
-#### `@context`
+#### Profile Annotator Registration PA Properties {#profile-annotator-registration-properties}
 
-REQUIRED. It MUST comply with [OP VC Data Model](../op-vc-data-model.md) . In addition, the third value MUST be `"https://originator-profile.org/ns/cip/v1"`.
+| Name                | Type       | Description                                                                                                                                                                                                                                                                       |
+| ------------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@context`          | `string[]` | **REQUIRED.** It MUST comply with [OP VC Data Model](../op-vc-data-model.md) . In addition, the third value MUST be `"https://originator-profile.org/ns/cip/v1"`.                                                                                                                 |
+| `type`              | `string[]` | **REQUIRED.** It MUST be `["VerifiableCredential", "ProfileAnnotation"]`.                                                                                                                                                                                                         |
+| `issuer`            | `string`   | **REQUIRED.** It MUST be the [OP ID](../op-id.md) of the OP Registry.The Profile Annotator Registration PA is a PA issued by the OP Registry. The OP Registry examines organizations that are candidates for Profile Annotators and issues this PA when they are deemed eligible. |
+| `credentialSubject` | `object`   | **REQUIRED.** A JSON-LD Node Object containing the following [credentialSubject properties](#credential-subject-properties).                                                                                                                                                      |
 
-#### `type`
+#### credentialSubject Properties {#credential-subject-properties}
 
-REQUIRED. It MUST be `["VerifiableCredential", "ProfileAnnotation"]`.
-
-#### `issuer`
-
-REQUIRED. It MUST be the OP ID of the OP Registry.
-
-The Profile Annotator Registration PA is a PA issued by the OP Registry. The OP Registry examines organizations that are candidates for Profile Annotators and issues this PA when they are deemed eligible.
-
-#### `credentialSubject`
-
-- `id`: REQUIRED. It MUST be the OP ID of the organization holding the Profile Annotator Registration PA (the Profile Annotator).
-- `type`: REQUIRED. It MUST be `ProfileAnnotatorRegistration`.
-- `annotatorName`: REQUIRED. The name of the Profile Annotator (string).
-- `description`: OPTIONAL. The description regarding this Profile Annotator (string).
-- `annotationScheme`: REQUIRED. It MUST be an array of URIs that uniquely identify the Profile Annotations which this Profile Annotator is authorized to issue.
-- `annotation`: REQUIRED. It MUST be a [Profile Annotation Policy](./pa-policy.md) that indicates the Profile Annotator registration scheme.
+| Name               | Type       | Description                                                                                                                                   |
+| ------------------ | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`               | `string`   | **REQUIRED.** It MUST be the [OP ID](../op-id.md) of the organization holding the Profile Annotator Registration PA (the Profile Annotator).  |
+| `type`             | `string`   | **REQUIRED.** It MUST be `ProfileAnnotatorRegistration`.                                                                                      |
+| `name`             | `string`   | **OPTIONAL.** PA name.                                                                                                                        |
+| `annotatorName`    | `string`   | **REQUIRED.** The name of the Profile Annotator.                                                                                              |
+| `description`      | `string`   | **OPTIONAL.** The description regarding this Profile Annotator.                                                                               |
+| `annotationScheme` | `string[]` | **REQUIRED.** It MUST be an array of URIs that uniquely identify the Profile Annotations which this Profile Annotator is authorized to issue. |
+| `annotation`       | `object`   | **REQUIRED.** It MUST be a [Profile Annotation Policy](./pa-policy.md) that indicates the Profile Annotator registration scheme.              |
 
 :::note
 

@@ -19,48 +19,27 @@ For terms not explained in this document, please see [Terminology](./terminology
 
 The Website Profile MUST be an OPVC DM compliant document and includes the following properties:
 
-### `@context`
+#### Website Profile (WSP) Properties {#website-profile-properties}
 
-REQUIRED. It MUST conform to the [OP VC Data Model](./op-vc-data-model.md#context) and MUST have the third value set to `"https://originator-profile.org/ns/cip/v1"`.
+| Name                | Type       | Description                                                                                                                                                                     |
+| ------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@context`          | `string[]` | **REQUIRED.** It MUST conform to the [OP VC Data Model](./op-vc-data-model.md#vc-properties) and MUST have the third value set to `"https://originator-profile.org/ns/cip/v1"`. |
+| `type`              | `string[]` | **REQUIRED.** It MUST be `["VerifiableCredential", "WebsiteProfile"]`.                                                                                                          |
+| `issuer`            | `string`   | **REQUIRED.** It MUST be the [OP ID](./op-id.md) of the organization owning the website.                                                                                        |
+| `credentialSubject` | `object`   | **REQUIRED.** A JSON-LD Node Object containing the following [credentialSubject properties](#credential-subject-properties).                                                    |
 
-### `type`
+#### credentialSubject Properties {#credential-subject-properties}
 
-REQUIRED. It MUST be `["VerifiableCredential", "WebsiteProfile"]`.
+| Name            | Type                   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| --------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `id`            | `string`               | **REQUIRED.** It MUST be the Web site URL. If the same content exists on multiple URLs, specify the most representative URL.                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| `type`          | `string`               | **REQUIRED.** It MUST be `WebSite`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| `name`          | `string`               | **REQUIRED.** The name of the Web site.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| `image`         | `object`               | **OPTIONAL.** A thumbnail image for the website. It MUST be a JSON-LD Node Object of type [`image` datatype](./context.md#the-image-datatype). This property allows you to [verify](./context.md#image-datatype-validation) that the thumbnail image in the WSP has not been tampered with.                                                                                                                                                                                                                                                                        |
+| `description`   | `string`               | **OPTIONAL.** A description of the Web site.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| `allowedOrigin` | `string` \| `string[]` | **REQUIRED.** A string or array of strings that represents the [RFC 6454](https://www.rfc-editor.org/rfc/rfc6454) origin (scheme, hostname, port number) in ASCII format to identify the website to be presented. It MUST NOT include a path, query, or fragment. In addition, the default port (e.g. 443 for `https:`, 80 for `http:`) is expressed in an abbreviated format based on the [W3C URL Standard](https://url.spec.whatwg.org/). This property allows you to [verify](#verification) whether the WSP is installed on a website of a legitimate origin. |
 
-### `issuer`
-
-REQUIRED. It MUST be the OP ID of the organization owning the website.
-
-### `credentialSubject`
-
-REQUIRED. It is a JSON-LD Node Object with the following properties:
-
-#### `id`
-
-REQUIRED. It MUST be the Web site URL. If the same content exists on multiple URLs, specify the most representative URL.
-
-#### `type`
-
-REQUIRED. It MUST be `WebSite`.
-
-#### `name`
-
-REQUIRED. The name of the Web site.
-
-#### `image`
-
-OPTIONAL. A thumbnail image for the website. It MUST be a JSON-LD Node Object of type [`image` datatype](./context.md#the-image-datatype). This property allows you to [verify](./context.md#image-datatype-validation) that the thumbnail image in the WSP has not been tampered with.
-
-#### `description`
-
-OPTIONAL. A description of the Web site (string).
-
-#### `allowedOrigin`
-
-REQUIRED. A string or array of strings that represents the [RFC 6454](https://www.rfc-editor.org/rfc/rfc6454) origin (scheme, hostname, port number) in ASCII format to identify the website to be presented. It MUST NOT include a path, query, or fragment. In addition, the default port (e.g. 443 for `https:`, 80 for `http:`) is expressed in an abbreviated format based on the [W3C URL Standard](https://url.spec.whatwg.org/).
-This property allows you to [verify](#verification) whether the WSP is installed on a website of a legitimate origin.
-
-Examples:
+#### `allowedOrigin` Examples:
 
 ✅ Valid:
 

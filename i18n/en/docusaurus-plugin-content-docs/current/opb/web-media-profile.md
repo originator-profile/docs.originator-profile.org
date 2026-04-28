@@ -21,40 +21,37 @@ The Web Media Profile MUST be an OP VC DM compliant document and includes the fo
 
 ### Property
 
-#### `@context`
+#### Web Media Profile (WMP) Properties {#web-media-profile-properties}
 
-It MUST conform to the [OP VC Data Model](./op-vc-data-model.md#context).
+| Name                | Type       | Description                                                                                                                  |
+| ------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `@context`          | `string[]` | **REQUIRED.** It MUST conform to the [OP VC Data Model](./op-vc-data-model.md#vc-properties).                                |
+| `type`              | `string[]` | **REQUIRED.** It MUST be `["VerifiableCredential", "WebMediaProfile"]`.                                                      |
+| `issuer`            | `string`   | **REQUIRED.** It MUST be the issuer of the Core Profile of the WMP holder organization.                                      |
+| `credentialSubject` | `object`   | **REQUIRED.** A JSON-LD Node Object containing the following [credentialSubject properties](#credential-subject-properties). |
 
-#### `type`
+#### credentialSubject Properties {#credential-subject-properties}
 
-REQUIRED. It MUST be `["VerifiableCredential", "WebMediaProfile"]`.
-
-#### `issuer`
-
-REQUIRED. It MUST be the issuer of the Core Profile of the WMP holder organization.
+| Name                            | Type                   | Description                                                                                                                                                                                                                                                                     |
+| ------------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`                            | `string`               | **REQUIRED.** It MUST be the [OP ID](./op-id.md) of the WMP holding organization.                                                                                                                                                                                               |
+| `type`                          | `string`               | **REQUIRED.** It MUST be `OnlineBusiness`.                                                                                                                                                                                                                                      |
+| `url`                           | `string`               | **REQUIRED.** The URL MUST point to an official page of your organization.                                                                                                                                                                                                      |
+| `name`                          | `string`               | **REQUIRED.** The organization name.                                                                                                                                                                                                                                            |
+| `logo`                          | `object`               | **OPTIONAL.** The logo image of your organization. It MUST be a JSON-LD Node Object of type [`image` datatype](./context.md#the-image-datatype). This property allows you to [verify](./context.md#image-datatype-validate) that the WMP logo image has not been tampered with. |
+| `email`                         | `string`               | **OPTIONAL.** The main email address of your organization.                                                                                                                                                                                                                      |
+| `telephone`                     | `string`               | **OPTIONAL.** The main phone number of your organization.                                                                                                                                                                                                                       |
+| `contactPoint`                  | `object`               | **OPTIONAL.** Contact page information. It MUST be a JSON-LD Node Object of type [`page` datatype](./context.md#the-page-datatype).                                                                                                                                             |
+| `informationTransmissionPolicy` | `object`               | **OPTIONAL.** Information about the information transmission policy page. It MUST be a JSON-LD Node Object of type [`page` datatype](./context.md#the-page-datatype).                                                                                                           |
+| `publishingPrinciple`           | `object`               | **OPTIONAL.** Information about the editorial guidelines. It MUST be a JSON-LD Node Object of type [`page` datatype](./context.md#the-page-datatype).                                                                                                                           |
+| `privacyPolicy`                 | `object`               | **OPTIONAL.** Privacy policy page information. It MUST be a JSON-LD Node Object of type [`page` datatype](./context.md#the-page-datatype).                                                                                                                                      |
+| `description`                   | `object` \| `object[]` | **OPTIONAL.** A free-form text about the organization. It MUST be of [`description` datatype](./context.md#the-description-datatype) or an array of such type.                                                                                                                  |
 
 :::note
 
 The information contained in the WMP will be reviewed by the organization that issues the Core Profile.
 
 :::
-
-#### `credentialSubject`
-
-REQUIRED. A JSON-LD Node Object that represents the originator of the web media.
-
-- `id`: REQUIRED. It MUST be the OP ID of the WMP holding organization.
-- `type`: REQUIRED. It MUST be `OnlineBusiness`.
-- `url`: REQUIRED. The URL MUST point to an official page of your organization.
-- `name`: REQUIRED. The organization name.
-- `logo`: OPTIONAL. The logo image of your organization. It MUST be a JSON-LD Node Object of type [`image` datatype](./context.md#the-image-datatype). This property allows you to [verify](./context.md#image-datatype-validate) that the WMP logo image has not been tampered with.
-- `email`: OPTIONAL. The main email address of your organization.
-- `telephone`: OPTIONAL. The main phone number of your organization.
-- `contactPoint`: OPTIONAL. Contact page information. It MUST be a JSON-LD Node Object of type [`page` datatype](./context.md#the-page-datatype).
-- `informationTransmissionPolicy`: OPTIONAL. Information about the information transmission policy page. It MUST be a JSON-LD Node Object of type [`page` datatype](./context.md#the-page-datatype).
-- `publishingPrinciple`: OPTIONAL. Information about the editorial guidelines. It MUST be a JSON-LD Node Object of type [`page` datatype](./context.md#the-page-datatype).
-- `privacyPolicy`: OPTIONAL. Privacy policy page information. It MUST be a JSON-LD Node Object of type [`page` datatype](./context.md#the-page-datatype).
-- `description`: OPTIONAL. A free-form text about the organization. It MUST be of [`description` datatype](./context.md#the-description-datatype) or an array of such type.
 
 :::note
 
