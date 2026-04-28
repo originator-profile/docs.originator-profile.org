@@ -20,7 +20,7 @@ It MUST comply with [Profile Annotation](../pa.md) .
 
 ### Property
 
-#### News Media Registration PA Properties {#news-media-registration}
+#### News Media Registration PA Properties {#news-media-registration-properties}
 
 | Name                | Type       | Description                                                                                                                                                                                              |
 | ------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
