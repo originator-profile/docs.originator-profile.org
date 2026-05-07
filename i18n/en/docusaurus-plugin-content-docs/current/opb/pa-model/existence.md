@@ -20,27 +20,32 @@ It MUST comply with [Profile Annotation](../pa.md) .
 
 ### Property
 
-#### `@context`
+#### Organization Existence PA Properties {#existence-properties}
 
-REQUIRED. It MUST comply with [OP VC Data Model](../op-vc-data-model.md) . In addition, the third value MUST be `"https://originator-profile.org/ns/cip/v1"`.
+| Name                | Type       | Description                                                                                                                                                      |
+| ------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@context`          | `string[]` | **REQUIRED.** It MUST comply with [OP VC Data Model](../op-vc-data-model.md). In addition, the third value MUST be `"https://originator-profile.org/ns/cip/v1"`. |
+| `type`              | `string[]` | **REQUIRED.** It MUST be `["VerifiableCredential", "ProfileAnnotation"]`.                                                                                        |
+| `issuer`            | `string`   | **REQUIRED.** It MUST be the [OP ID](../op-id.md) of the PA issuer.                                                                                              |
+| `credentialSubject` | `object`   | **REQUIRED.** A JSON-LD Node Object containing the following [credentialSubject properties](#credential-subject-properties).                                     |
 
-#### `credentialSubject`
+#### credentialSubject Properties {#credential-subject-properties}
 
-REQUIRED. It is JSON-LD Node Object that represents organization existence certificate.
-
-- `id`: REQUIRED. The OP ID of an organization holding the PA.
-- `type`: REQUIRED. Set it to `JP-OrganizationExistenceCertificate`.
-- `name`: OPTIONAL. The name of this PA (string).
-- `description`: OPTIONAL. A description of this PA (string).
-- `image`: OPTIONAL. MUST be a JSON-LD Node Object of type [`image` datatype](../context.md#the-image-datatype). This property allows you to [verify](../context.md#verifying-image-datatype) that the PA image has not been tampered with.
-- `corporateName`: REQUIRED. Company name.
-- `corporateNumber`: REQUIRED. Corporate number
-- `postalCode`: REQUIRED. postal code
-- `addressCountry`: REQUIRED. Specifies the ISO 3166-1 alpha-2 country code, for example `JP` for Japan.
-- `addressRegion`: REQUIRED. Prefectures
-- `addressLocality`: REQUIRED. City,town,village
-- `streetAddress`: REQUIRED. Street address and building name
-- `annotation`: REQUIRED. It MUST be a [Profile Annotation Policy](./pa-policy.md).
+| Name              | Type     | Description                                                                                                                                                                                                                          |
+| ----------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `id`              | `string` | **REQUIRED.** The [OP ID](../op-id.md) of an organization holding the PA.                                                                                                                                                            |
+| `type`            | `string` | **REQUIRED.** Set it to `JP-OrganizationExistenceCertificate`.                                                                                                                                                                       |
+| `name`            | `string` | **OPTIONAL.** The name of this PA.                                                                                                                                                                                                   |
+| `description`     | `string` | **OPTIONAL.** A description of this PA.                                                                                                                                                                                              |
+| `image`           | `object` | **OPTIONAL.** MUST be a JSON-LD Node Object of type [`image` datatype](../context.md#the-image-datatype). This property allows you to [verify](../context.md#verifying-image-datatype) that the PA image has not been tampered with. |
+| `corporateName`   | `string` | **REQUIRED.** Company name.                                                                                                                                                                                                          |
+| `corporateNumber` | `string` | **REQUIRED.** Corporate number.                                                                                                                                                                                                      |
+| `postalCode`      | `string` | **REQUIRED.** Postal code.                                                                                                                                                                                                           |
+| `addressCountry`  | `string` | **REQUIRED.** Specifies the ISO 3166-1 alpha-2 country code, for example `JP` for Japan.                                                                                                                                             |
+| `addressRegion`   | `string` | **REQUIRED.** Prefectures.                                                                                                                                                                                                           |
+| `addressLocality` | `string` | **REQUIRED.** City, town, village.                                                                                                                                                                                                   |
+| `streetAddress`   | `string` | **REQUIRED.** Street address and building name.                                                                                                                                                                                      |
+| `annotation`      | `object` | **REQUIRED.** It MUST be a [Profile Annotation Policy](./pa-policy.md).                                                                                                                                                              |
 
 :::note
 The properties of the organization existence PA outside of Japan are currently under consideration.

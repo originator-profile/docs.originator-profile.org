@@ -27,8 +27,10 @@ sha384-dN4FeVmV5DQb/C8iAY+sBUjLjFfB+knXZJ3RT2GyJg8Tco4SPQYwxNpe2M50b9ON
 
 `image` データ型の値は、 JSON-LD Node Object であり、次のプロパティを含みます。
 
-- `id`: REQUIRED. 画像の URL です。
-- `digestSRI`: REQUIRED. 画像の完全性を保証するためのハッシュ値です。 [`sriString` データ型](#the-sristring-datatype) でなければなりません (MUST)。
+| Name        | Type     | Description                                                                                                                              |
+| ----------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`        | `string` | **REQUIRED.** 画像の URL です。                                                                                                          |
+| `digestSRI` | `string` | **REQUIRED.** 画像の完全性を保証するためのハッシュ値です。 [`sriString` データ型](#the-sristring-datatype) でなければなりません (MUST)。 |
 
 例:
 
@@ -50,8 +52,10 @@ sha384-dN4FeVmV5DQb/C8iAY+sBUjLjFfB+knXZJ3RT2GyJg8Tco4SPQYwxNpe2M50b9ON
 
 `page` データ型の値は、 JSON-LD Node Object であり、次のプロパティを含みます。
 
-- `id`: REQUIRED. Web ページの URL です。
-- `name`: REQUIRED. Web ページのタイトルです。
+| Name   | Type     | Description                              |
+| ------ | -------- | ---------------------------------------- |
+| `id`   | `string` | **REQUIRED.** Web ページの URL です。    |
+| `name` | `string` | **REQUIRED.** Web ページのタイトルです。 |
 
 ### The `dateTimeStamp` Datatype
 
@@ -61,8 +65,10 @@ sha384-dN4FeVmV5DQb/C8iAY+sBUjLjFfB+knXZJ3RT2GyJg8Tco4SPQYwxNpe2M50b9ON
 
 https://schema.org/description データ型のサブセットです。文字列または次のプロパティを含む JSON-LD Node Object です。
 
-- `text`: REQUIRED. テキストコンテンツ (文字列)。
-- `encodingFormat`: REQUIRED. テキストコンテンツの符号化形式。[MIME タイプ](https://developer.mozilla.org/ja/docs/Web/HTTP/Guides/MIME_types)でなければなりません (MUST)。
+| Name             | Type     | Description                                                                                                                                                    |
+| ---------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `text`           | `string` | **REQUIRED.** テキストコンテンツです。                                                                                                                         |
+| `encodingFormat` | `string` | **REQUIRED.** テキストコンテンツの符号化形式です。[MIME タイプ](https://developer.mozilla.org/ja/docs/Web/HTTP/Guides/MIME_types)でなければなりません (MUST)。 |
 
 JSON-LD Node Object の例:
 

@@ -28,8 +28,10 @@ sha384-dN4FeVmV5DQb/C8iAY+sBUjLjFfB+knXZJ3RT2GyJg8Tco4SPQYwxNpe2M50b9ON
 
 The value of the `image` data type is a JSON-LD Node Object and contains the following properties:
 
-- `id`: REQUIRED. The URL of the image.
-- `digestSRI`: REQUIRED. A hash value to ensure the integrity of the image. It MUST be of the [`sriString` datatype](#the-sristring-datatype).
+| Name        | Type     | Description                                                                                                                         |
+| ----------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `id`        | `string` | **REQUIRED.** The URL of the image.                                                                                                 |
+| `digestSRI` | `string` | **REQUIRED.** A hash value to ensure the integrity of the image. It MUST be of the [`sriString` datatype](#the-sristring-datatype). |
 
 Example:
 
@@ -52,8 +54,10 @@ A verifier can verify properties of the `image` datatype by following these step
 
 `page` The data type value is a JSON-LD Node Object that contains the following properties:
 
-- `id`: REQUIRED. The URL of the Web page.
-- `name`: REQUIRED. The title of the Web page.
+| Name   | Type     | Description                              |
+| ------ | -------- | ---------------------------------------- |
+| `id`   | `string` | **REQUIRED.** The URL of the Web page.   |
+| `name` | `string` | **REQUIRED.** The title of the Web page. |
 
 ### The `dateTimeStamp` Datatype
 
@@ -63,8 +67,10 @@ The value of the `dateTimeStamp` data type MUST be a `dateTimeStamp` string from
 
 A subset of the https://schema.org/description data type. It is either a string or a JSON-LD Node Object that contains the following properties:
 
-- `text`: REQUIRED. The Text Content (string).
-- `encodingFormat`: REQUIRED. The encoding format for the text content. It MUST be a [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/MIME_types).
+| Name             | Type     | Description                                                                                                                                            |
+| ---------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `text`           | `string` | **REQUIRED.** The Text Content.                                                                                                                        |
+| `encodingFormat` | `string` | **REQUIRED.** The encoding format for the text content. It MUST be a [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/MIME_types). |
 
 Example of JSON-LD Node Object:
 

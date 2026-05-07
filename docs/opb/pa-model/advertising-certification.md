@@ -19,29 +19,28 @@ tags:
 
 ### プロパティ
 
-#### `@context`
+#### 広告認証 PA のプロパティ一覧 {#advertising-certification-properties}
 
-REQUIRED. [OP VC Data Model](../op-vc-data-model.md) に従ってください (MUST)。さらに、3つ目の値を `"https://originator-profile.org/ns/cip/v1"` にしなければなりません (MUST)。
+| Name                | Type       | Description                                                                                                                                                                        |
+| ------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@context`          | `string[]` | **REQUIRED.** [OP VC Data Model](../op-vc-data-model.md) に従ってください (MUST)。さらに、3つ目の値を `"https://originator-profile.org/ns/cip/v1"` にしなければなりません (MUST)。 |
+| `type`              | `string[]` | **REQUIRED.** 必ず `["VerifiableCredential", "ProfileAnnotation"]` にしてください (MUST)。                                                                                         |
+| `issuer`            | `string`   | **REQUIRED.** PA 発行者の [OP ID](../op-id.md) でなければなりません (MUST)。                                                                                                       |
+| `credentialSubject` | `object`   | **REQUIRED.** 次の [credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。                                                               |
+| `validFrom`         | `string`   | **OPTIONAL.** [Profile Annotation](../pa.md#profile-annotation-properties) に準拠します。広告認証の交付日の最初の時刻を指定してください。                                          |
+| `validUntil`        | `string`   | **OPTIONAL.** [Profile Annotation](../pa.md#profile-annotation-properties) に準拠します。広告認証の有効期限の日時の最後の時刻を指定してください。                                  |
 
-#### `credentialSubject`
+#### credentialSubject のプロパティ一覧 {#credential-subject-properties}
 
-REQUIRED. 広告認証 PA を表す JSON-LD Node Object です。
-
-- `id`: REQUIRED. PA 保有組織の OP ID です。
-- `type`: REQUIRED. `AdvertisingQualityCertificate` にしてください。
-- `name`: OPTIONAL. この PA の名前です (文字列)。
-- `description`: OPTIONAL. この PA に関する説明です（文字列）。
-- `image`: OPTIONAL. [`image` データ型](../context.md#the-image-datatype) の JSON-LD Node Object でなければなりません (MUST)。このプロパティで Profile Annotation の画像が改ざんされていないかを[検証](../context.md#image-datatype-の検証)することができます。
-- `verifier`: OPTIONAL. 検証機関の名前です。
-- `annotation`: REQUIRED. [Profile Annotation Policy](./pa-policy.md) でなければなりません (MUST)。
-
-#### `validFrom`
-
-OPTIONAL. [Profile Annotation](../pa.md#validfrom) に準拠します。広告認証の交付日の最初の時刻を指定してください。
-
-#### `validUntil`
-
-OPTIONAL. [Profile Annotation](../pa.md#validuntil) に準拠します。広告認証の有効期限の日時の最後の時刻を指定してください。
+| Name          | Type     | Description                                                                                                                                                                                                                                              |
+| ------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`          | `string` | **REQUIRED.** PA 保有組織の [OP ID](../op-id.md) です。                                                                                                                                                                                                  |
+| `type`        | `string` | **REQUIRED.** `AdvertisingQualityCertificate` にしてください。                                                                                                                                                                                           |
+| `name`        | `string` | **OPTIONAL.** この PA の名前です。                                                                                                                                                                                                                       |
+| `description` | `string` | **OPTIONAL.** この PA に関する説明です。                                                                                                                                                                                                                 |
+| `image`       | `object` | **OPTIONAL.** [`image` データ型](../context.md#the-image-datatype) の JSON-LD Node Object でなければなりません (MUST)。このプロパティで Profile Annotation の画像が改ざんされていないかを[検証](../context.md#image-datatype-の検証)することができます。 |
+| `verifier`    | `string` | **OPTIONAL.** 検証機関の名前です。                                                                                                                                                                                                                       |
+| `annotation`  | `object` | **REQUIRED.** [Profile Annotation Policy](./pa-policy.md) でなければなりません (MUST)。                                                                                                                                                                  |
 
 ## Appendix
 
@@ -118,11 +117,11 @@ REQUIRED. 広告認証証明書を表す JSON-LD Node Object です。
 
 #### `validFrom`
 
-OPTIONAL. [Certificate Data Model](../certificate.md#validfrom) に準拠します。広告認証の交付日の最初の時刻を指定してください。
+OPTIONAL. [Certificate Data Model](../certificate.md#certificate-properties) に準拠します。広告認証の交付日の最初の時刻を指定してください。
 
 #### `validUntil`
 
-OPTIONAL. [Certificate Data Model](../certificate.md#validuntil) に準拠します。広告認証の有効期限の日時の最後の時刻を指定してください。
+OPTIONAL. [Certificate Data Model](../certificate.md#certificate-properties) に準拠します。広告認証の有効期限の日時の最後の時刻を指定してください。
 
 ## Appendix
 

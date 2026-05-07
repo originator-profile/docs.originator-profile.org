@@ -19,41 +19,37 @@ Complies with [Content Attestation](../ca.md) .
 
 ### Property
 
-#### `@context`
+#### Article Properties {#article-properties}
 
-REQUIRED. It MUST complies with [OP VC Data Model](../op-vc-data-model.md) . Additionally, the third value MUST be `"https://originator-profile.org/ns/cip/v1"`.
+| Name                | Type                   | Description                                                                                                                                                       |
+| ------------------- | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@context`          | `string[]`             | **REQUIRED.** It MUST comply with [OP VC Data Model](../op-vc-data-model.md). Additionally, the third value MUST be `"https://originator-profile.org/ns/cip/v1"`. |
+| `type`              | `string[]`             | **REQUIRED.** It MUST be `["VerifiableCredential", "ContentAttestation"]`.                                                                                        |
+| `issuer`            | `string`               | **REQUIRED.** It MUST be the [OP ID](../op-id.md) of the CA issuer.                                                                                               |
+| `credentialSubject` | `object`               | **REQUIRED.** A JSON-LD Node Object containing the following [credentialSubject properties](#credential-subject-properties).                                      |
+| `allowedUrl`        | `string` \| `string[]` | **REQUIRED.** Properties defined for Content Attestation. It MUST NOT be an empty array.                                                                          |
+| `target`            | `object[]`             | **REQUIRED.** Properties defined for Content Attestation. It MUST NOT be an empty array.                                                                          |
 
-#### `type`
+#### credentialSubject Properties {#credential-subject-properties}
 
-REQUIRED. It MUST be `["VerifiableCredential", "ContentAttestation"]`.
-
-#### `credentialSubject`
-
-This is a JSON-LD Node Object that represents the content. The application developed by Originator Profile Collaborative Innovation Partnership (OP-CIP) uses the following properties:
+| Name            | Type       | Description                                                                                                                                                                                                                                                                         |
+| --------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`            | `string`   | **REQUIRED.** MUST be a CA ID. CA ID is a [UUIDv4](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-4) URN format string. There is a one-to-one correspondence between content and CA IDs.                                                                             |
+| `type`          | `string`   | **REQUIRED.** It MUST be `Article`.                                                                                                                                                                                                                                                 |
+| `headline`      | `string`   | **REQUIRED.** Title of the content.                                                                                                                                                                                                                                                 |
+| `description`   | `string`   | **REQUIRED.** A description of the content.                                                                                                                                                                                                                                         |
+| `image`         | `object`   | **OPTIONAL.** A thumbnail image for the content. RECOMMENDED if a thumbnail image is available. It MUST be a JSON-LD Node Object of type [`image` datatype](../context.md#the-image-datatype). This property allows you to [verify](../context.md#verifying-image-datatype) the CA. |
+| `datePublished` | `string`   | **OPTIONAL.** The publication date and time. MUST be of the [`dateTimeStamp` data type](../context.md#the-datetimestamp-datatype).                                                                                                                                                  |
+| `dateModified`  | `string`   | **OPTIONAL.** The last modified date and time. MUST be of type [`dateTimeStamp` data type](../context.md#the-datetimestamp-datatype).                                                                                                                                               |
+| `author`        | `string[]` | **OPTIONAL.** An array of author names.                                                                                                                                                                                                                                             |
+| `editor`        | `string[]` | **OPTIONAL.** An array of editor names.                                                                                                                                                                                                                                             |
+| `genre`         | `string`   | **OPTIONAL.** Genre.                                                                                                                                                                                                                                                                |
 
 :::note
 
 The properties in `credentialSubject` were decided based on https://schema.org/Article. We plan to decide the extent to which we will comply with schema.org regarding the interpretation of each property and whether it is necessary or not, based on exchanges of opinions with companies that use OP.
 
 :::
-
-- `type`: REQUIRED. `It MUST be Article.
-- `headline`: REQUIRED. Title of the content.
-- `description`: REQUIRED. A description of the content(plain text ).
-- `image`: OPTIONAL. A thumbnail image for the content. RECOMMENDED if a thumbnail image is available. It MUST be a JSON-LD Node Object of type [`image` datatype](../context.md#the-image-datatype). This property allows you to [verify](../context.md#image-datatype-validate) the CA.
-- `datePublished`: OPTIONAL. The publication date and time. MUST be of the [`dateTimeStamp` data type](../context.md#the-datetimestamp-datatype).
-- `dateModified`: OPTIONAL. The last modified date and time. MUST be of type [`dateTimeStamp` data type](../context.md#the-datetimestamp-datatype).
-- `author`: OPTIONAL. An array of author names (strings)
-- `editor`: OPTIONAL.An array of editor names (strings)
-- `genre`: OPTIONAL. Genre (string)
-
-#### `allowedUrl`
-
-REQUIRED. Properties defined for Content Attestation. It MUST NOT be an empty array.
-
-#### `target`
-
-REQUIRED. Properties defined for Content Attestation. It MUST NOT be an empty array.
 
 ## Appendix
 

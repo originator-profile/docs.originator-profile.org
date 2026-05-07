@@ -13,33 +13,25 @@ It MUST conform to the [VC DM 2.0 Conforming Document](https://www.w3.org/TR/vc-
 
 ### Properties {#properties}
 
-#### `@context` {#context}
+#### VC Properties {#vc-properties}
 
-REQUIRED. An ordered array of URLs. The array MUST start with `https://www.w3.org/ns/credentials/v2`, followed by `https://originator-profile.org/ns/credentials/v1`. The last element of the array SHOULD indicate the language of the string in VC with the `@language` tag. For example, if the language is Japanese, include `{"@language": "ja"}` at the end of the array.
+| Name                | Type       | Description                                                                                                                                                                                                                                                                                                                                                                         |
+| ------------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@context`          | `string[]` | **REQUIRED.** An ordered array of URLs. The array MUST start with `https://www.w3.org/ns/credentials/v2`, followed by `https://originator-profile.org/ns/credentials/v1`. The last element of the array SHOULD indicate the language of the string in VC with the `@language` tag. For example, if the language is Japanese, include `{"@language": "ja"}` at the end of the array. |
+| `type`              | `string[]` | **REQUIRED.** The value MUST be a `VerifiableCredential` or an array of [JSON-LD terms](https://www.w3.org/TR/json-ld11/#terms) whose value contains a `VerifiableCredential`.                                                                                                                                                                                                      |
+| `credentialSubject` | `object`   | **REQUIRED.** A JSON-LD Node Object containing the following [credentialSubject properties](#credential-subject-properties).                                                                                                                                                                                                                                                        |
+| `issuer`            | `string`   | **REQUIRED.** It MUST be the [OP ID](./op-id.md) of the VC issuing organization.                                                                                                                                                                                                                                                                                                    |
 
-#### `type` {#type}
+#### credentialSubject Properties {#credential-subject-properties}
 
-REQUIRED. The value MUST be a `VerifiableCredential` or an array of [JSON-LD terms](https://www.w3.org/TR/json-ld11/#terms) whose value contains a `VerifiableCredential`.
-
-#### `credentialSubject` {#credential-subject}
-
-REQUIRED. JSON-LD Node Object
-
-#### `credentialSubject.type` {#credential-subject-type}
-
-OPTIONAL. The value MUST be a term in the [JSON-LD vocabulary](https://www.w3.org/TR/json-ld11/#terms) or an array thereof.
-
-#### `credentialSubject.id` {#credential-subject-id}
-
-REQUIRED. An identifier. The format of the identifier is specified in the data model document for each VC.
-
-#### `issuer` {#issuer}
-
-REQUIRED. It MUST be the [OP ID](./op-id.md) of the VC issuing organization.
+| Name   | Type                   | Description                                                                                                                     |
+| ------ | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `type` | `string` \| `string[]` | **OPTIONAL.** The value MUST be a term in the [JSON-LD vocabulary](https://www.w3.org/TR/json-ld11/#terms) or an array thereof. |
+| `id`   | `string`               | **REQUIRED.** An identifier. The format of the identifier is specified in the data model document for each VC.                  |
 
 ## Internationalization {#internationalization}
 
-The language used in each VC can be identified by the `@language` tag specified in the [@context property of the OP VC Data Model](/opb/op-vc-data-model.md#context). Application implementers SHOULD use VCs written in the appropriate language for display, matching the application user's locale.
+The language used in each VC can be identified by the `@language` tag specified in the [@context property of the OP VC Data Model](/opb/op-vc-data-model.md#vc-properties). Application implementers SHOULD use VCs written in the appropriate language for display, matching the application user's locale.
 
 :::note Implementation Notes
 

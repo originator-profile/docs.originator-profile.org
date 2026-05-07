@@ -22,8 +22,10 @@ For terms not explained in this document, please see [Terminology](./terminology
 
 The Site Profile is the following JSON that summarizes the OPS and WSP.
 
-- `originators`: REQUIRED. This is OPS.
-- `sites`: REQUIRED. This is an array of WSP.
+| Name          | Type       | Description                            |
+| ------------- | ---------- | -------------------------------------- |
+| `originators` | `object[]` | **REQUIRED.** This is OPS.             |
+| `sites`       | `string[]` | **REQUIRED.** This is an array of WSP. |
 
 :::note
 

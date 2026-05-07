@@ -23,33 +23,22 @@ The Core Profile MUST be an OP VC DM compliant document and includes the followi
 
 ### Properties {#properties}
 
-#### `@context` {#context}
+#### Core Profile Properties {#core-profile-properties}
 
-REQUIRED. An ordered array of URLs. The array MUST start with `https://www.w3.org/ns/credentials/v2`, followed by `https://originator-profile.org/ns/credentials/v1`.
+| Name                | Type       | Description                                                                                                                                                               |
+| ------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@context`          | `string[]` | **REQUIRED.** An ordered array of URLs. The array MUST start with `https://www.w3.org/ns/credentials/v2`, followed by `https://originator-profile.org/ns/credentials/v1`. |
+| `type`              | `string[]` | **REQUIRED.** It MUST be `["VerifiableCredential", "CoreProfile"]`.                                                                                                       |
+| `issuer`            | `string`   | **REQUIRED.** It MUST be the [OP ID](./op-id.md) of the VC issuing organization.                                                                                          |
+| `credentialSubject` | `object`   | **REQUIRED.** A JSON-LD Node Object containing the following [credentialSubject properties](#credential-subject-properties).                                              |
 
-#### `type` {#type}
+#### credentialSubject Properties {#credential-subject-properties}
 
-REQUIRED. It MUST be `["VerifiableCredential", "CoreProfile"]`.
-
-#### `credentialSubject` {#credential-subject}
-
-REQUIRED. JSON-LD Node Object
-
-#### `credentialSubject.id` {#credential-subject-id}
-
-REQUIRED. It MUST be the OP ID of the CP holding organization.
-
-#### `credentialSubject.type` {#credential-subject-type}
-
-REQUIRED. It MUST be `Core`.
-
-#### `credentialSubject.jwks` {#credential-subject-jwks}
-
-REQUIRED. It MUST be a [JWK Set](https://www.rfc-editor.org/rfc/rfc7517.html#section-5), which is the set of public keys of the CP-holding organizations.
-
-#### `issuer` {#issuer}
-
-REQUIRED. It MUST be the [OP ID](./op-id.md) of the VC issuing organization.
+| Name   | Type     | Description                                                                                                                                                   |
+| ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`   | `string` | **REQUIRED.** It MUST be the [OP ID](./op-id.md) of the CP holding organization.                                                                              |
+| `type` | `string` | **REQUIRED.** It MUST be `Core`.                                                                                                                              |
+| `jwks` | `object` | **REQUIRED.** It MUST be a [JWK Set](https://www.rfc-editor.org/rfc/rfc7517.html#section-5), which is the set of public keys of the CP-holding organizations. |
 
 ## Extensibility {#extensibility}
 

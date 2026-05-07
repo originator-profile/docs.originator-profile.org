@@ -18,41 +18,37 @@ tags:
 
 ### プロパティ
 
-#### `@context`
+#### Article のプロパティ一覧 {#article-properties}
 
-REQUIRED. [OP VC Data Model](../op-vc-data-model.md) に従ってください (MUST)。さらに、3つ目の値を `"https://originator-profile.org/ns/cip/v1"` にしなければなりません (MUST)。
+| Name                | Type                   | Description                                                                                                                                                                        |
+| ------------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@context`          | `string[]`             | **REQUIRED.** [OP VC Data Model](../op-vc-data-model.md) に従ってください (MUST)。さらに、3つ目の値を `"https://originator-profile.org/ns/cip/v1"` にしなければなりません (MUST)。 |
+| `type`              | `string[]`             | **REQUIRED.** 必ず `["VerifiableCredential", "ContentAttestation"]` にしてください (MUST)。                                                                                        |
+| `issuer`            | `string`               | **REQUIRED.** CA 発行者の [OP ID](../op-id.md) でなければなりません (MUST)。                                                                                                       |
+| `credentialSubject` | `object`               | **REQUIRED.** 次の [credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。                                                               |
+| `allowedUrl`        | `string` \| `string[]` | **REQUIRED.** Content Attestation に定義済みのプロパティです。空配列にしてはなりません (MUST NOT)。                                                                                |
+| `target`            | `object[]`             | **REQUIRED.** Content Attestation に定義済みのプロパティです。空配列にしてはなりません (MUST NOT)。                                                                                |
 
-#### `type`
+#### credentialSubject のプロパティ一覧 {#credential-subject-properties}
 
-REQUIRED. 必ず `["VerifiableCredential", "ContentAttestation"]` にしてください (MUST)。
-
-#### `credentialSubject`
-
-コンテンツを表す JSON-LD Node Object です。OP-CIP の開発したアプリケーションは、次のプロパティを利用します。
+| Name            | Type       | Description                                                                                                                                                                                                                                                                                           |
+| --------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`            | `string`   | **REQUIRED.** CA ID でなければなりません (MUST)。 CA ID は [UUIDv4](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-4) の URN 形式の文字列です。コンテンツと CA ID は一対一対応します。                                                                                                 |
+| `type`          | `string`   | **REQUIRED.** `Article` でなければなりません (MUST)。                                                                                                                                                                                                                                                 |
+| `headline`      | `string`   | **REQUIRED.** コンテンツのタイトルです。                                                                                                                                                                                                                                                              |
+| `description`   | `string`   | **REQUIRED.** コンテンツの説明です。                                                                                                                                                                                                                                                                  |
+| `image`         | `object`   | **OPTIONAL.** コンテンツのサムネイル画像です。サムネイル画像がある場合指定するべきです (RECOMMENDED)。 [`image` データ型](../context.md#the-image-datatype) の JSON-LD Node Object でなければなりません (MUST)。このプロパティで CA を[検証](../context.md#image-datatype-の検証)することができます。 |
+| `datePublished` | `string`   | **OPTIONAL.** 公開日時です。 [`dateTimeStamp` データ型](../context.md#the-datetimestamp-datatype) でなければなりません (MUST)。                                                                                                                                                                       |
+| `dateModified`  | `string`   | **OPTIONAL.** 最終更新日時です。 [`dateTimeStamp` データ型](../context.md#the-datetimestamp-datatype) でなければなりません (MUST)。                                                                                                                                                                   |
+| `author`        | `string[]` | **OPTIONAL.** 著者名の配列です。                                                                                                                                                                                                                                                                      |
+| `editor`        | `string[]` | **OPTIONAL.** 編集者名の配列です。                                                                                                                                                                                                                                                                    |
+| `genre`         | `string`   | **OPTIONAL.** ジャンルです。                                                                                                                                                                                                                                                                          |
 
 :::note
 
 `credentialSubject` 内のプロパティは https://schema.org/Article を参考に決定しました。個々のプロパティの解釈、要不要について schema.org にどこまで準拠するかは OP を利用する企業との意見交換を踏まえて決めていく予定です。
 
 :::
-
-- `type`: REQUIRED. `Article` でなければなりません (MUST)。
-- `headline`: REQUIRED. コンテンツのタイトル。
-- `description`: REQUIRED. コンテンツの説明（文字列）。
-- `image`: OPTIONAL. コンテンツのサムネイル画像。サムネイル画像がある場合指定するべきです (RECOMMENDED)。 [`image` データ型](../context.md#the-image-datatype) の JSON-LD Node Object でなければなりません (MUST)。このプロパティで CA を[検証](../context.md#image-datatype-の検証)することができます。
-- `datePublished`: OPTIONAL. 公開日時。 [`dateTimeStamp` データ型](../context.md#the-datetimestamp-datatype) でなければなりません (MUST)。
-- `dateModified`: OPTIONAL. 最終更新日時。 [`dateTimeStamp` データ型](../context.md#the-datetimestamp-datatype) でなければなりません (MUST)。
-- `author`: OPTIONAL. 著者名（文字列）の配列
-- `editor`: OPTIONAL. 編集者名（文字列）の配列
-- `genre`: OPTIONAL. ジャンル（文字列）
-
-#### `allowedUrl`
-
-REQUIRED. Content Attestation に定義済みのプロパティ。空配列にしてはなりません (MUST NOT)。
-
-#### `target`
-
-REQUIRED. Content Attestation に定義済みのプロパティ。空配列にしてはなりません (MUST NOT)。
 
 ## Appendix
 

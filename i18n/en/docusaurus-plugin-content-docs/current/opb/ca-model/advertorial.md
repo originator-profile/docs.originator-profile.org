@@ -19,36 +19,32 @@ Complies with [Content Attestation](../ca.md).
 
 ### Property
 
-#### `@context`
+#### Advertorial Properties {#advertorial-properties}
 
-REQUIRED. It MUST complies with [OP VC Data Model](../op-vc-data-model.md) . Additionally, the third value MUST be `"https://originator-profile.org/ns/cip/v1"`.
+| Name                | Type                   | Description                                                                                                                                                       |
+| ------------------- | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@context`          | `string[]`             | **REQUIRED.** It MUST comply with [OP VC Data Model](../op-vc-data-model.md). Additionally, the third value MUST be `"https://originator-profile.org/ns/cip/v1"`. |
+| `type`              | `string[]`             | **REQUIRED.** It MUST be `["VerifiableCredential", "ContentAttestation"]`.                                                                                        |
+| `issuer`            | `string`               | **REQUIRED.** It MUST be the [OP ID](../op-id.md) of the CA issuer.                                                                                               |
+| `credentialSubject` | `object`               | **REQUIRED.** A JSON-LD Node Object containing the following [credentialSubject properties](#credential-subject-properties).                                      |
+| `allowedUrl`        | `string` \| `string[]` | **REQUIRED.** Properties defined for Content Attestation. It MUST NOT be an empty array.                                                                          |
+| `target`            | `object[]`             | **REQUIRED.** Properties defined for Content Attestation. It MUST NOT be an empty array.                                                                          |
 
-#### `type`
+#### credentialSubject Properties {#credential-subject-properties}
 
-REQUIRED. It MUST be `["VerifiableCredential", "ContentAttestation"]`.
-
-#### `credentialSubject`
-
-This is a JSON-LD Node Object that represents the advertorial. The application developed by Originator Profile Collaborative Innovation Partnership (OP-CIP) uses the following properties:
-
-- `type`: REQUIRED. It MUST be `Advertorial`.
-- `headline`: REQUIRED. Title of the advertorial.
-- `description`: REQUIRED. A description of the advertorial (string).
-- `image`: OPTIONAL. A thumbnail image for the advertorial. RECOMMENDED if a thumbnail image is available. It MUST be a JSON-LD Node Object of type [`image` datatype](../context.md#the-image-datatype). This property allows you to [verify](../context.md#image-datatype-validate) the CA.
-- `datePublished`: OPTIONAL. Published date and time (ISO 8601)
-- `dateModified`: OPTIONAL. Last modified date (ISO 8601)
-- `author`: OPTIONAL. An array of author names (strings)
-- `editor`: OPTIONAL. An array of editor names (strings)
-- `sponsor`: OPTIONAL. An array of sponsor names (strings)
-- `genre`: OPTIONAL. Genre (string)
-
-#### `allowedUrl`
-
-REQUIRED. Properties defined for Content Attestation. It MUST NOT be an empty array.
-
-#### `target`
-
-REQUIRED. Properties defined for Content Attestation. It MUST NOT be an empty array.
+| Name            | Type       | Description                                                                                                                                                                                                                                                                             |
+| --------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`            | `string`   | **REQUIRED.** MUST be a CA ID. CA ID is a [UUIDv4](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-4) URN format string. There is a one-to-one correspondence between content and CA IDs.                                                                                 |
+| `type`          | `string`   | **REQUIRED.** It MUST be `Advertorial`.                                                                                                                                                                                                                                                 |
+| `headline`      | `string`   | **REQUIRED.** Title of the advertorial.                                                                                                                                                                                                                                                 |
+| `description`   | `string`   | **REQUIRED.** A description of the advertorial.                                                                                                                                                                                                                                         |
+| `image`         | `object`   | **OPTIONAL.** A thumbnail image for the advertorial. RECOMMENDED if a thumbnail image is available. It MUST be a JSON-LD Node Object of type [`image` datatype](../context.md#the-image-datatype). This property allows you to [verify](../context.md#verifying-image-datatype) the CA. |
+| `datePublished` | `string`   | **OPTIONAL.** Published date and time (ISO 8601).                                                                                                                                                                                                                                       |
+| `dateModified`  | `string`   | **OPTIONAL.** Last modified date (ISO 8601).                                                                                                                                                                                                                                            |
+| `author`        | `string[]` | **OPTIONAL.** An array of author names.                                                                                                                                                                                                                                                 |
+| `editor`        | `string[]` | **OPTIONAL.** An array of editor names.                                                                                                                                                                                                                                                 |
+| `sponsor`       | `string[]` | **OPTIONAL.** An array of sponsor names.                                                                                                                                                                                                                                                |
+| `genre`         | `string`   | **OPTIONAL.** Genre.                                                                                                                                                                                                                                                                    |
 
 ## Appendix
 

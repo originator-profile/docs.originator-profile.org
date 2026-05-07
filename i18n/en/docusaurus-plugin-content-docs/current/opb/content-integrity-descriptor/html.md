@@ -54,9 +54,11 @@ HTML Target is expressed in the following format:
 
 ### Property
 
-- `type`: REQUIRED.The type of Content Integrity Descriptor. It MUST be `HtmlTargetIntegrity`.
-- `integrity`: REQUIRED. It MUST be the [`sriString` data type](../context.md#the-sristring-datatype). For available hash functions, it MUST conform to [Hash Algorithm](../algorithm.md#hash-algorithm). Example: `sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U=`
-- `cssSelector`: REQUIRED. It MUST be a [CSS Selector (Selectors Level 3)](https://www.w3.org/TR/selectors-3/).
+| Name          | Type     | Description                                                                                                                                                                                                                                                   |
+| ------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `type`        | `string` | **REQUIRED.** The type of Content Integrity Descriptor. It MUST be `HtmlTargetIntegrity`.                                                                                                                                                                     |
+| `integrity`   | `string` | **REQUIRED.** It MUST be the [`sriString` data type](../context.md#the-sristring-datatype). For available hash functions, it MUST conform to [Hash Algorithm](../algorithm.md#hash-algorithm). Example: `sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U=` |
+| `cssSelector` | `string` | **REQUIRED.** It MUST be a [CSS Selector (Selectors Level 3)](https://www.w3.org/TR/selectors-3/).                                                                                                                                                            |
 
 :::note
 

@@ -32,26 +32,24 @@ Content Attestation は OP VC DM 準拠文書でなければなりません (MUS
 
 ### プロパティ
 
-#### `@context`
+#### Content Attestation (CA) のプロパティ一覧 {#content-attestation-properties}
 
-[OP VC Data Model](./op-vc-data-model.md#context) に従ってください (MUST)。
+| Name                | Type                   | Description                                                                                                                                                                                                                                                                                                                                                                                                            |
+| ------------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@context`          | `string[]`             | **REQUIRED.** [OP VC Data Model](./op-vc-data-model.md#vc-properties) に従ってください (MUST)。                                                                                                                                                                                                                                                                                                                        |
+| `type`              | `string[]`             | **REQUIRED.** 必ず `["VerifiableCredential", "ContentAttestation"]` にしてください (MUST)。                                                                                                                                                                                                                                                                                                                            |
+| `issuer`            | `string`               | **REQUIRED.** CA 発行者の [OP ID](./op-id.md) でなければなりません (MUST)。                                                                                                                                                                                                                                                                                                                                            |
+| `credentialSubject` | `object`               | **REQUIRED.** 次の[credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。                                                                                                                                                                                                                                                                                                    |
+| `allowedUrl`        | `string` \| `string[]` | **REQUIRED.** この CA によって表明される情報の対象となる URL です。必ず [URL Pattern string](https://urlpattern.spec.whatwg.org/#pattern-strings) またはその配列でなければなりません (MUST)。空配列にしてはなりません (MUST NOT)。このプロパティで CA が正当な URL の Web ページに設置されているかどうかを[検証](#allowed-url-validation)することができます。                                                          |
+| `target`            | `object[]`             | **REQUIRED.** Content Integrity Descriptor の配列でなければなりません (MUST)。Content Integrity Descriptor はコンテンツの一部の完全性を保証するための仕組みです。このプロパティで CA と対応するコンテンツ内の特定の情報が改ざんされていないかを[検証](#target-integrity-validation)することができます。[Content Integrity Type Registry](./content-integrity-descriptor/index.mdx)に登録されているものを使用できます。 |
 
-#### `type`
+#### credentialSubject のプロパティ一覧 {#credential-subject-properties}
 
-REQUIRED. 必ず `["VerifiableCredential", "ContentAttestation"]` にしてください (MUST)。
+| Name | Type     | Description                                                                                                                                                                                           |
+| ---- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id` | `string` | **REQUIRED.** CA ID でなければなりません (MUST)。 CA ID は [UUIDv4](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-4) の URN 形式の文字列です。コンテンツと CA ID は一対一対応します。 |
 
-#### `credentialSubject.id`
-
-REQUIRED. CA ID でなければなりません (MUST)。 CA ID は [UUIDv4](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-4) の URN 形式の文字列です。コンテンツと CA ID は一対一対応します。
-
-#### `allowedUrl`
-
-REQUIRED. この CA によって表明される情報の対象となる URL です。
-必ず [URL Pattern string](https://urlpattern.spec.whatwg.org/#pattern-strings) またはその配列でなければなりません (MUST)。
-空配列にしてはなりません (MUST NOT)。
-このプロパティで CA が正当な URL の Web ページに設置されているかどうかを[検証](#allowed-url-validation)することができます。
-
-具体例:
+#### `allowedUrl` の具体例
 
 ✅ 有効:
 
@@ -71,13 +69,6 @@ REQUIRED. この CA によって表明される情報の対象となる URL で�
 Webコンテンツ以外のURLを持たないコンテンツ (例: プライベートな非公開コンテンツ) を検証対象とする仕様拡張については今後の課題として検討中です。
 
 :::
-
-#### `target`
-
-REQUIRED. Content Integrity Descriptor の配列でなければなりません (MUST)。
-
-Content Integrity Descriptor はコンテンツの一部の完全性を保証するための仕組みです。このプロパティで CA と対応するコンテンツ内の特定の情報が改ざんされていないかを[検証](#target-integrity-の検証)することができます。
-[Content Integrity Type Registry](./content-integrity-descriptor/index.mdx)に登録されているものを使用できます。
 
 ## 例
 
@@ -172,10 +163,12 @@ CA の具体例を示します。この CA は https://media.example.com/article
     }
   },
   "allowedUrl": ["https://ad.example.com/*"],
-  "target": {
-    "type": "ExternalResourceTargetIntegrity",
-    "integrity": "sha256-rLDPDYArkNcCvnq0h4IgR7MVfJIOCCrx4z+w+uywc64="
-  }
+  "target": [
+    {
+      "type": "ExternalResourceTargetIntegrity",
+      "integrity": "sha256-rLDPDYArkNcCvnq0h4IgR7MVfJIOCCrx4z+w+uywc64="
+    }
+  ]
 }
 ```
 
@@ -225,7 +218,7 @@ CA の検証者は次のことを検証することができます。
 
 :::
 
-### Content Integrity Descriptor の検証
+### Content Integrity Descriptor の検証 {#target-integrity-validation}
 
 検証者は `target` プロパティの Content Integrity Descriptor について、Content Integrity Descriptor のそれぞれの type で定めてある検証プロセスが実施可能である限り、検証すべきです (SHOULD)。
 

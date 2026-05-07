@@ -17,17 +17,44 @@ For terms not explained in this document, please see [Terminology](../terminolog
 
 ### Property
 
-#### `@context`
+#### Online Ad Properties {#online-ad-properties}
 
-REQUIRED. It MUST follow the [OP VC Data Model](../op-vc-data-model.md). In addition, the third value MUST be `"https://originator-profile.org/ns/cip/v1"`.
+| Name                | Type                   | Description                                                                                                                                                     |
+| ------------------- | ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@context`          | `string[]`             | **REQUIRED.** It MUST follow the [OP VC Data Model](../op-vc-data-model.md). In addition, the third value MUST be `"https://originator-profile.org/ns/cip/v1"`. |
+| `type`              | `string[]`             | **REQUIRED.** It MUST be `["VerifiableCredential", "ContentAttestation"]`.                                                                                      |
+| `issuer`            | `string`               | **REQUIRED.** It MUST be the [OP ID](../op-id.md) of the CA issuer.                                                                                             |
+| `credentialSubject` | `object`               | **REQUIRED.** A JSON-LD Node Object containing the following [credentialSubject properties](#credential-subject-properties).                                    |
+| `allowedUrl`        | `string` \| `string[]` | **REQUIRED.** It is a property defined for Content Attestation. It MUST NOT be an empty array.                                                                  |
+| `target`            | `object[]`             | **REQUIRED.** It is a property defined for Content Attestation. It MUST NOT be an empty array.                                                                  |
 
-#### `type`
+#### credentialSubject Properties {#credential-subject-properties}
 
-REQUIRED. It MUST be `["VerifiableCredential", "ContentAttestation"]`.
+:::info[Attention]
+The `name`, `description`, and `image` properties are each OPTIONAL, but at least one of the three MUST be included.
+:::
 
-#### `credentialSubject`
+| Name                   | Type     | Description                                                                                                                                                                                                                                                                                                      |
+| ---------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`                   | `string` | **REQUIRED.** MUST be a CA ID. CA ID is a [UUIDv4](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-4) URN format string. There is a one-to-one correspondence between content and CA IDs.                                                                                                          |
+| `type`                 | `string` | **REQUIRED.** It MUST be `OnlineAd`.                                                                                                                                                                                                                                                                             |
+| `name`                 | `string` | **OPTIONAL.** It is the title of the ad.                                                                                                                                                                                                                                                                         |
+| `description`          | `string` | **OPTIONAL.** It is ad description.                                                                                                                                                                                                                                                                              |
+| `image`                | `object` | **OPTIONAL.** It is a thumbnail image for the ad. It is RECOMMENDED that a thumbnail image be specified if one is available. It MUST be a JSON-LD Node Object of type [`image` datatype](../context.md#the-image-datatype). This property allows you to [verify](../context.md#verifying-image-datatype) the CA. |
+| `genre`                | `string` | **OPTIONAL.** Genre.                                                                                                                                                                                                                                                                                             |
+| `landingPageUrl`       | `string` | **OPTIONAL.** The URL of the page (landing page) that is ultimately displayed when the ad is clicked.                                                                                                                                                                                                            |
+| `adReportContact`      | `object` | **OPTIONAL.** Contact point for reporting ads. MUST be a JSON-LD Node Object of type [`page` datatype](../context.md#the-page-datatype).                                                                                                                                                                         |
+| `adReviewGuidelines`   | `object` | **OPTIONAL.** Information about ad review guidelines. MUST be a JSON-LD Node Object of type [`page` datatype](../context.md#the-page-datatype).                                                                                                                                                                  |
+| `targetingPolicy`      | `object` | **OPTIONAL.** Policy regarding targeted advertising. MUST be a JSON-LD Node Object of type [`page` datatype](../context.md#the-page-datatype).                                                                                                                                                                   |
+| `adDataHandlingPolicy` | `object` | **OPTIONAL.** Information regarding the handling of information related to ad serving. MUST be a JSON-LD Node Object of type [`page`](../context.md#the-page-datatype).                                                                                                                                          |
+| `adDisplayRationale`   | `object` | **OPTIONAL.** A JSON-LD Node Object containing the following [adDisplayRationale Properties](#ad-display-rationale-properties).                                                                                                                                                                                  |
 
-It is a JSON-LD Node Object representing the ad, containing the following properties:
+#### adDisplayRationale Properties {#ad-display-rationale-properties}
+
+| Name          | Type     | Description                                                                                                                                     |
+| ------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `page`        | `object` | **OPTIONAL.** The reason this ad is being displayed(web page). MUST be a JSON-LD Node Object of type [`page`](../context.md#the-page-datatype). |
+| `description` | `string` | **OPTIONAL.** The reason this ad is being displayed.                                                                                            |
 
 :::note
 
@@ -36,37 +63,11 @@ We plan to decide the extent to which we will comply with schema.org regarding t
 
 :::
 
-- `type`: REQUIRED. It MUST be `OnlineAd`.
-- `name`: OPTIONAL. It is the title of the ad.
-- `description`: OPTIONAL. It is ad description (plain text)
-- `image`: OPTIONAL. It is a thumbnail image for the ad. It is RECOMMENDED that a thumbnail image be specified if one is available. It MUST be a JSON-LD Node Object of type [`image` datatype](../context.md#the-image-datatype). This property allows you to [verify](../context.md#image-datatype-validate) the CA.
-
-:::info[Attention]
-The `name`, `description`, and `image` properties are each OPTIONAL, but at least one of the three MUST be included.
-:::
-
-- `genre`: OPTIONAL. It is character string.
-- `landingPageUrl`: OPTIONAL. The URL of the page (landing page) that is ultimately displayed when the ad is clicked.
-- `adReportContact`: OPTIONAL. Contact point for reporting ads. MUST be a JSON-LD Node Object of type [`page` datatype](../context.md#the-page-datatype).
-- `adReviewGuidelines`: OPTIONAL. Information about ad review guidelines. MUST be a JSON-LD Node Object of type [`page` datatype](../context.md#the-page-datatype).
-- `targetingPolicy`: OPTIONAL. Policy regarding targeted advertising. MUST be a JSON-LD Node Object of type [`page` datatype](../context.md#the-page-datatype).
-- `adDataHandlingPolicy`: OPTIONAL. Information regarding the handling of information related to ad serving. MUST be a JSON-LD Node Object of type [`page`](../context.md#the-page-datatype).
-- `adDisplayRationale.page`: OPTIONAL. The reason this ad is being displayed(web page). MUST be a JSON-LD Node Object of type [`page`](../context.md#the-page-datatype).
-- `adDisplayRationale.description` OPTIONAL. The reason this ad is being displayed (string).
-
 :::note
 
 The definition of properties for advertisements other than image or banner ads is under consideration for future work.
 
 :::
-
-#### `allowedUrl`
-
-REQUIRED. It is a property defined for Content Attestation. It MUST NOT be an empty array.
-
-#### `target`
-
-REQUIRED. It is a property defined for Content Attestation. It MUST NOT be an empty array.
 
 ## Appendix
 
