@@ -47,9 +47,9 @@ The `name`, `description`, and `image` properties are each OPTIONAL, but at leas
 | `adReviewGuidelines`   | `object` | **OPTIONAL.** Information about ad review guidelines. MUST be a JSON-LD Node Object of type [`page` datatype](../context.md#the-page-datatype).                                                                                                                                                                  |
 | `targetingPolicy`      | `object` | **OPTIONAL.** Policy regarding targeted advertising. MUST be a JSON-LD Node Object of type [`page` datatype](../context.md#the-page-datatype).                                                                                                                                                                   |
 | `adDataHandlingPolicy` | `object` | **OPTIONAL.** Information regarding the handling of information related to ad serving. MUST be a JSON-LD Node Object of type [`page`](../context.md#the-page-datatype).                                                                                                                                          |
-| `adDisplayRationale`   | `object` | **OPTIONAL.** A JSON-LD Node Object containing the following [adDisplayRationale Properties](#adDisplayRationale-properties).                                                                                                                                                                                    |
+| `adDisplayRationale`   | `object` | **OPTIONAL.** A JSON-LD Node Object containing the following [adDisplayRationale Properties](#ad-display-rationale-properties).                                                                                                                                                                                  |
 
-#### adDisplayRationale Properties {#adDisplayRationale-properties}
+#### adDisplayRationale Properties {#ad-display-rationale-properties}
 
 | Name          | Type     | Description                                                                                                                                     |
 | ------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |

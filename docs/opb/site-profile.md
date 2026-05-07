@@ -23,7 +23,7 @@ Site Profile は OPS と WSP をまとめた次のような JSON です。
 
 | Name          | Type       | Description                    |
 | ------------- | ---------- | ------------------------------ |
-| `originators` | `object[]` | **REQUIRED.** OPS の配列です。 |
+| `originators` | `object[]` | **REQUIRED.** OPS です。       |
 | `sites`       | `string[]` | **REQUIRED.** WSP の配列です。 |
 
 :::note

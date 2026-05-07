@@ -48,9 +48,9 @@ tags:
 | `adReviewGuidelines`   | `object` | **OPTIONAL.** 広告審査ガイドラインの情報です。 [`page` データ型](../context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。                                                                                                                                            |
 | `targetingPolicy`      | `object` | **OPTIONAL.** ターゲティング広告に関するポリシーです。 [`page` データ型](../context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。                                                                                                                                    |
 | `adDataHandlingPolicy` | `object` | **OPTIONAL.** 広告配信に関する情報の取り扱いに関しての情報です。 [`page` データ型](../context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。                                                                                                                          |
-| `adDisplayRationale`   | `object` | **OPTIONAL.** 次の [adDisplayRationale のプロパティ](#adDisplayRationale-properties)を含む JSON-LD Node Object です。                                                                                                                                                                             |
+| `adDisplayRationale`   | `object` | **OPTIONAL.** 次の [adDisplayRationale のプロパティ](#ad-display-rationale-properties)を含む JSON-LD Node Object です。                                                                                                                                                                           |
 
-#### adDisplayRationale のプロパティ一覧 {#adDisplayRationale-properties}
+#### adDisplayRationale のプロパティ一覧 {#ad-display-rationale-properties}
 
 | Name          | Type     | Description                                                                                                                                                          |
 | ------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

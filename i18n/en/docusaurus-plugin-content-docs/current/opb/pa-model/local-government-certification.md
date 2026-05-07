@@ -22,12 +22,12 @@ It MUST comply with [Profile Annotation](../pa.md) .
 
 #### Local Government Certification PA Properties {#local-government-certification-properties}
 
-| Name                | Type       | Description                                                                                                                                                       |
-| ------------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `@context`          | `string[]` | **REQUIRED.** It MUST comply with [OP VC Data Model](../op-vc-data-model.md) . In addition, the third value MUST be `"https://originator-profile.org/ns/cip/v1"`. |
-| `type`              | `string[]` | **REQUIRED.** It MUST be `["VerifiableCredential", "ProfileAnnotation"]`.                                                                                         |
-| `issuer`            | `string`   | **REQUIRED.** It MUST be the [OP ID](../op-id.md) of the PA issuer.                                                                                               |
-| `credentialSubject` | `object`   | **REQUIRED.** A JSON-LD Node Object containing the following [credentialSubject properties](#credential-subject-properties).                                      |
+| Name                | Type       | Description                                                                                                                                                      |
+| ------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@context`          | `string[]` | **REQUIRED.** It MUST comply with [OP VC Data Model](../op-vc-data-model.md). In addition, the third value MUST be `"https://originator-profile.org/ns/cip/v1"`. |
+| `type`              | `string[]` | **REQUIRED.** It MUST be `["VerifiableCredential", "ProfileAnnotation"]`.                                                                                        |
+| `issuer`            | `string`   | **REQUIRED.** It MUST be the [OP ID](../op-id.md) of the PA issuer.                                                                                              |
+| `credentialSubject` | `object`   | **REQUIRED.** A JSON-LD Node Object containing the following [credentialSubject properties](#credential-subject-properties).                                     |
 
 #### credentialSubject Properties {#credential-subject-properties}
 
@@ -35,7 +35,7 @@ It MUST comply with [Profile Annotation](../pa.md) .
 | ------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `id`          | `string` | **REQUIRED.** The [OP ID](../op-id.md) of an organization holding the PA.                                                                                                                                                            |
 | `type`        | `string` | **REQUIRED.** Set it to `JP-LocalGovernmentCertificate`.                                                                                                                                                                             |
-| `name`        | `string` | **OPTIONAL.** The name of this PA .                                                                                                                                                                                                  |
+| `name`        | `string` | **OPTIONAL.** The name of this PA.                                                                                                                                                                                                   |
 | `description` | `string` | **OPTIONAL.** It is a description of this PA.                                                                                                                                                                                        |
 | `image`       | `object` | **OPTIONAL.** MUST be a JSON-LD Node Object of type [`image` datatype](../context.md#the-image-datatype). This property allows you to [verify](../context.md#verifying-image-datatype) that the PA image has not been tampered with. |
 | `annotation`  | `object` | **REQUIRED.** It MUST be a [Profile Annotation Policy](./pa-policy.md).                                                                                                                                                              |

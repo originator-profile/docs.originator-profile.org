@@ -21,14 +21,14 @@ Complies with [Content Attestation](../ca.md) .
 
 #### Article Properties {#article-properties}
 
-| Name                | Type                   | Description                                                                                                                                                          |
-| ------------------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `@context`          | `string[]`             | **REQUIRED.** It MUST complies with [OP VC Data Model](../op-vc-data-model.md) . Additionally, the third value MUST be `"https://originator-profile.org/ns/cip/v1"`. |
-| `type`              | `string[]`             | **REQUIRED.** It MUST be `["VerifiableCredential", "ContentAttestation"]`.                                                                                           |
-| `issuer`            | `string`               | **REQUIRED.** It MUST be the [OP ID](../op-id.md) of the CA issuer.                                                                                                  |
-| `credentialSubject` | `object`               | **REQUIRED.** A JSON-LD Node Object containing the following [credentialSubject properties](#credential-subject-properties).                                         |
-| `allowedUrl`        | `string` \| `string[]` | **REQUIRED.** Properties defined for Content Attestation. It MUST NOT be an empty array.                                                                             |
-| `target`            | `object[]`             | **REQUIRED.** Properties defined for Content Attestation. It MUST NOT be an empty array.                                                                             |
+| Name                | Type                   | Description                                                                                                                                                       |
+| ------------------- | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@context`          | `string[]`             | **REQUIRED.** It MUST comply with [OP VC Data Model](../op-vc-data-model.md). Additionally, the third value MUST be `"https://originator-profile.org/ns/cip/v1"`. |
+| `type`              | `string[]`             | **REQUIRED.** It MUST be `["VerifiableCredential", "ContentAttestation"]`.                                                                                        |
+| `issuer`            | `string`               | **REQUIRED.** It MUST be the [OP ID](../op-id.md) of the CA issuer.                                                                                               |
+| `credentialSubject` | `object`               | **REQUIRED.** A JSON-LD Node Object containing the following [credentialSubject properties](#credential-subject-properties).                                      |
+| `allowedUrl`        | `string` \| `string[]` | **REQUIRED.** Properties defined for Content Attestation. It MUST NOT be an empty array.                                                                          |
+| `target`            | `object[]`             | **REQUIRED.** Properties defined for Content Attestation. It MUST NOT be an empty array.                                                                          |
 
 #### credentialSubject Properties {#credential-subject-properties}
 

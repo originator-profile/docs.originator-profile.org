@@ -22,12 +22,12 @@ It MUST comply with [Profile Annotation](../pa.md) .
 
 #### Organization Existence PA Properties {#existence-properties}
 
-| Name                | Type       | Description                                                                                                                                                       |
-| ------------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `@context`          | `string[]` | **REQUIRED.** It MUST comply with [OP VC Data Model](../op-vc-data-model.md) . In addition, the third value MUST be `"https://originator-profile.org/ns/cip/v1"`. |
-| `type`              | `string[]` | **REQUIRED.** It MUST be `["VerifiableCredential", "ProfileAnnotation"]`.                                                                                         |
-| `issuer`            | `string`   | **REQUIRED.** It MUST be the [OP ID](../op-id.md) of the PA issuer.                                                                                               |
-| `credentialSubject` | `object`   | **REQUIRED.** A JSON-LD Node Object containing the following [credentialSubject properties](#credential-subject-properties).                                      |
+| Name                | Type       | Description                                                                                                                                                      |
+| ------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@context`          | `string[]` | **REQUIRED.** It MUST comply with [OP VC Data Model](../op-vc-data-model.md). In addition, the third value MUST be `"https://originator-profile.org/ns/cip/v1"`. |
+| `type`              | `string[]` | **REQUIRED.** It MUST be `["VerifiableCredential", "ProfileAnnotation"]`.                                                                                        |
+| `issuer`            | `string`   | **REQUIRED.** It MUST be the [OP ID](../op-id.md) of the PA issuer.                                                                                              |
+| `credentialSubject` | `object`   | **REQUIRED.** A JSON-LD Node Object containing the following [credentialSubject properties](#credential-subject-properties).                                     |
 
 #### credentialSubject Properties {#credential-subject-properties}
 
@@ -40,10 +40,10 @@ It MUST comply with [Profile Annotation](../pa.md) .
 | `image`           | `object` | **OPTIONAL.** MUST be a JSON-LD Node Object of type [`image` datatype](../context.md#the-image-datatype). This property allows you to [verify](../context.md#verifying-image-datatype) that the PA image has not been tampered with. |
 | `corporateName`   | `string` | **REQUIRED.** Company name.                                                                                                                                                                                                          |
 | `corporateNumber` | `string` | **REQUIRED.** Corporate number.                                                                                                                                                                                                      |
-| `postalCode`      | `string` | **REQUIRED.** postal code.                                                                                                                                                                                                           |
+| `postalCode`      | `string` | **REQUIRED.** Postal code.                                                                                                                                                                                                           |
 | `addressCountry`  | `string` | **REQUIRED.** Specifies the ISO 3166-1 alpha-2 country code, for example `JP` for Japan.                                                                                                                                             |
 | `addressRegion`   | `string` | **REQUIRED.** Prefectures.                                                                                                                                                                                                           |
-| `addressLocality` | `string` | **REQUIRED.** City,town,village.                                                                                                                                                                                                     |
+| `addressLocality` | `string` | **REQUIRED.** City, town, village.                                                                                                                                                                                                   |
 | `streetAddress`   | `string` | **REQUIRED.** Street address and building name.                                                                                                                                                                                      |
 | `annotation`      | `object` | **REQUIRED.** It MUST be a [Profile Annotation Policy](./pa-policy.md).                                                                                                                                                              |
 
