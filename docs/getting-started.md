@@ -46,7 +46,7 @@ Originator Profile では、発行や検証のために以下のツールとガ�
 
 - **WordPress にてコンテンツへの署名機能を利用したい**  
   記事公開時に Content Attestation を発行するプラグイン（CA Manager）を提供しています。  
-  → [WordPress プラグイン (CA Manager)](https://github.com/originator-profile/originator-profile/tree/main/packages/wordpress/README.md)
+  → [WordPress プラグイン (CA Manager)](https://github.com/originator-profile/originator-profile/blob/main/packages/wordpress/README.md)
 
 ## 次のステップ
 
