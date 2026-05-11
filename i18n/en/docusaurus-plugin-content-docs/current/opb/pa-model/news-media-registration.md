@@ -16,7 +16,7 @@ For terms not explained in this document, please see [Terminology](../terminolog
 
 ## News Media Registration PA Properties
 
-It MUST comply with [Profile Annotation](../pa.md) .
+It MUST comply with [Profile Annotation](../pa.md).
 
 ### Property
 
@@ -94,7 +94,7 @@ It MUST comply with [Certificate](../certificate.md).
 
 #### `@context`
 
-REQUIRED. It MUST comply with [OP VC Data Model](../op-vc-data-model.md) . In addition, the third value MUST be `"https://originator-profile.org/ns/cip/v1"`.
+REQUIRED. It MUST comply with [OP VC Data Model](../op-vc-data-model.md). In addition, the third value MUST be `"https://originator-profile.org/ns/cip/v1"`.
 
 #### `type`
 

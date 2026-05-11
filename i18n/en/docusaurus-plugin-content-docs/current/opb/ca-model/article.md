@@ -15,7 +15,7 @@ For terms not explained in this document, please see [Terminology](../terminolog
 
 ## Article Data Model
 
-Complies with [Content Attestation](../ca.md) .
+Complies with [Content Attestation](../ca.md).
 
 ### Property
 

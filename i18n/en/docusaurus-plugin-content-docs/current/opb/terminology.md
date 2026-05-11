@@ -15,7 +15,7 @@ Data summarizing VCs represented as the subject of a certain organization.
 
 ## Originator Profile Set (OPS)
 
-The data model and data representation defined in the [Originator Profile Set](./originator-profile-set.md) . Data summarizing VCs related to an organization.
+The data model and data representation defined in the [Originator Profile Set](./originator-profile-set.md). Data summarizing VCs related to an organization.
 
 ## OP VC Data Model Conforming Document (OP VC DM conforming document)
 
