@@ -181,14 +181,13 @@ The example includes properties not defined in this document, see [Extensibility
 
 ## Extensibility {#extensibility}
 
-Issuers MUST NOT add properties to a Content Attestation that are not defined in the [OP VC Data Model](./op-vc-data-model.md) and this document.
-
-Issuers MAY add properties that are not defined in the [OP VC Data Model](./op-vc-data-model.md) and this document, but are RECOMMENDED to do so as per [Verifiable Credentials Data Model 2.0 Section 5.2](https://www.w3.org/TR/vc-data-model-2.0/#extensibility).
+The issuer MAY add properties not defined in the [OP VC Data Model](./op-vc-data-model.md) and this document, but in such cases, they MUST follow the [registration process](./ca-model/index.mdx#registration-process).
 
 :::info
 
 For information about properties used in applications developed by the Originator Profile Collaborative Innovation Partnership, please refer to the following Originator Profile Blueprint (OPB) documents:
 
+- [Advertorial Data Model](./ca-model/advertorial.md)
 - [Article Data Model](./ca-model/article.md)
 - [Online Ad Data Model](./ca-model/online-ad.md)
 
