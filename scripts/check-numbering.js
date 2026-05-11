@@ -33,6 +33,7 @@ const TOP_LEVEL_RULES = {
   "web-ext.md": RANGE_HOW_TO,
   "debugger.md": RANGE_HOW_TO,
   "playground.md": RANGE_HOW_TO,
+  "getting-started.md": RANGE_HOW_TO,
 };
 
 /** TOP_LEVEL_RULES への登録が不要なエントリ */
