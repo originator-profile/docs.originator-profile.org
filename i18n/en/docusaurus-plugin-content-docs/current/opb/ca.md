@@ -181,7 +181,7 @@ The example includes properties not defined in this document, see [Extensibility
 
 ## Extensibility {#extensibility}
 
-The issuer MAY add properties not defined in the [OP VC Data Model](./op-vc-data-model.md) and this document, but in such cases, they MUST follow the [registration process](./ca-model/index.mdx#registration-process).
+The issuer MAY add properties not defined in the [OP VC Data Model](./op-vc-data-model.md) and this document, but in such cases, it MUST follow the [registration process](./ca-model/index.mdx#registration-process).
 
 :::info
 

@@ -67,7 +67,7 @@ Furthermore, the name, description, and URL of the Profile Annotation Policy SHO
 
 ## Extensibility {#extensibility}
 
-The issuer MAY add properties not defined in the [OP VC Data Model](./op-vc-data-model.md) and this document, but in such cases, they MUST follow the [registration process](./pa-model/index.mdx#registration-process).
+The issuer MAY add properties not defined in the [OP VC Data Model](./op-vc-data-model.md) and this document, but in such cases, it MUST follow the [registration process](./pa-model/index.mdx#registration-process).
 
 ## Appendix
 
