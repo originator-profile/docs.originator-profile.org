@@ -16,7 +16,7 @@ Originator Profile の概要については以下を参照してください。
 
 Originator Profile を利用する際は、以下の流れで読み進めると理解しやすくなります。
 
-1. OP の基本概念を把握する  
+1. Originator Profile の基本概念を把握する  
    [Originator Profile について](../tech/) を参照してください。
 2. 必要に応じて仕様で詳細を確認する  
    概要を読んだ後に [Originator Profile Blueprint (OPB)](../opb/) を参照すると、用語や仕様の理解が深まり、ガイドをスムーズに進められます。  
