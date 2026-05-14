@@ -34,7 +34,7 @@ Originator Profile provides the following tools and guides for issuing and verif
 
 Please refer to the following guides depending on your intended use.
 
-- **Using the Browser Extension**  
+- **Verify Content in the Browser**  
   This browser extension allows you to verify content on websites that support Originator Profile.  
   Use it when you want to check the originator information and verification results directly on a webpage.  
   → [Browser Extension](../web-ext/)
