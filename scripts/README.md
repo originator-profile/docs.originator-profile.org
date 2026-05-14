@@ -24,10 +24,10 @@ pnpm install
 
 | 範囲 | Diátaxisグループ              |
 | ---- | ----------------------------- |
-| 1xx  | 理解指向・理論（Explanation） |
-| 2xx  | 情報指向・理論（Reference）   |
+| 1xx  | 学習指向・実践（Tutorial）    |
+| 2xx  | 理解指向・理論（Explanation） |
 | 3xx  | 目標指向・実践（How-to）      |
-| 4xx  | 学習指向・実践（Tutorial）    |
+| 4xx  | 情報指向・理論（Reference）   |
 
 ### 使い方
 
@@ -40,7 +40,7 @@ $ scripts/check-numbering.js
 
 ```console
 $ scripts/check-numbering.js
-❌ docs/terminology/_category_.yml: position 350 は規約範囲外です（期待値: 200-299）
+❌ docs/terminology/_category_.yml: position 350 は規約範囲外です（期待値: 400-499）
 
 1 issue(s) detected.
 ```

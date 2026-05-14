@@ -13,16 +13,17 @@ const docsRoot = path.join(repoRoot, "docs");
  * 百の位がDiátaxisグループを表す。
  *
  * 範囲  Diátaxisグループ
- * 1xx   理解指向・理論（Explanation）
- * 2xx   情報指向・理論（Reference）
+ * 1xx   学習指向・実践（Tutorial, Learn）
+ * 2xx   理解指向・理論（Explanation）
  * 3xx   目標指向・実践（How-to, Guide）
- * 4xx   学習指向・実践（Tutorial, Learn）
+ * 4xx   情報指向・理論（Reference）
  */
 
-const RANGE_EXPLANATION /* */ = [100, 199]; // 1xx: 理解指向・理論（Explanation）
-const RANGE_REFERENCE /*   */ = [200, 299]; // 2xx: 情報指向・理論（Reference）
+const RANGE_TUTORIAL /*    */ = [100, 199]; // 1xx: 学習指向・実践（Tutorial）
+const RANGE_EXPLANATION /* */ = [200, 299]; // 2xx: 理解指向・理論（Explanation）
 const RANGE_HOW_TO /*      */ = [300, 399]; // 3xx: 目標指向・実践（How-to）
-// const RANGE_TUTORIAL    = [400, 499]; // 4xx: 学習指向・実践（Tutorial）（未使用）
+const RANGE_REFERENCE /*   */ = [400, 499]; // 4xx: 情報指向・理論（Reference）
+
 const TOP_LEVEL_RULES = {
   tech: RANGE_EXPLANATION,
   opb: RANGE_REFERENCE,
@@ -33,6 +34,7 @@ const TOP_LEVEL_RULES = {
   "web-ext.md": RANGE_HOW_TO,
   "debugger.md": RANGE_HOW_TO,
   "playground.md": RANGE_HOW_TO,
+  "getting-started.md": RANGE_TUTORIAL,
 };
 
 /** TOP_LEVEL_RULES への登録が不要なエントリ */
