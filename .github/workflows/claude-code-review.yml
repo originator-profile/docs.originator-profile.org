@@ -14,10 +14,10 @@ jobs:
       actions: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           fetch-depth: 1
       - name: Run Claude Code Review
-        uses: "originator-profile/originator-profile/.github/actions/claude_code_review@main"
+        uses: "originator-profile/originator-profile/.github/actions/claude_code_review@4b23d4456cd9e5d2744a5006ea5cf89d27110c01" # main
         with:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
