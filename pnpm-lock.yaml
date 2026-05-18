@@ -9,43 +9,43 @@ importers:
   .:
     devDependencies:
       '@docusaurus/core':
-        specifier: ^3.10.1
+        specifier: 3.10.1
         version: 3.10.1(@docusaurus/faster@3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.33)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(postcss@8.5.14))(@mdx-js/react@3.1.1(@types/react@19.2.14)(react@19.2.6))(@rspack/core@1.7.11)(@swc/core@1.15.33)(debug@4.4.3)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       '@docusaurus/faster':
-        specifier: ^3.10.1
+        specifier: 3.10.1
         version: 3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.33)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(postcss@8.5.14)
       '@docusaurus/preset-classic':
-        specifier: ^3.10.1
+        specifier: 3.10.1
         version: 3.10.1(@algolia/client-search@5.52.1)(@docusaurus/faster@3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.33)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(postcss@8.5.14))(@mdx-js/react@3.1.1(@types/react@19.2.14)(react@19.2.6))(@rspack/core@1.7.11)(@swc/core@1.15.33)(@types/react@19.2.14)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(search-insights@2.17.3)
       '@docusaurus/theme-mermaid':
-        specifier: ^3.10.1
+        specifier: 3.10.1
         version: 3.10.1(@docusaurus/faster@3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.33)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(postcss@8.5.14))(@docusaurus/plugin-content-docs@3.10.1(@docusaurus/faster@3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.33)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(postcss@8.5.14))(@mdx-js/react@3.1.1(@types/react@19.2.14)(react@19.2.6))(@rspack/core@1.7.11)(@swc/core@1.15.33)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(@mdx-js/react@3.1.1(@types/react@19.2.14)(react@19.2.6))(@rspack/core@1.7.11)(@swc/core@1.15.33)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       '@docusaurus/types':
-        specifier: ^3.10.1
+        specifier: 3.10.1
         version: 3.10.1(@swc/core@1.15.33)(clean-css@5.3.3)(cssnano@6.1.2(postcss@8.5.14))(html-minifier-terser@7.2.0)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       '@easyops-cn/docusaurus-search-local':
-        specifier: ^0.55.1
+        specifier: 0.55.1
         version: 0.55.1(@docusaurus/faster@3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.33)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(postcss@8.5.14))(@docusaurus/theme-common@3.10.1(@docusaurus/plugin-content-docs@3.10.1(@docusaurus/faster@3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.33)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(postcss@8.5.14))(@mdx-js/react@3.1.1(@types/react@19.2.14)(react@19.2.6))(@rspack/core@1.7.11)(@swc/core@1.15.33)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(@swc/core@1.15.33)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(@mdx-js/react@3.1.1(@types/react@19.2.14)(react@19.2.6))(@rspack/core@1.7.11)(@swc/core@1.15.33)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       '@r74tech/docusaurus-plugin-panzoom':
-        specifier: ^2.4.2
+        specifier: 2.4.2
         version: 2.4.2(@swc/core@1.15.33)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       '@types/shelljs':
-        specifier: ^0.10.0
+        specifier: 0.10.0
         version: 0.10.0
       dedent:
-        specifier: ^1.7.2
+        specifier: 1.7.2
         version: 1.7.2
       docusaurus-plugin-image-zoom:
-        specifier: ^3.0.1
+        specifier: 3.0.1
         version: 3.0.1(@docusaurus/theme-classic@3.10.1(@docusaurus/faster@3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.33)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(postcss@8.5.14))(@rspack/core@1.7.11)(@swc/core@1.15.33)(@types/react@19.2.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))
       gray-matter:
-        specifier: ^4.0.3
+        specifier: 4.0.3
         version: 4.0.3
       prettier:
-        specifier: ^3.8.3
+        specifier: 3.8.3
         version: 3.8.3
       shelljs:
-        specifier: ^0.10.0
+        specifier: 0.10.0
         version: 0.10.0
 
 packages:
