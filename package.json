@@ -7,7 +7,7 @@
   "scripts": {
     "format": "prettier --write .",
     "check": "scripts/check-numbering.js && scripts/check-original-commits.js",
-    "build": "git fetch --unshallow; docusaurus build --out-dir pages; node copy-aov.mjs; node copy-public.mjs",
+    "build": "if git rev-parse --is-shallow-repository | grep -qx true; then git fetch --unshallow; fi && docusaurus build --out-dir pages && node copy-aov.mjs && node copy-public.mjs",
     "preview": "node copy-aov.mjs; docusaurus start"
   },
   "devDependencies": {
