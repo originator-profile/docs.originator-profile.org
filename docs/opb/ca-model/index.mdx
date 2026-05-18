@@ -10,3 +10,18 @@ tags:
 import DocCardList from "@theme/DocCardList";
 
 <DocCardList />
+
+## 登録プロセス
+
+新しい型の Content Attestation を作る場合、少なくとも次のことを定義してください (MUST):
+
+- 型名
+- プロパティ定義
+
+また、型名の衝突を避けるため、定義した Content Attestation は [Content Attestation Type Registry](#registry) に登録してください (MUST)。
+
+## Content Attestation Type Registry {#registry}
+
+- `Advertorial`: [Content Attestation of Advertorial](./advertorial.md)
+- `Article`: [Content Attestation of Article Type](./article.md)
+- `OnlineAd`: [Content Attestation of Online Ad Type](./online-ad.md)

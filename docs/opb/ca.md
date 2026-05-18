@@ -180,14 +180,13 @@ CA の具体例を示します。この CA は https://media.example.com/article
 
 ## 拡張性 {#extensibility}
 
-発行者は [OP VC Data Model](./op-vc-data-model.md) および本文書に未定義のプロパティを Content Attestation に追加してはなりません (MUST NOT) 。
-
-発行者は [OP VC Data Model](./op-vc-data-model.md) および本文書に未定義のプロパティを追加してもよいです (MAY) が、その場合は [Verifiable Credentials Data Model 2.0 セクション 5.2](https://www.w3.org/TR/vc-data-model-2.0/#extensibility)に従って拡張してください (RECOMMENDED)。
+発行者は [OP VC Data Model](./op-vc-data-model.md) および本文書に未定義のプロパティを追加してもよいです (MAY) が、その場合は[登録プロセス](./ca-model/index.mdx#登録プロセス)に従ってください (MUST)。
 
 :::info
 
 Originator Profile 技術研究組合が開発するアプリケーションで使用されるプロパティについては、次の Originator Profile Blueprint (OPB) 文書を参照してください。
 
+- [Advertorial Data Model](./ca-model/advertorial.md)
 - [Article Data Model](./ca-model/article.md)
 - [Online Ad Data Model](./ca-model/online-ad.md)
 
