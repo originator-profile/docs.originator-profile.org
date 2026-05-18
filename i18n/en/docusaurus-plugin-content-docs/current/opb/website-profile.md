@@ -21,7 +21,7 @@ The Website Profile MUST be an OPVC DM compliant document and includes the follo
 
 ### Property
 
-#### Website Profile (WSP) Properties {#website-profile-properties}
+#### Website Profile (WSP) Properties {/_ #website-profile-properties _/}
 
 | Name                | Type       | Description                                                                                                                                                                     |
 | ------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -30,7 +30,7 @@ The Website Profile MUST be an OPVC DM compliant document and includes the follo
 | `issuer`            | `string`   | **REQUIRED.** It MUST be the [OP ID](./op-id.md) of the organization owning the website.                                                                                        |
 | `credentialSubject` | `object`   | **REQUIRED.** A JSON-LD Node Object containing the following [credentialSubject properties](#credential-subject-properties).                                                    |
 
-#### credentialSubject Properties {#credential-subject-properties}
+#### credentialSubject Properties {/_ #credential-subject-properties _/}
 
 | Name            | Type                   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | --------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -55,14 +55,14 @@ The Website Profile MUST be an OPVC DM compliant document and includes the follo
 - `http://example.com/?query=1` (query included)
 - `https://example.com#section` (fragment included)
 
-## Verification process {#verification}
+## Verification process {/_ #verification _/}
 
 The WSP verifier can verify the following:
 
 - [Verification of VC conformance to the OP VC Data Model](./op-vc-data-model.md#verification)
 - `allowedOrigin` verification
 
-### Verification of `allowedOrigin` {#allowed-origin-validation}
+### Verification of `allowedOrigin` {/_ #allowed-origin-validation _/}
 
 The verifier can verify the `allowedOrigin` property by following these steps (OPTIONAL):
 

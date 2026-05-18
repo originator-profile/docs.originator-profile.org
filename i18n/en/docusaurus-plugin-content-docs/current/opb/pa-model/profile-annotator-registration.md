@@ -19,7 +19,7 @@ Complies with the [Profile Annotation](../pa.md).
 
 ### Property
 
-#### Profile Annotator Registration PA Properties {#profile-annotator-registration-properties}
+#### Profile Annotator Registration PA Properties {/_ #profile-annotator-registration-properties _/}
 
 | Name                | Type       | Description                                                                                                                                                                                                                                                                        |
 | ------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -28,7 +28,7 @@ Complies with the [Profile Annotation](../pa.md).
 | `issuer`            | `string`   | **REQUIRED.** It MUST be the [OP ID](../op-id.md) of the OP Registry. The Profile Annotator Registration PA is a PA issued by the OP Registry. The OP Registry examines organizations that are candidates for Profile Annotators and issues this PA when they are deemed eligible. |
 | `credentialSubject` | `object`   | **REQUIRED.** A JSON-LD Node Object containing the following [credentialSubject properties](#credential-subject-properties).                                                                                                                                                       |
 
-#### credentialSubject Properties {#credential-subject-properties}
+#### credentialSubject Properties {/_ #credential-subject-properties _/}
 
 | Name               | Type       | Description                                                                                                                                   |
 | ------------------ | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -40,10 +40,7 @@ Complies with the [Profile Annotation](../pa.md).
 | `annotationScheme` | `string[]` | **REQUIRED.** It MUST be an array of URIs that uniquely identify the Profile Annotations which this Profile Annotator is authorized to issue. |
 | `annotation`       | `object`   | **REQUIRED.** It MUST be a [Profile Annotation Policy](./pa-policy.md) that indicates the Profile Annotator registration scheme.              |
 
-:::note
-
-Regarding the ID of the Profile Annotator registration scheme, if the registration requirements are identical across Profile Annotator registration schemes operated by the same OP Registry, the IDs SHOULD be the same value.
-
+:::note[Regarding the ID of the Profile Annotator registration scheme, if the registration requirements are identical across Profile Annotator registration schemes operated by the same OP Registry, the IDs SHOULD be the same value.]
 :::
 
 ## Verification

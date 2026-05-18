@@ -4,10 +4,7 @@ sidebar_position: 103
 
 # 暗号アルゴリズム
 
-:::note
-
-暗号アルゴリズムのサポートに関する参考情報および基準は、継続的な見直しの対象であり、必要に応じて更新される可能性があります。
-
+:::note[暗号アルゴリズムのサポートに関する参考情報および基準は、継続的な見直しの対象であり、必要に応じて更新される可能性があります。]
 :::
 
 ## 署名アルゴリズム
@@ -31,23 +28,17 @@ sidebar_position: 103
 
 実装者はアルゴリズムを定期的に見直し、危殆化したアルゴリズムの使用を中止してください (RECOMMENDED)。
 
-:::note
-
-C2PA 2.0 署名アルゴリズムの許可リストに含まれる `EdDSA` は[^1]、本文書が書かれた時点ではサポートしない実装が一定数存在するため[^2]、`EdDSA` は許可リストに含めていません。
-
+:::note[C2PA 2.0 署名アルゴリズムの許可リストに含まれる `EdDSA` は[^1]、本文書が書かれた時点ではサポートしない実装が一定数存在するため[^2]、`EdDSA` は許可リストに含めていません。]
 [^1]: https://c2pa.org/specifications/specifications/2.0/specs/C2PA_Specification.html#_signature_algorithms
 
 [^2]: https://github.com/WICG/webcrypto-secure-curves/issues/20
 
 :::
 
-:::note
-
-Originator Profile 技術研究組合の開発するアプリケーションでは、当面の間、署名アルゴリズムは ES256 のみをサポートします。
-
+:::note[Originator Profile 技術研究組合の開発するアプリケーションでは、当面の間、署名アルゴリズムは ES256 のみをサポートします。]
 :::
 
-## ハッシュアルゴリズム {#hash-algorithm}
+## ハッシュアルゴリズム {/_ #hash-algorithm _/}
 
 OP の仕様に準拠するアプリケーションは、 CA の Content Integrity Descriptor の `integrity` プロパティの値を生成・検証するとき、および各 VC の `digestSRI` プロパティの値を生成・検証するときに、使用するハッシュアルゴリズムについて次の要件を満たす必要があります (MUST)。
 
@@ -55,13 +46,10 @@ OP の仕様に準拠するアプリケーションは、 CA の Content Integri
 
 実装者はハッシュアルゴリズムを定期的に見直し、危殆化したハッシュアルゴリズムは使用しないようにしてください。
 
-:::note
-
-Originator Profile 技術研究組合の開発するアプリケーションでは、当面の間、ハッシュアルゴリズムは SHA-256 のみをサポートします。
-
+:::note[Originator Profile 技術研究組合の開発するアプリケーションでは、当面の間、ハッシュアルゴリズムは SHA-256 のみをサポートします。]
 :::
 
-## セキュリティの考慮事項 {#security-considerations}
+## セキュリティの考慮事項 {/_ #security-considerations _/}
 
 _このセクションは非規範的です。_
 

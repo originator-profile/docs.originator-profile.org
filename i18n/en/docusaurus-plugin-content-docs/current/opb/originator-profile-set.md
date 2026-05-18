@@ -69,13 +69,13 @@ Below is an example of an OPS that includes VCs from multiple organizations.
 ]
 ```
 
-## Internationalization {#internationalization}
+## Internationalization {/_ #internationalization _/}
 
 Originator Profile Set distributors MAY include two or more VCs with different languages specified in their respective `annotations` and `media` properties, to allow applications to extract VCs based on locale.
 
 The method for specifying the language(s) in VCs conforms to the [internationalization section of the OP VC Data Model](/opb/op-vc-data-model.md#internationalization).
 
-## Validation Process {#verification}
+## Validation Process {/_ #verification _/}
 
 _This section is non-normative._
 

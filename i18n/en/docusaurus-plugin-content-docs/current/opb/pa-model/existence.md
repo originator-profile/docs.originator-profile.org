@@ -20,7 +20,7 @@ It MUST comply with [Profile Annotation](../pa.md).
 
 ### Property
 
-#### Organization Existence PA Properties {#existence-properties}
+#### Organization Existence PA Properties {/_ #existence-properties _/}
 
 | Name                | Type       | Description                                                                                                                                                      |
 | ------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -29,7 +29,7 @@ It MUST comply with [Profile Annotation](../pa.md).
 | `issuer`            | `string`   | **REQUIRED.** It MUST be the [OP ID](../op-id.md) of the PA issuer.                                                                                              |
 | `credentialSubject` | `object`   | **REQUIRED.** A JSON-LD Node Object containing the following [credentialSubject properties](#credential-subject-properties).                                     |
 
-#### credentialSubject Properties {#credential-subject-properties}
+#### credentialSubject Properties {/_ #credential-subject-properties _/}
 
 | Name              | Type     | Description                                                                                                                                                                                                                          |
 | ----------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -47,8 +47,7 @@ It MUST comply with [Profile Annotation](../pa.md).
 | `streetAddress`   | `string` | **REQUIRED.** Street address and building name.                                                                                                                                                                                      |
 | `annotation`      | `object` | **REQUIRED.** It MUST be a [Profile Annotation Policy](./pa-policy.md).                                                                                                                                                              |
 
-:::note
-The properties of the organization existence PA outside of Japan are currently under consideration.
+:::note[The properties of the organization existence PA outside of Japan are currently under consideration.]
 :::
 
 ## Appendix
@@ -132,8 +131,7 @@ REQUIRED. It is JSON-LD Node Object that represents organization existence certi
 - `certificationSystem.description`: OPTIONAL. Explaining the certification system (string).
 - `certificationSystem.ref`: RECOMMENDED. The URL of a human-readable page to learn more about the certification system.
 
-:::note
-The properties of the organization existence certificate outside of Japan are currently under consideration.
+:::note[The properties of the organization existence certificate outside of Japan are currently under consideration.]
 :::
 
 ## Appendix

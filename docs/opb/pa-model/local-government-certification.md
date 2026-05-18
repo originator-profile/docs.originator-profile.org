@@ -19,7 +19,7 @@ tags:
 
 ### プロパティ
 
-#### 自治体認証 PA のプロパティ一覧 {#local-government-certification-properties}
+#### 自治体認証 PA のプロパティ一覧 {/_ #local-government-certification-properties _/}
 
 | Name                | Type       | Description                                                                                                                                                                        |
 | ------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -28,7 +28,7 @@ tags:
 | `issuer`            | `string`   | **REQUIRED.** PA 発行者の [OP ID](../op-id.md) でなければなりません (MUST)。                                                                                                       |
 | `credentialSubject` | `object`   | **REQUIRED.** 次の [credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。                                                               |
 
-#### credentialSubject のプロパティ一覧 {#credential-subject-properties}
+#### credentialSubject のプロパティ一覧 {/_ #credential-subject-properties _/}
 
 | Name          | Type     | Description                                                                                                                                                                                                                                              |
 | ------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -39,10 +39,7 @@ tags:
 | `image`       | `object` | **OPTIONAL.** [`image` データ型](../context.md#the-image-datatype) の JSON-LD Node Object でなければなりません (MUST)。このプロパティで Profile Annotation の画像が改ざんされていないかを[検証](../context.md#image-datatype-の検証)することができます。 |
 | `annotation`  | `object` | **REQUIRED.** [Profile Annotation Policy](./pa-policy.md) でなければなりません (MUST)。                                                                                                                                                                  |
 
-:::note
-
-日本以外の自治体認証 PA のプロパティに関しては検討中です。
-
+:::note[日本以外の自治体認証 PA のプロパティに関しては検討中です。]
 :::
 
 ## Appendix
@@ -115,10 +112,7 @@ REQUIRED. 自治体認証証明書を表す JSON-LD Node Object です。
 - `certificationSystem.description`: OPTIONAL. 認証制度の説明です（文字列）。
 - `certificationSystem.ref`: RECOMMENDED. 認証制度の詳細を知るための人が読むためのページの URL です。
 
-:::note
-
-日本以外の自治体認証証明書のプロパティに関しては検討中です。
-
+:::note[日本以外の自治体認証証明書のプロパティに関しては検討中です。]
 :::
 
 ## Appendix

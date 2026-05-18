@@ -17,7 +17,7 @@ For terms not explained in this document, please see [Terminology](../terminolog
 
 ### Property
 
-#### Profile Annotation Policy Properties {#profile-annotation-policy-properties}
+#### Profile Annotation Policy Properties {/_ #profile-annotation-policy-properties _/}
 
 | Name          | Type     | Description                                                                                        |
 | ------------- | -------- | -------------------------------------------------------------------------------------------------- |

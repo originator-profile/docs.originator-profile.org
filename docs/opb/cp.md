@@ -16,13 +16,13 @@ tags:
 - OP VC Data Model Conforming Document (OP VC DM 準拠文書)
 - Profile Annotation (PA)
 
-## Core Profile (CP) のデータモデル {#data-model}
+## Core Profile (CP) のデータモデル {/_ #data-model _/}
 
 Core Profile は OP VC DM 準拠文書でなければなりません (MUST)。他に以下のプロパティを含みます。
 
-### プロパティ {#properties}
+### プロパティ {/_ #properties _/}
 
-#### Core Profile のプロパティ一覧 {#core-profile-properties}
+#### Core Profile のプロパティ一覧 {/_ #core-profile-properties _/}
 
 | Name                | Type       | Description                                                                                                                                                          |
 | ------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -31,7 +31,7 @@ Core Profile は OP VC DM 準拠文書でなければなりません (MUST)。�
 | `issuer`            | `string`   | **REQUIRED.** VC 発行組織の [OP ID](./op-id.md) でなければなりません (MUST)。                                                                                        |
 | `credentialSubject` | `object`   | **REQUIRED.** 次の [credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。                                                 |
 
-#### credentialSubject のプロパティ一覧 {#credential-subject-properties}
+#### credentialSubject のプロパティ一覧 {/_ #credential-subject-properties _/}
 
 | Name   | Type     | Description                                                                                                                                 |
 | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -39,7 +39,7 @@ Core Profile は OP VC DM 準拠文書でなければなりません (MUST)。�
 | `type` | `string` | **REQUIRED.** `Core` でなければなりません (MUST)。                                                                                          |
 | `jwks` | `object` | **REQUIRED.** [JWK Set](https://www.rfc-editor.org/rfc/rfc7517.html#section-5) でなければなりません (MUST)。CP 保有組織の公開鍵の集合です。 |
 
-## 拡張性 {#extensibility}
+## 拡張性 {/_ #extensibility _/}
 
 発行者は [OP VC Data Model](./op-vc-data-model.md) および本文書に未定義のプロパティを Core Profile に追加してはなりません (MUST NOT) 。仕様策定者も Core Profile へのプロパティの追加を避けることが強く推奨されます (SHOULD)。
 

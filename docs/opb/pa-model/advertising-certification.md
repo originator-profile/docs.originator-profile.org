@@ -19,7 +19,7 @@ tags:
 
 ### プロパティ
 
-#### 広告認証 PA のプロパティ一覧 {#advertising-certification-properties}
+#### 広告認証 PA のプロパティ一覧 {/_ #advertising-certification-properties _/}
 
 | Name                | Type       | Description                                                                                                                                                                        |
 | ------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -30,7 +30,7 @@ tags:
 | `validFrom`         | `string`   | **OPTIONAL.** [Profile Annotation](../pa.md#profile-annotation-properties) に準拠します。広告認証の交付日の最初の時刻を指定してください。                                          |
 | `validUntil`        | `string`   | **OPTIONAL.** [Profile Annotation](../pa.md#profile-annotation-properties) に準拠します。広告認証の有効期限の日時の最後の時刻を指定してください。                                  |
 
-#### credentialSubject のプロパティ一覧 {#credential-subject-properties}
+#### credentialSubject のプロパティ一覧 {/_ #credential-subject-properties _/}
 
 | Name          | Type     | Description                                                                                                                                                                                                                                              |
 | ------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -83,8 +83,7 @@ _このセクションは非規範的です。_
 }
 ```
 
-:::warning 移行が必要です
-
+:::warning[移行が必要です]
 次にあるような以前の [Certificate](../certificate.md) を拡張する形式を使用している場合、2027-01-01 以降は検証できなくなります。それまでに発行者は本文書に定める形式への移行が必要です。
 
 ---

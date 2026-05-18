@@ -19,7 +19,7 @@ tags:
 
 ### プロパティ
 
-#### 組織実在証 PA のプロパティ一覧 {#existence-properties}
+#### 組織実在証 PA のプロパティ一覧 {/_ #existence-properties _/}
 
 | Name                | Type       | Description                                                                                                                                                                        |
 | ------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -28,7 +28,7 @@ tags:
 | `issuer`            | `string`   | **REQUIRED.** PA 発行者の [OP ID](../op-id.md) でなければなりません (MUST)。                                                                                                       |
 | `credentialSubject` | `object`   | **REQUIRED.** 次の [credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。                                                               |
 
-#### credentialSubject のプロパティ一覧 {#credential-subject-properties}
+#### credentialSubject のプロパティ一覧 {/_ #credential-subject-properties _/}
 
 | Name              | Type     | Description                                                                                                                                                                                                                              |
 | ----------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -46,8 +46,7 @@ tags:
 | `streetAddress`   | `string` | **REQUIRED.** 番地・ビル名です。                                                                                                                                                                                                         |
 | `annotation`      | `object` | **REQUIRED.** [Profile Annotation Policy](./pa-policy.md) でなければなりません (MUST)。                                                                                                                                                  |
 
-:::note
-日本以外の組織実在証 PA のプロパティに関しては検討中です。
+:::note[日本以外の組織実在証 PA のプロパティに関しては検討中です。]
 :::
 
 ## Appendix
@@ -131,8 +130,7 @@ REQUIRED. 日本における実在性を表す JSON-LD Node Object です。
 - `certificationSystem.description`: OPTIONAL. 認証制度の説明です（文字列）。
 - `certificationSystem.ref`: RECOMMENDED. 認証制度の詳細を知るための人が読むためのページの URL です。
 
-:::note
-日本以外の組織実在性証明書のプロパティに関しては検討中です。
+:::note[日本以外の組織実在性証明書のプロパティに関しては検討中です。]
 :::
 
 ## Appendix

@@ -60,10 +60,7 @@ Below is Text Target format
 | `integrity`   | `string` | **REQUIRED.** It MUST be the [`sriString` data type](../context.md#the-sristring-datatype). For available hash functions, it MUST conform to [Hash Algorithm](../algorithm.md#hash-algorithm). Example: `sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U=` |
 | `cssSelector` | `string` | **REQUIRED.** It MUST be a [CSS Selector (Selectors Level 3)](https://www.w3.org/TR/selectors-3/).                                                                                                                                                            |
 
-:::note
-
-CA issuers are RECOMMENDED to specify `cssSelector` so that the elements that `cssSelector` matches do not change regardless of dynamic changes to the page. For example, specify a more detailed CSS selector such as `#paragraphID` or `p.rareClassName`, rather than just specifying a tag name such as `p` for `cssSelector`. If there is no CSS selector that stably and uniquely identifies the target element, it is RECOMMENDED to update the page and design the page so that it is easier to specify an id attribute for the target element.
-
+:::note[CA issuers are RECOMMENDED to specify `cssSelector` so that the elements that `cssSelector` matches do not change regardless of dynamic changes to the page. For example, specify a more detailed CSS selector such as `#paragraphID` or `p.rareClassName`, rather than just specifying a tag name such as `p` for `cssSelector`. If there is no CSS selector that stably and uniquely identifies the target element, it is RECOMMENDED to update the page and design the page so that it is easier to specify an id attribute for the target element.]
 :::
 
 ## Validation Process
@@ -77,9 +74,7 @@ CA issuers are RECOMMENDED to specify `cssSelector` so that the elements that `c
 4. Validate the result and the `integrity` property using the methods specified in [SRI section 3.3.5](https://www.w3.org/TR/SRI/#does-response-match-metadatalist).
    - If an unsupported hash algorithm is used, it may be treated as a verification failure.
 
-:::note
-
-Text Targets use the [`textContent` attribute](https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent) and are different from the [`innerText` attribute](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/innerText).
+:::note[Text Targets use the [`textContent` attribute](https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent) and are different from the [`innerText` attribute](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/innerText).]
 See [Differences from innerText - MDN](https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent#differences_from_innertext) for the main differences between the two.
 
 :::

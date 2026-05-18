@@ -17,7 +17,7 @@ For terms not explained in this document, please see [Terminology](../terminolog
 
 ### Property
 
-#### Online Ad Properties {#online-ad-properties}
+#### Online Ad Properties {/_ #online-ad-properties _/}
 
 | Name                | Type                   | Description                                                                                                                                                     |
 | ------------------- | ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -28,7 +28,7 @@ For terms not explained in this document, please see [Terminology](../terminolog
 | `allowedUrl`        | `string` \| `string[]` | **REQUIRED.** It is a property defined for Content Attestation. It MUST NOT be an empty array.                                                                  |
 | `target`            | `object[]`             | **REQUIRED.** It is a property defined for Content Attestation. It MUST NOT be an empty array.                                                                  |
 
-#### credentialSubject Properties {#credential-subject-properties}
+#### credentialSubject Properties {/_ #credential-subject-properties _/}
 
 :::info[Attention]
 The `name`, `description`, and `image` properties are each OPTIONAL, but at least one of the three MUST be included.
@@ -49,24 +49,19 @@ The `name`, `description`, and `image` properties are each OPTIONAL, but at leas
 | `adDataHandlingPolicy` | `object` | **OPTIONAL.** Information regarding the handling of information related to ad serving. MUST be a JSON-LD Node Object of type [`page`](../context.md#the-page-datatype).                                                                                                                                          |
 | `adDisplayRationale`   | `object` | **OPTIONAL.** A JSON-LD Node Object containing the following [adDisplayRationale Properties](#ad-display-rationale-properties).                                                                                                                                                                                  |
 
-#### adDisplayRationale Properties {#ad-display-rationale-properties}
+#### adDisplayRationale Properties {/_ #ad-display-rationale-properties _/}
 
 | Name          | Type     | Description                                                                                                                                     |
 | ------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
 | `page`        | `object` | **OPTIONAL.** The reason this ad is being displayed(web page). MUST be a JSON-LD Node Object of type [`page`](../context.md#the-page-datatype). |
 | `description` | `string` | **OPTIONAL.** The reason this ad is being displayed.                                                                                            |
 
-:::note
-
-The properties within `credentialSubject` were decided with reference to https://schema.org/CreativeWork.
+:::note[The properties within `credentialSubject` were decided with reference to https://schema.org/CreativeWork.]
 We plan to decide the extent to which we will comply with schema.org regarding the interpretation of each property and whether it is necessary or not, based on discussions with companies that use OP.
 
 :::
 
-:::note
-
-The definition of properties for advertisements other than image or banner ads is under consideration for future work.
-
+:::note[The definition of properties for advertisements other than image or banner ads is under consideration for future work.]
 :::
 
 ## Appendix

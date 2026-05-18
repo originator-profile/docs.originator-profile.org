@@ -19,7 +19,7 @@ Complies with [Content Attestation](../ca.md).
 
 ### Property
 
-#### Article Properties {#article-properties}
+#### Article Properties {/_ #article-properties _/}
 
 | Name                | Type                   | Description                                                                                                                                                       |
 | ------------------- | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -30,7 +30,7 @@ Complies with [Content Attestation](../ca.md).
 | `allowedUrl`        | `string` \| `string[]` | **REQUIRED.** Properties defined for Content Attestation. It MUST NOT be an empty array.                                                                          |
 | `target`            | `object[]`             | **REQUIRED.** Properties defined for Content Attestation. It MUST NOT be an empty array.                                                                          |
 
-#### credentialSubject Properties {#credential-subject-properties}
+#### credentialSubject Properties {/_ #credential-subject-properties _/}
 
 | Name            | Type       | Description                                                                                                                                                                                                                                                                         |
 | --------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -45,10 +45,7 @@ Complies with [Content Attestation](../ca.md).
 | `editor`        | `string[]` | **OPTIONAL.** An array of editor names.                                                                                                                                                                                                                                             |
 | `genre`         | `string`   | **OPTIONAL.** Genre.                                                                                                                                                                                                                                                                |
 
-:::note
-
-The properties in `credentialSubject` were decided based on https://schema.org/Article. We plan to decide the extent to which we will comply with schema.org regarding the interpretation of each property and whether it is necessary or not, based on exchanges of opinions with companies that use OP.
-
+:::note[The properties in `credentialSubject` were decided based on https://schema.org/Article. We plan to decide the extent to which we will comply with schema.org regarding the interpretation of each property and whether it is necessary or not, based on exchanges of opinions with companies that use OP.]
 :::
 
 ## Appendix

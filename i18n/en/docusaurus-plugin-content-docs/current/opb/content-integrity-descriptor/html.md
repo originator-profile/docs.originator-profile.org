@@ -60,10 +60,7 @@ HTML Target is expressed in the following format:
 | `integrity`   | `string` | **REQUIRED.** It MUST be the [`sriString` data type](../context.md#the-sristring-datatype). For available hash functions, it MUST conform to [Hash Algorithm](../algorithm.md#hash-algorithm). Example: `sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U=` |
 | `cssSelector` | `string` | **REQUIRED.** It MUST be a [CSS Selector (Selectors Level 3)](https://www.w3.org/TR/selectors-3/).                                                                                                                                                            |
 
-:::note
-
-CA issuers should specify `cssSelector` so that the elements that `cssSelector` matches will not change regardless of dynamic changes to the page (RECOMMENDED). For example, instead of specifying only a tag name such as `p` for `cssSelector`, specify a more specific CSS selector such as `#paragraphID` or `p.rareClassName`. If there is no CSS selector that can stably and uniquely identify the target element, it is RECOMMENDED to update the page and design the page so that it is easier to identify, for example by specifying an id attribute for the target element.
-
+:::note[CA issuers should specify `cssSelector` so that the elements that `cssSelector` matches will not change regardless of dynamic changes to the page (RECOMMENDED). For example, instead of specifying only a tag name such as `p` for `cssSelector`, specify a more specific CSS selector such as `#paragraphID` or `p.rareClassName`. If there is no CSS selector that can stably and uniquely identify the target element, it is RECOMMENDED to update the page and design the page so that it is easier to identify, for example by specifying an id attribute for the target element.]
 :::
 
 ## Validation Process

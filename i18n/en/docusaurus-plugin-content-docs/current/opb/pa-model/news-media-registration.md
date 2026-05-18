@@ -20,7 +20,7 @@ It MUST comply with [Profile Annotation](../pa.md).
 
 ### Property
 
-#### News Media Registration PA Properties {#news-media-registration-properties}
+#### News Media Registration PA Properties {/_ #news-media-registration-properties _/}
 
 | Name                | Type       | Description                                                                                                                                                                                              |
 | ------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -30,7 +30,7 @@ It MUST comply with [Profile Annotation](../pa.md).
 | `credentialSubject` | `object`   | **REQUIRED.** A JSON-LD Node Object containing the following [credentialSubject properties](#credential-subject-properties).                                                                             |
 | `validFrom`         | `string`   | **OPTIONAL.** Conforms to the [Profile Annotation](../pa.md#profile-annotation-properties). If included, please include the start time of the date your media organization registration was established. |
 
-#### credentialSubject Properties {#credential-subject-properties}
+#### credentialSubject Properties {/_ #credential-subject-properties _/}
 
 | Name          | Type     | Description                                                                                                                                                                                                                          |
 | ------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -104,10 +104,7 @@ REQUIRED. `It MUST comply with ["VerifiableCredential", "Certificate"]` .
 
 REQUIRED. It is the OP ID of the organization issuing the certificate.
 
-:::note
-
-Currently, news media registration certificates are issued by OP registries that receive OP applications from news media organizations, so the value of the `issuer` property is the OP ID of the OP registry.
-
+:::note[Currently, news media registration certificates are issued by OP registries that receive OP applications from news media organizations, so the value of the `issuer` property is the OP ID of the OP registry.]
 :::
 
 #### `credentialSubject`

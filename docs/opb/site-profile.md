@@ -26,10 +26,7 @@ Site Profile は OPS と WSP をまとめた次のような JSON です。
 | `originators` | `object[]` | **REQUIRED.** OPS です。       |
 | `sites`       | `string[]` | **REQUIRED.** WSP の配列です。 |
 
-:::note
-
-`sites` プロパティには同じサブジェクトの WSP を含めてください。つまり、配列に2つ以上のWSPを持つ場合は[国際化](#internationalization)を目的としているはずです。
-
+:::note[`sites` プロパティには同じサブジェクトの WSP を含めてください。つまり、配列に2つ以上のWSPを持つ場合は[国際化](#internationalization)を目的としているはずです。]
 :::
 
 非規範的な例を示します。
@@ -77,10 +74,7 @@ Content-Type: application/json
 ...
 ```
 
-:::note
-
-実装者は `Accept-Language` リクエストヘッダーがユーザーにとってプライベートな性質があると考える情報が明らかになる (ユーザーがどの民族に属しているかなど) ことを加味してプライバシーに配慮した実装をしなければなりません。 具体的には、ログとして収集する範囲に `Accept-Language` を含めない、ログを保持する期間を定める、プライバシーポリシーによって `Accept-Language` の取扱いを明示するなどです。
-
+:::note[実装者は `Accept-Language` リクエストヘッダーがユーザーにとってプライベートな性質があると考える情報が明らかになる (ユーザーがどの民族に属しているかなど) ことを加味してプライバシーに配慮した実装をしなければなりません。 具体的には、ログとして収集する範囲に `Accept-Language` を含めない、ログを保持する期間を定める、プライバシーポリシーによって `Accept-Language` の取扱いを明示するなどです。]
 :::
 
 ### レスポンス
@@ -88,7 +82,7 @@ Content-Type: application/json
 Site Profile の　well-known パスへの GET リクエストに対して Site Profile を返す場合、ステータスコードは200で、ボディーを Site Profile にしてください (MUST)。
 サーバーはリクエストに `Accept-Language` ヘッダーが含まれる場合、 [RFC 4647 セクション 3](https://www.rfc-editor.org/rfc/rfc4647.html#section-3) に従って WSP および OPS の言語を選択しなければなりません (MUST)。
 
-## 国際化 {#internationalization}
+## 国際化 {/_ #internationalization _/}
 
 Site Profile 配布者は、アプリケーションがロケールに応じて VCs を抽出できるように、`sites` プロパティに異なる言語が指定された 2 つ以上の VCs を含めて配布することができます (MAY)。
 
@@ -96,7 +90,7 @@ VCs への言語の指定方法は [OP VC Data Model の国際化](/opb/op-vc-da
 
 `originators` プロパティの国際化方法は [Originator Profile Set の国際化](/opb/originator-profile-set.md#internationalization)に準じます。
 
-## 検証プロセス {#verification}
+## 検証プロセス {/_ #verification _/}
 
 _このセクションは非規範的です。_
 

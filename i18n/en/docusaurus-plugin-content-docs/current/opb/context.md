@@ -81,8 +81,7 @@ Example of JSON-LD Node Object:
 }
 ```
 
-:::note Security Considerations
-
+:::note[Security Considerations]
 Application implementers should take the following points into consideration for text content other than the `text/plain` format:
 
 - Do not assume that text content will be encoded into another format (e.g. converting from `text/markdown` to `text/html`), due to the risk of XSS vulnerabilities in the conversion process.
@@ -94,10 +93,7 @@ Application implementers should take the following points into consideration for
 
 :::
 
-:::note
-
-In the applications developed by OP-CIP, only the following HTML tags are allowed: `<br>`, `<p>`, `<ol>`, `<ul>`, and `<li>`. No attribute entries are allowed, including `data-*` attributes.
-
+:::note[In the applications developed by OP-CIP, only the following HTML tags are allowed: `<br>`, `<p>`, `<ol>`, `<ul>`, and `<li>`. No attribute entries are allowed, including `data-*` attributes.]
 [Reference implementation](https://github.com/originator-profile/originator-profile/blob/v0.4.0-beta.5/packages/ui/src/utils/use-sanitized-html-for-description.ts#L18-L25)
 
 :::

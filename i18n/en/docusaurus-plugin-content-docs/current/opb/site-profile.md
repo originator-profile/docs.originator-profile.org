@@ -27,10 +27,7 @@ The Site Profile is the following JSON that summarizes the OPS and WSP.
 | `originators` | `object[]` | **REQUIRED.** This is OPS.             |
 | `sites`       | `string[]` | **REQUIRED.** This is an array of WSP. |
 
-:::note
-
-The `sites` property should contain WSPs for the same subject. That is, the array has two or more WSP, it should be for the purpose of [internationalization](#internationalization).
-
+:::note[The `sites` property should contain WSPs for the same subject. That is, the array has two or more WSP, it should be for the purpose of [internationalization](#internationalization).]
 :::
 
 Below is non-normative example.
@@ -78,10 +75,7 @@ Content-Type: application/json
 ...
 ```
 
-:::note
-
-Implementers must take into consideration privacy considerations when implementing the `Accept-Language` request header, taking into account that it may reveal information that the user considers to be private (such as the user's ethnicity). Specifically, implementers should not include `Accept-Language` in the scope of logs collected, should specify the period for which logs are to be retained, and should clearly state how `Accept-Language` will be handled in a privacy policy.
-
+:::note[Implementers must take into consideration privacy considerations when implementing the `Accept-Language` request header, taking into account that it may reveal information that the user considers to be private (such as the user's ethnicity). Specifically, implementers should not include `Accept-Language` in the scope of logs collected, should specify the period for which logs are to be retained, and should clearly state how `Accept-Language` will be handled in a privacy policy.]
 :::
 
 ### Response
@@ -89,7 +83,7 @@ Implementers must take into consideration privacy considerations when implementi
 If a Site Profile is returned in response to a GET request to the Site Profile's well-known path, the status code MUST be 200 and the body MUST be the Site Profile.
 If the request includes an `Accept-Language` header, the server MUST select the language for the WSP and OPS according to [RFC 4647 Section 3](https://www.rfc-editor.org/rfc/rfc4647.html#section-3).
 
-## Internationalization {#internationalization}
+## Internationalization {/_ #internationalization _/}
 
 Site Profile distributors MAY include two or more VCs with different languages specified in `sites` property, to allow applications to extract VCs based on locale.
 
@@ -97,7 +91,7 @@ The method for specifying the language(s) in VCs conforms to the [internationali
 
 The internationalization method for the `originators` property conforms to the [internationalization section of the Originator Profile Set](/opb/originator-profile-set.md#internationalization).
 
-## Verification Process {#verification}
+## Verification Process {/_ #verification _/}
 
 _This section is non-normative_
 

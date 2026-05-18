@@ -21,7 +21,7 @@ The Web Media Profile MUST be an OP VC DM compliant document and includes the fo
 
 ### Property
 
-#### Web Media Profile (WMP) Properties {#web-media-profile-properties}
+#### Web Media Profile (WMP) Properties {/_ #web-media-profile-properties _/}
 
 | Name                | Type       | Description                                                                                                                  |
 | ------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------- |
@@ -30,7 +30,7 @@ The Web Media Profile MUST be an OP VC DM compliant document and includes the fo
 | `issuer`            | `string`   | **REQUIRED.** It MUST be the issuer of the Core Profile of the WMP holder organization.                                      |
 | `credentialSubject` | `object`   | **REQUIRED.** A JSON-LD Node Object containing the following [credentialSubject properties](#credential-subject-properties). |
 
-#### credentialSubject Properties {#credential-subject-properties}
+#### credentialSubject Properties {/_ #credential-subject-properties _/}
 
 | Name                            | Type                   | Description                                                                                                                                                                                                                                                                      |
 | ------------------------------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -47,31 +47,20 @@ The Web Media Profile MUST be an OP VC DM compliant document and includes the fo
 | `privacyPolicy`                 | `object`               | **OPTIONAL.** Privacy policy page information. It MUST be a JSON-LD Node Object of type [`page` datatype](./context.md#the-page-datatype).                                                                                                                                       |
 | `description`                   | `object` \| `object[]` | **OPTIONAL.** A free-form text about the organization. It MUST be of [`description` datatype](./context.md#the-description-datatype) or an array of such type.                                                                                                                   |
 
-:::note
-
-The information contained in the WMP will be reviewed by the organization that issues the Core Profile.
-
+:::note[The information contained in the WMP will be reviewed by the organization that issues the Core Profile.]
 :::
 
-:::note
-
-The information transmission policy to be included in the `informationTransmissionPolicy` property is a required condition for granting an OP ID under Article 3, Paragraph 1 of the [Originator Profile Charter](https://originator-profile.org/en-US/charter/).
-
+:::note[The information transmission policy to be included in the `informationTransmissionPolicy` property is a required condition for granting an OP ID under Article 3, Paragraph 1 of the [Originator Profile Charter](https://originator-profile.org/en-US/charter/).]
 :::
 
-:::note
-
-The specification is currently under consideration to include the signature of the WMP holder organization on a part of the WMP, such as the `informationTransmissionPolicy` property, or on the entire WMP, to verify the Originator Profile organization's explicit affirmation of compliance with Article 3, Paragraph 1 of the Charter.
+:::note[The specification is currently under consideration to include the signature of the WMP holder organization on a part of the WMP, such as the `informationTransmissionPolicy` property, or on the entire WMP, to verify the Originator Profile organization's explicit affirmation of compliance with Article 3, Paragraph 1 of the Charter.]
 
 - Signature by the WMP holder organization on a part of the WMP (e.g., the `informationTransmissionPolicy` property): Adding a property in the [JWS Compact Serialization](https://www.rfc-editor.org/rfc/rfc7515.html#section-3.1) format.
 - Dual signature by the issuer and the WMP holder organization on the entire WMP: Signing the WMP using the [JWS JSON Serialization](https://www.rfc-editor.org/rfc/rfc7515.html#section-3.2) format.
 
 :::
 
-:::note
-
-When the `description` property contains two or more elements of the `description` datatype, the intention should be to represent the same text content in multiple encoding formats. Furthermore, if text content is provided in multiple encoding formats, we recommend that one of the elements be `text/plain` content so that application implementers can comply with their defined security policy.
-
+:::note[When the `description` property contains two or more elements of the `description` datatype, the intention should be to represent the same text content in multiple encoding formats. Furthermore, if text content is provided in multiple encoding formats, we recommend that one of the elements be `text/plain` content so that application implementers can comply with their defined security policy.]
 :::
 
 ## Extensibility

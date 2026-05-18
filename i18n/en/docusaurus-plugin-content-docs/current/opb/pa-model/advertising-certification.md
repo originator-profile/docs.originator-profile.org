@@ -20,7 +20,7 @@ It MUST comply with [Profile Annotation](../pa.md).
 
 ### Property
 
-#### Advertising Certification PA Properties {#advertising-certification-properties}
+#### Advertising Certification PA Properties {/_ #advertising-certification-properties _/}
 
 | Name                | Type       | Description                                                                                                                                                                            |
 | ------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -31,7 +31,7 @@ It MUST comply with [Profile Annotation](../pa.md).
 | `validFrom`         | `string`   | **OPTIONAL.** Conforms to the [Profile Annotation](../pa.md#profile-annotation-properties). Specify the earliest time on the date the advertising certification was issued.            |
 | `validUntil`        | `string`   | **OPTIONAL.** Conforms to the [Profile Annotation](../pa.md#profile-annotation-properties). Specify the latest time for the expiration date and time of the advertising certification. |
 
-#### credentialSubject Properties {#credential-subject-properties}
+#### credentialSubject Properties {/_ #credential-subject-properties _/}
 
 | Name          | Type     | Description                                                                                                                                                                                                                          |
 | ------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -84,8 +84,7 @@ Below is a concrete example of an advertising certification PA.
 }
 ```
 
-:::warning Migration Required
-
+:::warning[Migration Required]
 If you are using a previous format that extends [Certificate](../certificate.md), such as the one below, it will become unverifiable after 2027-01-01. The issuer MUST migrate to the format defined in this document by then.
 
 ---

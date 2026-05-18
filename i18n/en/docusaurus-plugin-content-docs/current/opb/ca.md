@@ -8,10 +8,7 @@ tags:
 
 # Content Attestation
 
-:::note
-
-The subjects of CA verification were (1) verification based on specific events caused by active confirmation operations by users when a page load is completed, and (2) verification during dynamic loading and rewriting of DOM in real time, but (2) highly real-time timing is not expected as a target of CA verification.
-
+:::note[The subjects of CA verification were (1) verification based on specific events caused by active confirmation operations by users when a page load is completed, and (2) verification during dynamic loading and rewriting of DOM in real time, but (2) highly real-time timing is not expected as a target of CA verification.]
 The reason is that algorithms that target rendered text as the signature target, such as changing the target element of a CSS selector or [Visible Text Target](/opb/content-integrity-descriptor/visible-text.md), are not compatible with real-time verification during DOM rewriting, and there is an impact on browser performance/power consumption.
 
 The verification of information senders assumed by OP is different from the blocks embedded in the pages of dangerous sites, and there is no security need to avoid loading itself. As mentioned above, it includes a signature verification algorithm that targets rendered text, so there are restrictions on the verification timing, and browser behavior other than blocking loading is also possible, such as not blocking loading/rendering but verifying after loading, and if the verification does not pass, hiding the target content and displaying a warning. For the above reasons, CA verification is currently not anticipated to take place at times that require real-time processing, such as at the time of loading or during rendering processing.
@@ -33,7 +30,7 @@ Content Attestation MUST be an OP VC DM compliant document and contain the follo
 
 ### Property
 
-#### Content Attestation (CA) Properties {#content-attestation-properties}
+#### Content Attestation (CA) Properties {/_ #content-attestation-properties _/}
 
 | Name                | Type                   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | ------------------- | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -44,7 +41,7 @@ Content Attestation MUST be an OP VC DM compliant document and contain the follo
 | `allowedUrl`        | `string` \| `string[]` | **REQUIRED.** The URL for which information is asserted by this CA. It MUST be a [URL Pattern string](https://urlpattern.spec.whatwg.org/#pattern-strings) or an array of such strings. It MUST NOT be an empty array. This property allows you to [verify](#allowed-url-validation) whether the CA is located on a web page with a valid URL.                                                                                                        |
 | `target`            | `object[]`             | **REQUIRED.** It MUST be an array of Content Integrity Descriptor. Content Integrity Descriptor is a mechanism for ensuring the integrity of parts of content. This property allows you to [verify](#target-integrity-validation) that specific information in the content that corresponds to the CA has not been tampered with. You can use the ones registered in the [Content Integrity Type Registry](./content-integrity-descriptor/index.mdx). |
 
-#### credentialSubject Properties {#credential-subject-properties}
+#### credentialSubject Properties {/_ #credential-subject-properties _/}
 
 | Name | Type     | Description                                                                                                                                                                                             |
 | ---- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -65,10 +62,7 @@ Content Attestation MUST be an OP VC DM compliant document and contain the follo
 - `https://example.com/article/(` (syntax error)
 - `[]` (empty array)
 
-:::note
-
-Extensions for specifying content that does not have a URL outside of web content (e.g., private non-public content) as verification targets are under consideration for future work.
-
+:::note[Extensions for specifying content that does not have a URL outside of web content (e.g., private non-public content) as verification targets are under consideration for future work.]
 :::
 
 ## Examples
@@ -173,19 +167,14 @@ This CA is tied to advertising content served on web pages under https://ad.exam
 }
 ```
 
-:::note
-
-The example includes properties not defined in this document, see [Extensibility](#extensibility) for information on how to add undefined properties.
-
+:::note[The example includes properties not defined in this document, see [Extensibility](#extensibility) for information on how to add undefined properties.]
 :::
 
-## Extensibility {#extensibility}
+## Extensibility {/_ #extensibility _/}
 
 The issuer MAY add properties not defined in the [OP VC Data Model](./op-vc-data-model.md) and this document, but in such cases, it MUST follow the [registration process](./ca-model/index.mdx#registration-process).
 
-:::info
-
-For information about properties used in applications developed by the Originator Profile Collaborative Innovation Partnership, please refer to the following Originator Profile Blueprint (OPB) documents:
+:::info[For information about properties used in applications developed by the Originator Profile Collaborative Innovation Partnership, please refer to the following Originator Profile Blueprint (OPB) documents:]
 
 - [Advertorial Data Model](./ca-model/advertorial.md)
 - [Article Data Model](./ca-model/article.md)
@@ -197,7 +186,7 @@ For information about properties used in applications developed by the Originato
 
 See [Content Integrity Descriptor](./content-integrity-descriptor/index.mdx).
 
-## Verification Process {#verification}
+## Verification Process {/_ #verification _/}
 
 A CA verifier can verify:
 
@@ -205,27 +194,21 @@ A CA verifier can verify:
 2. Verifying `allowedUrl` (Optional)
 3. Verifying Content Integrity Descriptor
 
-### `allowedUrl` validation {#allowed-url-validation}
+### `allowedUrl` validation {/_ #allowed-url-validation _/}
 
 Optionally, the verifier can verify the `allowedUrl` property by following these steps:
 
 1. Obtain the URL of the web page that the CA refers to.
 2. The CA checks whether each element of the `allowedUrl` property array matches the URL obtained in step 1. The algorithm uses the [URL Pattern `test(input, baseURL)` method](https://urlpattern.spec.whatwg.org/#dom-urlpattern-test).
 
-:::note
-
-Percent-encoded characters are normalized to uppercase according to [RFC 3986 Section 2.1](https://www.rfc-editor.org/rfc/rfc3986#section-2.1) before comparison.
-
+:::note[Percent-encoded characters are normalized to uppercase according to [RFC 3986 Section 2.1](https://www.rfc-editor.org/rfc/rfc3986#section-2.1) before comparison.]
 :::
 
-### Verifying Content Integrity Descriptor {#target-integrity-validation}
+### Verifying Content Integrity Descriptor {/_ #target-integrity-validation _/}
 
 Verifiers SHOULD verify the Content Integrity Descriptor of the `target` property as long as the verification process defined for each Content Integrity Descriptor type is feasible.
 
-:::note
-
-Depending on the type of Content Integrity Descriptor, verification may not be possible in the verifier's environment. For example, in an environment where browser rendering is not possible, Content Integrity Descriptor that requires browser rendering results for verification cannot be verified.
-
+:::note[Depending on the type of Content Integrity Descriptor, verification may not be possible in the verifier's environment. For example, in an environment where browser rendering is not possible, Content Integrity Descriptor that requires browser rendering results for verification cannot be verified.]
 :::
 
 Verifiers MUST verify the Content Integrity Descriptor using the verification methods defined for each type of Content Integrity Descriptor, and if the verification fails, it is RECOMMENDED that the Content Integrity Descriptor verification fail be displayed to the viewer. It is RECOMMENDED that the Content Integrity Descriptor verification failure be not displayed to the user with the same or higher severity as the CA verification failure.

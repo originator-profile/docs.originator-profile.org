@@ -69,13 +69,13 @@ _このセクションは非規範的です。_
 ]
 ```
 
-## 国際化 {#internationalization}
+## 国際化 {/_ #internationalization _/}
 
 Originator Profile Set 配布者は、アプリケーションがロケールに応じて VCs を抽出できるように、`annotations` プロパティと `media` プロパティのそれぞれに異なる言語が指定された 2 つ以上の VCs を含めて配布することができます (MAY)。
 
 VCs への言語の指定方法は [OP VC Data Model の国際化](/opb/op-vc-data-model.md#internationalization)に準じます。
 
-## 検証プロセス {#verification}
+## 検証プロセス {/_ #verification _/}
 
 _このセクションは非規範的です。_
 

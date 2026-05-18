@@ -7,13 +7,13 @@ original: https://github.com/originator-profile/docs.originator-profile.org/blob
 
 The OP specification defines several VCs that conform to a common data model based on the [VC DM 2.0 Conforming Document](https://www.w3.org/TR/vc-data-model-2.0/#dfn-conforming-document), which is specified in this document.
 
-## VC Data Model {#data-model}
+## VC Data Model {/_ #data-model _/}
 
 It MUST conform to the [VC DM 2.0 Conforming Document](https://www.w3.org/TR/vc-data-model-2.0/#dfn-conforming-document).
 
-### Properties {#properties}
+### Properties {/_ #properties _/}
 
-#### VC Properties {#vc-properties}
+#### VC Properties {/_ #vc-properties _/}
 
 | Name                | Type       | Description                                                                                                                                                                                                                                                                                                                                                                         |
 | ------------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -22,19 +22,18 @@ It MUST conform to the [VC DM 2.0 Conforming Document](https://www.w3.org/TR/vc-
 | `credentialSubject` | `object`   | **REQUIRED.** A JSON-LD Node Object containing the following [credentialSubject properties](#credential-subject-properties).                                                                                                                                                                                                                                                        |
 | `issuer`            | `string`   | **REQUIRED.** It MUST be the [OP ID](./op-id.md) of the VC issuing organization.                                                                                                                                                                                                                                                                                                    |
 
-#### credentialSubject Properties {#credential-subject-properties}
+#### credentialSubject Properties {/_ #credential-subject-properties _/}
 
 | Name   | Type                   | Description                                                                                                                     |
 | ------ | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
 | `type` | `string` \| `string[]` | **OPTIONAL.** The value MUST be a term in the [JSON-LD vocabulary](https://www.w3.org/TR/json-ld11/#terms) or an array thereof. |
 | `id`   | `string`               | **REQUIRED.** An identifier. The format of the identifier is specified in the data model document for each VC.                  |
 
-## Internationalization {#internationalization}
+## Internationalization {/_ #internationalization _/}
 
 The language used in each VC can be identified by the `@language` tag specified in the [@context property of the OP VC Data Model](/opb/op-vc-data-model.md#vc-properties). Application implementers SHOULD use VCs written in the appropriate language for display, matching the application user's locale.
 
-:::note Implementation Notes
-
+:::note[Implementation Notes]
 Application implementers must take the following considerations when the user's locale cannot be obtained, or when VCs matching the user's locale are unavailable:
 
 1. Fallback to VCs with the language code `en`.
@@ -42,7 +41,7 @@ Application implementers must take the following considerations when the user's 
 
 :::
 
-## Verification Process {#verification}
+## Verification Process {/_ #verification _/}
 
 A VC that conforms to the data model in this document can be verified by following these steps:
 
@@ -53,6 +52,4 @@ A VC that conforms to the data model in this document can be verified by followi
 3. Verify using the algorithms defined in [Securing Mechanisms](https://www.w3.org/TR/vc-data-model-2.0/#securing-mechanisms)
 4. Verify properties that use [The `image` Datatype](./context.md#the-image-datatype)
 
-:::info
-
-For information on the Securing Mechanisms used in applications developed by the Originator Profile Collaborative Innovation Partnership, see [OP VC Securing Mechanism](./securing-mechanism.md).
+:::info[For information on the Securing Mechanisms used in applications developed by the Originator Profile Collaborative Innovation Partnership, see [OP VC Securing Mechanism](./securing-mechanism.md).]

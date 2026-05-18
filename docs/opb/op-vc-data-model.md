@@ -6,13 +6,13 @@ sidebar_position: 11
 
 OP の仕様ではいくつかの VC を定めています。それらの VC は [VC DM 2.0 準拠文書](https://www.w3.org/TR/vc-data-model-2.0/#dfn-conforming-document) を基にした共通のデータモデルに準拠しています。そのデータモデルをこの文書で定めます。
 
-## VC のデータモデル {#data-model}
+## VC のデータモデル {/_ #data-model _/}
 
 [VC DM 2.0 準拠文書](https://www.w3.org/TR/vc-data-model-2.0/#dfn-conforming-document)でなければなりません (MUST)。
 
-### プロパティ {#properties}
+### プロパティ {/_ #properties _/}
 
-#### VC のプロパティ一覧 {#vc-properties}
+#### VC のプロパティ一覧 {/_ #vc-properties _/}
 
 | Name                | Type       | Description                                                                                                                                                                                                                                                                                                                                                             |
 | ------------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -21,19 +21,18 @@ OP の仕様ではいくつかの VC を定めています。それらの VC は
 | `credentialSubject` | `object`   | **REQUIRED.** 次の [credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。                                                                                                                                                                                                                                                    |
 | `issuer`            | `string`   | **REQUIRED.** VC 発行組織の [OP ID](./op-id.md) でなければなりません (MUST)。                                                                                                                                                                                                                                                                                           |
 
-#### credentialSubject のプロパティ一覧 {#credential-subject-properties}
+#### credentialSubject のプロパティ一覧 {/_ #credential-subject-properties _/}
 
 | Name   | Type                   | Description                                                                                                      |
 | ------ | ---------------------- | ---------------------------------------------------------------------------------------------------------------- |
 | `type` | `string` \| `string[]` | **OPTIONAL.** 値は [JSON-LD 語彙](https://www.w3.org/TR/json-ld11/#terms)かその配列でなければなりません (MUST)。 |
 | `id`   | `string`               | **REQUIRED.** 識別子です。識別子の形式は各 VC のデータモデルを定める文書で取り扱います。                         |
 
-## 国際化 {#internationalization}
+## 国際化 {/_ #internationalization _/}
 
 各 VC で使用する言語は、[OP VC データモデル `@context` プロパティ](/opb/op-vc-data-model.md#vc-properties)に指定される `@language` タグによって識別できます。アプリケーション実装者は、アプリケーション利用者のロケールに合わせて、適切な言語で記述された VCs を表示に使用するべきです (SHOULD)。
 
-:::note 実装上の注意点
-
+:::note[実装上の注意点]
 アプリケーション実装者は、利用者のロケールが得られない場合や、利用者のロケールと一致する VCs が得られない場合には、次のような配慮が必要です。
 
 1. 言語コードが `en` の VCs へのフォールバック
@@ -41,7 +40,7 @@ OP の仕様ではいくつかの VC を定めています。それらの VC は
 
 :::
 
-## 検証プロセス {#verification}
+## 検証プロセス {/_ #verification _/}
 
 本文書のデータモデルに準拠する VC は、次の手順で検証することができます。
 
@@ -52,8 +51,5 @@ OP の仕様ではいくつかの VC を定めています。それらの VC は
 3. [Securing Mechanisms](https://www.w3.org/TR/vc-data-model-2.0/#securing-mechanisms) に定められたアルゴリズムで検証
 4. [The `image` Datatype](./context.md#the-image-datatype) が使われているプロパティを[検証](./context.md#image-datatype-の検証)
 
-:::info
-
-Originator Profile 技術研究組合が開発するアプリケーションで使用される Securing Mechanisms については、[OP VC Securing Mechanism](./securing-mechanism.md) を参照してください。
-
+:::info[Originator Profile 技術研究組合が開発するアプリケーションで使用される Securing Mechanisms については、[OP VC Securing Mechanism](./securing-mechanism.md) を参照してください。]
 :::

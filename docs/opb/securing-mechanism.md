@@ -6,10 +6,7 @@ sidebar_position: 12
 
 本文書は [Securing Verifiable Credentials using JOSE and COSE](https://www.w3.org/TR/vc-jose-cose/) に準拠した OP VC の各クレーム、プロパティの値を具体的に指定する文書です。
 
-:::note
-
-現在 OP VC の Securing Mechanism を [Securing Verifiable Credentials using JOSE and COSE](https://www.w3.org/TR/vc-jose-cose/) のみに限定しています。今後他の方式を採用する可能性があります。
-
+:::note[現在 OP VC の Securing Mechanism を [Securing Verifiable Credentials using JOSE and COSE](https://www.w3.org/TR/vc-jose-cose/) のみに限定しています。今後他の方式を採用する可能性があります。]
 :::
 
 ## Securing VC with JOSE
@@ -26,10 +23,7 @@ sidebar_position: 12
 
 JWT ペイロードにデータモデルのプロパティと JWT クレームの両方を含めても構いません (MAY)。ただし、その場合にはデータモデルのプロパティと JWT クレームの値は競合してはなりません (MUST NOT)。
 
-:::note
-
-Originator Profile 技術研究組合 (OP-CIP) の開発するアプリケーションでは、JWT ペイロードにデータモデルのプロパティと JWT クレームの両方を含めて署名します。
-
+:::note[Originator Profile 技術研究組合 (OP-CIP) の開発するアプリケーションでは、JWT ペイロードにデータモデルのプロパティと JWT クレームの両方を含めて署名します。]
 :::
 
 |     データモデル     | JWT |
@@ -42,7 +36,7 @@ Originator Profile 技術研究組合 (OP-CIP) の開発するアプリケーシ
 
 ### 追加の JWT クレーム
 
-#### `iat`, `exp` {#iat-exp}
+#### `iat`, `exp` {/_ #iat-exp _/}
 
 REQUIRED. [JWT (RFC 7519)](https://www.rfc-editor.org/rfc/rfc7519.html) の仕様に従います。
 
@@ -202,18 +196,15 @@ REQUIRED. [JWT (RFC 7519)](https://www.rfc-editor.org/rfc/rfc7519.html) の仕�
 }
 ```
 
-## 暗号アルゴリズム {#cryptographic-algorithm}
+## 暗号アルゴリズム {/_ #cryptographic-algorithm _/}
 
 暗号アルゴリズムは「[暗号アルゴリズム](./algorithm.md)」に従います。
 
-## 検証プロセス {#verification}
+## 検証プロセス {/_ #verification _/}
 
 VC の検証者は [VC DM 2.0 に準拠した検証の実装](https://www.w3.org/TR/vc-data-model-2.0/#verification)を用いて検証することができます。
 
-:::note
-
-将来、各検証の失敗に対応する [ProblemDetails オブジェクト](https://www.w3.org/TR/vc-data-model-2.0/#problem-details) を定義する可能性があります。
-
+:::note[将来、各検証の失敗に対応する [ProblemDetails オブジェクト](https://www.w3.org/TR/vc-data-model-2.0/#problem-details) を定義する可能性があります。]
 :::
 
 @originator-profile/securing-mechanism において実装されている検証処理は次のプロセスでおこなわれます。
@@ -241,7 +232,7 @@ flowchart TD
     ValidateDM -- 成功 --> OutputVerifiedVc
 ```
 
-## セキュリティ {#security}
+## セキュリティ {/_ #security _/}
 
 TODO
 

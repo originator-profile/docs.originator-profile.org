@@ -59,10 +59,7 @@ HTML Target は次のような形式です。
 | `integrity`   | `string` | **REQUIRED.** [`sriString` データ型](../context.md#the-sristring-datatype) でなければなりません (MUST)。使用可能なハッシュ関数については[ハッシュアルゴリズム](../algorithm.md#hash-algorithm)に準拠してください (MUST)。具体例: `sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U=` |
 | `cssSelector` | `string` | **REQUIRED.** 必ず [CSS セレクター (Selectors Level 3)](https://www.w3.org/TR/selectors-3/) でなければなりません (MUST)。                                                                                                                                                              |
 
-:::note
-
-CA 発行者は、ページの動的な変化によらず `cssSelector` がマッチする要素が変わらないように `cssSelector` を指定してください (RECOMMENDED)。たとえば、`cssSelector` に `p` などのタグ名だけを指定するのではなく、 `#paragraphID`, `p.rareClassName` のようにより詳細な CSS セレクターを指定してください。対象要素を安定的に一意に特定するような CSS セレクターがないときには、ページを更新して、対象要素に id 属性を指定するなどして特定しやすいようなページ設計をしてください (RECOMMENDED)。
-
+:::note[CA 発行者は、ページの動的な変化によらず `cssSelector` がマッチする要素が変わらないように `cssSelector` を指定してください (RECOMMENDED)。たとえば、`cssSelector` に `p` などのタグ名だけを指定するのではなく、 `#paragraphID`, `p.rareClassName` のようにより詳細な CSS セレクターを指定してください。対象要素を安定的に一意に特定するような CSS セレクターがないときには、ページを更新して、対象要素に id 属性を指定するなどして特定しやすいようなページ設計をしてください (RECOMMENDED)。]
 :::
 
 ## 検証プロセス

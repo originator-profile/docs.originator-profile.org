@@ -6,8 +6,7 @@ sidebar_position: 340
 
 [Content Attestation Server Playground](https://playground.originator-profile.org/) は、Content Attestation の発行からブラウザ拡張機能での検証までのワークフローをテストできる環境です。
 
-:::warning
-Playground はテスト専用の環境です。Playground で発行した Content Attestation や Site Profile は本番環境では使用できません。
+:::warning[Playground はテスト専用の環境です。Playground で発行した Content Attestation や Site Profile は本番環境では使用できません。]
 :::
 
 ## Playground の使い方
@@ -54,8 +53,7 @@ curl -X POST https://playground.originator-profile.org/sp \
 ブラウザ拡張機能をインストールした状態で、Site Profile を配置したウェブサイトにアクセスすることで検証を行えます。
 検証するにはテストビルド版のブラウザー拡張機能が必要です。
 
-:::warning
-テストビルド版の拡張機能は Playground 環境専用です。本番環境の Content Attestation を検証できません。また、Playground で発行した Content Attestation や Site Profile は通常ビルド版の拡張機能で検証できません。
+:::warning[テストビルド版の拡張機能は Playground 環境専用です。本番環境の Content Attestation を検証できません。また、Playground で発行した Content Attestation や Site Profile は通常ビルド版の拡張機能で検証できません。]
 :::
 
 [GitHub Releases (canary)](https://github.com/originator-profile/originator-profile/releases/tag/canary) からブラウザ拡張機能 (テストビルド) をダウンロードし、インストールできます。

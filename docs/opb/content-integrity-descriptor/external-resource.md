@@ -10,10 +10,7 @@ tags:
 
 本文書で定義される External Resource Target は画像や動画などの外部リソースファイルの完全性を保証するための Content Attestation (CA) のプロパティです。 URL が参照するリソースの完全性を保証できる一方で、扱える URL はユーザーエージェントに依らず同じバイト列をレスポンスとして返却するものに限られます。
 
-:::note
-
-この target について実証実験の参加企業の方々からフィードバックをいただく予定です。また関連する仕様のアップデートの状況を見ながらよりよい方法を将来追加する可能性があります。
-
+:::note[この target について実証実験の参加企業の方々からフィードバックをいただく予定です。また関連する仕様のアップデートの状況を見ながらよりよい方法を将来追加する可能性があります。]
 参考: 画像加工を伴う CDN 利用時の検証可能化方法の検討
 
 :::
@@ -127,20 +124,13 @@ External Resource Target:
 </video>
 ```
 
-:::note
-
-この場合、src 属性に指定された外部リソースが検証され、poster 属性に指定された外部リソースは検証されません。poster 属性に指定された外部リソースを検証可能にするための仕様は検討中です。
-
+:::note[この場合、src 属性に指定された外部リソースが検証され、poster 属性に指定された外部リソースは検証されません。poster 属性に指定された外部リソースを検証可能にするための仕様は検討中です。]
 :::
 
-:::note
-
-a 要素の `href` 属性で指定された外部リソースを検証可能にするための仕様は検討中です。現在の検証プロセスでは `src` 属性または `currentSrc` プロパティを使用したリソース取得のみが定義されています。詳しくは GitHub Issue [#127](https://github.com/originator-profile/docs.originator-profile.org/issues/127) をご確認ください。
-
+:::note[a 要素の `href` 属性で指定された外部リソースを検証可能にするための仕様は検討中です。現在の検証プロセスでは `src` 属性または `currentSrc` プロパティを使用したリソース取得のみが定義されています。詳しくは GitHub Issue [#127](https://github.com/originator-profile/docs.originator-profile.org/issues/127) をご確認ください。]
 :::
 
-:::note 実装上の注意点
-
+:::note[実装上の注意点]
 [SRI セクション 5.3](https://www.w3.org/TR/sri/#cross-origin-data-leakage) にあるように、攻撃者が既知あるいは事前に計算したハッシュ値により、[同一オリジンポリシー](https://developer.mozilla.org/ja/docs/Web/Security/Same-origin_policy)に違反してクロスオリジンリソースの内容を推測することを防ぐために、SRI 検証結果をクロスオリジンリソースの読み込み可否に使用する場合には、事前に[CORS](https://developer.mozilla.org/ja/docs/Web/HTTP/Guides/CORS) プロトコルを使用してクロスオリジンリソースがリクエスト元と明示的に共有されていることを確認してください。
 
 :::
@@ -162,9 +152,7 @@ a 要素の `href` 属性で指定された外部リソースを検証可能に�
 
 `integrity` プロパティと同じ値を `integrity` HTML 属性に対し完全一致で検索します。
 
-:::info
-
-次の場合には、`integrity` プロパティと `integrity` HTML 属性の値の両者が同じ値になるように注意する必要があります。
+:::info[次の場合には、`integrity` プロパティと `integrity` HTML 属性の値の両者が同じ値になるように注意する必要があります。]
 
 - `integrity` プロパティの値が 2 件以上の SRI ハッシュである
 - `integrity` HTML 属性の値に読みやすさのために空白文字または改行文字を使用している

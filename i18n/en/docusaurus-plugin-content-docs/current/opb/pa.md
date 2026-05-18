@@ -25,7 +25,7 @@ The Profile Annotation MUST be an OP VC DM compliant document and contains the f
 
 ### Property
 
-#### Profile Annotation Properties {#profile-annotation-properties}
+#### Profile Annotation Properties {/_ #profile-annotation-properties _/}
 
 | Name                | Type       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | ------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -36,17 +36,14 @@ The Profile Annotation MUST be an OP VC DM compliant document and contains the f
 | `validFrom`         | `string`   | **OPTIONAL.** The start date and time of the Profile Annotation's validity period. Conforms to [VC Data Model 2.0 Section 4.9 Validity Period](https://www.w3.org/TR/vc-data-model-2.0/#validity-period). MUST be a [`dateTimeStamp` data type](./context.md#the-datetimestamp-datatype). If this value is not specified, it indicates that there is no start date and time of the validity period (valid any time before `validUntil`).                                   |
 | `validUntil`        | `string`   | **OPTIONAL.** The expiration date of the Profile Annotation. Conforms to [VC Data Model 2.0 Section 4.9 Validity Period](https://www.w3.org/TR/vc-data-model-2.0/#validity-period). MUST be a [`dateTimeStamp` data type](./context.md#the-datetimestamp-datatype). The value of this property represents the last time that the information contained in the Profile Annotation was correct. If this value is not specified, it indicates no expiration date (unlimited). |
 
-:::note
-
-`validFrom` and `validUntil` are the start date and time of the validity period and the expiration date of the information contained in the Profile Annotation, and they are different from the start date and time of the validity period and the expiration date of the VC signature. In JWTs of [VC-JOSE-COSE](https://www.w3.org/TR/vc-jose-cose/), the Securing Mechanism currently adopted by OPs, the start date and time of the validity period and the expiration date of the signature are specified by the `iat` (issued at) and `exp` (expired at) claims of the JWT. The values of the `validFrom` and `validUntil` properties can be different from the `iat` and `exp` claim.
-
+:::note[`validFrom` and `validUntil` are the start date and time of the validity period and the expiration date of the information contained in the Profile Annotation, and they are different from the start date and time of the validity period and the expiration date of the VC signature. In JWTs of [VC-JOSE-COSE](https://www.w3.org/TR/vc-jose-cose/), the Securing Mechanism currently adopted by OPs, the start date and time of the validity period and the expiration date of the signature are specified by the `iat` (issued at) and `exp` (expired at) claims of the JWT. The values of the `validFrom` and `validUntil` properties can be different from the `iat` and `exp` claim.]
 A scenario in which you might want to specify a different value is when you want to periodically reissue a VC that attests to a third-party certificate whose expiration date is far in the future. For example, suppose you issue a Profile Annotation based on this specification that contains a third-party certificate that expires on `2050-12-31T15:00:00Z`. In that case, you might consider periodically reissuing the Profile Annotation to reduce security risks caused by signature compromise or key leakage. To encourage periodic reissues, you can set an expiration date for the signature, and have the signature expire every year. In this case, you can specify the signature expiration date (one year later) in the `exp` claim, and set `validUntil` to `2050-12-31T15:00:00Z` regardless of the reissue date, thereby accurately representing the expiration date of the third-party certificate while reissuing it.
 
 See [VC Data Model 2.0 Section 4.9 Validity Period](https://www.w3.org/TR/vc-data-model-2.0/#validity-period) for property definitions.
 
 :::
 
-#### credentialSubject Properties {#credential-subject-properties}
+#### credentialSubject Properties {/_ #credential-subject-properties _/}
 
 | Name               | Type       | Description                                                                                                                                                                                                                                                                                                |
 | ------------------ | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -57,15 +54,12 @@ See [VC Data Model 2.0 Section 4.9 Validity Period](https://www.w3.org/TR/vc-dat
 | `annotationScheme` | `string[]` | **OPTIONAL.** This is a set of Profile Annotations issued based on the Profile Annotation Policy of the `credentialSubject.annotation` property, in addition to the PA asserted in the `credentialSubject` JSON-LD Node Object. It MUST be an array of URIs that uniquely identify the Profile Annotation. |
 | `annotation`       | `object`   | **REQUIRED.** It MUST be a [Profile Annotation Policy](./pa-model/pa-policy.md).                                                                                                                                                                                                                           |
 
-:::note
-
-Profile Annotations where the attributes to be validated or the issuing policy are of the same kind, but only the organization holding the Profile Annotation differs, SHOULD have the same `annotation.id` value.
-
+:::note[Profile Annotations where the attributes to be validated or the issuing policy are of the same kind, but only the organization holding the Profile Annotation differs, SHOULD have the same `annotation.id` value.]
 Furthermore, the name, description, and URL of the Profile Annotation Policy SHOULD be up-to-date at the time of issuance.
 
 :::
 
-## Extensibility {#extensibility}
+## Extensibility {/_ #extensibility _/}
 
 The issuer MAY add properties not defined in the [OP VC Data Model](./op-vc-data-model.md) and this document, but in such cases, it MUST follow the [registration process](./pa-model/index.mdx#registration-process).
 

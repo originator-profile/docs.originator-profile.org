@@ -19,7 +19,7 @@ Complies with [Content Attestation](../ca.md).
 
 ### Property
 
-#### Advertorial Properties {#advertorial-properties}
+#### Advertorial Properties {/_ #advertorial-properties _/}
 
 | Name                | Type                   | Description                                                                                                                                                       |
 | ------------------- | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -30,7 +30,7 @@ Complies with [Content Attestation](../ca.md).
 | `allowedUrl`        | `string` \| `string[]` | **REQUIRED.** Properties defined for Content Attestation. It MUST NOT be an empty array.                                                                          |
 | `target`            | `object[]`             | **REQUIRED.** Properties defined for Content Attestation. It MUST NOT be an empty array.                                                                          |
 
-#### credentialSubject Properties {#credential-subject-properties}
+#### credentialSubject Properties {/_ #credential-subject-properties _/}
 
 | Name            | Type       | Description                                                                                                                                                                                                                                                                             |
 | --------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

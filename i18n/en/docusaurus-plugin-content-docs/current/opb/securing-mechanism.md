@@ -7,9 +7,7 @@ original: https://github.com/originator-profile/docs.originator-profile.org/blob
 
 This document specifies the values of each claim and property of OP VC in accordance with [Securing Verifiable Credentials using JOSE and COSE](https://www.w3.org/TR/vc-jose-cose/).
 
-:::note
-
-Currently, OP VC's securing mechanism is limited to [Securing Verifiable Credentials using JOSE and COSE](https://www.w3.org/TR/vc-jose-cose/). Other methods may be adopted in the future.
+:::note[Currently, OP VC's securing mechanism is limited to [Securing Verifiable Credentials using JOSE and COSE](https://www.w3.org/TR/vc-jose-cose/). Other methods may be adopted in the future.]
 :::
 
 ## Securing VC with JOSE
@@ -26,10 +24,7 @@ Based on the following table, there is a one-to-one correspondence between data 
 
 A JWT payload MAY contain both data model properties and JWT claims, but if it does, the values ​​of the data model properties and the JWT claims MUST NOT conflict.
 
-:::note
-
-In applications developed by the Originator Profile Collaborative Innovation Partnership (OP-CIP), both data model properties and JWT claims are included in the JWT payload and signed.
-
+:::note[In applications developed by the Originator Profile Collaborative Innovation Partnership (OP-CIP), both data model properties and JWT claims are included in the JWT payload and signed.]
 :::
 
 |          Data Model           | JWT |
@@ -42,7 +37,7 @@ In applications developed by the Originator Profile Collaborative Innovation Par
 
 ### Additional JWT claims
 
-#### `iat`, `exp` {#iat-exp}
+#### `iat`, `exp` {/_ #iat-exp _/}
 
 REQUIRED. Complies the [JWT (RFC 7519)](https://www.rfc-editor.org/rfc/rfc7519.html) specification.
 
@@ -202,18 +197,15 @@ Payload:
 }
 ```
 
-## Cryptographic algorithms {#cryptographic-algorithm}
+## Cryptographic algorithms {/_ #cryptographic-algorithm _/}
 
 The cryptographic algorithm conforms to "[cryptographic algorithm](./algorithm.md)".
 
-## Validation Process {#verification}
+## Validation Process {/_ #verification _/}
 
 VC validators can perform validation using a [VC DM 2.0 compliant validation implementation](https://www.w3.org/TR/vc-data-model-2.0/#verification).
 
-:::note
-
-In the future, we may define a [ProblemDetails object](https://www.w3.org/TR/vc-data-model-2.0/#problem-details) that corresponds to each validation failure.
-
+:::note[In the future, we may define a [ProblemDetails object](https://www.w3.org/TR/vc-data-model-2.0/#problem-details) that corresponds to each validation failure.]
 :::
 
 The validation process implemented in @originator-profile/securing-mechanism follows this process:
@@ -241,7 +233,7 @@ Please refer to the following reference for the structure of the data handled in
     ValidateDM -- Success --> OutputVerifiedVc
 ```
 
-## Security {#security}
+## Security {/_ #security _/}
 
 TODO
 

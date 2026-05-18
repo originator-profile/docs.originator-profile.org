@@ -19,7 +19,7 @@ tags:
 
 ### プロパティ
 
-#### 報道機関登録証 PA のプロパティ一覧 {#news-media-registration-properties}
+#### 報道機関登録証 PA のプロパティ一覧 {/_ #news-media-registration-properties _/}
 
 | Name                | Type       | Description                                                                                                                                                                        |
 | ------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -29,7 +29,7 @@ tags:
 | `credentialSubject` | `object`   | **REQUIRED.** 次の [credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。                                                               |
 | `validFrom`         | `string`   | **OPTIONAL.** [Profile Annotation](../pa.md#profile-annotation-properties) に準拠します。含める場合、報道機関としての登録が成立した日付の開始時刻を含めてください。                |
 
-#### credentialSubject のプロパティ一覧 {#credential-subject-properties}
+#### credentialSubject のプロパティ一覧 {/_ #credential-subject-properties _/}
 
 | Name          | Type     | Description                                                                                                                                                                                                                                              |
 | ------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -103,10 +103,7 @@ REQUIRED. `["VerifiableCredential", "Certificate"]` でなければなりませ�
 
 REQUIRED. 証明書発行組織の OP ID です。
 
-:::note
-
-現在、報道機関登録証明書は報道機関から OP 申請を受けた OP レジストリが発行しています。そのため `issuer` プロパティの値は OP レジストリの OP ID になります。
-
+:::note[現在、報道機関登録証明書は報道機関から OP 申請を受けた OP レジストリが発行しています。そのため `issuer` プロパティの値は OP レジストリの OP ID になります。]
 :::
 
 #### `credentialSubject`

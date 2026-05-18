@@ -20,7 +20,7 @@ Web Media Profile は OP VC DM 準拠文書でなければなりません (MUST)
 
 ### プロパティ
 
-#### Web Media Profile (WMP) のプロパティ一覧 {#web-media-profile-properties}
+#### Web Media Profile (WMP) のプロパティ一覧 {/_ #web-media-profile-properties _/}
 
 | Name                | Type       | Description                                                                                                          |
 | ------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------- |
@@ -29,7 +29,7 @@ Web Media Profile は OP VC DM 準拠文書でなければなりません (MUST)
 | `issuer`            | `string`   | **REQUIRED.** WMP 保有組織の Core Profile の発行者でなければなりません (MUST)。                                      |
 | `credentialSubject` | `object`   | **REQUIRED.** 次の [credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。 |
 
-#### credentialSubject のプロパティ一覧 {#credential-subject-properties}
+#### credentialSubject のプロパティ一覧 {/_ #credential-subject-properties _/}
 
 | Name                            | Type                   | Description                                                                                                                                                                                                                                                      |
 | ------------------------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -46,31 +46,20 @@ Web Media Profile は OP VC DM 準拠文書でなければなりません (MUST)
 | `privacyPolicy`                 | `object`               | **OPTIONAL.** プライバシーポリシーページの情報です。 [`page` データ型](./context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。                                                                                                      |
 | `description`                   | `object` \| `object[]` | **OPTIONAL.** 組織に関する自由形式テキストです。[`description` データ型](./context.md#the-description-datatype)またはその配列でなければなりません (MUST)。                                                                                                       |
 
-:::note
-
-WMP 記載の情報は Core Profile を発行する組織が審査で確認します。
-
+:::note[WMP 記載の情報は Core Profile を発行する組織が審査で確認します。]
 :::
 
-:::note
-
-`informationTransmissionPolicy` プロパティに含める情報発信ポリシーは [Originator Profile 憲章](https://originator-profile.org/ja-JP/charter/) の第3条1号において OP ID 付与の必須条件とされています。
-
+:::note[`informationTransmissionPolicy` プロパティに含める情報発信ポリシーは [Originator Profile 憲章](https://originator-profile.org/ja-JP/charter/) の第3条1号において OP ID 付与の必須条件とされています。]
 :::
 
-:::note
-
-Originator Profile 憲章第3条1号への遵守を検証可能な形で表明するための、`informationTransmissionPolicy` プロパティ等の一部または WMP 全体への WMP 保有組織による署名を含める仕様については、検討中です。
+:::note[Originator Profile 憲章第3条1号への遵守を検証可能な形で表明するための、`informationTransmissionPolicy` プロパティ等の一部または WMP 全体への WMP 保有組織による署名を含める仕様については、検討中です。]
 
 - `informationTransmissionPolicy` プロパティ等の一部への WMP 保有組織による署名: [JWS Compact Serialization](https://www.rfc-editor.org/rfc/rfc7515.html#section-3.1) 形式のプロパティの追加
 - WMP 全体への発行者と WMP 保有組織による二重署名: [JWS JSON Serialization](https://www.rfc-editor.org/rfc/rfc7515.html#section-3.2)形式による WMP の署名
 
 :::
 
-:::note
-
-`description` プロパティに2つ以上の `description` データ型の要素が含まれている場合、同じ内容のテキストコンテンツを複数の符号化形式で表現することを目的とすべきです。また、複数の符号化形式でテキストコンテンツを提供するのであれば、アプリケーション実装者が定めるセキュリティポリシーに対応できるように、要素の1つは `text/plain` 形式のテキストコンテンツにすることを推奨します。
-
+:::note[`description` プロパティに2つ以上の `description` データ型の要素が含まれている場合、同じ内容のテキストコンテンツを複数の符号化形式で表現することを目的とすべきです。また、複数の符号化形式でテキストコンテンツを提供するのであれば、アプリケーション実装者が定めるセキュリティポリシーに対応できるように、要素の1つは `text/plain` 形式のテキストコンテンツにすることを推奨します。]
 :::
 
 ## 拡張性

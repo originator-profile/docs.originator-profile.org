@@ -79,8 +79,7 @@ JSON-LD Node Object の例:
 }
 ```
 
-:::note セキュリティの考慮事項
-
+:::note[セキュリティの考慮事項]
 アプリケーション実装者は、`text/plain` 形式以外のテキストコンテンツについて、次の点に考慮してください。
 
 - テキストコンテンツの別の形式への符号化（例えば、`text/markdown` 形式から `text/html` 形式への変換など）を前提とすることは、変換処理のXSS脆弱性へのリスクから避けるべきです。
@@ -92,10 +91,7 @@ JSON-LD Node Object の例:
 
 :::
 
-:::note
-
-OP-CIPが開発するアプリケーションでは、HTMLタグの許可リストとして `<br>`, `<p>`, `<ol>`, `<ul>`, `<li>` のみを許可しています。属性の記載は `data-*` 属性を含めて許可されません。
-
+:::note[OP-CIPが開発するアプリケーションでは、HTMLタグの許可リストとして `<br>`, `<p>`, `<ol>`, `<ul>`, `<li>` のみを許可しています。属性の記載は `data-*` 属性を含めて許可されません。]
 [実装例を参照](https://github.com/originator-profile/originator-profile/blob/v0.4.0-beta.5/packages/ui/src/utils/use-sanitized-html-for-description.ts#L18-L25)
 
 :::

@@ -11,10 +11,7 @@ tags:
 
 The External Resource Target defined in this document is a Content Attestation (CA) property for assuring the integrity of external resource files such as images, videos, etc. While it can assure the integrity of the resource referenced by a URL, it is limited to URLs that return the same byte sequence as a response regardless of the user agent.
 
-:::note
-
-We plan to receive feedback on this target from the companies participating in the pilot experiments. We may add better methods in the future while monitoring the status of updates to related specifications.
-
+:::note[We plan to receive feedback on this target from the companies participating in the pilot experiments. We may add better methods in the future while monitoring the status of updates to related specifications.]
 Reference: Consideration of a method to enable verification when using CDN with image processing
 
 :::
@@ -128,20 +125,13 @@ In this case, add the `integrity` attribute to the HTML source element and video
 </video>
 ```
 
-:::note
-
-In this case, the external resource specified in the src attribute is validated, but the external resource specified in the poster attribute is not validated. Specifications for making external resources specified in the poster attribute verifiable are under consideration.
-
+:::note[In this case, the external resource specified in the src attribute is validated, but the external resource specified in the poster attribute is not validated. Specifications for making external resources specified in the poster attribute verifiable are under consideration.]
 :::
 
-:::note
-
-A specification is under consideration to enable verification of external resources specified in the `href` attribute of the a element. The current verification process only defines resource retrieval using the `src` attribute or the `currentSrc` property. For more information, see GitHub Issue [#127](https://github.com/originator-profile/docs.originator-profile.org/issues/127).
-
+:::note[A specification is under consideration to enable verification of external resources specified in the `href` attribute of the a element. The current verification process only defines resource retrieval using the `src` attribute or the `currentSrc` property. For more information, see GitHub Issue [#127](https://github.com/originator-profile/docs.originator-profile.org/issues/127).]
 :::
 
-:::note Implementation Notes
-
+:::note[Implementation Notes]
 As described in [SRI Section 5.3](https://www.w3.org/TR/sri/#cross-origin-data-leakage), in order to prevent an attacker from inferring the content of a cross-origin resource in violation of the [Same-Origin Policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy) by using a known or precomputed hash, when using the SRI validation result to determine the loadability of the cross-origin resource, ensure beforehand that the cross-origin resource is explicitly shared with the request initiator using the [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS) protocol.
 
 :::
@@ -163,9 +153,7 @@ As described in [SRI Section 5.3](https://www.w3.org/TR/sri/#cross-origin-data-l
 
 Searches for elements whose `integrity` HTML attribute exactly matches the `integrity` property.
 
-:::info
-
-Care must be taken to ensure that both the `integrity` property and the `integrity` HTML attribute have the same value in the following cases:
+:::info[Care must be taken to ensure that both the `integrity` property and the `integrity` HTML attribute have the same value in the following cases:]
 
 - The value of the `integrity` property consists of two or more SRI hashes
 - Whitespace or line break characters are used in the `integrity` HTML attribute value for readability

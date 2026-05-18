@@ -69,16 +69,10 @@ Visible Text Target は次のような形式です。
 4. その結果と `integrity` プロパティを [SRI セクション 3.3.5](https://www.w3.org/TR/SRI/#does-response-match-metadatalist) に規定されている方法で検証します。
    - サポートしていないハッシュアルゴリズムの場合、検証失敗として扱うことがあります。
 
-:::note
-
-[`innerText` 属性](https://html.spec.whatwg.org/multipage/dom.html#the-innertext-idl-attribute)で得られる文字列は、 [HTML Standard 3章](https://html.spec.whatwg.org/multipage/dom.html) では、 [get the text steps](https://html.spec.whatwg.org/multipage/dom.html#get-the-text-steps) を実行して得られる "as rendered" なテキストと定義されています。 [being rendered](https://html.spec.whatwg.org/multipage/rendering.html#being-rendered) な要素に [get the text steps](https://html.spec.whatwg.org/multipage/dom.html#get-the-text-steps) を実行すると、 [rendered text collection steps](https://html.spec.whatwg.org/multipage/dom.html#rendered-text-collection-steps) を実行した後改行文字などに処理を加えた文字列が得られます。
-
+:::note[[`innerText` 属性](https://html.spec.whatwg.org/multipage/dom.html#the-innertext-idl-attribute)で得られる文字列は、 [HTML Standard 3章](https://html.spec.whatwg.org/multipage/dom.html) では、 [get the text steps](https://html.spec.whatwg.org/multipage/dom.html#get-the-text-steps) を実行して得られる "as rendered" なテキストと定義されています。 [being rendered](https://html.spec.whatwg.org/multipage/rendering.html#being-rendered) な要素に [get the text steps](https://html.spec.whatwg.org/multipage/dom.html#get-the-text-steps) を実行すると、 [rendered text collection steps](https://html.spec.whatwg.org/multipage/dom.html#rendered-text-collection-steps) を実行した後改行文字などに処理を加えた文字列が得られます。]
 :::
 
-:::note
-
-Visible Text Target は [`innerText` 属性](https://developer.mozilla.org/docs/Web/API/HTMLElement/innerText)を使用し、[`textContent` 属性](https://developer.mozilla.org/docs/Web/API/Node/textContent)とは異なります。両者の主な違いについては [Differences from innerText - MDN](https://developer.mozilla.org/docs/Web/API/Node/textContent#differences_from_innertext) を参照してください。
-
+:::note[Visible Text Target は [`innerText` 属性](https://developer.mozilla.org/docs/Web/API/HTMLElement/innerText)を使用し、[`textContent` 属性](https://developer.mozilla.org/docs/Web/API/Node/textContent)とは異なります。両者の主な違いについては [Differences from innerText - MDN](https://developer.mozilla.org/docs/Web/API/Node/textContent#differences_from_innertext) を参照してください。]
 :::
 
 ## 要素位置特定方法

@@ -16,7 +16,7 @@ tags:
 
 ### プロパティ
 
-#### Profile Annotation Policy のプロパティ一覧 {#profile-annotation-policy-properties}
+#### Profile Annotation Policy のプロパティ一覧 {/_ #profile-annotation-policy-properties _/}
 
 | Name          | Type     | Description                                                                                    |
 | ------------- | -------- | ---------------------------------------------------------------------------------------------- |

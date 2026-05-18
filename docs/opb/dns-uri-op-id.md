@@ -38,25 +38,20 @@ ID は、[RFC 4501](https://www.rfc-editor.org/rfc/rfc4501.html) の定義する
 - `dns:example.com?TYPE=A` (dnsquery を含む)
 - `dns:*.example.com` (ワイルドカード)
 
-:::note
-
-運用上認めるホスト名は更に制限されることがあり得ます。
+:::note[運用上認めるホスト名は更に制限されることがあり得ます。]
 例えば、OP 保有組織が保有するドメインであり、かつその組織の情報が掲載された公式 Web サイトが公開されていることを登録要件とすることなどが考えられます。
 
 :::
 
-## 公開鍵の配布 {#public-key-distribution}
+## 公開鍵の配布 {/_ #public-key-distribution _/}
 
 OP ID 保有組織の OP を得ることで公開鍵を得ることができます。
 
-## OP の取得プロセス {#resolve}
+## OP の取得プロセス {/_ #resolve _/}
 
 OP ID 保有組織の OP を得るには、[Originator Profile Set (OPS)](./originator-profile-set.md) を取得してから、[Core Profile (CP)](./cp.md) 保有組織の OP ID を検索します。
 
 OPS を得るには、[Site Profile](./site-profile.md) に定められた方法で特定のドメインから取得するか、[HTML 文書への Originator Profile Set の紐づけ](./link-to-html.md)に定められた方法で特定の Web ページから取得してください (RECOMMENDED)。
 
-:::note
-
-DNS URI OP ID 単体での OP の取得プロセスは未定義です。
-
+:::note[DNS URI OP ID 単体での OP の取得プロセスは未定義です。]
 :::

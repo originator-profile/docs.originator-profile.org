@@ -16,7 +16,7 @@ tags:
 
 ### プロパティ
 
-#### Online Ad のプロパティ一覧 {#online-ad-properties}
+#### Online Ad のプロパティ一覧 {/_ #online-ad-properties _/}
 
 | Name                | Type                   | Description                                                                                                                                                                        |
 | ------------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -27,7 +27,7 @@ tags:
 | `allowedUrl`        | `string` \| `string[]` | **REQUIRED.** Content Attestation に定義済みのプロパティです。空配列にしてはなりません (MUST NOT)。                                                                                |
 | `target`            | `object[]`             | **REQUIRED.** Content Attestation に定義済みのプロパティです。空配列にしてはなりません (MUST NOT)。                                                                                |
 
-#### credentialSubject のプロパティ一覧 {#credential-subject-properties}
+#### credentialSubject のプロパティ一覧 {/_ #credential-subject-properties _/}
 
 :::info[注意]
 
@@ -50,23 +50,17 @@ tags:
 | `adDataHandlingPolicy` | `object` | **OPTIONAL.** 広告配信に関する情報の取り扱いに関しての情報です。 [`page` データ型](../context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。                                                                                                                          |
 | `adDisplayRationale`   | `object` | **OPTIONAL.** 次の [adDisplayRationale のプロパティ](#ad-display-rationale-properties)を含む JSON-LD Node Object です。                                                                                                                                                                           |
 
-#### adDisplayRationale のプロパティ一覧 {#ad-display-rationale-properties}
+#### adDisplayRationale のプロパティ一覧 {/_ #ad-display-rationale-properties _/}
 
 | Name          | Type     | Description                                                                                                                                                          |
 | ------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `page`        | `object` | **OPTIONAL.** この広告が表示されている理由 (Web ページ)です。[`page` データ型](../context.md#the-page-datatype) の JSON-LD Node Object でなければなりません (MUST)。 |
 | `description` | `string` | **OPTIONAL.** この広告が表示されている理由です。                                                                                                                     |
 
-:::note
-
-`credentialSubject` 内のプロパティは https://schema.org/CreativeWork を参考に決定しました。個々のプロパティの解釈、要不要について schema.org にどこまで準拠するかは OP を利用する企業との意見交換を踏まえて決めていく予定です。
-
+:::note[`credentialSubject` 内のプロパティは https://schema.org/CreativeWork を参考に決定しました。個々のプロパティの解釈、要不要について schema.org にどこまで準拠するかは OP を利用する企業との意見交換を踏まえて決めていく予定です。]
 :::
 
-:::note
-
-画像・バナー広告以外の広告に関するプロパティの定義については、今後の課題として検討中です。
-
+:::note[画像・バナー広告以外の広告に関するプロパティの定義については、今後の課題として検討中です。]
 :::
 
 ## Appendix

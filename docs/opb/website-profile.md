@@ -20,7 +20,7 @@ Website Profile は OP VC DM 準拠文書でなければなりません (MUST)�
 
 ### プロパティ
 
-#### Website Profile (WSP) のプロパティ一覧 {#website-profile-properties}
+#### Website Profile (WSP) のプロパティ一覧 {/_ #website-profile-properties _/}
 
 | Name                | Type       | Description                                                                                                                                                                                     |
 | ------------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -29,7 +29,7 @@ Website Profile は OP VC DM 準拠文書でなければなりません (MUST)�
 | `issuer`            | `string`   | **REQUIRED.** Web サイト保有組織の [OP ID](./op-id.md) にしてください (MUST)。                                                                                                                  |
 | `credentialSubject` | `object`   | **REQUIRED.** 次の [credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。                                                                            |
 
-#### credentialSubject のプロパティ一覧 {#credential-subject-properties}
+#### credentialSubject のプロパティ一覧 {/_ #credential-subject-properties _/}
 
 | Name            | Type                   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | --------------- | ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -54,14 +54,14 @@ Website Profile は OP VC DM 準拠文書でなければなりません (MUST)�
 - `http://example.com/?query=1` (クエリが含まれている)
 - `https://example.com#section` (フラグメントが含まれている)
 
-## 検証プロセス {#verification}
+## 検証プロセス {/_ #verification _/}
 
 WSP の検証者は次のことを検証することができます。
 
 - [OP VC Data Model に準拠した VC の検証](./op-vc-data-model.md#verification)
 - `allowedOrigin` の検証
 
-### `allowedOrigin` の検証 {#allowed-origin-validation}
+### `allowedOrigin` の検証 {/_ #allowed-origin-validation _/}
 
 検証者は次の手順に従って `allowedOrigin` プロパティを検証できます (OPTIONAL)。
 

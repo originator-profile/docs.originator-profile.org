@@ -20,7 +20,7 @@ It MUST comply with [Profile Annotation](../pa.md).
 
 ### Property
 
-#### Local Government Certification PA Properties {#local-government-certification-properties}
+#### Local Government Certification PA Properties {/_ #local-government-certification-properties _/}
 
 | Name                | Type       | Description                                                                                                                                                      |
 | ------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -29,7 +29,7 @@ It MUST comply with [Profile Annotation](../pa.md).
 | `issuer`            | `string`   | **REQUIRED.** It MUST be the [OP ID](../op-id.md) of the PA issuer.                                                                                              |
 | `credentialSubject` | `object`   | **REQUIRED.** A JSON-LD Node Object containing the following [credentialSubject properties](#credential-subject-properties).                                     |
 
-#### credentialSubject Properties {#credential-subject-properties}
+#### credentialSubject Properties {/_ #credential-subject-properties _/}
 
 | Name          | Type     | Description                                                                                                                                                                                                                          |
 | ------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -40,10 +40,7 @@ It MUST comply with [Profile Annotation](../pa.md).
 | `image`       | `object` | **OPTIONAL.** MUST be a JSON-LD Node Object of type [`image` datatype](../context.md#the-image-datatype). This property allows you to [verify](../context.md#verifying-image-datatype) that the PA image has not been tampered with. |
 | `annotation`  | `object` | **REQUIRED.** It MUST be a [Profile Annotation Policy](./pa-policy.md).                                                                                                                                                              |
 
-:::note
-
-Properties for local government certification PA outside of Japan are under consideration.
-
+:::note[Properties for local government certification PA outside of Japan are under consideration.]
 :::
 
 ## Appendix
@@ -116,10 +113,7 @@ REQUIRED. It is a JSON-LD Node Object representing a Municipality Certification 
 - `certificationSystem.description`: OPTIONAL. A description of the certification system (string).
 - `certificationSystem.ref`: RECOMMENDED. The URL of a page people can read to learn more about the certification system.
 
-:::note
-
-Properties for municipality certification certificates outside of Japan are under consideration.
-
+:::note[Properties for municipality certification certificates outside of Japan are under consideration.]
 :::
 
 ## Appendix

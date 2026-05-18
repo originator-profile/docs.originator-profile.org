@@ -174,6 +174,5 @@ export default {
   } satisfies Preset.ThemeConfig,
   future: {
     v4: true,
-    faster: true,
   },
 } satisfies Config;

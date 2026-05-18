@@ -18,7 +18,7 @@ Profile Annotator 登録証 PA は、OP レジストリが登録要件として�
 
 ### プロパティ
 
-#### Profile Annotator 登録証 PA のプロパティ一覧 {#profile-annotator-registration-properties}
+#### Profile Annotator 登録証 PA のプロパティ一覧 {/_ #profile-annotator-registration-properties _/}
 
 | Name                | Type       | Description                                                                                                                                                                                                                                    |
 | ------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -27,7 +27,7 @@ Profile Annotator 登録証 PA は、OP レジストリが登録要件として�
 | `issuer`            | `string`   | **REQUIRED.** OP レジストリの [OP ID](../op-id.md) でなければなりません (MUST)。Profile Annotator 登録証 PA は OP レジストリが発行する PA です。OP レジストリは Profile Annotator 候補の組織を審査し、適格と認めた場合にこの PA を発行します。 |
 | `credentialSubject` | `object`   | **REQUIRED.** 次の [credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。                                                                                                                           |
 
-#### credentialSubject のプロパティ一覧 {#credential-subject-properties}
+#### credentialSubject のプロパティ一覧 {/_ #credential-subject-properties _/}
 
 | Name               | Type       | Description                                                                                                                             |
 | ------------------ | ---------- | --------------------------------------------------------------------------------------------------------------------------------------- |
@@ -39,10 +39,7 @@ Profile Annotator 登録証 PA は、OP レジストリが登録要件として�
 | `annotationScheme` | `string[]` | **REQUIRED.** この Profile Annotator が発行を認められている Profile Annotation を一意に識別する URI の配列でなければなりません (MUST)。 |
 | `annotation`       | `object`   | **REQUIRED.** Profile Annotator 登録制度を示す [Profile Annotation Policy](./pa-policy.md) でなければなりません (MUST)。                |
 
-:::note
-
-Profile Annotator 登録制度の ID について、同じ OP レジストリが運営する Profile Annotator 登録制度で、登録要件が同一である場合は、同じ値であるべきです。
-
+:::note[Profile Annotator 登録制度の ID について、同じ OP レジストリが運営する Profile Annotator 登録制度で、登録要件が同一である場合は、同じ値であるべきです。]
 :::
 
 ## 検証

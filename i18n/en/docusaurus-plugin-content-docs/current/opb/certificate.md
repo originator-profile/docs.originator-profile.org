@@ -7,8 +7,7 @@ tags:
 
 # Certificate ⚠
 
-:::warning Deprecation Warning
-
+:::warning[Deprecation Warning]
 Certificates will become unverifiable after 2027-01-01. Please make the necessary changes to issue a [Profile Annotation](./pa.md) by then.
 
 :::
@@ -26,7 +25,7 @@ The Certificate Data Model follows the [Profile Annotation](./pa.md).
 
 ### Property
 
-#### Certificate Properties {#certificate-properties}
+#### Certificate Properties {/_ #certificate-properties _/}
 
 | Name                | Type       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | ------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -37,17 +36,14 @@ The Certificate Data Model follows the [Profile Annotation](./pa.md).
 | `validFrom`         | `string`   | **OPTIONAL.** The start date and time of the certificate's validity period. Conforms to [VC Data Model 2.0 Section 4.9 Validity Period](https://www.w3.org/TR/vc-data-model-2.0/#validity-period). MUST be a [`dateTimeStamp` data type](./context.md#the-datetimestamp-datatype). If this value is not specified, it indicates that there is no start date and time of the validity period (valid any time before `validUntil`).                            |
 | `validUntil`        | `string`   | **OPTIONAL.** The expiration date of the certificate. Conforms to [VC Data Model 2.0 Section 4.9 Validity Period](https://www.w3.org/TR/vc-data-model-2.0/#validity-period). MUST be a [`dateTimeStamp` data type](./context.md#the-datetimestamp-datatype). The value of this property represents the last time that the information contained in the Certificate was correct. If this value is not specified, it indicates no expiration date (unlimited). |
 
-:::note
-
-`validFrom` and `validUntil` are the start date and time of the validity period and the expiration date of the information contained in the Certificate, and they are different from the start date and time of the validity period and the expiration date of the VC signature. In JWTs of [VC-JOSE-COSE](https://www.w3.org/TR/vc-jose-cose/), the Securing Mechanism currently adopted by OPs, the start date and time of the validity period and the expiration date of the signature are specified by the `iat` (issued at) and `exp` (expired at) claims of the JWT. The values of the `validFrom` and `validUntil` properties can be different from the `iat` and `exp` claim.
-
+:::note[`validFrom` and `validUntil` are the start date and time of the validity period and the expiration date of the information contained in the Certificate, and they are different from the start date and time of the validity period and the expiration date of the VC signature. In JWTs of [VC-JOSE-COSE](https://www.w3.org/TR/vc-jose-cose/), the Securing Mechanism currently adopted by OPs, the start date and time of the validity period and the expiration date of the signature are specified by the `iat` (issued at) and `exp` (expired at) claims of the JWT. The values of the `validFrom` and `validUntil` properties can be different from the `iat` and `exp` claim.]
 A scenario in which you might want to specify a different value is when you want to periodically reissue a VC that attests to a third-party certificate whose expiration date is far in the future. For example, suppose you issue a Certificate based on this specification that contains a third-party certificate that expires on `2050-12-31T15:00:00Z`. In that case, you might consider periodically reissuing the Certificate to reduce security risks caused by signature compromise or key leakage. To encourage periodic reissues, you can set an expiration date for the signature, and have the signature expire every year. In this case, you can specify the signature expiration date (one year later) in the `exp` claim, and set `validUntil` to `2050-12-31T15:00:00Z` regardless of the reissue date, thereby accurately representing the expiration date of the third-party certificate while reissuing it.
 
 See [VC Data Model 2.0 Section 4.9 Validity Period](https://www.w3.org/TR/vc-data-model-2.0/#validity-period) for property definitions.
 
 :::
 
-#### credentialSubject Properties {#credential-subject-properties}
+#### credentialSubject Properties {/_ #credential-subject-properties _/}
 
 | Name                  | Type     | Description                                                                                                                                                                                                                                    |
 | --------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -59,7 +55,7 @@ See [VC Data Model 2.0 Section 4.9 Validity Period](https://www.w3.org/TR/vc-dat
 | `verifier`            | `string` | **OPTIONAL.** The name of the verification authority.                                                                                                                                                                                          |
 | `certificationSystem` | `object` | **REQUIRED.** A JSON-LD Node Object containing the following [certificationSystem Properties](#certification-system-properties).                                                                                                               |
 
-#### certificationSystem Properties {#certification-system-properties}
+#### certificationSystem Properties {/_ #certification-system-properties _/}
 
 | Name          | Type     | Description                                                                                |
 | ------------- | -------- | ------------------------------------------------------------------------------------------ |
@@ -69,10 +65,7 @@ See [VC Data Model 2.0 Section 4.9 Validity Period](https://www.w3.org/TR/vc-dat
 | `description` | `string` | **OPTIONAL.** A description of the certification system.                                   |
 | `ref`         | `string` | **RECOMMENDED.** A URL for people to read to find out more about the certification system. |
 
-:::note
-
-Certificates that attest to the same content, basis, or evidence, and differ only in the organization holding the certificate, should have the same `certificationSystem.id` value.
-
+:::note[Certificates that attest to the same content, basis, or evidence, and differ only in the organization holding the certificate, should have the same `certificationSystem.id` value.]
 Additionally, the certification system name, description and URL should be up to date at the time of publication.
 
 :::

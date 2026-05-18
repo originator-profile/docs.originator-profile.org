@@ -18,7 +18,7 @@ tags:
 
 ### プロパティ
 
-#### Article のプロパティ一覧 {#article-properties}
+#### Article のプロパティ一覧 {/_ #article-properties _/}
 
 | Name                | Type                   | Description                                                                                                                                                                        |
 | ------------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -29,7 +29,7 @@ tags:
 | `allowedUrl`        | `string` \| `string[]` | **REQUIRED.** Content Attestation に定義済みのプロパティです。空配列にしてはなりません (MUST NOT)。                                                                                |
 | `target`            | `object[]`             | **REQUIRED.** Content Attestation に定義済みのプロパティです。空配列にしてはなりません (MUST NOT)。                                                                                |
 
-#### credentialSubject のプロパティ一覧 {#credential-subject-properties}
+#### credentialSubject のプロパティ一覧 {/_ #credential-subject-properties _/}
 
 | Name            | Type       | Description                                                                                                                                                                                                                                                                                           |
 | --------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -44,10 +44,7 @@ tags:
 | `editor`        | `string[]` | **OPTIONAL.** 編集者名の配列です。                                                                                                                                                                                                                                                                    |
 | `genre`         | `string`   | **OPTIONAL.** ジャンルです。                                                                                                                                                                                                                                                                          |
 
-:::note
-
-`credentialSubject` 内のプロパティは https://schema.org/Article を参考に決定しました。個々のプロパティの解釈、要不要について schema.org にどこまで準拠するかは OP を利用する企業との意見交換を踏まえて決めていく予定です。
-
+:::note[`credentialSubject` 内のプロパティは https://schema.org/Article を参考に決定しました。個々のプロパティの解釈、要不要について schema.org にどこまで準拠するかは OP を利用する企業との意見交換を踏まえて決めていく予定です。]
 :::
 
 ## Appendix

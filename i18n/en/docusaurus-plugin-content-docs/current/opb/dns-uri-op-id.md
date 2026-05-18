@@ -39,23 +39,19 @@ Example:
 - `dns:example.com?TYPE=A` (including dnsquery)
 - `dns:*.example.com` (wildcard)
 
-:::note
-
-The host names permitted for operational reasons may be further restricted.
+:::note[The host names permitted for operational reasons may be further restricted.]
 For example, a registration requirement could be that the domain is owned by an organization that owns an OP and that the organization has an official website with information about that organization.
 
 :::
 
-## Public key distribution {#public-key-distribution}
+## Public key distribution {/_ #public-key-distribution _/}
 
 You can obtain the public key by obtaining the OP of the organization that holds the OP ID.
 
-## Process for obtaining OP {#resolve}
+## Process for obtaining OP {/_ #resolve _/}
 
 To get OP of OP ID holder, get [Originator Profile Set (OPS)](./originator-profile-set.md) and then search for OP ID of [Core Profile (CP)](./cp.md) holder.
 
 To obtain OPS, obtain them from a specific domain using the methods defined in the [Site Profile](./site-profile.md) or obtain them from a specific web page using the methods defined in [Linking an Originator Profile Set to an HTML Document](./link-to-html.md) (RECOMMENDED).
 
-:::note
-
-The process for retrieving an OP using the DNS URI OP ID alone is undefined.
+:::note[The process for retrieving an OP using the DNS URI OP ID alone is undefined.]

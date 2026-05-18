@@ -17,13 +17,13 @@ For terms not explained in this document, please see [Terminology](./terminology
 - OP VC Data Model Conforming Document (OP VC DM Compliance Document)
 - Profile Annotation (PA)
 
-## Core Profile (CP) Data Model {#data-model}
+## Core Profile (CP) Data Model {/_ #data-model _/}
 
 The Core Profile MUST be an OP VC DM compliant document and includes the following properties:
 
-### Properties {#properties}
+### Properties {/_ #properties _/}
 
-#### Core Profile Properties {#core-profile-properties}
+#### Core Profile Properties {/_ #core-profile-properties _/}
 
 | Name                | Type       | Description                                                                                                                                                               |
 | ------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -32,7 +32,7 @@ The Core Profile MUST be an OP VC DM compliant document and includes the followi
 | `issuer`            | `string`   | **REQUIRED.** It MUST be the [OP ID](./op-id.md) of the VC issuing organization.                                                                                          |
 | `credentialSubject` | `object`   | **REQUIRED.** A JSON-LD Node Object containing the following [credentialSubject properties](#credential-subject-properties).                                              |
 
-#### credentialSubject Properties {#credential-subject-properties}
+#### credentialSubject Properties {/_ #credential-subject-properties _/}
 
 | Name   | Type     | Description                                                                                                                                                   |
 | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -40,7 +40,7 @@ The Core Profile MUST be an OP VC DM compliant document and includes the followi
 | `type` | `string` | **REQUIRED.** It MUST be `Core`.                                                                                                                              |
 | `jwks` | `object` | **REQUIRED.** It MUST be a [JWK Set](https://www.rfc-editor.org/rfc/rfc7517.html#section-5), which is the set of public keys of the CP-holding organizations. |
 
-## Extensibility {#extensibility}
+## Extensibility {/_ #extensibility _/}
 
 Issuers MUST NOT add properties to the Core Profile that are not defined in the [OP VC Data Model](./op-vc-data-model.md) and this document, and specification developers SHOULD strongly avoid adding properties to the Core Profile.
 
