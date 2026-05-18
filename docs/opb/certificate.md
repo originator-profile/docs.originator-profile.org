@@ -6,7 +6,7 @@ tags:
 
 # Certificate ⚠
 
-:::warning 非推奨になりました
+:::warning[非推奨になりました]
 
 2027-01-01 以降、Certificate は検証できなくなります。それまでに [Profile Annotation](./pa.md) を発行するよう変更してください。
 

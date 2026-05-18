@@ -81,7 +81,7 @@ Example of JSON-LD Node Object:
 }
 ```
 
-:::note Security Considerations
+:::note[Security Considerations]
 
 Application implementers should take the following points into consideration for text content other than the `text/plain` format:
 

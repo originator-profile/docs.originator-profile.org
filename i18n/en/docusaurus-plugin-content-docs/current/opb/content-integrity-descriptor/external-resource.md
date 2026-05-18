@@ -140,7 +140,7 @@ A specification is under consideration to enable verification of external resour
 
 :::
 
-:::note Implementation Notes
+:::note[Implementation Notes]
 
 As described in [SRI Section 5.3](https://www.w3.org/TR/sri/#cross-origin-data-leakage), in order to prevent an attacker from inferring the content of a cross-origin resource in violation of the [Same-Origin Policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy) by using a known or precomputed hash, when using the SRI validation result to determine the loadability of the cross-origin resource, ensure beforehand that the cross-origin resource is explicitly shared with the request initiator using the [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS) protocol.
 
