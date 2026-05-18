@@ -7,7 +7,7 @@ tags:
 
 # Certificate ⚠
 
-:::warning Deprecation Warning
+:::warning[Deprecation Warning]
 
 Certificates will become unverifiable after 2027-01-01. Please make the necessary changes to issue a [Profile Annotation](./pa.md) by then.
 

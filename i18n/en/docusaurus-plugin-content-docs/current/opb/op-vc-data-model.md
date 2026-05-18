@@ -33,7 +33,7 @@ It MUST conform to the [VC DM 2.0 Conforming Document](https://www.w3.org/TR/vc-
 
 The language used in each VC can be identified by the `@language` tag specified in the [@context property of the OP VC Data Model](/opb/op-vc-data-model.md#vc-properties). Application implementers SHOULD use VCs written in the appropriate language for display, matching the application user's locale.
 
-:::note Implementation Notes
+:::note[Implementation Notes]
 
 Application implementers must take the following considerations when the user's locale cannot be obtained, or when VCs matching the user's locale are unavailable:
 

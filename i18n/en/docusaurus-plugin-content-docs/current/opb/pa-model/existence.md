@@ -96,7 +96,7 @@ Below is a concrete example of an organization existence PA.
 }
 ```
 
-::::warning Migration Required
+::::warning[Migration Required]
 
 If you are using a previous format that extends [Certificate](../certificate.md), such as the one below, it will become unverifiable after 2027-01-01. The issuer MUST migrate to the format defined in this document by then.
 

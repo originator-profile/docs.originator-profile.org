@@ -7,23 +7,23 @@
   "scripts": {
     "format": "prettier --write .",
     "check": "scripts/check-numbering.js && scripts/check-original-commits.js",
-    "build": "git fetch --unshallow; docusaurus build --out-dir pages; node copy-aov.mjs; node copy-public.mjs",
+    "build": "git fetch --unshallow; docusaurus build --out-dir pages && node copy-aov.mjs && node copy-public.mjs",
     "preview": "node copy-aov.mjs; docusaurus start"
   },
   "devDependencies": {
-    "@docusaurus/core": "^3.9.2",
-    "@docusaurus/faster": "^3.9.2",
-    "@docusaurus/preset-classic": "^3.9.2",
-    "@docusaurus/theme-mermaid": "^3.9.2",
-    "@docusaurus/types": "^3.9.2",
+    "@docusaurus/core": "^3.10.1",
+    "@docusaurus/faster": "^3.10.1",
+    "@docusaurus/preset-classic": "^3.10.1",
+    "@docusaurus/theme-mermaid": "^3.10.1",
+    "@docusaurus/types": "^3.10.1",
     "@easyops-cn/docusaurus-search-local": "^0.55.1",
     "@r74tech/docusaurus-plugin-panzoom": "^2.4.2",
     "@types/shelljs": "^0.10.0",
     "dedent": "^1.7.2",
     "docusaurus-plugin-image-zoom": "^3.0.1",
     "gray-matter": "^4.0.3",
-    "prettier": "^3.8.1",
+    "prettier": "^3.8.3",
     "shelljs": "^0.10.0"
   },
-  "packageManager": "pnpm@10.33.0+sha512.10568bb4a6afb58c9eb3630da90cc9516417abebd3fabbe6739f0ae795728da1491e9db5a544c76ad8eb7570f5c4bb3d6c637b2cb41bfdcdb47fa823c8649319"
+  "packageManager": "pnpm@11.1.2"
 }

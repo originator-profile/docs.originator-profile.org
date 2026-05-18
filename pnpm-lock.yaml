@@ -9,19 +9,19 @@ importers:
   .:
     devDependencies:
       '@docusaurus/core':
-        specifier: ^3.9.2
+        specifier: ^3.10.1
         version: 3.10.1(@docusaurus/faster@3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.33)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(postcss@8.5.14))(@mdx-js/react@3.1.1(@types/react@19.2.14)(react@19.2.6))(@rspack/core@1.7.11)(@swc/core@1.15.33)(debug@4.4.3)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       '@docusaurus/faster':
-        specifier: ^3.9.2
+        specifier: ^3.10.1
         version: 3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.33)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(postcss@8.5.14)
       '@docusaurus/preset-classic':
-        specifier: ^3.9.2
+        specifier: ^3.10.1
         version: 3.10.1(@algolia/client-search@5.52.1)(@docusaurus/faster@3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.33)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(postcss@8.5.14))(@mdx-js/react@3.1.1(@types/react@19.2.14)(react@19.2.6))(@rspack/core@1.7.11)(@swc/core@1.15.33)(@types/react@19.2.14)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(search-insights@2.17.3)
       '@docusaurus/theme-mermaid':
-        specifier: ^3.9.2
+        specifier: ^3.10.1
         version: 3.10.1(@docusaurus/faster@3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.33)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(postcss@8.5.14))(@docusaurus/plugin-content-docs@3.10.1(@docusaurus/faster@3.10.1(@docusaurus/types@3.10.1(@swc/core@1.15.33)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(postcss@8.5.14))(@mdx-js/react@3.1.1(@types/react@19.2.14)(react@19.2.6))(@rspack/core@1.7.11)(@swc/core@1.15.33)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(@mdx-js/react@3.1.1(@types/react@19.2.14)(react@19.2.6))(@rspack/core@1.7.11)(@swc/core@1.15.33)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       '@docusaurus/types':
-        specifier: ^3.9.2
+        specifier: ^3.10.1
         version: 3.10.1(@swc/core@1.15.33)(clean-css@5.3.3)(cssnano@6.1.2(postcss@8.5.14))(html-minifier-terser@7.2.0)(postcss@8.5.14)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       '@easyops-cn/docusaurus-search-local':
         specifier: ^0.55.1
@@ -42,7 +42,7 @@ importers:
         specifier: ^4.0.3
         version: 4.0.3
       prettier:
-        specifier: ^3.8.1
+        specifier: ^3.8.3
         version: 3.8.3
       shelljs:
         specifier: ^0.10.0
@@ -3188,8 +3188,8 @@ packages:
     resolution: {integrity: sha512-cgwlv/1iFQiFnU96XXgROh8xTeetsnJiDsTc7TYCLFd9+/WNkIqPTxiM/8pSd8VIrhXGTf1Ny1q1hquVqDJB5w==}
     engines: {node: '>= 4'}
 
-  dompurify@3.4.4:
-    resolution: {integrity: sha512-r8K7KGKEcztXfA/nfabSYB2hg9tDphORJTdf8xprN/luSLGmNhOBN8dm1/SYjqLLet6YUFEXOcrdTuwryp/Bew==}
+  dompurify@3.4.3:
+    resolution: {integrity: sha512-VVwJidIJcp1hpg2OMXML3ZVRPYSZiq4aX7qBh83BSIpOaRDqI+qxhXjjIWnpzkOXhmp0L81lnoME1mnCc9H48A==}
 
   domutils@2.8.0:
     resolution: {integrity: sha512-w96Cjofp72M5IIhpjgobBimYEfoPjx1Vx0BSX9P30WBdZW2WIKU0T1Bd0kz2eNZ9ikjKgHbEyKx8BB6H1L3h3A==}
@@ -10419,7 +10419,7 @@ snapshots:
     dependencies:
       domelementtype: 2.3.0
 
-  dompurify@3.4.4:
+  dompurify@3.4.3:
     optionalDependencies:
       '@types/trusted-types': 2.0.7
 
@@ -11656,7 +11656,7 @@ snapshots:
       d3-sankey: 0.12.3
       dagre-d3-es: 7.0.14
       dayjs: 1.11.20
-      dompurify: 3.4.4
+      dompurify: 3.4.3
       es-toolkit: 1.46.1
       katex: 0.16.47
       khroma: 2.1.0
