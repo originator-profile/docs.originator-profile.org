@@ -1,5 +1,5 @@
 ---
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/7d651b3/docs/opb/pa-model/news-media-registration.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/fbd41a7/docs/opb/pa-model/news-media-registration.md
 tags:
   - Jurisdiction Specific Model
   - Profile Annotation
