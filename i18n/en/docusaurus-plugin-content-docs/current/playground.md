@@ -62,10 +62,10 @@ The test build version of the extension is for the Playground environment only. 
 
 You can download and install the browser extension (test build) from [GitHub Releases (canary)](https://github.com/originator-profile/originator-profile/releases/tag/canary).
 
-| Browse | File name                                                                     |
-| -------- | ------------------------------------------------------------------------------ |
-| Chrome   | [`_testing_profile_web_extension-chromium-canary.zip`][chrome]                 |
-| Firefox  | [`_testing_profile_web_extension-firefox-desktop-canary.zip`][firefox-desktop] |
+| Browse  | File name                                                                      |
+| ------- | ------------------------------------------------------------------------------ |
+| Chrome  | [`_testing_profile_web_extension-chromium-canary.zip`][chrome]                 |
+| Firefox | [`_testing_profile_web_extension-firefox-desktop-canary.zip`][firefox-desktop] |
 
 [chrome]: https://github.com/originator-profile/originator-profile/releases/download/canary/_testing_profile_web_extension-chromium-canary.zip
 [firefox-desktop]: https://github.com/originator-profile/originator-profile/releases/download/canary/_testing_profile_web_extension-firefox-desktop-canary.zip
