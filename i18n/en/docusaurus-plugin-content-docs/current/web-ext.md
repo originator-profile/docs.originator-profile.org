@@ -15,7 +15,7 @@ By accessing supported websites, you can check content originator information an
 
 Download the latest extension ZIP file from [GitHub Releases](https://github.com/originator-profile/originator-profile/releases/latest).
 
-| Browser      | File name                                     |
+| Browser         | File name                                      |
 | --------------- | ---------------------------------------------- |
 | Google Chrome   | `profile_web_extension-chromium-v*.zip`        |
 | Mozilla Firefox | `profile_web_extension-firefox-desktop-v*.zip` |
@@ -26,7 +26,9 @@ Download the latest extension ZIP file from [GitHub Releases](https://github.com
 
 1. Extract the downloaded ZIP file.
 2. Enter `chrome://extensions` in your browser's address bar to open the extensions management screen.
+
 - Alternatively, you can access it from the three-dot menu button in the upper right corner > "Extensions" > "Manage extensions".
+
 3. Enable "Developer mode" in the upper right corner of the screen.
 4. Click the "Load unpacked extension" button in the upper left corner of the screen.
 5. Select the directory where you extracted the ZIP file (the folder containing `manifest.json`).
@@ -69,7 +71,9 @@ Reference: [Pinning extensions (Chrome for Developers)](https://developer.chrome
 ### Basic Usage
 
 1. With the extension installed, access a website that supports Originator Profile.
+
 - Example: [Originator Profile Technology Research Association (OP-CIP) Official Website](https://originator-profile.org/)
+
 2. Click the extension icon in the toolbar.
 3. Content source information and verification results will be displayed.
 
