@@ -16,15 +16,15 @@ It allows you to test [Content Attestation Set (CAS)](/opb/ca/) and [Site Profil
 
 #### Input field
 
-| Field               | description                                      | Display conditions          |
-| ------------------------ | ----------------------------------------- | ------------------ |
+| Field                    | description                                          | Display conditions          |
+| ------------------------ | ---------------------------------------------------- | --------------------------- |
 | **Core Profile Issuers** | OPS (JSON) is the starting point of the trust chain. | Always display (required)   |
-| **URL**                  | Website URL to be verified                 | Always display           |
-| **SP**                   | Site Profile data                       | Verify SP tab     |
-| **OPS**                  | OriginatorProfileSet data               | Verify OPS tab    |
-| **Verify CAS**           | Check box to enable CAS verification      | Always display           |
-| **CAS**                  | Content Attestation data                | When CAS verification is ON |
-| **HTML**                 | HTML content to be verified                | When CAS verification is ON |
+| **URL**                  | Website URL to be verified                           | Always display              |
+| **SP**                   | Site Profile data                                    | Verify SP tab               |
+| **OPS**                  | OriginatorProfileSet data                            | Verify OPS tab              |
+| **Verify CAS**           | Check box to enable CAS verification                 | Always display              |
+| **CAS**                  | Content Attestation data                             | When CAS verification is ON |
+| **HTML**                 | HTML content to be verified                          | When CAS verification is ON |
 
 1. Select the verification mode from **Verify SP** / **Verify OPS**.
 1. Enter the URL of the website you want to verify in the **URL** field.
