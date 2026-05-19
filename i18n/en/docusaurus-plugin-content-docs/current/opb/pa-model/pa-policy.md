@@ -1,5 +1,5 @@
 ---
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/c759397/docs/opb/pa-model/pa-policy.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/5fe8e60/docs/opb/pa-model/pa-policy.md
 tags:
   - Profile Annotation
 ---

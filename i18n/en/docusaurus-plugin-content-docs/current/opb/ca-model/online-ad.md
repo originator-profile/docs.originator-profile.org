@@ -1,5 +1,5 @@
 ---
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/10e55fd/docs/opb/ca-model/online-ad.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/5fe8e60/docs/opb/ca-model/online-ad.md
 tags:
   - Content Attestation
   - Web Media Specific Model
