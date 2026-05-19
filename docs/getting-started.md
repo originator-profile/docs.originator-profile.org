@@ -37,7 +37,7 @@ Originator Profile では、発行や検証のために以下のツールとガ�
 - **ブラウザーでコンテンツを検証したい**  
   Originator Profile に対応した Web サイトのコンテンツを検証できるブラウザ拡張機能です。  
   Web サイト上でコンテンツの発信者情報や検証結果を確認したい場合に利用します。  
-  → [OP Inspector](./web-ext.md)
+  → [OP Inspector](./inspector.md)
 
 - **テスト環境でコンテンツ署名を発行したい**  
   Content Attestation や Site Profile を発行できるテスト環境（Content Attestation Server Playground）です。  

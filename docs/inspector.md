@@ -4,7 +4,7 @@ sidebar_position: 310
 
 # OP Inspector
 
-![](./assets/web-ext.ja.webp)
+![](./assets/inspector.ja.png)
 
 OP Inspector は、Web ブラウザー上で Originator Profile と Content Attestation の閲覧・検証を行うブラウザー拡張機能です。
 

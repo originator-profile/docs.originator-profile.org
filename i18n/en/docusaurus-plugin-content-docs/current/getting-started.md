@@ -37,7 +37,7 @@ Please refer to the following guides depending on your intended use.
 - **Verify Content in the Browser**  
   This browser extension allows you to verify content on websites that support Originator Profile.  
   Use it when you want to check the originator information and verification results directly on a webpage.  
-  → [OP Inspector](../web-ext/)
+  → [OP Inspector](../inspector/)
 
 - **Issuing Content Signatures in a Test Environment**  
   This is a test environment (Content Attestation Server Playground) where you can issue Content Attestation and Site Profile.  
