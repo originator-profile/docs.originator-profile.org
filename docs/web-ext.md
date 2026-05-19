@@ -48,7 +48,7 @@ OP Inspector をすぐに使えるよう、ツールバーに固定しておく�
 
 **Google Chrome**
 
-![](./assets/chrome-toolbar.ja.webp)
+![](./assets/chrome-toolbar.ja.png)
 
 1. ブラウザー右上にある「拡張機能」ボタン（🧩 パズルピースのアイコン）をクリックします。
 2. OP Inspector の横にある「固定」ボタン（📌 ピンのアイコン）をクリックします。
@@ -57,7 +57,7 @@ OP Inspector をすぐに使えるよう、ツールバーに固定しておく�
 
 **Firefox**
 
-![](./assets/firefox-toolbar.ja.webp)
+![](./assets/firefox-toolbar.ja.png)
 
 1. ブラウザー右上にある「拡張機能」ボタン（🧩 パズルピースのアイコン）をクリックします。
 2. OP Inspector の横にある「設定」ボタン（⚙ 歯車のアイコン）をクリックします。
