@@ -4,7 +4,7 @@ sidebar_position: 340
 
 # Content Attestation Server Playground
 
-[Content Attestation Server Playground](https://playground.originator-profile.org/) は、Content Attestation の発行からブラウザ拡張機能での検証までのワークフローをテストできる環境です。
+[Content Attestation Server Playground](https://playground.originator-profile.org/) は、Content Attestation の発行から OP Inspector での検証までのワークフローをテストできる環境です。
 
 :::warning
 Playground はテスト専用の環境です。Playground で発行した Content Attestation や Site Profile は本番環境では使用できません。
@@ -51,19 +51,19 @@ curl -X POST https://playground.originator-profile.org/sp \
 
 ### 検証方法
 
-ブラウザ拡張機能をインストールした状態で、Site Profile を配置したウェブサイトにアクセスすることで検証を行えます。
-検証するにはテストビルド版のブラウザー拡張機能が必要です。
+OP Inspector をインストールした状態で、Site Profile を配置したウェブサイトにアクセスすることで検証を行えます。
+検証するにはテストビルド版の OP Inspector が必要です。
 
 :::warning
-テストビルド版の拡張機能は Playground 環境専用です。本番環境の Content Attestation を検証できません。また、Playground で発行した Content Attestation や Site Profile は通常ビルド版の拡張機能で検証できません。
+テストビルド版の OP Inspector は Playground 環境専用です。本番環境の Content Attestation を検証できません。また、Playground で発行した Content Attestation や Site Profile は通常ビルド版の OP Inspector で検証できません。
 :::
 
-[GitHub Releases (canary)](https://github.com/originator-profile/originator-profile/releases/tag/canary) からブラウザ拡張機能 (テストビルド) をダウンロードし、インストールできます。
+[GitHub Releases (canary)](https://github.com/originator-profile/originator-profile/releases/tag/canary) から OP Inspector (テストビルド) をダウンロードし、インストールできます。
 
-| ブラウザ | ファイル名                                                                     |
-| -------- | ------------------------------------------------------------------------------ |
-| Chrome   | [`_testing_profile_web_extension-chromium-canary.zip`][chrome]                 |
-| Firefox  | [`_testing_profile_web_extension-firefox-desktop-canary.zip`][firefox-desktop] |
+| ブラウザ | ファイル名                                                            |
+| -------- | --------------------------------------------------------------------- |
+| Chrome   | [`_testing_op_inspector-chromium-canary.zip`][chrome]                 |
+| Firefox  | [`_testing_op_inspector-firefox-desktop-canary.zip`][firefox-desktop] |
 
-[chrome]: https://github.com/originator-profile/originator-profile/releases/download/canary/_testing_profile_web_extension-chromium-canary.zip
-[firefox-desktop]: https://github.com/originator-profile/originator-profile/releases/download/canary/_testing_profile_web_extension-firefox-desktop-canary.zip
+[chrome]: https://github.com/originator-profile/originator-profile/releases/download/canary/_testing_op_inspector-chromium-canary.zip
+[firefox-desktop]: https://github.com/originator-profile/originator-profile/releases/download/canary/_testing_op_inspector-firefox-desktop-canary.zip

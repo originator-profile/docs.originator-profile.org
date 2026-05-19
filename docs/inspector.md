@@ -2,22 +2,22 @@
 sidebar_position: 310
 ---
 
-# 拡張機能
+# OP Inspector
 
-![](./assets/web-ext.ja.webp)
+![](./assets/inspector.ja.png)
 
-Originator Profile (OP) 拡張機能は、Web ブラウザー上で Originator Profile と Content Attestation の閲覧・検証を行うブラウザー拡張機能です。
+OP Inspector は、Web ブラウザー上で Originator Profile と Content Attestation の閲覧・検証を行うブラウザー拡張機能です。
 
 対応している Web サイトにアクセスすると、コンテンツの発信者情報やその検証結果を確認できます。
 
 ## ダウンロード
 
-[GitHub Releases](https://github.com/originator-profile/originator-profile/releases/latest) から最新版の拡張機能の ZIP ファイルをダウンロードします。
+[GitHub Releases](https://github.com/originator-profile/originator-profile/releases/latest) から最新版の OP Inspector の ZIP ファイルをダウンロードします。
 
-| ブラウザー      | ファイル名                                     |
-| --------------- | ---------------------------------------------- |
-| Google Chrome   | `profile_web_extension-chromium-v*.zip`        |
-| Mozilla Firefox | `profile_web_extension-firefox-desktop-v*.zip` |
+| ブラウザー      | ファイル名                            |
+| --------------- | ------------------------------------- |
+| Google Chrome   | `op_inspector-chromium-v*.zip`        |
+| Mozilla Firefox | `op_inspector-firefox-desktop-v*.zip` |
 
 ## インストール
 
@@ -44,43 +44,43 @@ Firefox で一時的にインストールしたアドオンは、Firefox を再�
 
 ### ツールバーへの固定
 
-拡張機能をすぐに使えるよう、ツールバーに固定しておくと便利です。
+OP Inspector をすぐに使えるよう、ツールバーに固定しておくと便利です。
 
 **Google Chrome**
 
-![](./assets/chrome-toolbar.ja.webp)
+![](./assets/chrome-toolbar.ja.png)
 
 1. ブラウザー右上にある「拡張機能」ボタン（🧩 パズルピースのアイコン）をクリックします。
-2. Originator Profile 拡張機能 (Profile Web Extension) の横にある「固定」ボタン（📌 ピンのアイコン）をクリックします。
+2. OP Inspector の横にある「固定」ボタン（📌 ピンのアイコン）をクリックします。
 
 参考: [拡張機能を固定する (Chrome for Developers)](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world?hl=ja#pin_the_extension)
 
 **Firefox**
 
-![](./assets/firefox-toolbar.ja.webp)
+![](./assets/firefox-toolbar.ja.png)
 
 1. ブラウザー右上にある「拡張機能」ボタン（🧩 パズルピースのアイコン）をクリックします。
-2. Profile Web Extension の横にある「設定」ボタン（⚙ 歯車のアイコン）をクリックします。
+2. OP Inspector の横にある「設定」ボタン（⚙ 歯車のアイコン）をクリックします。
 3. 「ツールバーにピン留め」を選択します。
 
 ## 検証方法
 
 ### 基本的な使い方
 
-1. 拡張機能をインストールした状態で、Originator Profile に対応した Web サイトにアクセスします。
+1. OP Inspector をインストールした状態で、Originator Profile に対応した Web サイトにアクセスします。
    - 例: [Originator Profile 技術研究組合 (OP-CIP) 公式サイト](https://originator-profile.org/)
-2. ツールバーにある拡張機能のアイコンをクリックします。
+2. ツールバーにある OP Inspector のアイコンをクリックします。
 3. コンテンツの発信者情報と検証結果が表示されます。
 
 :::note
-拡張機能はインストール前に読み込み済みのタブでは動作しません。インストール後に新しくタブを開くか、ページを再読み込みしてください。
+OP Inspector はインストール前に読み込み済みのタブでは動作しません。インストール後に新しくタブを開くか、ページを再読み込みしてください。
 :::
 
 ### 検証結果の見方
 
 検証に成功した場合、発信者の情報（名称や画像など）が表示されます。
 
-検証に失敗した場合、拡張機能のアイコンをクリックし、ケバブメニュー（︙ 縦三点アイコン）から「詳細情報」を選択すると、検証結果の詳細を確認できます。
+検証に失敗した場合、OP Inspector のアイコンをクリックし、ケバブメニュー（︙ 縦三点アイコン）から「詳細情報」を選択すると、検証結果の詳細を確認できます。
 
 :::note[発信者情報が取得できない場合に表示される画面について]
 Originator Profile に対応していない Web サイトなどでは、以下のような画面が表示されます。  
@@ -126,15 +126,15 @@ Originator Profile に対応していない Web サイトなどでは、以下�
 
 コピーしたデータは、[Debugger](/debugger/) に貼り付けて詳細な検証を行ったり、問題の報告時に添付したりするのに役立ちます。
 
-## 拡張機能の更新
+## OP Inspector の更新
 
-新しいバージョンがリリースされた場合、以下の手順で拡張機能を更新できます。
+新しいバージョンがリリースされた場合、以下の手順で OP Inspector を更新できます。
 
 ### Google Chrome
 
 1. [GitHub Releases](https://github.com/originator-profile/originator-profile/releases/latest) から最新版をダウンロードし、展開します。
 2. 以前の ZIP ファイルの展開先を最新版に差し替えます。
-3. `chrome://extensions` を開き、Profile Web Extension の更新アイコン（オン/オフの切り替えボタンの左横）をクリックします。
+3. `chrome://extensions` を開き、OP Inspector の更新アイコン（オン/オフの切り替えボタンの左横）をクリックします。
 
 参考: [拡張機能を再読み込み (Chrome for Developers)](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world?hl=ja#reload)
 
@@ -170,7 +170,7 @@ Website Profile の画像は、幅 240px × 高さ 44px の表示領域にアス
 
 ## 既知の制限事項
 
-- 拡張機能はインストール前に読み込み済みのタブでは動作しません。インストール後に新しくタブを開くか、ページを再読み込みしてください。
+- OP Inspector はインストール前に読み込み済みのタブでは動作しません。インストール後に新しくタブを開くか、ページを再読み込みしてください。
 - 画像を表示するには、画像サーバーが CORS (`Access-Control-Allow-Origin: *`) を許可している必要があります。
 - Firefox では一時的にインストールしたアドオンは、ブラウザーの再起動時に無効になります。
 

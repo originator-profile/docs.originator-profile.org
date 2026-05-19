@@ -34,3 +34,7 @@
 # https://github.com/originator-profile/docs.originator-profile.org/issues/10
 /ja/opb/pa-model/municipality-certificate/  /ja/opb/pa-model/local-government-certification/
 /en/opb/pa-model/municipality-certificate/  /en/opb/pa-model/local-government-certification/
+
+# https://github.com/originator-profile/docs.originator-profile.org/issues/319
+/ja/web-ext/  /ja/inspector/ 301
+/en/web-ext/  /en/inspector/ 301

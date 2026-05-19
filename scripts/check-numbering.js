@@ -31,7 +31,7 @@ const TOP_LEVEL_RULES = {
   troubleshooting: RANGE_HOW_TO,
   "error-reference": RANGE_HOW_TO,
   "contributing.md": RANGE_HOW_TO,
-  "web-ext.md": RANGE_HOW_TO,
+  "inspector.md": RANGE_HOW_TO,
   "debugger.md": RANGE_HOW_TO,
   "playground.md": RANGE_HOW_TO,
   "getting-started.md": RANGE_TUTORIAL,

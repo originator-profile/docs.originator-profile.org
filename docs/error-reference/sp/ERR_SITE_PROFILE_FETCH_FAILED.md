@@ -25,7 +25,7 @@ Site Profile の取得に失敗した場合に発生します。
 
 ## 例
 
-- Site Profile の設置していない Web ページにて拡張機能を使用。
+- Site Profile の設置していない Web ページにて OP Inspector を使用。
 - Site Profile の JSON の形式が不正。
   二重カンマによる JSON 構文エラー。
 
