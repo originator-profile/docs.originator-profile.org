@@ -60,8 +60,8 @@ OP Inspector をインストールした状態で、Site Profile を配置した
 
 [GitHub Releases (canary)](https://github.com/originator-profile/originator-profile/releases/tag/canary) から OP Inspector (テストビルド) をダウンロードし、インストールできます。
 
-| ブラウザ | ファイル名                                                                     |
-| -------- | ------------------------------------------------------------------------------ |
+| ブラウザ | ファイル名                                                            |
+| -------- | --------------------------------------------------------------------- |
 | Chrome   | [`_testing_op_inspector-chromium-canary.zip`][chrome]                 |
 | Firefox  | [`_testing_op_inspector-firefox-desktop-canary.zip`][firefox-desktop] |
 

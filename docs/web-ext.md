@@ -14,8 +14,8 @@ OP Inspector は、Web ブラウザー上で Originator Profile と Content Atte
 
 [GitHub Releases](https://github.com/originator-profile/originator-profile/releases/latest) から最新版の OP Inspector の ZIP ファイルをダウンロードします。
 
-| ブラウザー      | ファイル名                                     |
-| --------------- | ---------------------------------------------- |
+| ブラウザー      | ファイル名                            |
+| --------------- | ------------------------------------- |
 | Google Chrome   | `op_inspector-chromium-v*.zip`        |
 | Mozilla Firefox | `op_inspector-firefox-desktop-v*.zip` |
 
