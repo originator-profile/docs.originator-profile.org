@@ -1,5 +1,5 @@
 ---
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/2e21af3/docs/opb/ca-model/advertorial.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/5fe8e60/docs/opb/ca-model/advertorial.md
 tags:
   - Content Attestation
   - Web Media Specific Model
