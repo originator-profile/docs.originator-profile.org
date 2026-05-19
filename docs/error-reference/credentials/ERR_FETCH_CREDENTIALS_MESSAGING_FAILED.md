@@ -21,4 +21,4 @@ slug: /error-reference/ERR_FETCH_CREDENTIALS_MESSAGING_FAILED
 
 ## 解決策
 
-- ネットワーク通信環境を確認し、再度拡張機能をご利用ください。
+- ネットワーク通信環境を確認し、再度 OP Inspector をご利用ください。

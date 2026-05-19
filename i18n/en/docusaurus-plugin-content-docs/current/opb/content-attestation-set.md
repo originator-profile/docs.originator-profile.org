@@ -54,7 +54,7 @@ After running the verification, you need to communicate the results to your user
   - If the CA is successfully verified, it will be displayed to the user as a verified CA.
   - If CA verification fails, inform the user with a brief explanation of the type and reason.
 
-OP Extension may return the following error when verifying the CA:
+OP Inspector may return the following error when verifying the CA:
 
 - CasVerifyFailed
   - CaInvalid
@@ -62,7 +62,7 @@ OP Extension may return the following error when verifying the CA:
   - CaVerifyFailed
 - Verified CAS
 
-For details, see "CA Verification" and the OP extension source code.
+For details, see "CA Verification" and the OP Inspector source code.
 
 Input:
 

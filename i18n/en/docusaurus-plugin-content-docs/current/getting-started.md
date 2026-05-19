@@ -25,7 +25,7 @@ When using Originator Profile, the following steps will help you understand the 
 
 Originator Profile provides the following tools and guides for issuing and verifying content.
 
-- Browser Extension
+- OP Inspector
 - Content Attestation Server Playground
 - WordPress Plugin (CA Manager)
 - Debugger
@@ -37,11 +37,11 @@ Please refer to the following guides depending on your intended use.
 - **Verify Content in the Browser**  
   This browser extension allows you to verify content on websites that support Originator Profile.  
   Use it when you want to check the originator information and verification results directly on a webpage.  
-  → [Browser Extension](../web-ext/)
+  → [OP Inspector](../web-ext/)
 
 - **Issuing Content Signatures in a Test Environment**  
   This is a test environment (Content Attestation Server Playground) where you can issue Content Attestation and Site Profile.  
-  You can also verify the issued Content Attestation or Site Profile using the test‑build version of the browser extension.  
+  You can also verify the issued Content Attestation or Site Profile using the test‑build version of the OP Inspector.  
   → [Content Attestation Server Playground](../playground/)
 
 - **Using Content Signing in WordPress**  

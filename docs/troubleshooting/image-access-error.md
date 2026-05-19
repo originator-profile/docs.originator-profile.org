@@ -25,7 +25,7 @@ Cross-Origin Request Blocked: The Same Origin Policy disallows reading the remot
 
 **原因**
 
-画像を配信しているサーバーが、拡張機能からのクロスオリジンリクエストを許可していません。
+画像を配信しているサーバーが、 OP Inspector からのクロスオリジンリクエストを許可していません。
 
 **解決方法**
 

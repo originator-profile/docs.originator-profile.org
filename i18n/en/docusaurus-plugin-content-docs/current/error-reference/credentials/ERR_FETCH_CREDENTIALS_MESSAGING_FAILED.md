@@ -22,4 +22,4 @@ This error occurs when the message exchange for retrieving the credential fails.
 
 ## Resolution
 
-- Check your network communication environment and try using the extension again.
+- Check your network communication environment and try using the OP Inspector again.
