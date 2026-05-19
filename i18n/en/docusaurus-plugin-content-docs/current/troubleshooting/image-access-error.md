@@ -1,6 +1,6 @@
 ---
 sidebar_position: 0
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/10274dc/docs/troubleshooting/image-access-error.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/ea02fd3/docs/troubleshooting/image-access-error.md
 ---
 
 # No image displayed

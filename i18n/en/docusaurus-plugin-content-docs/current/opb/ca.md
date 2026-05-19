@@ -1,6 +1,6 @@
 ---
 sidebar_position: 25
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/a3fb119/docs/opb/ca.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/ea02fd3/docs/opb/ca.md
 tags:
   - Base Model
   - Content Attestation
