@@ -51,7 +51,7 @@ If it fails, the process is aborted.
 
 ### Site Profile Verification (When Verify Site Profile is ON)
 
-Follow [the Site Profile Verification Process](/opb/site-profile.md#verification) to verify the SP's signature and the Originator Profile's integration.
+Follow the [Site Profile Verification Process](/opb/site-profile.md#verification) to verify the SP's signature and the Originator Profile's integration.
 
 - Fetch or parse SP data.
 - Get the URL origin.
