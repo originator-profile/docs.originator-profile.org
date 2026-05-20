@@ -49,7 +49,7 @@ Content Attestation MUST be an OP VC DM compliant document and contain the follo
 | Name   | Type     | Description                                                                                                                                                                                             |
 | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `id`   | `string` | **REQUIRED.** MUST be a CA ID. CA ID is a [UUIDv4](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-4) URN format string. There is a one-to-one correspondence between content and CA IDs. |
-| `type` | `string` | **REQUIRED.** CA type name.                                                                                                                                                                             |
+| `type` | `string` | **REQUIRED.** CA type name. Existing types are listed in the [Content Attestation Type Registry](./ca-model/index.mdx#registry), and additional types may be defined as an extension.                   |
 
 #### `allowedUrl` Examples:
 
