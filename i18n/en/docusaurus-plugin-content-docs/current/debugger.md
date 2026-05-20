@@ -16,13 +16,13 @@ It allows you to test [Content Attestation Set (CAS)](/opb/ca/) and [Site Profil
 
 #### Input field
 
-| Field                    | description                                          | Display conditions          |
+| Field                    | Description                                          | Display conditions          |
 | ------------------------ | ---------------------------------------------------- | --------------------------- |
-| **Core Profile Issuers** | OPS (JSON) is the starting point of the trust chain. | Always display (required)   |
-| **URL**                  | Website URL to be verified                           | Always display              |
+| **Core Profile Issuers** | OPS (JSON) is the starting point of the trust chain. | Always displayed (required)   |
+| **URL**                  | Website URL to be verified                           | Always displayed              |
 | **SP**                   | Site Profile data                                    | Verify SP tab               |
 | **OPS**                  | OriginatorProfileSet data                            | Verify OPS tab              |
-| **Verify CAS**           | Check box to enable CAS verification                 | Always display              |
+| **Verify CAS**           | Check box to enable CAS verification                 | Always displayed              |
 | **CAS**                  | Content Attestation data                             | When CAS verification is ON |
 | **HTML**                 | HTML content to be verified                          | When CAS verification is ON |
 
@@ -34,12 +34,12 @@ It allows you to test [Content Attestation Set (CAS)](/opb/ca/) and [Site Profil
 
 #### Parameter format
 
-For each of SP, OPS, and CAS fields, you can select the data presentation format (Presentation Type).
+For each of the SP, OPS, and CAS fields, you can select the data presentation format (Presentation Type).
 
 - **Embedded**: Enter JSON directly.
 - **External**: You can retrieve data by specifying an external URL. If you select "External," the data will be retrieved via a server-side proxy.
 
-In HTML fields, you can select the input method (HTML Input Type).
+In HTML field, you can select the input method (HTML Input Type).
 
 - **Direct Input**: Enter the HTML directly.
 - **Fetch from URL**: This retrieves HTML from the URL specified in the URL field.
@@ -51,7 +51,7 @@ If it fails, the process is aborted.
 
 ### Site Profile Verification (When Verify Site Profile is ON)
 
-Follow [Site Profile Verification Process](/opb/site-profile.md#verification) to verify the SP's signature and the Originator Profile's integration.
+Follow [the Site Profile Verification Process](/opb/site-profile.md#verification) to verify the SP's signature and the Originator Profile's integration.
 
 - Fetch or parse SP data.
 - Get the URL origin.
