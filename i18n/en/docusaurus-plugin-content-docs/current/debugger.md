@@ -74,7 +74,7 @@ The content integrity will be verified according to the [Content Attestation ver
 
 ### Sharing form state via URL
 
-Form input values ​​are saved as Base64url-encoded JSON in the URL hash fragment. This allows verification settings to be reproduced when bookmarking or sharing links.
+Form input values are saved as Base64url-encoded JSON in the URL hash fragment. This allows verification settings to be reproduced when bookmarking or sharing links.
 
 ## Verification flow
 
