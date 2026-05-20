@@ -18,11 +18,11 @@ It allows you to test [Content Attestation Set (CAS)](/opb/ca/) and [Site Profil
 
 | Field                    | Description                                          | Display conditions          |
 | ------------------------ | ---------------------------------------------------- | --------------------------- |
-| **Core Profile Issuers** | OPS (JSON) is the starting point of the trust chain. | Always displayed (required)   |
-| **URL**                  | Website URL to be verified                           | Always displayed              |
+| **Core Profile Issuers** | OPS (JSON) is the starting point of the trust chain. | Always displayed (required) |
+| **URL**                  | Website URL to be verified                           | Always displayed            |
 | **SP**                   | Site Profile data                                    | Verify SP tab               |
 | **OPS**                  | OriginatorProfileSet data                            | Verify OPS tab              |
-| **Verify CAS**           | Check box to enable CAS verification                 | Always displayed              |
+| **Verify CAS**           | Check box to enable CAS verification                 | Always displayed            |
 | **CAS**                  | Content Attestation data                             | When CAS verification is ON |
 | **HTML**                 | HTML content to be verified                          | When CAS verification is ON |
 
