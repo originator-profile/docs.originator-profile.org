@@ -33,7 +33,7 @@ Download the latest extension ZIP file from [GitHub Releases](https://github.com
 4. Click the "Load unpacked extension" button in the upper left corner of the screen.
 5. Select the directory where you extracted the ZIP file (the folder containing `manifest.json`).
 
-Reference: [Loading unpacked extensions (Chrome for Developers)](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world?hl=ja#load-unpacked)
+Reference: [Loading unpacked extensions (Chrome for Developers)](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world?hl=en#load-unpacked)
 
 ### Firefox
 
@@ -56,7 +56,7 @@ It's convenient to pin extensions to the toolbar for quick access.
 1. Click the "Extensions" button (🧩 puzzle piece icon) in the upper right corner of your browser.
 2. Click the "Pin" button (📌 pin icon) next to the Originator Profile extension (Profile Web Extension).
 
-Reference: [Pinning extensions (Chrome for Developers)](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world?hl=ja#pin_the_extension)
+Reference: [Pinning extensions (Chrome for Developers)](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world?hl=en#pin_the_extension)
 
 **Firefox**
 
@@ -145,7 +145,7 @@ When a new version is released, you can update your extensions by following thes
 2. Replace the location of the previous ZIP file with the latest version.
 3. Open `chrome://extensions` and click the refresh icon (to the left of the on/off toggle button) for the Profile Web Extension.
 
-Reference: [Reload extensions (Chrome for Developers)](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world?hl=ja#reload)
+Reference: [Reload extensions (Chrome for Developers)](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world?hl=en#reload)
 
 ### Firefox
 
