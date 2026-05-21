@@ -50,6 +50,7 @@ Profile Annotation は OP VC DM 準拠文書でなければなりません (MUST
 | Name               | Type       | Description                                                                                                                                                                                                                                                                                  |
 | ------------------ | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `id`               | `string`   | **REQUIRED.** PA 保有組織の [OP ID](./op-id.md) でなければなりません (MUST)。                                                                                                                                                                                                                |
+| `type`             | `string`   | **REQUIRED.** PA のタイプ名です。既存の型は [Profile Annotation Type Registry](./pa-model/index.mdx#registry) に登録されており、必要に応じて拡張して新しい型を定義できます (MAY)。                                                                                                           |
 | `name`             | `string`   | **OPTIONAL.** PA 名です。                                                                                                                                                                                                                                                                    |
 | `description`      | `string`   | **OPTIONAL.** PA の説明です。                                                                                                                                                                                                                                                                |
 | `image`            | `object`   | **OPTIONAL.** [`image` データ型](./context.md#the-image-datatype) の JSON-LD Node Object でなければなりません (MUST)。このプロパティで Profile Annotation の画像が改ざんされていないかを[検証](./context.md#image-datatype-の検証)することができます。                                       |
@@ -89,6 +90,7 @@ PA の具体例を次に示します。
   "issuer": "dns:profile-annotator.example.org",
   "credentialSubject": {
     "id": "dns:pa-holder.example.org",
+    "type": "<PA タイプ>",
     "name": "<PA 名>",
     "description": "<PA の説明>",
     "annotation": {

@@ -45,9 +45,10 @@ Content Attestation は OP VC DM 準拠文書でなければなりません (MUS
 
 #### credentialSubject のプロパティ一覧 {#credential-subject-properties}
 
-| Name | Type     | Description                                                                                                                                                                                           |
-| ---- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `id` | `string` | **REQUIRED.** CA ID でなければなりません (MUST)。 CA ID は [UUIDv4](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-4) の URN 形式の文字列です。コンテンツと CA ID は一対一対応します。 |
+| Name   | Type     | Description                                                                                                                                                                                           |
+| ------ | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`   | `string` | **REQUIRED.** CA ID でなければなりません (MUST)。 CA ID は [UUIDv4](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-4) の URN 形式の文字列です。コンテンツと CA ID は一対一対応します。 |
+| `type` | `string` | **REQUIRED.** CA のタイプ名です。既存の型は [Content Attestation Type Registry](./ca-model/index.mdx#registry) に登録されており、必要に応じて拡張して新しい型を定義できます (MAY)。                   |
 
 #### `allowedUrl` の具体例
 

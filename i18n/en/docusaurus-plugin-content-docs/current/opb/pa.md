@@ -51,6 +51,7 @@ See [VC Data Model 2.0 Section 4.9 Validity Period](https://www.w3.org/TR/vc-dat
 | Name               | Type       | Description                                                                                                                                                                                                                                                                                                |
 | ------------------ | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `id`               | `string`   | **REQUIRED.** It MUST be the [OP ID](./op-id.md) of the PA holding organization.                                                                                                                                                                                                                           |
+| `type`             | `string`   | **REQUIRED.** PA type name. Existing types are listed in the [Profile Annotation Type Registry](./pa-model/index.mdx#registry), and additional types MAY be defined as an extension.                                                                                                                       |
 | `name`             | `string`   | **OPTIONAL.** PA name.                                                                                                                                                                                                                                                                                     |
 | `description`      | `string`   | **OPTIONAL.** Description of the PA.                                                                                                                                                                                                                                                                       |
 | `image`            | `object`   | **OPTIONAL.** It MUST be a JSON-LD Node Object of type [`image` datatype](./context.md#the-image-datatype). This property allows you to [verify](./context.md#verifying-image-datatype) that the PA image has not been tampered with.                                                                      |
@@ -90,6 +91,7 @@ Below is an example of PA.
   "issuer": "dns:profile-annotator.example.org",
   "credentialSubject": {
     "id": "dns:pa-holder.example.org",
+    "type": "<PA Type>",
     "name": "<PA Name>",
     "description": "<Description of PA>",
     "annotation": {
