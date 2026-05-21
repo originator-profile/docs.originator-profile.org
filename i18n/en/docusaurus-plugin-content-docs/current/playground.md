@@ -44,7 +44,7 @@ A POST request is sent to the Playground endpoint [`/sp`](https://playground.ori
 ```sh
 curl -X POST https://playground.originator-profile.org/sp \
   -H content-Type:application/json \
-  -u BasicAuthenticationUsername: BasicAuthenticationPassword \
+  -u BasicAuthenticationUsername:BasicAuthenticationPassword \
   -d '{ ... }'
 ```
 
