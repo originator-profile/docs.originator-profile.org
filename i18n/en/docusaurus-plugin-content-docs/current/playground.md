@@ -22,7 +22,7 @@ The screen is composed of three panes (columns): "left," "center," and "right."
 - **Left pane: Navigation (Sidebar)**:
   This is an index of API endpoints. You can search for and select the endpoint you want.
 - **Center pane: Document**:
-  The left pane displays detailed specifications for the selected API. It includes the endpoint URL, a function summary, required and optional parameters (Query, Path, Headers), and the request body data structure (Schema).
+  The center pane displays detailed specifications for the API selected in the left pane. It includes the endpoint URL, a function summary, required and optional parameters (Query, Path, Headers), and the request body data structure (Schema).
 - **Right pane: API Client**:
   This is a test environment that allows you to execute API requests directly within the documentation. Implementation code snippets are automatically generated for various programming languages ​​(Node.js, Python, etc.) and command-line tools (cURL), which you can copy and use in your development.
 
@@ -44,7 +44,7 @@ A POST request is sent to the Playground endpoint [`/sp`](https://playground.ori
 ```sh
 curl -X POST https://playground.originator-profile.org/sp \
   -H content-Type:application/json \
-  -u Basic Authentication Username: Basic Authentication Password \
+  -u BasicAuthenticationUsername: BasicAuthenticationPassword \
   -d '{ ... }'
 ```
 
@@ -62,7 +62,7 @@ The test build version of the extension is for the Playground environment only. 
 
 You can download and install the browser extension (test build) from [GitHub Releases (canary)](https://github.com/originator-profile/originator-profile/releases/tag/canary).
 
-| Browse  | File name                                                                      |
+| Browser  | File name                                                                      |
 | ------- | ------------------------------------------------------------------------------ |
 | Chrome  | [`_testing_profile_web_extension-chromium-canary.zip`][chrome]                 |
 | Firefox | [`_testing_profile_web_extension-firefox-desktop-canary.zip`][firefox-desktop] |
