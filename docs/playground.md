@@ -10,6 +10,11 @@ sidebar_position: 340
 Playground はテスト専用の環境です。Playground で発行した Content Attestation や Site Profile は本番環境では使用できません。
 :::
 
+:::note
+Playground での発行の他に CP、PA、WMP 等の発行を試せるコマンドラインツールである OPVC CLI を提供しています。  
+[OPVC CLI](./opvc-cli.md) を参照してください。
+:::
+
 ## Playground の使い方
 
 ### 画面の説明

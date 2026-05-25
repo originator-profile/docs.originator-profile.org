@@ -14,7 +14,7 @@ tags:
 - Originator Profile Identifier (OP ID)
 - Web Media Profile (WMP)
 
-## Web Media Profile (WMP) のデータモデル
+## Web Media Profile (WMP) のデータモデル {#properties}
 
 Web Media Profile は OP VC DM 準拠文書でなければなりません (MUST)。他に以下のプロパティを含みます。
 
