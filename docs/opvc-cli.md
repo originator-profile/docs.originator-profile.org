@@ -27,7 +27,7 @@ npm i -g .
 #### `npx` もしくは `npm` を使用する方法
 
 :::note
-`npx` を使用する場合、 `opvc` を `npx -y @originator-profile/opvc に置き換えてください`
+`npx` を使用する場合、`opvc` を `npx -y @originator-profile/opvc` に置き換えてください
 :::
 
 ```sh
