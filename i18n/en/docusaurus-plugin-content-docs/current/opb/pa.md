@@ -23,7 +23,7 @@ For terms not explained in this document, please see [Terminology](./terminology
 
 The Profile Annotation MUST be an OP VC DM compliant document and contains the following properties:
 
-### Property
+### Property {#properties}
 
 #### Profile Annotation Properties {#profile-annotation-properties}
 

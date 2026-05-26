@@ -19,7 +19,7 @@ For terms not explained in this document, please see [Terminology](./terminology
 
 The Web Media Profile MUST be an OP VC DM compliant document and includes the following properties:
 
-### Property
+### Property {#properties}
 
 #### Web Media Profile (WMP) Properties {#web-media-profile-properties}
 

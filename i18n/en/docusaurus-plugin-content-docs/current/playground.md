@@ -11,6 +11,11 @@ original: https://github.com/originator-profile/docs.originator-profile.org/blob
 Playground is a testing environment only. Content Attestations and Site Profiles published in Playground cannot be used in a production environment.
 :::
 
+:::note
+A command-line tool, OPVC CLI, is also available for trying the issuance of CP, PA, WMP, and other profiles in addition to issuing them in the Playground.  
+For more information, see the [OPVC CLI](./opvc-cli.md) documentation for details.
+:::
+
 ## How to use Playground
 
 ### Screen description
