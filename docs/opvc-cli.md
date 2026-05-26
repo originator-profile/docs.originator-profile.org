@@ -24,7 +24,11 @@ pnpm install
 npm i -g .
 ```
 
-#### `npx` もしくは `npm` を使用してインストールする方法
+#### `npx` もしくは `npm` を使用する方法
+
+:::note
+`npx` を使用する場合、 `opvc` を `npx -y @originator-profile/opvc に置き換えてください`
+:::
 
 ```sh
 # npx
@@ -365,7 +369,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6ImpKWXM1X0lMZ1VjODE4MEwtcEJQeEJwZ0EzUUM3ZVp1OXdLT2to
 ## コマンド一覧
 
 以下は OPVC CLI のコマンド一覧になります。  
-各コマンドの詳細なオプションは [README](https://github.com/originator-profile/originator-profile/blob/main/packages/opvc) を確認してください。
+各コマンドの詳細なオプションは [README](https://github.com/originator-profile/originator-profile/tree/main/packages/opvc#readme) を確認してください。
 
 - opvc ca:sign
 - opvc ca:unsigned
@@ -377,4 +381,4 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6ImpKWXM1X0lMZ1VjODE4MEwtcEJQeEJwZ0EzUUM3ZVp1OXdLT2to
 
 ## 参考情報
 
-- [opvc - Originator Profile Verifiable Credential command line tool](https://github.com/originator-profile/originator-profile/blob/main/packages/opvc)
+- [opvc - Originator Profile Verifiable Credential command line tool](https://github.com/originator-profile/originator-profile/tree/main/packages/opvc)
