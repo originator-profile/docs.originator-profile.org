@@ -28,6 +28,7 @@ Originator Profile provides the following tools and guides for issuing and verif
 
 - OP Inspector
 - Content Attestation Server Playground
+- OPVC CLI
 - WordPress Plugin (CA Manager)
 - Debugger
 
@@ -44,6 +45,10 @@ Please refer to the following guides depending on your intended use.
   This is a test environment (Content Attestation Server Playground) where you can issue Content Attestation and Site Profile.  
   You can also verify the issued Content Attestation or Site Profile using the test‑build version of the OP Inspector.  
   → [Content Attestation Server Playground](../playground/)
+
+- **Issuing OP**  
+  The OPVC CLI is a command-line tool that lets you try issuing CP, PA, WMP and other OP-related credentials.  
+  → [OPVC CLI](../opvc-cli/)
 
 - **Using Content Signing in WordPress**  
   A WordPress plugin (CA Manager) is available to issue Content Attestation when publishing articles.  

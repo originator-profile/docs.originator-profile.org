@@ -22,7 +22,7 @@ Profile Annotation は Core Profile の主体に関する情報を表明する�
 
 Profile Annotation は OP VC DM 準拠文書でなければなりません (MUST)。他に以下のプロパティを含みます。
 
-### プロパティ
+### プロパティ {#properties}
 
 #### Profile Annotation のプロパティ一覧 {#profile-annotation-properties}
 

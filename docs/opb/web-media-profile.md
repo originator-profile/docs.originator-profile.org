@@ -18,7 +18,7 @@ tags:
 
 Web Media Profile は OP VC DM 準拠文書でなければなりません (MUST)。他に以下のプロパティを含みます。
 
-### プロパティ
+### プロパティ {#properties}
 
 #### Web Media Profile (WMP) のプロパティ一覧 {#web-media-profile-properties}
 

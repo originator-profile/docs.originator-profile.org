@@ -31,7 +31,7 @@ For terms not explained in this document, please see [Terminology](./terminology
 
 Content Attestation MUST be an OP VC DM compliant document and contain the following properties:
 
-### Property
+### Property {#properties}
 
 #### Content Attestation (CA) Properties {#content-attestation-properties}
 

@@ -30,7 +30,7 @@ OPが想定する情報発信者の検証は、危険なサイトのページに
 
 Content Attestation は OP VC DM 準拠文書でなければなりません (MUST)。他に以下のプロパティを含みます。
 
-### プロパティ
+### プロパティ {#properties}
 
 #### Content Attestation (CA) のプロパティ一覧 {#content-attestation-properties}
 

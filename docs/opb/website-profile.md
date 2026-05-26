@@ -18,7 +18,7 @@ tags:
 
 Website Profile は OP VC DM 準拠文書でなければなりません (MUST)。他に以下のプロパティを含みます。
 
-### プロパティ
+### プロパティ {#properties}
 
 #### Website Profile (WSP) のプロパティ一覧 {#website-profile-properties}
 

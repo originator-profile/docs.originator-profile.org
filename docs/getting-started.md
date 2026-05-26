@@ -27,6 +27,7 @@ Originator Profile では、発行や検証のために以下のツールとガ�
 
 - OP Inspector
 - Content Attestation Server Playground
+- OPVC CLI
 - WordPress プラグイン (CA Manager)
 - Debugger
 
@@ -43,6 +44,10 @@ Originator Profile では、発行や検証のために以下のツールとガ�
   Content Attestation や Site Profile を発行できるテスト環境（Content Attestation Server Playground）です。  
   テスト用にビルドされた OP Inspector を用いて検証まで行うことができます。  
   → [Content Attestation Server Playground](./playground.md)
+
+- **OP を発行したい**  
+  CP、PA、WMP 等の発行を試せるコマンドラインツールである OPVC CLI を提供しています。  
+  → [OPVC CLI](./opvc-cli.md)
 
 - **WordPress にてコンテンツへの署名機能を利用したい**  
   記事公開時に Content Attestation を発行するプラグイン（CA Manager）を提供しています。  

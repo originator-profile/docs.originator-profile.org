@@ -19,7 +19,7 @@ For terms not explained in this document, please see [Terminology](./terminology
 
 The Website Profile MUST be an OPVC DM compliant document and includes the following properties:
 
-### Property
+### Property {#properties}
 
 #### Website Profile (WSP) Properties {#website-profile-properties}
 
