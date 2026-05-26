@@ -13,7 +13,7 @@ Playground is a testing environment only. Content Attestations and Site Profiles
 
 :::note
 A command-line tool, OPVC CLI, is also available for trying the issuance of CP, PA, WMP, and other profiles in addition to issuing them in the Playground.  
-For more information, see the [OPVC CLI](./opvc-cli.md) documentation for details.
+For more information, see the [OPVC CLI](./opvc-cli.md) documentation.
 :::
 
 ## How to use Playground

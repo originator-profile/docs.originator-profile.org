@@ -21,7 +21,7 @@ OPVC CLI は、以下のいずれかの方法でインストールできます�
 
 #### ソースからインストールする方法
 
-```
+```sh
 git clone https://github.com/originator-profile/originator-profile.git
 cd originator-profile/packages/opvc
 pnpm install
@@ -30,7 +30,7 @@ npm i -g .
 
 #### `npx` もしくは `npm` を使用してインストールする方法
 
-```
+```sh
 # npx
 npx -y @originator-profile/opvc
 
@@ -42,7 +42,7 @@ npm i -g @originator-profile/opvc
 
 インストールが完了したら、CLI が正しく動作しているか確認してください。
 
-```
+```sh
 opvc help
 ```
 
@@ -53,7 +53,7 @@ opvc help
 各 VC を発行するにはプライベート鍵が必要になります。
 以下のコマンドによって鍵を生成します。
 
-```
+```sh
 opvc key-gen -o <鍵を保存するファイル名>
 ```
 
@@ -107,7 +107,7 @@ Core Profile の発行に必要なインプットファイル（JSON ファイ�
 以下のコマンドを実行することで署名済みの Core Profile を発行します。
 署名済みの VC が標準出力に表示されます。
 
-```
+```sh
 opvc sign -i <作成したプライベート鍵のファイルパス> --input <作成した JSON ファイルのパス>
 ```
 
@@ -161,7 +161,7 @@ Profile Annotation の発行に必要なインプットファイル（JSON フ�
 以下のコマンドを実行することで署名済みの Profile Annotation を発行します。
 署名済みの VC が標準出力に表示されます。
 
-```
+```sh
 opvc sign -i <作成したプライベート鍵のファイルパス> --input <作成した JSON ファイルのパス>
 ```
 
@@ -238,7 +238,7 @@ Web Media Profile の発行に必要なインプットファイル（JSON ファ
 以下のコマンドを実行することで署名済みの Web Media Profile を発行します。
 署名済みの VC が標準出力に表示されます。
 
-```
+```sh
 opvc sign -i <作成したプライベート鍵のファイルパス> --input <作成した JSON ファイルのパス>
 ```
 
@@ -289,7 +289,7 @@ Website Profile の発行に必要なインプットファイル（JSON ファ�
 以下のコマンドを実行することで署名済みの Website Profile を発行します。
 署名済みの VC が標準出力に表示されます。
 
-```
+```sh
 opvc wsp:sign -i <作成したプライベート鍵のファイルパス> --input <作成した JSON ファイルのパス>
 ```
 
@@ -356,7 +356,7 @@ Content Attestation の発行に必要なインプットファイル（JSON フ�
 以下のコマンドを実行することで Content Attestation を発行します。
 署名済みの VC が標準出力に表示されます。
 
-```
+```sh
 opvc ca:sign -i <作成したプライベート鍵のファイルパス> --input <作成した JSON ファイルのパス>
 ```
 

@@ -46,7 +46,7 @@ Please refer to the following guides depending on your intended use.
   You can also verify the issued Content Attestation or Site Profile using the test‑build version of the OP Inspector.  
   → [Content Attestation Server Playground](../playground/)
 
-- **Issuing OP**
+- **Issuing OP**  
   The OPVC CLI is a command-line tool that lets you try issuing CP, PA, WMP and other OP-related credentials.  
   → [OPVC CLI](../opvc-cli/)
 
