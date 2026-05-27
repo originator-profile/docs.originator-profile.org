@@ -56,7 +56,7 @@ Originator Profile が無効な形式になっている場合に発生します�
     }
   ],
   "type": ["VerifiableCredential", "ProfileAnnotation"],
-  "issuer": "dns:profile-annotator.example.org",
+  "issuer": "dns:profile-annotation-issuer.example.org",
   "credentialSubject": {
     "id": "dns:another.org",
     "name": "<PA 名>",

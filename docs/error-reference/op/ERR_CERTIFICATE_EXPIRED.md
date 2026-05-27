@@ -36,7 +36,7 @@ Profile Annotation に含まれている証明書の有効期間チェックに�
     }
   ],
   "type": ["VerifiableCredential", "ProfileAnnotation"],
-  "issuer": "dns:profile-annotator.example.org",
+  "issuer": "dns:profile-annotation-issuer.example.org",
   "credentialSubject": {
     "id": "dns:pa-holder.example.org",
     "name": "<PA 名>",
@@ -65,7 +65,7 @@ Profile Annotation に含まれている証明書の有効期間チェックに�
     }
   ],
   "type": ["VerifiableCredential", "ProfileAnnotation"],
-  "issuer": "dns:profile-annotator.example.org",
+  "issuer": "dns:profile-annotation-issuer.example.org",
   "credentialSubject": {
     "id": "dns:pa-holder.example.org",
     "name": "<PA 名>",

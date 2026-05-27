@@ -38,3 +38,7 @@
 # https://github.com/originator-profile/docs.originator-profile.org/issues/319
 /ja/web-ext/  /ja/inspector/ 301
 /en/web-ext/  /en/inspector/ 301
+
+# https://github.com/originator-profile/docs.originator-profile.org/issues/358
+/ja/opb/pa-model/profile-annotator-registration/  /ja/opb/pa-model/profile-annotation-issuer-registration/ 301
+/en/opb/pa-model/profile-annotator-registration/  /en/opb/pa-model/profile-annotation-issuer-registration/ 301

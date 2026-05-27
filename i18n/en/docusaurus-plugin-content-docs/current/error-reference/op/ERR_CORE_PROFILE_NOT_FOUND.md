@@ -29,7 +29,7 @@ This error occurs when the Core Profile cannot be found.
 ## Examples
 
 - A Profile Annotation is issued with an `issuer` value that does not match the Core Profile's `credentialSubject.id`.
-  For example, when the Core Profile's `credentialSubject.id` is `dns:profile-annotator.example.org`, the Profile Annotation was issued with `"issuer": "dns:another.org"`.
+  For example, when the Core Profile's `credentialSubject.id` is `dns:profile-annotation-issuer.example.org`, the Profile Annotation was issued with `"issuer": "dns:another.org"`.
 
 ```
 {

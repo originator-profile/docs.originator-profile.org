@@ -261,13 +261,13 @@ _This section is non-normative._
     "@protected": true,
     "cip": "https://originator-profile.org/ns/cip/v1#",
     "op": "https://originator-profile.org/ns/credentials/v1#",
-    "ProfileAnnotatorRegistration": {
-      "@id": "https://originator-profile.org/ns/cip/v1#ProfileAnnotatorRegistration",
+    "ProfileAnnotationIssuerRegistration": {
+      "@id": "https://originator-profile.org/ns/cip/v1#ProfileAnnotationIssuerRegistration",
       "@context": {
         "@protected": true,
         "id": "@id",
         "type": "@type",
-        "annotatorName": "https://schema.org/name"
+        "annotationIssuerName": "https://schema.org/name"
       }
     },
     "JP-OrganizationExistenceCertificate": {

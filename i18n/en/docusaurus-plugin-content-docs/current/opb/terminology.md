@@ -94,7 +94,7 @@ The target element of a target integrity is converted to a string representation
 
 A data model that states the [Profile Annotation](./pa.md) issuance policy.
 
-## Profile Annotator
+## Profile Annotation Issuer
 
 An entity that issues [Profile Annotation](./pa.md).
 

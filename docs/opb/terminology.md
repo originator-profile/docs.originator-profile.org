@@ -88,7 +88,7 @@ Content Integrity Descriptor が特定する DOM 要素。
 
 [Profile Annotation](./pa.md) の発行ポリシーを表明するデータモデル。
 
-## Profile Annotator
+## Profile Annotation Issuer
 
 [Profile Annotation](./pa.md) を発行する主体。
 
