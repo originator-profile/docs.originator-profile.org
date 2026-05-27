@@ -37,7 +37,7 @@ This error occurs when the system fails to validate the certificate validity per
     }
   ],
   "type": ["VerifiableCredential", "ProfileAnnotation"],
-  "issuer": "dns:profile-annotator.example.org",
+  "issuer": "dns:profile-annotation-issuer.example.org",
   "credentialSubject": {
     "id": "dns:pa-holder.example.org",
     "name": "<PA Name>",
@@ -66,7 +66,7 @@ This error occurs when the system fails to validate the certificate validity per
     }
   ],
   "type": ["VerifiableCredential", "ProfileAnnotation"],
-  "issuer": "dns:profile-annotator.example.org",
+  "issuer": "dns:profile-annotation-issuer.example.org",
   "credentialSubject": {
     "id": "dns:pa-holder.example.org",
     "name": "<PA Name>",

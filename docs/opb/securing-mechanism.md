@@ -169,7 +169,7 @@ REQUIRED. [JWT (RFC 7519)](https://www.rfc-editor.org/rfc/rfc7519.html) の仕�
 
 ```json
 {
-  "iss": "dns:profile-annotator.example.org",
+  "iss": "dns:profile-annotation-issuer.example.org",
   "sub": "dns:pa-holder.example.jp",
   "@context": [
     "https://www.w3.org/ns/credentials/v2",
@@ -178,7 +178,7 @@ REQUIRED. [JWT (RFC 7519)](https://www.rfc-editor.org/rfc/rfc7519.html) の仕�
     { "@language": "ja" }
   ],
   "type": ["VerifiableCredential", "ProfileAnnotation"],
-  "issuer": "dns:profile-annotator.example.org",
+  "issuer": "dns:profile-annotation-issuer.example.org",
   "credentialSubject": {
     "id": "dns:pa-holder.example.jp",
     "type": "JP-OrganizationExistenceCertificate",

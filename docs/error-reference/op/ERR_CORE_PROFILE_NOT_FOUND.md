@@ -28,7 +28,7 @@ Core Profile が見つからなかった場合に発生します。
 ## 例
 
 - Profile Annotation の `issuer` を Core Profile の `credentialSubject.id` と異なるものにして発行。
-  次の例では、Core Profile の `credentialSubject.id` が `dns:profile-annotator.example.org` の時、 Profile Annotation の `issuer` を `dns:another.org` とする。
+  次の例では、Core Profile の `credentialSubject.id` が `dns:profile-annotation-issuer.example.org` の時、 Profile Annotation の `issuer` を `dns:another.org` とする。
 
 ```
 {

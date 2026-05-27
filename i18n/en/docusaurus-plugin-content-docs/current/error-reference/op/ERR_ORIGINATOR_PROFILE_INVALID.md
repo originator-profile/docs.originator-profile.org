@@ -45,7 +45,7 @@ This error occurs when the Originator Profile is in an invalid format.
 ```
 
 - A Core Profile is issued with a `credentialSubject.id` value that does not match the Profile Annotation’s `credentialSubject.id.`
-  For example, when the Core Profile's `credentialSubject.id` is `dns:profile-annotator.example.org`, the Profile Annotation's was issued with `credentialSubject.id` is `dns:another.org`.
+  For example, when the Core Profile's `credentialSubject.id` is `dns:profile-annotation-issuer.example.org`, the Profile Annotation's was issued with `credentialSubject.id` is `dns:another.org`.
 
 ```
 {
@@ -57,7 +57,7 @@ This error occurs when the Originator Profile is in an invalid format.
     }
   ],
   "type": ["VerifiableCredential", "ProfileAnnotation"],
-  "issuer": "dns:profile-annotator.example.org",
+  "issuer": "dns:profile-annotation-issuer.example.org",
   "credentialSubject": {
     "id": "dns:another.org",
     "name": "<PA Name>",

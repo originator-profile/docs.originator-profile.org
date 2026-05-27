@@ -88,7 +88,7 @@ Below is an example of PA.
     }
   ],
   "type": ["VerifiableCredential", "ProfileAnnotation"],
-  "issuer": "dns:profile-annotator.example.org",
+  "issuer": "dns:profile-annotation-issuer.example.org",
   "credentialSubject": {
     "id": "dns:pa-holder.example.org",
     "type": "<PA Type>",

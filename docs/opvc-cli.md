@@ -139,7 +139,7 @@ Profile Annotation の発行に必要なインプットファイル（JSON フ�
     }
   ],
   "type": ["VerifiableCredential", "ProfileAnnotation"],
-  "issuer": "dns:profile-annotator.example.org",
+  "issuer": "dns:profile-annotation-issuer.example.org",
   "credentialSubject": {
     "id": "dns:pa-holder.example.org",
     "type": "<PA タイプ>",

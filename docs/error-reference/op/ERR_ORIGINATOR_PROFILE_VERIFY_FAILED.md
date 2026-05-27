@@ -64,7 +64,7 @@ Originator Profile の検証に失敗した場合に発生します。
     }
   ],
   "type": ["VerifiableCredential", "ProfileAnnotation"],
-  "issuer": "dns:profile-annotator.example.org",
+  "issuer": "dns:profile-annotation-issuer.example.org",
   "credentialSubject": {
     "id": "dns:pa-holder.example.org",
     "name": "<PA 名>",
