@@ -1,25 +1,22 @@
 ---
 sidebar_position: 350
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/414d960/docs/opvc-cli.md
 ---
 
 # OPVC CLI
 
-:::note
-このページは翻訳中です。
-:::
+OPVC CLI is a tool for creating and managing Verifiable Credentials (VC) that comply with the Originator Profile (OP) specification.
+You can issue VCs related to OPs such as Core Profile (CP), Profile Annotation (PA), Web Media Profile (WMP), Website Profile (WSP), and Content Attestation (CA) from the command line.
+This document helps you better understand the Originator Profile by actually issuing VCs such as CP and PA using the OPVC CLI.
 
-OPVC CLI は、Originator Profile (OP) 仕様に準拠した Verifiable Credential (VC) を作成・管理するためのツールです。  
-Core Profile (CP)、Profile Annotation (PA)、Web Media Profile (WMP)、Website Profile (WSP)、Content Attestation (CA) などの OP に関連する VC をコマンドラインから発行できます。  
-このドキュメントでは、OPVC CLI を使用し、実際に CP や PA などの VC を発行することで、Originator Profile の理解を深めることができます。
+## How to get started
 
-## 始め方
+### Install
 
-### インストール
+OPVC CLI can be installed using one of the following methods:
+Choose your preferred method.
 
-OPVC CLI は、以下のいずれかの方法でインストールできます。
-お好きな方法を選択してください。
-
-#### ソースからインストールする方法
+#### The way to install from source
 
 ```sh
 git clone https://github.com/originator-profile/originator-profile.git
@@ -28,10 +25,10 @@ pnpm install
 npm i -g .
 ```
 
-#### `npx` もしくは `npm` を使用する方法
+#### The way to use `npx` or `npm` 
 
 :::note
-`npx` を使用する場合、`opvc` を `npx -y @originator-profile/opvc` に置き換えてください
+If using `npx`, replace `opvc` with `npx -y @originator-profile/opvc`
 :::
 
 ```sh
@@ -42,43 +39,45 @@ npx -y @originator-profile/opvc
 npm i -g @originator-profile/opvc
 ```
 
-### 動作確認
+### Check working correctly
 
-インストールが完了したら、CLI が正しく動作しているか確認してください。
+Please check if the CLI is installed correctly and you can execute the following commands.
 
 ```sh
 opvc help
 ```
 
-## 事前準備
+If installed correctly, a list of available commands and instructions on how to use them will be displayed.
 
-### 鍵の生成
+## Preparation in advance
 
-各 VC を発行するにはプライベート鍵が必要になります。
-以下のコマンドによって鍵を生成します。
+### Key generation
+
+A private key is required to issue each VC.
+Generate a key with the following command.
 
 ```sh
-opvc key-gen -o <鍵を保存するファイル名>
+opvc key-gen -o <File name to save the key>
 ```
 
 :::note
-鍵を保存するファイル名は拡張子を除いて指定してください。  
-`<output>.priv.json`（プライベート鍵） と `<output>.pub.json`（パブリック鍵）が生成されます。
+Specify the file name to save the key without the extension.  
+`<output>.priv.json` (private key) and `<output>.pub.json` (public key) will be generated.
 :::
 
-生成した鍵のファイルおよびこれから必要になるインプットファイルの配置場所については自由です。コマンド実行時に `--input` や `-i` で正しいパスを指定できれば問題ありません。
+You are free to decide where to place the generated key file and the input files that will be needed from now on. There is no problem if you can specify the correct path with `--input` or `-i` when executing the command.
 
-## Core Profile (CP) の発行方法
+## How to publish a Core Profile (CP)
 
-このセクションでは Core Profile を発行します。Core Profile について詳細に知りたい場合は、[Core Profile](./opb/cp.md) を確認してください。  
-Core Profile は Originator を識別・検証するための基礎となるものです。
+This section explains how to publish a Core Profile. If you want to know more about Core Profile, check out [Core Profile](./opb/cp.md).
+Core Profile is the basis for identifying and verifying Originators.
 
-### インプットファイルの作成
+### Creating an input file
 
-Core Profile の発行に必要なインプットファイル（JSON ファイル）を作成します。  
-各プロパティについて必須となるものやそれぞれの意味については、[Core Profile のプロパティ](./opb/cp.md#properties)を確認してください。
+Create the input file (JSON file) required to publish the Core Profile.
+Please check [Core Profile properties](./opb/cp.md#properties) for the required properties and their meanings.
 
-例: cp.json
+Example file name : cp.json
 
 ```json
 {
@@ -106,32 +105,32 @@ Core Profile の発行に必要なインプットファイル（JSON ファイ�
 }
 ```
 
-### Core Profile の発行
+### Publishing Core Profile
 
-以下のコマンドを実行することで署名済みの Core Profile を発行します。
-署名済みの VC が標準出力に表示されます。
+Publish the signed Core Profile by running the following command.
+The signed VC is displayed on standard output.
 
 ```sh
-opvc sign -i <作成したプライベート鍵のファイルパス> --input <作成した JSON ファイルのパス>
+opvc sign -i <File path of created private key> --input <Path to the JSON file you created>
 ```
 
-出力例:
+Example output of the above command:
 
 ```
 eyJhbGciOiJFUzI1NiIsImtpZCI6ImpKWXM1X0lMZ1VjODE4MEwtcEJQeEJwZ0EzUUM3ZVp1OXdLT2toOW1ZUFUiLCJ0eXAiOiJ2Yytqd3QiLCJjdHkiOiJ2YyJ9...
 ```
 
-## Profile Annotation (PA) の発行方法
+## How to publish a Profile Annotation (PA)
 
-このセクションでは、Profile Annotation を発行します。Profile Annotation について詳細に知りたい場合は、[Profile Annotation](./opb/pa.md) を確認してください。  
-Profile Annotation は、検証済み属性を Core Profile に結び付ける署名付き情報です。
+This section describes how to publish Profile Annotations. If you want to know more about Profile Annotation, check out [Profile Annotation](./opb/pa.md).
+A Profile Annotation is signed information that connects validated attributes to a Core Profile.
 
-### インプットファイルの作成
+### Creating an input file
 
-Profile Annotation の発行に必要なインプットファイル（JSON ファイル）を作成します。  
-各プロパティについて必須となるものやそれぞれの意味については、[Profile Annotation のプロパティ](./opb/pa.md#properties)を確認してください。
+Create the input file (JSON file) required to publish Profile Annotation.
+Please check [Profile Annotation Properties](./opb/pa.md#properties) for the required properties and their meanings.
 
-例: annotation.json
+Example file name: annotation.json
 
 ```json
 {
@@ -146,46 +145,46 @@ Profile Annotation の発行に必要なインプットファイル（JSON フ�
   "issuer": "dns:profile-annotation-issuer.example.org",
   "credentialSubject": {
     "id": "dns:pa-holder.example.org",
-    "type": "<PA タイプ>",
-    "name": "<PA 名>",
-    "description": "<PA の説明>",
+    "type": "<PA type>",
+    "name": "<PA name>",
+    "description": "<PA description>",
     "annotation": {
       "id": "urn:uuid:14270f8f-9f1c-4f89-9fa4-8c93767a8404",
       "type": "ProfileAnnotationPolicy",
-      "name": "<Profile Annotation Policy 名>",
-      "description": "<Profile Annotation Policy の説明>",
+      "name": "<Profile Annotation Policy name>",
+      "description": "<Profile Annotation Policy description>",
       "ref": "https://annotation.example.org/about"
     }
   }
 }
 ```
 
-### Profile Annotation の発行
+### Publishing Profile Annotation
 
-以下のコマンドを実行することで署名済みの Profile Annotation を発行します。
-署名済みの VC が標準出力に表示されます。
+Publish the signed Profile Annotation by running the following command.
+The signed VC is displayed on standard output.
 
 ```sh
-opvc sign -i <作成したプライベート鍵のファイルパス> --input <作成した JSON ファイルのパス>
+opvc sign -i <File path of created private key> --input <Path to the JSON file you created>
 ```
 
-出力例:
+Example output of the above command:
 
 ```
 eyJhbGciOiJFUzI1NiIsImtpZCI6ImpKWXM1X0lMZ1VjODE4MEwtcEJQeEJwZ0EzUUM3ZVp1OXdLT2toOW1ZUFUiLCJ0eXAiOiJ2Yytqd3QiLCJjdHkiOiJ2YyJ9...
 ```
 
-## Web Media Profile (WMP) の発行方法
+## How to publish a Web Media Profile (WMP)
 
-このセクションでは、 Web Media Profile を発行します。Web Media Profile について詳細に知りたい場合は、[Web Media Profile](./opb/web-media-profile.md) を確認してください。  
-Web Media Profile は、Web メディアの実態や信頼性を示す署名付き情報です。
+This section describes how to publish a Web Media Profile. If you want to know more about Web Media Profile, check out [Web Media Profile](./opb/web-media-profile.md).
+Web Media Profile is signed information that indicates the reality and reliability of web media.
 
-### インプットファイルの作成
+### Creating an input file
 
-Web Media Profile の発行に必要なインプットファイル（JSON ファイル）を作成します。  
-各プロパティについて必須となるものやそれぞれの意味については、[Web Media Profile のプロパティ](./opb/web-media-profile.md#properties)を確認してください。
+Create the input file (JSON file) required to publish the Web Media Profile.
+Please check [Web Media Profile Properties](./opb/web-media-profile.md#properties) for the required properties and their meanings.
 
-例: media.json
+Example file name: media.json
 
 ```json
 {
@@ -200,7 +199,7 @@ Web Media Profile の発行に必要なインプットファイル（JSON ファ
     "id": "dns:wmp-holder.example.jp",
     "type": "OnlineBusiness",
     "url": "https://www.wmp-holder.example.jp/",
-    "name": "○○メディア (※開発用サンプル)",
+    "name": "** media (*Development sample)",
     "logo": {
       "id": "https://www.wmp-holder.example.jp/logo.svg",
       "digestSRI": "sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w="
@@ -209,27 +208,27 @@ Web Media Profile の発行に必要なインプットファイル（JSON ファ
     "telephone": "0000000000",
     "contactPoint": {
       "id": "https://wmp-holder.example.jp/contact",
-      "name": "お問い合わせ"
+      "name": "inquiry"
     },
     "informationTransmissionPolicy": {
       "id": "https://wmp-holder.example.jp/statement",
-      "name": "情報発信ポリシー"
+      "name": "Information dissemination policy"
     },
     "publishingPrinciple": {
       "id": "https://wmp-holder.example.jp/editorial-guidelines",
-      "name": "編集ガイドライン"
+      "name": "Editing guidelines"
     },
     "privacyPolicy": {
       "id": "https://wmp-holder.example.jp/privacy",
-      "name": "プライバシーポリシー"
+      "name": "Privacy policy"
     },
     "description": [
       {
-        "text": "この文章はこの Web メディアに関する補足情報です。",
+        "text": "This article provides supplementary information regarding this web media.",
         "encodingFormat": "text/plain"
       },
       {
-        "text": "<p>この文章はこの Web メディアに関する補足情報です。</p>",
+        "text": "<p>This article provides supplementary information regarding this web media.</p>",
         "encodingFormat": "text/html"
       }
     ]
@@ -237,32 +236,32 @@ Web Media Profile の発行に必要なインプットファイル（JSON ファ
 }
 ```
 
-### Web Media Profile の発行
+### Publishing a Web Media Profile
 
-以下のコマンドを実行することで署名済みの Web Media Profile を発行します。
-署名済みの VC が標準出力に表示されます。
+Publish the signed Web Media Profile by running the following command.
+The signed VC is displayed on standard output.
 
 ```sh
-opvc sign -i <作成したプライベート鍵のファイルパス> --input <作成した JSON ファイルのパス>
+opvc sign -i <File path of created private key> --input <Path to the JSON file you created>
 ```
 
-出力例:
+Example output of the above command:
 
 ```
 eyJhbGciOiJFUzI1NiIsImtpZCI6ImpKWXM1X0lMZ1VjODE4MEwtcEJQeEJwZ0EzUUM3ZVp1OXdLT2toOW1ZUFUiLCJ0eXAiOiJ2Yytqd3QiLCJjdHkiOiJ2YyJ9...
 ```
 
-## Website Profile (WSP) の発行方法
+## How to publish a Website Profile (WSP)
 
-このセクションでは、Website Profile を発行します。Website Profile について詳細に知りたい場合は、[Website Profile](./opb/website-profile.md) を確認してください。  
-Website Profile は、Web サイトの正当性を示す署名付き情報です。
+This section explains how to publish a Website Profile. If you want to know more about Website Profile, please check [Website Profile](./opb/website-profile.md).
+A Website Profile is signed information that indicates the legitimacy of a website.
 
-### インプットファイルの作成
+### Creating an input file
 
-Website Profile の発行に必要なインプットファイル（JSON ファイル）を作成します。  
-各プロパティについて必須となるものやそれぞれの意味については、[Website Profile のプロパティ](./opb/website-profile.md#properties)を確認してください。
+Create the input file (JSON file) required to publish the Website Profile.
+Please check [Website Profile Properties](./opb/website-profile.md#properties) for the required properties and their meanings.
 
-例: site.json
+Example file name: site.json
 
 ```json
 {
@@ -277,8 +276,8 @@ Website Profile の発行に必要なインプットファイル（JSON ファ�
   "credentialSubject": {
     "id": "https://media.example.com",
     "type": "WebSite",
-    "name": "<Webサイトのタイトル>",
-    "description": "<Webサイトの説明>",
+    "name": "<Website title>",
+    "description": "<Website description>",
     "image": {
       "id": "https://media.example.com/image.png",
       "digestSRI": "sha256-Upwn7gYMuRmJlD1ZivHk876vXHzokXrwXj50VgfnMnY="
@@ -288,32 +287,32 @@ Website Profile の発行に必要なインプットファイル（JSON ファ�
 }
 ```
 
-### Website Profile の発行
+### Publishing a　Website Profile
 
-以下のコマンドを実行することで署名済みの Website Profile を発行します。
-署名済みの VC が標準出力に表示されます。
+Issue the signed Website Profile by executing the following command.
+The signed VC is displayed on standard output.
 
 ```sh
-opvc wsp:sign -i <作成したプライベート鍵のファイルパス> --input <作成した JSON ファイルのパス>
+opvc wsp:sign -i <File path of created private key> --input <Path to the JSON file you created>
 ```
 
-出力例:
+Example output of the above command:
 
 ```
 eyJhbGciOiJFUzI1NiIsImtpZCI6ImpKWXM1X0lMZ1VjODE4MEwtcEJQeEJwZ0EzUUM3ZVp1OXdLT2toOW1ZUFUiLCJ0eXAiOiJ2Yytqd3QiLCJjdHkiOiJ2YyJ9...
 ```
 
-## Content Attestation (CA) の発行方法
+## How to publish Content Attestation (CA) 
 
-このセクションでは Content Attestation を発行します。Content Attestation について詳細に知りたい場合は、[Content Attestation](./opb/ca.md) を確認してください。  
-Content Attestation は、コンテンツが正当に Originator によって作られたことを示す署名付き情報です。
+This section explains how to publish Content Attestations. If you want to learn more about Content Attestation, check out [Content Attestation](./opb/ca.md).
+Content Attestation is signed information that indicates that the content was legitimately created by the Originator.
 
-### インプットファイルの作成
+### Creating an input file
 
-Content Attestation の発行に必要なインプットファイル（JSON ファイル）を作成します。  
-各プロパティについて必須となるものやそれぞれの意味については、[Content Attestation のプロパティ](./opb/ca.md#properties)を確認してください。
+Create the input file (JSON file) required to issue Content Attestation.
+Please check [Content Attestation Properties](./opb/ca.md#properties) for the required properties and their meanings.
 
-例: ca.json
+Example file name: ca.json
 
 ```json
 {
@@ -328,14 +327,14 @@ Content Attestation の発行に必要なインプットファイル（JSON フ�
   "credentialSubject": {
     "id": "urn:uuid:78550fa7-f846-4e0f-ad5c-8d34461cb95b",
     "type": "Article",
-    "headline": "<記事のタイトル>",
+    "headline": "<Article title>",
     "image": {
       "id": "https://media.example.com/image.png",
       "digestSRI": "sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w="
     },
-    "description": "<Webページの説明>",
-    "author": ["山田花子"],
-    "editor": ["山田太郎"],
+    "description": "<Web page description>",
+    "author": ["Jane Smith"],
+    "editor": ["John Doe"],
     "datePublished": "2023-07-04T19:14:00Z",
     "dateModified": "2023-07-04T19:14:00Z",
     "genre": "Arts & Entertainment"
@@ -344,7 +343,7 @@ Content Attestation の発行に必要なインプットファイル（JSON フ�
   "target": [
     {
       "type": "VisibleTextTargetIntegrity",
-      "cssSelector": "<CSS セレクター>",
+      "cssSelector": "<CSS selector>",
       "integrity": "sha256-GYC9PqfIw0qWahU6OlReQfuurCI5VLJplslVdF7M95U="
     },
     {
@@ -355,25 +354,25 @@ Content Attestation の発行に必要なインプットファイル（JSON フ�
 }
 ```
 
-### Content Attestation の発行
+### Publishing a　Content Attestation
 
-以下のコマンドを実行することで Content Attestation を発行します。
-署名済みの VC が標準出力に表示されます。
+Publish Content Attestation by executing the following command.
+The signed VC is displayed on standard output.
 
 ```sh
-opvc ca:sign -i <作成したプライベート鍵のファイルパス> --input <作成した JSON ファイルのパス>
+opvc ca:sign -i <File path of created private key> --input <Path to the JSON file you created>
 ```
 
-出力例:
+Example output of the above command:
 
 ```
 eyJhbGciOiJFUzI1NiIsImtpZCI6ImpKWXM1X0lMZ1VjODE4MEwtcEJQeEJwZ0EzUUM3ZVp1OXdLT2toOW1ZUFUiLCJ0eXAiOiJ2Yytqd3QiLCJjdHkiOiJ2YyJ9...
 ```
 
-## コマンド一覧
+## Command list
 
-以下は OPVC CLI のコマンド一覧になります。  
-各コマンドの詳細なオプションは [README](https://github.com/originator-profile/originator-profile/tree/main/packages/opvc#readme) を確認してください。
+Below is a list of OPVC CLI commands.
+Please check [README](https://github.com/originator-profile/originator-profile/tree/main/packages/opvc#readme) for detailed options for each command.
 
 - opvc ca:sign
 - opvc ca:unsigned
@@ -383,6 +382,6 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6ImpKWXM1X0lMZ1VjODE4MEwtcEJQeEJwZ0EzUUM3ZVp1OXdLT2to
 - opvc wsp:sign
 - opvc wsp:unsigned
 
-## 参考情報
+## Reference information
 
 - [opvc - Originator Profile Verifiable Credential command line tool](https://github.com/originator-profile/originator-profile/tree/main/packages/opvc)
