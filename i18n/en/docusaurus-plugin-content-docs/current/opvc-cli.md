@@ -181,7 +181,7 @@ Web Media Profile is signed information that indicates the identity and trustwor
 
 ### Creating an input file
 
-Create the input file (JSON file) required to publish the Web Media Profile.
+Create the input file (JSON file) required to publish a Web Media Profile.
 Please check [Web Media Profile Properties](./opb/web-media-profile.md#properties) for the required properties and their meanings.
 
 Example file name: media.json
