@@ -74,7 +74,7 @@ Core Profile is the basis for identifying and verifying Originators.
 
 ### Creating an input file
 
-Create the input file (JSON file) required to publish the Core Profile.
+Create the input file (JSON file) required to publish a Core Profile.
 Please check [Core Profile properties](./opb/cp.md#properties) for the required properties and their meanings.
 
 Example file name: cp.json
@@ -105,9 +105,9 @@ Example file name: cp.json
 }
 ```
 
-### Publishing Core Profile
+### Publishing a Core Profile
 
-Publish the signed Core Profile by running the following command.
+Publish the signed a Core Profile by running the following command.
 The signed VC is displayed on standard output.
 
 ```sh
@@ -122,12 +122,12 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6ImpKWXM1X0lMZ1VjODE4MEwtcEJQeEJwZ0EzUUM3ZVp1OXdLT2to
 
 ## How to publish a Profile Annotation (PA)
 
-This section describes how to publish Profile Annotations. If you want to know more about Profile Annotation, check out [Profile Annotation](./opb/pa.md).
-A Profile Annotation is signed information that connects validated attributes to a Core Profile.
+This section describes how to publish a Profile Annotation. If you want to know more about Profile Annotation, check out [Profile Annotation](./opb/pa.md).
+Profile Annotation is signed information that connects validated attributes to Core Profile.
 
 ### Creating an input file
 
-Create the input file (JSON file) required to publish Profile Annotation.
+Create the input file (JSON file) required to publish a Profile Annotation.
 Please check [Profile Annotation Properties](./opb/pa.md#properties) for the required properties and their meanings.
 
 Example file name: annotation.json
@@ -159,9 +159,9 @@ Example file name: annotation.json
 }
 ```
 
-### Publishing Profile Annotation
+### Publishing a Profile Annotation
 
-Publish the signed Profile Annotation by running the following command.
+Publish the signed a Profile Annotation by running the following command.
 The signed VC is displayed on standard output.
 
 ```sh
@@ -238,7 +238,7 @@ Example file name: media.json
 
 ### Publishing a Web Media Profile
 
-Publish the signed Web Media Profile by running the following command.
+Publish the signed a Web Media Profile by running the following command.
 The signed VC is displayed on standard output.
 
 ```sh
@@ -254,11 +254,11 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6ImpKWXM1X0lMZ1VjODE4MEwtcEJQeEJwZ0EzUUM3ZVp1OXdLT2to
 ## How to publish a Website Profile (WSP)
 
 This section explains how to publish a Website Profile. If you want to know more about Website Profile, please check [Website Profile](./opb/website-profile.md).
-A Website Profile is signed information that indicates the legitimacy of a website.
+Website Profile is signed information that indicates the legitimacy of a website.
 
 ### Creating an input file
 
-Create the input file (JSON file) required to publish the Website Profile.
+Create the input file (JSON file) required to publish a Website Profile.
 Please check [Website Profile Properties](./opb/website-profile.md#properties) for the required properties and their meanings.
 
 Example file name: site.json
@@ -289,7 +289,7 @@ Example file name: site.json
 
 ### Publishing a Website Profile
 
-Publish the signed Website Profile by executing the following command.
+Publish the signed a Website Profile by executing the following command.
 The signed VC is displayed on standard output.
 
 ```sh
@@ -302,14 +302,14 @@ Example output of the above command:
 eyJhbGciOiJFUzI1NiIsImtpZCI6ImpKWXM1X0lMZ1VjODE4MEwtcEJQeEJwZ0EzUUM3ZVp1OXdLT2toOW1ZUFUiLCJ0eXAiOiJ2Yytqd3QiLCJjdHkiOiJ2YyJ9...
 ```
 
-## How to publish Content Attestation (CA)
+## How to publish a Content Attestation (CA)
 
-This section explains how to publish a Content Attestations. If you want to learn more about Content Attestation, check out [Content Attestation](./opb/ca.md).
+This section explains how to publish a Content Attestation. If you want to learn more about Content Attestation, check out [Content Attestation](./opb/ca.md).
 Content Attestation is signed information that indicates that the content was legitimately created by the Originator.
 
 ### Creating an input file
 
-Create the input file (JSON file) required to issue Content Attestation.
+Create the input file (JSON file) required to publish a Content Attestation.
 Please check [Content Attestation Properties](./opb/ca.md#properties) for the required properties and their meanings.
 
 Example file name: ca.json
@@ -356,7 +356,7 @@ Example file name: ca.json
 
 ### Publishing a　Content Attestation
 
-Publish Content Attestation by executing the following command.
+Publish a Content Attestation by executing the following command.
 The signed VC is displayed on standard output.
 
 ```sh
