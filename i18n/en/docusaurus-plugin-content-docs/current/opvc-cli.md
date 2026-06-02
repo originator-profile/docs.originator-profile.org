@@ -289,7 +289,7 @@ Example file name: site.json
 
 ### Publishing a Website Profile
 
-Issue the signed Website Profile by executing the following command.
+Publish the signed Website Profile by executing the following command.
 The signed VC is displayed on standard output.
 
 ```sh
@@ -304,7 +304,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6ImpKWXM1X0lMZ1VjODE4MEwtcEJQeEJwZ0EzUUM3ZVp1OXdLT2to
 
 ## How to publish Content Attestation (CA)
 
-This section explains how to publish Content Attestations. If you want to learn more about Content Attestation, check out [Content Attestation](./opb/ca.md).
+This section explains how to publish a Content Attestations. If you want to learn more about Content Attestation, check out [Content Attestation](./opb/ca.md).
 Content Attestation is signed information that indicates that the content was legitimately created by the Originator.
 
 ### Creating an input file
