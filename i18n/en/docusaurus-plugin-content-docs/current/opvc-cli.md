@@ -25,7 +25,7 @@ pnpm install
 npm i -g .
 ```
 
-#### The way to use `npx` or `npm` 
+#### The way to use `npx` or `npm`
 
 :::note
 If using `npx`, replace `opvc` with `npx -y @originator-profile/opvc`
@@ -302,7 +302,7 @@ Example output of the above command:
 eyJhbGciOiJFUzI1NiIsImtpZCI6ImpKWXM1X0lMZ1VjODE4MEwtcEJQeEJwZ0EzUUM3ZVp1OXdLT2toOW1ZUFUiLCJ0eXAiOiJ2Yytqd3QiLCJjdHkiOiJ2YyJ9...
 ```
 
-## How to publish Content Attestation (CA) 
+## How to publish Content Attestation (CA)
 
 This section explains how to publish Content Attestations. If you want to learn more about Content Attestation, check out [Content Attestation](./opb/ca.md).
 Content Attestation is signed information that indicates that the content was legitimately created by the Originator.
