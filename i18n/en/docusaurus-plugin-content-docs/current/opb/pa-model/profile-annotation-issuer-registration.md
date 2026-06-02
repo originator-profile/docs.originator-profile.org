@@ -1,5 +1,5 @@
 ---
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/5fe8e60/docs/opb/pa-model/profile-annotation-issuer-registration.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/009e981/docs/opb/pa-model/profile-annotation-issuer-registration.md
 tags:
   - Base Model
   - Profile Annotation
