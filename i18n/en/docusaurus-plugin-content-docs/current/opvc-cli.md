@@ -107,7 +107,7 @@ Example file name: cp.json
 
 ### Publishing a Core Profile
 
-Publish the signed a Core Profile by running the following command.
+Publish the signed Core Profile by running the following command.
 The signed VC is displayed on standard output.
 
 ```sh
@@ -161,7 +161,7 @@ Example file name: annotation.json
 
 ### Publishing a Profile Annotation
 
-Publish the signed a Profile Annotation by running the following command.
+Publish the signed Profile Annotation by running the following command.
 The signed VC is displayed on standard output.
 
 ```sh
@@ -238,7 +238,7 @@ Example file name: media.json
 
 ### Publishing a Web Media Profile
 
-Publish the signed a Web Media Profile by running the following command.
+Publish the signed Web Media Profile by running the following command.
 The signed VC is displayed on standard output.
 
 ```sh
@@ -289,7 +289,7 @@ Example file name: site.json
 
 ### Publishing a Website Profile
 
-Publish the signed a Website Profile by executing the following command.
+Publish the signed Website Profile by executing the following command.
 The signed VC is displayed on standard output.
 
 ```sh
@@ -354,7 +354,7 @@ Example file name: ca.json
 }
 ```
 
-### Publishing a　Content Attestation
+### Publishing　a　Content　Attestation
 
 Publish a Content Attestation by executing the following command.
 The signed VC is displayed on standard output.
