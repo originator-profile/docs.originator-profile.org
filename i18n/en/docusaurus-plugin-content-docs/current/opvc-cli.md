@@ -16,7 +16,7 @@ This document helps you better understand the Originator Profile by actually iss
 OPVC CLI can be installed using one of the following methods:
 Choose your preferred method.
 
-#### The way to install from source
+#### Install from source
 
 ```sh
 git clone https://github.com/originator-profile/originator-profile.git
@@ -25,7 +25,7 @@ pnpm install
 npm i -g .
 ```
 
-#### The way to use `npx` or `npm`
+#### Install via `npx` or `npm`
 
 :::note
 If using `npx`, replace `opvc` with `npx -y @originator-profile/opvc`
@@ -39,7 +39,7 @@ npx -y @originator-profile/opvc
 npm i -g @originator-profile/opvc
 ```
 
-### Check working correctly
+### Verify installation
 
 Please check if the CLI is installed correctly and you can execute the following commands.
 
@@ -49,7 +49,7 @@ opvc help
 
 If installed correctly, a list of available commands and instructions on how to use them will be displayed.
 
-## Preparation in advance
+## Prerequisites
 
 ### Key generation
 
@@ -77,7 +77,7 @@ Core Profile is the basis for identifying and verifying Originators.
 Create the input file (JSON file) required to publish the Core Profile.
 Please check [Core Profile properties](./opb/cp.md#properties) for the required properties and their meanings.
 
-Example file name : cp.json
+Example file name: cp.json
 
 ```json
 {
@@ -138,7 +138,7 @@ Example file name: annotation.json
     "https://www.w3.org/ns/credentials/v2",
     "https://originator-profile.org/ns/credentials/v1",
     {
-      "@language": "ja"
+      "@language": "en"
     }
   ],
   "type": ["VerifiableCredential", "ProfileAnnotation"],
@@ -177,7 +177,7 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6ImpKWXM1X0lMZ1VjODE4MEwtcEJQeEJwZ0EzUUM3ZVp1OXdLT2to
 ## How to publish a Web Media Profile (WMP)
 
 This section describes how to publish a Web Media Profile. If you want to know more about Web Media Profile, check out [Web Media Profile](./opb/web-media-profile.md).
-Web Media Profile is signed information that indicates the reality and reliability of web media.
+Web Media Profile is signed information that indicates the identity and trustworthiness of web media.
 
 ### Creating an input file
 
@@ -191,7 +191,7 @@ Example file name: media.json
   "@context": [
     "https://www.w3.org/ns/credentials/v2",
     "https://originator-profile.org/ns/credentials/v1",
-    { "@language": "ja" }
+    { "@language": "en" }
   ],
   "type": ["VerifiableCredential", "WebMediaProfile"],
   "issuer": "dns:wmp-issuer.example.org",
@@ -199,7 +199,7 @@ Example file name: media.json
     "id": "dns:wmp-holder.example.jp",
     "type": "OnlineBusiness",
     "url": "https://www.wmp-holder.example.jp/",
-    "name": "** media (*Development sample)",
+    "name": "Media Name (*Development sample)",
     "logo": {
       "id": "https://www.wmp-holder.example.jp/logo.svg",
       "digestSRI": "sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w="
@@ -269,7 +269,7 @@ Example file name: site.json
     "https://www.w3.org/ns/credentials/v2",
     "https://originator-profile.org/ns/credentials/v1",
     "https://originator-profile.org/ns/cip/v1",
-    { "@language": "ja" }
+    { "@language": "en" }
   ],
   "type": ["VerifiableCredential", "WebsiteProfile"],
   "issuer": "dns:example.com",
@@ -287,7 +287,7 @@ Example file name: site.json
 }
 ```
 
-### Publishing a　Website Profile
+### Publishing a Website Profile
 
 Issue the signed Website Profile by executing the following command.
 The signed VC is displayed on standard output.
@@ -320,7 +320,7 @@ Example file name: ca.json
     "https://www.w3.org/ns/credentials/v2",
     "https://originator-profile.org/ns/credentials/v1",
     "https://originator-profile.org/ns/cip/v1",
-    { "@language": "ja" }
+    { "@language": "en" }
   ],
   "type": ["VerifiableCredential", "ContentAttestation"],
   "issuer": "dns:example.com",
