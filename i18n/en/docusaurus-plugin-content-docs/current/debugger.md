@@ -1,6 +1,6 @@
 ---
 sidebar_position: 360
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/414d960/docs/debugger.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/75f6d5a/docs/debugger.md
 ---
 
 # Debugger
