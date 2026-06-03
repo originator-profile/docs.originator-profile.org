@@ -1,6 +1,6 @@
 ---
 sidebar_position: 350
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/414d960/docs/opvc-cli.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/009e981/docs/opvc-cli.md
 ---
 
 # OPVC CLI
@@ -41,13 +41,11 @@ npm i -g @originator-profile/opvc
 
 ### Verify installation
 
-Please check if the CLI is installed correctly and you can execute the following commands.
+Once the installation is complete, verify that the CLI is working correctly.
 
 ```sh
 opvc help
 ```
-
-If installed correctly, a list of available commands and instructions on how to use them will be displayed.
 
 ## Prerequisites
 
