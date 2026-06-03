@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/0eea912/docs/error-reference/op/ERR_CERTIFICATE_EXPIRED.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/009e981/docs/error-reference/op/ERR_CERTIFICATE_EXPIRED.md
 tags:
   - Error Reference
   - Profile Annotation
