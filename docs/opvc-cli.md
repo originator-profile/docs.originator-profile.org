@@ -23,7 +23,7 @@ npm i -g @originator-profile/opvc
 ```
 
 :::note
-`npx` を使用する場合は、以下のドキュメント内の `opvc` を `npx @originator-profile/opvc` に置き換えてください。(例：`opvc help ...` は `npx @originator-profile/opvc help ...` となります)
+`npx` を使用する場合は、以下のドキュメント内の `opvc` を `npx -y @originator-profile/opvc` に置き換えてください（例：`opvc help` は `npx -y @originator-profile/opvc help` となります）。
 :::
 
 ### 動作確認
