@@ -12,23 +12,7 @@ Core Profile (CP)、Profile Annotation (PA)、Web Media Profile (WMP)、Website 
 
 ### インストール
 
-OPVC CLI は、以下のいずれかの方法でインストールできます。
-お好きな方法を選択してください。
-
-#### ソースからインストールする方法
-
-```sh
-git clone https://github.com/originator-profile/originator-profile.git
-cd originator-profile/packages/opvc
-pnpm install
-npm i -g .
-```
-
-#### `npx` もしくは `npm` を使用する方法
-
-:::note
-`npx` を使用する場合、`opvc` を `npx -y @originator-profile/opvc` に置き換えてください
-:::
+OPVC CLI は、`npx` で一時的にダウンロードして実行するか、`npm` でインストールして利用できます。
 
 ```sh
 # npx
@@ -37,6 +21,10 @@ npx -y @originator-profile/opvc
 # npm
 npm i -g @originator-profile/opvc
 ```
+
+:::note
+`npx` を使用する場合は、以下のドキュメント内の `opvc` を `npx -y @originator-profile/opvc` に置き換えてください（例：`opvc help` は `npx -y @originator-profile/opvc help` となります）。
+:::
 
 ### 動作確認
 
