@@ -12,7 +12,7 @@ Core Profile (CP)、Profile Annotation (PA)、Web Media Profile (WMP)、Website 
 
 ### インストール
 
-OPVC CLI は、`npx` もしくは `npm` を使用してインストールできます。
+OPVC CLI は、`npx` で一時的にダウンロードして実行するか、`npm` でインストールして利用できます。
 
 ```sh
 # npx
