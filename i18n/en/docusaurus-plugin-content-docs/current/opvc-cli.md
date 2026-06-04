@@ -16,9 +16,11 @@ This document helps you better understand the Originator Profile by actually iss
 The OPVC CLI can be downloaded and run temporarily using `npx`, or installed and used with `npm`.
 
 ```sh
- # npx
-@@ -38,6 +22,10 @@ npx -y @originator-profile/opvc
- npm i -g @originator-profile/opvc
+# npx
+npx -y @originator-profile/opvc
+
+# npm
+npm i -g @originator-profile/opvc
 ```
 
 :::note
