@@ -1,6 +1,6 @@
 ---
 sidebar_position: 350
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/009e981/docs/opvc-cli.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/0568b79/docs/opvc-cli.md
 ---
 
 # OPVC CLI
@@ -13,23 +13,7 @@ This document helps you better understand the Originator Profile by actually iss
 
 ### Install
 
-OPVC CLI can be installed using one of the following methods:
-Choose your preferred method.
-
-#### Install from source
-
-```sh
-git clone https://github.com/originator-profile/originator-profile.git
-cd originator-profile/packages/opvc
-pnpm install
-npm i -g .
-```
-
-#### Install via `npx` or `npm`
-
-:::note
-If using `npx`, replace `opvc` with `npx -y @originator-profile/opvc`
-:::
+The OPVC CLI can be downloaded and run temporarily using `npx`, or installed and used with `npm`.
 
 ```sh
 # npx
@@ -38,6 +22,10 @@ npx -y @originator-profile/opvc
 # npm
 npm i -g @originator-profile/opvc
 ```
+
+:::note
+If you are using `npx`, replace `opvc` with `npx -y @originator-profile/opvc` in the following documentation (for example, `opvc help` becomes `npx -y @originator-profile/opvc help`).
+:::
 
 ### Verify installation
 
