@@ -72,3 +72,40 @@ OP Inspector をインストールした状態で、Site Profile を配置した
 
 [chrome]: https://github.com/originator-profile/originator-profile/releases/download/canary/_testing_op_inspector-chromium-canary.zip
 [firefox-desktop]: https://github.com/originator-profile/originator-profile/releases/download/canary/_testing_op_inspector-firefox-desktop-canary.zip
+
+### Playground でのエラーコード
+
+Playground API クライアントを使用している際に発生する可能性のあるエラーコードと、その意味・発生原因についてまとめます。
+
+| エラーコード | エラー       | 原因                                |
+| ------------ | ------------ | ----------------------------------- |
+| 400          | Bad Request  | JSON スキーマのバリデーションエラー |
+| 401          | Unauthorized | 認証情報が不正な場合のエラー        |
+| 403          | Forbidden    | issuer と OP Account ID の不一致    |
+| 404          | Not Found    | 未定義のエンドポイントへのアクセス  |
+
+#### 400 Bad Request
+
+- メッセージ: "One or more validations failed trying to process your request."
+- 原因: 入力 JSON が期待されるスキーマ（必須項目・型・フォーマット）を満たしていない
+- 対策: 入力 JSON の必須項目・型・フォーマット、またはレスポンスメッセージのエラー内容を確認する
+
+#### 401 Unauthorized
+
+- メッセージ: "Invalid password"
+- 原因: ユーザー名またはパスワードなどの認証情報が正しくない
+- 対策: ユーザー名およびパスワードが正しいか確認する
+
+#### 403 Forbidden
+
+- メッセージ:
+  - "OP Account ID does not match the issuer of the Website Profile."
+  - "OP Account ID does not match the issuer of the Content Attestation."
+- 原因: 入力 JSON の issuer と、発行に使用している OP Account ID が一致していない
+- 対策: 入力 JSON の issuer と、使用している OP Account ID が一致しているか確認する
+
+#### 404 Not Found
+
+- メッセージ: "404 Not Found"
+- 原因: 用意されていない操作・エンドポイントにアクセスした場合に発生する
+- 対策: 対象の URL やエンドポイント、HTTP メソッドが正しいか確認する
