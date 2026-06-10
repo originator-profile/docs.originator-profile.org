@@ -69,7 +69,7 @@ You can download and install OP Inspector (test build) from [GitHub Releases (ca
 
 | Browser | File name                                                             |
 | ------- | --------------------------------------------------------------------- |
-| Chrome  | [`_testing_op_inspector-chromium-canary.zip`][chrome] |
+| Chrome  | [`_testing_op_inspector-chromium-canary.zip`][chrome]                 |
 | Firefox | [`_testing_op_inspector-firefox-desktop-canary.zip`][firefox-desktop] |
 
 [chrome]: https://github.com/originator-profile/originator-profile/releases/download/canary/_testing_op_inspector-chromium-canary.zip
