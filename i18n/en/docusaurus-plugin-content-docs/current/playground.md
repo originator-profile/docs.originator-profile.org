@@ -5,7 +5,7 @@ original: https://github.com/originator-profile/docs.originator-profile.org/blob
 
 # Content Attestation Server Playground
 
-[Content Attestation Server Playground](https://playground.originator-profile.org/) is an environment where you can test the workflow from publishing content attestation to verifying it with a browser extension.
+[Content Attestation Server Playground](https://playground.originator-profile.org/) is an environment where you can test the workflow from publishing content attestation to verifying it with OP Inspector.
 
 :::warning
 Playground is a testing environment only. Content Attestations and Site Profiles published in Playground cannot be used in a production environment.
