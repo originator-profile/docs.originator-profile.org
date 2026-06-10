@@ -67,8 +67,8 @@ The test build version of OP Inspector is for the Playground environment only. I
 
 You can download and install OP Inspector (test build) from [GitHub Releases (canary)](https://github.com/originator-profile/originator-profile/releases/tag/canary).
 
-| Browser | File name                                                                      |
-| ------- | ------------------------------------------------------------------------------ |
+| Browser | File name                                                             |
+| ------- | --------------------------------------------------------------------- |
 | Chrome  | [`_testing_op_inspector-chromium-canary.zip`][chrome]                 |
 | Firefox | [`_testing_op_inspector-firefox-desktop-canary.zip`][firefox-desktop] |
 
