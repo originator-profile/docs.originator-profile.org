@@ -1,6 +1,6 @@
 ---
 sidebar_position: 340
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/75f6d5a/docs/playground.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/69fde4c/docs/playground.md
 ---
 
 # Content Attestation Server Playground
@@ -74,3 +74,40 @@ You can download and install the browser extension (test build) from [GitHub Rel
 
 [chrome]: https://github.com/originator-profile/originator-profile/releases/download/canary/_testing_profile_web_extension-chromium-canary.zip
 [firefox-desktop]: https://github.com/originator-profile/originator-profile/releases/download/canary/_testing_profile_web_extension-firefox-desktop-canary.zip
+
+### Error Codes in Playground
+
+This section summarizes possible error codes that may occur when using the Playground API client, along with their meanings and causes.
+
+| Error Code | Error | Cause |
+| ------------ | ------------ | ----------------------------------- |
+| 400 | Bad Request | JSON schema validation error |
+| 401 | Unauthorized | Error due to invalid credentials |
+| 403 | Forbidden | Mismatch between issuer and OP Account ID |
+| 404 | Not Found | Access to an undefined endpoint |
+
+#### 400 Bad Request
+
+- Message: "One or more validations failed trying to process your request."
+- Cause: The input JSON does not meet the expected schema (required fields, types, format).
+- Solution: Check the required fields, types, and format of the input JSON, or the error content in the response message.
+
+#### 401 Unauthorized
+
+- Message: "Invalid password"
+- Cause: Incorrect authentication information such as username or password.
+- Solution: Verify that the username and password are correct.
+
+#### 403 Forbidden
+
+- Message:
+  - "OP Account ID does not match the issuer of the Website Profile."
+  - "OP Account ID does not match the issuer of the Content Attestation."
+- Cause: The issuer in the input JSON does not match the OP Account ID used for issuance.
+- Solution: Verify that the issuer in the input JSON matches the OP Account ID being used.
+
+#### 404 Not Found
+
+- Message: "404 Not Found"
+- Cause: Occurs when accessing an operation or endpoint that is not available.
+- Solution: Verify that the target URL, endpoint, and HTTP method are correct.
