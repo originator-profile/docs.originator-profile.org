@@ -79,12 +79,12 @@ You can download and install the browser extension (test build) from [GitHub Rel
 
 This section summarizes possible error codes that may occur when using the Playground API client, along with their meanings and causes.
 
-| Error Code | Error | Cause |
-| ------------ | ------------ | ----------------------------------- |
-| 400 | Bad Request | JSON schema validation error |
-| 401 | Unauthorized | Error due to invalid credentials |
-| 403 | Forbidden | Mismatch between issuer and OP Account ID |
-| 404 | Not Found | Access to an undefined endpoint |
+| Error Code | Error        | Cause                                     |
+| ---------- | ------------ | ----------------------------------------- |
+| 400        | Bad Request  | JSON schema validation error              |
+| 401        | Unauthorized | Error due to invalid credentials          |
+| 403        | Forbidden    | Mismatch between issuer and OP Account ID |
+| 404        | Not Found    | Access to an undefined endpoint           |
 
 #### 400 Bad Request
 
