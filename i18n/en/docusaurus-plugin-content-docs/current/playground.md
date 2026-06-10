@@ -57,23 +57,23 @@ For details on each property in the request body, please refer to the [Website P
 
 ### Verification method
 
-You can perform verification by accessing the website where Site Profile is deployed, with the browser extension installed.
+You can perform verification by accessing the website where Site Profile is deployed, with OP Inspector installed.
 
-A test build of the browser extension is required for verification.
+A test build of OP Inspector is required for verification.
 
 :::warning
-The test build version of the extension is for the Playground environment only. It cannot verify content attestations in the production environment. Also, content attestations and site profiles published in Playground cannot be verified with the standard build version of the extension.
+The test build version of OP Inspector is for the Playground environment only. It cannot verify content attestations in the production environment. Also, content attestations and site profiles published in Playground cannot be verified with the standard build version of OP Inspector.
 :::
 
-You can download and install the browser extension (test build) from [GitHub Releases (canary)](https://github.com/originator-profile/originator-profile/releases/tag/canary).
+You can download and install OP Inspector (test build) from [GitHub Releases (canary)](https://github.com/originator-profile/originator-profile/releases/tag/canary).
 
 | Browser | File name                                                                      |
 | ------- | ------------------------------------------------------------------------------ |
-| Chrome  | [`_testing_profile_web_extension-chromium-canary.zip`][chrome]                 |
-| Firefox | [`_testing_profile_web_extension-firefox-desktop-canary.zip`][firefox-desktop] |
+| Chrome  | [`_testing_op_inspector-chromium-canary.zip`][chrome]                 |
+| Firefox | [`_testing_op_inspector-firefox-desktop-canary.zip`][firefox-desktop] |
 
-[chrome]: https://github.com/originator-profile/originator-profile/releases/download/canary/_testing_profile_web_extension-chromium-canary.zip
-[firefox-desktop]: https://github.com/originator-profile/originator-profile/releases/download/canary/_testing_profile_web_extension-firefox-desktop-canary.zip
+[chrome]: https://github.com/originator-profile/originator-profile/releases/download/canary/_testing_op_inspector-chromium-canary.zip
+[firefox-desktop]: https://github.com/originator-profile/originator-profile/releases/download/canary/_testing_op_inspector-firefox-desktop-canary.zip
 
 ### Error Codes in Playground
 
