@@ -1,5 +1,5 @@
 ---
-sidebar_position: 360
+sidebar_position: 340
 original: https://github.com/originator-profile/docs.originator-profile.org/blob/75f6d5a/docs/debugger.md
 ---
 
