@@ -1,11 +1,11 @@
 ---
 sidebar_position: 320
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/75f6d5a/docs/playground.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/69fde4c/docs/playground.md
 ---
 
 # Content Attestation Server Playground
 
-[Content Attestation Server Playground](https://playground.originator-profile.org/) is an environment where you can test the workflow from publishing content attestation to verifying it with a browser extension.
+[Content Attestation Server Playground](https://playground.originator-profile.org/) is an environment where you can test the workflow from publishing content attestation to verifying it with OP Inspector.
 
 :::warning
 Playground is a testing environment only. Content Attestations and Site Profiles published in Playground cannot be used in a production environment.
@@ -57,20 +57,57 @@ For details on each property in the request body, please refer to the [Website P
 
 ### Verification method
 
-You can perform verification by accessing the website where Site Profile is deployed, with the browser extension installed.
+You can perform verification by accessing the website where Site Profile is deployed, with OP Inspector installed.
 
-A test build of the browser extension is required for verification.
+A test build of OP Inspector is required for verification.
 
 :::warning
-The test build version of the extension is for the Playground environment only. It cannot verify content attestations in the production environment. Also, content attestations and site profiles published in Playground cannot be verified with the standard build version of the extension.
+The test build version of OP Inspector is for the Playground environment only. It cannot verify content attestations in the production environment. Also, content attestations and site profiles published in Playground cannot be verified with the standard build version of OP Inspector.
 :::
 
-You can download and install the browser extension (test build) from [GitHub Releases (canary)](https://github.com/originator-profile/originator-profile/releases/tag/canary).
+You can download and install OP Inspector (test build) from [GitHub Releases (canary)](https://github.com/originator-profile/originator-profile/releases/tag/canary).
 
-| Browser | File name                                                                      |
-| ------- | ------------------------------------------------------------------------------ |
-| Chrome  | [`_testing_profile_web_extension-chromium-canary.zip`][chrome]                 |
-| Firefox | [`_testing_profile_web_extension-firefox-desktop-canary.zip`][firefox-desktop] |
+| Browser | File name                                                             |
+| ------- | --------------------------------------------------------------------- |
+| Chrome  | [`_testing_op_inspector-chromium-canary.zip`][chrome]                 |
+| Firefox | [`_testing_op_inspector-firefox-desktop-canary.zip`][firefox-desktop] |
 
-[chrome]: https://github.com/originator-profile/originator-profile/releases/download/canary/_testing_profile_web_extension-chromium-canary.zip
-[firefox-desktop]: https://github.com/originator-profile/originator-profile/releases/download/canary/_testing_profile_web_extension-firefox-desktop-canary.zip
+[chrome]: https://github.com/originator-profile/originator-profile/releases/download/canary/_testing_op_inspector-chromium-canary.zip
+[firefox-desktop]: https://github.com/originator-profile/originator-profile/releases/download/canary/_testing_op_inspector-firefox-desktop-canary.zip
+
+### Error Codes in Playground
+
+This section summarizes possible error codes that may occur when using the Playground API client, along with their meanings and causes.
+
+| Error Code | Error        | Cause                                     |
+| ---------- | ------------ | ----------------------------------------- |
+| 400        | Bad Request  | JSON schema validation error              |
+| 401        | Unauthorized | Error due to invalid credentials          |
+| 403        | Forbidden    | Mismatch between issuer and OP Account ID |
+| 404        | Not Found    | Access to an undefined endpoint           |
+
+#### 400 Bad Request
+
+- Message: "One or more validations failed trying to process your request."
+- Cause: The input JSON does not meet the expected schema (required fields, types, format).
+- Solution: Check the required fields, types, and format of the input JSON, or the error content in the response message.
+
+#### 401 Unauthorized
+
+- Message: "Invalid password"
+- Cause: Incorrect authentication information such as username or password.
+- Solution: Verify that the username and password are correct.
+
+#### 403 Forbidden
+
+- Message:
+  - "OP Account ID does not match the issuer of the Website Profile."
+  - "OP Account ID does not match the issuer of the Content Attestation."
+- Cause: The issuer in the input JSON does not match the OP Account ID used for issuance.
+- Solution: Verify that the issuer in the input JSON matches the OP Account ID being used.
+
+#### 404 Not Found
+
+- Message: "404 Not Found"
+- Cause: Occurs when accessing an operation or endpoint that is not available.
+- Solution: Verify that the target URL, endpoint, and HTTP method are correct.
