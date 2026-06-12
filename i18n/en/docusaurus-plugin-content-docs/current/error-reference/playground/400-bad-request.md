@@ -58,6 +58,12 @@ JSON スキーマのバリデーションエラーの場合に発生します。
 }
 ```
 
+出力:
+
+```sh
+{"statusCode":400,"error":"Bad Request","message":"One or more validations failed trying to process your request.","failedValidations":{"body":{"issuer":"must be present"}}}
+```
+
 ## 解決策
 
 - 入力 JSON の必須項目・型・フォーマットまたはレスポンスメッセージのエラー内容を確認してください。

@@ -45,10 +45,22 @@ sidebar_position: 4
 curl -X GET https://example/pa -u <username>:<password>
 ```
 
+出力:
+
+```sh
+{"statusCode":404,"error":"Not Found","message":"Not found."}
+```
+
 - 以下は、DB に存在しない Website Profile を取得しようとした場合の例です。
 
 ```sh
 curl -X GET https://example/wsp/https%3A%2F%2Fexample.com -u <username>:<password>
+```
+
+出力:
+
+```sh
+{"statusCode":404,"error":"Not Found","message":"Website Profile not found."}
 ```
 
 ## 解決策

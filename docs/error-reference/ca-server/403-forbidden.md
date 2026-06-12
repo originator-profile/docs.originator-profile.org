@@ -60,6 +60,12 @@ sidebar_position: 3
 }
 ```
 
+出力:
+
+```sh
+{"statusCode":403,"error":"Forbidden","message":"OP Account ID does not match the issuer of the Content Attestation."}
+```
+
 ## 解決策
 
 - 入力 JSON の `issuer` と、使用している OP Account ID が一致しているか確認してください。
