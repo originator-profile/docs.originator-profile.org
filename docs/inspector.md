@@ -12,7 +12,11 @@ OP Inspector は、Web ブラウザー上で Originator Profile と Content Atte
 
 ## ダウンロード
 
-[GitHub Releases](https://github.com/originator-profile/originator-profile/releases/latest) から最新版の OP Inspector の ZIP ファイルをダウンロードします。
+:::tip
+Google Chrome をお使いの場合、「[Chrome ウェブストア](https://chromewebstore.google.com/detail/op-inspector/namnjenlimojacngjhddjdjpakfaepeb)」から入手可能です。手順は「[Chrome ウェブストアからインストール](#chrome-web-store)」をご覧ください。
+:::
+
+開発版を試す場合や Firefox をお使いの場合、[GitHub Releases](https://github.com/originator-profile/originator-profile/releases/latest) から最新版の OP Inspector の ZIP ファイルをダウンロードします。
 
 | ブラウザー      | ファイル名                            |
 | --------------- | ------------------------------------- |
@@ -22,6 +26,20 @@ OP Inspector は、Web ブラウザー上で Originator Profile と Content Atte
 ## インストール
 
 ### Google Chrome
+
+#### Chrome ウェブストアからインストール（推奨） {#chrome-web-store}
+
+公式の「[Chrome ウェブストア](https://chromewebstore.google.com/detail/op-inspector/namnjenlimojacngjhddjdjpakfaepeb)」から OP Inspector を入手できます。
+
+1. Chrome ウェブストアの [OP Inspector のページ](https://chromewebstore.google.com/detail/op-inspector/namnjenlimojacngjhddjdjpakfaepeb) にアクセスします。
+2. 「Chrome に追加」をクリックします。
+3. 確認ダイアログで「拡張機能を追加」をクリックします。
+
+Chrome ウェブストアからインストールした場合、ZIP ファイルを手動で差し替える必要はありません。
+
+#### 開発者モードでインストール
+
+最新の開発版を試す場合などは、GitHub Releases からダウンロードした ZIP ファイルを使って手動でインストールすることもできます。
 
 1. ダウンロードした ZIP ファイルを展開します。
 2. ブラウザーのアドレスバーに `chrome://extensions` と入力し、拡張機能管理画面を開きます。
@@ -131,6 +149,10 @@ Originator Profile に対応していない Web サイトなどでは、以下�
 新しいバージョンがリリースされた場合、以下の手順で OP Inspector を更新できます。
 
 ### Google Chrome
+
+Chrome ウェブストアからインストールした場合、更新は自動的に行われます。手動で操作する必要はありません。
+
+開発者モードでインストールした場合は、以下の手順で更新します。
 
 1. [GitHub Releases](https://github.com/originator-profile/originator-profile/releases/latest) から最新版をダウンロードし、展開します。
 2. 以前の ZIP ファイルの展開先を最新版に差し替えます。
