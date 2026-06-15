@@ -43,7 +43,7 @@ curl -X GET https://example/pa -u <username>:<password>
 
 出力:
 
-```sh
+```
 {"statusCode":404,"error":"Not Found","message":"Not found."}
 ```
 
@@ -55,7 +55,7 @@ curl -X GET https://example/wsp/https%3A%2F%2Fexample.com -u <username>:<passwor
 
 出力:
 
-```sh
+```
 {"statusCode":404,"error":"Not Found","message":"Website Profile not found."}
 ```
 

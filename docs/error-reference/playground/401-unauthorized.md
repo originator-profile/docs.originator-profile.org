@@ -26,7 +26,7 @@ curl -X POST https://example/ca -H content-type:application/json -u <username>:<
 
 出力:
 
-```sh
+```
 {"statusCode":401,"error":"Unauthorized","message":"Invalid password"}
 ```
 

@@ -66,7 +66,7 @@ sidebar_position: 3
 
 出力:
 
-```sh
+```
 {"statusCode":403,"error":"Forbidden","message":"OP Account ID does not match the issuer of the Content Attestation."}
 ```
 

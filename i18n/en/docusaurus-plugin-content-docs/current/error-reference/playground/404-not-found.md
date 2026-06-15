@@ -30,7 +30,7 @@ curl -X DELETE https://example/ca/urn:uuid:1d45253a-4c4b-4f68-863c-077e24245532 
 
 出力:
 
-```sh
+```
 404 Not Found
 ```
 

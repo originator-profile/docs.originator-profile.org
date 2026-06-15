@@ -69,7 +69,7 @@ sidebar_position: 1
 
 出力:
 
-```sh
+```
 {"statusCode":400,"error":"Bad Request","message":"One or more validations failed trying to process your request.","failedValidations":{"body":{"issuer":"must be present"}}}
 ```
 
