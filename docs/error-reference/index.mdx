@@ -1,23 +1,47 @@
 # エラーコード一覧
 
+OP に関連する各ツールで発生する可能性のあるエラーコードに対するドキュメントです。
+それぞれエラーコードページで、発生原因や解決策を説明しています。
+
+## OP Inspector / Debugger のエラーリスト
+
 「[OP Inspector](/inspector)」または「[デバッグツール](/debugger)」を利用して、Site Profile、Originator Profile Set、Content Attestation Set を検証する場合に表示される、検証失敗等のエラーコードに対するドキュメントです。
-それぞれエラーコードのページで発生原因や解決策を説明しています。
 
-## エラーリスト
+:::note
+DeepWiki ( https://deepwiki.com/originator-profile/originator-profile ) では、エラーコードに関する質問や関連情報の検索が行えます。エラーの背景理解や調査にご活用ください。
+:::
 
-- [ERR_CONTENT_ATTESTATION_INVALID](./ca/ERR_CONTENT_ATTESTATION_INVALID.md)
-- [ERR_CONTENT_ATTESTATION_VERIFY_FAILED](./ca/ERR_CONTENT_ATTESTATION_VERIFY_FAILED.md)
-- [ERR_CONTENT_ATTESTATION_SET_VERIFY_FAILED](./cas/ERR_CONTENT_ATTESTATION_SET_VERIFY_FAILED.md)
-- [ERR_FETCH_CREDENTIALS_MESSAGING_FAILED](./credentials/ERR_FETCH_CREDENTIALS_MESSAGING_FAILED.md)
-- [ERR_CERTIFICATE_EXPIRED](./op/ERR_CERTIFICATE_EXPIRED.md)
-- [ERR_CORE_PROFILE_NOT_FOUND](./op/ERR_CORE_PROFILE_NOT_FOUND.md)
-- [ERR_ORIGINATOR_PROFILE_INVALID](./op/ERR_ORIGINATOR_PROFILE_INVALID.md)
-- [ERR_ORIGINATOR_PROFILE_VERIFY_FAILED](./op/ERR_ORIGINATOR_PROFILE_VERIFY_FAILED.md)
-- [ERR_ORIGINATOR_PROFILE_SET_INVALID](./ops/ERR_ORIGINATOR_PROFILE_SET_INVALID.md)
-- [ERR_ORIGINATOR_PROFILE_SET_VERIFY_FAILED](./ops/ERR_ORIGINATOR_PROFILE_SET_VERIFY_FAILED.md)
-- [ERR_SITE_PROFILE_FETCH_FAILED](./sp/ERR_SITE_PROFILE_FETCH_FAILED.md)
-- [ERR_SITE_PROFILE_FETCH_INVALID](./sp/ERR_SITE_PROFILE_FETCH_INVALID.md)
-- [ERR_SITE_PROFILE_INVALID](./sp/ERR_SITE_PROFILE_INVALID.md)
-- [ERR_SITE_PROFILE_VERIFY_FAILED](./sp/ERR_SITE_PROFILE_VERIFY_FAILED.md)
-- [ERR_VC_DECODE_FAILED](./vc/ERR_VC_DECODE_FAILED.md)
-- [ERR_VC_VERIFY_FAILED](./vc/ERR_VC_VERIFY_FAILED.md)
+- [ERR_CONTENT_ATTESTATION_INVALID](/error-reference/ERR_CONTENT_ATTESTATION_INVALID/)
+- [ERR_CONTENT_ATTESTATION_VERIFY_FAILED](/error-reference/ERR_CONTENT_ATTESTATION_VERIFY_FAILED/)
+- [ERR_CONTENT_ATTESTATION_SET_VERIFY_FAILED](/error-reference/ERR_CONTENT_ATTESTATION_SET_VERIFY_FAILED/)
+- [ERR_FETCH_CREDENTIALS_MESSAGING_FAILED](/error-reference/ERR_FETCH_CREDENTIALS_MESSAGING_FAILED/)
+- [ERR_CERTIFICATE_EXPIRED](/error-reference/ERR_CERTIFICATE_EXPIRED/)
+- [ERR_CORE_PROFILE_NOT_FOUND](/error-reference/ERR_CORE_PROFILE_NOT_FOUND/)
+- [ERR_ORIGINATOR_PROFILE_INVALID](/error-reference/ERR_ORIGINATOR_PROFILE_INVALID/)
+- [ERR_ORIGINATOR_PROFILE_VERIFY_FAILED](/error-reference/ERR_ORIGINATOR_PROFILE_VERIFY_FAILED/)
+- [ERR_ORIGINATOR_PROFILE_SET_INVALID](/error-reference/ERR_ORIGINATOR_PROFILE_SET_INVALID/)
+- [ERR_ORIGINATOR_PROFILE_SET_VERIFY_FAILED](/error-reference/ERR_ORIGINATOR_PROFILE_SET_VERIFY_FAILED/)
+- [ERR_SITE_PROFILE_FETCH_FAILED](/error-reference/ERR_SITE_PROFILE_FETCH_FAILED/)
+- [ERR_SITE_PROFILE_FETCH_INVALID](/error-reference/ERR_SITE_PROFILE_FETCH_INVALID/)
+- [ERR_SITE_PROFILE_INVALID](/error-reference/ERR_SITE_PROFILE_INVALID/)
+- [ERR_SITE_PROFILE_VERIFY_FAILED](/error-reference/ERR_SITE_PROFILE_VERIFY_FAILED/)
+- [ERR_VC_DECODE_FAILED](/error-reference/ERR_VC_DECODE_FAILED/)
+- [ERR_VC_VERIFY_FAILED](/error-reference/ERR_VC_VERIFY_FAILED/)
+
+## Playground のエラーリスト
+
+[Playground](/playground) API クライアントを使用している際に発生する可能性のあるエラーコードに関するドキュメントです。
+
+- [400 Bad Request](/error-reference/playground/400-bad-request.md)
+- [401 Unauthorized](/error-reference/playground/401-unauthorized.md)
+- [403 Forbidden](/error-reference/playground/403-forbidden.md)
+- [404 Not Found](/error-reference/playground/404-not-found.md)
+
+## CA Server のエラーリスト
+
+CA Server を使用している際に発生する可能性のあるエラーコードに関するドキュメントです。
+
+- [400 Bad Request](/error-reference/ca-server/400-bad-request.md)
+- [401 Unauthorized](/error-reference/ca-server/401-unauthorized.md)
+- [403 Forbidden](/error-reference/ca-server/403-forbidden.md)
+- [404 Not Found](/error-reference/ca-server/404-not-found.md)

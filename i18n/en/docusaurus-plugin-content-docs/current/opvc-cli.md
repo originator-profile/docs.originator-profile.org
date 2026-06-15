@@ -1,5 +1,5 @@
 ---
-sidebar_position: 350
+sidebar_position: 330
 original: https://github.com/originator-profile/docs.originator-profile.org/blob/0568b79/docs/opvc-cli.md
 ---
 
