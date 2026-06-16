@@ -1,24 +1,24 @@
 ---
 sidebar_position: 310
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/0ad54c7/docs/web-ext.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/ea02fd3/docs/inspector.md
 ---
 
-# Extensions
+# OP Inspector
 
-![](./assets/web-ext.ja.webp)
+![](./assets/inspector.ja.png)
 
-Originator Profile (OP) extension is a browser extension that allows you to view and verify Originator Profiles and Content Attestation within your web browser.
+OP Inspector is a browser extension that allows you to view and verify Originator Profiles and Content Attestation within your web browser.
 
 By accessing supported websites, you can check content originator information and its verification results.
 
 ## Download
 
-Download the latest extension ZIP file from [GitHub Releases](https://github.com/originator-profile/originator-profile/releases/latest).
+Download the latest OP Inspector ZIP file from [GitHub Releases](https://github.com/originator-profile/originator-profile/releases/latest).
 
-| Browser         | File name                                      |
-| --------------- | ---------------------------------------------- |
-| Google Chrome   | `profile_web_extension-chromium-v*.zip`        |
-| Mozilla Firefox | `profile_web_extension-firefox-desktop-v*.zip` |
+| Browser         | File name                             |
+| --------------- | ------------------------------------- |
+| Google Chrome   | `op_inspector-chromium-v*.zip`        |
+| Mozilla Firefox | `op_inspector-firefox-desktop-v*.zip` |
 
 ## Install
 
@@ -47,45 +47,45 @@ Add-ons temporarily installed in Firefox will be disabled when Firefox is restar
 
 ### Pinning to the Toolbar
 
-It's convenient to pin extensions to the toolbar for quick access.
+It's convenient to pin OP Inspector to the toolbar for quick access.
 
 **Google Chrome**
 
-![](./assets/chrome-toolbar.ja.webp)
+![](./assets/chrome-toolbar.ja.png)
 
 1. Click the "Extensions" button (🧩 puzzle piece icon) in the upper right corner of your browser.
-2. Click the "Pin" button (📌 pin icon) next to the Originator Profile extension (Profile Web Extension).
+2. Click the "Pin" button (📌 pin icon) next to the OP Inspector.
 
 Reference: [Pinning extensions (Chrome for Developers)](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world?hl=en#pin_the_extension)
 
 **Firefox**
 
-![](./assets/firefox-toolbar.ja.webp)
+![](./assets/firefox-toolbar.ja.png)
 
 1. Click the "Extensions" button (🧩 puzzle piece icon) in the upper right corner of your browser.
-2. Click the "Settings" button (⚙ gear icon) next to Profile Web Extension.
+2. Click the "Settings" button (⚙ gear icon) next to OP Inspector.
 3. Select "Pin to toolbar".
 
 ## Verification method
 
 ### Basic Usage
 
-1. With the extension installed, access a website that supports Originator Profile.
+1. With OP Inspector installed, access a website that supports Originator Profile.
 
 - Example: [Originator Profile Technology Research Association (OP-CIP) Official Website](https://originator-profile.org/)
 
-2. Click the extension icon in the toolbar.
+2. Click the OP Inspector icon in the toolbar.
 3. Content source information and verification results will be displayed.
 
 :::note
-The extension will not work in tabs that were loaded before installation. Please open a new tab or reload the page after installation.
+OP Inspector will not work in tabs that were loaded before installation. Please open a new tab or reload the page after installation.
 :::
 
 ### How to interpret verification results
 
 If verification is successful, the sender's information (name, image, etc.) will be displayed.
 
-If verification fails, you can view detailed verification results by clicking the extension icon and selecting "More Information" from the kebab menu (︙ vertical three-dot icon).
+If verification fails, you can view detailed verification results by clicking the OP Inspector icon and selecting "More Information" from the kebab menu (︙ vertical three-dot icon).
 
 :::note[Screen displayed when sender information cannot be obtained]
 On websites that do not support Originator Profile, the following screen will be displayed.
@@ -135,15 +135,15 @@ JSON data displayed in the tree can be copied by clicking the clipboard icon (�
 
 The copied data is useful for detailed verification by pasting it into [Debugger](/debugger/) or attaching it when reporting problems.
 
-## Updating Extensions
+## Updating OP Inspector
 
-When a new version is released, you can update your extensions by following these steps:
+When a new version is released, you can update your OP Inspector by following these steps:
 
 ### Google Chrome
 
 1. Download the latest version from [GitHub Releases](https://github.com/originator-profile/originator-profile/releases/latest) and extract it.
 2. Replace the location of the previous ZIP file with the latest version.
-3. Open `chrome://extensions` and click the refresh icon (to the left of the on/off toggle button) for the Profile Web Extension.
+3. Open `chrome://extensions` and click the refresh icon (to the left of the on/off toggle button) for the OP Inspector.
 
 Reference: [Reload extensions (Chrome for Developers)](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world?hl=en#reload)
 
@@ -179,7 +179,7 @@ To display the image correctly, you need to allow external access to the image. 
 
 ## Known Limitations
 
-- The extension will not work in tabs that were loaded before installation. Please open a new tab or reload the page after installation.
+- OP Inspector will not work in tabs that were loaded before installation. Please open a new tab or reload the page after installation.
 - Images must be displayed on the image server, which must allow CORS (`Access-Control-Allow-Origin: *`).
 - In Firefox, temporarily installed add-ons will be disabled when the browser is restarted.
 
