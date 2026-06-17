@@ -1,6 +1,6 @@
 ---
 sidebar_position: 310
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/ea02fd3/docs/inspector.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/2de6950/docs/inspector.md
 ---
 
 # OP Inspector
@@ -13,7 +13,12 @@ By accessing supported websites, you can check content originator information an
 
 ## Download
 
-Download the latest OP Inspector ZIP file from [GitHub Releases](https://github.com/originator-profile/originator-profile/releases/latest).
+:::tip
+If you are using Google Chrome, you can get it from the "[Chrome Web Store](https://chromewebstore.google.com/detail/op-inspector/namnjenlimojacngjhddjdjpakfaepeb)". See "[Installing from the Chrome Web Store](#chrome-web-store)" for instructions.
+
+:::
+
+If you want to try the development version or are using Firefox, download the latest OP Inspector ZIP file from [GitHub Releases](https://github.com/originator-profile/originator-profile/releases/latest).
 
 | Browser         | File name                             |
 | --------------- | ------------------------------------- |
@@ -23,6 +28,20 @@ Download the latest OP Inspector ZIP file from [GitHub Releases](https://github.
 ## Install
 
 ### Google Chrome
+
+#### Install from the Chrome Web Store (Recommended) {#chrome-web-store}
+
+You can obtain OP Inspector from the official "[Chrome Web Store](https://chromewebstore.google.com/detail/op-inspector/namnjenlimojacngjhddjdjpakfaepeb)".
+
+1. Go to the [OP Inspector page](https://chromewebstore.google.com/detail/op-inspector/namnjenlimojacngjhddjdjpakfaepeb) on the Chrome Web Store.
+2. Click "Add to Chrome".
+3. Click "Add extension" in the confirmation dialog.
+
+If you install from the Chrome Web Store, you do not need to manually replace the ZIP file.
+
+#### Install in Developer Mode
+
+If you want to try the latest development version, you can also manually install using the ZIP file downloaded from GitHub Releases.
 
 1. Extract the downloaded ZIP file.
 2. Enter `chrome://extensions` in your browser's address bar to open the extensions management screen.
@@ -140,6 +159,10 @@ The copied data is useful for detailed verification by pasting it into [Debugger
 When a new version is released, you can update your OP Inspector by following these steps:
 
 ### Google Chrome
+
+If you installed from the Chrome Web Store, updates will be performed automatically. No manual intervention is required.
+
+If you installed in developer mode, follow these steps to update.
 
 1. Download the latest version from [GitHub Releases](https://github.com/originator-profile/originator-profile/releases/latest) and extract it.
 2. Replace the location of the previous ZIP file with the latest version.
