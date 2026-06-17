@@ -25,10 +25,10 @@ Occurs when accessing a resource that does not exist.
 
 - You may have attempted to access an operation or endpoint that is not available.
 - You may have encountered a PrismaClientKnownRequestError "P2025".
-(For details, please refer to the [Prisma Error Reference](https://www.prisma.io/docs/orm/reference/error-reference#p2025).)
+  (For details, please refer to the [Prisma Error Reference](https://www.prisma.io/docs/orm/reference/error-reference#p2025).)
 - The `credentialSubject.id` in the JSON entered during Profile Annotation/Web Media Profile registration/update may not exist in the database.
 - You may have encountered a "Foreign key constraint violated" or a PrismaClientKnownRequestError "P2003" during Profile Annotation/Web Media Profile registration/update.
-(For details, please refer to the [Prisma Error Reference](https://www.prisma.io/docs/orm/reference/error-reference#p2003).)
+  (For details, please refer to the [Prisma Error Reference](https://www.prisma.io/docs/orm/reference/error-reference#p2003).)
 - The specified Website Profile may not have been found.
 - The OP Account may not have been found in the database.
 - The Issuer ID may not have been found in the database.
