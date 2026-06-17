@@ -21,10 +21,10 @@ This error primarily occurs when there are validation errors in the JSON schema.
 
 - The input JSON may not meet the expected schema (required fields, types, and format).
 - A PrismaClientKnownRequestError (other than P2025) may have occurred.
-(See [the Prisma Error Reference](https://www.prisma.io/docs/orm/reference/error-reference#prismaclientknownrequesterror) for details.)
+  (See [the Prisma Error Reference](https://www.prisma.io/docs/orm/reference/error-reference#prismaclientknownrequesterror) for details.)
 - The `credentialSubject.id` may not have been included when registering or updating the Web Media Profile or Profile Annotation.
 - Site Profile verification may have failed when registering or updating the Site Profile.
-(See [the Site Profile](../../opb/site-profile.md) for details.)
+  (See [the Site Profile](../../opb/site-profile.md) for details.)
 
 ## Example
 
