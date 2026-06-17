@@ -15,7 +15,7 @@ This error primarily occurs when there are validation errors in the JSON schema.
 - "PrismaClientKnownRequestError: <Error Code>"
 - "Web Media Profile must have credentialSubject.id"
 - "Profile Annotation must have credentialSubject.id"
-- "< Error message during Site Profile verification >"
+- "`<Error message during Site Profile verification>`"
 
 ## Causes of the Error
 
@@ -64,7 +64,7 @@ This error primarily occurs when there are validation errors in the JSON schema.
 }
 ```
 
-output:
+Output:
 
 ```
 {"statusCode":400,"error":"Bad Request","message":"One or more validations failed trying to process your request.","failedValidations":{"body":{"issuer":"must be present"}}}
