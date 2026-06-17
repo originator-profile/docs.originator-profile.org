@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/0eea912/docs/error-reference/ca/ERR_CONTENT_ATTESTATION_INVALID.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/484ee39/docs/error-reference/op-inspector-debugger/ca/ERR_CONTENT_ATTESTATION_INVALID.md
 tags:
   - Error Reference
   - Content Attestation

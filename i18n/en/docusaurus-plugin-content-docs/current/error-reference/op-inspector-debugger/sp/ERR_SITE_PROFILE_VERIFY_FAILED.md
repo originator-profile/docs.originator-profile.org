@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/0eea912/docs/error-reference/sp/ERR_SITE_PROFILE_VERIFY_FAILED.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/484ee39/docs/error-reference/op-inspector-debugger/sp/ERR_SITE_PROFILE_VERIFY_FAILED.md
 tags:
   - Error Reference
 slug: /error-reference/ERR_SITE_PROFILE_VERIFY_FAILED
