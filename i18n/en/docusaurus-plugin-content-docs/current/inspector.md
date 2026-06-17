@@ -15,7 +15,6 @@ By accessing supported websites, you can check content originator information an
 
 :::tip
 If you are using Google Chrome, you can get it from the "[Chrome Web Store](https://chromewebstore.google.com/detail/op-inspector/namnjenlimojacngjhddjdjpakfaepeb)". See "[Installing from the Chrome Web Store](#chrome-web-store)" for instructions.
-
 :::
 
 If you want to try the development version or are using Firefox, download the latest OP Inspector ZIP file from [GitHub Releases](https://github.com/originator-profile/originator-profile/releases/latest).
