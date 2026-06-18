@@ -161,7 +161,7 @@ When a new version is released, you can update your OP Inspector by following th
 
 If you installed from the Chrome Web Store, updates will be performed automatically. No manual intervention is required.
 
-If you installed in developer mode, follow these steps to update.
+If you installed in Developer mode, follow these steps to update.
 
 1. Download the latest version from [GitHub Releases](https://github.com/originator-profile/originator-profile/releases/latest) and extract it.
 2. Replace the location of the previous ZIP file with the latest version.
