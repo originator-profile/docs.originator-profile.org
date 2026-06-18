@@ -1,37 +1,34 @@
 ---
 sidebar_position: 1
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/ad5dc8d/docs/error-reference/ca-server/400-bad-request.md
 ---
 
 # 400 Bad Request
 
-:::note
-このページは翻訳中です。
-:::
+## Error Code: 400
 
-## エラーコード: 400
+This error primarily occurs when there are validation errors in the JSON schema.
 
-主に JSON スキーマのバリデーションエラーがある場合に発生します。
-
-## エラーメッセージ
+## Error Message
 
 - "One or more validations failed trying to process your request."
-- "PrismaClientKnownRequestError: <エラーコード>"
+- "PrismaClientKnownRequestError: \<Error Code\>"
 - "Web Media Profile must have credentialSubject.id"
 - "Profile Annotation must have credentialSubject.id"
-- "<Site Profile の検証におけるエラーメッセージ>"
+- "\<Error message during Site Profile verification\>"
 
-## エラーの原因
+## Causes
 
-- 入力 JSON が期待されるスキーマ（必須項目・型・フォーマット）を満たしていない可能性があります。
-- PrismaClientKnownRequestError（P2025 以外）が発生した可能性があります。
-  （詳細は [Prisma のエラーリファレンス](https://www.prisma.io/docs/orm/reference/error-reference#prismaclientknownrequesterror)を参照してください。）
-- Web Media Profile または Profile Annotation の登録・更新時に `credentialSubject.id` が含まれていない可能性があります。
-- Site Profile の登録・更新時に、Site Profile の検証に失敗した可能性があります。
-  （詳細は [Site Profile](../../opb/site-profile.md) を参照してください。）
+- The input JSON may not meet the expected schema (required fields, types, and format).
+- A PrismaClientKnownRequestError (other than P2025) may have occurred.
+  (See [the Prisma Error Reference](https://www.prisma.io/docs/orm/reference/error-reference#prismaclientknownrequesterror) for details.)
+- The `credentialSubject.id` may not have been included when registering or updating the Web Media Profile or Profile Annotation.
+- Site Profile verification may have failed when registering or updating the Site Profile.
+  (See [the Site Profile](../../opb/site-profile.md) for details.)
 
-## 例
+## Examples
 
-- 以下は、必須項目である `issuer` が含まれていない場合の例です。
+- The following is an example where the required field `issuer` is not included.
 
 ```json
 {
@@ -67,20 +64,20 @@ sidebar_position: 1
 }
 ```
 
-出力:
+Output:
 
 ```
 {"statusCode":400,"error":"Bad Request","message":"One or more validations failed trying to process your request.","failedValidations":{"body":{"issuer":"must be present"}}}
 ```
 
-## 解決策
+## Resolution
 
-- 入力 JSON の必須項目・型・フォーマットまたはレスポンスメッセージのエラー内容を確認してください。
-- PrismaClientKnownRequestError が発生している場合は、Prisma のエラーリファレンスを参照してください。
-- Web Media Profile・Profile Annotation の `credentialSubject.id` は必ず含めてください。
-- Site Profile の検証が通るよう、入力内容を修正してください。
+- Check the required fields, types, and format of the input JSON, or the error details in the response message.
+- If a PrismaClientKnownRequestError occurs, refer to the Prisma error reference.
+- Ensure that `credentialSubject.id` is included in the Web Media Profile and Profile Annotation.
+- Modify the input content so that the Site Profile validation passes.
 
-## 関連情報
+## Related Information
 
 - [Prisma Error Reference](https://www.prisma.io/docs/orm/reference/error-reference)
 - [Site Profile](../../opb/site-profile.md)
