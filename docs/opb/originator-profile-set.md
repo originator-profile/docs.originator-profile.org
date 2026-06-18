@@ -79,7 +79,7 @@ VCs への言語の指定方法は [OP VC Data Model の国際化](/opb/op-vc-da
 
 _このセクションは非規範的です。_
 
-@originator-profile/verify において実装されている検証処理は次のプロセスでおこなわれます。
+@originator-profile/verify において実装されている検証処理は次のプロセスで行われます。
 
 検証プロセスで扱うデータの構造については次のリファレンスを確認してください。
 
@@ -88,7 +88,7 @@ _このセクションは非規範的です。_
 - OpsVerifyFailed
 - 検証済み OPS
 
-CP / PA / WMP の検証プロセスの詳細は [OP VC Data Model に準拠した VC の検証](./op-vc-data-model.md#verification) に準じます。ただし、CP 検証ではあらかじめ認めた CP 発行者の検証鍵と CP 発行者の OP ID で検証をおこない、OPS から検証鍵の取得はおこないません。
+CP / PA / WMP の検証プロセスの詳細は [OP VC Data Model に準拠した VC の検証](./op-vc-data-model.md#verification) に準じます。ただし、CP 検証ではあらかじめ認めた CP 発行者の検証鍵と CP 発行者の OP ID で検証を行い、OPS から検証鍵の取得は行いません。
 
 ```mermaid
 flowchart TD
@@ -109,3 +109,25 @@ flowchart TD
     OpsVerifyFailed --> End
     VerifiedOps --> End
 ```
+
+:::note
+
+OPS の検証では、各 VC の復号時に、`annotations` および `media` の各要素の `credentialSubject.id` が `core` の Core Profile の `credentialSubject.id` と完全に一致することを確認します。
+この `credentialSubject.id` は、現在 OP で採用している Securing Mechanism である [VC-JOSE-COSE](./securing-mechanism.md) では JWT の `sub` クレームに対応します。
+一致しない要素を含む場合は、その OPS について `OpsInvalid` が返されます。
+
+これは「Originator Profile Set (OPS) のデータモデル」の表で `annotations` と `media` の各要素に課されている MUST 要件を、検証処理として強制するものです。
+これにより、ある組織の Core Profile に、別の組織を主体とする Profile Annotation や Web Media Profile が同一の OP として束ねられることを防ぎます。
+
+:::
+
+:::note[セキュリティの考慮事項]
+
+OPS 検証のトラストアンカーは Core Profile の発行者です。
+Core Profile は、あらかじめ認めた CP 発行者（レジストリの発行者）の検証鍵と OP ID で検証されます。
+PA / WMP の発行者についても、その発行者自身の Core Profile が同じトラストアンカーで検証されます。
+
+一方で、レジストリにアンカーされた Core Profile を持つ主体であれば、任意の主体（originator）に関する PA / WMP を原理的には発行できます。
+発行者の適格性が重要となる用途では、[Profile Annotation Issuer 登録証 PA](./pa-model/profile-annotation-issuer-registration.md) による発行者の認可を併せて検証してください。
+
+:::
