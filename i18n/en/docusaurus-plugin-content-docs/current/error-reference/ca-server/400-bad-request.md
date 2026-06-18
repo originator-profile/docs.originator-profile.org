@@ -12,10 +12,10 @@ This error primarily occurs when there are validation errors in the JSON schema.
 ## Error Message
 
 - "One or more validations failed trying to process your request."
-- "PrismaClientKnownRequestError: <Error Code>"
+- "PrismaClientKnownRequestError: \<Error Code\>"
 - "Web Media Profile must have credentialSubject.id"
 - "Profile Annotation must have credentialSubject.id"
-- "`<Error message during Site Profile verification>`"
+- "\<Error message during Site Profile verification\>"
 
 ## Causes
 
