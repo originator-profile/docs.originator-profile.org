@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/0eea912/docs/error-reference/vc/ERR_VC_VERIFY_FAILED.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/484ee39/docs/error-reference/op-inspector-debugger/vc/ERR_VC_VERIFY_FAILED.md
 tags:
   - Error Reference
 slug: /error-reference/ERR_VC_VERIFY_FAILED

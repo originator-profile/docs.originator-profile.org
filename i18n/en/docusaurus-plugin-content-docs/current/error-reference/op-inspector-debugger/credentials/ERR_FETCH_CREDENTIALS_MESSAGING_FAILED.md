@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/ea02fd3/docs/error-reference/credentials/ERR_FETCH_CREDENTIALS_MESSAGING_FAILED.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/484ee39/docs/error-reference/op-inspector-debugger/credentials/ERR_FETCH_CREDENTIALS_MESSAGING_FAILED.md
 tags:
   - Error Reference
 slug: /error-reference/ERR_FETCH_CREDENTIALS_MESSAGING_FAILED
