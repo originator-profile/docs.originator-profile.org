@@ -9,7 +9,7 @@ original: https://github.com/originator-profile/docs.originator-profile.org/blob
 
 This error primarily occurs when there are validation errors in the JSON schema.
 
-## Error Messages
+## Error Message
 
 - "One or more validations failed trying to process your request."
 - "PrismaClientKnownRequestError: <Error Code>"
@@ -17,7 +17,7 @@ This error primarily occurs when there are validation errors in the JSON schema.
 - "Profile Annotation must have credentialSubject.id"
 - "`<Error message during Site Profile verification>`"
 
-## Causes of the Error
+## Causes
 
 - The input JSON may not meet the expected schema (required fields, types, and format).
 - A PrismaClientKnownRequestError (other than P2025) may have occurred.
@@ -26,7 +26,7 @@ This error primarily occurs when there are validation errors in the JSON schema.
 - Site Profile verification may have failed when registering or updating the Site Profile.
   (See [the Site Profile](../../opb/site-profile.md) for details.)
 
-## Example
+## Examples
 
 - The following is an example where the required field `issuer` is not included.
 
@@ -70,7 +70,7 @@ Output:
 {"statusCode":400,"error":"Bad Request","message":"One or more validations failed trying to process your request.","failedValidations":{"body":{"issuer":"must be present"}}}
 ```
 
-## Solution
+## Resolution
 
 - Check the required fields, types, and format of the input JSON, or the error details in the response message.
 - If a PrismaClientKnownRequestError occurs, refer to the Prisma error reference.
