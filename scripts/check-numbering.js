@@ -29,6 +29,7 @@ const TOP_LEVEL_RULES = {
   opb: RANGE_REFERENCE,
   terminology: RANGE_REFERENCE,
   troubleshooting: RANGE_HOW_TO,
+  faq: RANGE_HOW_TO,
   "error-reference": RANGE_HOW_TO,
   "contributing.md": RANGE_HOW_TO,
   "inspector.md": RANGE_HOW_TO,
