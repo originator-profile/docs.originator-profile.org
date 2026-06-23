@@ -1,29 +1,26 @@
 ---
 sidebar_position: 3
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/ad5dc8d/docs/error-reference/playground/403-forbidden.md
 ---
 
 # 403 Forbidden
 
-:::note
-このページは翻訳中です。
-:::
+## Error Code: 403
 
-## エラーコード: 403
+This error occurs when the `issuer` and the OP Account ID do not match.
 
-`issuer` と OP Account ID が不一致だった場合に発生します。
-
-## エラーメッセージ
+## Error Message
 
 - "OP Account ID does not match the issuer of the Website Profile."
 - "OP Account ID does not match the issuer of the Content Attestation."
 
-## エラーの原因
+## Causes
 
-- 入力 JSON の `issuer` と、発行に使用している OP Account ID が一致していない可能性があります。
+- The `issuer` in the input JSON may not match the OP Account ID used for issuance.
 
-## 例
+## Examples
 
-- 以下は、発行に使用している OP Account ID と入力 JSON の `issuer` が異なっている場合の例です。
+- The following is an example where the OP Account ID used for issuance and the `issuer` in the input JSON are different.
 
 ```json
 {
@@ -60,16 +57,16 @@ sidebar_position: 3
 }
 ```
 
-出力:
+Output:
 
 ```
 {"statusCode":403,"error":"Forbidden","message":"OP Account ID does not match the issuer of the Content Attestation."}
 ```
 
-## 解決策
+## Resolution
 
-- 入力 JSON の `issuer` と、使用している OP Account ID が一致しているか確認してください。
+- Verify that the `issuer` in the input JSON matches the OP Account ID you are using.
 
-## 関連情報
+## Related Information
 
 - [Content Attestation Server Playground](/playground/)
