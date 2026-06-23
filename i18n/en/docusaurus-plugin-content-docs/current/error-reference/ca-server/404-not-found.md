@@ -5,11 +5,11 @@ original: https://github.com/originator-profile/docs.originator-profile.org/blob
 
 # 404 Not Found
 
-## Error code: 404
+## Error Code: 404
 
 Occurs when accessing a resource that does not exist.
 
-## Error message
+## Error Message
 
 - "Not Found"
 - "resource not found."
@@ -21,7 +21,7 @@ Occurs when accessing a resource that does not exist.
 - "Issuer with ID <issuerId> not found."
 - "Holder with ID <holderId> not found."
 
-## Causes of the Error
+## Causes
 
 - You may have attempted to access an operation or endpoint that is not available.
 - You may have encountered a PrismaClientKnownRequestError "P2025".
@@ -34,7 +34,7 @@ Occurs when accessing a resource that does not exist.
 - The Issuer ID may not have been found in the database.
 - The Holder ID may not have been found in the database.
 
-## Example
+## Examples
 
 - The following is an example of accessing an operation or endpoint that is not available.
 
@@ -60,7 +60,7 @@ Output:
 {"statusCode":404,"error":"Not Found","message":"Website Profile not found."}
 ```
 
-## Solution
+## Resolution
 
 - Check each error message.
 - Verify that the target URL, endpoint, and HTTP method are correct.
