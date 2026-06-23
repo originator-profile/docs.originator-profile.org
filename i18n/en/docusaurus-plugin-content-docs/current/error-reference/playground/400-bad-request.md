@@ -1,28 +1,25 @@
 ---
 sidebar_position: 1
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/ad5dc8d/docs/error-reference/playground/400-bad-request.md
 ---
 
 # 400 Bad Request
 
-:::note
-このページは翻訳中です。
-:::
+## Error Code: 400
 
-## エラーコード: 400
+This error occurs in the case of a JSON schema validation error.
 
-JSON スキーマのバリデーションエラーの場合に発生します。
-
-## エラーメッセージ
+## Error Message
 
 - "One or more validations failed trying to process your request."
 
-## エラーの原因
+## Causes
 
-- 入力 JSON が期待されるスキーマ（必須項目・型・フォーマット）を満たしていない可能性があります。
+- The input JSON may not meet the expected schema (required fields, types, format).
 
-## 例
+## Examples
 
-- 以下は、入力 JSON の必須項目である `issuer` が含まれていない場合の例です。
+- The following is an example where the required field `issuer` is missing from the input JSON.
 
 ```json
 {
@@ -58,16 +55,16 @@ JSON スキーマのバリデーションエラーの場合に発生します。
 }
 ```
 
-出力:
+Output:
 
 ```
 {"statusCode":400,"error":"Bad Request","message":"One or more validations failed trying to process your request.","failedValidations":{"body":{"issuer":"must be present"}}}
 ```
 
-## 解決策
+## Resolution
 
-- 入力 JSON の必須項目・型・フォーマットまたはレスポンスメッセージのエラー内容を確認してください。
+- Check the required fields, types, and format of the input JSON, or the error details in the response message.
 
-## 関連情報
+## Related Information
 
 - [Content Attestation Server Playground](/playground/)
