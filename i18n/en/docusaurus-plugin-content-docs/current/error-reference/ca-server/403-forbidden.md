@@ -1,18 +1,15 @@
 ---
 sidebar_position: 3
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/ad5dc8d/docs/error-reference/ca-server/403-forbidden.md
 ---
 
 # 403 Forbidden
 
-:::note
-このページは翻訳中です。
-:::
+## Error Code: 403
 
-## エラーコード: 403
+This error occurs when the `issuer` and OP Account ID do not match, or when a DELETE operation is performed in Playground mode.
 
-`issuer` と OP Account ID が不一致だった場合、または Playground モードで DELETE 操作を行った場合に発生します。
-
-## エラーメッセージ
+## Error Message
 
 - "Delete operations are not allowed in playground mode"
 - "OP Account ID does not match the issuer of the Website Profile."
@@ -20,14 +17,14 @@ sidebar_position: 3
 - "OP Account ID does not match the issuer of the Web Media Profile."
 - "OP Account ID does not match the issuer of the Profile Annotation."
 
-## エラーの原因
+## Causes
 
-- Website Profile・Content Attestation・Web Media Profile・Profile Annotation の登録・更新時に 入力 JSON の `issuer` と発行に使用している OP Account ID が一致していない可能性があります。
-- Playground モードで DELETE 操作を使用した可能性があります。
+- When registering or updating a Website Profile, Content Attestation, Web Media Profile, or Profile Annotation, the `issuer` in the input JSON may not match the OP Account ID used for issuance.
+- You may have used a DELETE operation in Playground mode.
 
-## 例
+## Examples
 
-- 以下は、Content Attestation の発行に使用している OP Account ID と入力 JSON の `issuer` が異なっている場合の例です。
+- The following is an example where the OP Account ID used for issuing a Content Attestation and the `issuer` in the input JSON are different.
 
 ```json
 {
@@ -64,13 +61,13 @@ sidebar_position: 3
 }
 ```
 
-出力:
+Output:
 
 ```
 {"statusCode":403,"error":"Forbidden","message":"OP Account ID does not match the issuer of the Content Attestation."}
 ```
 
-## 解決策
+## Resolution
 
-- 入力 JSON の `issuer` と、使用している OP Account ID が一致しているか確認してください。
-- Playground モードで DELETE 操作をしていないか確認してください。
+- Verify that the `issuer` in the input JSON matches the OP Account ID you are using.
+- Check that you have not performed any DELETE operations in Playground mode.
