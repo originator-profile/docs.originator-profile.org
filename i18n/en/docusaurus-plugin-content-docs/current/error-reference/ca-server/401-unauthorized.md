@@ -1,39 +1,36 @@
 ---
 sidebar_position: 2
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/ad5dc8d/docs/error-reference/ca-server/401-unauthorized.md
 ---
 
 # 401 Unauthorized
 
-:::note
-このページは翻訳中です。
-:::
+## Error Code: 401
 
-## エラーコード: 401
+This error occurs when authentication credentials are invalid.
 
-認証情報が不正な場合に発生します。
-
-## エラーメッセージ
+## Error Message
 
 - "Invalid password"
 
-## エラーの原因
+## Causes
 
-- ユーザー名またはパスワードなどの認証情報が正しくない可能性があります。
+- The authentication information, such as the username or password, may be incorrect.
 
-## 例
+## Examples
 
-- 以下は、パスワードが異なる場合の例です。
+- The following is an example of what happens when the password is incorrect.
 
 ```sh
 curl -X POST https://example/ca -H content-type:application/json -u <username>:<invalid password> -d '{...}'
 ```
 
-出力:
+Output:
 
 ```
 {"statusCode":401,"error":"Unauthorized","message":"Invalid password"}
 ```
 
-## 解決策
+## Resolution
 
-- ユーザー名およびパスワードが正しいか確認してください。
+- Please verify that your username and password are correct.
