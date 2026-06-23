@@ -13,11 +13,11 @@ This occurs when accessing an undefined endpoint.
 
 - "404 Not Found"
 
-## Cause of the Error
+## Causes
 
 - You may have attempted to access an operation or endpoint that is not available.
 
-## Example
+## Examples
 
 - The following is an example using the DELETE operation.
 
@@ -31,7 +31,7 @@ Output:
 404 Not Found
 ```
 
-## Solution
+## Resolution
 
 - Verify that the target URL, endpoint, and HTTP method are correct.
 
