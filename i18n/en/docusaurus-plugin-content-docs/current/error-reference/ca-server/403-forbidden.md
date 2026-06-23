@@ -17,12 +17,12 @@ This error occurs when the `issuer` and OP Account ID do not match, or when a DE
 - "OP Account ID does not match the issuer of the Web Media Profile."
 - "OP Account ID does not match the issuer of the Profile Annotation."
 
-## Causes of the Error
+## Causes
 
 - When registering or updating a Website Profile, Content Attestation, Web Media Profile, or Profile Annotation, the `issuer` in the input JSON may not match the OP Account ID used for issuance.
 - You may have used a DELETE operation in Playground mode.
 
-## Example
+## Examples
 
 - The following is an example where the OP Account ID used for issuing a Content Attestation and the `issuer` in the input JSON are different.
 
@@ -67,7 +67,7 @@ Output:
 {"statusCode":403,"error":"Forbidden","message":"OP Account ID does not match the issuer of the Content Attestation."}
 ```
 
-## Solution
+## Resolution
 
 - Verify that the `issuer` in the input JSON matches the OP Account ID you are using.
 - Check that you have not performed any DELETE operations in Playground mode.
