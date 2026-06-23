@@ -1,18 +1,15 @@
 ---
 sidebar_position: 4
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/ad5dc8d/docs/error-reference/ca-server/404-not-found.md
 ---
 
 # 404 Not Found
 
-:::note
-このページは翻訳中です。
-:::
+## Error Code: 404
 
-## エラーコード: 404
+Occurs when accessing a resource that does not exist.
 
-存在しないリソースへアクセスした場合に発生します。
-
-## エラーメッセージ
+## Error Message
 
 - "Not Found"
 - "resource not found."
@@ -24,52 +21,52 @@ sidebar_position: 4
 - "Issuer with ID <issuerId> not found."
 - "Holder with ID <holderId> not found."
 
-## エラーの原因
+## Causes
 
-- 用意されていない操作・エンドポイントにアクセスした可能性があります。
-- PrismaClientKnownRequestError の "P2025" エラーが発生した可能性があります。
-  （詳細は [Prisma のエラーリファレンス](https://www.prisma.io/docs/orm/reference/error-reference#p2025)を参照してください。）
-- Profile Annotation・Web Media Profile の登録・更新時に入力 JSON の `credentialSubject.id` が DB に存在しない可能性があります。
-- Profile Annotation・Web Media Profile の登録・更新時に "Foreign key constraint violated" または、PrismaClientKnownRequestError の "P2003" エラーが発生した可能性があります。
-  （詳細は [Prisma のエラーリファレンス](https://www.prisma.io/docs/orm/reference/error-reference#p2003)を参照してください。）
-- 指定した Website Profile が見つからなかった可能性があります。
-- DB で OP Account が見つからなかった可能性があります。
-- DB で Issuer ID が 見つからなかった可能性があります。
-- DB で Holder ID が見つからなかった可能性があります。
+- You may have attempted to access an operation or endpoint that is not available.
+- You may have encountered a PrismaClientKnownRequestError "P2025".
+  (For details, please refer to the [Prisma Error Reference](https://www.prisma.io/docs/orm/reference/error-reference#p2025).)
+- The `credentialSubject.id` in the JSON entered during Profile Annotation/Web Media Profile registration/update may not exist in the database.
+- You may have encountered a "Foreign key constraint violated" or a PrismaClientKnownRequestError "P2003" during Profile Annotation/Web Media Profile registration/update.
+  (For details, please refer to the [Prisma Error Reference](https://www.prisma.io/docs/orm/reference/error-reference#p2003).)
+- The specified Website Profile may not have been found.
+- The OP Account may not have been found in the database.
+- The Issuer ID may not have been found in the database.
+- The Holder ID may not have been found in the database.
 
-## 例
+## Examples
 
-- 以下は、用意されていない操作・エンドポイントにアクセスした場合の例です。
+- The following is an example of accessing an operation or endpoint that is not available.
 
 ```sh
 curl -X GET https://example/pa -u <username>:<password>
 ```
 
-出力:
+Output:
 
 ```
 {"statusCode":404,"error":"Not Found","message":"Not found."}
 ```
 
-- 以下は、DB に存在しない Website Profile を取得しようとした場合の例です。
+- The following is an example of attempting to retrieve a Website Profile that does not exist in the database.
 
 ```sh
 curl -X GET https://example/wsp/https%3A%2F%2Fexample.com -u <username>:<password>
 ```
 
-出力:
+Output:
 
 ```
 {"statusCode":404,"error":"Not Found","message":"Website Profile not found."}
 ```
 
-## 解決策
+## Resolution
 
-- それぞれのエラーメッセージを確認してください。
-- 対象の URL やエンドポイント、HTTP メソッドが正しいか確認してください。
-- Profile Annotation・Web Media Profile の入力 JSON の `credentialSubject.id` や `issuer` を確認してください。
-- DB に存在するデータを指定してください。
+- Check each error message.
+- Verify that the target URL, endpoint, and HTTP method are correct.
+- Check the `credentialSubject.id` and `issuer` in the input JSON for Profile Annotation and Web Media Profile.
+- Specify data that exists in the database.
 
-## 関連情報
+## Related Information
 
 - [Prisma Error Reference](https://www.prisma.io/docs/orm/reference/error-reference)
