@@ -14,11 +14,11 @@ This error occurs when the `issuer` and the OP Account ID do not match.
 - "OP Account ID does not match the issuer of the Website Profile."
 - "OP Account ID does not match the issuer of the Content Attestation."
 
-## Cause of Error
+## Causes
 
 - The `issuer` in the input JSON may not match the OP Account ID used for issuance.
 
-## Example
+## Examples
 
 - The following is an example where the OP Account ID used for issuance and the `issuer` in the input JSON are different.
 
@@ -63,7 +63,7 @@ Output:
 {"statusCode":403,"error":"Forbidden","message":"OP Account ID does not match the issuer of the Content Attestation."}
 ```
 
-## Solution
+## Resolution
 
 - Verify that the `issuer` in the input JSON matches the OP Account ID you are using.
 
