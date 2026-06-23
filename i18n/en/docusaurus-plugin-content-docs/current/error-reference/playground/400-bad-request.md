@@ -13,11 +13,11 @@ This error occurs in the case of a JSON schema validation error.
 
 - "One or more validations failed trying to process your request."
 
-## Cause of Error
+## Causes
 
 - The input JSON may not meet the expected schema (required fields, types, format).
 
-## Example
+## Examples
 
 - The following is an example where the required field `issuer` is missing from the input JSON.
 
@@ -61,7 +61,7 @@ Output:
 {"statusCode":400,"error":"Bad Request","message":"One or more validations failed trying to process your request.","failedValidations":{"body":{"issuer":"must be present"}}}
 ```
 
-## Solution
+## Resolution
 
 - Check the required fields, types, and format of the input JSON, or the error details in the response message.
 
