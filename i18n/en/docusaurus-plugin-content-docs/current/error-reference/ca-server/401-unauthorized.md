@@ -13,11 +13,11 @@ This error occurs when authentication credentials are invalid.
 
 - "Invalid password"
 
-## Cause of the Error
+## Causes
 
 - The authentication information, such as the username or password, may be incorrect.
 
-## Example
+## Examples
 
 - The following is an example of what happens when the password is incorrect.
 
@@ -31,6 +31,6 @@ Output:
 {"statusCode":401,"error":"Unauthorized","message":"Invalid password"}
 ```
 
-## Solution
+## Resolution
 
 - Please verify that your username and password are correct.
