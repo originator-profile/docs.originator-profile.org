@@ -53,6 +53,12 @@ Profile Annotation Issuer 登録証 PA を受け取った検証者は、次の�
 2. `issuer` が信頼できる OP レジストリの OP ID であることを確認する
 3. Profile Annotation Issuer が発行した PA が準拠する認証制度の ID が、この Profile Annotation Issuer PA の `credentialSubject.annotationScheme` プロパティに含まれていることを確認する
 
+:::note
+
+手順3（発行者の認可確認）は「PA の発行者が、トラストアンカーである OP レジストリ発行の Profile Annotation Issuer 登録証 PA を保有しているか」を確認することで行います。登録証 PA 自身もまた PA であり、原理的には同じ確認を再帰的に適用できますが、その終端はトラストアンカーである OP レジストリが発行する Profile Annotation Issuer 登録証 PA 自身には適用されず、手順2 `issuer` が信頼できる OP レジストリの OP ID であることを検証者が確認することによって担保されます。
+
+:::
+
 ## ユースケース
 
 Profile Annotation Issuer 登録証 PA は、次のようなユースケースで使用されます：
