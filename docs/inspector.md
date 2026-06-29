@@ -13,10 +13,10 @@ OP Inspector は、Web ブラウザー上で Originator Profile と Content Atte
 ## ダウンロード
 
 :::tip
-Google Chrome をお使いの場合、「[Chrome ウェブストア](https://chromewebstore.google.com/detail/op-inspector/namnjenlimojacngjhddjdjpakfaepeb)」から入手可能です。手順は「[Chrome ウェブストアからインストール](#chrome-web-store)」をご覧ください。
+Google Chrome をお使いの場合、「[Chrome ウェブストア](https://chromewebstore.google.com/detail/op-inspector/namnjenlimojacngjhddjdjpakfaepeb)」から入手可能です。Mozilla Firefox をお使いの場合、「[Firefox Add-ons](https://addons.mozilla.org/ja/firefox/addon/op-inspector/)」から入手可能です。手順は「[Chrome ウェブストアからインストール](#chrome-web-store)」または「[Firefox Add-ons からインストール](#firefox-add-ons)」をご覧ください。
 :::
 
-開発版を試す場合や Firefox をお使いの場合、[GitHub Releases](https://github.com/originator-profile/originator-profile/releases/latest) から最新版の OP Inspector の ZIP ファイルをダウンロードします。
+開発版を試す場合、[GitHub Releases](https://github.com/originator-profile/originator-profile/releases/latest) から最新版の OP Inspector の ZIP ファイルをダウンロードします。
 
 | ブラウザー      | ファイル名                            |
 | --------------- | ------------------------------------- |
@@ -51,6 +51,20 @@ Chrome ウェブストアからインストールした場合、ZIP ファイル
 参考: [パッケージ化されていない拡張機能を読み込む (Chrome for Developers)](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world?hl=ja#load-unpacked)
 
 ### Firefox
+
+#### Firefox Add-ons からインストール（推奨） {#firefox-add-ons}
+
+公式の「[Firefox Add-ons](https://addons.mozilla.org/ja/firefox/addon/op-inspector/)」から OP Inspector を入手できます。
+
+1. Firefox Add-ons の [OP Inspector のページ](https://addons.mozilla.org/ja/firefox/addon/op-inspector/) にアクセスします。
+2. 「Firefox へ追加」をクリックします。
+3. 確認ダイアログで「追加」をクリックします。
+
+Firefox Add-ons からインストールした場合、ZIP ファイルを手動で差し替える必要はありません。
+
+#### 一時的なアドオンとしてインストール
+
+最新の開発版を試す場合などは、GitHub Releases からダウンロードした ZIP ファイルを使って手動でインストールすることもできます。
 
 1. アドレスバーに `about:debugging` と入力します。
 2. 「この Firefox」 > 「一時的なアドオンを読み込む…」を選択します。
@@ -161,6 +175,10 @@ Chrome ウェブストアからインストールした場合、更新は自動�
 参考: [拡張機能を再読み込み (Chrome for Developers)](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world?hl=ja#reload)
 
 ### Firefox
+
+Firefox Add-ons からインストールした場合、更新は自動的に行われます。手動で操作する必要はありません。
+
+一時的なアドオンとしてインストールした場合は、以下の手順で更新します。
 
 1. [GitHub Releases](https://github.com/originator-profile/originator-profile/releases/latest) から最新版をダウンロードします。
 2. `about:debugging` にアクセスします。

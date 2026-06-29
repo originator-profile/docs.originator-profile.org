@@ -14,10 +14,10 @@ By accessing supported websites, you can check content originator information an
 ## Download
 
 :::tip
-If you are using Google Chrome, you can get it from the "[Chrome Web Store](https://chromewebstore.google.com/detail/op-inspector/namnjenlimojacngjhddjdjpakfaepeb)". See "[Installing from the Chrome Web Store](#chrome-web-store)" for instructions.
+If you are using Google Chrome, you can get it from the "[Chrome Web Store](https://chromewebstore.google.com/detail/op-inspector/namnjenlimojacngjhddjdjpakfaepeb)". If you are using Mozilla Firefox, you can get it from "[Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/op-inspector/)". See "[Installing from the Chrome Web Store](#chrome-web-store)" or "[Installing from Firefox Add-ons](#firefox-add-ons)" for instructions.
 :::
 
-If you want to try the development version or are using Firefox, download the latest OP Inspector ZIP file from [GitHub Releases](https://github.com/originator-profile/originator-profile/releases/latest).
+If you want to try the development version, download the latest OP Inspector ZIP file from [GitHub Releases](https://github.com/originator-profile/originator-profile/releases/latest).
 
 | Browser         | File name                             |
 | --------------- | ------------------------------------- |
@@ -54,6 +54,20 @@ If you want to try the latest development version, you can also manually install
 Reference: [Loading unpacked extensions (Chrome for Developers)](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world?hl=en#load-unpacked)
 
 ### Firefox
+
+#### Install from Firefox Add-ons (Recommended) {#firefox-add-ons}
+
+You can obtain OP Inspector from the official "[Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/op-inspector/)".
+
+1. Go to the [OP Inspector page](https://addons.mozilla.org/en-US/firefox/addon/op-inspector/) on Firefox Add-ons.
+2. Click "Add to Firefox".
+3. Click "Add" in the confirmation dialog.
+
+If you install from Firefox Add-ons, you do not need to manually replace the ZIP file.
+
+#### Install as a Temporary Add-on
+
+If you want to try the latest development version, you can also manually install using the ZIP file downloaded from GitHub Releases.
 
 1. Type `about:debugging` in the address bar.
 2. Select "This Firefox" > "Load temporary add-ons...".
@@ -170,6 +184,10 @@ If you installed in Developer mode, follow these steps to update.
 Reference: [Reload extensions (Chrome for Developers)](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world?hl=en#reload)
 
 ### Firefox
+
+If you installed from Firefox Add-ons, updates will be performed automatically. No manual intervention is required.
+
+If you installed as a temporary add-on, follow these steps to update.
 
 1. Download the latest version from [GitHub Releases](https://github.com/originator-profile/originator-profile/releases/latest).
 2. Go to `about:debugging`.
