@@ -41,7 +41,7 @@ APIの動作確認を行う方法は以下の通りです。
 4. **レスポンスの確認**:
    リクエスト送信後、画面上にレスポンスのステータスコード (例: `200 OK`) や、サーバーから返却されたデータ (JSON形式など) が表示されます。想定通りの結果が得られているかを確認できます。
 
-### Site Profile の発行
+### Site Profile の発行 {#issue-site-profile}
 
 Playground の [`/sp`](https://playground.originator-profile.org/#tag/sp) エンドポイントに POST リクエストを送信します。
 
@@ -72,3 +72,20 @@ OP Inspector をインストールした状態で、Site Profile を配置した
 
 [chrome]: https://github.com/originator-profile/originator-profile/releases/download/canary/_testing_op_inspector-chromium-canary.zip
 [firefox-desktop]: https://github.com/originator-profile/originator-profile/releases/download/canary/_testing_op_inspector-firefox-desktop-canary.zip
+
+### WordPressプラグイン (CA Manager) を使用して CA を自動発行する方法について {#use-wordpress-plugin}
+
+WordPress を利用している場合は、WordPress プラグイン (CA Manager) を使用して CA の自動発行をテストすることができます。  
+[WordPress プラグイン (CA Manager) ガイド](/site-cases/wordpress/)の「[1. プラグインのインストール](/site-cases/wordpress/#plugin-installation)」セクションを実施後、以下の手順に従って設定してください。
+
+1. Playground で Site Profile を発行する  
+   Site Profile の発行方法については 「[Site Profile の発行](#issue-site-profile)」を参照してください。
+2. 発行した Site Profile をサイトに設置する  
+   配置方法は [`/.well-known/sp.json` の配置](/site-cases/wordpress/#well-known-sp-json)を参照してください。
+3. CA Manager の設定を Playground の情報に合わせて行う  
+   設定方法は[プラグインの設定](/site-cases/wordpress/#plugin-settings)を参照してください。
+   [Playground](https://playground.originator-profile.org/) の値を参考に設定してください。
+4. 設定完了後、新規投稿の作成または既存投稿の更新（再保存）を行う  
+   これにより CA の自動発行処理が実行されます。
+5. [確認方法](/site-cases/wordpress/#how-to-check)を参考に CA が正しく発行されているか確認する  
+   デベロッパーツールまたは OP Inspector、debugger を使用して確認できます。

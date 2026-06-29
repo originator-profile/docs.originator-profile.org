@@ -1,4 +1,4 @@
-# WordPressプラグイン (CA Manager)
+# WordPress プラグイン (CA Manager)
 
 :::note
 このページは翻訳中です。
@@ -14,7 +14,7 @@ WordPress サイトに CA Manager を導入し、 CA を自動発行できる状
 
 ## 手順
 
-### 1. プラグインのインストール
+### 1. プラグインのインストール {#plugin-installation}
 
 ![](../assets/ca-manager-installation.png)
 
@@ -227,7 +227,7 @@ Basic 認証以外の認証方式 (例: OAuth、JWT、API キー) を利用す�
 
 ### OP 対応
 
-#### `/.well-known/sp.json` の配置
+#### `/.well-known/sp.json` の配置 {#well-known-sp-json}
 
 配置場所:
 
@@ -352,20 +352,8 @@ Apache 以外のアクセス制御を行うファイルは自動生成されま�
 
 ### Playground とあわせた使用方法
 
-OP 登録が行えない場合は、Playground を利用して CA の自動発行をテストすることができます。
-以下の手順に従って設定してください。
-
-1. Playground で Site Profile を発行する  
-   Site Profile の発行方法については [Playground のドキュメント](/playground)を参照してください。
-2. 発行した Site Profile をサイトに設置する  
-   配置方法は [`/.well-known/sp.json` の配置](#well-knownspjson-の配置)を参照してください。
-3. CA Manager の設定を Playground の情報に合わせて行う  
-   設定方法は[プラグインの設定](#plugin-settings)を参照してください。
-   [Playground](https://playground.originator-profile.org/) の値を参考に設定してください。
-4. 設定完了後、新規投稿の作成または既存投稿の更新（再保存）を行う  
-   これにより CA の自動発行処理が実行されます。
-5. [確認方法](#how-to-check)を参考に CA が正しく発行されているか確認する  
-   デベロッパーツールまたは OP Inspector、debugger を使用して確認できます。
+OP 登録が行えない場合は、Playground を利用して CA の自動発行をテストすることができます。  
+詳しくは [Playground のガイド](/playground/#use-wordpress-plugin) を参照してください。
 
 ## 既知の問題
 
