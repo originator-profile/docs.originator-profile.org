@@ -24,9 +24,9 @@ WordPress サイトに CA Manager を導入し、 CA を自動発行できる状
    WordPress 公式サイト「[プラグイン新規追加画面](https://ja.wordpress.org/support/article/plugins-add-new-screen/)」にある「プラグインをアップロード」の節を参照
 3. プラグインの有効化
 4. プラグインの設定:
-   WordPress 管理者画面の「設定 > CA Manager」にアクセスし、[必要項目を入力](#2-プラグインの設定)
+   WordPress 管理者画面の「設定 > CA Manager」にアクセスし、次節「プラグインの設定」必要項目を入力
 
-### 2. プラグインの設定
+### 2. プラグインの設定 {#plugin-settings}
 
 ![](../assets/ca-manager.png)
 
@@ -98,7 +98,7 @@ h1.wp-block-post-title, .wp-block-post-content>*:not(.post-nav-links)
 
 - Embedded: CAS を埋め込み形式（Embedded）にして記事を投稿します。
 
-例:
+Embedded を選択したとき出力されるHTMLの一部の例:
 
 ```html
 <script type="application/cas+json">
@@ -106,18 +106,18 @@ h1.wp-block-post-title, .wp-block-post-content>*:not(.post-nav-links)
 </script>
 ```
 
-- External: CAS を静的ファイルとして生成し、リンク形式（External）にして記事を投稿します。生成されるファイルについては「[CA Presentation Type をリンク形式にしたときのファイル生成について](#ca-presentation-type-をリンク形式にしたときのファイル生成について)」を参照してください。
+- External: CAS を静的ファイルとして生成し、リンク形式（External）にして記事を投稿します。生成されるファイルについては「[CA Presentation Type をリンク形式にしたときのファイル生成について](#ca-presentation-type-external)」を参照してください。
 
 **ログの出力設定**
 
 デフォルトは無効となっています。
 
-有効にすると CA Manager プラグインに関するログが出力され、ログファイルをダウンロードすることができます。生成されるログファイルについては「[ログファイルの生成について](#ログファイルの生成について)」を参照してください。
+有効にすると CA Manager プラグインに関するログが出力され、ログファイルをダウンロードすることができます。生成されるログファイルについては「[ログファイルの生成について](#log-output)」を参照してください。
 
 これらの設定が完了しないと Content Attestation の発行機能は正しく動作しません。
-正しく設定が反映されると、それ以降に更新した投稿と新規投稿は自動的にCAサーバーに送信されます。
+正しく設定が反映されると、それ以降に更新した投稿と新規投稿は自動的に CA サーバーに送信されます。
 
-## 確認方法
+## 確認方法 {#how-to-check}
 
 設定が完了したら、新規投稿の作成または既存投稿の更新（再保存）を行ってください。
 CA が正しく発行されているかどうかは、次の 2 つの方法で確認できます。
@@ -147,7 +147,7 @@ CA が正しく発行されているかどうかは、次の 2 つの方法で�
 **CA が存在しない場合**
 
 - プラグインの設定値が誤っている可能性があります。
-- ログ出力設定を有効にし、ページを保存してログを確認してください。ログの出力設定は[プラグインの設定](#2-プラグインの設定)を参照してください。
+- ログ出力設定を有効にし、ページを保存してログを確認してください。ログの出力設定は[プラグインの設定](#plugin-settings)を参照してください。
 
 **検証に失敗している場合**
 
@@ -276,9 +276,9 @@ HTML 中に script 要素を用いて OP を埋め込むことが可能です。
 
 詳細は「サイトの OP 対応」または「[Linking Content Attestation Set and Originator Profile Set to A HTML Document](https://docs.originator-profile.org/opb/link-to-html/)」をご確認ください。
 
-### CA Presentation Type をリンク形式にしたときのファイル生成について
+### CA Presentation Type をリンク形式にしたときのファイル生成について {#ca-presentation-type-external}
 
-CA Presentaion Type が External 時、静的ファイルを生成するディレクトリとして下記のように定義されています。
+CA Presentation Type が External 時、静的ファイルを生成するディレクトリとして下記のように定義されています。
 
 ```
 const PROFILE_DEFAULT_CA_EXTERNAL_DIR = 'cas';
@@ -290,7 +290,7 @@ const PROFILE_DEFAULT_CA_EXTERNAL_DIR = 'cas';
 /var/www/html/cas/<ポストid>_cas.json
 ```
 
-例:
+External を選択したとき出力されるHTMLの一部の例:
 
 ```html
 <script
@@ -308,7 +308,7 @@ const PROFILE_DEFAULT_CA_EXTERNAL_DIR = 'cas';
 $ curl -sSf https://example.com/cas/1_cas.json
 ```
 
-### ログファイルの生成について
+### ログファイルの生成について {#log-output}
 
 ログファイルを生成するディレクトリとして下記のように定義されています。
 
@@ -360,11 +360,11 @@ OP 登録が行えない場合は、Playground を利用して CA の自動発�
 2. 発行した Site Profile をサイトに設置する  
    配置方法は [`/.well-known/sp.json` の配置](#well-knownspjson-の配置)を参照してください。
 3. CA Manager の設定を Playground の情報に合わせて行う  
-   設定方法は[プラグインの設定](#2-プラグインの設定)を参照してください。
+   設定方法は[プラグインの設定](#plugin-settings)を参照してください。
    [Playground](https://playground.originator-profile.org/) の値を参考に設定してください。
 4. 設定完了後、新規投稿の作成または既存投稿の更新（再保存）を行う  
    これにより CA の自動発行処理が実行されます。
-5. [確認方法](#確認方法)を参考に CA が正しく発行されているか確認する  
+5. [確認方法](#how-to-check)を参考に CA が正しく発行されているか確認する  
    デベロッパーツールまたは OP Inspector、debugger を使用して確認できます。
 
 ## 既知の問題
