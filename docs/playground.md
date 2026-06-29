@@ -73,7 +73,7 @@ OP Inspector をインストールした状態で、Site Profile を配置した
 [chrome]: https://github.com/originator-profile/originator-profile/releases/download/canary/_testing_op_inspector-chromium-canary.zip
 [firefox-desktop]: https://github.com/originator-profile/originator-profile/releases/download/canary/_testing_op_inspector-firefox-desktop-canary.zip
 
-### WordPressプラグイン (CA Manager) を使用して CA を自動発行する方法について {#use-wordpress-plugin}
+### WordPress プラグイン (CA Manager) を使用して CA を自動発行する方法について {#use-wordpress-plugin}
 
 WordPress を利用している場合は、WordPress プラグイン (CA Manager) を使用して CA の自動発行をテストすることができます。  
 [WordPress プラグイン (CA Manager) ガイド](/site-cases/wordpress/)の「[1. プラグインのインストール](/site-cases/wordpress/#plugin-installation)」セクションを実施後、以下の手順に従って設定してください。
