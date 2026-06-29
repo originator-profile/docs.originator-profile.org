@@ -52,7 +52,7 @@ Please refer to the following guides depending on your intended use.
 
 - **Using Content Signing in WordPress**  
   A WordPress plugin (CA Manager) is available to issue Content Attestation when publishing articles.  
-  → [WordPress Plugin (CA Manager)](https://github.com/originator-profile/originator-profile/blob/main/packages/wordpress/README.md)
+  → [WordPress Plugin (CA Manager)](../site-cases/wordpress)
 
 ## Next Steps
 
