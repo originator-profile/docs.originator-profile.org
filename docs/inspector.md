@@ -102,11 +102,24 @@ OP Inspector をすぐに使えるよう、ツールバーに固定しておく�
 1. OP Inspector をインストールした状態で、Originator Profile に対応した Web サイトにアクセスします。
    - 例: [Originator Profile 技術研究組合 (OP-CIP) 公式サイト](https://originator-profile.org/)
 2. ツールバーにある OP Inspector のアイコンをクリックします。
-3. コンテンツの発信者情報と検証結果が表示されます。
+3. サイドパネルにコンテンツの発信者情報と検証結果が表示されます。
 
 :::note
 OP Inspector はインストール前に読み込み済みのタブでは動作しません。インストール後に新しくタブを開くか、ページを再読み込みしてください。
 :::
+
+:::note
+v0.5 以前のバージョンでは、OP Inspector はポップアップとして表示されていました。
+:::
+
+### バッジ表示
+
+![OP Inspector バッジの例](assets/inspector-badge.webp)
+
+OP Inspector のアイコンには、検証に成功した Content Attestation の件数がバッジとして表示されます。
+
+- バッジの数字は、広告を含むすべての Content Attestation のうち、検証に成功した件数を表します。
+- Content Attestation がない、または検証に失敗した場合、バッジは表示されません。
 
 ### 検証結果の見方
 
