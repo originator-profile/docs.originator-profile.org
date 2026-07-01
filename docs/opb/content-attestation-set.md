@@ -16,10 +16,11 @@ sidebar_position: 32
 データモデルを JSON で表記します。
 
 CAS は次のプロパティを持つ JSON Object の配列です。
-| Name | Type | Description |
-|------|------|-------------|
-| `attestation` | `string` | **REQUIRED.** Content Attestation です。 |
-| `main` | `boolean` | **OPTIONAL.** Content Attestation がメインコンテンツに対するものである場合は `true`、そうでない場合は `false` です。デフォルト値は `false` です。 |
+
+| Name          | Type      | Description                                                                                                                                       |
+| ------------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `attestation` | `string`  | **REQUIRED.** Content Attestation です。                                                                                                          |
+| `main`        | `boolean` | **OPTIONAL.** Content Attestation がメインコンテンツに対するものである場合は `true`、そうでない場合は `false` です。デフォルト値は `false` です。 |
 
 ## JSON Serialization
 

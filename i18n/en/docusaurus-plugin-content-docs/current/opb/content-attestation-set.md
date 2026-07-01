@@ -17,10 +17,11 @@ For any terms not explained in this document, please see [Terminology](./termino
 The data model is expressed in JSON.
 
 CAS is an array of JSON Objects with the following properties:
-| Name | Type | Description |
-|------|------|-------------|
-| `attestation` | `string` | **REQUIRED.** The property of Content Attestation. |
-| `main` | `boolean` | **OPTIONAL.** If Content Attestation is for the main content, state `true`, otherwise state `false`. The default value is `false`. |
+
+| Name          | Type      | Description                                                                                                                        |
+| ------------- | --------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `attestation` | `string`  | **REQUIRED.** The property of Content Attestation.                                                                                 |
+| `main`        | `boolean` | **OPTIONAL.** If Content Attestation is for the main content, state `true`, otherwise state `false`. The default value is `false`. |
 
 ## JSON Serialization
 
