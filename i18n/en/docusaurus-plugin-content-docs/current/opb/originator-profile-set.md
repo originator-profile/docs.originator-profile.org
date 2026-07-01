@@ -26,11 +26,12 @@ The data model of OPS is expressed in JSON.
 OPS MUST be an array of JSON objects.
 
 Each JSON object has the following properties:
-| Name | Type | Description |
-| ------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `core` | `string` | **REQUIRED.** Core Profile. |
+
+| Name          | Type       | Description                                                                                                                                                                                                                                                                                                                       |
+| ------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `core`        | `string`   | **REQUIRED.** Core Profile.                                                                                                                                                                                                                                                                                                       |
 | `annotations` | `string[]` | **OPTIONAL.** An array of Profile Annotation. If this property is included, then for each element, the Core Profile in `core` and `credentialSubject.id` MUST be equal. This property SHOULD be included if the OPS recipient has an interest in the trustworthiness of the OP ID holding organization in `credentialSubject.id`. |
-| `media` | `string[]` | **OPTIONAL.** An array of Web Media Profile. If this property is included, the `credentialSubject.id` of each element and the `credentialSubject.id` of the Core Profile in `core` MUST be equal. |
+| `media`       | `string[]` | **OPTIONAL.** An array of Web Media Profile. If this property is included, the `credentialSubject.id` of each element and the `credentialSubject.id` of the Core Profile in `core` MUST be equal.                                                                                                                                 |
 
 ## JSON Serialization for OPS
 

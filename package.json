@@ -16,14 +16,14 @@
     "@docusaurus/preset-classic": "3.10.1",
     "@docusaurus/theme-mermaid": "3.10.1",
     "@docusaurus/types": "3.10.1",
-    "@easyops-cn/docusaurus-search-local": "0.55.1",
+    "@easyops-cn/docusaurus-search-local": "0.55.2",
     "@r74tech/docusaurus-plugin-panzoom": "2.4.2",
     "@types/shelljs": "0.10.0",
     "dedent": "1.7.2",
     "docusaurus-plugin-image-zoom": "3.0.1",
     "gray-matter": "4.0.3",
-    "prettier": "3.8.3",
+    "prettier": "3.9.1",
     "shelljs": "0.10.0"
   },
-  "packageManager": "pnpm@11.1.2"
+  "packageManager": "pnpm@11.9.0"
 }
