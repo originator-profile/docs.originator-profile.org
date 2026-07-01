@@ -7,8 +7,8 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
       - name: Setup
         uses: "./.github/actions/setup"
       - name: Format
-        uses: "originator-profile/originator-profile/.github/actions/format@4b23d4456cd9e5d2744a5006ea5cf89d27110c01" # main
+        uses: "originator-profile/originator-profile/.github/actions/format@4d86b5fba80c22d2a332910775b55bbf022e9a78" # main
