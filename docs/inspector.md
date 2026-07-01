@@ -118,7 +118,7 @@ v0.5 以前のバージョンでは、OP Inspector はポップアップとし�
 
 OP Inspector のアイコンには、検証に成功した Content Attestation の件数がバッジとして表示されます。
 
-- バッジの数字は、広告を含むすべての Content Attestation のうち、検証に成功した件数を表します。
+- バッジの数字は、広告を含むすべての検証済み Content Attestation の件数を表します。
 - Content Attestation がない、または1件でも検証に失敗した場合、バッジは表示されません。
 
 ### 検証結果の見方
