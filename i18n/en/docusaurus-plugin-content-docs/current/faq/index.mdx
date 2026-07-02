@@ -1,73 +1,73 @@
+---
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/98c6820/docs/faq/index.mdx
+---
+
 # FAQ
 
-:::note
-このページは翻訳中です。
-:::
+## OP Implementation
 
-## OP 対応について
+### Do I need to use WordPress or a CMS based on it to implement OP on my website?
 
-### OP 対応するには WordPress またはそれをベースとした CMS を使う必要がありますか
+No.
+The WordPress plugin is just a reference implementation, and each company can implement OP support for the CMS they are actually using.
 
-いいえ。  
-WordPress のプラグインはあくまでも参照実装であり、各社で実際にご利用の CMS に OP 対応を行うことができます。
+### Is it essential to make major modifications to the CMS's internal implementation in order to implement OP for each piece of content?
 
-### コンテンツの OP 対応するには CMS の内部実装に大きく手を入れることが必須でしょうか
+No.
+While the ideal approach is to generate and register the CA through internal CMS processing—similar to a WordPress plugin—if modifying the CMS's internal implementation is difficult, you can generate the CA using a CA server or the [OPVC CLI](/opvc-cli/).
 
-いいえ。  
-WordPress プラグインのように、CMS 内部の処理で CA を生成・登録する形が望ましいですが、CMS 内部の実装に手を入れるのが難しい場合、CA サーバーや [OPVC CLI](/opvc-cli/) を使用して CA を生成することができます。
+### I operate multiple sites; which one would be best for implementing OP?
 
-### 複数のサイトを運用しているのですが、どのサイトで実装するのが良いでしょうか
+You may use any site that hosts your own content.
+While a site with a simple structure is easier to work with, testing on a site with a more complex architecture might be preferable if your goal is to identify implementation challenges. Please review this document and consider implementing the measures to the extent possible.
 
-自社コンテンツを掲載するサイトであればいずれでも構いません。  
-単純な構成のサイトの方が対応は簡単ですが、実装上の課題を見つけるという目的としては、より複雑な仕組みのサイトでお試し頂く方が良いかもしれません。本ドキュメントをご覧になって可能な範囲で対応いただくことをご検討ください。
+### I received a "400 Bad Request" error when using the CA server API. What could be the cause?
 
-### CA サーバーの API を使ったところ、400 Bad Request のエラーが返ってきました。どのような原因が考えられますか
+Please refer to the [API documentation](https://reference.originator-profile.org/api/) for information on how to use the CA server.
+You can find information regarding errors in the [Error Reference](/error-reference/). If the issue persists, please contact us.
 
-CA サーバーの使い方については、[API ドキュメント](https://reference.originator-profile.org/api/)をご確認ください。  
-発生したエラーに関しては、[エラーリファレンス](/error-reference/)にて情報を参照することができます。それでも解決しない場合はお問い合わせください。
+## Usage and Operation of OP/CA
 
-## OP/CA の使い方・運用について
+### What is an OP ID? Should the OP ID match the domain name of the site where the content is published?
 
-### OP ID とは何ですか。コンテンツを出版するサイトのドメイン名と OP ID は一致させたほうがよいですか
+An OP ID is an identifier assigned to organizations, such as corporations.
+The ID format uses the domain of the organization's primary website. The domain name of the site publishing the content does not need to match the OP ID. If a single organization operates multiple media sites or maintains a corporate page separate from its media sites, it is generally better not to use the same ID for all of them.
+For more details, please refer to the [OP ID documentation](/opb/op-id/).
 
-OP ID は法人などの組織に対して割り振られる ID です。  
-ID の形式として、その組織の情報を示す主たるサイトのドメインを採用しています。コンテンツを出版するサイトのドメイン名と OP ID は異なるもので構いません。1 組織が複数のメディアサイトを運営する場合や、メディアサイトとは別に企業ページがある場合には、一致させないほうが良いでしょう。  
-詳しく知りたい場合は [OP ID のドキュメント](/opb/op-id/) を参照してください。
+### How should a CA be issued for content where the display changes based on factors such as the user's billing status?
 
-### 利用者の課金状態などに応じて表示が変わるコンテンツにはどのように CA を発行すべきですか
+Please issue CAs for both paid and free content.
 
-課金・無課金でのコンテンツそれぞれに対して CA を発行してください。
+### How should a CA be issued for content that spans multiple pages?
 
-### 複数ページにわたるコンテンツにはどのように CA を発行すべきですか
+Please issue one CA for each page.
 
-各ページに 1 つずつ CA を発行してください。
+### Is it always necessary to reissue the CA when the content is updated?
 
-### コンテンツを更新した際には、必ず CA の再発行が必要ですか
+It depends on the content of the update.
+If the information listed in the CA becomes outdated due to the update, please update (reissue) the CA.
 
-更新内容によります。  
-更新により CA に記載した情報が古くなった場合には CA の更新を実施（再発行）してください。
+### I want to update the content and reissue the CA accordingly. Should the publication ID (the CA's `credentialSubject.id`) remain the same before and after the update?
 
-### コンテンツを更新し、それに合わせて CA も再発行したいです。出版物の ID（CA の `credentialSubject.id`）は更新前後で同じ値にしたほうがいいですか
+Please use the same value.
+Since there is a one-to-one correspondence between the content and the CA's `credentialSubject.id`, specifying a different value would result in the issuance of a CA distinct from the original publication. Using the same value ensures the CA is updated.
 
-同じ値にしてください。  
-コンテンツと CA の `credentialSubject.id` は一対一対応するため、異なる値を指定した場合、元の出版物とは異なる CA として発行されます。同じ値にすることで CA は更新されます。
+### I have made the article private or deleted it. Should I delete the CA as well?
 
-### 記事を非公開・削除しました。CA も削除すべきでしょうか
+You should delete it.
+Since the CA contains article information such as the title and author, if the CA remains accessible after the article is deleted or hidden, that information will be visible to users.
 
-削除したほうがよいでしょう。  
-CA の中にはタイトルや著者などの記事の情報が含まれているため、記事削除・非公開後に CA にアクセスできる場合、それらの情報がユーザーに見えてしまいます。
+### I have created a new article in private mode. Should a CA be issued?
 
-### 記事を非公開状態で新規作成しました。CA は発行すべきですか
+The CA is expected to be issued at the same time the article is published and to be accessible to users viewing the article.
+If a new article is created in a non-published state, the CA does not need to be issued.
 
-CA は記事の公開と同時に発行され、記事閲覧ユーザーからアクセスできることが期待されます。  
-非公開状態での新規作成の場合は CA は発行しなくても構いません。
+### Does the CA have a concept of history?
 
-### CA に履歴の概念はありますか
+CA data does not contain information regarding update history or versions.
+Users are presented only with the latest CA information.
 
-CA のデータには更新履歴やバージョンについての情報はありません。  
-ユーザーには最新の CA の情報だけが提示されます。
-
-## その他のトピック
+## Other Topics
 
 import DocCardList from "@theme/DocCardList";
 
