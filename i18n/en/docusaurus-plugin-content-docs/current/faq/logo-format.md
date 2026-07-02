@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-original: https://github.com/originator-profile/cip.docs.originator-profile.org/blob/7abd50a/docs/studies/general-instruction/logo-format.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/4cb55e7/docs/faq/logo-format.md
 ---
 
 # Logo Image Format

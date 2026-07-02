@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-original: https://github.com/originator-profile/cip.docs.originator-profile.org/blob/7abd50a/docs/studies/general-instruction/wsp-image-format.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/4cb55e7/docs/faq/wsp-image-format.md
 ---
 
 # Site Image Format
