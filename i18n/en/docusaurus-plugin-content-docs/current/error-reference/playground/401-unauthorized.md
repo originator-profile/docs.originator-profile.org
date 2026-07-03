@@ -5,19 +5,19 @@ original: https://github.com/originator-profile/docs.originator-profile.org/blob
 
 # 401 Unauthorized
 
-## Error code: 401
+## Error Code: 401
 
-This occurs when the authentication information is invalid.
+This error occurs when the authentication information is invalid.
 
-## Error message
+## Error Message
 
 - "Invalid password"
 
-## Cause of the error
+## Causes
 
 - Authentication information, such as the username or password, may be incorrect.
 
-## Example
+## Examples
 
 - The following is an example of what happens when the passwords do not match.
 
@@ -33,7 +33,7 @@ Output:
 
 ## Resolution
 
-- Please check that your username and password are correct.
+- Check that your username and password are correct.
 
 ## Related Information
 
