@@ -86,7 +86,7 @@ $ curl -sSf -X POST https://dprexpt.originator-profile.org/ca -u 8fe1b860-558c-5
 eyJ...
 ```
 
-実行後、コンソールに表示される "eyJ” から始める文字列が Content Attestation です。
+実行後、コンソールに表示される "eyJ” から始まる文字列が Content Attestation です。
 
 指定するファイルは以下の形式です。
 
@@ -193,7 +193,7 @@ $ opvc ca:sign -i ./account-key.example.priv.json --input ./article-content-atte
 eyJ...
 ```
 
-実行後、コンソールに表示される "eyJ” から始める文字列が Content Attestation です。
+実行後、コンソールに表示される "eyJ” から始まる文字列が Content Attestation です。
 
 OPVC CLI のインストール方法は [OPVC CLI インストール方法](/opvc-cli/#install) をご確認ください。
 
@@ -366,7 +366,7 @@ UUID を生成し、ペイロードの `sub` と `credentialSubject.id` の値�
 
 ```
 $ uuidgen
-41632705-9600-49df-b80d-a357d474f37
+41632705-9600-49df-b80d-a357d474f37e
 : この場合 "urn:uuid:41632705-9600-49df-b80d-a357d474f37e" となります
 ```
 

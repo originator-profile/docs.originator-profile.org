@@ -34,7 +34,7 @@ Content Attestation Server Playground を使用して発行したものは本番
 1. [Website Profile の作成](#step1)
 2. [`/.well-known/sp.json` の作成と配置](#step2)
 
-## ステップ1. Website Profile の作成　{#step1}
+## ステップ1. Website Profile の作成 {#step1}
 
 Website Profile の作成には以下のいずれかの方法をとることができます。
 
