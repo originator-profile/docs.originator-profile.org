@@ -237,7 +237,7 @@ Example output of the above command:
 eyJhbGciOiJFUzI1NiIsImtpZCI6ImpKWXM1X0lMZ1VjODE4MEwtcEJQeEJwZ0EzUUM3ZVp1OXdLT2toOW1ZUFUiLCJ0eXAiOiJ2Yytqd3QiLCJjdHkiOiJ2YyJ9...
 ```
 
-## How to publish a Website Profile (WSP)
+## How to publish a Website Profile (WSP) {#publish-website-profile}
 
 This section explains how to publish a Website Profile. If you want to know more about Website Profile, please check [Website Profile](./opb/website-profile.md).
 Website Profile is signed information that indicates the legitimacy of a website.
@@ -288,7 +288,7 @@ Example output of the above command:
 eyJhbGciOiJFUzI1NiIsImtpZCI6ImpKWXM1X0lMZ1VjODE4MEwtcEJQeEJwZ0EzUUM3ZVp1OXdLT2toOW1ZUFUiLCJ0eXAiOiJ2Yytqd3QiLCJjdHkiOiJ2YyJ9...
 ```
 
-## How to publish a Content Attestation (CA)
+## How to publish a Content Attestation (CA) {#publish-content-attestation}
 
 This section explains how to publish a Content Attestation. If you want to learn more about Content Attestation, check out [Content Attestation](./opb/ca.md).
 Content Attestation is signed information that indicates that the content was legitimately created by the Originator.

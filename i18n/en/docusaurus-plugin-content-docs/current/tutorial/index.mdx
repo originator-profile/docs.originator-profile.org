@@ -1,0 +1,77 @@
+# Web/CMS 開発者向けチュートリアル
+
+:::note
+
+このページは翻訳中です。
+
+:::
+
+本セクションでは OP 対応を実施するにあたって共通する情報をまとめています。
+
+## 全体の流れ
+
+1. [OP登録](#1-op-登録)  
+   OP 登録サイトで組織情報などを記載・申請し、 OPS を受け取ります。
+2. [Site Profile の設置](/tutorial/sp-setup-guide/)  
+   Site Profile（`.well-known/sp.json`）を作成・設置します。
+3. [Content Attestation の設置](/tutorial/cas-setup-guide/)  
+   各コンテンツに対する Content Attestation を作成・設置します。
+   - 検証対象のコンテンツを決める
+     - 「検証対象のコンテンツ・HTML 要素について」を参照
+   - サイトの種別ごとでの対応
+     - [WordPress サイトでの対応](/site-cases/wordpress/): CA の自動発行ツール 「CA Manager」 を活用可能
+4. [OP Inspector](/inspector/) での動作確認
+
+詳細は以下の「Originator Profile 対応の説明資料」「Originator Profile の仕組み」をご確認ください。
+
+- [20250827_OP_SupportGuide.pdf](pathname:///studies/general-instruction/assets/20250827_OP_SupportGuide.pdf) (最新版)
+- [20250425_How_OP_Works.pdf](pathname:///studies/general-instruction/assets/20250425_How_OP_Works.pdf)
+
+### 1. OP 登録
+
+OP 登録では、情報発信者としての組織情報を登録します。  
+OP を登録するには OP 登録サイトで組織情報等を記載・申請する必要があります。
+記載内容が確認されると、OPS を受け取ることができます。
+
+#### OP 登録ができない場合
+
+OP 登録ができない場合でも、以下のツールを使ってテスト用の Site Profile / Content Attestation を発行し、OP 対応の流れを確認できます。
+詳しい使い方は各ガイドを参照するようにしてください。
+
+- [Content Attestation Server Playground](/playground/)  
+  Site Profile と Content Attestation の発行が可能です。
+- [OPVC CLI](/opvc-cli/)  
+  Core Profile / Profile Annotation / Web Media Profile / Website Profile の発行及び Content Attestation の発行まで可能です。
+
+### 2. Site Profile の設置
+
+サイトを OP 対応させるには、Site Profile を作成し、設置する必要があります。
+
+- Site Profile の概要 → [Site Profile のドキュメント](/opb/site-profile/)
+- Site Profile の作成と設置の手順 → [Site Profile の設置ドキュメント](/tutorial/sp-setup-guide/)
+
+### 3. Content Attestation の設置
+
+コンテンツを OP 対応させるには、Content Attestation を作成し、設置する必要があります。
+
+- Content Attestation の概要 → [Content Attestation のドキュメント](/opb/ca/)
+- Content Attestation の作成と設置の手順 → [Content Attestation の設置ドキュメント](/tutorial/cas-setup-guide/)
+
+#### サイト種別ごとでの対応
+
+以下のサイトについては OP 対応に便利なツールを用意しています。
+
+- WordPress: CA の自動発行を行う [WordPress プラグイン（CA Manager）](/site-cases/wordpress/)
+
+### 4. OP Inspector での動作確認
+
+OP Inspector は、Web ブラウザー上で Originator Profile と Content Attestation の閲覧・検証を行うブラウザー拡張機能です。  
+詳細は [OP Inspector のドキュメント](/inspector/)を参照してください。
+
+## OP 対応について不明な点がある場合
+
+OP 対応をするにあたって、よくある質問やデバッグ情報等を用意しています。
+
+- [よくある質問](/faq/): サイトやロゴの画像形式等、よくある質問をまとめています。
+- [トラブルシューティング](/troubleshooting/): OP 対応する際に発生する可能性のある問題についてまとめています。
+- [エラーコード一覧](/error-reference/): OP に関連する各ツールで発生する可能性のあるエラーコードについてまとめています。
