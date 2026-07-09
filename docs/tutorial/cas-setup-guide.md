@@ -59,31 +59,36 @@ Content Attestation Server Playground を使用して発行したものは本番
 
 Content Attestation の作成には以下の方法があります
 
-- **🌟 オススメ:** [CA Server を使用する方法](#ca-server): [`createOrUpdateCa`](https://reference.originator-profile.org/api/#tag/ca/operation/createOrUpdateCa) エンドポイントを使用
+- [CA Server を使用する方法](#ca-server): [`/ca`](https://playground.originator-profile.org/#tag/ca) エンドポイントを使用
 - OPVC CLI を使用する方法：`opvc ca:sign` コマンドを使用
 - [jwt.io](http://jwt.io) を使用する方法：指定されたJSONフォーマットを使用
 
 ### CA Server を使用する方法 {#ca-server}
 
-[`createOrUpdateCa`](https://reference.originator-profile.org/api/#tag/ca/operation/createOrUpdateCa) エンドポイントを使用して作成します。
+:::note
+
+このセクション「CA Server を使用する方法」では、Content Attestation Server Playground を前提として説明しています。
+Playground と本番環境の CA Server は API 仕様が共通ですが、認証手順が異なります。
+
+本番環境の CA Server を利用する場合は、認証手順が異なるため、ご利用のサーバーが提供するマニュアルに従って設定してください。
+
+:::
+
+[`/ca`](https://playground.originator-profile.org/#tag/ca) エンドポイントを使用して作成します。
 
 必要なパラメータをリクエストのボディに付与して POST メソッドを送ることで登録できます。
 
-このエンドポイントは Basic 認証による認証が必要です。必要な認証情報はサーバー管理者から受け取ってください。
-
 このエンドポイントは更新にも使用します。 既に Content Attestation (CA) が登録されている場合、既存の CA を更新します。
 
-curl での実行例:
-
-```
-$ curl -X POST https://dprexpt.originator-profile.org/ca -u <認証情報> -H content-type:application/json -d @<リクエストコンテンツのJSONファイル>
-```
+詳しくは [Content Attestation Server Playground の API ドキュメント](https://playground.originator-profile.org/#tag/ca/POST/ca) を参照してください。
 
 具体例:
 
 ```
-$ curl -sSf -X POST https://dprexpt.originator-profile.org/ca -u 8fe1b860-558c-5107-a9af-21c376a6a27c:eqjyPR--HaS0mMj0wiDP1HA7yT1WGgYpHcUjDia3py8 -H content-type:application/json -d @./article-content-attestation.example.json
-eyJ...
+$ curl -X POST https://playground.originator-profile.org/ca \
+    -H content-type:application/json \
+    -u Basic認証ユーザー名:Basic認証パスワード \
+    -d '{...}'
 ```
 
 実行後、コンソールに表示される "eyJ” から始まる文字列が Content Attestation です。
@@ -179,7 +184,7 @@ article-content-attestation.example.json
 
 - [OP VC Securing Mechanism](https://docs.originator-profile.org/opb/securing-mechanism/)
 - [Content Attestation of Article Type](https://docs.originator-profile.org/opb/ca-model/article/)
-- [`createOrUpdateCa`](https://reference.originator-profile.org/api/#tag/ca/operation/createOrUpdateCa)
+- [`/ca`](https://playground.originator-profile.org/#tag/ca)
 
 ### 別の方法: OPVC CLI を使用する方法
 

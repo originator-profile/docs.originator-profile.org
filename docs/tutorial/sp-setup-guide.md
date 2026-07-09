@@ -32,7 +32,7 @@ Content Attestation Server Playground を使用して発行したものは本番
 
 Website Profile の作成には以下のいずれかの方法をとることができます。
 
-- **🌟 推奨:** CA Server を使用する方法: [`createOrUpdateWsp`](https://reference.originator-profile.org/api/#tag/sp/operation/createOrUpdateWsp) エンドポイントを使用
+- CA Server を使用する方法: [`/wsp`](https://playground.originator-profile.org/#tag/wsp) エンドポイントを使用
 - OPVC CLI を使用する方法：[`opvc wsp:sign`](https://github.com/originator-profile/originator-profile/tree/main/packages/opvc) コマンドを使用
 - [jwt.io](http://jwt.io) を使用する方法：指定された JSON フォーマットを使用
 
@@ -41,19 +41,30 @@ Website Profile の作成には以下のいずれかの方法をとることが�
 
 ### CA Server を使用する方法 {#ca-server}
 
-必要なパラメータをリクエストのボディに付与して POST メソッドを送ることで登録できます。
+:::note
 
-このエンドポイントは Basic 認証による認証が必要です。必要な認証情報はサーバー管理者から受け取ってください。
+このセクション「CA Server を使用する方法」では、Content Attestation Server Playground を前提として説明しています。
+Playground と本番環境の CA Server は API 仕様が共通ですが、認証手順が異なります。
+
+本番環境の CA Server を利用する場合は、認証手順が異なるため、ご利用のサーバーが提供するマニュアルに従って設定してください。
+
+:::
+
+[`/wsp`](https://playground.originator-profile.org/#tag/wsp) エンドポイントに POST リクエストを送信します。
+
+必要なパラメータをリクエストのボディに付与して POST メソッドを送ることで登録できます。
 
 このエンドポイントは更新にも使用します。 既に Website Profile (WSP) が登録されている場合、既存の WSP を更新します。
 
-詳しくは [CA サーバーの API ドキュメント](https://reference.originator-profile.org/api/#tag/sp/operation/createOrUpdateWsp) を参照してください。
+詳しくは [Content Attestation Server Playground の API ドキュメント](https://playground.originator-profile.org/#tag/wsp/POST/wsp) を参照してください。
 
 具体例:
 
 ```
-$ curl -sSf -X POST https://dprexpt.originator-profile.org/wsp -u 8fe1b860-558c-5107-a9af-21c376a6a27c:eqjyPR--HaS0mMj0wiDP1HA7yT1WGgYpHcUjDia3py8 -H content-type:application/json -d @./website-profile.example.json
-"eyJhbGciOiJFUzI1NiIsImtpZCI6IkFjR1g1ZFcxT2hhUWk4bGFJMWZPV1g5RTdPVk9RMWt6ZndGeGpNZmExclEiLCJ0eXAiOiJ2Yytqd3QiLCJjdHkiOiJ2YyJ9.eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvbnMvY3JlZGVudGlhbHMvdjIiLCJodHRwczovL29yaWdpbmF0b3ItcHJvZmlsZS5vcmcvbnMvY3JlZGVudGlhbHMvdjEiLCJodHRwczovL29yaWdpbmF0b3ItcHJvZmlsZS5vcmcvbnMvY2lwL3YxIix7IkBsYW5ndWFnZSI6ImphLUpQIn1dLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiV2Vic2l0ZVByb2ZpbGUiXSwiaXNzdWVyIjoiZG5zOm1lZGlhLmV4YW1wbGUuY29tIiwiY3JlZGVudGlhbFN1YmplY3QiOnsiaWQiOiJodHRwczovL21lZGlhLmV4YW1wbGUuY29tIiwidXJsIjoiaHR0cHM6Ly9tZWRpYS5leGFtcGxlLmNvbSIsInR5cGUiOiJXZWJTaXRlIiwibmFtZSI6Ik9yaWdpbmF0b3IgUHJvZmlsZSDmpJzoqLzjgrXjgqTjg4giLCJkZXNjcmlwdGlvbiI6Ik9yaWdpbmF0b3IgUHJvZmlsZSDmpJzoqLzjgrXjgqTjg4jjgafjgZnjgIIiLCJpbWFnZSI6eyJpZCI6Imh0dHBzOi8vZXhhbXBsZS5jb20vaW1hZ2Uud2VicCIsImRpZ2VzdFNSSSI6InNoYTI1Ni02bytzZkdYN1dKc05VMVlQVWxIM1Q1NmJKRFI0M0xhejZubTE0MlJKeU5rPSJ9fSwiaXNzIjoiZG5zOm1lZGlhLmV4YW1wbGUuY29tIiwic3ViIjoiaHR0cHM6Ly9tZWRpYS5leGFtcGxlLmNvbSIsImlhdCI6MTczOTg1NjA0MSwiZXhwIjoxNzcxMzkyMDQxfQ.gHLInwLTi2VxsL9wlrmCV2qO90w0Es1rxBeEooHPjyoi7yeEL9WpNn1-ByjNnWDb8ndYNULeX_vIeMe_UJ-ZWg"
+$ curl -X POST https://playground.originator-profile.org/wsp \
+    -H content-type:application/json \
+    -u Basic認証ユーザー名:Basic認証パスワード \
+    -d '[{...}]'
 ```
 
 実行後、コンソールに表示される “eyJ” から始まる文字列が WSP です。
@@ -122,7 +133,7 @@ website-profile.example.json
 
 - [OP VC Securing Mechanism](https://docs.originator-profile.org/opb/securing-mechanism/)
 - [Website Profile (WSP)](https://docs.originator-profile.org/opb/website-profile/)
-- [`createOrUpdateWsp`](https://reference.originator-profile.org/api/#tag/sp/operation/createOrUpdateWsp)
+- [`/wsp`](https://playground.originator-profile.org/#tag/wsp)
 
 ### 別の方法: CLI を使用する方法
 
@@ -276,7 +287,7 @@ JSON Web Token（JWT） の画面の「JWT に署名」にて「秘密鍵の形�
 Site Profile の作成には以下のいずれかの方法をとることができます。
 
 - ステップ 1 にて発行した Website Profile を使用する方法
-- CA Server を使用する方法: [`createOrUpdateSp`](https://reference.originator-profile.org/api/#tag/sp/operation/createOrUpdateSp) エンドポイントを使用
+- CA Server を使用する方法: [`/sp`](https://playground.originator-profile.org/#tag/sp) エンドポイントを使用
 
 #### ステップ 1 にて発行した Website Profile を使用する方法
 
@@ -317,17 +328,30 @@ _[Site Profile](https://docs.originator-profile.org/opb/site-profile/) より_
 
 #### CA Server を使用する方法 {#site-profile-ca-server}
 
+:::note
+
+このセクション「CA Server を使用する方法」では、Content Attestation Server Playground を前提として説明しています。
+Playground と本番環境の CA Server は API 仕様が共通ですが、認証手順が異なります。
+
+本番環境の CA Server を利用する場合は、認証手順が異なるため、ご利用のサーバーが提供するマニュアルに従って設定してください。
+
+:::
+
+[`/sp`](https://playground.originator-profile.org/#tag/sp) エンドポイントに POST リクエストを送信します。
+
 必要なパラメータをリクエストのボディに付与して POST メソッドを送ることで登録できます。
 
-このエンドポイントは Basic 認証による認証が必要です。必要な認証情報はサーバー管理者から受け取ってください。
-
 このエンドポイントは更新にも使用します。 既に Site Profile (SP) が登録されている場合、既存の SP を更新します。
+
+詳しくは [Content Attestation Server Playground の API ドキュメント](https://playground.originator-profile.org/#tag/sp/POST/sp) を参照してください。
 
 具体例:
 
 ```
-$ curl -sSf -X POST https://dprexpt.originator-profile.org/sp -u 8fe1b860-558c-5107-a9af-21c376a6a27c:eqjyPR--HaS0mMj0wiDP1HA7yT1WGgYpHcUjDia3py8 -H content-type:application/json -d @./site-profile.example.json
-{"originators":[{"core":"eyJ...","annotations":["eyJ..."],"media":["eyJ..."]}],"sites":["eyJhbGciOiJFUzI1NiIsImtpZCI6IkFjR1g1ZFcxT2hhUWk4bGFJMWZPV1g5RTdPVk9RMWt6ZndGeGpNZmExclEiLCJ0eXAiOiJ2Yytqd3QiLCJjdHkiOiJ2YyJ9.eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvbnMvY3JlZGVudGlhbHMvdjIiLCJodHRwczovL29yaWdpbmF0b3ItcHJvZmlsZS5vcmcvbnMvY3JlZGVudGlhbHMvdjEiLCJodHRwczovL29yaWdpbmF0b3ItcHJvZmlsZS5vcmcvbnMvY2lwL3YxIix7IkBsYW5ndWFnZSI6ImphLUpQIn1dLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiV2Vic2l0ZVByb2ZpbGUiXSwiaXNzdWVyIjoiZG5zOm1lZGlhLmV4YW1wbGUuY29tIiwiY3JlZGVudGlhbFN1YmplY3QiOnsiaWQiOiJodHRwczovL21lZGlhLmV4YW1wbGUuY29tIiwidXJsIjoiaHR0cHM6Ly9tZWRpYS5leGFtcGxlLmNvbSIsInR5cGUiOiJXZWJTaXRlIiwibmFtZSI6Ik9yaWdpbmF0b3IgUHJvZmlsZSDmpJzoqLzjgrXjgqTjg4giLCJkZXNjcmlwdGlvbiI6Ik9yaWdpbmF0b3IgUHJvZmlsZSDmpJzoqLzjgrXjgqTjg4jjgafjgZnjgIIiLCJpbWFnZSI6eyJpZCI6Imh0dHBzOi8vZXhhbXBsZS5jb20vaW1hZ2Uud2VicCIsImRpZ2VzdFNSSSI6InNoYTI1Ni02bytzZkdYN1dKc05VMVlQVWxIM1Q1NmJKRFI0M0xhejZubTE0MlJKeU5rPSJ9fSwiaXNzIjoiZG5zOm1lZGlhLmV4YW1wbGUuY29tIiwic3ViIjoiaHR0cHM6Ly9tZWRpYS5leGFtcGxlLmNvbSIsImlhdCI6MTczOTg1NjA0MSwiZXhwIjoxNzcxMzkyMDQxfQ.gHLInwLTi2VxsL9wlrmCV2qO90w0Es1rxBeEooHPjyoi7yeEL9WpNn1-ByjNnWDb8ndYNULeX_vIeMe_UJ-ZWg"]}
+$ curl -X POST https://playground.originator-profile.org/sp \
+    -H content-type:application/json \
+    -u Basic認証ユーザー名:Basic認証パスワード \
+    -d '{...}'
 ```
 
 実行後、コンソールに表示される "{" から "}" までの文字列が SP です。
@@ -413,7 +437,7 @@ site-profile.example.json
 - [OP VC Securing Mechanism](https://docs.originator-profile.org/opb/securing-mechanism/)
 - [Website Profile (WSP)](https://docs.originator-profile.org/opb/website-profile/)
 - [Site Profile (SP)](https://docs.originator-profile.org/opb/site-profile/)
-- [`createOrUpdateSp`](https://reference.originator-profile.org/api/#tag/sp/operation/createOrUpdateSp)
+- [`/sp`](https://playground.originator-profile.org/#tag/sp)
 
 ### Site Profile (sp.json) の配置
 
@@ -430,6 +454,6 @@ content-type: application/json
   "originators": [
     { "core": "eyJ...", "annotations": ["eyJ..."], "media": ["eyJ..."] }
   ],
-  "sites": ["eyJhbGciOiJFUzI1NiIsImtpZCI6IkFjR1g1ZFcxT2hhUWk4bGFJMWZPV1g5RTdPVk9RMWt6ZndGeGpNZmExclEiLCJ0eXAiOiJ2Yytqd3QiLCJjdHkiOiJ2YyJ9.eyJAY29udGV4dCI6WyJodHRwczovL3d3dy53My5vcmcvbnMvY3JlZGVudGlhbHMvdjIiLCJodHRwczovL29yaWdpbmF0b3ItcHJvZmlsZS5vcmcvbnMvY3JlZGVudGlhbHMvdjEiLCJodHRwczovL29yaWdpbmF0b3ItcHJvZmlsZS5vcmcvbnMvY2lwL3YxIix7IkBsYW5ndWFnZSI6ImphLUpQIn1dLCJ0eXBlIjpbIlZlcmlmaWFibGVDcmVkZW50aWFsIiwiV2Vic2l0ZVByb2ZpbGUiXSwiaXNzdWVyIjoiZG5zOm1lZGlhLmV4YW1wbGUuY29tIiwiY3JlZGVudGlhbFN1YmplY3QiOnsiaWQiOiJodHRwczovL21lZGlhLmV4YW1wbGUuY29tIiwidXJsIjoiaHR0cHM6Ly9tZWRpYS5leGFtcGxlLmNvbSIsInR5cGUiOiJXZWJTaXRlIiwibmFtZSI6Ik9yaWdpbmF0b3IgUHJvZmlsZSDmpJzoqLzjgrXjgqTjg4giLCJkZXNjcmlwdGlvbiI6Ik9yaWdpbmF0b3IgUHJvZmlsZSDmpJzoqLzjgrXjgqTjg4jjgafjgZnjgIIiLCJpbWFnZSI6eyJpZCI6Imh0dHBzOi8vZXhhbXBsZS5jb20vaW1hZ2Uud2VicCIsImRpZ2VzdFNSSSI6InNoYTI1Ni02bytzZkdYN1dKc05VMVlQVWxIM1Q1NmJKRFI0M0xhejZubTE0MlJKeU5rPSJ9fSwiaXNzIjoiZG5zOm1lZGlhLmV4YW1wbGUuY29tIiwic3ViIjoiaHR0cHM6Ly9tZWRpYS5leGFtcGxlLmNvbSIsImlhdCI6MTczOTg1NjA0MSwiZXhwIjoxNzcxMzkyMDQxfQ.gHLInwLTi2VxsL9wlrmCV2qO90w0Es1rxBeEooHPjyoi7yeEL9WpNn1-ByjNnWDb8ndYNULeX_vIeMe_UJ-ZWg"]
+  "sites": ["eyJ..."]
 }
 ```
