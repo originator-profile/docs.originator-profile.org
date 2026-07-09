@@ -14,7 +14,7 @@
      - 「検証対象のコンテンツ・HTML 要素について」を参照
    - サイトの種別ごとでの対応
      - [WordPress サイトでの対応](/site-cases/wordpress/): CA の自動発行ツール 「CA Manager」 を活用可能
-4. [OP Inspector](/inspector/) での動作確認
+4. [OP Inspector での動作確認](#4-op-inspector-での動作確認)
 
 詳細は以下の「Originator Profile 対応の説明資料」「Originator Profile の仕組み」をご確認ください。
 
@@ -35,21 +35,21 @@ OP 登録ができない場合でも、以下のツールを使ってテスト�
 - [Content Attestation Server Playground](/playground/)  
   Site Profile と Content Attestation の発行が可能です。
 - [OPVC CLI](/opvc-cli/)  
-  Core Profile / Profile Annotation / Web Media Profile / Website Profile の発行及び Content Attestation の発行まで可能です。
+  Core Profile / Profile Annotation / Web Media Profile / Website Profile の発行、および Content Attestation の発行まで可能です。
 
 ### 2. Site Profile の設置
 
 サイトを OP 対応させるには、Site Profile を作成し、設置する必要があります。
 
 - Site Profile の概要 → [Site Profile のドキュメント](/opb/site-profile/)
-- Site Profile の作成と設置の手順 → [Site Profile の設置ドキュメント](/tutorial/sp-setup-guide/)
+- Site Profile の作成と設置の手順 → [Site Profile の設置ガイド](/tutorial/sp-setup-guide/)
 
 ### 3. Content Attestation の設置
 
 コンテンツを OP 対応させるには、Content Attestation を作成し、設置する必要があります。
 
 - Content Attestation の概要 → [Content Attestation のドキュメント](/opb/ca/)
-- Content Attestation の作成と設置の手順 → [Content Attestation の設置ドキュメント](/tutorial/cas-setup-guide/)
+- Content Attestation の作成と設置の手順 → [Content Attestation の設置ガイド](/tutorial/cas-setup-guide/)
 
 #### サイト種別ごとでの対応
 
@@ -61,6 +61,17 @@ OP 登録ができない場合でも、以下のツールを使ってテスト�
 
 OP Inspector は、Web ブラウザー上で Originator Profile と Content Attestation の閲覧・検証を行うブラウザー拡張機能です。  
 詳細は [OP Inspector のドキュメント](/inspector/)を参照してください。
+
+:::note
+
+OP Inspector には通常ビルド版とテストビルド版があります。
+
+- 本番環境で検証する場合 → 通常ビルド版
+- Content Attestation Server Playground を使用する場合 → テストビルド版
+
+詳しくは [Content Attestation Server Playground の検証方法セクション](/playground/#verification-method)を参照してください。
+
+:::
 
 ## OP 対応について不明な点がある場合
 
