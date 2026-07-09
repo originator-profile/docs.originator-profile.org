@@ -14,7 +14,7 @@ Content Attestation (CA) を検証可能にします。
 
 :::note
 
-## OP の追加
+**OP の追加**
 
 Content Attestation Set の検証にはすべての Content Attestation <ruby>発行者<rt>issuer</rt></ruby>の OP が必要です。
 
@@ -57,11 +57,11 @@ Content Attestation Server Playground を使用して発行したものは本番
 
 ## ステップ1. Content Attestation の作成 {#step1}
 
-Content Attestation の作成には以下の方法があります
+Content Attestation の作成には以下の方法があります。
 
 - [CA Server を使用する方法](#ca-server): [`/ca`](https://playground.originator-profile.org/#tag/ca) エンドポイントを使用
 - OPVC CLI を使用する方法：`opvc ca:sign` コマンドを使用
-- [jwt.io](http://jwt.io) を使用する方法：指定されたJSONフォーマットを使用
+- [jwt.io](https://jwt.io) を使用する方法：指定されたJSONフォーマットを使用
 
 ### CA Server を使用する方法 {#ca-server}
 
@@ -288,7 +288,7 @@ OPVC CLI のインストール方法は [OPVC CLI インストール方法](/opv
 
 プロパティの詳細は [OP VC Securing Mechanism](https://docs.originator-profile.org/opb/securing-mechanism/) と [Content Attestation of Article Type](https://docs.originator-profile.org/opb/ca-model/article/) をご確認ください。
 
-### 別の方法: [jwt.io](http://jwt.io) を使用する方法
+### 別の方法: [jwt.io](https://jwt.io) を使用する方法
 
 指定された JSON フォーマットを使用し、JWT を作成します。
 

@@ -270,7 +270,7 @@ HTML 中に script 要素を用いて OP を埋め込むことが可能です。
 </script>
 ```
 
-詳細は「[サイトの OP 対応](https://docs.originator-profile.org/tutorial/sp-setup-guide/)」または「[Linking Content Attestation Set and Originator Profile Set to A HTML Document](https://docs.originator-profile.org/opb/link-to-html/)」をご確認ください。
+詳細は「[サイトの OP 対応](/tutorial/sp-setup-guide/)」または「[Linking Content Attestation Set and Originator Profile Set to A HTML Document](https://docs.originator-profile.org/opb/link-to-html/)」をご確認ください。
 
 ### CA Presentation Type をリンク形式にしたときのファイル生成について {#ca-presentation-type-external}
 

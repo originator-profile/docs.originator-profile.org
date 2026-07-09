@@ -34,7 +34,7 @@ Website Profile の作成には以下のいずれかの方法をとることが�
 
 - CA Server を使用する方法: [`/wsp`](https://playground.originator-profile.org/#tag/wsp) エンドポイントを使用
 - OPVC CLI を使用する方法：[`opvc wsp:sign`](https://github.com/originator-profile/originator-profile/tree/main/packages/opvc) コマンドを使用
-- [jwt.io](http://jwt.io) を使用する方法：指定された JSON フォーマットを使用
+- [jwt.io](https://jwt.io) を使用する方法：指定された JSON フォーマットを使用
 
 ※ Website Profile の作成を省き、Site Profile の作成（Site Profile 作成の中で Website Profile の作成を行います。）をすることも可能です。  
 詳しくは [CA Server を使用して Site Profile を作成する方法](#site-profile-ca-server)を参照してください。
