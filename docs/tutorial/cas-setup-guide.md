@@ -407,4 +407,4 @@ Content Attestation Set は Content Attestation の配列です。
 </script>
 ```
 
-詳細は_[Linking Content Attestation Set and Originator Profile Set to A HTML Document](https://docs.originator-profile.org/opb/link-to-html/) を参照してください。
+詳細は [Linking Content Attestation Set and Originator Profile Set to A HTML Document](https://docs.originator-profile.org/opb/link-to-html/) を参照してください。
