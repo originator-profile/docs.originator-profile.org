@@ -399,8 +399,12 @@ Content Attestation Set は Content Attestation の配列です。
 
 ページ HTML に Content Attestation Set を追加します。以下の script タグを使用します：
 
+具体例:
+
 ```html
-<script type="application/cas+json" src="...cas.json"></script>
+<script type="application/cas+json">
+  ["eyJ..."]
+</script>
 ```
 
-_[Linking Content Attestation Set and Originator Profile Set to A HTML Document](https://docs.originator-profile.org/opb/link-to-html/) より_
+詳細は_[Linking Content Attestation Set and Originator Profile Set to A HTML Document](https://docs.originator-profile.org/opb/link-to-html/) を参照してください。
