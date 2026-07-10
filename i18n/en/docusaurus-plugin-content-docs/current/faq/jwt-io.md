@@ -17,5 +17,5 @@ eyJhbGciOiJFUzI1NiIsImtpZCI6ImpKWXM1X0lMZ1VjODE4MEwtcEJQeEJwZ0EzUUM3ZVp1OXdLT2to
 ```
 
 1. Visit the [JSON Web Token (JWT) Debugger](https://jwt.io) and paste the VC specified by the OP into the "Encoded" field on the left.
-2. In the "Verify Signature" section at the bottom right of the screen, set the "Public Key Format" to JWK and paste the public key found in the VC issuer's Core Profile.
+2. In the "JWT Signature Verification" section at the bottom right of the screen, set the "Public Key Format" to JWK and paste the public key found in the VC issuer's Core Profile.
 3. If "Signature Verified" appears below the "Encoded" field, the verification is successful.
