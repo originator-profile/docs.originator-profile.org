@@ -54,7 +54,7 @@ curl -X POST https://playground.originator-profile.org/sp \
 
 リクエストボディの各プロパティの詳細は [Website Profile (WSP) データモデル](/opb/website-profile/) および [Site Profile (SP)](/opb/site-profile/) をご確認ください。
 
-### 検証方法
+### 検証方法 {#verification-method}
 
 OP Inspector をインストールした状態で、Site Profile を配置したウェブサイトにアクセスすることで検証を行えます。
 検証するにはテストビルド版の OP Inspector が必要です。

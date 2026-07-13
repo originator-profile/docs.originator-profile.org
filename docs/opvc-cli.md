@@ -10,7 +10,7 @@ Core Profile (CP)、Profile Annotation (PA)、Web Media Profile (WMP)、Website 
 
 ## 始め方
 
-### インストール
+### インストール {#install}
 
 OPVC CLI は、`npx` で一時的にダウンロードして実行するか、`npm` でインストールして利用できます。
 
@@ -236,7 +236,7 @@ opvc sign -i <作成したプライベート鍵のファイルパス> --input <�
 eyJhbGciOiJFUzI1NiIsImtpZCI6ImpKWXM1X0lMZ1VjODE4MEwtcEJQeEJwZ0EzUUM3ZVp1OXdLT2toOW1ZUFUiLCJ0eXAiOiJ2Yytqd3QiLCJjdHkiOiJ2YyJ9...
 ```
 
-## Website Profile (WSP) の発行方法
+## Website Profile (WSP) の発行方法 {#publish-website-profile}
 
 このセクションでは、Website Profile を発行します。Website Profile について詳細に知りたい場合は、[Website Profile](./opb/website-profile.md) を確認してください。  
 Website Profile は、Web サイトの正当性を示す署名付き情報です。
@@ -287,7 +287,7 @@ opvc wsp:sign -i <作成したプライベート鍵のファイルパス> --inpu
 eyJhbGciOiJFUzI1NiIsImtpZCI6ImpKWXM1X0lMZ1VjODE4MEwtcEJQeEJwZ0EzUUM3ZVp1OXdLT2toOW1ZUFUiLCJ0eXAiOiJ2Yytqd3QiLCJjdHkiOiJ2YyJ9...
 ```
 
-## Content Attestation (CA) の発行方法
+## Content Attestation (CA) の発行方法 {#publish-content-attestation}
 
 このセクションでは Content Attestation を発行します。Content Attestation について詳細に知りたい場合は、[Content Attestation](./opb/ca.md) を確認してください。  
 Content Attestation は、コンテンツが正当に Originator によって作られたことを示す署名付き情報です。

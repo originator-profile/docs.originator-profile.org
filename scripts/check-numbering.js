@@ -30,6 +30,7 @@ const TOP_LEVEL_RULES = {
   terminology: RANGE_REFERENCE,
   troubleshooting: RANGE_HOW_TO,
   faq: RANGE_HOW_TO,
+  tutorial: RANGE_TUTORIAL,
   "site-cases": RANGE_HOW_TO,
   "error-reference": RANGE_HOW_TO,
   "contributing.md": RANGE_HOW_TO,
