@@ -81,13 +81,13 @@ If you are using WordPress, you can test the automatic issuance of a CA using th
 After completing the "[1. Plugin Installation](/site-cases/wordpress/#plugin-installation)" section of the [WordPress Plugin (CA Manager) Guide](/site-cases/wordpress/), please configure the settings by following the steps below.
 
 1. Issue a Site Profile in the Playground
-For instructions on how to issue a Site Profile, please refer to "[Issuing a Site Profile](#issue-site-profile)."
+   For instructions on how to issue a Site Profile, please refer to "[Issuing a Site Profile](#issue-site-profile)."
 2. Deploy the issued Site Profile to your site
-For deployment instructions, please refer to [Deploying `/.well-known/sp.json`](/site-cases/wordpress/#well-known-sp-json).
+   For deployment instructions, please refer to [Deploying `/.well-known/sp.json`](/site-cases/wordpress/#well-known-sp-json).
 3. Configure CA Manager settings based on the Playground information
-For configuration instructions, please refer to [Plugin Settings](/site-cases/wordpress/#plugin-settings). 
-Please configure the settings by referencing the values ​​from the [Playground](https://playground.originator-profile.org/).
+   For configuration instructions, please refer to [Plugin Settings](/site-cases/wordpress/#plugin-settings).
+   Please configure the settings by referencing the values ​​from the [Playground](https://playground.originator-profile.org/).
 4. After configuration, create a new post or update (re-save) an existing post
-This triggers the automatic CA issuance process.
+   This triggers the automatic CA issuance process.
 5. Verify that the CA has been issued correctly by referring to the [verification method](/site-cases/wordpress/#how-to-check)
-You can verify this using Developer Tools, OP Inspector, or the debugger.
+   You can verify this using Developer Tools, OP Inspector, or the debugger.
