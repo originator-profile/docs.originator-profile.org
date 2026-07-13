@@ -1,6 +1,6 @@
 ---
 sidebar_position: 310
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/2de6950/docs/inspector.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/e2aae06/docs/inspector.md
 ---
 
 # OP Inspector
@@ -107,11 +107,20 @@ Reference: [Pinning extensions (Chrome for Developers)](https://developer.chrome
 - Example: [Originator Profile Technology Research Association (OP-CIP) Official Website](https://originator-profile.org/)
 
 2. Click the OP Inspector icon in the toolbar.
-3. Content source information and verification results will be displayed.
+3. Content source information and verification results will be displayed in the side panel.
 
 :::note
-OP Inspector will not work in tabs that were loaded before installation. Please open a new tab or reload the page after installation.
+In versions prior to v0.5, the OP Inspector appeared as a pop-up.
 :::
+
+### Badge Display
+
+![Example of the OP Inspector badge](assets/inspector-badge.webp)
+
+The OP Inspector icon displays a badge indicating the number of successfully verified Content Attestations.
+
+- The number on the badge represents the total count of verified Content Attestations, including those for ads.
+- The badge is not displayed if there are no Content Attestations or if even a single verification fails.
 
 ### How to interpret verification results
 
