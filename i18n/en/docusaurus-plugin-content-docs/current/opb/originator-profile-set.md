@@ -1,6 +1,6 @@
 ---
 sidebar_position: 31
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/5fe8e60/docs/opb/originator-profile-set.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/3641fad/docs/opb/originator-profile-set.md
 ---
 
 # Originator Profile Set
@@ -109,3 +109,25 @@ flowchart TD
    OpsVerifyFailed --> End
    VerifiedOps --> End
 ```
+
+:::note
+
+During OPS verification, the system checks that the `credentialSubject.id` of each element within `annotations` and `media` matches exactly the `credentialSubject.id` of the Core Profile within the `core` component upon decryption of each VC.
+In the [VC-JOSE-COSE](./securing-mechanism.md) securing mechanism currently adopted by the OP, this `credentialSubject.id` corresponds to the JWT `sub` claim.
+If any element fails to match, `OpsInvalid` is returned for that OPS.
+
+This process enforces the "MUST" requirements imposed on elements within `annotations` and `media` as defined in the "Originator Profile Set (OPS) Data Model" table.
+This prevents a Profile Annotation or Web Media Profile belonging to a different organization from being bundled with an organization's Core Profile under the same OP.
+
+:::
+
+:::note[Security Considerations]
+
+The trust anchor for OPS verification is the issuer of the Core Profile.
+The Core Profile is verified using the verification key and OP ID of a pre-authorized CP issuer (registry issuer).
+Regarding PA/WMP issuers, the issuer's own Core Profile is also verified against the same trust anchor.
+
+However, any entity possessing a Core Profile anchored in the registry can, in principle, issue PAs or WMPs concerning any arbitrary originator.
+For use cases where issuer eligibility is critical, please also verify the issuer's authorization via the [Profile Annotation Issuer Registration (PA)](./pa-model/profile-annotation-issuer-registration.md).
+
+:::
