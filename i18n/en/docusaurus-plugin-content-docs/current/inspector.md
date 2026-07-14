@@ -109,13 +109,15 @@ Reference: [Pinning extensions (Chrome for Developers)](https://developer.chrome
 2. Click the OP Inspector icon in the toolbar.
 3. Content source information and verification results will be displayed in the side panel.
 
+:::note OP Inspector does not work on tabs that were already loaded before installation. Please open a new tab or reload the page after installing it. :::
+
 :::note
 In versions prior to v0.5, the OP Inspector appeared as a pop-up.
 :::
 
 ### Badge Display
 
-![Example of the OP Inspector badge](assets/inspector-badge.webp)
+![Example of the OP Inspector badge](./assets/inspector-badge.webp)
 
 The OP Inspector icon displays a badge indicating the number of successfully verified Content Attestations.
 
