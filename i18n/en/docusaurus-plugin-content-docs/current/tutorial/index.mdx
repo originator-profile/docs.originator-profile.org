@@ -9,15 +9,11 @@ This section summarizes the information common to implementing OP support.
 ## Overall Workflow
 
 1. [OP Registration](#1-op-registration)<br />
-Enter and submit your organization's details on the OP registration site to receive an OPS.
+   Enter and submit your organization's details on the OP registration site to receive an OPS.
 2. [Setting up the Site Profile](/tutorial/sp-setup-guide/)<br />
-Create and deploy the Site Profile (`.well-known/sp.json`).
+   Create and deploy the Site Profile (`.well-known/sp.json`).
 3. [Setting up Content Attestation](/tutorial/cas-setup-guide/)<br />
-Create and deploy Content Attestation for each piece of content. 
-    - Determine the content to be verified
-       - Refer to "About Content and HTML Elements Subject to Verification" (This document is currently under preparation.)
-    - Implementation based on site type
-       - [Implementation for WordPress sites](/site-cases/wordpress/): You can utilize "CA Manager," an automated CA issuance tool.
+   Create and deploy Content Attestation for each piece of content. - Determine the content to be verified - Refer to "About Content and HTML Elements Subject to Verification" (This document is currently under preparation.) - Implementation based on site type - [Implementation for WordPress sites](/site-cases/wordpress/): You can utilize "CA Manager," an automated CA issuance tool.
 4. [Verifying Operation with OP Inspector](#4-verifying-operation-with-op-inspector)
 
 For details, please check the following documents: "Originator Profile Implementation Guide" and "How Originator Profile Works."
@@ -37,9 +33,9 @@ Even if you cannot register for OP, you can use the following tool to issue test
 Please refer to the respective guides for detailed usage instructions.
 
 - [Content Attestation Server Playground](/playground/)
-Allows for the issuance of Site Profiles and Content Attestations. 
+  Allows for the issuance of Site Profiles and Content Attestations.
 - [OPVC CLI](/opvc-cli/)
-Enables the issuance of Core Profiles, Profile Annotations, Web Media Profiles, and Website Profiles, as well as Content Attestations.
+  Enables the issuance of Core Profiles, Profile Annotations, Web Media Profiles, and Website Profiles, as well as Content Attestations.
 
 ### 2. Setting Up a Site Profile
 
@@ -82,6 +78,5 @@ For more information, please refer to the [Verification Method section of the Co
 We provide resources such as FAQs and debugging information to assist with OP compliance.
 
 - [FAQ](/faq/): A collection of frequently asked questions regarding topics like site and logo image formats.
-- [Troubleshooting](/troubleshooting/): A guide to potential issues that may arise during the OP compliance process. 
+- [Troubleshooting](/troubleshooting/): A guide to potential issues that may arise during the OP compliance process.
 - [Error Code List](/error-reference/): A summary of error codes that may occur in various tools related to OP.
-
