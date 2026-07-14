@@ -391,7 +391,7 @@ Example:
 ["eyJ..."]
 ```
 
-_「[Content Attestation Set](https://docs.originator-profile.org/opb/content-attestation-set/)」より_
+_From "[Content Attestation Set](https://docs.originator-profile.org/opb/content-attestation-set/)"_
 
 Content Attestation Set is an array of Content Attestations.
 
