@@ -113,7 +113,7 @@ flowchart TD
 :::note
 
 During OPS verification, the system checks that the `credentialSubject.id` of each element within `annotations` and `media` matches exactly the `credentialSubject.id` of the Core Profile within the `core` component upon decryption of each VC.
-In the [VC-JOSE-COSE](./securing-mechanism.md) securing mechanism currently adopted by the OP, this `credentialSubject.id` corresponds to the JWT `sub` claim.
+In the [VC-JOSE-COSE](./securing-mechanism.md) Securing Mechanism currently adopted by the OP, this `credentialSubject.id` corresponds to the JWT `sub` claim.
 If any element fails to match, `OpsInvalid` is returned for that OPS.
 
 This process enforces the "MUST" requirements imposed on elements within `annotations` and `media` as defined in the "Originator Profile Set (OPS) Data Model" table.
