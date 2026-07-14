@@ -136,7 +136,7 @@ Example:
 
 （*）This method does not show verification results; use it only for a quick check to see if the CA has been issued.
 
-* Check using [OP Inspector](/inspector) or [Debugger](/debugger)
+- Check using [OP Inspector](/inspector) or [Debugger](/debugger)
   Use OP Inspector or Debugger for a more detailed check.
   - Does the CA exist on the target page?
   - Was the CA verification successful?
