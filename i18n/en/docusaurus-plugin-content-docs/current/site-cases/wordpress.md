@@ -134,15 +134,15 @@ Example:
 </script>
 ```
 
-（*）This method does not show verification results; use it only for a quick check to see if the CA has been issued.
+**Note:** This method does not show verification results; use it only for a quick check to see if the CA has been issued.
 
 - Check using [OP Inspector](/inspector) or [Debugger](/debugger)
   Use OP Inspector or Debugger for a more detailed check.
   - Does the CA exist on the target page?
   - Was the CA verification successful?
 
-You can verify these points.
-Please refer to the [OP Inspector](/inspector) documentation and [Debugger](/debugger) documentation for instructions on how to use each tool.
+  You can verify these points.
+  Please refer to the [OP Inspector](/inspector) documentation and [Debugger](/debugger) documentation for instructions on how to use each tool.
 
 **If the CA does not exist**
 
