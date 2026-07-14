@@ -24,7 +24,7 @@ Install CA Manager on a WordPress site and enable the automatic issuance of CAs.
    Refer to the "Upload Plugin" section on the WordPress "[Add Plugins](https://ja.wordpress.org/support/article/plugins-add-new-screen/)" screen.
 3. Activate the plugin.
 4. Configure the plugin:
-   Go to "Settings > CA Manager" in the WordPress admin dashboard and enter the required information as described in the next section, "Plugin Configuration."
+   Go to "Settings > CA Manager" in the WordPress admin dashboard and enter the required information as described in the next section, "Plugin Settings."
 
 ### 2. Plugin Settings {#plugin-settings}
 
@@ -134,12 +134,12 @@ Example:
 </script>
 ```
 
-- Note: This method does not show validation results; use it only for a quick check to see if the CA has been issued.
+* This method does not show verification results; use it only for a quick check to see if the CA has been issued.
 
-* Check using [OP Inspector](/inspector) or [Debugger](/debugger)
+- Check using [OP Inspector](/inspector) or [Debugger](/debugger)
   Use OP Inspector or Debugger for a more detailed check.
-* Does the CA exist on the target page?
-* Was the CA verification successful?
+  - Does the CA exist on the target page?
+  - Was the CA verification successful?
 
 You can verify these points.
 Please refer to the [OP Inspector](/inspector) documentation and [Debugger](/debugger) documentation for instructions on how to use each tool.
@@ -162,8 +162,8 @@ The main features of this plugin are as follows:
 
 1. Processing post content upon posting or updating in WordPress
 
-- Triggered by posting or updating content in WordPress
-- Processes the post content based on this trigger and sends it to the CA server's CA registration/update endpoint
+   - Triggered by posting or updating content in WordPress
+   - Processes the post content based on this trigger and sends it to the CA server's CA registration/update endpoint
 
 2. CAS delivery on WordPress post pages
 
