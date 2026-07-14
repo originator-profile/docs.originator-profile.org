@@ -1,5 +1,5 @@
 ---
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/009e981/docs/opb/pa-model/profile-annotation-issuer-registration.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/682d47a/docs/opb/pa-model/profile-annotation-issuer-registration.md
 tags:
   - Base Model
   - Profile Annotation
@@ -53,6 +53,13 @@ A verifier who receives a Profile Annotation Issuer Registration PA SHOULD perfo
 1. Confirm that the Profile Annotation Issuer Registration PA is verifiable according to the [OP VC Data Model](../op-vc-data-model.md) and the [Securing Mechanism](../securing-mechanism.md).
 2. Confirm that the `issuer` is the OP ID of a trusted OP Registry.
 3. Confirm that the ID of the certification scheme to which the PA issued by the Profile Annotation Issuer complies is included in the `credentialSubject.annotationScheme` property of this Profile Annotation Issuer PA.
+
+:::note
+
+Step 3 (verification of the issuer's authorization) is performed by confirming whether the PA issuer holds a "Profile Annotation Issuer Registration PA" issued by the OP Registry (which serves as the trust anchor). Since the Registration PA itself is also a PA, the same verification process can, in principle, be applied recursively.
+However, this recursive process does not extend to the Registration PA issued by the OP Registry itself; instead, the chain of trust is anchored by the verifier confirming that the `issuer` in Step 2 is the OP ID of a trusted OP Registry.
+
+:::
 
 ## Use Cases
 
