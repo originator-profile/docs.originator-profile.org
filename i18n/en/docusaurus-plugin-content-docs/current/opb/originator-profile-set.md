@@ -128,6 +128,6 @@ The Core Profile is verified using the verification key and OP ID of a pre-autho
 Regarding PA/WMP issuers, the issuer's own Core Profile is also verified against the same trust anchor.
 
 However, any entity possessing a Core Profile anchored in the registry can, in principle, issue PAs or WMPs concerning any arbitrary originator.
-For use cases where issuer eligibility is critical, please also verify the issuer's authorization via the [Profile Annotation Issuer Registration (PA)](./pa-model/profile-annotation-issuer-registration.md).
+For use cases where issuer eligibility is critical, please also verify the issuer's authorization via the [Profile Annotation Issuer Registration PA](./pa-model/profile-annotation-issuer-registration.md).
 
 :::
