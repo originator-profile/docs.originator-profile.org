@@ -109,7 +109,7 @@ article-content-attestation.example.json
   "type": ["VerifiableCredential", "ContentAttestation"],
   "issuer": "<OP ID>",
   "credentialSubject": {
-    "id": "<CA ID (Optional at registration; required at renewal)>",
+    "id": "<CA ID (Optional at registration; required at updating)>",
     "type": "Article",
     "headline": "<Content Title>",
     "description": "<Content Description>",
@@ -229,7 +229,7 @@ The file to be specified follows this format:
     },
     "datePublished": "<Publication Date/Time>",
     "dateModified": "<Last Modified Date/Time>",
-    "author": ["<Auther Name>"],
+    "author": ["<Author Name>"],
     "editor": ["<Editor Name>"],
     "genre": "<Genre>"
   },
@@ -393,7 +393,7 @@ Example:
 
 _「[Content Attestation Set](https://docs.originator-profile.org/opb/content-attestation-set/)」より_
 
-Content Attestation Set は Content Attestation の配列です。
+Content Attestation Set is an array of Content Attestations.
 
 ## Step 3. Adding the Content Attestation Set {#step3}
 
