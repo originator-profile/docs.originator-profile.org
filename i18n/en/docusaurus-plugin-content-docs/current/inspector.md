@@ -13,8 +13,8 @@ By accessing supported websites, you can check content originator information an
 
 ## Download
 
-:::tip
-If you are using Google Chrome, you can get it from the "[Chrome Web Store](https://chromewebstore.google.com/detail/op-inspector/namnjenlimojacngjhddjdjpakfaepeb)". If you are using Mozilla Firefox, you can get it from "[Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/op-inspector/)". See "[Installing from the Chrome Web Store](#chrome-web-store)" or "[Installing from Firefox Add-ons](#firefox-add-ons)" for instructions.
+:::tip  
+If you are using Google Chrome, you can get it from the "[Chrome Web Store](https://chromewebstore.google.com/detail/op-inspector/namnjenlimojacngjhddjdjpakfaepeb)". If you are using Mozilla Firefox, you can get it from "[Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/op-inspector/)". See "[Installing from the Chrome Web Store](#chrome-web-store)" or "[Installing from Firefox Add-ons](#firefox-add-ons)" for instructions.  
 :::
 
 If you want to try the development version, download the latest OP Inspector ZIP file from [GitHub Releases](https://github.com/originator-profile/originator-profile/releases/latest).
@@ -73,8 +73,8 @@ If you want to try the latest development version, you can also manually install
 2. Select "This Firefox" > "Load temporary add-ons...".
 3. Select the downloaded ZIP file.
 
-:::warning
-Add-ons temporarily installed in Firefox will be disabled when Firefox is restarted.
+:::warning  
+Add-ons temporarily installed in Firefox will be disabled when Firefox is restarted.  
 :::
 
 ### Pinning to the Toolbar
@@ -109,10 +109,12 @@ Reference: [Pinning extensions (Chrome for Developers)](https://developer.chrome
 2. Click the OP Inspector icon in the toolbar.
 3. Content source information and verification results will be displayed in the side panel.
 
-:::note OP Inspector does not work on tabs that were already loaded before installation. Please open a new tab or reload the page after installing it. :::
+:::note  
+OP Inspector does not work on tabs that were already loaded before installation. Please open a new tab or reload the page after installing it.  
+:::
 
-:::note
-In versions prior to v0.5, the OP Inspector appeared as a pop-up.
+:::note  
+In versions prior to v0.5, the OP Inspector appeared as a pop-up.  
 :::
 
 ### Badge Display
