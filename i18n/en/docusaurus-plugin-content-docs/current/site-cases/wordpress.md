@@ -21,7 +21,7 @@ Install CA Manager on a WordPress site and enable the automatic issuance of CAs.
 1. Download the plugin:
    Visit the "[Releases](https://github.com/originator-profile/originator-profile/releases)" page and download the WordPress plugin (`wordpress-ca-manager.zip`) from the Assets section.
 2. Upload the plugin:
-   Refer to the "Upload Plugin" section on the WordPress "[Add Plugins](https://ja.wordpress.org/support/article/plugins-add-new-screen/)" screen.
+   Refer to the "Upload Plugin" section on the WordPress "[Add Plugins](https://wordpress.org/support/article/plugins-add-new-screen/)" screen.
 3. Activate the plugin.
 4. Configure the plugin:
    Go to "Settings > CA Manager" in the WordPress admin dashboard and enter the required information as described in the next section, "Plugin Settings."
@@ -122,7 +122,7 @@ Once the settings are correctly applied, any posts updated or created thereafter
 Once configuration is complete, create a new post or update (re-save) an existing post.
 You can verify whether the CA has been correctly issued using the following two methods:
 
-- Check using Developer Tools
+- Check using Developer Tools  
   Open your browser's developer tools and check if a `<script>` tag with the type `cas+json` is embedded in the page.
   If an element like the one below exists, the CA has been issued and configured correctly.
 
@@ -336,7 +336,7 @@ Apache:
 
 ```.htaccess
 <FilesMatch "\.(log|txt)$">
-Require all denied
+  Require all denied
 </FilesMatch>
 ```
 
@@ -366,8 +366,8 @@ Changing WordPress permalink settings alters the URLs of individual posts; conse
 **Affected Actions**:
 
 - Settings > Permalinks
-- Changing settings
-- Modifying the custom structure
+  - Changing settings
+  - Modifying the custom structure
 
 If you change permalink settings, updating (editing and saving) all affected posts will trigger the re-issuance of CAs corresponding to the new URLs.
 
