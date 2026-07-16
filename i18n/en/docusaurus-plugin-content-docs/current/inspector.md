@@ -73,8 +73,8 @@ If you want to try the latest development version, you can also manually install
 2. Select "This Firefox" > "Load temporary add-ons...".
 3. Select the downloaded ZIP file.
 
-:::warning  
-Add-ons temporarily installed in Firefox will be disabled when Firefox is restarted.  
+:::warning
+Add-ons temporarily installed in Firefox will be disabled when Firefox is restarted.
 :::
 
 ### Pinning to the Toolbar
