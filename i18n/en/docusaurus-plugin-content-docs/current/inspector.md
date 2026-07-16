@@ -113,8 +113,8 @@ Reference: [Pinning extensions (Chrome for Developers)](https://developer.chrome
 OP Inspector does not work on tabs that were already loaded before installation. Please open a new tab or reload the page after installing it.
 :::
 
-:::note  
-In versions prior to v0.5, the OP Inspector appeared as a pop-up.  
+:::note
+In versions prior to v0.5, the OP Inspector appeared as a pop-up.
 :::
 
 ### Badge Display
