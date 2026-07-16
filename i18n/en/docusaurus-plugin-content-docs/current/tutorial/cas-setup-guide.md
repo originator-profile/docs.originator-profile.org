@@ -292,7 +292,7 @@ For details on the properties, please refer to the [OP VC Securing Mechanism](ht
 Create a JWT using the specified JSON format.
 
 Visit the [JSON Web Token (JWT) Debugger](https://jwt.io) and select the "JWT Encoder" option.
-Then, enter the appropriate values ​​for the "Header," "Payload," and "Sign JWT" sections on the left side of the screen.
+Then, enter the appropriate values for the "Header," "Payload," and "Sign JWT" sections on the left side of the screen.
 
 Example:
 
@@ -357,7 +357,7 @@ Enter the following into the "Payload" section of the JSON Web Token (JWT) scree
 }
 ```
 
-Replace the `iss` and `issuer` values ​​in the payload with your own OP ID.
+Replace the `iss` and `issuer` values in the payload with your own OP ID.
 
 Example:
 
@@ -365,7 +365,7 @@ Example:
 dns:media.example.com
 ```
 
-Generate a UUID and overwrite the values ​​of `sub` and `credentialSubject.id` in the payload with a string consisting of the generated UUID prefixed with `urn:uuid:`.
+Generate a UUID and overwrite the values of `sub` and `credentialSubject.id` in the payload with a string consisting of the generated UUID prefixed with `urn:uuid:`.
 
 Example:
 
