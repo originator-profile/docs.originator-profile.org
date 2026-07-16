@@ -1,88 +1,86 @@
-# Originator Profile (OP) 対応ガイド
+---
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/798ebea/docs/tutorial/index.mdx
+---
 
-:::note
+# Originator Profile (OP) Implementation Guide
 
-このページは翻訳中です。
+This section summarizes the information common to implementing OP support.
 
-:::
+## Overall Workflow
 
-本セクションでは OP 対応を実施するにあたって共通する情報をまとめています。
+1. [OP Registration](#1-op-registration)  
+   Enter and submit your organization's details on the OP registration site to receive an OPS.
+2. [Setting up the Site Profile](/tutorial/sp-setup-guide/)  
+   Create and deploy the Site Profile (`.well-known/sp.json`).
+3. [Setting up Content Attestation](/tutorial/cas-setup-guide/)  
+   Create and deploy Content Attestation for each piece of content.
+   - Determine the content to be verified
+     - Refer to "About Content and HTML Elements Subject to Verification" (This document is currently under preparation.)
+   - Implementation based on Site Type
+     - [Implementation for WordPress sites](/site-cases/wordpress/): You can utilize "CA Manager," an automated CA issuance tool.
+4. [Verifying Operation with OP Inspector](#4-verifying-operation-with-op-inspector)
 
-## 全体の流れ
+For details, please check the following documents: "Originator Profile Implementation Guide" and "How Originator Profile Works."
 
-1. [OP登録](#1-op-登録)  
-   OP 登録サイトで組織情報などを記載・申請し、 OPS を受け取ります。
-2. [Site Profile の設置](/tutorial/sp-setup-guide/)  
-   Site Profile（`.well-known/sp.json`）を作成・設置します。
-3. [Content Attestation の設置](/tutorial/cas-setup-guide/)  
-   各コンテンツに対する Content Attestation を作成・設置します。
-   - 検証対象のコンテンツを決める
-     - 「検証対象のコンテンツ・HTML 要素について」を参照（こちらのドキュメントは作成中です。）
-   - サイトの種別ごとでの対応
-     - [WordPress サイトでの対応](/site-cases/wordpress/): CA の自動発行ツール 「CA Manager」 を活用可能
-4. [OP Inspector での動作確認](#4-op-inspector-での動作確認)
-
-詳細は以下の「Originator Profile 対応の説明資料」「Originator Profile の仕組み」をご確認ください。
-
-- [20250827_OP_SupportGuide.pdf](pathname:///studies/general-instruction/assets/20250827_OP_SupportGuide.pdf) (最新版)
+- [20250827_OP_SupportGuide.pdf](pathname:///studies/general-instruction/assets/20250827_OP_SupportGuide.pdf) (Latest version)
 - [20250425_How_OP_Works.pdf](pathname:///studies/general-instruction/assets/20250425_How_OP_Works.pdf)
 
-### 1. OP 登録
+### 1. OP Registration
 
-OP 登録では、情報発信者としての組織情報を登録します。  
-OP を登録するには OP 登録サイトで組織情報等を記載・申請する必要があります。
-記載内容が確認されると、OPS を受け取ることができます。
+OP registration involves registering your organization's information as a content publisher.
+To register for OP, you must enter and submit your organization's details on the OP registration site.
+Once the submitted information is verified, you will receive an OPS.
 
-#### OP 登録ができない場合
+#### If You Cannot Register for OP
 
-OP 登録ができない場合でも、以下のツールを使ってテスト用の Site Profile / Content Attestation を発行し、OP 対応の流れを確認できます。
-詳しい使い方は各ガイドを参照するようにしてください。
+Even if you cannot register for OP, you can use the following tools to issue test Site Profiles and Content Attestations to verify the OP implementation workflow.
+Please refer to the respective guides for detailed usage instructions.
 
 - [Content Attestation Server Playground](/playground/)  
-  Site Profile と Content Attestation の発行が可能です。
+  Allows for the issuance of Site Profiles and Content Attestations.
 - [OPVC CLI](/opvc-cli/)  
-  Core Profile / Profile Annotation / Web Media Profile / Website Profile の発行、および Content Attestation の発行まで可能です。
+  Enables the issuance of Core Profiles, Profile Annotations, Web Media Profiles, and Website Profiles, as well as Content Attestations.
 
-### 2. Site Profile の設置
+### 2. Setting Up a Site Profile
 
-サイトを OP 対応させるには、Site Profile を作成し、設置する必要があります。
+To make a site OP-compliant, you must create and set up a Site Profile.
 
-- Site Profile の概要 → [Site Profile のドキュメント](/opb/site-profile/)
-- Site Profile の作成と設置の手順 → [Site Profile の設置ガイド](/tutorial/sp-setup-guide/)
+- Site Profile Overview → [Site Profile Documentation](/opb/site-profile/)
+- Steps for Creating and Setting Up a Site Profile → [Site Profile Setup Guide](/tutorial/sp-setup-guide/)
 
-### 3. Content Attestation の設置
+### 3. Setting Up Content Attestation
 
-コンテンツを OP 対応させるには、Content Attestation を作成し、設置する必要があります。
+To make content OP-compliant, you must create and set up a Content Attestation.
 
-- Content Attestation の概要 → [Content Attestation のドキュメント](/opb/ca/)
-- Content Attestation の作成と設置の手順 → [Content Attestation の設置ガイド](/tutorial/cas-setup-guide/)
+- Content Attestation Overview → [Content Attestation Documentation](/opb/ca/)
+- Steps for Creating and Setting Up Content Attestation → [Content Attestation Setup Guide](/tutorial/cas-setup-guide/)
 
-#### サイト種別ごとでの対応
+#### Support by Site Type
 
-以下のサイトについては OP 対応に便利なツールを用意しています。
+We provide tools to facilitate OP compliance for the following types of sites:
 
-- WordPress: CA の自動発行を行う [WordPress プラグイン（CA Manager）](/site-cases/wordpress/)
+- WordPress: [WordPress Plugin (CA Manager)](/site-cases/wordpress/) for automatic CA issuance
 
-### 4. OP Inspector での動作確認
+### 4. Verifying Operation with OP Inspector
 
-OP Inspector は、Web ブラウザー上で Originator Profile と Content Attestation の閲覧・検証を行うブラウザー拡張機能です。  
-詳細は [OP Inspector のドキュメント](/inspector/)を参照してください。
+OP Inspector is a browser extension that allows you to view and verify Originator Profiles and Content Attestations directly in your web browser.
+For details, please refer to the [OP Inspector Documentation](/inspector/).
 
 :::note
 
-OP Inspector には通常ビルド版とテストビルド版があります。
+OP Inspector is available in both standard and test build versions.
 
-- 本番環境で検証する場合 → 通常ビルド版
-- Content Attestation Server Playground を使用する場合 → テストビルド版
+- For verification in a production environment → Standard build version
+- When using the Content Attestation Server Playground → Test build version
 
-詳しくは [Content Attestation Server Playground の検証方法セクション](/playground/#verification-method)を参照してください。
+For more information, please refer to the [Verification Method section of the Content Attestation Server Playground](/playground/#verification-method).
 
 :::
 
-## OP 対応について不明な点がある場合
+## Questions Regarding OP Compliance
 
-OP 対応をするにあたって、よくある質問やデバッグ情報等を用意しています。
+We provide resources such as FAQs and debugging information to assist with OP compliance.
 
-- [よくある質問](/faq/): サイトやロゴの画像形式等、よくある質問をまとめています。
-- [トラブルシューティング](/troubleshooting/): OP 対応する際に発生する可能性のある問題についてまとめています。
-- [エラーコード一覧](/error-reference/): OP に関連する各ツールで発生する可能性のあるエラーコードについてまとめています。
+- [FAQ](/faq/): A collection of frequently asked questions regarding topics like site and logo image formats.
+- [Troubleshooting](/troubleshooting/): A guide to potential issues that may arise during the OP compliance process.
+- [Error Code List](/error-reference/): A summary of error codes that may occur in various tools related to OP.
