@@ -109,7 +109,7 @@ article-content-attestation.example.json
   "type": ["VerifiableCredential", "ContentAttestation"],
   "issuer": "<OP ID>",
   "credentialSubject": {
-    "id": "<CA ID (Optional at registration; required at updating)>",
+    "id": "<CA ID (Optional at registration; required when updating)>",
     "type": "Article",
     "headline": "<Content Title>",
     "description": "<Content Description>",
