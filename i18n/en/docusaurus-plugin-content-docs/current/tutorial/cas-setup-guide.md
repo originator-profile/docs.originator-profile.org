@@ -86,7 +86,7 @@ Example:
 ```
 $ curl -X POST https://playground.originator-profile.org/ca \
     -H content-type:application/json \
-    -u Basic Authentication Username:Basic Authentication Password \
+    -u Basic AuthenticationUsername:BasicAuthenticationPassword \
     -d '{...}'
 ```
 
