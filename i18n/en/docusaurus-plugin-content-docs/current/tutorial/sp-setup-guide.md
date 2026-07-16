@@ -1,81 +1,76 @@
 ---
 sidebar_position: 1
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/798ebea/docs/tutorial/sp-setup-guide.md
 ---
 
-# Site Profile の設置
+# Setting Up the Site Profile
+
+## Objective
+
+Enable the entire site for OP (Originator Profile).
+
+## Method
+
+Use the originators registered with OP to issue a Website Profile, then create and deploy the Site Profile.
+
+:::note[If OP registration is not possible]
+
+If you cannot register with OP, you can issue a Site Profile using the Content Attestation Server Playground (a test environment).
+For details, please check the [Site Profile Issuance section of the Content Attestation Server Playground](/playground/#issue-site-profile).
+
+Profiles issued using the Content Attestation Server Playground cannot be used in a production environment. Please see the [Content Attestation Server Playground](/playground/) for details.
+
+:::
+
+## Procedure
+
+Follow the steps below to enable the entire site for OP:
+
+1. [Create the Website Profile](#step1)
+2. [Create and deploy `/.well-known/sp.json`](#step2)
+
+## Step 1. Create the Website Profile {#step1}
+
+You can create a Website Profile using any of the following methods:
+
+- Using the CA Server: Use the [`/wsp`](https://playground.originator-profile.org/#tag/wsp) endpoint.
+- Using the OPVC CLI: Use the [`opvc wsp:sign`](https://github.com/originator-profile/originator-profile/tree/main/packages/opvc) command.
+- Using [jwt.io](https://jwt.io): Use the specified JSON format.
+
+*Note: You can also skip the separate Website Profile creation step and proceed directly to Site Profile creation (the Website Profile is created as part of the Site Profile creation process).
+For details, please refer to [How to create a Site Profile using the CA Server](#site-profile-ca-server).
+
+### How to Use the CA Server {#ca-server}
 
 :::note
 
-このページは翻訳中です。
+This section, "How to Use the CA Server," describes the process based on the Content Attestation Server Playground.
+While the Playground and production CA Servers share the same API specifications, their authentication procedures differ.
+
+If you are using a production CA Server, please follow the documentation provided by your specific server, as the authentication procedure will be different.
 
 :::
 
-## 目的
+Send a POST request to the [`/wsp`](https://playground.originator-profile.org/#tag/wsp) endpoint.
 
-サイト全体を OP に対応させます。
+You can register by sending a POST request with the required parameters included in the request body.
 
-## 方法
+This endpoint is also used for updates; if a Website Profile (WSP) is already registered, it will update the existing WSP.
 
-OP 登録した originators を使用して、Website Profile の発行、Site Profile の作成、設置をします。
+For details, please refer to the [Content Attestation Server Playground API documentation](https://playground.originator-profile.org/#tag/wsp/POST/wsp).
 
-:::note[OP 登録できない場合]
-
-OP 登録できない場合は、テスト環境である Content Attestation Server Playground を使用して Site Profile の発行ができます。  
-詳しくは [Content Attestation Server Playground の Site Profile 発行セクション](/playground/#issue-site-profile)をご確認ください。
-
-Content Attestation Server Playground を使用して発行したものは本番環境では使用できません。詳細は [Content Attestation Server Playground](/playground/) をご確認ください。
-
-:::
-
-## 手順
-
-サイト全体を OP に対応させるためには、以下の手順を実行します。
-
-1. [Website Profile の作成](#step1)
-2. [`/.well-known/sp.json` の作成と配置](#step2)
-
-## ステップ1. Website Profile の作成 {#step1}
-
-Website Profile の作成には以下のいずれかの方法をとることができます。
-
-- CA Server を使用する方法: [`/wsp`](https://playground.originator-profile.org/#tag/wsp) エンドポイントを使用
-- OPVC CLI を使用する方法：[`opvc wsp:sign`](https://github.com/originator-profile/originator-profile/tree/main/packages/opvc) コマンドを使用
-- [jwt.io](https://jwt.io) を使用する方法：指定された JSON フォーマットを使用
-
-※ Website Profile の作成を省き、Site Profile の作成（Site Profile 作成の中で Website Profile の作成を行います。）をすることも可能です。  
-詳しくは [CA Server を使用して Site Profile を作成する方法](#site-profile-ca-server)を参照してください。
-
-### CA Server を使用する方法 {#ca-server}
-
-:::note
-
-このセクション「CA Server を使用する方法」では、Content Attestation Server Playground を前提として説明しています。
-Playground と本番環境の CA Server は API 仕様が共通ですが、認証手順が異なります。
-
-本番環境の CA Server を利用する場合は、認証手順が異なるため、ご利用のサーバーが提供するマニュアルに従って設定してください。
-
-:::
-
-[`/wsp`](https://playground.originator-profile.org/#tag/wsp) エンドポイントに POST リクエストを送信します。
-
-必要なパラメータをリクエストのボディに付与して POST メソッドを送ることで登録できます。
-
-このエンドポイントは更新にも使用します。 既に Website Profile (WSP) が登録されている場合、既存の WSP を更新します。
-
-詳しくは [Content Attestation Server Playground の API ドキュメント](https://playground.originator-profile.org/#tag/wsp/POST/wsp) を参照してください。
-
-具体例:
+Example:
 
 ```
 $ curl -X POST https://playground.originator-profile.org/wsp \
     -H content-type:application/json \
-    -u Basic認証ユーザー名:Basic認証パスワード \
+    -u Basic Authentication Username:Basic Authentication Password \
     -d '[{...}]'
 ```
 
-実行後、コンソールに表示される “eyJ” から始まる文字列が WSP です。
+After execution, the string starting with "eyJ" displayed in the console is the WSP.
 
-指定するファイルは以下の形式です。
+The specified file must be in the following format.
 
 website-profile.example.json
 
@@ -86,28 +81,28 @@ website-profile.example.json
     "https://originator-profile.org/ns/credentials/v1",
     "https://originator-profile.org/ns/cip/v1",
     {
-      "@language": "<言語・地域コード>"
+      "@language": "<Language/Region Code>"
     }
   ],
   "type": ["VerifiableCredential", "WebsiteProfile"],
   "issuer": "<OP ID>",
   "credentialSubject": {
-    "id": "<WebサイトのURL(形式: https://<ホスト名>/)>",
-    "allowedOrigin": ["<Webサイトのオリジン (形式: https://<ホスト名>)>"],
+    "id": "<WebサイトのURL(形式: https://<Hostname>/)>",
+    "allowedOrigin": ["<Website origin (format: https://<hostname>))>"],
     "type": "WebSite",
-    "name": "<Webサイトのタイトル>",
-    "description": "<Webサイトの説明>",
+    "name": "<Website Title>",
+    "description": "<Website Description>",
     "image": {
-      "id": "<サムネイル画像URL>",
-      "content": "<コンテンツ (data:// URL)>"
+      "id": "<Thumbnail Image URL>",
+      "content": "<Content (data:// URL)>"
     }
   },
-  "issuedAt": "<発行日時 (optional)>",
-  "expiredAt": "<期限切れ日時 (optional)>"
+  "issuedAt": "<Issuance Day/Time (optional)>",
+  "expiredAt": "<Expiration Date/Time (optional)>"
 }
 ```
 
-具体例:
+Example:
 
 ```json
 {
@@ -116,7 +111,7 @@ website-profile.example.json
     "https://originator-profile.org/ns/credentials/v1",
     "https://originator-profile.org/ns/cip/v1",
     {
-      "@language": "ja-JP"
+      "@language": "en-US"
     }
   ],
   "type": ["VerifiableCredential", "WebsiteProfile"],
@@ -125,8 +120,8 @@ website-profile.example.json
     "id": "https://media.example.com/",
     "allowedOrigin": ["https://media.example.com"],
     "type": "WebSite",
-    "name": "Originator Profile 検証サイト",
-    "description": "Originator Profile 検証サイトです。",
+    "name": "Originator Profile Verification site",
+    "description": "This is Originator Profile Verification site.",
     "image": {
       "id": "https://example.com/image.svg",
       "content": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjwvc3ZnPg=="
@@ -135,33 +130,33 @@ website-profile.example.json
 }
 ```
 
-プロパティの詳細は次の文書をご確認ください。
+Please refer to the following documents for details on the properties:
 
 - [OP VC Securing Mechanism](https://docs.originator-profile.org/opb/securing-mechanism/)
 - [Website Profile (WSP)](https://docs.originator-profile.org/opb/website-profile/)
 - [`/wsp`](https://playground.originator-profile.org/#tag/wsp)
 
-### 別の方法: CLI を使用する方法
+### Alternative Method: Using the CLI
 
-`opvc wsp:sign` コマンドを使用して作成します。  
-詳細は [OPVC CLI のドキュメント](/opvc-cli/#publish-website-profile) を参照してください。
+Create it using the `opvc wsp:sign` command.
+For details, please refer to the [OPVC CLI documentation](/opvc-cli/#publish-website-profile).
 
-具体例:
+Example:
 
 ```
 $ opvc wsp:sign -i ./account-key.example.priv.json --input ./website-profile.example.json
 eyJ...
 ```
 
-実行後、コンソールに表示される “eyJ” から始まる文字列が WSP です。
+After execution, the string starting with “eyJ” displayed on the console is WSP.
 
-CLI のインストール方法は [OPVC CLI インストール方法](/opvc-cli/#install) をご確認ください。
+For information on how to install CLI, please check [OPVC CLI installation method](/opvc-cli/#install).
 
--i オプションにはプライベート鍵を指定します。
+Specify the private key for the -i option.
 
---input オプションには WSP に関する情報を JSON で記述し、指定します。
+Specify the --input option by writing information about the WSP in JSON.
 
-指定するファイルは以下の形式です。
+The specified file has the following format.
 
 ```json
 {
@@ -170,26 +165,26 @@ CLI のインストール方法は [OPVC CLI インストール方法](/opvc-cli
     "https://originator-profile.org/ns/credentials/v1",
     "https://originator-profile.org/ns/cip/v1",
     {
-      "@language": "<言語・地域コード>"
+      "@language": "<Language/Region Code>"
     }
   ],
   "type": ["VerifiableCredential", "WebsiteProfile"],
   "issuer": "<OP ID>",
   "credentialSubject": {
-    "id": "<WebサイトのURL (形式: https://<ホスト名>/)>",
-    "allowedOrigin": ["<Webサイトのオリジン (形式: https://<ホスト名>)>"],
+    "id": "<Website URL (Format: https://<hostname>)/)>",
+    "allowedOrigin": ["<Website Origin (format: https://<hostname>))>"],
     "type": "WebSite",
-    "name": "<Webサイトの名称>",
-    "description": "<Webサイトの説明>",
+    "name": "<Website Name>",
+    "description": "<Website Description>",
     "image": {
-      "id": "<サムネイル画像URL>",
-      "content": "<コンテンツ (file:// 形式も可)>"
+      "id": "<Thumbnail image URL>",
+      "content": "<Content (file:// format also accepted)>"
     }
   }
 }
 ```
 
-具体例:
+Example:
 
 ```json
 {
@@ -198,7 +193,7 @@ CLI のインストール方法は [OPVC CLI インストール方法](/opvc-cli
     "https://originator-profile.org/ns/credentials/v1",
     "https://originator-profile.org/ns/cip/v1",
     {
-      "@language": "ja-JP"
+      "@language": "en-US"
     }
   ],
   "type": ["VerifiableCredential", "WebsiteProfile"],
@@ -207,8 +202,8 @@ CLI のインストール方法は [OPVC CLI インストール方法](/opvc-cli
     "id": "https://media.example.com/",
     "allowedOrigin": ["https://media.example.com"],
     "type": "WebSite",
-    "name": "<Webサイトのタイトル>",
-    "description": "<Webサイトの説明>",
+    "name": "<Website Name>",
+    "description": "<Website Description>",
     "image": {
       "id": "https://example.com/image.webp",
       "content": "file://path/to/image.webp"
@@ -217,17 +212,17 @@ CLI のインストール方法は [OPVC CLI インストール方法](/opvc-cli
 }
 ```
 
-プロパティの詳細は [OP VC Securing Mechanism](https://docs.originator-profile.org/opb/securing-mechanism/) と [Website Profile (WSP)](https://docs.originator-profile.org/opb/website-profile/) をご確認ください。
+For details on the properties, please refer to the [OP VC Securing Mechanism](https://docs.originator-profile.org/opb/securing-mechanism/) and [Website Profile (WSP)](https://docs.originator-profile.org/opb/website-profile/).
 
-### 別の方法: [jwt.io](https://www.jwt.io/) を使用する方法
+### Alternative Method: Using [jwt.io](https://www.jwt.io/)
 
-指定された JSON フォーマットを使用し、JWT を作成します。
+Create a JWT using the specified JSON format.
 
-[JSON Web Token（JWT）デバッガー](https://jwt.io) にアクセスして、「JWT エンコーダー」を選択します。
-その後、画面左側の「ヘッダー」、「ペイロード」、「JWT に署名」それぞれに値を入力してください。
+Visit the [JSON Web Token (JWT) Debugger](https://jwt.io) and select "JWT Encoder."
+Then, enter the values ​​for "Header," "Payload," and "Sign JWT" on the left side of the screen.
 
-具体例:
-JSON Web Token（JWT）デバッガー の画面の「ヘッダー」に以下を入力します。
+Example:
+Enter the following into the "Header" section of the JSON Web Token (JWT) Debugger screen.
 
 ```json
 {
@@ -238,9 +233,9 @@ JSON Web Token（JWT）デバッガー の画面の「ヘッダー」に以下�
 }
 ```
 
-ヘッダー の `kid` は JWK Thumbprint です。プライベート鍵の `kid` プロパティと同じ値に変更します。
+The `kid` in the header is the JWK Thumbprint. Change it to the same value as the `kid` property of the private key.
 
-JSON Web Token（JWT） の画面の「ペイロード」に以下を入力します。
+Enter the following into the "Payload" section of the JSON Web Token (JWT) screen.
 
 ```json
 {
@@ -249,7 +244,7 @@ JSON Web Token（JWT） の画面の「ペイロード」に以下を入力し�
     "https://originator-profile.org/ns/credentials/v1",
     "https://originator-profile.org/ns/cip/v1",
     {
-      "@language": "ja-JP"
+      "@language": "en-US"
     }
   ],
   "type": ["VerifiableCredential", "WebsiteProfile"],
@@ -262,8 +257,8 @@ JSON Web Token（JWT） の画面の「ペイロード」に以下を入力し�
     "id": "https://media.example.com/",
     "allowedOrigin": ["https://media.example.com"],
     "type": "WebSite",
-    "name": "<Webサイトのタイトル>",
-    "description": "<Webサイトの説明>",
+    "name": "<Website Name>",
+    "description": "<Website Description>",
     "image": {
       "id": "https://example.com/image.webp",
       "digestSRI": "sha256-6o+sfGX7WJsNU1YPUlH3T56bJDR43Laz6nm142RJyNk="
@@ -272,43 +267,43 @@ JSON Web Token（JWT） の画面の「ペイロード」に以下を入力し�
 }
 ```
 
-ペイロードの `iss` と `issuer` の値を自分の OP ID に書き換えます。
+Replace the `iss` and `issuer` values ​​in the payload with your own OP ID.
 
-具体例:
+Example:
 
 ```
 dns:media.example.com
 ```
 
-プロパティの詳細は [OP VC Securing Mechanism](https://docs.originator-profile.org/opb/securing-mechanism/) と [Website Profile (WSP)](https://docs.originator-profile.org/opb/website-profile/) をご確認ください。
+For details on the properties, please refer to the [OP VC Securing Mechanism](https://docs.originator-profile.org/opb/securing-mechanism/) and [Website Profile (WSP)](https://docs.originator-profile.org/opb/website-profile/).
 
-JSON Web Token（JWT） の画面の「JWT に署名」にて「秘密鍵の形式」を「JWK」にし、アカウントのプライベート鍵を貼り付けます。
+On the JSON Web Token (JWT) screen, under "Sign JWT," set the "Private Key Format" to "JWK" and paste your account's private key.
 
-プライベート鍵を貼り付けると、画面の右側には JWT が表示されます。このとき得られる "eyJ" から始まる文字列が WSP です。
+Once the private key is pasted, the JWT will appear on the right side of the screen. The string starting with "eyJ" obtained at this stage is the WSP.
 
-## ステップ2. `/.well-known/sp.json` の作成と配置 {#step2}
+## Step 2. Creating and Deploying `/.well-known/sp.json` {#step2}
 
-### Site Profile の作成
+### Creating the Site Profile
 
-Site Profile の作成には以下のいずれかの方法をとることができます。
+You can create the Site Profile using either of the following methods:
 
-- ステップ 1 にて発行した Website Profile を使用する方法
-- CA Server を使用する方法: [`/sp`](https://playground.originator-profile.org/#tag/sp) エンドポイントを使用
+- Using the Website Profile issued in Step 1
+- Using the CA Server: Utilizing the [`/sp`](https://playground.originator-profile.org/#tag/sp) endpoint
 
-#### ステップ 1 にて発行した Website Profile を使用する方法
+#### Using the Website Profile issued in Step 1
 
-Website Profile を含む形式で Site Profile (sp.json) を作成します。
+Create the Site Profile (`sp.json`) in a format that includes the Website Profile.
 
-形式:
+Format:
 
 ```json
 {
-  "originators": [...<OP-CIPから受け取ったOPS>],
+  "originators": [...<OPS received from OP-CIP>],
   "sites": ["<WSP>"]
 }
 ```
 
-具体例:
+Example:
 
 ```json
 {
@@ -328,41 +323,41 @@ Website Profile を含む形式で Site Profile (sp.json) を作成します。
 }
 ```
 
-_[Site Profile](https://docs.originator-profile.org/opb/site-profile/) より_
+_From [Site Profile](https://docs.originator-profile.org/opb/site-profile/)_
 
-`originators` プロパティにはサイト運営者自身の OP 以外にもサイト上で配信する記事の CA <ruby>発行者<rt>issuer</rt></ruby>の OP を含めることが可能です。
+The `originators` property can include not only the site operator's own OP but also the OPs of the CAs (Content Attestation issuers) for articles distributed on the site.
 
-#### CA Server を使用する方法 {#site-profile-ca-server}
+#### Using a CA Server {#site-profile-ca-server}
 
 :::note
 
-このセクション「CA Server を使用する方法」では、Content Attestation Server Playground を前提として説明しています。
-Playground と本番環境の CA Server は API 仕様が共通ですが、認証手順が異なります。
+This section, "Using a CA Server," describes the process based on the Content Attestation Server Playground.
+While the Playground and production CA servers share the same API specifications, their authentication procedures differ.
 
-本番環境の CA Server を利用する場合は、認証手順が異なるため、ご利用のサーバーが提供するマニュアルに従って設定してください。
+If you are using a production CA server, please follow the configuration instructions provided by your specific server, as the authentication procedure will be different.
 
 :::
 
-[`/sp`](https://playground.originator-profile.org/#tag/sp) エンドポイントに POST リクエストを送信します。
+Send a POST request to the [`/sp`](https://playground.originator-profile.org/#tag/sp) endpoint.
 
-必要なパラメータをリクエストのボディに付与して POST メソッドを送ることで登録できます。
+You can register by sending a POST request with the required parameters included in the request body.
 
-このエンドポイントは更新にも使用します。 既に Site Profile (SP) が登録されている場合、既存の SP を更新します。
+This endpoint is also used for updates; if a Site Profile (SP) is already registered, it will update the existing SP.
 
-詳しくは [Content Attestation Server Playground の API ドキュメント](https://playground.originator-profile.org/#tag/sp/POST/sp) を参照してください。
+For details, please refer to the [Content Attestation Server Playground API documentation](https://playground.originator-profile.org/#tag/sp/POST/sp).
 
-具体例:
+Example:
 
 ```
 $ curl -X POST https://playground.originator-profile.org/sp \
     -H content-type:application/json \
-    -u Basic認証ユーザー名:Basic認証パスワード \
+    -u Basic Authentication Username:Basic Authentication Password \
     -d '{...}'
 ```
 
-実行後、コンソールに表示される "{" から "}" までの文字列が SP です。
+After execution, the string displayed in the console from "{" to "}" is the SP.
 
-指定するファイルは以下の形式です。
+The specified file must be in the following format.
 
 site-profile.example.json
 
@@ -373,24 +368,24 @@ site-profile.example.json
     "https://originator-profile.org/ns/credentials/v1",
     "https://originator-profile.org/ns/cip/v1",
     {
-      "@language": "<言語・地域コード>"
+      "@language": "<Language/Region Code>"
     }
   ],
   "type": ["VerifiableCredential", "WebsiteProfile"],
   "issuer": "<OP ID>",
   "credentialSubject": {
-    "id": "<WebサイトのURL(形式: https://<ホスト名>/)>",
-    "allowedOrigin": ["<Webサイトのオリジン (形式: https://<ホスト名>)>"],
+    "id": "<Website URL (format: https://<hostname>)/)>",
+    "allowedOrigin": ["<Website Origin (format: https://<hostname>))>"],
     "type": "WebSite",
-    "name": "<Webサイトのタイトル>",
-    "description": "<Webサイトの説明>",
+    "name": "<website Title>",
+    "description": "<Website Description>",
     "image": {
-      "id": "<サムネイル画像URL>",
-      "content": "<コンテンツ (data:// URL)>"
+      "id": "<Thumbnail image URL>",
+      "content": "<Content (data:// URL)>"
     }
   },
-  "issuedAt": "<発行日時 (optional)>",
-  "expiredAt": "<期限切れ日時 (optional)>",
+  "issuedAt": "<Issuance Day/Time (optional)>",
+  "expiredAt": "<Expiration Date/Time (optional)>"
   "originators": [
     {
       "core": "<Core Profile>",
@@ -401,7 +396,7 @@ site-profile.example.json
 }
 ```
 
-具体例:
+Example:
 
 ```json
 {
@@ -410,7 +405,7 @@ site-profile.example.json
     "https://originator-profile.org/ns/credentials/v1",
     "https://originator-profile.org/ns/cip/v1",
     {
-      "@language": "ja-JP"
+      "@language": "en-US"
     }
   ],
   "type": ["VerifiableCredential", "WebsiteProfile"],
@@ -419,8 +414,8 @@ site-profile.example.json
     "id": "https://media.example.com/",
     "allowedOrigin": ["https://media.example.com"],
     "type": "WebSite",
-    "name": "Originator Profile 検証サイト",
-    "description": "Originator Profile 検証サイトです。",
+    "name": "Originator Profile Verification site",
+    "description": "This is Originator Profile Verification site.",
     "image": {
       "id": "https://example.com/image.svg",
       "content": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjwvc3ZnPg=="
@@ -436,20 +431,20 @@ site-profile.example.json
 }
 ```
 
-`originators` プロパティにはサイト運営者自身の OP 以外にもサイト上で配信する記事の CA <ruby>発行者<rt>issuer</rt></ruby>の OP を含めることが可能です。
+The `originators` property can include not only the site operator's own OP but also the OP of the CA issuer for articles distributed on the site.
 
-プロパティの詳細は次の文書をご確認ください。
+Please refer to the following document for details on the property.
 
 - [OP VC Securing Mechanism](https://docs.originator-profile.org/opb/securing-mechanism/)
 - [Website Profile (WSP)](https://docs.originator-profile.org/opb/website-profile/)
 - [Site Profile (SP)](https://docs.originator-profile.org/opb/site-profile/)
 - [`/sp`](https://playground.originator-profile.org/#tag/sp)
 
-### Site Profile (sp.json) の配置
+### Placing the Site Profile (sp.json)
 
-sp.json は Web サイトの Well-known URL `/.well-known/sp.json` にアクセスできるように配置します。
+Place `sp.json` so that it is accessible via the website's well-known URL: `/.well-known/sp.json`.
 
-具体例:
+Example:
 
 ```
 $ curl -i https://media.example.com/.well-known/sp.json
