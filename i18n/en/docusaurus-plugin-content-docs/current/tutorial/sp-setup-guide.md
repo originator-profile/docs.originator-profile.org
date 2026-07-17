@@ -37,7 +37,7 @@ You can create a Website Profile using any of the following methods:
 - Using the OPVC CLI: Use the [`opvc wsp:sign`](https://github.com/originator-profile/originator-profile/tree/main/packages/opvc) command.
 - Using [jwt.io](https://jwt.io): Use the specified JSON format.
 
-*Note: You can also skip the separate Website Profile creation step and proceed directly to Site Profile creation (the Website Profile is created as part of the Site Profile creation process).
+**Note:** You can also skip the separate Website Profile creation step and proceed directly to Site Profile creation (the Website Profile is created as part of the Site Profile creation process).
 For details, please refer to [How to create a Site Profile using the CA Server](#site-profile-ca-server).
 
 ### How to Use the CA Server {#ca-server}
@@ -87,8 +87,8 @@ website-profile.example.json
   "type": ["VerifiableCredential", "WebsiteProfile"],
   "issuer": "<OP ID>",
   "credentialSubject": {
-    "id": "<WebサイトのURL(形式: https://<Hostname>/)>",
-    "allowedOrigin": ["<Website origin (format: https://<hostname>))>"],
+    "id": "<Website URL (format: https://<Hostname>/)>",
+    "allowedOrigin": ["<Website origin (format: https://<hostname>)>"],
     "type": "WebSite",
     "name": "<Website Title>",
     "description": "<Website Description>",
@@ -171,8 +171,8 @@ The specified file has the following format.
   "type": ["VerifiableCredential", "WebsiteProfile"],
   "issuer": "<OP ID>",
   "credentialSubject": {
-    "id": "<Website URL (Format: https://<hostname>)/)>",
-    "allowedOrigin": ["<Website Origin (format: https://<hostname>))>"],
+    "id": "<Website URL (Format: https://<hostname>/)>",
+    "allowedOrigin": ["<Website Origin (format: https://<hostname>)>"],
     "type": "WebSite",
     "name": "<Website Name>",
     "description": "<Website Description>",
@@ -351,7 +351,7 @@ Example:
 ```
 $ curl -X POST https://playground.originator-profile.org/sp \
     -H content-type:application/json \
-    -u Basic Authentication Username:Basic Authentication Password \
+    -u BasicAuthenticationUsername:BasicAuthenticationPassword \
     -d '{...}'
 ```
 
@@ -374,10 +374,10 @@ site-profile.example.json
   "type": ["VerifiableCredential", "WebsiteProfile"],
   "issuer": "<OP ID>",
   "credentialSubject": {
-    "id": "<Website URL (format: https://<hostname>)/)>",
-    "allowedOrigin": ["<Website Origin (format: https://<hostname>))>"],
+    "id": "<Website URL (format: https://<hostname>/)>",
+    "allowedOrigin": ["<Website Origin (format: https://<hostname>/)>"],
     "type": "WebSite",
-    "name": "<website Title>",
+    "name": "<Website Title>",
     "description": "<Website Description>",
     "image": {
       "id": "<Thumbnail image URL>",
@@ -385,7 +385,7 @@ site-profile.example.json
     }
   },
   "issuedAt": "<Issuance Day/Time (optional)>",
-  "expiredAt": "<Expiration Date/Time (optional)>"
+  "expiredAt": "<Expiration Date/Time (optional)>",
   "originators": [
     {
       "core": "<Core Profile>",
