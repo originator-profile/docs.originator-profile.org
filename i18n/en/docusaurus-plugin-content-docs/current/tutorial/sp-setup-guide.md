@@ -87,7 +87,7 @@ website-profile.example.json
   "type": ["VerifiableCredential", "WebsiteProfile"],
   "issuer": "<OP ID>",
   "credentialSubject": {
-    "id": "<Website URL (format: https://<Hostname>/)>",
+    "id": "<Website URL (format: https://<hostname>/)>",
     "allowedOrigin": ["<Website origin (format: https://<hostname>)>"],
     "type": "WebSite",
     "name": "<Website Title>",
