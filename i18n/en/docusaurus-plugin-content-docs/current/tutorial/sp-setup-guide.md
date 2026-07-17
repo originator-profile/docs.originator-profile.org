@@ -267,7 +267,7 @@ Enter the following into the "Payload" section of the JSON Web Token (JWT) scree
 }
 ```
 
-Replace the `iss` and `issuer` values ​​in the payload with your own OP ID.
+Replace the `iss` and `issuer` values in the payload with your own OP ID.
 
 Example:
 
