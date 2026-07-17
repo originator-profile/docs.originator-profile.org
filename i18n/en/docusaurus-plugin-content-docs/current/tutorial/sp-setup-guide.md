@@ -219,7 +219,7 @@ For details on the properties, please refer to the [OP VC Securing Mechanism](ht
 Create a JWT using the specified JSON format.
 
 Visit the [JSON Web Token (JWT) Debugger](https://jwt.io) and select "JWT Encoder."
-Then, enter the values ​​for "Header," "Payload," and "Sign JWT" on the left side of the screen.
+Then, enter the values for "Header," "Payload," and "Sign JWT" on the left side of the screen.
 
 Example:
 Enter the following into the "Header" section of the JSON Web Token (JWT) Debugger screen.
