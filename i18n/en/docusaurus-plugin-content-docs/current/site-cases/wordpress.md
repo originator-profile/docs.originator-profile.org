@@ -419,4 +419,4 @@ In the Pro version, images are transformed via CDN, which may change their URLs.
 
 If the CAS is stored in the metadata `_profile_post_cas` and the data on the CA server is manually deleted, an attempt will be made to register a new post specifying the UUID when updating the article. This may result in an error on the server side.
 
-**Workaround**: Make the article private once to remove the metadata.
+**Workaround**: Make the article private once to remove the metadata. By making it public again after that, it will be registered as a new entry without a specified UUID, and the registration will complete successfully.
