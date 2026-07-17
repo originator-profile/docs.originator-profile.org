@@ -120,8 +120,8 @@ Example:
     "id": "https://media.example.com/",
     "allowedOrigin": ["https://media.example.com"],
     "type": "WebSite",
-    "name": "Originator Profile Verification site",
-    "description": "This is Originator Profile Verification site.",
+    "name": "Originator Profile Verification Site",
+    "description": "This is an Originator Profile verification site.",
     "image": {
       "id": "https://example.com/image.svg",
       "content": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjwvc3ZnPg=="
@@ -414,8 +414,8 @@ Example:
     "id": "https://media.example.com/",
     "allowedOrigin": ["https://media.example.com"],
     "type": "WebSite",
-    "name": "Originator Profile Verification site",
-    "description": "This is Originator Profile Verification site.",
+    "name": "Originator Profile Verification Site",
+    "description": "This is an Originator Profile verification site.",
     "image": {
       "id": "https://example.com/image.svg",
       "content": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjwvc3ZnPg=="
