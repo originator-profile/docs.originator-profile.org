@@ -1,81 +1,81 @@
-# WordPress プラグイン (CA Manager)
+---
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/798ebea/docs/site-cases/wordpress.md
+---
 
-:::note
-このページは翻訳中です。
-:::
+# WordPress Plugin (CA Manager)
 
-## 目的
+## Objective
 
-WordPress サイトに CA Manager を導入し、 CA を自動発行できる状態にする。
+Install CA Manager on a WordPress site and enable the automatic issuance of CAs.
 
-## 前提条件
+## Prerequisites
 
-- WordPress 管理者権限がある
+- WordPress administrator privileges
 
-## 手順
+## Procedure
 
-### 1. プラグインのインストール {#plugin-installation}
+### 1. Plugin Installation {#plugin-installation}
 
 ![](../assets/ca-manager-installation.png)
 
-1. プラグインのダウンロード:
-   「[Releases](https://github.com/originator-profile/originator-profile/releases)」にアクセスし、Assets セクションから WordPress プラグイン（wordpress-ca-manager.zip）を取得
-2. プラグインのアップロード:
-   WordPress 公式サイト「[プラグイン新規追加画面](https://ja.wordpress.org/support/article/plugins-add-new-screen/)」にある「プラグインをアップロード」の節を参照
-3. プラグインの有効化
-4. プラグインの設定:
-   WordPress 管理者画面の「設定 > CA Manager」にアクセスし、次節「プラグインの設定」必要項目を入力
+1. Download the plugin:
+   Visit the "[Releases](https://github.com/originator-profile/originator-profile/releases)" page and download the WordPress plugin (`wordpress-ca-manager.zip`) from the Assets section.
+2. Upload the plugin:
+   Refer to the "Upload Plugin" section on the WordPress "[Add Plugins](https://wordpress.org/support/article/plugins-add-new-screen/)" screen.
+3. Activate the plugin.
+4. Configure the plugin:
+   Go to "Settings > CA Manager" in the WordPress admin dashboard and enter the required information as described in the next section, "Plugin Settings."
 
-### 2. プラグインの設定 {#plugin-settings}
+### 2. Plugin Settings {#plugin-settings}
 
 ![](../assets/ca-manager.png)
 
-プラグイン有効化後、以下の必須項目を入力を行い設定する必要があります。
-設定は WordPress 管理画面の「設定 > CA Manager」から行います。
+After activating the plugin, you must configure it by entering the following required fields.
+Settings can be configured via the WordPress dashboard under **Settings > CA Manager**.
 
-**[CA issuer's Originator Profile ID]: 自身の Originator Profile ID を指定**
+**[CA issuer's Originator Profile ID]: Specify your Originator Profile ID**
 
-例:
+Example:
 
 ```
 dns:media.example.com
 ```
 
-**[CA サーバーホスト名]: 利用する CA サーバーのホスト名を指定**
+**[CA Server Hostname]: Specify the hostname of the CA server to use**
 
-例:
+Example:
 
 ```
 dprexpt.originator-profile.org
 ```
 
-**[認証情報]: CA サーバーへのアクセスに必要な情報を指定**
+**[Authentication Information]: Specify the information required to access the CA server**
 
-例:
+Example:
 
 ```
 cfbff0d1-9375-5685-968c-48ce8b15ae17:GVWoXikZIqzdxzB3CieDHL-FefBT31IfpjdbtAJtBcU
 ```
 
-**検証対象の種別**
+**Verification Target Type**
 
-例:
+Example:
 
 ```
 TextTargetIntegrity
 ```
 
-**検証対象要素 CSS セレクター**
+**CSS Selector for Verification Target Element**
 
-例:
+Example:
 
 ```
 h1.wp-block-post-title, .wp-block-post-content>*:not(.post-nav-links)
 ```
 
-**検証対象要素の存在する HTML**
+**HTML Containing the Verification Target Element**
 
-例:
+Example:
 
 ```html
 <!DOCTYPE html>
@@ -90,43 +90,15 @@ h1.wp-block-post-title, .wp-block-post-content>*:not(.post-nav-links)
 </html>
 ```
 
-`%TITLE%` は投稿タイトルに、`%CONTENT%` は `apply_filters()` 適用後の WordPress 投稿内容に置換され、リクエストコンテンツ `target[0].content` プロパティとして CA サーバーに送信されます。
+`%TITLE%` is replaced by the post title, and `%CONTENT%` is replaced by the WordPress post content after `apply_filters()` has been applied; these are then sent to the CA server as the `target[0].content` property of the request.
 
-**[CA Presentation Type]: CAS を埋め込み形式かリンク形式か指定**
+**[CA Presentation Type]: Specify whether the CAS is embedded or linked**
 
-デフォルトは Embedded となっています。
+The default is "Embedded".
 
-- Embedded: CAS を埋め込み形式（Embedded）にして記事を投稿します。
+- Embedded: Posts the article with the CAS in embedded format.
 
-Embedded を選択したとき出力されるHTMLの一部の例:
-
-```html
-<script type="application/cas+json">
-  ["eyJ..."]
-</script>
-```
-
-- External: CAS を静的ファイルとして生成し、リンク形式（External）にして記事を投稿します。生成されるファイルについては「[CA Presentation Type をリンク形式にしたときのファイル生成について](#ca-presentation-type-external)」を参照してください。
-
-**ログの出力設定**
-
-デフォルトは無効となっています。
-
-有効にすると CA Manager プラグインに関するログが出力され、ログファイルをダウンロードすることができます。生成されるログファイルについては「[ログファイルの生成について](#log-output)」を参照してください。
-
-これらの設定が完了しないと Content Attestation の発行機能は正しく動作しません。
-正しく設定が反映されると、それ以降に更新した投稿と新規投稿は自動的に CA サーバーに送信されます。
-
-## 確認方法 {#how-to-check}
-
-設定が完了したら、新規投稿の作成または既存投稿の更新（再保存）を行ってください。
-CA が正しく発行されているかどうかは、次の 2 つの方法で確認できます。
-
-- デベロッパーツールで確認する  
-  ブラウザのデベロッパーツールを開き、ページ内に `cas+json` タイプの `<script>` タグが埋め込まれているかを確認します。  
-  以下のような要素が存在していれば、CA の発行および設定は正常に行われています。
-
-例:
+Example of the HTML output when "Embedded" is selected:
 
 ```html
 <script type="application/cas+json">
@@ -134,110 +106,140 @@ CA が正しく発行されているかどうかは、次の 2 つの方法で�
 </script>
 ```
 
-※ この方法では検証結果までは確認できません。発行されているかどうかの一時確認としてご利用ください。
+- External: Generates the CAS as a static file and posts the article using the link format (External). For details on the generated files, please refer to "[File generation for the External CA Presentation Type](#ca-presentation-type-external)."
 
-- [OP Inspector](/inspector) または [Debugger](/debugger) で確認する  
-  より詳細に確認したい場合は、 OP Inspector または Debugger を使用します。
-  - 対象ページに付与された CA が存在するか
-  - CA の検証が成功しているか
+**Log Output Settings**
 
-  これらを確認できます。  
-  それぞれ、使い方は [OP Inspector](/inspector) のドキュメント、[Debugger](/debugger) のドキュメントを参照してください。
+This is disabled by default.
 
-**CA が存在しない場合**
+If enabled, logs related to the CA Manager plugin will be generated, and you will be able to download the log files. For details on the generated log files, please refer to "[Log file generation](#log-output)."
 
-- プラグインの設定値が誤っている可能性があります。
-- ログ出力設定を有効にし、ページを保存してログを確認してください。ログの出力設定は[プラグインの設定](#plugin-settings)を参照してください。
+The Content Attestation issuance function will not operate correctly unless these settings are configured.
+Once the settings are correctly applied, any posts updated or created thereafter will be automatically sent to the CA server.
 
-**検証に失敗している場合**
+## How to Check {#how-to-check}
 
-- エラーコードに応じて原因が異なります。
-- 詳細は[エラーコード一覧](/error-reference/)を参照してください。
+Once configuration is complete, create a new post or update (re-save) an existing post.
+You can verify whether the CA has been correctly issued using the following two methods:
 
-## 機能及び参考情報
+- Check using Developer Tools  
+  Open your browser's developer tools and check if a `<script>` tag with the type `cas+json` is embedded in the page.
+  If an element like the one below exists, the CA has been issued and configured correctly.
 
-### 機能
+Example:
 
-このプラグインの主な機能は以下の通りです。
+```html
+<script type="application/cas+json">
+  ["eyJ..."]
+</script>
+```
 
-1. WordPress での投稿・更新時の投稿内容の処理
-   - WordPress での投稿または更新をトリガーとします
-   - このトリガーにより投稿内容を処理し、CA サーバーの CA 登録・更新エンドポイントに送信します
-2. WordPress の投稿ページでの CAS 配信
+**Note:** This method does not show verification results; use it only for a quick check to see if the CA has been issued.
 
-### 処理の流れ
+- Check using [OP Inspector](/inspector) or [Debugger](/debugger)
+  Use OP Inspector or Debugger for a more detailed check.
+  - Does the CA exist on the target page?
+  - Was the CA verification successful?
 
-WordPress 連携用プラグインでの処理の流れは以下の通りです。
-ここでの利用者は Web ブラウザと拡張機能を利用していることを想定しています。
+  You can verify these points.
+  Please refer to the [OP Inspector](/inspector) documentation and [Debugger](/debugger) documentation for instructions on how to use each tool.
+
+**If the CA does not exist**
+
+- The plugin settings may be incorrect.
+- Enable the log output setting, save the page, and check the logs. For log output settings, please refer to [Plugin Settings](#plugin-settings).
+
+**If verification fails**
+
+- The cause depends on the error code.
+- Please refer to the [Error Code List](/error-reference/) for details.
+
+## Features and Reference Information
+
+### Features
+
+The main features of this plugin are as follows:
+
+1. Processing post content upon posting or updating in WordPress
+
+   - Triggered by posting or updating content in WordPress
+   - Processes the post content based on this trigger and sends it to the CA server's CA registration/update endpoint
+
+2. CAS delivery on WordPress post pages
+
+### Processing Flow
+
+The processing flow for the WordPress integration plugin is as follows.
+It is assumed here that the user is utilizing a web browser and the extension.
 
 ```mermaid
 sequenceDiagram
-actor 利用者
-actor 管理者
+actor User
+actor Administrator
 participant WordPress
-participant プラグイン
-participant CAサーバー
+participant Plugin
+participant CA Server
 
-管理者->>WordPress: プラグインのインストール
-管理者->>WordPress: 投稿・更新
-管理者->>WordPress: 非公開・削除
-WordPress->>プラグイン: transition_post_status
-WordPress->>プラグイン: before_delete_post
-プラグイン->>CAサーバー: CAの登録・更新
-プラグイン->>CAサーバー: CAの削除
+Administrator->>WordPress: Install plugin
+Administrator->>WordPress: Post/Update
+Administrator->>WordPress: Set to private/Delete
+WordPress->>Plugin: transition_post_status
+WordPress->>Plugin: before_delete_post
+Plugin->>CA Server: Register/Update CA
+Plugin->>CA Server: Delete CA
 
-利用者->>WordPress: 投稿の閲覧
-WordPress->>プラグイン: wp_head
-プラグイン-->>利用者: HTML <script> 要素
+User->>WordPress: View post
+WordPress->>Plugin: wp_head
+Plugin-->>User: HTML <script> element
 
-利用者->>WordPress: 拡張機能をクリック
-WordPress-->>利用者: CAS
+User->>WordPress: Click extension
+WordPress-->>User: CAS
 
-利用者->>利用者: コンテンツ情報の閲覧・確認
+User->>User: View/Verify content information
 ```
 
-[Hooks](https://developer.wordpress.org/plugins/hooks/) に応じた処理を実行します。
+Processing is executed in accordance with [Hooks](https://developer.wordpress.org/plugins/hooks/).
 
-- `transition_post_status` : 投稿・更新のタイミングでトリガーされ、そのコンテンツの内容を変換し、CA サーバーの登録・更新エンドポイントに送信します  
-  また、公開から非公開や下書きなど公開以外の状態になったタイミングでトリガーされ、対象コンテンツの CA ID を利用して CA サーバーの削除エンドポイントに送信します
-- `before_delete_post` : 投稿が削除されるタイミングでトリガーされ、対象コンテンツの CA ID を利用して CA サーバーの削除エンドポイントに送信します
-- `wp_head` : 投稿の閲覧のタイミングでトリガーされ、埋め込まれた `<script>` 要素を介して利用者は CAS を取得します
+- `transition_post_status`: Triggered when a post is created or updated; it converts the content and sends it to the CA server's registration or update endpoint.<br />
+  It is also triggered when a post changes from a published state to a non-published state (such as private or draft), using the content's CA ID to send a request to the CA server's deletion endpoint.
+- `before_delete_post`: Triggered when a post is deleted; it uses the content's CA ID to send a request to the CA server's deletion endpoint.
+- `wp_head`: Triggered when a post is viewed; it allows the user to retrieve the CAS via an embedded `<script>` element.
 
-以上の処理により、投稿したコンテンツは自動的に管理され、利用者はその真正性を確認できます。
+Through these processes, published content is automatically managed, enabling users to verify its authenticity.
 
-### ファイル構成
+### File Structure
 
 #### config.php
 
-`includes` ディレクトリの中に置かれている `config.php` ファイルには、このプラグインの設定値が含まれています。
+The `config.php` file, located in the `includes` directory, contains the configuration settings for this plugin.
 
-| 設定値                                    | 説明                                                                                                                                                                                                          |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| PROFILE_DEFAULT_CA_SERVER_HOSTNAME        | Content Attestation サーバーのホスト名の設定の初期値です。このホスト名のエンドポイントを介して Content Attestation の登録・更新・取得を行います。もし設定画面から設定を変更した場合、この値は参照されません。 |
-| PROFILE_DEFAULT_CA_SERVER_REQUEST_TIMEOUT | Content Attestation サーバーのリクエストアウト (秒) の初期値です。                                                                                                                                            |
-| PROFILE_DEFAULT_CA_TARGET_TYPE            | 検証対象の種別の初期値です。                                                                                                                                                                                  |
-| PROFILE_DEFAULT_CA_TARGET_CSS_SELECTOR    | 検証対象要素 CSS セレクターの初期値です。デフォルトでは記事タイトル (`h1.wp-block-post-title`) と記事本文の直下子要素 (`.wp-block-post-content>*:not(.post-nav-links)`) の両方を対象とします。                |
-| PROFILE_DEFAULT_CA_TARGET_HTML            | 検証対象要素の存在する HTML の初期値です。`%TITLE%` は投稿タイトルに、`%CONTENT%` は `apply_filters()` 適用後の投稿本文に置換されます。                                                                       |
+| Setting Name                              | Description                                                                                                                                                                                                                                                     |
+| ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| PROFILE_DEFAULT_CA_SERVER_HOSTNAME        | The default value for the Content Attestation server hostname. Registration, updates, and retrieval of Content Attestation data are performed via endpoints on this host. If the setting is modified via the configuration screen, this value is ignored.       |
+| PROFILE_DEFAULT_CA_SERVER_REQUEST_TIMEOUT | The default value for the Content Attestation server request timeout (in seconds).                                                                                                                                                                              |
+| PROFILE_DEFAULT_CA_TARGET_TYPE            | The default value for the type of element to be verified.                                                                                                                                                                                                       |
+| PROFILE_DEFAULT_CA_TARGET_CSS_SELECTOR    | The default value for the CSS selector identifying the elements to be verified. By default, both the article title (`h1.wp-block-post-title`) and the direct child elements of the article body (`.wp-block-post-content>*:not(.post-nav-links)`) are targeted. |
+| PROFILE_DEFAULT_CA_TARGET_HTML            | The default HTML structure containing the elements to be verified. `%TITLE%` is replaced by the post title, and `%CONTENT%` is replaced by the post body after `apply_filters()` has been applied.                                                              |
 
-### CA サーバーの API 認証
+### CA Server API Authentication
 
-CA サーバー API の Basic 認証をサポートしています。
-Basic 認証以外の認証方式 (例: OAuth、JWT、API キー) を利用する場合、カスタマイズが必要です。
-カスタマイズの方法については、[includes/issue.php](https://github.com/originator-profile/originator-profile/blob/main/packages/wordpress/includes/issue.php) `issue_ca()` の実装をご確認ください。
+Basic authentication for the CA server API is supported.
+Customization is required if you wish to use authentication methods other than Basic authentication (e.g., OAuth, JWT, API keys).
+For details on customization, please refer to the implementation of `issue_ca()` in [includes/issue.php](https://github.com/originator-profile/originator-profile/blob/main/packages/wordpress/includes/issue.php).
 
-### OP 対応
+### OP Support
 
-#### `/.well-known/sp.json` の配置 {#well-known-sp-json}
+#### Placing `/.well-known/sp.json` {#well-known-sp-json}
 
-配置場所:
+Placement location:
 
-ドキュメントルートが /var/www/html の場合、以下のパスに配置します。
+If the document root is `/var/www/html`, place the file at the following path:
 
 ```
 /var/www/html/.well-known/sp.json
 ```
 
-Web サーバーの設定によっては `.well-known` ディレクトリへのアクセスが制限されている場合があります。以下のように `.well-known` へのアクセスを許可します。
+Depending on your web server configuration, access to the `.well-known` directory may be restricted. Configure your server to allow access to `.well-known` as shown below:
 
 Apache:
 
@@ -248,19 +250,19 @@ Apache:
 </Directory>
 ```
 
-確認方法:
+Verification:
 
 ```
 $ curl -sSf https://example.com/.well-known/sp.json
 ```
 
-OP の含まれる SP が正しく取得できれば設定は完了です。
+Configuration is complete if the SP containing the OP information is successfully retrieved.
 
-#### 別の方法: OPの埋め込み
+#### Alternative Method: Embedding the OP
 
-HTML 中に script 要素を用いて OP を埋め込むことが可能です。
+It is possible to embed the OP directly into the HTML using a `script` element.
 
-具体例:
+Example:
 
 ```html
 <script type="application/ops+json">
@@ -274,23 +276,23 @@ HTML 中に script 要素を用いて OP を埋め込むことが可能です。
 </script>
 ```
 
-詳細は「[サイトの OP 対応](/tutorial/sp-setup-guide/)」または「[Linking Content Attestation Set and Originator Profile Set to A HTML Document](https://docs.originator-profile.org/opb/link-to-html/)」をご確認ください。
+For details, please refer to "[Enabling OP Support on Your Site](/tutorial/sp-setup-guide/)" or "[Linking Content Attestation Set and Originator Profile Set to A HTML Document](https://docs.originator-profile.org/opb/link-to-html/)."
 
-### CA Presentation Type をリンク形式にしたときのファイル生成について {#ca-presentation-type-external}
+### File Generation When CA Presentation Type is Set to "External" Link Format {#ca-presentation-type-external}
 
-CA Presentation Type が External 時、静的ファイルを生成するディレクトリとして下記のように定義されています。
+When the CA Presentation Type is set to "External," the directory for generating static files is defined as follows:
 
 ```
 const PROFILE_DEFAULT_CA_EXTERNAL_DIR = 'cas';
 ```
 
-ドキュメントルートが /var/www/html の場合、以下のパスに静的ファイルが配置されます。
+If the document root is `/var/www/html`, the static file will be placed at the following path:
 
 ```
-/var/www/html/cas/<ポストid>_cas.json
+/var/www/html/cas/<post-id>_cas.json
 ```
 
-External を選択したとき出力されるHTMLの一部の例:
+Example of the HTML output when "External" is selected:
 
 ```html
 <script
@@ -299,31 +301,31 @@ External を選択したとき出力されるHTMLの一部の例:
 ></script>
 ```
 
-ドキュメントルート配下に cas ディレクトリが存在しない場合、 cas ディレクトリが作成されます。
-また、ポストidが同一の場合、静的ファイルは上書きされます。
+If the `cas` directory does not exist under the document root, it will be created.
+Additionally, if the post ID is the same, the static file will be overwritten.
 
-確認方法:
+Verification method:
 
 ```
 $ curl -sSf https://example.com/cas/1_cas.json
 ```
 
-### ログファイルの生成について {#log-output}
+### Log File Generation {#log-output}
 
-ログファイルを生成するディレクトリとして下記のように定義されています。
+The directory for generating log files is defined as follows:
 
 ```
 const PROFILE_DEFAULT_CA_LOG_DIR = 'ca-manager-log';
 ```
 
-ドキュメントルートが /var/www/html の場合、以下のパスにログが出力されます。
-ログファイルが存在しない場合、新たに生成されます。
+If the document root is `/var/www/html`, logs are output to the following path.
+If the log file does not exist, it will be created.
 
 ```
 /var/www/html/wp-content/uploads/ca-manager-log/ca-manager-debug.log
 ```
 
-また、CA Manager プラグイン有効化時、以下のパスに以下の内容でアクセス制御を行うファイルを自動生成します。
+Additionally, when the CA Manager plugin is activated, files for access control are automatically generated at the following paths with the specified contents:
 
 ```
 /var/www/html/wp-content/uploads/ca-manager-log/.htaccess
@@ -338,83 +340,83 @@ Apache:
 </FilesMatch>
 ```
 
-Apache 以外のアクセス制御を行うファイルは自動生成されませんので、適宜アクセス制御を行うようにしてください（推奨）。
+Access control files for environments other than Apache are not automatically generated; please implement appropriate access control measures yourself (recommended).
 
-無効にするとログ出力が無効になり、ログファイルが削除されます。
+Disabling the feature stops log output and deletes the log file.
 
-### デモ
+### Demo
 
-プラグインインストール済みの試験用環境を用意しています。
+A test environment with the plugin installed is available:
 
-- https://op.cms.am/ (最新のメイン試験環境)
+- https://op.cms.am/ (Latest main test environment)
 
-デモサイトの編集権限が必要な方は開発チームに相談してください。
+Please contact the development team if you require editing privileges for the demo site.
 
-### Playground とあわせた使用方法
+### Usage with Playground
 
-OP 登録が行えない場合は、Playground を利用して CA の自動発行をテストすることができます。  
-詳しくは [Playground のガイド](/playground/#use-wordpress-plugin) を参照してください。
+If you are unable to perform OP registration, you can use Playground to test the automatic issuance of Content Attestations (CAs).
+For details, please refer to the [Playground guide](/playground/#use-wordpress-plugin).
 
-## 既知の問題
+## Known Issues
 
-### パーマリンク設定の変更による影響
+### Impact of Changing Permalink Settings
 
-WordPress のパーマリンク設定を変更すると、各記事の URL が変更されるため、既に発行済みの Content Attestation（CA）は `allowedUrl` の不一致により無効となります。
+Changing WordPress permalink settings alters the URLs of individual posts; consequently, previously issued Content Attestations (CAs) become invalid due to an `allowedUrl` mismatch.
 
-**影響する操作**:
+**Affected Actions**:
 
-- 設定 > パーマリンク設定
-  - 設定変更
-  - カスタム構造の変更
+- Settings > Permalinks
+  - Changing settings
+  - Modifying the custom structure
 
-パーマリンク設定を変更した場合、影響を受ける全ての投稿を再度更新（編集・保存）することで、新しい URL に対応した CA が再発行されます。
+If you change permalink settings, updating (editing and saving) all affected posts will trigger the re-issuance of CAs corresponding to the new URLs.
 
-### プラグイン・フィルター・テーマによる HTML の変形
+### HTML Modification by Plugins, Filters, or Themes
 
-WordPress では、投稿本文に `<!--nextpage-->` を挿入することでページ分割が可能です。ただし、プラグインやテーマ、あるいはフィルターフックの影響により、これが `<p><!--nextpage--></p>` のように不適切なマークアップで出力される場合があります。このような出力は、意図しない改行や空行の原因となります。
+In WordPress, you can split a post into multiple pages by inserting `<!--nextpage-->` into the post body. However, due to the influence of plugins, themes, or filter hooks, this may sometimes be output with incorrect markup, such as `<p><!--nextpage--></p>`. Such output can cause unintended line breaks or blank lines.
 
-**回避策**: 次のように置換処理を行うことで不適切なマークアップを修正できます。
+**Workaround**: You can correct the improper markup by applying a replacement process as follows:
 
 ```php
 // includes/issue.php
 
 /**
- * 未署名 Content Attestation の一覧の作成
+ * Create a list of unsigned Content Attestations
  *
  * @param \WP_Post $post Post object.
- * @param string   $issuer_id CA 発行者 ID
- * @return list<Uca> 未署名 Content Attestation の一覧
+ * @param string   $issuer_id CA issuer ID
+ * @return list<Uca> List of unsigned Content Attestations
  */
 function create_uca_list( \WP_Post $post, string $issuer_id ): array {
-	// ... 省略 ...
+	// ... Omitted ...
 
-	// 置換処理を追加
+	// Add replacement logic
 	$post->post_content = str_replace('<p><!--nextpage--></p>', '<!--nextpage-->', $post->post_content);
 
 	$postdata = \generate_postdata( $post );
 
-	// ... 省略 ...
+	// ... Omitted ...
 }
 ```
 
-### Autoptimize プラグインとの競合
+### Conflict with the Autoptimize Plugin
 
-[Autoptimize](https://ja.wordpress.org/plugins/autoptimize/)（[Pro版](https://autoptimize.com/pro/)を含む）は、HTML や画像の最適化（minify）を行うプラグインです。これにより、以下のような問題が発生する可能性があります。
+[Autoptimize](https://wordpress.org/plugins/autoptimize/) (including the [Pro version](https://autoptimize.com/pro/)) is a plugin that optimizes (minifies) HTML and images. This may cause the following problems:
 
-#### 署名対象 HTML との不整合
+#### Inconsistency with the Signed HTML
 
-Autoptimize による minify 前の HTML が CA Server に送信される場合、実際に表示される HTML と一致せず、署名検証が失敗する可能性があります。
+When the HTML before minification by Autoptimize is sent to the CA Server, it may not match the HTML that is actually displayed, potentially causing signature verification to fail.
 
-**対応方針**: Autoptimize の minify 処理後の HTML を調整し、それを CA Server に送信
+**Solution**: Adjust the HTML after Autoptimize's minification process and send it to the CA Server.
 
-#### Pro 版 CDN による画像 URL の変換
+#### Image URL Transformation via CDN in the Pro Version
 
-Pro 版では、画像が CDN 経由で変換され、URL が変化する場合があります。これにより署名対象の HTML と実際の表示内容に差異が生じます。
+In the Pro version, images are transformed via CDN, which may change their URLs. This can result in discrepancies between the signed HTML and the actual displayed content.
 
-**対応方針**: CDN 変換後の画像 URL を取得し、それを反映した HTML を CA Server に送信
+**Response Plan**: Obtain the image URL after CDN conversion and send the HTML reflecting it to the CA Server.
 
-### CA サーバー側でのデータ削除
+### Data Deletion on the CA Server
 
-メタデータ `_profile_post_cas` に CAS が保存されている状態で、 CA サーバー側のデータが手動で削除された場合、記事更新時に UUID を指定した新規登録が試みられます。これはサーバー側でエラーとなる可能性があります。
+If the CAS is stored in the metadata `_profile_post_cas` and the data on the CA server is manually deleted, an attempt will be made to register a new post specifying the UUID when updating the article. This may result in an error on the server side.
 
-**回避策**： 一度記事を非公開にすることで、メタデータがクリアされます。その後再度公開することで UUID を指定しない新規登録となり、正常に登録されます。
+**Workaround**: Make the article private once to remove the metadata. By making it public again after that, it will be registered as a new entry without a specified UUID, and the registration will complete successfully.
