@@ -401,7 +401,7 @@ function create_uca_list( \WP_Post $post, string $issuer_id ): array {
 
 ### Conflict with the Autoptimize Plugin
 
-[Autoptimize](https://ja.wordpress.org/plugins/autoptimize/) (including the [Pro version](https://autoptimize.com/pro/)) is a plugin that optimizes (minifies) HTML and images. This may cause the following problems:
+[Autoptimize](https://wordpress.org/plugins/autoptimize/) (including the [Pro version](https://autoptimize.com/pro/)) is a plugin that optimizes (minifies) HTML and images. This may cause the following problems:
 
 #### Inconsistency with the Signed HTML
 
