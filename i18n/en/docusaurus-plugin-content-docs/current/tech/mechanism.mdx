@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/ea02fd3/docs/tech/mechanism.mdx
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/c6370d4/docs/tech/mechanism.mdx
 ---
 
 # The mechanism of Originator Profile
@@ -19,7 +19,7 @@ The VCs handled by Originator Profile are defined in the following table.
 | [Website Profile (WSP)](/opb/terminology.md#website-profile-wsp)       | Representation that the website is operated by the OP holding organization      | Website name, etc                                                                           | Sender                                                                     | [Site Profile (SP)](/opb/terminology.md#site-profile-sp)                         |
 | [Content Attestation (CA)](/opb/terminology.md#content-attestation-ca) | Guaranteeing the authenticity of [Web content](/opb/terminology.md#web-content) | Hashes of content data, etc                                                                 | Sender                                                                     | [Content Attestation Set (CAS)](/opb/terminology.md#content-attestation-set-cas) |
 
-These VCs are digitally signed by the issuer, so it is possible to confirm that the contents have not been tampered with. Another advantage of the IHV model is that when web users verify these VCs, they do not need to access the web server for verification, which eliminates privacy concerns.
+These VCs are digitally signed by the issuer, so it is possible to confirm that the contents have not been tampered with. Another advantage of the IHV model is that when web users verify these VCs, they do not need to access the web server for verification, which eliminates privacy concerns. For the validity period of each VC, see [Validity Period of OP, SP, and CA](./validity-period.mdx).
 
 Although the table does not list a VC called Originator Profile (OP), OP is not a single VC, but a data format consisting of CP, WMP, and PA. This allows for flexibility, such as issuing by the appropriate issuer on a VC-by-VC basis and replacing VC depending on the use case.
 
