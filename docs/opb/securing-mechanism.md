@@ -249,7 +249,7 @@ _このセクションは非規範的です。_
 
 ### 失効
 
-Originator Profile では失効リスト (CRL: Certificate Revocation List) 相当の機構を採用しません。検証者がリアルタイムに有効性を確認する対象は署名鍵のみです。
+Originator Profile では失効リスト (CRL: Certificate Revocation List) 相当の機構を採用しません。VC の [enveloping proof](https://www.w3.org/TR/vc-data-model-2.0/#dfn-enveloping-proof) の検証において、検証者がリアルタイムに有効性を確認する対象は署名鍵のみです。
 
 したがって OP VC は有効期間の延長の仕組みを持ちません。有効性を維持するには、有効期間内に再発行および再設置を繰り返す必要があります。
 
