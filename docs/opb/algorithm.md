@@ -111,5 +111,3 @@ NIST SP 800-57 Part 1 Section 6.1.1では、暗号鍵の保護および保証要
 
 - 署名鍵: 生成から暗号利用期間終了まで、機密性、完全性が保たれた保有の保証
 - 検証鍵: 生成から署名データの検証が不要になるまで、完全性、可用性が保たれた有効性の保証
-
-Originator Profile では、OP の署名鍵 (CA Server が管理) について、鍵の漏洩時に発行済み全 VC の再発行および再設置が必要となる影響の大きさを踏まえ、取り出し不可能な Cloud KMS を用いなければなりません (MUST)。CA Server との認証方式の要件については [OP VC Securing Mechanism のセキュリティ](./securing-mechanism.md#security) を参照してください。
