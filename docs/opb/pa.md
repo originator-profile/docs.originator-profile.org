@@ -43,6 +43,8 @@ Profile Annotation は OP VC DM 準拠文書でなければなりません (MUST
 
 プロパティの定義については [VC Data Model 2.0 4.9節 Validity Period](https://www.w3.org/TR/vc-data-model-2.0/#validity-period) を参照ください。
 
+OP 全体の有効期間の運用および OP の再発行契機については [OP, SP, CA の有効期間](../tech/validity-period.mdx) を参照してください。
+
 :::
 
 #### credentialSubject のプロパティ一覧 {#credential-subject-properties}

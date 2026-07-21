@@ -50,6 +50,12 @@ Content Attestation は OP VC DM 準拠文書でなければなりません (MUS
 | `id`   | `string` | **REQUIRED.** CA ID でなければなりません (MUST)。 CA ID は [UUIDv4](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-4) の URN 形式の文字列です。コンテンツと CA ID は一対一対応します。 |
 | `type` | `string` | **REQUIRED.** CA のタイプ名です。既存の型は [Content Attestation Type Registry](./ca-model/index.mdx#registry) に登録されており、必要に応じて拡張して新しい型を定義できます (MAY)。                   |
 
+:::note
+
+VC の署名の有効期間 (`iat`, `exp`) の運用上の扱いについては [OP, SP, CA の有効期間](../tech/validity-period.mdx) を参照してください。
+
+:::
+
 #### `allowedUrl` の具体例
 
 ✅ 有効:

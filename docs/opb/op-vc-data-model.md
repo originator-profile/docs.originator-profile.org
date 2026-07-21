@@ -28,6 +28,12 @@ OP の仕様ではいくつかの VC を定めています。それらの VC は
 | `type` | `string` \| `string[]` | **OPTIONAL.** 値は [JSON-LD 語彙](https://www.w3.org/TR/json-ld11/#terms)かその配列でなければなりません (MUST)。 |
 | `id`   | `string`               | **REQUIRED.** 識別子です。識別子の形式は各 VC のデータモデルを定める文書で取り扱います。                         |
 
+:::note
+
+VC の署名の有効期間 (`iat`, `exp`) の運用上の扱いについては [OP, SP, CA の有効期間](../tech/validity-period.mdx) を参照してください。
+
+:::
+
 ## 国際化 {#internationalization}
 
 各 VC で使用する言語は、[OP VC データモデル `@context` プロパティ](/opb/op-vc-data-model.md#vc-properties)に指定される `@language` タグによって識別できます。アプリケーション実装者は、アプリケーション利用者のロケールに合わせて、適切な言語で記述された VCs を表示に使用するべきです (SHOULD)。
