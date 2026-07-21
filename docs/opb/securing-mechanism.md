@@ -243,6 +243,24 @@ flowchart TD
 
 ## セキュリティ {#security}
 
-TODO
+### 失効設計
 
-[Verifiable Credentials Data Model 2.0 セクション 9](https://www.w3.org/TR/vc-data-model-2.0/#security-considerations)に記載のあるセキュリティの考慮事項を参考にしてください。
+Originator Profile では失効リスト (CRL 相当) を採用しません。検証者がリアルタイムに有効性を確認する対象は署名鍵のみです。
+
+OP、WSP、CA は有効期間の延長の仕組みを持ちません。有効性を維持するには、有効期間内に再発行および再設置を繰り返さなければなりません (MUST)。
+
+運用ミスやセキュリティインシデントにより署名鍵 (またはそのアクセス権) の漏洩が判明した場合、鍵の交換と、それに伴う発行済み全 VC の再発行および再設置をおこなわなければなりません (MUST)。
+
+有効期間の考え方および再発行・再設置の運用については [OP, SP, CA の有効期間](../tech/validity-period.mdx) を参照してください。
+
+### 署名鍵の保護
+
+OP の署名鍵は CA Server が管理します。署名鍵の保護要件については [暗号鍵の保護および保証要件](./algorithm.md#security-considerations) を参照してください。
+
+### CA Server との認証
+
+CA Server との認証には、セキュリティレベルの高い方式を用いなければなりません (MUST)。ただし過渡期的サポートについてはこの限りではありません。CA Server アカウントおよび CA Server にアクセスするための Private Key の管理は、採用側の責任と判断でおこなうものとします。
+
+### 参考
+
+[Verifiable Credentials Data Model 2.0 セクション 9](https://www.w3.org/TR/vc-data-model-2.0/#security-considerations)に記載のあるセキュリティの考慮事項も参考にしてください。
