@@ -1,0 +1,108 @@
+---
+sidebar_position: 3
+---
+
+# OP, SP, CA の有効期間
+
+本ページでは Originator Profile (OP)、Site Profile (SP)、Content Attestation (CA) の有効期間の考え方と、有効期間内に必要な再発行・再設置の運用について説明します。個別の VC のプロパティ仕様や検証プロセスは [Originator Profile Blueprint](/opb/) の各ページを参照してください。
+
+## 有効期間の考え方
+
+OP や CA を構成する VC は、[VC-JOSE-COSE](https://www.w3.org/TR/vc-jose-cose/) の JWT クレーム `iat` (issued at) と `exp` (expired at) によって有効期間 `[iat, exp)` を持ちます (詳細は [OP VC Securing Mechanism](/opb/securing-mechanism.md#iat-exp) を参照)。
+
+OP は単体の VC ではなく、[Core Profile (CP)](/opb/cp.md)、[Web Media Profile (WMP)](/opb/web-media-profile.md)、[Profile Annotation (PA)](/opb/pa.md) を組み合わせたデータ形式です ([Originator Profile の仕組み](./mechanism.mdx) を参照)。したがって OP としての有効期間は、含まれる CP、WMP、PA すべての有効期間の共通部分になります。
+
+[Site Profile (SP)](/opb/site-profile.md) は [Website Profile (WSP)](/opb/website-profile.md) と OP を包含する配布形式なので、SP としての有効期間は WSP と OP の有効期間の共通部分になります。
+
+[Content Attestation (CA)](/opb/ca.md) は独立した VC として、自身の有効期間を持ちます。
+
+いずれについても、有効期間を延長する仕組みは用意していません。有効期間内に再発行と再設置を繰り返すことでのみ維持できます。失効設計に関する規範的な記述は [OP VC Securing Mechanism のセキュリティ](/opb/securing-mechanism.md#security) を参照してください。
+
+## Originator Profile (OP) の有効期間
+
+### OP 全体の有効期間の決まり方
+
+OP は CP、WMP、PA の 3 種類の VC を組み合わせたデータ形式です。それぞれの VC が独立した `iat`、`exp` を持つため、OP としての有効期間は含まれる VC すべての有効期間の共通部分になります。
+
+### CP と WMP の有効期間
+
+CP と WMP の有効期間は、いずれも発行日から 398 日です (`exp = iat + 398 days`)。
+
+### PA の有効期間
+
+PA の有効期間は、発行日から 398 日、または表明する対象認証などの有効期間のうち短い方になります。
+
+対象認証に有効期間がある PA は、`validFrom` と `validUntil` プロパティに対象認証の有効期間を記載し、`validFrom ≤ iat` かつ `exp ≤ validUntil` を満たすように `iat`、`exp` を設定します。`validFrom`、`validUntil` (対象認証の有効期間) と `iat`、`exp` (署名の有効期間) の意味論の違いについては [Profile Annotation](/opb/pa.md) を参照してください。
+
+対象認証タイプごとに、`validFrom` と `validUntil` の有無は次の通りです。
+
+- `validFrom`、`validUntil` を持たない PA
+  - [Profile Annotation Issuer 登録証 PA](/opb/pa-model/profile-annotation-issuer-registration.md)
+  - [組織実在証 PA](/opb/pa-model/existence.md)
+  - [自治体認証 PA](/opb/pa-model/local-government-certification.md)
+- `validFrom`、`validUntil` を持つ PA
+  - [報道機関登録証 PA](/opb/pa-model/news-media-registration.md)
+  - [広告認証 PA](/opb/pa-model/advertising-certification.md)
+
+対象認証の有効期間が 398 日より短い PA を保有している場合、OP 全体の有効期間も対象認証の期限に従って短くなります。対象認証の期限が切れる前に OP を再発行し、SP を更新設置する必要があります。
+
+### 有効期間内に必要な運用
+
+OP を維持するには、OP の有効期間が切れる前に [OP レジストリ](/opb/terminology.md#op-レジストリ) で OP を再発行し、それを含む SP を更新設置します。SP の設置手順の詳細は [Site Profile の設置](/tutorial/sp-setup-guide.md) を参照してください。
+
+## Website Profile (WSP) の有効期間
+
+WSP は発信者が発行する VC で、有効期間の扱いは Content Attestation と同様です。
+
+### 発行時の指定
+
+WSP の有効期間は、発行時に指定した `iat`、`exp` で決まります。デフォルト値は発行から 1 年です。
+
+現状は有効期間の長さに制約を設けていませんが、長期有効な WSP には将来的に上限を導入することを想定しています。
+
+### 有効期間内に必要な運用
+
+WSP を維持するには、WSP の有効期間が切れる前に再発行し、それを含む SP を更新設置します。
+
+## Site Profile (SP) の有効期間
+
+SP は WSP と OP を包含する配布形式で、SP 自体は VC 署名を持ちません (SP のデータ形式は [Site Profile](/opb/site-profile.md) を参照)。したがって SP としての有効期間は、含まれる WSP と OP の有効期間の共通部分になります。
+
+WSP または OP のいずれかの有効期間が切れる前に、該当する VC を再発行して SP を更新設置してください。
+
+## Content Attestation (CA) の有効期間
+
+### 発行時の指定
+
+CA の有効期間は、CA Server (Content Attestation を発行するサーバー。詳細は [Content Attestation Server の設置](/tutorial/cas-setup-guide.md) を参照) で発行時に指定した `iat`、`exp` で決まります。デフォルト値は発行から 1 年です。
+
+現状は有効期間の長さに制約を設けていませんが、長期有効な CA には将来的に上限を導入することを想定しています。
+
+### 有効期間内に必要な運用
+
+CA を維持するには、CA の有効期間が切れる前に CA Server を用いて再発行し、[Content Attestation Set (CAS)](/opb/content-attestation-set.md) を差し換えます。CAS の [HTML への紐付け](/opb/link-to-html.md) も適宜更新してください。
+
+OP の再発行に連動して CA を再発行する必要はありません。CP の発行者鍵が変わらない限り、既存の CA は引き続き検証できます。
+
+## VC 種別ごとの有効期間まとめ
+
+SP は独立した VC ではないため一覧には含めていません。SP の有効期間は下記表の WSP と OP の有効期間の共通部分として決まります。
+
+| VC 種別                                           | 発行主体                                           | 署名の有効期間 (`iat`, `exp`)                     | 追加の期間制約                        | 再発行・再設置の契機                           |
+| :------------------------------------------------ | :------------------------------------------------- | :------------------------------------------------ | :------------------------------------ | :--------------------------------------------- |
+| [CP](/opb/cp.md)                                  | [OP レジストリ](/opb/terminology.md#op-レジストリ) | 発行日から 398 日                                 | なし                                  | 期限前に OP を再発行し SP を更新設置           |
+| [WMP](/opb/web-media-profile.md)                  | [OP レジストリ](/opb/terminology.md#op-レジストリ) | 発行日から 398 日                                 | なし                                  | 期限前に OP を再発行し SP を更新設置           |
+| [PA](/opb/pa.md) (`validFrom`、`validUntil` なし) | PA 発行者                                          | 発行日から 398 日                                 | なし                                  | 期限前に OP を再発行し SP を更新設置           |
+| [PA](/opb/pa.md) (`validFrom`、`validUntil` あり) | PA 発行者                                          | 発行日から 398 日または対象認証の期限のうち短い方 | `validFrom ≤ iat`、`exp ≤ validUntil` | いずれかの期限前に OP を再発行し SP を更新設置 |
+| [WSP](/opb/website-profile.md)                    | 発信者                                             | 発行時に指定 (デフォルト 1 年)                    | なし (将来上限導入の想定)             | 期限前に WSP を再発行し SP を更新設置          |
+| [CA](/opb/ca.md)                                  | 発信者                                             | 発行時に指定 (デフォルト 1 年)                    | なし (将来上限導入の想定)             | 期限前に CA を再発行し CAS を差し換え          |
+
+## 失効設計に関する補足
+
+:::note
+
+OP、WSP、CA には有効期間の延長の仕組みがなく、期間内の再発行・再設置を繰り返すことでのみ維持します。失効リスト (CRL 相当) は採用しておらず、検証者がリアルタイムに有効性を確認する対象は署名鍵のみです。
+
+署名鍵の漏洩が判明した場合の対応、および OP の署名鍵に対する Cloud KMS の要件など、失効設計に関する規範的な記述は [OP VC Securing Mechanism のセキュリティ](/opb/securing-mechanism.md#security) と [暗号鍵の保護および保証要件](/opb/algorithm.md#security-considerations) を参照してください。
+
+:::
