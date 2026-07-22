@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/7fcbec9/docs/tech/validity-period.mdx
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/213bec2/docs/tech/validity-period.mdx
 ---
 
 # Validity period of OP, SP, and CA
@@ -96,7 +96,7 @@ Although a CA has its own `iat` and `exp`, the validity of a CA depends on the v
 
 To maintain a CA, before the validity periods of the CA and of the OP of the issuing organization expire, [reissue the CA at the CA Server](/tutorial/cas-setup-guide.md#ca-server) and reissue the OP at the [OP Registry](/opb/terminology.md#op-registry), and update the [Content Attestation Set (CAS)](/opb/content-attestation-set.md) and the SP that contains the reissued OP. Update the [linking to HTML](/opb/link-to-html.md) as needed. For SP installation procedures, see [Setting Up the Site Profile](/tutorial/sp-setup-guide.md).
 
-A CA does not need to be reissued in sync with OP reissuance. As long as the OP is within its validity period and the public key distributed by the CP contained in the OP does not change, the existing CA remains verifiable.
+A CA does not need to be reissued in sync with OP reissuance. As long as the OP is within its validity period and the public key distributed by the CP contained in the OP does not change, the existing CA remains valid.
 
 ## Validity period per VC type
 
