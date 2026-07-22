@@ -30,9 +30,12 @@ CP と WMP の有効期間は、いずれも発行日から 398 日です (`exp 
 
 ### PA の有効期間
 
-PA の有効期間は、発行日から 398 日、または表明する対象 PA などの有効期間のうち短い方になります。
+PA では、次の 2 種類の有効期間を扱います。
 
-対象 PA に有効期間がある PA は、`validFrom` と `validUntil` プロパティに対象 PA の有効期間を記載し、`validFrom ≤ iat` かつ `exp ≤ validUntil` を満たすように `iat`、`exp` を設定します。`validFrom`、`validUntil` (対象 PA の有効期間) と `iat`、`exp` (署名の有効期間) の意味論の違いについては [Profile Annotation (PA)](/opb/pa.md) を参照してください。
+- **署名の有効期間** (`iat`、`exp`): PA そのものが検証可能な期間。
+- **内容の有効期間** (`validFrom`、`validUntil`): PA が表明する対象 (例: 認証、登録証など) が有効な期間。対象に期限がない場合は指定しません。
+
+PA の有効期間は、発行日から 398 日、または内容の有効期間のうち短い方になります。内容に有効期間がある場合、`validFrom ≤ iat` かつ `exp ≤ validUntil` を満たすように `iat`、`exp` を設定します (詳細は [Profile Annotation (PA)](/opb/pa.md) を参照)。
 
 対象 PA の種類ごとに、`validFrom` と `validUntil` の有無は次の通りです。
 
@@ -44,7 +47,7 @@ PA の有効期間は、発行日から 398 日、または表明する対象 PA
   - [報道機関登録証 PA](/opb/pa-model/news-media-registration.md)
   - [広告認証 PA](/opb/pa-model/advertising-certification.md)
 
-対象 PA の有効期間が 398 日より短い PA を保有している場合、OP 全体の有効期間も対象 PA の期限に従って短くなります。対象 PA の期限が切れる前に OP を再発行し、SP を更新設置する必要があります。
+内容の有効期間が 398 日より短い PA を保有している場合、OP 全体の有効期間も対象 PA の期限に従って短くなります。対象 PA の期限が切れる前に OP を再発行し、SP を更新設置する必要があります。
 
 ### 有効期間内に必要な運用
 
