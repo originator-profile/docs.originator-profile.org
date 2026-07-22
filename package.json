@@ -11,11 +11,11 @@
     "preview": "node copy-aov.mjs; docusaurus start"
   },
   "devDependencies": {
-    "@docusaurus/core": "3.10.1",
-    "@docusaurus/faster": "3.10.1",
-    "@docusaurus/preset-classic": "3.10.1",
-    "@docusaurus/theme-mermaid": "3.10.1",
-    "@docusaurus/types": "3.10.1",
+    "@docusaurus/core": "3.10.2",
+    "@docusaurus/faster": "3.10.2",
+    "@docusaurus/preset-classic": "3.10.2",
+    "@docusaurus/theme-mermaid": "3.10.2",
+    "@docusaurus/types": "3.10.2",
     "@easyops-cn/docusaurus-search-local": "0.55.2",
     "@r74tech/docusaurus-plugin-panzoom": "2.4.2",
     "@types/shelljs": "0.10.0",
