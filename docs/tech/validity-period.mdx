@@ -37,15 +37,15 @@ PA では、次の 2 種類の有効期間を扱います。
 
 PA の有効期間は、発行日から 398 日、または内容の有効期間のうち短い方になります。内容に有効期間がある場合、`validFrom ≤ iat` かつ `exp ≤ validUntil` を満たすように `iat`、`exp` を設定します (詳細は [Profile Annotation (PA)](/opb/pa.md) を参照)。
 
-対象 PA の種類ごとに、`validFrom` と `validUntil` の有無は次の通りです。
+PA 種別ごとの `validFrom` と `validUntil` の記載有無と記載内容は次の通りです。
 
-- `validFrom`、`validUntil` を持たない PA
-  - [Profile Annotation Issuer 登録証 PA](/opb/pa-model/profile-annotation-issuer-registration.md)
-  - [組織実在証 PA](/opb/pa-model/existence.md)
-  - [自治体認証 PA](/opb/pa-model/local-government-certification.md)
-- `validFrom`、`validUntil` を持つ PA
-  - [報道機関登録証 PA](/opb/pa-model/news-media-registration.md)
-  - [広告認証 PA](/opb/pa-model/advertising-certification.md)
+| PA 種別                                                                                        | `validFrom`                        | `validUntil`           |
+| :--------------------------------------------------------------------------------------------- | :--------------------------------- | :--------------------- |
+| [Profile Annotation Issuer 登録証 PA](/opb/pa-model/profile-annotation-issuer-registration.md) | 記載しない                         | 記載しない             |
+| [組織実在証 PA](/opb/pa-model/existence.md)                                                    | 記載しない                         | 記載しない             |
+| [自治体認証 PA](/opb/pa-model/local-government-certification.md)                               | 記載しない                         | 記載しない             |
+| [報道機関登録証 PA](/opb/pa-model/news-media-registration.md)                                  | 報道機関として登録された時点を記載 | 記載しない             |
+| [広告認証 PA](/opb/pa-model/advertising-certification.md)                                      | 広告認証が交付された時点を記載     | 広告証の有効期限を記載 |
 
 内容の有効期間が 398 日より短い PA を保有している場合、OP 全体の有効期間も対象 PA の期限に従って短くなります。対象 PA の期限が切れる前に OP を再発行し、SP を更新設置する必要があります。
 
