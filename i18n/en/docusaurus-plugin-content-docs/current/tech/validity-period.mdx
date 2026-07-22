@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/005c8b9/docs/tech/validity-period.mdx
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/87b8370/docs/tech/validity-period.mdx
 ---
 
 # Validity period of OP, SP, and CA
@@ -9,7 +9,7 @@ This page explains the concept of validity period for Originator Profile (OP), S
 
 ## Overview of validity period
 
-Each VC that constitutes an OP or CA has a validity period `[iat, exp)` determined by the JWT claims `iat` (issued at) and `exp` (expired at) of [VC-JOSE-COSE](https://www.w3.org/TR/vc-jose-cose/) (see [OP VC Securing Mechanism](/opb/securing-mechanism.md#iat-exp) for details).
+Each VC that constitutes an OP or CA has a validity period `[iat, exp)` determined by the JWT claims `iat` (issued at) and `exp` (expiration time) of [VC-JOSE-COSE](https://www.w3.org/TR/vc-jose-cose/) (see [OP VC Securing Mechanism](/opb/securing-mechanism.md#iat-exp) for details).
 
 An OP is not a single VC but a data format that combines [Core Profile (CP)](/opb/cp.md), [Web Media Profile (WMP)](/opb/web-media-profile.md), and [Profile Annotation (PA)](/opb/pa.md) (see [The mechanism of Originator Profile](./mechanism.mdx)). Therefore, the validity period of an OP is the intersection of the validity periods of all included CPs, WMPs, and PAs.
 
