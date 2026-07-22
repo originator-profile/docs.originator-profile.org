@@ -95,7 +95,7 @@ CA は独立した `iat`、`exp` を持ちますが、CA の有効性はその C
 
 CA を維持するには、CA とその CA を発行する組織の OP の有効期間が切れる前に [CA Server](/tutorial/cas-setup-guide.md#ca-server) での CA 再発行と [OP レジストリ](/opb/terminology.md#op-レジストリ) での OP 再発行をおこない、[Content Attestation Set (CAS)](/opb/content-attestation-set.md) と 再発行した OP を含む SP を更新設置します。CAS の [HTML への紐付け](/opb/link-to-html.md) も適宜更新してください。SP の設置手順の詳細は [Site Profile の設置](/tutorial/sp-setup-guide.md) を参照してください。
 
-OP の再発行に連動して CA を再発行する必要はありません。OP が有効期間内にあり、かつその OP に含まれる CP から配布する公開鍵が変わらない限り、既存の CA は引き続き検証できます。
+OP の再発行に連動して CA を再発行する必要はありません。OP が有効期間内にあり、かつその OP に含まれる CP から配布する公開鍵が変わらない限り、既存の CA は引き続き有効です。
 
 ## VC 種別ごとの有効期間
 
