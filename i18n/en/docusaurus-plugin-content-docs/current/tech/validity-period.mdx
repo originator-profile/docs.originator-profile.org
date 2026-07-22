@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/534e890/docs/tech/validity-period.mdx
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/7fcbec9/docs/tech/validity-period.mdx
 ---
 
 # Validity period of OP, SP, and CA
@@ -102,11 +102,10 @@ A CA does not need to be reissued in sync with OP reissuance. As long as the OP 
 
 OP and SP are not standalone VCs and are not included in the table below. The OP validity period is the intersection of the validity periods of CP, WMP, and PA in the table, and the SP validity period is the intersection of the validity periods of WSP and OP.
 
-| VC type                                                 | Issuer                                         | Signature validity period (`iat`, `exp`)                                  | Additional period constraint          | Trigger for reissuance and re-installation                           |
-| :------------------------------------------------------ | :--------------------------------------------- | :------------------------------------------------------------------------ | :------------------------------------ | :------------------------------------------------------------------- |
-| [CP](/opb/cp.md)                                        | [OP Registry](/opb/terminology.md#op-registry) | 398 days from issuance                                                    | None                                  | Before expiration, reissue the OP and update the SP                  |
-| [WMP](/opb/web-media-profile.md)                        | [OP Registry](/opb/terminology.md#op-registry) | 398 days from issuance                                                    | None                                  | Before expiration, reissue the OP and update the SP                  |
-| [PA](/opb/pa.md) (without `validFrom` and `validUntil`) | PA issuer                                      | 398 days from issuance                                                    | None                                  | Before expiration, reissue the OP and update the SP                  |
-| [PA](/opb/pa.md) (with `validFrom` and `validUntil`)    | PA issuer                                      | 398 days from issuance, or the target PA expiration, whichever is shorter | `validFrom ≤ iat`, `exp ≤ validUntil` | Before either expires, reissue the OP and update the SP              |
-| [WSP](/opb/website-profile.md)                          | Sender                                         | Specified at issuance (default: one year)                                 | Intersected with OP validity period   | Before expiration, reissue the WSP and OP, then update the SP        |
-| [CA](/opb/ca.md)                                        | Sender                                         | Specified at issuance (default: one year)                                 | Intersected with OP validity period   | Before expiration, reissue the CA and OP, then update the CAS and SP |
+| VC type                          | Issuer                                         | Signature validity period (`iat`, `exp`)                                     | Additional period constraint          | Trigger for reissuance and re-installation                           |
+| :------------------------------- | :--------------------------------------------- | :--------------------------------------------------------------------------- | :------------------------------------ | :------------------------------------------------------------------- |
+| [CP](/opb/cp.md)                 | [OP Registry](/opb/terminology.md#op-registry) | 398 days from issuance                                                       | None                                  | Before expiration, reissue the OP and update the SP                  |
+| [WMP](/opb/web-media-profile.md) | [OP Registry](/opb/terminology.md#op-registry) | 398 days from issuance                                                       | None                                  | Before expiration, reissue the OP and update the SP                  |
+| [PA](/opb/pa.md)                 | PA issuer                                      | 398 days from issuance, or the content validity period, whichever is shorter | `validFrom ≤ iat`, `exp ≤ validUntil` | Before either expires, reissue the OP and update the SP              |
+| [WSP](/opb/website-profile.md)   | Sender                                         | Specified at issuance (default: one year)                                    | Intersected with OP validity period   | Before expiration, reissue the WSP and OP, then update the SP        |
+| [CA](/opb/ca.md)                 | Sender                                         | Specified at issuance (default: one year)                                    | Intersected with OP validity period   | Before expiration, reissue the CA and OP, then update the CAS and SP |
