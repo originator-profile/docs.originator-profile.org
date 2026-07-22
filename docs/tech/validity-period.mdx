@@ -67,7 +67,9 @@ WSP の有効期間は、発行時に指定した `iat`、`exp` で決まりま�
 
 ### 有効期間内に必要な運用
 
-WSP を維持するには、WSP の有効期間が切れる前に再発行し、それを含む SP を更新設置します。SP の設置手順の詳細は [Site Profile の設置](/tutorial/sp-setup-guide.md) を参照してください。
+WSP は独立した `iat`、`exp` を持ちますが、WSP の有効性はその WSP を発行する組織の OP の有効性に依存するため、WSP の実質的な有効期間は WSP と OP の有効期間の共通部分になります。
+
+WSP を維持するには、WSP とその WSP を発行する組織の OP の有効期間が切れる前に再発行し、それらを含む SP を更新設置します。SP の設置手順の詳細は [Site Profile の設置](/tutorial/sp-setup-guide.md) を参照してください。
 
 ## Site Profile (SP) の有効期間
 
@@ -89,19 +91,21 @@ CA の有効期間は、CA Server (Content Attestation を発行するサーバ�
 
 ### 有効期間内に必要な運用
 
-CA を維持するには、CA の有効期間が切れる前に [CA Server を用いて再発行](/tutorial/cas-setup-guide.md#ca-server)し、[Content Attestation Set (CAS)](/opb/content-attestation-set.md) を差し換えます。CAS の [HTML への紐付け](/opb/link-to-html.md) も適宜更新してください。
+CA は独立した `iat`、`exp` を持ちますが、CA の有効性はその CA を発行する組織の OP の有効性に依存するため、CA の実質的な有効期間は CA と OP の有効期間の共通部分になります。
 
-OP の再発行に連動して CA を再発行する必要はありません。CP 保有組織の公開鍵が変わらない限り、既存の CA は引き続き検証できます。
+CA を維持するには、CA とその CA を発行する組織の OP の有効期間が切れる前に [CA Server](/tutorial/cas-setup-guide.md#ca-server) での CA 再発行と [OP レジストリ](/opb/terminology.md#op-レジストリ) での OP 再発行をおこない、[Content Attestation Set (CAS)](/opb/content-attestation-set.md) と 再発行した OP を含む SP を更新設置します。CAS の [HTML への紐付け](/opb/link-to-html.md) も適宜更新してください。SP の設置手順の詳細は [Site Profile の設置](/tutorial/sp-setup-guide.md) を参照してください。
+
+OP の再発行に連動して CA を再発行する必要はありません。OP が有効期間内にあり、かつその OP に含まれる CP から配布する公開鍵が変わらない限り、既存の CA は引き続き検証できます。
 
 ## VC 種別ごとの有効期間
 
 OP および SP は独立した VC ではないため、一覧には含めていません。OP の有効期間は下記表の CP と WMP と PA の有効期間の共通部分であり、SP の有効期間は下記表の WSP と OP の有効期間の共通部分として決まります。
 
-| VC 種別                                           | 発行主体                                           | 署名の有効期間 (`iat`, `exp`)                     | 追加の期間制約                        | 再発行・再設置の契機                           |
-| :------------------------------------------------ | :------------------------------------------------- | :------------------------------------------------ | :------------------------------------ | :--------------------------------------------- |
-| [CP](/opb/cp.md)                                  | [OP レジストリ](/opb/terminology.md#op-レジストリ) | 発行日から 398 日                                 | なし                                  | 期限前に OP を再発行し SP を更新設置           |
-| [WMP](/opb/web-media-profile.md)                  | [OP レジストリ](/opb/terminology.md#op-レジストリ) | 発行日から 398 日                                 | なし                                  | 期限前に OP を再発行し SP を更新設置           |
-| [PA](/opb/pa.md) (`validFrom`、`validUntil` なし) | PA 発行者                                          | 発行日から 398 日                                 | なし                                  | 期限前に OP を再発行し SP を更新設置           |
-| [PA](/opb/pa.md) (`validFrom`、`validUntil` あり) | PA 発行者                                          | 発行日から 398 日または対象 PA の期限のうち短い方 | `validFrom ≤ iat`、`exp ≤ validUntil` | いずれかの期限前に OP を再発行し SP を更新設置 |
-| [WSP](/opb/website-profile.md)                    | 発信者                                             | 発行時に指定 (デフォルト 1 年)                    | なし (将来上限導入の想定)             | 期限前に WSP を再発行し SP を更新設置          |
-| [CA](/opb/ca.md)                                  | 発信者                                             | 発行時に指定 (デフォルト 1 年)                    | なし (将来上限導入の想定)             | 期限前に CA を再発行し CAS を差し換え          |
+| VC 種別                                           | 発行主体                                           | 署名の有効期間 (`iat`, `exp`)                     | 追加の期間制約                        | 再発行・再設置の契機                             |
+| :------------------------------------------------ | :------------------------------------------------- | :------------------------------------------------ | :------------------------------------ | :----------------------------------------------- |
+| [CP](/opb/cp.md)                                  | [OP レジストリ](/opb/terminology.md#op-レジストリ) | 発行日から 398 日                                 | なし                                  | 期限前に OP を再発行し SP を更新設置             |
+| [WMP](/opb/web-media-profile.md)                  | [OP レジストリ](/opb/terminology.md#op-レジストリ) | 発行日から 398 日                                 | なし                                  | 期限前に OP を再発行し SP を更新設置             |
+| [PA](/opb/pa.md) (`validFrom`、`validUntil` なし) | PA 発行者                                          | 発行日から 398 日                                 | なし                                  | 期限前に OP を再発行し SP を更新設置             |
+| [PA](/opb/pa.md) (`validFrom`、`validUntil` あり) | PA 発行者                                          | 発行日から 398 日または対象 PA の期限のうち短い方 | `validFrom ≤ iat`、`exp ≤ validUntil` | いずれかの期限前に OP を再発行し SP を更新設置   |
+| [WSP](/opb/website-profile.md)                    | 発信者                                             | 発行時に指定 (デフォルト 1 年)                    | OP の有効期間との積集合               | 期限前に WSP と OP を再発行し SP を更新設置      |
+| [CA](/opb/ca.md)                                  | 発信者                                             | 発行時に指定 (デフォルト 1 年)                    | OP の有効期間との積集合               | 期限前に CA とOP を再発行し CAS と SP を更新設置 |
