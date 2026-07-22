@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/c84bfdd/docs/tech/validity-period.mdx
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/005c8b9/docs/tech/validity-period.mdx
 ---
 
 # Validity period of OP, SP, and CA
@@ -31,9 +31,12 @@ The validity period of both CP and WMP is 398 days from the date of issuance (`e
 
 ### Validity period of PA
 
-The validity period of a PA is 398 days from the date of issuance, or the validity period of the target PA it asserts, whichever is shorter.
+A PA involves two kinds of validity periods:
 
-If the target PA has a validity period, the PA records the target PA's validity period in the `validFrom` and `validUntil` properties, and sets `iat` and `exp` to satisfy `validFrom ≤ iat` and `exp ≤ validUntil`. For the semantic difference between `validFrom` and `validUntil` (validity period of the target PA) and `iat` and `exp` (validity period of the signature), see [Profile Annotation (PA)](/opb/pa.md).
+- **Signature validity period** (`iat`, `exp`): the period during which the PA itself can be verified.
+- **Content validity period** (`validFrom`, `validUntil`): the period during which the target that the PA asserts (e.g., a certificate or registration) is in effect. This is not specified when the target has no expiration.
+
+The validity period of a PA is 398 days from the date of issuance, or the content validity period, whichever is shorter. If the content has a validity period, set `iat` and `exp` to satisfy `validFrom ≤ iat` and `exp ≤ validUntil` (see [Profile Annotation (PA)](/opb/pa.md) for details).
 
 The presence or absence of `validFrom` and `validUntil` for each target PA type is as follows:
 
@@ -45,7 +48,7 @@ The presence or absence of `validFrom` and `validUntil` for each target PA type 
   - [News Media Registration PA](/opb/pa-model/news-media-registration.md)
   - [Advertising Certification PA](/opb/pa-model/advertising-certification.md)
 
-If you hold a PA whose target PA has a validity period shorter than 398 days, the overall OP validity period is also shortened accordingly. Before the target PA expires, the OP must be reissued and the SP must be updated.
+If you hold a PA whose content validity period is shorter than 398 days, the overall OP validity period is also shortened accordingly. Before the target PA expires, the OP must be reissued and the SP must be updated.
 
 ### Operations required within the validity period
 
