@@ -8,7 +8,7 @@ sidebar_position: 3
 
 ## 有効期間の考え方
 
-OP や CA を構成する VC は、[VC-JOSE-COSE](https://www.w3.org/TR/vc-jose-cose/) の JWT クレーム `iat` (issued at) と `exp` (expired at) によって有効期間 `[iat, exp)` を持ちます (詳細は [OP VC Securing Mechanism](/opb/securing-mechanism.md#iat-exp) を参照)。
+OP や CA を構成する VC は、[VC-JOSE-COSE](https://www.w3.org/TR/vc-jose-cose/) の JWT クレーム `iat` (issued at) と `exp` (expiration time) によって有効期間 `[iat, exp)` を持ちます (詳細は [OP VC Securing Mechanism](/opb/securing-mechanism.md#iat-exp) を参照)。
 
 OP は単体の VC ではなく、[Core Profile (CP)](/opb/cp.md)、[Web Media Profile (WMP)](/opb/web-media-profile.md)、[Profile Annotation (PA)](/opb/pa.md) を組み合わせたデータ形式です ([Originator Profile の仕組み](./mechanism.mdx) を参照)。したがって OP としての有効期間は、含まれる CP、WMP、PA すべての有効期間の共通部分になります。
 
