@@ -127,6 +127,7 @@ Composer 依存関係の解決:
 
 ```
 cd packages/wordpress
+cp .env.development .env # 初回のみ
 docker compose run --rm -w /var/www/html/wp-content/plugins/ca-manager wordpress composer install
 ```
 

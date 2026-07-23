@@ -132,6 +132,7 @@ Resolving Composer dependencies:
 
 ```
 cd packages/wordpress
+cp .env.development .env # on first setup
 docker compose run --rm -w /var/www/html/wp-content/plugins/ca-manager wordpress composer install
 ```
 
