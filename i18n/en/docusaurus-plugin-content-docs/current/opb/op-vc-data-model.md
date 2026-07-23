@@ -1,6 +1,6 @@
 ---
 sidebar_position: 11
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/fbd41a7/docs/opb/op-vc-data-model.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/c6370d4/docs/opb/op-vc-data-model.md
 ---
 
 # OP VC Data Model
@@ -28,6 +28,12 @@ It MUST conform to the [VC DM 2.0 Conforming Document](https://www.w3.org/TR/vc-
 | ------ | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
 | `type` | `string` \| `string[]` | **OPTIONAL.** The value MUST be a term in the [JSON-LD vocabulary](https://www.w3.org/TR/json-ld11/#terms) or an array thereof. |
 | `id`   | `string`               | **REQUIRED.** An identifier. The format of the identifier is specified in the data model document for each VC.                  |
+
+:::note
+
+For operational guidance on VC signature validity period (`iat`, `exp`), refer to [Validity Period of OP, SP, and CA](../tech/validity-period.mdx).
+
+:::
 
 ## Internationalization {#internationalization}
 

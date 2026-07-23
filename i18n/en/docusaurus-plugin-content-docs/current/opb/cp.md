@@ -1,6 +1,6 @@
 ---
 sidebar_position: 21
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/5fe8e60/docs/opb/cp.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/c6370d4/docs/opb/cp.md
 tags:
   - Base Model
 ---
@@ -39,6 +39,12 @@ The Core Profile MUST be an OP VC DM compliant document and includes the followi
 | `id`   | `string` | **REQUIRED.** It MUST be the [OP ID](./op-id.md) of the CP holding organization.                                                                              |
 | `type` | `string` | **REQUIRED.** It MUST be `Core`.                                                                                                                              |
 | `jwks` | `object` | **REQUIRED.** It MUST be a [JWK Set](https://www.rfc-editor.org/rfc/rfc7517.html#section-5), which is the set of public keys of the CP-holding organizations. |
+
+:::note
+
+For operational guidance on VC signature validity period (`iat`, `exp`), refer to [Validity Period of OP, SP, and CA](../tech/validity-period.mdx).
+
+:::
 
 ## Extensibility {#extensibility}
 

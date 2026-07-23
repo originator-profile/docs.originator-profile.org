@@ -243,6 +243,16 @@ flowchart TD
 
 ## セキュリティ {#security}
 
-TODO
+_このセクションは非規範的です。_
 
-[Verifiable Credentials Data Model 2.0 セクション 9](https://www.w3.org/TR/vc-data-model-2.0/#security-considerations)に記載のあるセキュリティの考慮事項を参考にしてください。
+[Verifiable Credentials Data Model 2.0 セクション 9](https://www.w3.org/TR/vc-data-model-2.0/#security-considerations)に記載のあるセキュリティの考慮事項も参考にしてください。
+
+### 失効
+
+Originator Profile では失効リスト (CRL: Certificate Revocation List) 相当の機構を採用しません。VC の [proof](https://www.w3.org/TR/vc-data-model-2.0/#proofs-signatures) の検証において、検証者がリアルタイムに有効性を確認する対象は署名鍵のみです。
+
+したがって OP VC は有効期間の延長の仕組みを持ちません。有効性を維持するには、有効期間内に再発行および再設置を繰り返す必要があります。
+
+### 署名鍵の保護
+
+署名鍵の保護要件については [暗号鍵の保護および保証要件](./algorithm.md#暗号鍵の保護および保証要件) を参照してください。

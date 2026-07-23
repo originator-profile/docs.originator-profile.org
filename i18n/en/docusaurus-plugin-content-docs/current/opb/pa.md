@@ -1,6 +1,6 @@
 ---
 sidebar_position: 22
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/009e981/docs/opb/pa.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/c6370d4/docs/opb/pa.md
 tags:
   - Base Model
   - Profile Annotation
@@ -43,6 +43,8 @@ The Profile Annotation MUST be an OP VC DM compliant document and contains the f
 A scenario in which you might want to specify a different value is when you want to periodically reissue a VC that attests to a third-party certificate whose expiration date is far in the future. For example, suppose you issue a Profile Annotation based on this specification that contains a third-party certificate that expires on `2050-12-31T15:00:00Z`. In that case, you might consider periodically reissuing the Profile Annotation to reduce security risks caused by signature compromise or key leakage. To encourage periodic reissues, you can set an expiration date for the signature, and have the signature expire every year. In this case, you can specify the signature expiration date (one year later) in the `exp` claim, and set `validUntil` to `2050-12-31T15:00:00Z` regardless of the reissue date, thereby accurately representing the expiration date of the third-party certificate while reissuing it.
 
 See [VC Data Model 2.0 Section 4.9 Validity Period](https://www.w3.org/TR/vc-data-model-2.0/#validity-period) for property definitions.
+
+For operational guidance on the OP validity period and OP reissuance timing, refer to [Validity Period of OP, SP, and CA](../tech/validity-period.mdx).
 
 :::
 

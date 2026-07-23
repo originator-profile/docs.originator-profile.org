@@ -48,6 +48,12 @@ Web Media Profile は OP VC DM 準拠文書でなければなりません (MUST)
 
 :::note
 
+VC の署名の有効期間 (`iat`, `exp`) の運用上の扱いについては [OP, SP, CA の有効期間](../tech/validity-period.mdx) を参照してください。
+
+:::
+
+:::note
+
 WMP 記載の情報は Core Profile を発行する組織が審査で確認します。
 
 :::

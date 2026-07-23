@@ -40,6 +40,12 @@ Website Profile は OP VC DM 準拠文書でなければなりません (MUST)�
 | `description`   | `string`               | **OPTIONAL.** Web サイトの説明です。                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | `allowedOrigin` | `string` \| `string[]` | **REQUIRED.** 提示する Web サイトを識別するための [RFC 6454](https://www.rfc-editor.org/rfc/rfc6454) オリジン (スキーム、ホスト名、ポート番号) を ASCII 形式で表した文字列あるいはその文字列の配列です。パス、クエリ、フラグメントは含めてはなりません (MUST NOT)。また、デフォルトポート (例: `https:` の 443、`http:` の 80) は、[W3C URL Standard](https://url.spec.whatwg.org/) に基づき省略された形式で表現します。このプロパティで WSP が正当なオリジンの Web サイトに設置されているかどうかを[検証](#verification)することができます。 |
 
+:::note
+
+VC の署名の有効期間 (`iat`, `exp`) の運用上の扱いについては [OP, SP, CA の有効期間](../tech/validity-period.mdx) を参照してください。
+
+:::
+
 #### `allowedOrigin` の具体例
 
 ✅ 有効:
