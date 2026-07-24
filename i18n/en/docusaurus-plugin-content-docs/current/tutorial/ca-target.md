@@ -12,7 +12,7 @@ Content Integrity Descriptor defines the following different types of targets (`
 - [HTML Target](/opb/content-integrity-descriptor/html/) (`HTMLTargetIntegrity`): Part of an HTML document
 - [Text Target](/opb/content-integrity-descriptor/text/) (`TextTargetIntegrity`): DOM text
 - [Visible Text Target](/opb/content-integrity-descriptor/visible-text/) (`VisibleTextTargetIntegrity`): Rendered Text
-- [External Resource Target](/opb/content-integrity-descriptor/external-resource/) (`ExternalResourceTargetIntegrity`): `img`、`audio`、`video` Internally or externally referenced media resources such as elements
+- [External Resource Target](/opb/content-integrity-descriptor/external-resource/) (`ExternalResourceTargetIntegrity`): `img`, `audio`, `video` Internally or externally referenced media resources such as elements
 
 A CA, or a set of CAs (CA Set), that combines these makes it possible to verify the integrity of the target content.
 
@@ -110,7 +110,7 @@ Typical properties:
     - [`HTMLTargetIntegrity`](/opb/content-integrity-descriptor/html/): Part of an HTML document
     - [`TextTargetIntegrity`](/opb/content-integrity-descriptor/text/): DOM text
     - [`VisibleTextTargetIntegrity`](/opb/content-integrity-descriptor/visible-text/): Rendered text
-    - [`ExternalResourceTargetIntegrity`](/opb/content-integrity-descriptor/external-resource/): `img`、`audio`、`video` Internally or externally referenced media resources such as elements
+    - [`ExternalResourceTargetIntegrity`](/opb/content-integrity-descriptor/external-resource/): `img`, `audio`, `video` Internally or externally referenced media resources such as elements
 
 Display example:
 
@@ -132,7 +132,7 @@ When doing this, you should avoid elements that are dynamically rewritten depend
 Selecting elements with CSS selectors is the same as the `document.querySelectorAll()` algorithm used by browsers.
 
 - [ID selectors](https://developer.mozilla.org/en-US/docs/Web/CSS/ID_selectors)
-- [Class selectoer](https://developer.mozilla.org/en-US/docs/Web/CSS/Class_selectors)
+- [Class selector](https://developer.mozilla.org/en-US/docs/Web/CSS/Class_selectors)
 - [Type selectors](https://developer.mozilla.org/en-US/docs/Web/CSS/Type_selectors)
 
 In any Content Integrity Descriptor, if there are two or more elements that match the selector, they are all combined and the integrity (`integrity` property) is calculated.
