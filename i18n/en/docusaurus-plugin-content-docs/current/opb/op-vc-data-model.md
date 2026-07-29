@@ -1,6 +1,6 @@
 ---
 sidebar_position: 11
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/c6370d4/docs/opb/op-vc-data-model.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/ae49916/docs/opb/op-vc-data-model.md
 ---
 
 # OP VC Data Model
