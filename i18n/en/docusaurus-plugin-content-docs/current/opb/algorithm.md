@@ -1,6 +1,6 @@
 ---
 sidebar_position: 103
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/0ed3e2e/docs/opb/algorithm.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/ae49916/docs/opb/algorithm.md
 ---
 
 # Cryptographic algorithms
@@ -66,7 +66,7 @@ For the time being, applications developed by OP-CIP will only support the SHA-2
 
 _This section is non-normative._
 
-This section is included to inform of the expected algorithm migration as required by [RFC 7696 Section 2.2.3](https://www.rfc-editor.org/rfc/rfc7696.html#section-2.2.3), and it references [NIST SP 800-57 Part 1](https://doi.org/10.6028/NIST.SP.800-57pt1r5), a document on U.S. Federal agency key management recommendations for guidance on key refresh and periodic review of cryptographic algorithms, as well as [NIST SP 800-131A Rev.3 (Initial Public Draft)](https://doi.org/10.6028/NIST.SP.800-131Ar3.ipd), a document on the transitioning of cryptographic algorithm use, as follows:
+This section outlines the security requirements for Originator Profiles, based on [NIST SP 800-57 Part 1](https://doi.org/10.6028/NIST.SP.800-57pt1r5) which provides recommendations for key management in the U.S. federal government, including guidance on key updates and periodic reviews of cryptographic algorithms and [NIST SP 800-131A Rev.3 (Initial Public Draft)](https://doi.org/10.6028/NIST.SP.800-131Ar3.ipd)  which addresses the transition of cryptographic technology usage, with the aim of providing notice regarding the anticipated algorithm transitions required by [RFC 7696 Section 2.2.3](https://www.rfc-editor.org/rfc/rfc7696.html#section-2.2.3).
 
 ### Security Strengths
 
@@ -112,3 +112,5 @@ NIST SP 800-57 Part 1 Section 6.1.1 outlines the cryptographic key protection an
 
 - Signing Keys: Assurance of confidentiality and integrity throughout their possession, from generation until the end of the cryptoperiod.
 - Verification Keys: Assurance of integrity and availability of their validity, from generation until the signed data no longer requires verification.
+
+If a security incident—such as an operational error—results in a situation where the aforementioned requirements for the protection and assurance of signing keys (e.g., preventing key compromise) are no longer met, the Originator Profile necessitates key rotation, as well as the re-issuance and re-deployment of all previously issued VCs. To avoid such scenarios, a mechanism should be employed that makes it fundamentally impossible to extract the signing key. Specific examples of such mechanisms include Key Management Services (KMS) and Hardware Security Modules (HSM).
