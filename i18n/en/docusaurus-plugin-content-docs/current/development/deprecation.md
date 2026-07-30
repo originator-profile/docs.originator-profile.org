@@ -1,3 +1,7 @@
+---
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/e0e20e4/docs/development/deprecation.md
+---
+
 # API Deprecation Policy
 
 This document explains the API deprecation policy.
