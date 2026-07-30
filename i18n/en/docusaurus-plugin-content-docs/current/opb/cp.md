@@ -1,6 +1,6 @@
 ---
 sidebar_position: 21
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/c6370d4/docs/opb/cp.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/ae49916/docs/opb/cp.md
 tags:
   - Base Model
 ---
