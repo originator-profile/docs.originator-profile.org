@@ -255,4 +255,4 @@ Consequently, OP VCs do not support a mechanism for extending the validity perio
 
 ### Signing Key Protection
 
-For requirements regarding the protection of signing keys, please refer to [Cryptographic Key Protection and Assurance Requirements](./algorithm.md#暗号鍵の保護および保証要件).
+For requirements regarding the protection of signing keys, please refer to [Cryptographic Key Protection and Assurance Requirements](./algorithm.md#cryptographic-key-protection-and-assurance-requirements).
