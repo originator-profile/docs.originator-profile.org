@@ -249,7 +249,7 @@ Please also refer to the security considerations outlined in [Section 9 of the V
 
 ### Revocation
 
-Originator Profile does not employ a mechanism equivalent to a Certificate Revocation List (CRL). When verifying the VC's [proof](https://www.w3.org/TR/vc-data-model-2.0/#proofs-signatures), the verifier checks the validity of only the signing key in real time.
+Originator Profile does not employ a mechanism equivalent to a Certificate Revocation List (CRL). When verifying the VC's [proof](https://www.w3.org/TR/vc-data-model-2.0/#proofs-signatures), the verifier checks only the signing key's validity in real time.
 
 Consequently, OP VCs do not support a mechanism for extending the validity period. To maintain validity, re-issuance and re-installation must be performed repeatedly within the validity period.
 
