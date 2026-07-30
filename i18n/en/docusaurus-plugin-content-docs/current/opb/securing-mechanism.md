@@ -1,6 +1,6 @@
 ---
 sidebar_position: 12
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/009e981/docs/opb/securing-mechanism.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/ae49916/docs/opb/securing-mechanism.md
 ---
 
 # OP VC Securing Mechanism
@@ -243,6 +243,16 @@ Please refer to the following reference for the structure of the data handled in
 
 ## Security {#security}
 
-TODO
+_This section is non-normative._
 
-Please review the security considerations in [Verifiable Credentials Data Model 2.0 Section 9](https://www.w3.org/TR/vc-data-model-2.0/#security-considerations).
+Please also refer to the security considerations outlined in [Section 9 of the Verifiable Credentials Data Model 2.0](https://www.w3.org/TR/vc-data-model-2.0/#security-considerations).
+
+### Revocation
+
+Originator Profile does not employ a mechanism equivalent to a Certificate Revocation List (CRL). When verifying the VC's [proof](https://www.w3.org/TR/vc-data-model-2.0/#proofs-signatures), the verifier checks the validity of only the signing key in real time.
+
+Consequently, OP VCs do not support a mechanism for extending the validity period. To maintain validity, re-issuance and re-installation must be performed repeatedly within the validity period.
+
+### Signing Key Protection
+
+For requirements regarding the protection of signing keys, please refer to [Cryptographic Key Protection and Assurance Requirements](./algorithm.md#暗号鍵の保護および保証要件).
