@@ -53,7 +53,7 @@ Content Attestation MUST be an OP VC DM compliant document and contain the follo
 
 :::note
 
-Please refer to [Validity Periods for OP, SP, and CA](../tech/validity-period.mdx) for operational details regarding the validity periods (`iat`, `exp`) of VC signatures.
+Please refer to [Validity period of OP, SP, and CA](../tech/validity-period.mdx) for operational details regarding the validity period (`iat`, `exp`) of VC signatures.
 
 :::
 
