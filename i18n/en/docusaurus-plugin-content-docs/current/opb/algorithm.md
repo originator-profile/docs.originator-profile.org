@@ -66,7 +66,7 @@ For the time being, applications developed by OP-CIP will only support the SHA-2
 
 _This section is non-normative._
 
-This section outlines the security requirements for Originator Profiles, based on [NIST SP 800-57 Part 1](https://doi.org/10.6028/NIST.SP.800-57pt1r5) which provides recommendations for key management in the U.S. federal government, including guidance on key updates and periodic reviews of cryptographic algorithms and [NIST SP 800-131A Rev.3 (Initial Public Draft)](https://doi.org/10.6028/NIST.SP.800-131Ar3.ipd)  which addresses the transition of cryptographic technology usage, with the aim of providing notice regarding the anticipated algorithm transitions required by [RFC 7696 Section 2.2.3](https://www.rfc-editor.org/rfc/rfc7696.html#section-2.2.3).
+This section outlines the security requirements for Originator Profiles, based on [NIST SP 800-57 Part 1](https://doi.org/10.6028/NIST.SP.800-57pt1r5) which provides recommendations for key management in the U.S. federal government, including guidance on key updates and periodic reviews of cryptographic algorithms and [NIST SP 800-131A Rev.3 (Initial Public Draft)](https://doi.org/10.6028/NIST.SP.800-131Ar3.ipd) which addresses the transition of cryptographic technology usage, with the aim of providing notice regarding the anticipated algorithm transitions required by [RFC 7696 Section 2.2.3](https://www.rfc-editor.org/rfc/rfc7696.html#section-2.2.3).
 
 ### Security Strengths
 
