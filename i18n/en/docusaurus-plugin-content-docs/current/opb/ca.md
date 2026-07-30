@@ -1,6 +1,6 @@
 ---
 sidebar_position: 25
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/c6370d4/docs/opb/ca.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/ae49916/docs/opb/ca.md
 tags:
   - Base Model
   - Content Attestation
@@ -53,7 +53,7 @@ Content Attestation MUST be an OP VC DM compliant document and contain the follo
 
 :::note
 
-For operational guidance on VC signature validity period (`iat`, `exp`), refer to [Validity Period of OP, SP, and CA](../tech/validity-period.mdx).
+Please refer to [Validity period of OP, SP, and CA](../tech/validity-period.mdx) for operational details regarding the validity period (`iat`, `exp`) of VC signatures.
 
 :::
 
