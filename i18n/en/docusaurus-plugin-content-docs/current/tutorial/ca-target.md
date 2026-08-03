@@ -12,7 +12,7 @@ Content Integrity Descriptor defines the following different types of targets (`
 - [HTML Target](/opb/content-integrity-descriptor/html/) (`HTMLTargetIntegrity`): Part of an HTML document
 - [Text Target](/opb/content-integrity-descriptor/text/) (`TextTargetIntegrity`): DOM text
 - [Visible Text Target](/opb/content-integrity-descriptor/visible-text/) (`VisibleTextTargetIntegrity`): Rendered Text
-- [External Resource Target](/opb/content-integrity-descriptor/external-resource/) (`ExternalResourceTargetIntegrity`): `img`, `audio`, `video` Internally or externally referenced media resources such as elements
+- [External Resource Target](/opb/content-integrity-descriptor/external-resource/) (`ExternalResourceTargetIntegrity`): Internally or externally referenced media resources such as `img`, `audio`, and `video` elements
 
 A CA, or a set of CAs (CA Set), that combines these makes it possible to verify the integrity of the target content.
 
@@ -110,7 +110,7 @@ Typical properties:
     - [`HTMLTargetIntegrity`](/opb/content-integrity-descriptor/html/): Part of an HTML document
     - [`TextTargetIntegrity`](/opb/content-integrity-descriptor/text/): DOM text
     - [`VisibleTextTargetIntegrity`](/opb/content-integrity-descriptor/visible-text/): Rendered text
-    - [`ExternalResourceTargetIntegrity`](/opb/content-integrity-descriptor/external-resource/): `img`, `audio`, `video` Internally or externally referenced media resources such as elements
+    - [`ExternalResourceTargetIntegrity`](/opb/content-integrity-descriptor/external-resource/): Internally or externally referenced media resources such as `img`, `audio`, and `video` elements
 
 Display example:
 
@@ -153,7 +153,7 @@ You can check the hash value of the UTF-8 byte sequence of the target HTML or te
 
 Launching Developer Tools
 
-- Right-click > Select [Verify]
+- Right-click > Select [Inspect]
 - [More tools] > Select [Developer tools]
 - For Windows/Linux: `Ctrl`+`Shift`+`I`
 - For macOS: `⌘ (Command)`+`⌥ (Option)`+`I`
@@ -203,7 +203,7 @@ Execution example:
 
 ![Developer tool > Console](./assets/devtools-console.webp)
 
-## For images (static `img` elements with no interaction):
+## For images (static `img` elements with no interaction)
 
 Recommended Content Integrity Descriptor:
 
