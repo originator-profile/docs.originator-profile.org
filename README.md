@@ -23,17 +23,17 @@ Updates to this repository will be automatically reflected within a few minutes.
 
 This repository uses [Docusaurus's multilingual support feature](https://docusaurus.io/docs/i18n/introduction) to provide pages in both Japanese and English.
 
-- docs/ — Japanese documentation (original)
+- docs/ ―― Japanese documentation (original)
   - See the "Editing Rules" section below for the subfolder structure.
-- i18n/en/docusaurus-plugin-content-docs/current/ — English documentation (translation)
+- i18n/en/docusaurus-plugin-content-docs/current/ ―― English documentation (translation)
   - English documentation is created with the same directory and file names as the Japanese documentation.
-- static/ —— [Static Assets](https://docusaurus.io/docs/static-assets)
+- static/ ―― [Static Assets](https://docusaurus.io/docs/static-assets)
   - Copied to each locale directory (`/ja/`, `/en/`) during Docusaurus build
-- public/ —— Locale-independent root-level files
+- public/ ―― Locale-independent root-level files
   - Files placed directly in the root of `pages/` after build
-  - public/index.html —— Redirects to `/ja/` or `/en/` depending on the browser language on the root page (`/`)
-  - public/404.html —— Custom 404 page. Redirects non-locale paths according to the browser language, and displays locale-enabled 404s using the 404 for each locale
-  - public/\_redirects —— [Cloudflare Pages redirect settings](https://developers.cloudflare.com/pages/configuration/redirects/)
+  - public/index.html ―― Redirects to `/ja/` or `/en/` depending on the browser language on the root page (`/`)
+  - public/404.html ―― Custom 404 page. Redirects non-locale paths according to the browser language, and displays locale-enabled 404s using the 404 for each locale
+  - public/\_redirects ―― [Cloudflare Pages redirect settings](https://developers.cloudflare.com/pages/configuration/redirects/)
 
 ### pnpm Scripts
 
