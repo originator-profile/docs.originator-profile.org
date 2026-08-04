@@ -58,8 +58,8 @@ Please refer to the following guides depending on your intended use.
 
 If you want to explore the specifications in more detail, please refer to the following:
 
-- [Originator Profile Blueprint (OPB)](../opb/)
 - [Architectural Overview (AOV)](pathname:///aov/)
+- [Originator Profile Blueprint (OPB)](../opb/)
 
 In addition, the following tool is available for debugging:
 

@@ -26,6 +26,7 @@ const RANGE_REFERENCE /*   */ = [400, 499]; // 4xx: 情報指向・理論（Refe
 
 const TOP_LEVEL_RULES = {
   tech: RANGE_EXPLANATION,
+  aov: RANGE_REFERENCE,
   opb: RANGE_REFERENCE,
   terminology: RANGE_REFERENCE,
   troubleshooting: RANGE_HOW_TO,
