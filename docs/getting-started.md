@@ -57,8 +57,8 @@ Originator Profile では、発行や検証のために以下のツールとガ�
 
 より詳細な仕様を理解したい場合は、以下を参照してください。
 
-- [Originator Profile Blueprint (OPB)](../opb/)
 - [Architectural Overview (AOV)](pathname:///aov/)
+- [Originator Profile Blueprint (OPB)](../opb/)
 
 また、デバッグツールとして、以下のツールも提供されています。
 

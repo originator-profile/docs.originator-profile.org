@@ -1,0 +1,16 @@
+# Architectural Overview
+
+:::note
+「[Architectural Overview](pathname:///aov/)」に移動します。
+:::
+
+import { useEffect } from "react";
+
+export function AovRedirect() {
+  useEffect(() => {
+    window.location.replace("/aov/");
+  }, []);
+  return null;
+}
+
+<AovRedirect />
