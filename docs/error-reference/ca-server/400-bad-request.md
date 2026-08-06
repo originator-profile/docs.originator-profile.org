@@ -83,6 +83,6 @@ sidebar_position: 1
 
 - [Prisma Error Reference](https://www.prisma.io/docs/orm/reference/error-reference)
 - [Site Profile](../../opb/site-profile.md)
-- [Orignator Profile Set](../../opb/originator-profile-set.md)
+- [Originator Profile Set](../../opb/originator-profile-set.md)
 - [Site Profile に関するエラーリファレンス](/error-reference/op-inspector-debugger/sp)
 - [Originator Profile Set に関するエラーリファレンス](/error-reference/op-inspector-debugger/ops)
