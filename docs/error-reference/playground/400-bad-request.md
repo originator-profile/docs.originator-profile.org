@@ -16,6 +16,12 @@ JSON スキーマのバリデーションエラーの場合に発生します。
 
 - 入力 JSON が期待されるスキーマ（必須項目・型・フォーマット）を満たしていない可能性があります。
 
+:::note
+
+Content Attestation Server Playground では、パラメータとして送信している Originator Profile Set の検証を行いません。
+
+:::
+
 ## 例
 
 - 以下は、入力 JSON の必須項目である `issuer` が含まれていない場合の例です。
