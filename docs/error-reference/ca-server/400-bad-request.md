@@ -23,9 +23,9 @@ sidebar_position: 1
   （詳細は [Prisma のエラーリファレンス](https://www.prisma.io/docs/orm/reference/error-reference#prismaclientknownrequesterror)を参照してください。）
 - Web Media Profile または Profile Annotation の登録・更新時に `credentialSubject.id` が含まれていない可能性があります。
 - Site Profile の登録・更新時に、Site Profile の検証に失敗した可能性があります。
-  （詳細は [Site Profile の検証プロセス](../../opb/site-profile.md#verification)を参照してください。）
+  （詳細は [Site Profile に関するエラーリファレンス](/error-reference/op-inspector-debugger/sp)を参照してください。）
 - また、Site Profile の検証の一環として Originator Profile Set の検証を行うため、Originator Profile Set の検証に失敗した可能性があります。
-  （詳細は [Originator Profile Set の検証プロセス](../../opb/originator-profile-set.md#verification)を参照してください。）
+  （詳細は [Originator Profile Set に関するエラーリファレンス](/error-reference/op-inspector-debugger/ops)や [Originator Profile に関するエラーリファレンス](/error-reference/op-inspector-debugger/op)を参照してください。）
 
 ## 例
 
@@ -77,7 +77,7 @@ sidebar_position: 1
 - PrismaClientKnownRequestError が発生している場合は、Prisma のエラーリファレンスを参照してください。
 - Web Media Profile・Profile Annotation の `credentialSubject.id` は必ず含めてください。
 - Site Profile または Originator Profile Set の検証が通るよう、入力内容を修正してください。  
-  （Site Profile、Originator Profile Set の検証に失敗した場合は [Site Profile に関するエラーリファレンス](/error-reference/op-inspector-debugger/sp)や [Originator Profile Set に関するエラーリファレンス](/error-reference/op-inspector-debugger/ops)を参照することで、原因の特定に役立つことがあります。）
+  （Site Profile、Originator Profile Set の検証に失敗した場合は [Site Profile に関するエラーリファレンス](/error-reference/op-inspector-debugger/sp)や [Originator Profile Set に関するエラーリファレンス](/error-reference/op-inspector-debugger/ops)、[Originator Profile に関するエラーリファレンス](/error-reference/op-inspector-debugger/op)を参照することで、原因の特定に役立つことがあります。）
 
 ## 関連情報
 
@@ -86,3 +86,4 @@ sidebar_position: 1
 - [Originator Profile Set](../../opb/originator-profile-set.md)
 - [Site Profile に関するエラーリファレンス](/error-reference/op-inspector-debugger/sp)
 - [Originator Profile Set に関するエラーリファレンス](/error-reference/op-inspector-debugger/ops)
+- [Originator Profile に関するエラーリファレンス](/error-reference/op-inspector-debugger/op)
