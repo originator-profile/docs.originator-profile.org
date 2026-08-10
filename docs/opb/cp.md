@@ -39,6 +39,12 @@ Core Profile は OP VC DM 準拠文書でなければなりません (MUST)。�
 | `type` | `string` | **REQUIRED.** `Core` でなければなりません (MUST)。                                                                                          |
 | `jwks` | `object` | **REQUIRED.** [JWK Set](https://www.rfc-editor.org/rfc/rfc7517.html#section-5) でなければなりません (MUST)。CP 保有組織の公開鍵の集合です。 |
 
+:::note
+
+VC の署名の有効期間 (`iat`, `exp`) の運用上の扱いについては [OP, SP, CA の有効期間](../tech/validity-period.mdx) を参照してください。
+
+:::
+
 ## 拡張性 {#extensibility}
 
 発行者は [OP VC Data Model](./op-vc-data-model.md) および本文書に未定義のプロパティを Core Profile に追加してはなりません (MUST NOT) 。仕様策定者も Core Profile へのプロパティの追加を避けることが強く推奨されます (SHOULD)。

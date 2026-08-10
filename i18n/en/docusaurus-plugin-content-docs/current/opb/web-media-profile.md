@@ -1,6 +1,6 @@
 ---
 sidebar_position: 28
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/75f6d5a/docs/opb/web-media-profile.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/ae49916/docs/opb/web-media-profile.md
 tags:
   - Web Media Specific Model
 ---
@@ -46,6 +46,12 @@ The Web Media Profile MUST be an OP VC DM compliant document and includes the fo
 | `publishingPrinciple`           | `object`               | **OPTIONAL.** Information about the editorial guidelines. It MUST be a JSON-LD Node Object of type [`page` datatype](./context.md#the-page-datatype).                                                                                                                            |
 | `privacyPolicy`                 | `object`               | **OPTIONAL.** Privacy policy page information. It MUST be a JSON-LD Node Object of type [`page` datatype](./context.md#the-page-datatype).                                                                                                                                       |
 | `description`                   | `object` \| `object[]` | **OPTIONAL.** A free-form text about the organization. It MUST be of [`description` datatype](./context.md#the-description-datatype) or an array of such type.                                                                                                                   |
+
+:::note
+
+For operational guidance on VC signature validity period (`iat`, `exp`), refer to [Validity Period of OP, SP, and CA](../tech/validity-period.mdx).
+
+:::
 
 :::note
 

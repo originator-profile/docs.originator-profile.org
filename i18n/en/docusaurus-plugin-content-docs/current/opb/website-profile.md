@@ -1,6 +1,6 @@
 ---
 sidebar_position: 29
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/75f6d5a/docs/opb/website-profile.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/ae49916/docs/opb/website-profile.md
 tags:
   - Web Media Specific Model
 ---
@@ -40,6 +40,12 @@ The Website Profile MUST be an OPVC DM compliant document and includes the follo
 | `image`         | `object`               | **OPTIONAL.** A thumbnail image for the website. It MUST be a JSON-LD Node Object of type [`image` datatype](./context.md#the-image-datatype). This property allows you to [verify](./context.md#verifying-image-datatype) that the thumbnail image in the WSP has not been tampered with.                                                                                                                                                                                                                                                                         |
 | `description`   | `string`               | **OPTIONAL.** A description of the Web site.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | `allowedOrigin` | `string` \| `string[]` | **REQUIRED.** A string or array of strings that represents the [RFC 6454](https://www.rfc-editor.org/rfc/rfc6454) origin (scheme, hostname, port number) in ASCII format to identify the website to be presented. It MUST NOT include a path, query, or fragment. In addition, the default port (e.g. 443 for `https:`, 80 for `http:`) is expressed in an abbreviated format based on the [W3C URL Standard](https://url.spec.whatwg.org/). This property allows you to [verify](#verification) whether the WSP is installed on a website of a legitimate origin. |
+
+:::note
+
+For operational guidance on VC signature validity period (`iat`, `exp`), refer to [Validity Period of OP, SP, and CA](../tech/validity-period.mdx).
+
+:::
 
 #### `allowedOrigin` Examples:
 

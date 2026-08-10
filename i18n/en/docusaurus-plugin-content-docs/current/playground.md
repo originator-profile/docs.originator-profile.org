@@ -1,6 +1,6 @@
 ---
 sidebar_position: 320
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/484ee39/docs/playground.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/798ebea/docs/playground.md
 ---
 
 # Content Attestation Server Playground
@@ -42,7 +42,7 @@ The following is how to verify that the API is working correctly.
 4. **Check the response**:
    After submitting the request, the response status code (e.g., `200 OK`) and the data returned from the server (in JSON format, etc.) will be displayed on the screen. You can then verify whether you have obtained the expected results.
 
-### Issue a Site Profile
+### Issue a Site Profile {#issue-site-profile}
 
 A POST request is sent to the Playground endpoint [`/sp`](https://playground.originator-profile.org/#tag/sp).
 
@@ -55,7 +55,7 @@ curl -X POST https://playground.originator-profile.org/sp \
 
 For details on each property in the request body, please refer to the [Website Profile (WSP) Data Model](/opb/website-profile/) and [Site Profile (SP)](/opb/site-profile/).
 
-### Verification method
+### Verification method {#verification-method}
 
 You can perform verification by accessing the website where Site Profile is deployed, with OP Inspector installed.
 
@@ -75,39 +75,19 @@ You can download and install OP Inspector (test build) from [GitHub Releases (ca
 [chrome]: https://github.com/originator-profile/originator-profile/releases/download/canary/_testing_op_inspector-chromium-canary.zip
 [firefox-desktop]: https://github.com/originator-profile/originator-profile/releases/download/canary/_testing_op_inspector-firefox-desktop-canary.zip
 
-### Error Codes in Playground
+### How to automatically issue a CA using the WordPress plugin (CA Manager) {#use-wordpress-plugin}
 
-This section summarizes possible error codes that may occur when using the Playground API client, along with their meanings and causes.
+If you are using WordPress, you can test the automatic issuance of a CA using the WordPress plugin (CA Manager).
+After completing the "[1. Plugin Installation](/site-cases/wordpress/#plugin-installation)" section of the [WordPress Plugin (CA Manager) Guide](/site-cases/wordpress/), please configure the settings by following the steps below.
 
-| Error Code | Error        | Cause                                     |
-| ---------- | ------------ | ----------------------------------------- |
-| 400        | Bad Request  | JSON schema validation error              |
-| 401        | Unauthorized | Error due to invalid credentials          |
-| 403        | Forbidden    | Mismatch between issuer and OP Account ID |
-| 404        | Not Found    | Access to an undefined endpoint           |
-
-#### 400 Bad Request
-
-- Message: "One or more validations failed trying to process your request."
-- Cause: The input JSON does not meet the expected schema (required fields, types, format).
-- Solution: Check the required fields, types, and format of the input JSON, or the error content in the response message.
-
-#### 401 Unauthorized
-
-- Message: "Invalid password"
-- Cause: Incorrect authentication information such as username or password.
-- Solution: Verify that the username and password are correct.
-
-#### 403 Forbidden
-
-- Message:
-  - "OP Account ID does not match the issuer of the Website Profile."
-  - "OP Account ID does not match the issuer of the Content Attestation."
-- Cause: The issuer in the input JSON does not match the OP Account ID used for issuance.
-- Solution: Verify that the issuer in the input JSON matches the OP Account ID being used.
-
-#### 404 Not Found
-
-- Message: "404 Not Found"
-- Cause: Occurs when accessing an operation or endpoint that is not available.
-- Solution: Verify that the target URL, endpoint, and HTTP method are correct.
+1. Issue a Site Profile in the Playground
+   For instructions on how to issue a Site Profile, please refer to "[Issuing a Site Profile](#issue-site-profile)."
+2. Deploy the issued Site Profile to your site
+   For deployment instructions, please refer to [Deploying `/.well-known/sp.json`](/site-cases/wordpress/#well-known-sp-json).
+3. Configure CA Manager settings based on the Playground information
+   For configuration instructions, please refer to [Plugin Settings](/site-cases/wordpress/#plugin-settings).
+   Please configure the settings by referencing the values ​​from the [Playground](https://playground.originator-profile.org/).
+4. After configuration, create a new post or update (re-save) an existing post
+   This triggers the automatic CA issuance process.
+5. Verify that the CA has been issued correctly by referring to the [verification method](/site-cases/wordpress/#how-to-check)
+   You can verify this using Developer Tools, OP Inspector, or the debugger.

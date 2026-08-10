@@ -1,32 +1,27 @@
 ---
 sidebar_position: 2
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/798ebea/docs/tutorial/cas-setup-guide.md
 ---
 
-# Content Attestation の設置
+# Setting Up Content Attestation
+
+## Objective
+
+Enable verification of Content Attestation (CA).
+
+## Method
+
+Use the OP(s) included in the `originators` property of `/.well-known/sp.json` and the Content Attestation Set (CAS) within the HTML. Please review the [Site Profile Setup Guide](./sp-setup-guide.md) beforehand.
 
 :::note
 
-このページは翻訳中です。
+**Adding OPs**
 
-:::
+OPs for all Content Attestation issuers are required to verify the Content Attestation Set.
 
-## 目的
+You can add OPs by following the steps in the [Site Profile Setup Guide](./sp-setup-guide.md) or by embedding the OP directly into the HTML using a `<script>` element.
 
-Content Attestation (CA) を検証可能にします。
-
-## 方法
-
-`/.well-known/sp.json` > `originators` プロパティに含まれる OP と HTML 中 の Content Attestation Set (CAS) を使用します。あらかじめ [Site Profile の設置](./sp-setup-guide.md) をご確認ください。
-
-:::note
-
-**OP の追加**
-
-Content Attestation Set の検証にはすべての Content Attestation <ruby>発行者<rt>issuer</rt></ruby>の OP が必要です。
-
-OP を追加する方法としては、[Site Profile の設置](./sp-setup-guide.md) にある手順、あるいは HTML 中に script 要素を用いて OP を埋め込む方法があります。
-
-具体例:
+Example:
 
 ```html
 <script type="application/ops+json">
@@ -40,66 +35,64 @@ OP を追加する方法としては、[Site Profile の設置](./sp-setup-guide
 </script>
 ```
 
-HTML 中に OP を埋め込む方法の詳細は [Linking Content Attestation Set and Originator Profile Set to A HTML Document](https://docs.originator-profile.org/opb/link-to-html/) をご確認ください。
+For details on how to embed an OP into HTML, please refer to [Linking Content Attestation Set and Originator Profile Set to A HTML Document](https://docs.originator-profile.org/opb/link-to-html/).
 
 :::
 
-:::note[OP 登録できない場合]
+:::note[If you cannot register an OP]
 
-OP 登録できない場合は、テスト環境である Content Attestation Server Playground を使用して Content Attestation の発行ができます。  
-詳しくは [Content Attestation Server Playground の API ドキュメント](https://playground.originator-profile.org/#tag/ca/POST/ca)をご確認ください。
+If you are unable to register an OP, you can issue a Content Attestation using the Content Attestation Server Playground (a test environment).
+For details, please refer to the [Content Attestation Server Playground API documentation](https://playground.originator-profile.org/#tag/ca/POST/ca).
 
-Content Attestation Server Playground を使用して発行したものは本番環境では使用できません。詳細は [Content Attestation Server Playground](/playground/) をご確認ください。
+Content Attestations issued using the Content Attestation Server Playground cannot be used in the production environment. For details, please refer to [Content Attestation Server Playground](/playground/).
 
 :::
 
-## 手順
+## Procedure
 
-記事/コンテンツを OP に対応させるための処理をします。これは、記事/コンテンツの作成や更新時に**都度必要**となる処理です。
+Perform the necessary steps to make an article or content OP-compliant. This process is **required every time** an article or content is created or updated.
 
-1. [Content Attestation (CA) の作成](#step1): 記事/コンテンツの作成時に、それに対応する Content Attestation (CA) を作成します。
-2. [Content Attestation Set (CAS) の作成](#step2): ページ中の Content Attestation のリストを含めた Content Attestation Set を作成します。
-3. [Content Attestation Set の追加](#step3): ページ HTML 中に Content Attestation Set を追加します。この参照は、script 要素を用いて実現します。
+1. [Create Content Attestation (CA)](#step1): Create a corresponding Content Attestation (CA) when creating the article or content.
+2. [Create Content Attestation Set (CAS)](#step2): Create a Content Attestation Set that includes the list of Content Attestations on the page.
+3. [Add Content Attestation Set](#step3): Add the Content Attestation Set to the page HTML. This reference is implemented using a `script` element.
 
-## ステップ1. Content Attestation の作成 {#step1}
+## Step 1. Create Content Attestation {#step1}
 
-Content Attestation の作成には以下の方法があります。
+The following methods are available for creating a Content Attestation:
 
-- [CA Server を使用する方法](#ca-server): [`/ca`](https://playground.originator-profile.org/#tag/ca) エンドポイントを使用
-- OPVC CLI を使用する方法：`opvc ca:sign` コマンドを使用
-- [jwt.io](https://jwt.io) を使用する方法：指定されたJSONフォーマットを使用
+- [Using the CA Server](#ca-server): Use the [`/ca`](https://playground.originator-profile.org/#tag/ca) endpoint.
+- Using the OPVC CLI: Use the `opvc ca:sign` command.
+- [Using jwt.io](https://jwt.io): Use the specified JSON format.
 
-### CA Server を使用する方法 {#ca-server}
+### Using the CA Server {#ca-server}
 
 :::note
 
-このセクション「CA Server を使用する方法」では、Content Attestation Server Playground を前提として説明しています。
-Playground と本番環境の CA Server は API 仕様が共通ですが、認証手順が異なります。
-
-本番環境の CA Server を利用する場合は、認証手順が異なるため、ご利用のサーバーが提供するマニュアルに従って設定してください。
+This section, "Using the CA Server," describes the process based on the Content Attestation Server Playground.
+While the Playground and the production CA Server share the same API specifications, their authentication procedures differ. If you are using a production CA server, the authentication procedure differs; please configure it according to the manual provided by your server.
 
 :::
 
-[`/ca`](https://playground.originator-profile.org/#tag/ca) エンドポイントを使用して作成します。
+Create it using the [`/ca`](https://playground.originator-profile.org/#tag/ca) endpoint.
 
-必要なパラメータをリクエストのボディに付与して POST メソッドを送ることで登録できます。
+You can register it by sending a POST request with the required parameters included in the request body.
 
-このエンドポイントは更新にも使用します。 既に Content Attestation (CA) が登録されている場合、既存の CA を更新します。
+This endpoint is also used for updates. If Content Attestation (CA) is already registered, it updates the existing CA.
 
-詳しくは [Content Attestation Server Playground の API ドキュメント](https://playground.originator-profile.org/#tag/ca/POST/ca) を参照してください。
+For details, please refer to the [Content Attestation Server Playground API documentation](https://playground.originator-profile.org/#tag/ca/POST/ca).
 
-具体例:
+Example:
 
 ```
 $ curl -X POST https://playground.originator-profile.org/ca \
     -H content-type:application/json \
-    -u Basic認証ユーザー名:Basic認証パスワード \
+    -u BasicAuthenticationUsername:BasicAuthenticationPassword \
     -d '{...}'
 ```
 
-実行後、コンソールに表示される "eyJ” から始まる文字列が Content Attestation です。
+After execution, the string starting with "eyJ" displayed in the console is the Content Attestation.
 
-指定するファイルは以下の形式です。
+The specified file must be in the following format.
 
 article-content-attestation.example.json
 
@@ -110,40 +103,40 @@ article-content-attestation.example.json
     "https://originator-profile.org/ns/credentials/v1",
     "https://originator-profile.org/ns/cip/v1",
     {
-      "@language": "<言語・地域コード>"
+      "@language": "<Language/Region Code>"
     }
   ],
   "type": ["VerifiableCredential", "ContentAttestation"],
   "issuer": "<OP ID>",
   "credentialSubject": {
-    "id": "<CA ID (登録時省略可・更新時必須)>",
+    "id": "<CA ID (Optional at registration; required when updating)>",
     "type": "Article",
-    "headline": "<コンテンツのタイトル>",
-    "description": "<コンテンツの説明>",
+    "headline": "<Content Title>",
+    "description": "<Content Description>",
     "image": {
-      "id": "<サムネイル画像URL>",
-      "content": "<コンテンツ (data:// 形式URL)>"
+      "id": "<Thumbnail Image URL>",
+      "content": "<Content (data:// format URL)>"
     },
-    "datePublished": "<公開日時>",
-    "dateModified": "<最終更新日時>",
-    "author": ["<著者名>"],
-    "editor": ["<編集者名>"],
-    "genre": "<ジャンル>"
+    "datePublished": "<Publication Date/Time>",
+    "dateModified": "<Last Modified Date/Time>",
+    "author": ["<Author Name>"],
+    "editor": ["<Editor Name>"],
+    "genre": "<Genre>"
   },
-  "allowedUrl": ["<CAの使用を許可するWebページのURL Pattern>"],
+  "allowedUrl": ["<URL Pattern of the webpage permitted to use the CA>"],
   "target": [
     {
-      "type": "<Content Integrity Descriptorの種別>",
-      "content": "<コンテンツ本体 (text/html or URL)>",
-      "cssSelector": "<CSS セレクター (optional)>"
+      "type": "<Type of Content Integrity Descriptor>",
+      "content": "<Content Body (text/html or URL)>",
+      "cssSelector": "<CSS Selector (optional)>"
     }
   ],
-  "issuedAt": "<発行日時 (optional)>",
-  "expiredAt": "<期限切れ日時 (optional)>"
+  "issuedAt": "<Issuance Date/Time (optional)>",
+  "expiredAt": "<Expiration Date/Time (optional)>"
 }
 ```
 
-具体例:
+Example:
 
 ```json
 {
@@ -152,21 +145,21 @@ article-content-attestation.example.json
     "https://originator-profile.org/ns/credentials/v1",
     "https://originator-profile.org/ns/cip/v1",
     {
-      "@language": "ja-JP"
+      "@language": "en-US"
     }
   ],
   "type": ["VerifiableCredential", "ContentAttestation"],
   "issuer": "dns:media.example.com",
   "credentialSubject": {
     "type": "Article",
-    "headline": "Originator Profile 検証サイト",
-    "description": "Originator Profile 検証サイトです。",
+    "headline": "Originator Profile Verification Site",
+    "description": "This is an Originator Profile verification site.",
     "image": {
       "id": "https://example.com/image.svg",
       "content": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjwvc3ZnPg=="
     },
-    "author": ["山田花子"],
-    "editor": ["山田太郎"],
+    "author": ["Jane Smith"],
+    "editor": ["John Smith"],
     "datePublished": "2023-07-04T19:14:00Z",
     "dateModified": "2023-07-04T19:14:00Z",
     "genre": "Arts & Entertainment"
@@ -176,7 +169,7 @@ article-content-attestation.example.json
     {
       "type": "VisibleTextTargetIntegrity",
       "cssSelector": "h1",
-      "content": "<!doctype html><html><head></head><body><h1>Originator Profile 検証サイト</h1></body></html>"
+      "content": "<!doctype html><html><head></head><body><h1>Originator Profile Verification Site</h1></body></html>"
     },
     {
       "type": "ExternalResourceTargetIntegrity",
@@ -186,33 +179,33 @@ article-content-attestation.example.json
 }
 ```
 
-プロパティの詳細は次の文書をご確認ください。
+Please refer to the following documents for details on the properties:
 
 - [OP VC Securing Mechanism](https://docs.originator-profile.org/opb/securing-mechanism/)
 - [Content Attestation of Article Type](https://docs.originator-profile.org/opb/ca-model/article/)
 - [`/ca`](https://playground.originator-profile.org/#tag/ca)
 
-### 別の方法: OPVC CLI を使用する方法
+### Alternative Method: Using the OPVC CLI
 
-`opvc ca:sign` コマンドを使用して作成します。
-詳細は [OPVC CLI のドキュメント](/opvc-cli/#publish-content-attestation) を参照してください。
+Create it using the `opvc ca:sign` command.
+For details, please refer to the [OPVC CLI documentation](/opvc-cli/#publish-content-attestation).
 
-具体例:
+Example:
 
 ```
 $ opvc ca:sign -i ./account-key.example.priv.json --input ./article-content-attestation.example.json
 eyJ...
 ```
 
-実行後、コンソールに表示される "eyJ” から始まる文字列が Content Attestation です。
+After execution, the string starting with "eyJ" displayed in the console is the Content Attestation.
 
-OPVC CLI のインストール方法は [OPVC CLI インストール方法](/opvc-cli/#install) をご確認ください。
+Please check the [OPVC CLI installation instructions](/opvc-cli/#install) for how to install the OPVC CLI.
 
--i オプションにはプライベート鍵を指定します。
+Specify the private key for the `-i` option.
 
---input オプションには Content Attestation に関する情報を JSON で記述し、指定します。
+Specify the information regarding the Content Attestation in JSON format for the `--input` option.
 
-指定するファイルは以下の形式です。
+The file to be specified follows this format:
 
 ```json
 {
@@ -221,36 +214,36 @@ OPVC CLI のインストール方法は [OPVC CLI インストール方法](/opv
     "https://originator-profile.org/ns/credentials/v1",
     "https://originator-profile.org/ns/cip/v1",
     {
-      "@language": "<言語・地域コード>"
+      "@language": "<Language/Region Code>"
     }
   ],
   "type": ["VerifiableCredential", "ContentAttestation"],
   "issuer": "<OP ID>",
   "credentialSubject": {
     "type": "Article",
-    "headline": "<コンテンツのタイトル>",
-    "description": "<コンテンツの説明>",
+    "headline": "<Content Title>",
+    "description": "<Content Description>",
     "image": {
-      "id": "<サムネイル画像URL>",
-      "content": "<コンテンツ (file:// 形式も可)>"
+      "id": "<Thumbnail Image URL>",
+      "content": "<Content (file:// format also accepted)>"
     },
-    "datePublished": "<公開日時>",
-    "dateModified": "<最終更新日時>",
-    "author": ["<著者名>"],
-    "editor": ["<編集者名>"],
-    "genre": "<ジャンル>"
+    "datePublished": "<Publication Date/Time>",
+    "dateModified": "<Last Modified Date/Time>",
+    "author": ["<Author Name>"],
+    "editor": ["<Editor Name>"],
+    "genre": "<Genre>"
   },
-  "allowedUrl": ["<CAの使用を許可するWebページのURL Pattern>"],
+  "allowedUrl": ["<URL pattern of the web page that allows the use of the CA>"],
   "target": [
     {
-      "type": "<Content Integrity Descriptorの種別>",
-      "cssSelector": "<CSS セレクター>"
+      "type": "<Type of Content Integrity Descriptor>",
+      "cssSelector": "<CSS Selector>"
     }
   ]
 }
 ```
 
-具体例:
+Example:
 
 ```json
 {
@@ -259,21 +252,21 @@ OPVC CLI のインストール方法は [OPVC CLI インストール方法](/opv
     "https://originator-profile.org/ns/credentials/v1",
     "https://originator-profile.org/ns/cip/v1",
     {
-      "@language": "ja-JP"
+      "@language": "en-US"
     }
   ],
   "type": ["VerifiableCredential", "ContentAttestation"],
   "issuer": "dns:media.example.com",
   "credentialSubject": {
     "type": "Article",
-    "headline": "<Webページのタイトル>",
-    "description": "<Webページの説明>",
+    "headline": "<Web page Title>",
+    "description": "<Web page Description>",
     "image": {
       "id": "https://example.com/image.webp",
       "content": "file:///path/to/image.webp"
     },
-    "author": ["山田花子"],
-    "editor": ["山田太郎"],
+    "author": ["Jane Smith"],
+    "editor": ["John Smith"],
     "datePublished": "2023-07-04T19:14:00Z",
     "dateModified": "2023-07-04T19:14:00Z",
     "genre": "Arts & Entertainment"
@@ -282,7 +275,7 @@ OPVC CLI のインストール方法は [OPVC CLI インストール方法](/opv
   "target": [
     {
       "type": "VisibleTextTargetIntegrity",
-      "cssSelector": "<CSS セレクター>"
+      "cssSelector": "<CSS Selector>"
     },
     {
       "type": "ExternalResourceTargetIntegrity",
@@ -292,17 +285,18 @@ OPVC CLI のインストール方法は [OPVC CLI インストール方法](/opv
 }
 ```
 
-プロパティの詳細は [OP VC Securing Mechanism](https://docs.originator-profile.org/opb/securing-mechanism/) と [Content Attestation of Article Type](https://docs.originator-profile.org/opb/ca-model/article/) をご確認ください。
+For details on the properties, please refer to the [OP VC Securing Mechanism](https://docs.originator-profile.org/opb/securing-mechanism/) and [Content Attestation of Article Type](https://docs.originator-profile.org/opb/ca-model/article/).
 
-### 別の方法: [jwt.io](https://jwt.io) を使用する方法
+### Alternative Method: Using [jwt.io](https://jwt.io)
 
-指定された JSON フォーマットを使用し、JWT を作成します。
+Create a JWT using the specified JSON format.
 
-[JSON Web Token（JWT）デバッガー](https://jwt.io) にアクセスして、「JWT エンコーダー」を選択します。
-その後、画面左側の「ヘッダー」、「ペイロード」、「JWT に署名」それぞれに値を入力してください。
+Visit the [JSON Web Token (JWT) Debugger](https://jwt.io) and select the "JWT Encoder" option.
+Then, enter the appropriate values for the "Header," "Payload," and "Sign JWT" sections on the left side of the screen.
 
-具体例:
-JSON Web Token（JWT）デバッガー の画面の「ヘッダー」に以下を入力します。
+Example:
+
+Enter the following into the "Header" section of the JSON Web Token (JWT) Debugger screen.
 
 ```json
 {
@@ -313,9 +307,9 @@ JSON Web Token（JWT）デバッガー の画面の「ヘッダー」に以下�
 }
 ```
 
-ヘッダー の `kid` は JWK Thumbprint です。プライベート鍵の `kid` プロパティと同じ値に変更します。
+The `kid` in the header is the JWK Thumbprint. Change it to the same value as the `kid` property of the private key.
 
-JSON Web Token（JWT） の画面の「ペイロード」に以下を入力します。
+Enter the following into the "Payload" section of the JSON Web Token (JWT) screen.
 
 ```json
 {
@@ -324,7 +318,7 @@ JSON Web Token（JWT） の画面の「ペイロード」に以下を入力し�
     "https://originator-profile.org/ns/credentials/v1",
     "https://originator-profile.org/ns/cip/v1",
     {
-      "@language": "ja-JP"
+      "@language": "en-US"
     }
   ],
   "type": ["VerifiableCredential", "ContentAttestation"],
@@ -336,14 +330,14 @@ JSON Web Token（JWT） の画面の「ペイロード」に以下を入力し�
   "credentialSubject": {
     "id": "urn:uuid:41632705-9600-49df-b80d-a357d474f37e",
     "type": "Article",
-    "headline": "<Webページのタイトル>",
+    "headline": "<Web page Title>",
     "image": {
       "id": "https://example.com/image.webp",
       "digestSRI": "sha256-WNn1owxcJX6uwrNFOhPX+npz4j46s3a1cExjX5wWVxw="
     },
-    "description": "<Webページの説明>",
-    "author": ["山田花子"],
-    "editor": ["山田太郎"],
+    "description": "<Web page Description>",
+    "author": ["Jane Smith"],
+    "editor": ["John Smith"],
     "datePublished": "2023-07-04T19:14:00Z",
     "dateModified": "2023-07-04T19:14:00Z",
     "genre": "Arts & Entertainment"
@@ -352,7 +346,7 @@ JSON Web Token（JWT） の画面の「ペイロード」に以下を入力し�
   "target": [
     {
       "type": "VisibleTextTargetIntegrity",
-      "cssSelector": "<CSS セレクター>",
+      "cssSelector": "<CSS Selector>",
       "integrity": "sha256-GYC9PqfIw0qWahU6OlReQfuurCI5VLJplslVdF7M95U="
     },
     {
@@ -363,49 +357,49 @@ JSON Web Token（JWT） の画面の「ペイロード」に以下を入力し�
 }
 ```
 
-ペイロード の `iss` と `issuer` の値を自分の OP ID に書き換えます。
+Replace the `iss` and `issuer` values in the payload with your own OP ID.
 
-具体例:
+Example:
 
 ```
 dns:media.example.com
 ```
 
-UUID を生成し、ペイロードの `sub` と `credentialSubject.id` の値を、生成した UUID の `urn:uuid:` を前に付けた文字列に書き換えます。
+Generate a UUID and overwrite the values of `sub` and `credentialSubject.id` in the payload with a string consisting of the generated UUID prefixed with `urn:uuid:`.
 
-具体例:
+Example:
 
 ```
 $ uuidgen
 41632705-9600-49df-b80d-a357d474f37e
-: この場合 "urn:uuid:41632705-9600-49df-b80d-a357d474f37e" となります
+: In this case, it becomes "urn:uuid:41632705-9600-49df-b80d-a357d474f37e".
 ```
 
-プロパティの詳細は [OP VC Securing Mechanism](https://docs.originator-profile.org/opb/securing-mechanism/) と [Content Attestation of Article Type](https://docs.originator-profile.org/opb/ca-model/article/) をご確認ください。
+For details on the properties, please refer to the [OP VC Securing Mechanism](https://docs.originator-profile.org/opb/securing-mechanism/) and [Content Attestation of Article Type](https://docs.originator-profile.org/opb/ca-model/article/).
 
-JSON Web Token（JWT） の画面の「JWT に署名」にて「秘密鍵の形式」を「JWK」にし、アカウントのプライベート鍵を貼り付けます。
+On the JSON Web Token (JWT) screen, under "Sign JWT," set the "Private Key Format" to "JWK" and paste your account's private key.
 
-プライベート鍵を貼り付けると、画面の右側には JWT が表示されます。このとき得られる "eyJ" から始まる文字列が CA です。
+Once you paste the private key, the JWT will appear on the right side of the screen. The string starting with "eyJ" obtained at this point is the CA.
 
-## ステップ2. Content Attestation Set の作成 {#step2}
+## Step 2. Creating a Content Attestation Set {#step2}
 
-Content Attestation Set は、ページ中の Content Attestation のリストを含む形で作成します。
+Create the Content Attestation Set by including a list of the Content Attestations found on the page.
 
-具体例:
+Example:
 
 ```json
 ["eyJ..."]
 ```
 
-_「[Content Attestation Set](https://docs.originator-profile.org/opb/content-attestation-set/)」より_
+_From "[Content Attestation Set](https://docs.originator-profile.org/opb/content-attestation-set/)"_
 
-Content Attestation Set は Content Attestation の配列です。
+Content Attestation Set is an array of Content Attestations.
 
-## ステップ3. Content Attestation Set の追加 {#step3}
+## Step 3. Adding the Content Attestation Set {#step3}
 
-ページ HTML に Content Attestation Set を追加します。以下の script タグを使用します：
+Add the Content Attestation Set to the page HTML. Use the following script tag:
 
-具体例:
+Example:
 
 ```html
 <script type="application/cas+json">
@@ -413,4 +407,4 @@ Content Attestation Set は Content Attestation の配列です。
 </script>
 ```
 
-詳細は [Linking Content Attestation Set and Originator Profile Set to A HTML Document](https://docs.originator-profile.org/opb/link-to-html/) を参照してください。
+For details, please refer to [Linking Content Attestation Set and Originator Profile Set to A HTML Document](https://docs.originator-profile.org/opb/link-to-html/).

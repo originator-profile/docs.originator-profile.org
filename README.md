@@ -23,9 +23,9 @@ Updates to this repository will be automatically reflected within a few minutes.
 
 This repository uses [Docusaurus's multilingual support feature](https://docusaurus.io/docs/i18n/introduction) to provide pages in both Japanese and English.
 
-- docs/ — Japanese documentation (original)
+- docs/ —— Japanese documentation (original)
   - See the "Editing Rules" section below for the subfolder structure.
-- i18n/en/docusaurus-plugin-content-docs/current/ — English documentation (translation)
+- i18n/en/docusaurus-plugin-content-docs/current/ —— English documentation (translation)
   - English documentation is created with the same directory and file names as the Japanese documentation.
 - static/ —— [Static Assets](https://docusaurus.io/docs/static-assets)
   - Copied to each locale directory (`/ja/`, `/en/`) during Docusaurus build

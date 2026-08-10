@@ -1,0 +1,111 @@
+---
+sidebar_position: 3
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/ae49916/docs/tech/validity-period.mdx
+---
+
+# Validity period of OP, SP, and CA
+
+This page explains the concept of validity period for Originator Profile (OP), Site Profile (SP), and Content Attestation (CA), and the operations of reissuance and re-installation required within the validity period. For property specifications and verification processes of individual VCs, refer to each page of the [Originator Profile Blueprint (OPB)](/opb/).
+
+## Overview of validity period
+
+Each VC that constitutes an OP or CA has a validity period `[iat, exp)` determined by the JWT claims `iat` (issued at) and `exp` (expiration time) of [VC-JOSE-COSE](https://www.w3.org/TR/vc-jose-cose/) (see [OP VC Securing Mechanism](/opb/securing-mechanism.md#iat-exp) for details).
+
+An OP is not a single VC but a data format that combines [Core Profile (CP)](/opb/cp.md), [Web Media Profile (WMP)](/opb/web-media-profile.md), and [Profile Annotation (PA)](/opb/pa.md) (see [The mechanism of Originator Profile](./mechanism.mdx)). Therefore, the validity period of an OP is the intersection of the validity periods of all included CPs, WMPs, and PAs.
+
+[Site Profile (SP)](/opb/site-profile.md) is a distribution format that contains [Website Profile (WSP)](/opb/website-profile.md) and an OP, so the validity period of an SP is the intersection of the validity periods of the WSP and OP it contains.
+
+[Content Attestation (CA)](/opb/ca.md) is a standalone VC that has its own validity period.
+
+None of these have a mechanism to extend the validity period. They can only be maintained by repeatedly reissuing and re-installing within the validity period. See the [security section of OP VC Securing Mechanism](/opb/securing-mechanism.md#security) for details.
+
+## Validity period of Originator Profile (OP)
+
+### How the OP validity period is determined
+
+An OP is a data format that combines three types of VCs: CP, WMP, and PA. Because each VC has independent `iat` and `exp` values, the OP validity period is the intersection of the validity periods of all included VCs.
+
+### Validity period of CP and WMP
+
+The validity period of both CP and WMP is 398 days from the date of issuance (`exp = iat + 398 days`).
+
+### Validity period of PA
+
+A PA involves two kinds of validity periods:
+
+- **Signature validity period** (`iat`, `exp`): the period during which the PA itself can be verified.
+- **Content validity period** (`validFrom`, `validUntil`): the period during which the target that the PA asserts (e.g., a certificate or registration) is in effect. This is not specified when the target has no expiration.
+
+The validity period of a PA is 398 days from the date of issuance, or the content validity period, whichever is shorter. If the content has a validity period, set `iat` and `exp` to satisfy `validFrom ≤ iat` and `exp ≤ validUntil` (see [Profile Annotation (PA)](/opb/pa.md) for details).
+
+The presence and content of `validFrom` and `validUntil` for each PA type are as follows:
+
+| PA type                                                                                              | `validFrom`                                           | `validUntil`                                    |
+| :--------------------------------------------------------------------------------------------------- | :---------------------------------------------------- | :---------------------------------------------- |
+| [Profile Annotation Issuer Registration PA](/opb/pa-model/profile-annotation-issuer-registration.md) | Not recorded                                          | Not recorded                                    |
+| [Organization Existence PA](/opb/pa-model/existence.md)                                              | Not recorded                                          | Not recorded                                    |
+| [Local Government Certification PA](/opb/pa-model/local-government-certification.md)                 | Not recorded                                          | Not recorded                                    |
+| [News Media Registration PA](/opb/pa-model/news-media-registration.md)                               | The time of registration as a news organization       | Not recorded                                    |
+| [Advertising Certification PA](/opb/pa-model/advertising-certification.md)                           | The time of issuance of the advertising certification | The expiration of the advertising certification |
+
+If you hold a PA whose content validity period is shorter than 398 days, the overall OP validity period is also shortened accordingly. Before the target PA expires, the OP must be reissued and the SP must be updated.
+
+### Operations required within the validity period
+
+To maintain an OP, before its validity period expires, the OP must be reissued at the [OP Registry](/opb/terminology.md#op-registry) and the SP that contains it must be updated. For SP installation procedures, see [Setting Up the Site Profile](/tutorial/sp-setup-guide.md).
+
+## Validity period of Website Profile (WSP)
+
+### Specification at issuance
+
+The validity period of a WSP is determined by the `iat` and `exp` specified at the time of issuance. The default value is one year from the date of issuance.
+
+:::info
+
+There is currently no upper limit on the validity period length, but a future upper limit is anticipated for long-lived WSPs.
+
+:::
+
+### Operations required within the validity period
+
+Although a WSP has its own `iat` and `exp`, the validity of a WSP depends on the validity of the OP of the organization that issues the WSP. Therefore, the effective validity period of a WSP is the intersection of the validity periods of the WSP and the OP.
+
+To maintain a WSP, before the validity periods of the WSP and of the OP of the issuing organization expire, reissue both and update the SP that contains them. For SP installation procedures, see [Setting Up the Site Profile](/tutorial/sp-setup-guide.md).
+
+## Validity period of Site Profile (SP)
+
+An SP is a distribution format that contains a WSP and an OP, and the SP itself does not have a VC signature (see [Site Profile](/opb/site-profile.md) for the SP data format). Therefore, the validity period of an SP is the intersection of the validity periods of the WSP and OP it contains.
+
+Before the validity period of either the WSP or OP expires, reissue the corresponding VC and update the SP. For SP installation procedures, see [Setting Up the Site Profile](/tutorial/sp-setup-guide.md).
+
+## Validity period of Content Attestation (CA)
+
+### Specification at issuance
+
+The validity period of a CA is determined by the `iat` and `exp` specified at the time of issuance by a CA Server (a server that issues Content Attestations; see [How to use CA Server](/tutorial/cas-setup-guide.md#ca-server) for details). The default value is one year from the date of issuance.
+
+:::info
+
+There is currently no upper limit on the validity period length, but a future upper limit is anticipated for long-lived CAs.
+
+:::
+
+### Operations required within the validity period
+
+Although a CA has its own `iat` and `exp`, the validity of a CA depends on the validity of the OP of the organization that issues the CA. Therefore, the effective validity period of a CA is the intersection of the validity periods of the CA and the OP.
+
+To maintain a CA, before the validity periods of the CA and of the OP of the issuing organization expire, [reissue the CA at the CA Server](/tutorial/cas-setup-guide.md#ca-server) and reissue the OP at the [OP Registry](/opb/terminology.md#op-registry), and update the [Content Attestation Set (CAS)](/opb/content-attestation-set.md) and the SP that contains the reissued OP. Update the [linking to HTML](/opb/link-to-html.md) as needed. For SP installation procedures, see [Setting Up the Site Profile](/tutorial/sp-setup-guide.md).
+
+A CA does not need to be reissued in sync with OP reissuance. As long as the OP is within its validity period and the public key distributed by the CP contained in the OP does not change, the existing CA remains valid.
+
+## Validity period per VC type
+
+OP and SP are not standalone VCs and are not included in the table below. The OP validity period is the intersection of the validity periods of CP, WMP, and PA in the table, and the SP validity period is the intersection of the validity periods of WSP and OP.
+
+| VC type                          | Issuer                                         | Signature validity period (`iat`, `exp`)                                     | Additional period constraint          | Trigger for reissuance and re-installation                           |
+| :------------------------------- | :--------------------------------------------- | :--------------------------------------------------------------------------- | :------------------------------------ | :------------------------------------------------------------------- |
+| [CP](/opb/cp.md)                 | [OP Registry](/opb/terminology.md#op-registry) | 398 days from issuance                                                       | None                                  | Before expiration, reissue the OP and update the SP                  |
+| [WMP](/opb/web-media-profile.md) | [OP Registry](/opb/terminology.md#op-registry) | 398 days from issuance                                                       | None                                  | Before expiration, reissue the OP and update the SP                  |
+| [PA](/opb/pa.md)                 | PA issuer                                      | 398 days from issuance, or the content validity period, whichever is shorter | `validFrom ≤ iat`, `exp ≤ validUntil` | Before either expires, reissue the OP and update the SP              |
+| [WSP](/opb/website-profile.md)   | Sender                                         | Specified at issuance (default: one year)                                    | Intersected with OP validity period   | Before expiration, reissue the WSP and OP, then update the SP        |
+| [CA](/opb/ca.md)                 | Sender                                         | Specified at issuance (default: one year)                                    | Intersected with OP validity period   | Before expiration, reissue the CA and OP, then update the CAS and SP |

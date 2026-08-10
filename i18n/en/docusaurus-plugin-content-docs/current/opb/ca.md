@@ -1,6 +1,6 @@
 ---
 sidebar_position: 25
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/75f6d5a/docs/opb/ca.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/ae49916/docs/opb/ca.md
 tags:
   - Base Model
   - Content Attestation
@@ -50,6 +50,12 @@ Content Attestation MUST be an OP VC DM compliant document and contain the follo
 | ------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `id`   | `string` | **REQUIRED.** MUST be a CA ID. CA ID is a [UUIDv4](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-4) URN format string. There is a one-to-one correspondence between content and CA IDs. |
 | `type` | `string` | **REQUIRED.** CA type name. Existing types are listed in the [Content Attestation Type Registry](./ca-model/index.mdx#registry), and additional types MAY be defined as an extension.                   |
+
+:::note
+
+Please refer to [Validity period of OP, SP, and CA](../tech/validity-period.mdx) for operational details regarding the validity period (`iat`, `exp`) of VC signatures.
+
+:::
 
 #### `allowedUrl` Examples:
 

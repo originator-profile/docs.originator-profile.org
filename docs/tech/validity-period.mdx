@@ -1,0 +1,110 @@
+---
+sidebar_position: 3
+---
+
+# OP, SP, CA の有効期間
+
+本ページでは Originator Profile (OP)、Site Profile (SP)、Content Attestation (CA) の有効期間の考え方と、有効期間内に必要な再発行・再設置の運用について説明します。個別の VC のプロパティ仕様や検証プロセスは [Originator Profile Blueprint (OPB)](/opb/) の各ページを参照してください。
+
+## 有効期間の考え方
+
+OP や CA を構成する VC は、[VC-JOSE-COSE](https://www.w3.org/TR/vc-jose-cose/) の JWT クレーム `iat` (issued at) と `exp` (expiration time) によって有効期間 `[iat, exp)` を持ちます (詳細は [OP VC Securing Mechanism](/opb/securing-mechanism.md#iat-exp) を参照)。
+
+OP は単体の VC ではなく、[Core Profile (CP)](/opb/cp.md)、[Web Media Profile (WMP)](/opb/web-media-profile.md)、[Profile Annotation (PA)](/opb/pa.md) を組み合わせたデータ形式です ([Originator Profile の仕組み](./mechanism.mdx) を参照)。したがって OP としての有効期間は、含まれる CP、WMP、PA すべての有効期間の共通部分になります。
+
+[Site Profile (SP)](/opb/site-profile.md) は [Website Profile (WSP)](/opb/website-profile.md) と OP を包含する配布形式なので、SP としての有効期間は WSP と OP の有効期間の共通部分になります。
+
+[Content Attestation (CA)](/opb/ca.md) は独立した VC として、自身の有効期間を持ちます。
+
+いずれについても、有効期間を延長する仕組みは用意していません。有効期間内に再発行と再設置を繰り返すことでのみ維持できます。詳細は [OP VC Securing Mechanism のセキュリティ](/opb/securing-mechanism.md#security) を参照してください。
+
+## Originator Profile (OP) の有効期間
+
+### OP 全体の有効期間の決まり方
+
+OP は CP、WMP、PA の 3 種類の VC を組み合わせたデータ形式です。それぞれの VC が独立した `iat`、`exp` を持つため、OP としての有効期間は含まれる VC すべての有効期間の共通部分になります。
+
+### CP と WMP の有効期間
+
+CP と WMP の有効期間は、いずれも発行日から 398 日です (`exp = iat + 398 days`)。
+
+### PA の有効期間
+
+PA では、次の 2 種類の有効期間を扱います。
+
+- **署名の有効期間** (`iat`、`exp`): PA そのものが検証可能な期間。
+- **内容の有効期間** (`validFrom`、`validUntil`): PA が表明する対象 (例: 認証、登録証など) が有効な期間。対象に期限がない場合は指定しません。
+
+PA の有効期間は、発行日から 398 日、または内容の有効期間のうち短い方になります。内容に有効期間がある場合、`validFrom ≤ iat` かつ `exp ≤ validUntil` を満たすように `iat`、`exp` を設定します (詳細は [Profile Annotation (PA)](/opb/pa.md) を参照)。
+
+PA 種別ごとの `validFrom` と `validUntil` の記載有無と記載内容は次の通りです。
+
+| PA 種別                                                                                        | `validFrom`                        | `validUntil`             |
+| :--------------------------------------------------------------------------------------------- | :--------------------------------- | :----------------------- |
+| [Profile Annotation Issuer 登録証 PA](/opb/pa-model/profile-annotation-issuer-registration.md) | 記載しない                         | 記載しない               |
+| [組織実在証 PA](/opb/pa-model/existence.md)                                                    | 記載しない                         | 記載しない               |
+| [自治体認証 PA](/opb/pa-model/local-government-certification.md)                               | 記載しない                         | 記載しない               |
+| [報道機関登録証 PA](/opb/pa-model/news-media-registration.md)                                  | 報道機関として登録された時点を記載 | 記載しない               |
+| [広告認証 PA](/opb/pa-model/advertising-certification.md)                                      | 広告認証が交付された時点を記載     | 広告認証の有効期限を記載 |
+
+内容の有効期間が 398 日より短い PA を保有している場合、OP 全体の有効期間も対象 PA の期限に従って短くなります。対象 PA の期限が切れる前に OP を再発行し、SP を更新設置する必要があります。
+
+### 有効期間内に必要な運用
+
+OP を維持するには、OP の有効期間が切れる前に [OP レジストリ](/opb/terminology.md#op-レジストリ) で OP を再発行し、それを含む SP を更新設置します。SP の設置手順の詳細は [Site Profile の設置](/tutorial/sp-setup-guide.md) を参照してください。
+
+## Website Profile (WSP) の有効期間
+
+### 発行時の指定
+
+WSP の有効期間は、発行時に指定した `iat`、`exp` で決まります。デフォルト値は発行から 1 年です。
+
+:::info
+
+現状は有効期間の長さに制約を設けていませんが、長期有効な WSP には将来的に上限を導入することを想定しています。
+
+:::
+
+### 有効期間内に必要な運用
+
+WSP は独立した `iat`、`exp` を持ちますが、WSP の有効性はその WSP を発行する組織の OP の有効性に依存するため、WSP の実質的な有効期間は WSP と OP の有効期間の共通部分になります。
+
+WSP を維持するには、WSP とその WSP を発行する組織の OP の有効期間が切れる前に再発行し、それらを含む SP を更新設置します。SP の設置手順の詳細は [Site Profile の設置](/tutorial/sp-setup-guide.md) を参照してください。
+
+## Site Profile (SP) の有効期間
+
+SP は WSP と OP を包含する配布形式で、SP 自体は VC 署名を持ちません (SP のデータ形式は [Site Profile](/opb/site-profile.md) を参照)。したがって SP としての有効期間は、含まれる WSP と OP の有効期間の共通部分になります。
+
+WSP または OP のいずれかの有効期間が切れる前に、該当する VC を再発行して SP を更新設置してください。SP の設置手順の詳細は [Site Profile の設置](/tutorial/sp-setup-guide.md) を参照してください。
+
+## Content Attestation (CA) の有効期間
+
+### 発行時の指定
+
+CA の有効期間は、CA Server (Content Attestation を発行するサーバー。詳細は [CA Server を使用する方法](/tutorial/cas-setup-guide.md#ca-server) を参照) で発行時に指定した `iat`、`exp` で決まります。デフォルト値は発行から 1 年です。
+
+:::info
+
+現状は有効期間の長さに制約を設けていませんが、長期有効な CA には将来的に上限を導入することを想定しています。
+
+:::
+
+### 有効期間内に必要な運用
+
+CA は独立した `iat`、`exp` を持ちますが、CA の有効性はその CA を発行する組織の OP の有効性に依存するため、CA の実質的な有効期間は CA と OP の有効期間の共通部分になります。
+
+CA を維持するには、CA とその CA を発行する組織の OP の有効期間が切れる前に [CA Server](/tutorial/cas-setup-guide.md#ca-server) での CA 再発行と [OP レジストリ](/opb/terminology.md#op-レジストリ) での OP 再発行をおこない、[Content Attestation Set (CAS)](/opb/content-attestation-set.md) と 再発行した OP を含む SP を更新設置します。CAS の [HTML への紐付け](/opb/link-to-html.md) も適宜更新してください。SP の設置手順の詳細は [Site Profile の設置](/tutorial/sp-setup-guide.md) を参照してください。
+
+OP の再発行に連動して CA を再発行する必要はありません。OP が有効期間内にあり、かつその OP に含まれる CP から配布する公開鍵が変わらない限り、既存の CA は引き続き有効です。
+
+## VC 種別ごとの有効期間
+
+OP および SP は独立した VC ではないため、一覧には含めていません。OP の有効期間は下記表の CP と WMP と PA の有効期間の共通部分であり、SP の有効期間は下記表の WSP と OP の有効期間の共通部分として決まります。
+
+| VC 種別                          | 発行主体                                           | 署名の有効期間 (`iat`, `exp`)                     | 追加の期間制約                        | 再発行・再設置の契機                              |
+| :------------------------------- | :------------------------------------------------- | :------------------------------------------------ | :------------------------------------ | :------------------------------------------------ |
+| [CP](/opb/cp.md)                 | [OP レジストリ](/opb/terminology.md#op-レジストリ) | 発行日から 398 日                                 | なし                                  | 期限前に OP を再発行し SP を更新設置              |
+| [WMP](/opb/web-media-profile.md) | [OP レジストリ](/opb/terminology.md#op-レジストリ) | 発行日から 398 日                                 | なし                                  | 期限前に OP を再発行し SP を更新設置              |
+| [PA](/opb/pa.md)                 | PA 発行者                                          | 発行日から 398 日または内容の有効期間のうち短い方 | `validFrom ≤ iat`、`exp ≤ validUntil` | いずれかの期限前に OP を再発行し SP を更新設置    |
+| [WSP](/opb/website-profile.md)   | 発信者                                             | 発行時に指定 (デフォルト 1 年)                    | OP の有効期間と交差                   | 期限前に WSP と OP を再発行し SP を更新設置       |
+| [CA](/opb/ca.md)                 | 発信者                                             | 発行時に指定 (デフォルト 1 年)                    | OP の有効期間と交差                   | 期限前に CA と OP を再発行し CAS と SP を更新設置 |
