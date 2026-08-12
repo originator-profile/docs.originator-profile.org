@@ -44,7 +44,7 @@ const TOP_LEVEL_RULES = {
 };
 
 /** TOP_LEVEL_RULES への登録が不要なエントリ */
-const IGNORED_ENTRIES = new Set(["assets"]);
+const IGNORED_ENTRIES = new Set(["assets", "releases"]);
 
 const issues = [];
 
