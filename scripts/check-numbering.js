@@ -35,6 +35,7 @@ const TOP_LEVEL_RULES = {
   development: RANGE_HOW_TO,
   "site-cases": RANGE_HOW_TO,
   "error-reference": RANGE_HOW_TO,
+  releases: RANGE_HOW_TO,
   "contributing.md": RANGE_HOW_TO,
   "inspector.md": RANGE_HOW_TO,
   "debugger.md": RANGE_HOW_TO,
@@ -44,7 +45,7 @@ const TOP_LEVEL_RULES = {
 };
 
 /** TOP_LEVEL_RULES への登録が不要なエントリ */
-const IGNORED_ENTRIES = new Set(["assets", "releases"]);
+const IGNORED_ENTRIES = new Set(["assets"]);
 
 const issues = [];
 
