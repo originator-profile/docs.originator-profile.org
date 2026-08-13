@@ -78,7 +78,7 @@ Output:
 - If a PrismaClientKnownRequestError occurs, refer to the Prisma error reference.
 - Ensure that `credentialSubject.id` is included in the Web Media Profile and Profile Annotation.
 - Please correct the input so that the Site Profile or Originator Profile Set passes validation.  
-  (If validation for the Site Profile or Originator Profile Set fails, referring to the [Error Reference for Site Profiles](/error-reference/op-inspector-debugger/sp), [Error Reference for Originator Profile Sets](/error-reference/op-inspector-debugger/ops), or [Error Reference for Originator Profiles](/error-reference/op-inspector-debugger/op) may help identify the cause.)
+  (If validation for the Site Profile or Originator Profile Set fails, referring to the [Error Reference for Site Profile](/error-reference/op-inspector-debugger/sp), [Error Reference for Originator Profile Sets](/error-reference/op-inspector-debugger/ops), or [Error Reference for Originator Profile](/error-reference/op-inspector-debugger/op) may help identify the cause.)
 
 ## Related Information
 
