@@ -26,7 +26,7 @@ This error primarily occurs when there are validation errors in the JSON schema.
 - Site Profile verification may have failed when registering or updating the Site Profile.
   (For details, please refer to the [Error Reference for Site Profile](/error-reference/op-inspector-debugger/sp).)
 - Additionally, since the Originator Profile Set is validated as part of the Site Profile validation process, the validation of the Originator Profile Set may have failed.  
-(For details, please refer to the [Error Reference for Originator Profile Set](/error-reference/op-inspector-debugger/ops) or the [Error Reference for Originator Profile](/error-reference/op-inspector-debugger/op).)
+  (For details, please refer to the [Error Reference for Originator Profile Set](/error-reference/op-inspector-debugger/ops) or the [Error Reference for Originator Profile](/error-reference/op-inspector-debugger/op).)
 
 ## Examples
 
@@ -78,7 +78,7 @@ Output:
 - If a PrismaClientKnownRequestError occurs, refer to the Prisma error reference.
 - Ensure that `credentialSubject.id` is included in the Web Media Profile and Profile Annotation.
 - Please correct the input so that the Site Profile or Originator Profile Set passes validation.  
-(If validation for the Site Profile or Originator Profile Set fails, referring to the [Error Reference for Site Profiles](/error-reference/op-inspector-debugger/sp), [Error Reference for Originator Profile Sets](/error-reference/op-inspector-debugger/ops), or [Error Reference for Originator Profiles](/error-reference/op-inspector-debugger/op) may help identify the cause.)
+  (If validation for the Site Profile or Originator Profile Set fails, referring to the [Error Reference for Site Profiles](/error-reference/op-inspector-debugger/sp), [Error Reference for Originator Profile Sets](/error-reference/op-inspector-debugger/ops), or [Error Reference for Originator Profiles](/error-reference/op-inspector-debugger/op) may help identify the cause.)
 
 ## Related Information
 
