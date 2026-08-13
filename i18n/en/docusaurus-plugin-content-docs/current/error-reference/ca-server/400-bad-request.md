@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/ad5dc8d/docs/error-reference/ca-server/400-bad-request.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/fcee115/docs/error-reference/ca-server/400-bad-request.md
 ---
 
 # 400 Bad Request
@@ -24,7 +24,9 @@ This error primarily occurs when there are validation errors in the JSON schema.
   (See [the Prisma Error Reference](https://www.prisma.io/docs/orm/reference/error-reference#prismaclientknownrequesterror) for details.)
 - The `credentialSubject.id` may not have been included when registering or updating the Web Media Profile or Profile Annotation.
 - Site Profile verification may have failed when registering or updating the Site Profile.
-  (See [the Site Profile](../../opb/site-profile.md) for details.)
+  (For details, please refer to the [Error Reference for Site Profile](/error-reference/op-inspector-debugger/sp).)
+- Additionally, since the Originator Profile Set is validated as part of the Site Profile validation process, the validation of the Originator Profile Set may have failed.  
+(For details, please refer to the [Error Reference for Originator Profile Set](/error-reference/op-inspector-debugger/ops) or the [Error Reference for Originator Profile](/error-reference/op-inspector-debugger/op).)
 
 ## Examples
 
@@ -75,9 +77,14 @@ Output:
 - Check the required fields, types, and format of the input JSON, or the error details in the response message.
 - If a PrismaClientKnownRequestError occurs, refer to the Prisma error reference.
 - Ensure that `credentialSubject.id` is included in the Web Media Profile and Profile Annotation.
-- Modify the input content so that the Site Profile validation passes.
+- Please correct the input so that the Site Profile or Originator Profile Set passes validation.  
+(If validation for the Site Profile or Originator Profile Set fails, referring to the [Error Reference for Site Profiles](/error-reference/op-inspector-debugger/sp), [Error Reference for Originator Profile Sets](/error-reference/op-inspector-debugger/ops), or [Error Reference for Originator Profiles](/error-reference/op-inspector-debugger/op) may help identify the cause.)
 
 ## Related Information
 
 - [Prisma Error Reference](https://www.prisma.io/docs/orm/reference/error-reference)
 - [Site Profile](../../opb/site-profile.md)
+- [Originator Profile Set](../../opb/originator-profile-set.md)
+- [Error reference for Site Profile](/error-reference/op-inspector-debugger/sp)
+- [Error reference for Originator Profile Set](/error-reference/op-inspector-debugger/ops)
+- [Error reference for Originator Profile](/error-reference/op-inspector-debugger/op)
