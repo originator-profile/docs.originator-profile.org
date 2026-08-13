@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/ad5dc8d/docs/error-reference/playground/400-bad-request.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/fcee115/docs/error-reference/playground/400-bad-request.md
 ---
 
 # 400 Bad Request
@@ -16,6 +16,12 @@ This error occurs in the case of a JSON schema validation error.
 ## Causes
 
 - The input JSON may not meet the expected schema (required fields, types, format).
+
+:::note
+
+The Content Attestation Server Playground does not validate the Originator Profile Set submitted as a parameter.
+
+:::
 
 ## Examples
 
