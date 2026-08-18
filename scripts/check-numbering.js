@@ -35,6 +35,7 @@ const TOP_LEVEL_RULES = {
   development: RANGE_HOW_TO,
   "site-cases": RANGE_HOW_TO,
   "error-reference": RANGE_HOW_TO,
+  releases: RANGE_HOW_TO,
   "contributing.md": RANGE_HOW_TO,
   "inspector.md": RANGE_HOW_TO,
   "debugger.md": RANGE_HOW_TO,
