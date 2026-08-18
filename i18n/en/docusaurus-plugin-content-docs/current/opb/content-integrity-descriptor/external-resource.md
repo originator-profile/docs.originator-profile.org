@@ -10,6 +10,7 @@ tags:
 ## Summary
 
 The External Resource Target defined in this document is a Content Attestation (CA) property for assuring the integrity of external resource files such as images, videos, etc. While it can assure the integrity of the resource referenced by a URL, it is limited to URLs that return the same byte sequence as a response regardless of the user agent.
+The HTML element to be verified is identified either by the `id` attribute using the `elementId` property, or by the `integrity` attribute whose value is the same as the `integrity` property.
 
 :::note
 
@@ -45,18 +46,48 @@ Below is an example of an External Resource Target:
 }
 ```
 
+Below is an example of an External Resource Target that uses the `elementId` property:
+
+```json
+{
+  "type": "ExternalResourceTargetIntegrity",
+  "elementId": "hero-image",
+  "integrity": "sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w="
+}
+```
+
 The following properties are defined:
 
-| Name        | Type     | Description                                                                                                                                                                                                                                                   |
-| ----------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `type`      | `string` | **REQUIRED.** It MUST be `ExternalResourceTargetIntegrity`.                                                                                                                                                                                                   |
-| `integrity` | `string` | **REQUIRED.** It MUST be the [`sriString` data type](../context.md#the-sristring-datatype). For available hash functions, it MUST conform to [Hash Algorithm](../algorithm.md#hash-algorithm). Example: `sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U=` |
+| Name        | Type     | Description                                                                                                                                                                                                                                                                                                                                                                                          |
+| ----------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `type`      | `string` | **REQUIRED.** It MUST be `ExternalResourceTargetIntegrity`.                                                                                                                                                                                                                                                                                                                                          |
+| `integrity` | `string` | **REQUIRED.** It MUST be the [`sriString` data type](../context.md#the-sristring-datatype). For available hash functions, it MUST conform to [Hash Algorithm](../algorithm.md#hash-algorithm). Example: `sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U=`                                                                                                                                        |
+| `elementId` | `string` | **OPTIONAL.** The value of the [`id` attribute](https://html.spec.whatwg.org/multipage/dom.html#the-id-attribute) of the HTML element to be verified. It MUST NOT be an empty string, and it MUST NOT contain any ASCII whitespace. When this property is present, the `id` HTML attribute is used instead of the `integrity` HTML attribute to identify the element location. Example: `hero-image` |
+
+:::note
+
+The value of an `id` attribute must be unique within the document ([HTML Standard](https://html.spec.whatwg.org/multipage/dom.html#the-id-attribute)). If multiple elements have an `id` attribute with the same value, the [`document.getElementById()` method](https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById) returns only the first element in tree order, so an unintended element may be verified.
+
+CA issuers should also specify the `id` attribute so that the element that `elementId` matches will not change regardless of dynamic changes to the page (RECOMMENDED).
+
+:::
 
 ## How to set it up
 
-Specify the same value as the `integrity` property for the `integrity` attribute of the HTML element.
+Make the HTML element to be verified identifiable in one of the following ways:
+
+- When using the `elementId` property: Specify the same value as the `elementId` property for the `id` attribute of the HTML element.
+- When not using the `elementId` property: Specify the same value as the `integrity` property for the `integrity` attribute of the HTML element.
+
+:::note
+
+Both the `elementId` property and the `integrity` HTML attribute can be specified. In this case, the `elementId` property is used to identify the element location.
+
+:::
 
 ### Example
+
+#### Identifying elements by the `integrity` attribute
 
 Below is an example of referencing the source and img elements from an External Resource Target:
 
@@ -128,9 +159,86 @@ In this case, add the `integrity` attribute to the HTML source element and video
 </video>
 ```
 
+#### Identifying elements by the `id` attribute
+
+Below is an example of referencing the source and img elements with the `elementId` property:
+
+External Resource Target:
+
+```json
+[
+  {
+    "type": "ExternalResourceTargetIntegrity",
+    "elementId": "hero-image-source",
+    "integrity": "sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
+  },
+  {
+    "type": "ExternalResourceTargetIntegrity",
+    "elementId": "hero-image",
+    "integrity": "sha256-t7WZSGxDdqGvGg/FLw6wk9KFQy5StT1MquCf/htwjBo= sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
+  }
+]
+```
+
+In this case, add the `id` attribute to the HTML source element and img element of the web page as follows:
+
+```html
+<picture>
+  <source
+    id="hero-image-source"
+    srcset="image.jpg"
+    media="(min-width: 400px)"
+  />
+  <img id="hero-image" src="https://cdn.example.com/image.jpg" />
+</picture>
+```
+
+Below is an example of referencing a video element with the `elementId` property:
+
+External Resource Target:
+
+```json
+[
+  {
+    "type": "ExternalResourceTargetIntegrity",
+    "elementId": "product-video",
+    "integrity": "sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w= sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
+  },
+  {
+    "type": "ExternalResourceTargetIntegrity",
+    "elementId": "product-video-mp4",
+    "integrity": "sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w="
+  },
+  {
+    "type": "ExternalResourceTargetIntegrity",
+    "elementId": "product-video-webm",
+    "integrity": "sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
+  }
+]
+```
+
+In this case, add the `id` attribute to the HTML video element and source elements of the web page as follows:
+
+```html
+<video id="product-video" poster="https://cdn.example.com/poster.jpg">
+  <source
+    id="product-video-mp4"
+    src="https://cdn.example.com/video.mp4"
+    type="video/mp4"
+  />
+  <source
+    id="product-video-webm"
+    src="https://cdn.example.com/video.webm"
+    type="video/webm"
+  />
+</video>
+```
+
+### Notes
+
 :::note
 
-In this case, the external resource specified in the src attribute is validated, but the external resource specified in the poster attribute is not validated. Specifications for making external resources specified in the poster attribute verifiable are under consideration.
+When referencing a video element, the external resource specified in the src attribute is validated, but the external resource specified in the poster attribute is not validated. Specifications for making external resources specified in the poster attribute verifiable are under consideration.
 
 :::
 
@@ -148,7 +256,9 @@ As described in [SRI Section 5.3](https://www.w3.org/TR/sri/#cross-origin-data-l
 
 ## Validation Process
 
-1. Searches for elements whose `integrity` HTML attribute contains the same value as the `integrity` property.
+1. Searches for the elements corresponding to the External Resource Target.
+   - If the `elementId` property is present, searches for the element whose `id` HTML attribute has the same value as the `elementId` property.
+   - If the `elementId` property is absent, searches for elements whose `integrity` HTML attribute contains the same value as the `integrity` property.
    - If no elements are found, it may be treated as a verification failure.
 2. Retrieves resources corresponding to the elements identified in step 1.
    - Resources are retrieved by sending a GET request to the URL of the attribute or property corresponding to the element type.
@@ -161,11 +271,16 @@ As described in [SRI Section 5.3](https://www.w3.org/TR/sri/#cross-origin-data-l
 
 ## How to identify element location
 
-Searches for elements whose `integrity` HTML attribute exactly matches the `integrity` property.
+Elements are identified as follows, depending on whether the `elementId` property is present.
+
+- If the `elementId` property is present: Searches for the element whose `id` HTML attribute has the same value as the `elementId` property, using the [`document.getElementById()` method](https://developer.mozilla.org/en-US/docs/Web/API/Document/getElementById).
+- If the `elementId` property is absent: Searches for elements whose `integrity` HTML attribute exactly matches the `integrity` property.
+
+The `elementId` property is optional. How elements are identified for an External Resource Target without the `elementId` property is unchanged. Verifiers MUST support both methods.
 
 :::info
 
-Care must be taken to ensure that both the `integrity` property and the `integrity` HTML attribute have the same value in the following cases:
+If the `elementId` property is absent, care must be taken to ensure that both the `integrity` property and the `integrity` HTML attribute have the same value in the following cases:
 
 - The value of the `integrity` property consists of two or more SRI hashes
 - Whitespace or line break characters are used in the `integrity` HTML attribute value for readability
