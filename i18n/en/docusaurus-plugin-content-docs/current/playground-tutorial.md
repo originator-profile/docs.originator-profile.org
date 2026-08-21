@@ -31,7 +31,7 @@ Site Profile と Content Attestation の発行・設置・検証までの流れ�
 - [Content Attestation Server Playground の SP 発行 API](https://playground.originator-profile.org/#tag/sp/POST/sp) を開きます。
 - 画面右側の Test Request を使用します。
 - Request Body の `allowedOrigin` に OP 対応しようとしているサイトのオリジンを含めてください。
-  - 例: `http://localohost:8080`
+  - 例: `http://localhost:8080`
   - 各プロパティについては [Site Profile](/opb/site-profile/) や [Website Profile](/opb/website-profile/) を参照してください。
 - Send を押してください。
   - 認証を求められた場合は、[Content Attestation Server Playground](https://playground.originator-profile.org) にある認証情報を使用してください。
