@@ -56,7 +56,7 @@ Profile Annotation Issuer 登録制度の ID について、同じ OP レジス�
 1. その Profile Annotation Issuer が保有する Profile Annotation Issuer 登録証 PA の `issuer` が、信頼できる OP レジストリの OP ID であることを確認します
 2. 検証対象の PA が準拠する認証制度の ID が、その Profile Annotation Issuer 登録証 PA の `credentialSubject.annotationScheme` プロパティに含まれていることを確認します
 
-Profile Annotation Issuer が Profile Annotation Issuer 登録証 PA を保有していない場合、検証者はこの確認を実施できません。この場合、認可確認は未実施（未確認）として扱われ、検証対象の PA 自体の検証エラーとはなりません。
+Profile Annotation Issuer が Profile Annotation Issuer 登録証 PA を保有していない場合、検証者はこの確認を実施できません。この場合、認可確認は未実施（未確認）として扱われます。認可を確認できないことは、検証対象の PA 自体が無効であることを直ちに意味するものではありませんが、未確認の PA をどう扱うか（許容するか、無効として扱うか）は検証者の判断に委ねられます。
 
 前項の「Profile Annotation Issuer 登録証 PA の検証」が一意の結果を返すのに対し、この確認結果は一意ではなく、検証者ごとに異なることがあります。
 
