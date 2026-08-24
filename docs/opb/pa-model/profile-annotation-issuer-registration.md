@@ -47,7 +47,7 @@ Profile Annotation Issuer 登録制度の ID について、同じ OP レジス�
 
 ## Profile Annotation Issuer 登録証 PA の検証
 
-検証者は、Profile Annotation Issuer が保有する Profile Annotation Issuer 登録証 PA を、[OP VC Data Model](../op-vc-data-model.md) および [Securing Mechanism](../securing-mechanism.md) に従って検証できます（SHOULD）。
+検証者は、Profile Annotation Issuer が保有する Profile Annotation Issuer 登録証 PA について、[OP VC Data Model](../op-vc-data-model.md) および [Securing Mechanism](../securing-mechanism.md) に従った検証を行うことができます（SHOULD）。ここでの検証は登録証 PA 自体の真正性の確認であり、その `issuer` が信頼できる OP レジストリであるかどうかの判断は含みません。
 
 ## Profile Annotation Issuer の認可確認
 
@@ -55,6 +55,8 @@ Profile Annotation Issuer 登録制度の ID について、同じ OP レジス�
 
 1. その Profile Annotation Issuer が保有する Profile Annotation Issuer 登録証 PA の `issuer` が、信頼できる OP レジストリの OP ID であることを確認します
 2. 検証対象の PA が準拠する認証制度の ID が、その Profile Annotation Issuer 登録証 PA の `credentialSubject.annotationScheme` プロパティに含まれていることを確認します
+
+Profile Annotation Issuer が Profile Annotation Issuer 登録証 PA を保有していない場合、検証者はこの確認を実施できません。この場合、認可確認は未実施（未確認）として扱われ、検証対象の PA 自体の検証エラーとはなりません。
 
 前項の「Profile Annotation Issuer 登録証 PA の検証」が一意の結果を返すのに対し、この確認結果は一意ではなく、検証者ごとに異なることがあります。
 
