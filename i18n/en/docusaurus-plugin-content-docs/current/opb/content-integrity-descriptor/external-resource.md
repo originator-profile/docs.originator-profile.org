@@ -11,6 +11,8 @@ tags:
 
 The External Resource Target defined in this document is a Content Attestation (CA) property for assuring the integrity of external resource files such as images, videos, etc. While it can assure the integrity of the resource referenced by a URL, it is limited to URLs that return the same byte sequence as a response regardless of the user agent.
 
+The HTML element to be verified is identified either by the CSS selector in the `cssSelector` property, or by the `integrity` HTML attribute that has the same value as the `integrity` property.
+
 :::note
 
 We plan to receive feedback on this target from the companies participating in the pilot experiments. We may add better methods in the future while monitoring the status of updates to related specifications.
@@ -45,18 +47,56 @@ Below is an example of an External Resource Target:
 }
 ```
 
+Below is an example of an External Resource Target that uses the `cssSelector` property:
+
+```json
+{
+  "type": "ExternalResourceTargetIntegrity",
+  "cssSelector": "#hero-image",
+  "integrity": "sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w="
+}
+```
+
 The following properties are defined:
 
-| Name        | Type     | Description                                                                                                                                                                                                                                                   |
-| ----------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `type`      | `string` | **REQUIRED.** It MUST be `ExternalResourceTargetIntegrity`.                                                                                                                                                                                                   |
-| `integrity` | `string` | **REQUIRED.** It MUST be the [`sriString` data type](../context.md#the-sristring-datatype). For available hash functions, it MUST conform to [Hash Algorithm](../algorithm.md#hash-algorithm). Example: `sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U=` |
+| Name          | Type     | Description                                                                                                                                                                                                                                                   |
+| ------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `type`        | `string` | **REQUIRED.** It MUST be `ExternalResourceTargetIntegrity`.                                                                                                                                                                                                   |
+| `integrity`   | `string` | **REQUIRED.** It MUST be the [`sriString` data type](../context.md#the-sristring-datatype). For available hash functions, it MUST conform to [Hash Algorithm](../algorithm.md#hash-algorithm). Example: `sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U=` |
+| `cssSelector` | `string` | **OPTIONAL.** It MUST be a [CSS Selector (Selectors Level 3)](https://www.w3.org/TR/selectors-3/). When this property is present, the element location is identified by the CSS selector instead of the `integrity` HTML attribute. Example: `#hero-image`    |
+
+:::note
+
+CA issuers should specify `cssSelector` so that the elements that `cssSelector` matches will not change regardless of dynamic changes to the page (RECOMMENDED). For example, instead of specifying only a tag name such as `img` for `cssSelector`, specify a more specific CSS selector such as `#hero-image` or `img.rareClassName`. If there is no CSS selector that can stably and uniquely identify the target element, it is RECOMMENDED to update the page and design the page so that it is easier to identify, for example by specifying an id attribute for the target element.
+
+:::
+
+:::note
+
+The `cssSelector` property may match multiple elements. Because the `querySelectorAll()` method returns every matching element even for an ID selector, an ID selector such as `#hero-image` matches multiple elements on a page where the value of the [`id` attribute](https://html.spec.whatwg.org/multipage/dom.html#the-id-attribute) is duplicated within the document.
+
+When multiple elements match, the resources corresponding to all of those elements MUST match the `integrity` property. When specifying a `cssSelector` that can match multiple elements, CA issuers MUST ensure that every one of those elements references a resource that matches the `integrity` property. This keeps the validation result independent of which of the matched elements is picked.
+
+:::
 
 ## How to set it up
 
-Specify the same value as the `integrity` property for the `integrity` attribute of the HTML element.
+Make the HTML element to be verified identifiable by either of the following methods:
+
+- When using the `cssSelector` property: Specify a CSS selector that matches the HTML element to be verified in the `cssSelector` property.
+- When not using the `cssSelector` property: Specify the same value as the `integrity` property for the `integrity` attribute of the HTML element.
+
+:::note
+
+When using the `cssSelector` property, it is not necessary to add the `integrity` attribute to the HTML element.
+
+Both the `cssSelector` property and the `integrity` HTML attribute may be specified. In that case, the `cssSelector` property is used to identify the element location.
+
+:::
 
 ### Example
+
+#### Identifying elements by the `integrity` attribute
 
 Below is an example of referencing the source and img elements from an External Resource Target:
 
@@ -128,9 +168,109 @@ In this case, add the `integrity` attribute to the HTML source element and video
 </video>
 ```
 
+#### Identifying elements by the `cssSelector` property
+
+Below is an example of referencing the source and img elements with the `cssSelector` property:
+
+External Resource Target:
+
+```json
+[
+  {
+    "type": "ExternalResourceTargetIntegrity",
+    "cssSelector": "#hero-image-source",
+    "integrity": "sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
+  },
+  {
+    "type": "ExternalResourceTargetIntegrity",
+    "cssSelector": "#hero-image",
+    "integrity": "sha256-t7WZSGxDdqGvGg/FLw6wk9KFQy5StT1MquCf/htwjBo= sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
+  }
+]
+```
+
+In this case, make the CSS selectors match the HTML source element and img element of the web page as follows:
+
+```html
+<picture>
+  <source
+    id="hero-image-source"
+    srcset="image.jpg"
+    media="(min-width: 400px)"
+  />
+  <img id="hero-image" src="https://cdn.example.com/image.jpg" />
+</picture>
+```
+
+Below is an example of referencing a video element with the `cssSelector` property.
+
+External Resource Target:
+
+```json
+[
+  {
+    "type": "ExternalResourceTargetIntegrity",
+    "cssSelector": "#product-video",
+    "integrity": "sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w= sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
+  },
+  {
+    "type": "ExternalResourceTargetIntegrity",
+    "cssSelector": "#product-video-mp4",
+    "integrity": "sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w="
+  },
+  {
+    "type": "ExternalResourceTargetIntegrity",
+    "cssSelector": "#product-video-webm",
+    "integrity": "sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
+  }
+]
+```
+
+In this case, make the CSS selectors match the HTML video element and source elements of the web page as follows:
+
+```html
+<video id="product-video" poster="https://cdn.example.com/poster.jpg">
+  <source
+    id="product-video-mp4"
+    src="https://cdn.example.com/video.mp4"
+    type="video/mp4"
+  />
+  <source
+    id="product-video-webm"
+    src="https://cdn.example.com/video.webm"
+    type="video/webm"
+  />
+</video>
+```
+
+Below is an example of referencing multiple elements that reference the same resource from a single External Resource Target.
+
+External Resource Target:
+
+```json
+{
+  "type": "ExternalResourceTargetIntegrity",
+  "cssSelector": ".site-logo",
+  "integrity": "sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w="
+}
+```
+
+In this case, make the CSS selector match the HTML img elements of the web page as follows. Since `.site-logo` matches two img elements, both of them MUST match the `integrity` property.
+
+```html
+<header>
+  <img class="site-logo" src="https://cdn.example.com/logo.png" />
+</header>
+<footer>
+  <img class="site-logo" src="https://cdn.example.com/logo.png" />
+</footer>
+```
+
+### Notes
+
 :::note
 
-In this case, the external resource specified in the src attribute is validated, but the external resource specified in the poster attribute is not validated. Specifications for making external resources specified in the poster attribute verifiable are under consideration.
+When referencing a video element, the external resource specified in the src attribute is validated, but the external resource specified in the poster attribute is not validated. Specifications for making external resources specified in the poster attribute verifiable are under consideration.
 
 :::
 
@@ -148,24 +288,31 @@ As described in [SRI Section 5.3](https://www.w3.org/TR/sri/#cross-origin-data-l
 
 ## Validation Process
 
-1. Searches for elements whose `integrity` HTML attribute contains the same value as the `integrity` property.
+1. Searches for the elements corresponding to the External Resource Target.
+   - If the `cssSelector` property is present, it searches for elements specified by the CSS selector in the `cssSelector` property. The target elements are searched for using the `querySelectorAll()` method, starting from the root element of the page's `document` (for example, the `<html>` element for an HTML document).
+     - If there is a syntax error in the `cssSelector` property, it may be treated as a verification failure (e.g. [`DOMException`](https://developer.mozilla.org/en-US/docs/Web/API/DOMException) `SyntaxError`).
+   - If the `cssSelector` property is absent, it searches for elements whose `integrity` HTML attribute contains the same value as the `integrity` property.
    - If no elements are found, it may be treated as a verification failure.
-2. Retrieves resources corresponding to the elements identified in step 1.
+2. Retrieves the resources corresponding to all the elements identified in step 1.
    - Resources are retrieved by sending a GET request to the URL of the attribute or property corresponding to the element type.
      - img element: [`HTMLImageElement.currentSrc` property](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/currentSrc)
      - video or audio element: [`HTMLMediaElement.currentSrc` property](https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/currentSrc)
      - Other elements: `src` attribute
    - If a network error occurs, it may be treated as a verification failure (e.g. [`TypeError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError) `Failed to fetch.`, etc.).
-3. Validate the result and its integrity property using the methods specified in [SRI section 3.3.5](https://www.w3.org/TR/SRI/#does-response-match-metadatalist).
+3. Validate each resource retrieved in step 2 and the `integrity` property using the methods specified in [SRI section 3.3.5](https://www.w3.org/TR/SRI/#does-response-match-metadatalist).
+   - If multiple elements were identified in step 1, all of their resources MUST match the `integrity` property. If even one resource does not match, it MUST be treated as a verification failure.
    - If an unsupported hash algorithm is used, it may be treated as a verification failure.
 
 ## How to identify element location
 
-Searches for elements whose `integrity` HTML attribute exactly matches the `integrity` property.
+Elements are identified as follows, depending on whether the `cssSelector` property is present:
+
+- If the `cssSelector` property is present: Searches for elements specified by the CSS selector in the `cssSelector` property.
+- If the `cssSelector` property is absent: Searches for elements whose `integrity` HTML attribute exactly matches the `integrity` property.
 
 :::info
 
-Care must be taken to ensure that both the `integrity` property and the `integrity` HTML attribute have the same value in the following cases:
+If the `cssSelector` property is absent, care must be taken to ensure that both the `integrity` property and the `integrity` HTML attribute have the same value in the following cases:
 
 - The value of the `integrity` property consists of two or more SRI hashes
 - Whitespace or line break characters are used in the `integrity` HTML attribute value for readability

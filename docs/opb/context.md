@@ -427,7 +427,8 @@ _このセクションは非規範的です。_
       "@context": {
         "@protected": true,
         "type": "@type",
-        "integrity": "cip:Integrity"
+        "integrity": "cip:Integrity",
+        "cssSelector": "https://schema.org/cssSelector"
       }
     }
   }
