@@ -45,19 +45,20 @@ Profile Annotation Issuer 登録制度の ID について、同じ OP レジス�
 
 :::
 
-## 検証
+## Profile Annotation Issuer 登録証 PA の検証
 
-Profile Annotation Issuer 登録証 PA を受け取った検証者は、次の検証を行うことができます（SHOULD）：
+検証者は、Profile Annotation Issuer が保有する Profile Annotation Issuer 登録証 PA について、[OP VC Data Model](../op-vc-data-model.md) および [Securing Mechanism](../securing-mechanism.md) に従った検証を行うことができます（SHOULD）。ここでの検証は登録証 PA 自体の真正性の確認（[VC Data Model 2.0 の verification](https://www.w3.org/TR/vc-data-model-2.0/#terminology)）であり、その `issuer` が信頼できる OP レジストリであるかどうかの判断は含みません。
 
-1. Profile Annotation Issuer 登録証 PA が [OP VC Data Model](../op-vc-data-model.md) および [Securing Mechanism](../securing-mechanism.md) に従って検証可能であることを確認する
-2. `issuer` が信頼できる OP レジストリの OP ID であることを確認する
-3. Profile Annotation Issuer が発行した PA が準拠する認証制度の ID が、この Profile Annotation Issuer PA の `credentialSubject.annotationScheme` プロパティに含まれていることを確認する
+## Profile Annotation Issuer の認可確認
 
-:::note
+検証者は、PA を受け取った際、その発行者が OP レジストリによって認可された Profile Annotation Issuer であるかどうかを、次の手順で確認できます（SHOULD）。この確認は、検証者自身の要件を満たすかどうかを判断する、[VC Data Model 2.0 の validation](https://www.w3.org/TR/vc-data-model-2.0/#terminology) に相当します。
 
-手順3（発行者の認可確認）は「PA の発行者が、トラストアンカーである OP レジストリ発行の Profile Annotation Issuer 登録証 PA を保有しているか」を確認することで行います。登録証 PA 自身もまた PA であり、原理的には同じ確認を再帰的に適用できますが、その終端はトラストアンカーである OP レジストリが発行する Profile Annotation Issuer 登録証 PA 自身には適用されず、手順2 `issuer` が信頼できる OP レジストリの OP ID であることを検証者が確認することによって担保されます。
+1. その Profile Annotation Issuer が保有する Profile Annotation Issuer 登録証 PA の `issuer` が、信頼できる OP レジストリの OP ID であることを確認する
+2. 検証対象の PA が準拠する認証制度の ID が、その Profile Annotation Issuer 登録証 PA の `credentialSubject.annotationScheme` プロパティに含まれていることを確認する
 
-:::
+Profile Annotation Issuer が Profile Annotation Issuer 登録証 PA を保有していない場合、この確認は未実施（未確認）として扱われます。認可を確認できないことは、検証対象の PA 自体が無効であることを直ちに意味するものではありませんが、未確認の PA をどう扱うか（許容するか、無効として扱うか）は検証者のポリシーに依存します。
+
+前項の「Profile Annotation Issuer 登録証 PA の検証」は暗号学的な検証であるため決定的な結果を返します。これに対し、この認可確認は、検証者が信頼する OP レジストリさえ定まれば手続き自体は決定的ですが、どの OP レジストリを信頼するかは検証者のポリシーに依存するため、確認結果は検証者ごとに異なることがあります。
 
 ## ユースケース
 
