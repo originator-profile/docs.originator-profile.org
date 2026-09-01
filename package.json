@@ -25,5 +25,5 @@
     "prettier": "3.9.6",
     "shelljs": "0.10.0"
   },
-  "packageManager": "pnpm@11.18.0"
+  "packageManager": "pnpm@11.24.0"
 }

@@ -11,4 +11,4 @@ jobs:
       - name: Setup
         uses: "./.github/actions/setup"
       - name: Format
-        uses: "originator-profile/originator-profile/.github/actions/format@f3f6055104ddedca16fe86cac5e324e1708777e7" # main
+        uses: "originator-profile/originator-profile/.github/actions/format@4433e3301df08b60345aeb768a85f8f75b1a2224" # main
