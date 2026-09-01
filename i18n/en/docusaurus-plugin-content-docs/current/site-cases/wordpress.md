@@ -46,7 +46,7 @@ dns:media.example.com
 Example:
 
 ```
-dprexpt.originator-profile.org
+playground.originator-profile.org
 ```
 
 **[Authentication Information]: Specify the information required to access the CA server**
