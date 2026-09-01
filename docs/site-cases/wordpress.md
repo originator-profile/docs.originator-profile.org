@@ -42,7 +42,7 @@ dns:media.example.com
 例:
 
 ```
-dprexpt.originator-profile.org
+playground.originator-profile.org
 ```
 
 **[認証情報]: CA サーバーへのアクセスに必要な情報を指定**
