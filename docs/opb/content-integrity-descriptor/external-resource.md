@@ -70,7 +70,7 @@ CA 発行者は、ページの動的な変化によらず `cssSelector` がマ�
 
 検証対象の HTML 要素は、次のいずれかの方法で特定できるようにします。
 
-- `cssSelector` プロパティを使用する場合: 検証対象の HTML 要素にマッチする CSS セレクターを `cssSelector` プロパティに指定します。
+- `cssSelector` プロパティを使用する場合: 検証対象リソースを参照する HTML 要素リストにマッチする CSS セレクターを `cssSelector` プロパティに指定します。
 - `cssSelector` プロパティを使用しない場合: `integrity` プロパティと同じ値を HTML 要素の `integrity` 属性に指定します。
 
 ### 例
