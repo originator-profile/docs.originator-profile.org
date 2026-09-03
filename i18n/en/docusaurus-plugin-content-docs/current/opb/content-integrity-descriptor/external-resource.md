@@ -271,6 +271,7 @@ As described in [SRI Section 5.3](https://www.w3.org/TR/sri/#cross-origin-data-l
      - Other elements: `src` attribute
    - If a network error occurs, it may be treated as a verification failure (e.g. [`TypeError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError) `Failed to fetch.`, etc.).
 3. Validate each of the resources retrieved in step 2 and the `integrity` property using the methods specified in [SRI section 3.3.5](https://www.w3.org/TR/SRI/#does-response-match-metadatalist).
+   - If an unsupported hash algorithm is used, it may be treated as a verification failure.
 
 ## How to identify element location
 
