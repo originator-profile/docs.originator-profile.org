@@ -22,7 +22,7 @@ tags:
 
 - 静的なファイルを扱います。
 - JavaScript 等によって生成される動的なリソースは本文書の範囲外です。
-- Adaptive Bitrate Streaming で配信される動画は扱いません。単一の動画ファイルとして配信される動画のみ扱います。
+- 動画ファイルについては Adaptive Bitrate Streaming で配信される動画は扱いません。単一の動画ファイルとして配信される動画のみ扱います。
 - background-image CSS プロパティや content CSS プロパティといった CSS で取得表示されるリソースは本文書の範囲外です。
 - [コンテンツネゴシエーション](https://developer.mozilla.org/docs/Web/HTTP/Content_negotiation)による動的なリソースは本文書の範囲外です。
 
