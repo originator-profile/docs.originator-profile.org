@@ -10,8 +10,6 @@ tags:
 
 本文書で定義される External Resource Target は画像や動画などの外部リソースファイルの完全性を保証するための Content Attestation (CA) のプロパティです。 URL が参照するリソースの完全性を保証できる一方で、扱える URL はユーザーエージェントに依らず同じバイト列をレスポンスとして返却するものに限られます。
 
-検証対象の HTML 要素は、`cssSelector` プロパティの CSS セレクター、または `integrity` プロパティと同じ値の `integrity` HTML 属性のいずれかの方法で特定します。
-
 :::note
 
 この target について実証実験の参加企業の方々からフィードバックをいただく予定です。また関連する仕様のアップデートの状況を見ながらよりよい方法を将来追加する可能性があります。
@@ -38,15 +36,6 @@ tags:
 
 JSON オブジェクトでなければなりません。
 External Resource Target の具体例を次に示します。
-
-```json
-{
-  "type": "ExternalResourceTargetIntegrity",
-  "integrity": "sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w="
-}
-```
-
-`cssSelector` プロパティを使用する External Resource Target の具体例を次に示します。
 
 ```json
 {
