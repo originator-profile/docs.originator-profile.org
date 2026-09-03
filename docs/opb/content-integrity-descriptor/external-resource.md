@@ -74,14 +74,6 @@ CA 発行者は、ページの動的な変化によらず `cssSelector` がマ�
 - `cssSelector` プロパティを使用する場合: 検証対象の HTML 要素にマッチする CSS セレクターを `cssSelector` プロパティに指定します。
 - `cssSelector` プロパティを使用しない場合: `integrity` プロパティと同じ値を HTML 要素の `integrity` 属性に指定します。
 
-:::note
-
-`cssSelector` プロパティを使用する場合、HTML 要素に `integrity` 属性を付与する必要はありません。
-
-`cssSelector` プロパティと `integrity` HTML 属性の両方を指定することもできます。この場合、要素位置特定には `cssSelector` プロパティが使用されます。
-
-:::
-
 ### 例
 
 #### `integrity` 属性で要素を特定する場合
