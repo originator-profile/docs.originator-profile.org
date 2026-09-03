@@ -51,7 +51,7 @@ External Resource Target の具体例を次に示します。
 | ------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `type`        | `string` | **REQUIRED.** 必ず `ExternalResourceTargetIntegrity` でなければなりません (MUST)。                                                                                                                                                                                                     |
 | `integrity`   | `string` | **REQUIRED.** [`sriString` データ型](../context.md#the-sristring-datatype) でなければなりません (MUST)。使用可能なハッシュ関数については[ハッシュアルゴリズム](../algorithm.md#hash-algorithm)に準拠してください (MUST)。具体例: `sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U=` |
-| `cssSelector` | `string` | **OPTIONAL.** 必ず [CSS セレクター (Selectors Level 3)](https://www.w3.org/TR/selectors-3/) でなければなりません (MUST)。このプロパティがある場合、要素位置特定に `integrity` HTML 属性ではなく CSS セレクターを使用します。具体例: `#hero-image`                                      |
+| `cssSelector` | `string` | **OPTIONAL.** 必ず [CSS セレクター (Selectors Level 3)](https://www.w3.org/TR/selectors-3/) でなければなりません (MUST)。このプロパティがある場合、対象となる HTML 要素の特定に `integrity` 属性ではなく CSS セレクターを使用します。具体例: `#hero-image`                             |
 
 :::note
 
@@ -276,10 +276,10 @@ a 要素の `href` 属性で指定された外部リソースを検証可能に�
 
 ## 検証プロセス
 
-1. External Resource Target に対応する要素を検索します。
+1. External Resource Target に対応する HTML 要素を検索します。
    - `cssSelector` プロパティがある場合、`cssSelector` プロパティの CSS セレクターで指定した要素を検索します。対象の要素は、そのページの `document` のルート要素 (例えば、 HTML 文書の場合は `<html>` 要素) から、`querySelectorAll()` メソッドを使用して検索します。
      - `cssSelector` プロパティの構文エラーがある場合、検証失敗として扱うことがあります。(例: [`DOMException`](https://developer.mozilla.org/en-US/docs/Web/API/DOMException) `SyntaxError`)
-   - `cssSelector` プロパティがない場合、`integrity` プロパティと同じ値を `integrity` HTML 属性に含む要素を検索します。
+   - `cssSelector` プロパティがない場合、`integrity` プロパティと同じ値を `integrity` 属性に含む要素を検索します。
    - 要素が1つも見つからない場合、検証失敗として扱うことがあります。
 2. 手順1に該当したすべての要素に対応するリソースを取得します。
    - リソースは、要素の種類に応じた属性またはプロパティの URL に GET リクエストを送り取得します。
@@ -296,14 +296,14 @@ a 要素の `href` 属性で指定された外部リソースを検証可能に�
 `cssSelector` プロパティの有無に応じて次のように要素を特定します。
 
 - `cssSelector` プロパティがある場合: `cssSelector` プロパティの CSS セレクターで指定した要素を検索します。
-- `cssSelector` プロパティがない場合: `integrity` プロパティと同じ値を `integrity` HTML 属性に対し完全一致で検索します。
+- `cssSelector` プロパティがない場合: `integrity` プロパティと同じ値を HTML 要素の `integrity` 属性に対し完全一致で検索します。
 
 :::info
 
-`cssSelector` プロパティがなく次の場合には、`integrity` プロパティと `integrity` HTML 属性の値の両者が同じ値になるように注意する必要があります。
+`cssSelector` プロパティがなく次の場合には、`integrity` プロパティと HTML 要素の `integrity` 属性値の両者が同じ値になるように注意する必要があります。
 
 - `integrity` プロパティの値が 2 件以上の SRI ハッシュである
-- `integrity` HTML 属性の値に読みやすさのために空白文字または改行文字を使用している
+- HTML 要素の `integrity` 属性値に読みやすさのために空白文字または改行文字を使用している
 
 :::
 
