@@ -273,7 +273,7 @@ a 要素の `href` 属性で指定された外部リソースを検証可能に�
    - `cssSelector` プロパティがない場合、`integrity` プロパティと同じ値を `integrity` 属性に含む要素を検索します。
    - 要素が1つも見つからない場合、検証失敗として扱うことがあります。
 2. 手順1に該当したすべての要素に対応するリソースを取得します。
-   - リソースは、要素の種類に応じた属性またはプロパティの URL に GET リクエストを送り取得します。
+   - リソースは、要素の種類に応じた属性またはプロパティの URL から[取得](https://fetch.spec.whatwg.org/)します。
      - img 要素: [`HTMLImageElement.currentSrc` プロパティ](https://developer.mozilla.org/ja/docs/Web/API/HTMLImageElement/currentSrc)
      - video 要素または audio 要素: [`HTMLMediaElement.currentSrc` プロパティ](https://developer.mozilla.org/ja/docs/Web/API/HTMLMediaElement/currentSrc)
      - その他の要素: `src` 属性
