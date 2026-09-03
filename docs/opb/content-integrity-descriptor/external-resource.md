@@ -76,78 +76,6 @@ CA 発行者は、ページの動的な変化によらず `cssSelector` がマ�
 
 ### 例
 
-#### `integrity` 属性で要素を特定する場合
-
-source 要素と img 要素を External Resource Target から参照する場合の具体例を次に示します。
-
-External Resource Target:
-
-```json
-[
-  {
-    "type": "ExternalResourceTargetIntegrity",
-    "integrity": "sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
-  },
-  {
-    "type": "ExternalResourceTargetIntegrity",
-    "integrity": "sha256-t7WZSGxDdqGvGg/FLw6wk9KFQy5StT1MquCf/htwjBo= sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
-  }
-]
-```
-
-このとき Web ページの HTML の source 要素と img 要素に次のように `integrity` 属性を付与します。
-
-```html
-<picture>
-  <source
-    srcset="image.jpg"
-    media="(min-width: 400px)"
-    integrity="sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
-  />
-  <img
-    src="https://cdn.example.com/image.jpg"
-    integrity="sha256-t7WZSGxDdqGvGg/FLw6wk9KFQy5StT1MquCf/htwjBo= sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
-  />
-</picture>
-```
-
-video 要素を External Resource Target から参照する場合の具体例を次に示します。
-
-External Resource Target:
-
-```json
-[
-  {
-    "type": "ExternalResourceTargetIntegrity",
-    "integrity": "sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w= sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
-  },
-  {
-    "type": "ExternalResourceTargetIntegrity",
-    "integrity": "sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
-  }
-]
-```
-
-このとき Web ページの HTML の source 要素と video 要素に次のように `integrity` 属性を付与します。
-
-```html
-<video
-  integrity="sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w= sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
-  poster="https://cdn.example.com/poster.jpg"
->
-  <source
-    src="https://cdn.example.com/video.mp4"
-    integrity="sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w="
-    type="video/mp4"
-  />
-  <source
-    src="https://cdn.example.com/video.webm"
-    integrity="sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
-    type="video/webm"
-  />
-</video>
-```
-
 #### `cssSelector` プロパティで要素を特定する場合
 
 source 要素と img 要素を `cssSelector` プロパティで参照する場合の具体例を次に示します。
@@ -244,6 +172,78 @@ External Resource Target:
 <footer>
   <img class="site-logo" src="https://cdn.example.com/logo.png" />
 </footer>
+```
+
+#### `integrity` 属性で要素を特定する場合
+
+source 要素と img 要素を External Resource Target から参照する場合の具体例を次に示します。
+
+External Resource Target:
+
+```json
+[
+  {
+    "type": "ExternalResourceTargetIntegrity",
+    "integrity": "sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
+  },
+  {
+    "type": "ExternalResourceTargetIntegrity",
+    "integrity": "sha256-t7WZSGxDdqGvGg/FLw6wk9KFQy5StT1MquCf/htwjBo= sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
+  }
+]
+```
+
+このとき Web ページの HTML の source 要素と img 要素に次のように `integrity` 属性を付与します。
+
+```html
+<picture>
+  <source
+    srcset="image.jpg"
+    media="(min-width: 400px)"
+    integrity="sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
+  />
+  <img
+    src="https://cdn.example.com/image.jpg"
+    integrity="sha256-t7WZSGxDdqGvGg/FLw6wk9KFQy5StT1MquCf/htwjBo= sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
+  />
+</picture>
+```
+
+video 要素を External Resource Target から参照する場合の具体例を次に示します。
+
+External Resource Target:
+
+```json
+[
+  {
+    "type": "ExternalResourceTargetIntegrity",
+    "integrity": "sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w= sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
+  },
+  {
+    "type": "ExternalResourceTargetIntegrity",
+    "integrity": "sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
+  }
+]
+```
+
+このとき Web ページの HTML の source 要素と video 要素に次のように `integrity` 属性を付与します。
+
+```html
+<video
+  integrity="sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w= sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
+  poster="https://cdn.example.com/poster.jpg"
+>
+  <source
+    src="https://cdn.example.com/video.mp4"
+    integrity="sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w="
+    type="video/mp4"
+  />
+  <source
+    src="https://cdn.example.com/video.webm"
+    integrity="sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
+    type="video/webm"
+  />
+</video>
 ```
 
 ### 注意事項
