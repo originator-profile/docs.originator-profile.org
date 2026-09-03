@@ -271,8 +271,6 @@ a 要素の `href` 属性で指定された外部リソースを検証可能に�
      - その他の要素: `src` 属性
    - ネットワークエラーが発生した場合、検証失敗として扱うことがあります。(例: [`TypeError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError) `Failed to fetch.` など)
 3. 手順2で取得したそれぞれのリソースと `integrity` プロパティを [SRI セクション 3.3.5](https://www.w3.org/TR/SRI/#does-response-match-metadatalist) に規定されている方法で検証します。
-   - 手順1に該当した要素が複数ある場合、そのすべてのリソースが `integrity` プロパティと一致しなければなりません (MUST)。1つでも一致しないリソースがある場合、検証失敗として扱わなければなりません (MUST)。
-   - サポートしていないハッシュアルゴリズムの場合、検証失敗として扱うことがあります。
 
 ## 要素位置特定方法
 
