@@ -1,5 +1,5 @@
 ---
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/98c6820/docs/faq/index.mdx
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/491da13/docs/faq/index.mdx
 ---
 
 # FAQ
@@ -15,6 +15,14 @@ The WordPress plugin is just a reference implementation, and each company can im
 
 No.
 While the ideal approach is to generate and register the CA through internal CMS processing—similar to a WordPress plugin—if modifying the CMS's internal implementation is difficult, you can generate the CA using a CA server or the [OPVC CLI](/opvc-cli/).
+
+### How are the OP Registry, CA server, and WordPress plugin related?
+
+The OP Registry reviews applications from organizations and issues OP IDs and Core Profiles. A CA server is a server that content originators use to issue and manage Content Attestations (CAs).
+
+The WordPress plugin is a reference implementation that integrates WordPress with a CA server. When an article is published or updated, it sends content information to the CA server to issue or update a CA and enables the website to distribute a Content Attestation Set (CAS). CMSs other than WordPress can also support OP by implementing equivalent integration.
+
+For more details, see [The mechanism of Originator Profile](/tech/mechanism/) and [WordPress Plugin (CA Manager)](/site-cases/wordpress/).
 
 ### I operate multiple sites; which one would be best for implementing OP?
 
@@ -33,6 +41,12 @@ You can find information regarding errors in the [Error Reference](/error-refere
 An OP ID is an identifier assigned to organizations, such as corporations.
 The ID format uses the domain of the organization's primary website. The domain name of the site publishing the content does not need to match the OP ID. If a single organization operates multiple media sites or maintains a corporate page separate from its media sites, it is generally better not to use the same ID for all of them.
 For more details, please refer to the [OP ID documentation](/opb/op-id/).
+
+### What value should I specify for `allowedOrigin` in a Website Profile?
+
+Specify the origin of the website where the Website Profile will be deployed. The origin includes the scheme and hostname and, when necessary, a port number. It must not include a path, query, or fragment.
+
+For example, for a Website Profile deployed at `https://example.com`, specify `https://example.com` without a trailing `/`. For more details, see the [`allowedOrigin` examples for Website Profiles](/opb/website-profile/#allowedorigin-examples).
 
 ### How should a CA be issued for content where the display changes based on factors such as the user's billing status?
 
