@@ -1,5 +1,5 @@
 ---
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/682d47a/docs/opb/pa-model/profile-annotation-issuer-registration.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/28038f9/docs/opb/pa-model/profile-annotation-issuer-registration.md
 tags:
   - Base Model
   - Profile Annotation
@@ -46,20 +46,20 @@ Regarding the ID of the Profile Annotation Issuer registration scheme, if the re
 
 :::
 
-## Verification
+## Verification of Profile Annotation Issuer (PA) Certificate
 
-A verifier who receives a Profile Annotation Issuer Registration PA SHOULD perform the following verification steps:
+A verifier can (SHOULD) perform verification on the Profile Annotation Issuer registration credential (PA) held by the Profile Annotation Issuer, in accordance with the [OP VC Data Model](../op-vc-data-model.md) and [Securing Mechanism](../securing-mechanism.md). The verification here concerns confirming the authenticity of the registration credential PA itself (as defined in [VC Data Model 2.0 verification](https://www.w3.org/TR/vc-data-model-2.0/#terminology)) and does not include determining whether the `issuer` is a trusted OP registry.
 
-1. Confirm that the Profile Annotation Issuer Registration PA is verifiable according to the [OP VC Data Model](../op-vc-data-model.md) and the [Securing Mechanism](../securing-mechanism.md).
-2. Confirm that the `issuer` is the OP ID of a trusted OP Registry.
-3. Confirm that the ID of the certification scheme to which the PA issued by the Profile Annotation Issuer complies is included in the `credentialSubject.annotationScheme` property of this Profile Annotation Issuer PA.
+## Verification of Profile Annotation Issuer Authorization
 
-:::note
+Upon receiving a PA, a verifier can verify whether the issuer is a Profile Annotation Issuer authorized by the OP Registry using the following procedure (SHOULD). This verification corresponds to the [validation defined in the VC Data Model 2.0](https://www.w3.org/TR/vc-data-model-2.0/#terminology) for determining whether the verifier's own requirements are met.
 
-Step 3 (verification of the issuer's authorization) is performed by confirming whether the PA issuer holds a "Profile Annotation Issuer Registration PA" issued by the OP Registry (which serves as the trust anchor). Since the Registration PA itself is also a PA, the same verification process can, in principle, be applied recursively.
-However, this recursive process does not extend to the Registration PA issued by the OP Registry itself; instead, the chain of trust is anchored by the verifier confirming that the `issuer` in Step 2 is the OP ID of a trusted OP Registry.
+1. Verify that the `issuer` of the Profile Annotation Issuer Registration PA held by the Profile Annotation Issuer is an OP ID from a trusted OP registry.
+2. Verify that the ID of the certification scheme to which the PA under verification conforms is included in the `credentialSubject.annotationScheme` property of that Profile Annotation Issuer Registration PA.
 
-:::
+If the Profile Annotation Issuer does not possess a Profile Annotation Issuer Registration PA, this check is treated as unperformed (unverified). While the inability to confirm authorization does not immediately imply that the PA under verification is itself invalid, how an unverified PA is handled—whether it is accepted or treated as invalid—depends on the verifier's policy.
+
+The "Verification of Profile Annotation Issuer Registration PA" described in the previous section is a cryptographic verification that yields a definitive result. In contrast, while the procedure for this authorization check is deterministic once the OP registry trusted by the verifier is established, the result may vary among verifiers because the choice of which OP registry to trust depends on the verifier's policy.
 
 ## Use Cases
 
