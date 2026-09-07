@@ -46,7 +46,7 @@ Regarding the ID of the Profile Annotation Issuer registration scheme, if the re
 
 :::
 
-## Verification of Profile Annotation Issuer (PA) Certificate
+## Verification of Profile Annotation Issuer Registration PA
 
 A verifier can (SHOULD) perform verification on the Profile Annotation Issuer registration credential (PA) held by the Profile Annotation Issuer, in accordance with the [OP VC Data Model](../op-vc-data-model.md) and [Securing Mechanism](../securing-mechanism.md). The verification here concerns confirming the authenticity of the registration credential PA itself (as defined in [VC Data Model 2.0 verification](https://www.w3.org/TR/vc-data-model-2.0/#terminology)) and does not include determining whether the `issuer` is a trusted OP registry.
 
