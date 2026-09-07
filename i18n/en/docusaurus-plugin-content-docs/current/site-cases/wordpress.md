@@ -1,5 +1,5 @@
 ---
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/798ebea/docs/site-cases/wordpress.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/ab5b3bf/docs/site-cases/wordpress.md
 ---
 
 # WordPress Plugin (CA Manager)
