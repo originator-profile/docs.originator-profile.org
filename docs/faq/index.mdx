@@ -12,6 +12,14 @@ WordPress のプラグインはあくまでも参照実装であり、各社で�
 いいえ。  
 WordPress プラグインのように、CMS 内部の処理で CA を生成・登録する形が望ましいですが、CMS 内部の実装に手を入れるのが難しい場合、CA サーバーや [OPVC CLI](/opvc-cli/) を使用して CA を生成することができます。
 
+### OP レジストリ、CA サーバー、WordPress プラグインはどのような関係ですか
+
+OP レジストリは、組織からの申請を審査して OP ID と Core Profile を発行します。CA サーバーは、発信者がコンテンツに対する Content Attestation (CA) を発行・管理するためのサーバーです。
+
+WordPress プラグインは、WordPress と CA サーバーを連携させる参照実装です。記事の公開・更新時にコンテンツの情報を CA サーバーへ送信して CA を発行・更新し、Web サイトから Content Attestation Set (CAS) を配信できるようにします。WordPress 以外の CMS でも、同様の連携を実装することで OP に対応できます。
+
+詳しくは [Originator Profile の仕組み](/tech/mechanism/) と [WordPress を用いたサイトの OP 対応](/site-cases/wordpress/) を参照してください。
+
 ### 複数のサイトを運用しているのですが、どのサイトで実装するのが良いでしょうか
 
 自社コンテンツを掲載するサイトであればいずれでも構いません。  
@@ -29,6 +37,12 @@ CA サーバーの使い方については、[API ドキュメント](https://re
 OP ID は法人などの組織に対して割り振られる ID です。  
 ID の形式として、その組織の情報を示す主たるサイトのドメインを採用しています。コンテンツを出版するサイトのドメイン名と OP ID は異なるもので構いません。1 組織が複数のメディアサイトを運営する場合や、メディアサイトとは別に企業ページがある場合には、一致させないほうが良いでしょう。  
 詳しく知りたい場合は [OP ID のドキュメント](/opb/op-id/) を参照してください。
+
+### Website Profile の `allowedOrigin` には何を指定すればよいですか
+
+Website Profile を設置する Web サイトのオリジンを指定します。オリジンにはスキームとホスト名を含め、必要な場合のみポート番号を含めます。パス、クエリー、フラグメントは含めません。
+
+例えば `https://example.com` に設置する場合は、末尾に `/` を付けずに `https://example.com` と指定します。詳しくは [Website Profile の `allowedOrigin`](/opb/website-profile/#allowedorigin-の具体例) を参照してください。
 
 ### 利用者の課金状態などに応じて表示が変わるコンテンツにはどのように CA を発行すべきですか
 
