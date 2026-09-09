@@ -59,7 +59,7 @@ Upon receiving a PA, a verifier SHOULD verify whether the issuer is a Profile An
 
 If the Profile Annotation Issuer does not possess a Profile Annotation Issuer Registration PA, this check is treated as unperformed (unverified). While the inability to confirm authorization does not immediately imply that the PA under verification is itself invalid, how an unverified PA is handled—whether it is accepted or treated as invalid—depends on the verifier's policy.
 
-The "Verification of Profile Annotation Issuer Registration PA" described in the previous section is a cryptographic verification that yields a definitive result. In contrast, while the procedure for this authorization check is deterministic once the OP registry trusted by the verifier is established, the result may vary among verifiers because the choice of which OP registry to trust depends on the verifier's policy.
+The "Verification of Profile Annotation Issuer Registration PA" described in the previous section is a cryptographic verification that yields a definitive result. In contrast, while the procedure for this authorization check is deterministic once the OP Registry trusted by the verifier is established, the result may vary among verifiers because the choice of which OP Registry to trust depends on the verifier's policy.
 
 ## Use Cases
 
