@@ -54,7 +54,7 @@ A verifier SHOULD perform verification on the Profile Annotation Issuer registra
 
 Upon receiving a PA, a verifier SHOULD verify whether the issuer is a Profile Annotation Issuer authorized by the OP Registry using the following procedure. This verification corresponds to the [validation defined in the VC Data Model 2.0](https://www.w3.org/TR/vc-data-model-2.0/#terminology) for determining whether the verifier's own requirements are met.
 
-1. Verify that the `issuer` of the Profile Annotation Issuer Registration PA held by the Profile Annotation Issuer is an OP ID from a trusted OP registry.
+1. Verify that the `issuer` of the Profile Annotation Issuer Registration PA held by the Profile Annotation Issuer is an OP ID from a trusted OP Registry.
 2. Verify that the ID of the certification scheme to which the PA under verification conforms is included in the `credentialSubject.annotationScheme` property of that Profile Annotation Issuer Registration PA.
 
 If the Profile Annotation Issuer does not possess a Profile Annotation Issuer Registration PA, this check is treated as unperformed (unverified). While the inability to confirm authorization does not immediately imply that the PA under verification is itself invalid, how an unverified PA is handled—whether it is accepted or treated as invalid—depends on the verifier's policy.
