@@ -4,7 +4,13 @@ tags:
   - Web Media Specific Model
 ---
 
-# Visible Text within DOM Integrity
+# Visible Text within DOM Integrity ⚠
+
+:::warning[非推奨になりました]
+
+VisibleTextTargetIntegrity は非推奨です。`innerText` により取得されるレンダリング結果はブラウザ実装に依存し、ブラウザ間で一致しないため（[originator-profile/originator-profile#64](https://github.com/originator-profile/originator-profile/issues/64)）、完全性検証の根拠として新たに採用することは避けてください。
+
+:::
 
 ## 概要
 
