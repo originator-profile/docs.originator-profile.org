@@ -27,6 +27,7 @@ Site Profile と Content Attestation の発行・設置・検証までの流れ�
 - Request Body の `allowedOrigin` に OP 対応しようとしているサイトのオリジンを含めてください。
   - 例: `http://localhost:8080`
   - 各プロパティについては [Site Profile](/opb/site-profile/) や [Website Profile](/opb/website-profile/) を参照してください。
+  - 日英両方の Website Profile を使用する場合は、両方の `allowedOrigin` に OP 対応しようとしているサイトのオリジンを含めてください。
 - Send を押してください。
   - 認証を求められた場合は、[Content Attestation Server Playground](https://playground.originator-profile.org) にある認証情報を使用してください。
 - 200 OK とともに、Site Profile が返ってくることを確認してください。
@@ -52,7 +53,8 @@ content-type: application/json
 
 :::note
 
-この時点で テストビルド版 OP Inspector で Site Profile の確認が可能になります。
+この時点で テストビルド版 OP Inspector で Site Profile の確認が可能になります。  
+テストビルド版 OP Inspector の入手方法やインストール方法については [Step 5](#step5) にある案内を参照してください。
 
 :::
 
@@ -94,7 +96,7 @@ content-type: application/json
 
 また Step 3、Step 4 に関しては [Content Attestation の設置ドキュメント](/tutorial/cas-setup-guide#ca-server) も参考にしてください。
 
-## Step 5: テストビルド版 OP Inspector で確認する
+## Step 5: テストビルド版 OP Inspector で確認する {#step5}
 
 - テストビルド版 OP Inspector をインストールする。
   - テストビルド版 OP Inspector のインストールについては、[Content Attestation Server Playground のガイド](/playground/#verification-method)を参照してください。
