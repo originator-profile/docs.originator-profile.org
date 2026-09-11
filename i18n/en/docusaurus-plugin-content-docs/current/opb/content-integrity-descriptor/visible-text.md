@@ -9,7 +9,7 @@ tags:
 
 :::warning[Deprecated]
 
-VisibleTextTargetIntegrity is deprecated. Because the rendering results obtained via `innerText` depend on browser implementation and vary across browsers ([originator-profile/originator-profile#64](https://github.com/originator-profile/originator-profile/issues/64)), you should avoid adopting it as a basis for integrity verification. Please consider using [TextTargetIntegrity](./text.md) or [ExternalResourceTargetIntegrity](./external-resource.md) instead.
+VisibleTextTargetIntegrity is deprecated. Because the rendering results obtained via `innerText` depend on browser implementation and vary across browsers ([originator-profile/originator-profile#64](https://github.com/originator-profile/originator-profile/issues/64)), you should avoid newly adopting it as a basis for integrity verification. Please consider using [TextTargetIntegrity](./text.md) or [ExternalResourceTargetIntegrity](./external-resource.md) instead.
 
 :::
 
