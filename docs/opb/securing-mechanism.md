@@ -9,6 +9,7 @@ sidebar_position: 12
 :::note
 
 現在 OP VC の Securing Mechanism を [Securing Verifiable Credentials using JOSE and COSE](https://www.w3.org/TR/vc-jose-cose/) のみに限定しています。今後他の方式を採用する可能性があります。
+なお、VC-JOSE-COSE は JOSE と COSE の両方の方式を規定していますが、現在多くのユースケースおよび Originator Profile 技術研究組合 (OP-CIP) の開発するツールチェインは JOSE のみサポートしています。
 
 :::
 
