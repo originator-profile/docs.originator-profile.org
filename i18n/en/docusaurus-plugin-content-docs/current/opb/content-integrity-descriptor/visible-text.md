@@ -1,11 +1,17 @@
 ---
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/5fe8e60/docs/opb/content-integrity-descriptor/visible-text.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/18463bd/docs/opb/content-integrity-descriptor/visible-text.md
 tags:
   - Content Integrity Descriptor
   - Web Media Specific Model
 ---
 
-# Visible Text within DOM Integrity
+# Visible Text within DOM Integrity ⚠
+
+:::warning[Deprecated]
+
+VisibleTextTargetIntegrity is deprecated. Because the rendering results obtained via `innerText` depend on browser implementation and vary across browsers ([originator-profile/originator-profile#64](https://github.com/originator-profile/originator-profile/issues/64)), you should avoid newly adopting it as a basis for integrity verification. Please consider using [TextTargetIntegrity](./text.md) or [ExternalResourceTargetIntegrity](./external-resource.md) instead.
+
+:::
 
 ## Summary
 
