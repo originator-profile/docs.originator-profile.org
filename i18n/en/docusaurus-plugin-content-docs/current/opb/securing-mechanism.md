@@ -1,6 +1,6 @@
 ---
 sidebar_position: 12
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/ae49916/docs/opb/securing-mechanism.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/4f75105/docs/opb/securing-mechanism.md
 ---
 
 # OP VC Securing Mechanism
@@ -10,6 +10,7 @@ This document specifies the values of each claim and property of OP VC in accord
 :::note
 
 Currently, OP VC's securing mechanism is limited to [Securing Verifiable Credentials using JOSE and COSE](https://www.w3.org/TR/vc-jose-cose/). Other methods may be adopted in the future.
+Although VC-JOSE-COSE specifies both JOSE and COSE methods, currently many use cases and tool chains developed by the Originator Profile Collaborative Innovation Partnership (OP-CIP) only support JOSE.
 :::
 
 ## Securing VC with JOSE
