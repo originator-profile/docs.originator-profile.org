@@ -8,11 +8,11 @@ tags:
 
 ## 概要
 
-本文書で定義される External Resource Target は画像や動画などの外部リソースファイルの完全性を保証するための Content Attestation (CA) のプロパティです。 URL が参照するリソースの完全性を保証できる一方で、扱える URL はユーザーエージェントに依らず同じバイト列をレスポンスとして返却するものに限られます。
+本文書で定義される External Resource Integrity は画像や動画などの外部リソースファイルの完全性を保証するための Content Attestation (CA) のプロパティです。 URL が参照するリソースの完全性を保証できる一方で、扱える URL はユーザーエージェントに依らず同じバイト列をレスポンスとして返却するものに限られます。
 
 :::note
 
-この target について実証実験の参加企業の方々からフィードバックをいただく予定です。また関連する仕様のアップデートの状況を見ながらよりよい方法を将来追加する可能性があります。
+この External Resource Integrity について実証実験の参加企業の方々からフィードバックをいただく予定です。また関連する仕様のアップデートの状況を見ながらよりよい方法を将来追加する可能性があります。
 
 参考: 画像加工を伴う CDN 利用時の検証可能化方法の検討
 
@@ -30,10 +30,10 @@ tags:
 
 - Content Attestation (CA)
 
-## External Resource Target の形式
+## External Resource Integrity の形式
 
 JSON オブジェクトでなければなりません。
-External Resource Target の具体例を次に示します。
+External Resource Integrity の具体例を次に示します。
 
 ```json
 {
@@ -70,7 +70,7 @@ CA 発行者は、ページの動的な変化によらず `cssSelector` がマ�
 
 source 要素と img 要素を `cssSelector` プロパティで参照する場合の具体例を次に示します。
 
-External Resource Target:
+External Resource Integrity:
 
 ```json
 [
@@ -102,7 +102,7 @@ External Resource Target:
 
 video 要素を `cssSelector` プロパティで参照する場合の具体例を次に示します。
 
-External Resource Target:
+External Resource Integrity:
 
 ```json
 [
@@ -141,9 +141,9 @@ External Resource Target:
 </video>
 ```
 
-同じリソースを参照する複数の要素をひとつの External Resource Target で参照する場合の具体例を次に示します。
+同じリソースを参照する複数の要素をひとつの External Resource Integrity で参照する場合の具体例を次に示します。
 
-External Resource Target:
+External Resource Integrity:
 
 ```json
 {
@@ -166,9 +166,9 @@ External Resource Target:
 
 #### `integrity` 属性で要素を特定する場合
 
-source 要素と img 要素を External Resource Target から参照する場合の具体例を次に示します。
+source 要素と img 要素を External Resource Integrity から参照する場合の具体例を次に示します。
 
-External Resource Target:
+External Resource Integrity:
 
 ```json
 [
@@ -199,9 +199,9 @@ External Resource Target:
 </picture>
 ```
 
-video 要素を External Resource Target から参照する場合の具体例を次に示します。
+video 要素を External Resource Integrity から参照する場合の具体例を次に示します。
 
-External Resource Target:
+External Resource Integrity:
 
 ```json
 [
@@ -258,7 +258,7 @@ a 要素の `href` 属性で指定された外部リソースを検証可能に�
 
 ## 検証プロセス
 
-1. External Resource Target に対応する HTML 要素を検索します。
+1. External Resource Integrity に対応する HTML 要素を検索します。
    - `cssSelector` プロパティがある場合、`cssSelector` プロパティの CSS セレクターで指定した要素を検索します。対象の要素は、そのページの `document` のルート要素 (例えば、 HTML 文書の場合は `<html>` 要素) から、`querySelectorAll()` メソッドを使用して検索します。
      - `cssSelector` プロパティの構文エラーがある場合、検証失敗として扱うことがあります。(例: [`DOMException`](https://developer.mozilla.org/en-US/docs/Web/API/DOMException) `SyntaxError`)
    - `cssSelector` プロパティがない場合、`integrity` プロパティと同じ値を `integrity` 属性に含む要素を検索します。

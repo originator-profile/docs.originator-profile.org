@@ -16,9 +16,9 @@ tags:
 
 - Content Attestation (CA)
 
-## Text Target の形式
+## Text within DOM Integrity の形式
 
-Text Target は次のような形式です。
+Text within DOM Integrity は次のような形式です。
 
 ```json
 {
@@ -32,7 +32,7 @@ Text Target は次のような形式です。
 
 ```json
 {
-  "title": "Text Target",
+  "title": "Text within DOM Integrity",
   "type": "object",
   "properties": {
     "type": {
@@ -77,7 +77,7 @@ CA 発行者は、ページの動的な変化によらず `cssSelector` がマ�
 
 :::note
 
-Text Target は [`textContent` 属性](https://developer.mozilla.org/docs/Web/API/Node/textContent)を使用し、[`innerText` 属性](https://developer.mozilla.org/docs/Web/API/HTMLElement/innerText)とは異なります。両者の主な違いについては [Differences from innerText - MDN](https://developer.mozilla.org/docs/Web/API/Node/textContent#differences_from_innertext) を参照してください。
+Text within DOM Integrity は [`textContent` 属性](https://developer.mozilla.org/docs/Web/API/Node/textContent)を使用し、[`innerText` 属性](https://developer.mozilla.org/docs/Web/API/HTMLElement/innerText)とは異なります。両者の主な違いについては [Differences from innerText - MDN](https://developer.mozilla.org/docs/Web/API/Node/textContent#differences_from_innertext) を参照してください。
 
 :::
 

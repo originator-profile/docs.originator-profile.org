@@ -22,9 +22,9 @@ VisibleTextTargetIntegrity は非推奨です。`innerText` により取得さ�
 
 - Content Attestation (CA)
 
-## Visible Text Target の形式
+## Visible Text within DOM Integrity の形式
 
-Visible Text Target は次のような形式です。
+Visible Text within DOM Integrity は次のような形式です。
 
 ```json
 {
@@ -38,7 +38,7 @@ Visible Text Target は次のような形式です。
 
 ```json
 {
-  "title": "Visible Text Target",
+  "title": "Visible Text within DOM Integrity",
   "type": "object",
   "properties": {
     "type": {
@@ -83,7 +83,7 @@ Visible Text Target は次のような形式です。
 
 :::note
 
-Visible Text Target は [`innerText` 属性](https://developer.mozilla.org/docs/Web/API/HTMLElement/innerText)を使用し、[`textContent` 属性](https://developer.mozilla.org/docs/Web/API/Node/textContent)とは異なります。両者の主な違いについては [Differences from innerText - MDN](https://developer.mozilla.org/docs/Web/API/Node/textContent#differences_from_innertext) を参照してください。
+Visible Text within DOM Integrity は [`innerText` 属性](https://developer.mozilla.org/docs/Web/API/HTMLElement/innerText)を使用し、[`textContent` 属性](https://developer.mozilla.org/docs/Web/API/Node/textContent)とは異なります。両者の主な違いについては [Differences from innerText - MDN](https://developer.mozilla.org/docs/Web/API/Node/textContent#differences_from_innertext) を参照してください。
 
 :::
 

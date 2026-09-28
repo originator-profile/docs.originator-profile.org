@@ -9,10 +9,10 @@ sidebar_position: 3
 Content Attestation (CA) にはその検証対象のコンテンツの<ruby>完全性<rt>integrity</rt></ruby>を保証する [Content Integrity Descriptor](/opb/content-integrity-descriptor/) (`target` プロパティ) が含まれます。
 Content Integrity Descriptor には Subresource Integrity (SRI) を基盤とする対象の異なる以下の種別 (`type` プロパティ) が定義されています:
 
-- [HTML Target](/opb/content-integrity-descriptor/html/) (`HTMLTargetIntegrity`): HTML 文書の一部
-- [Text Target](/opb/content-integrity-descriptor/text/) (`TextTargetIntegrity`): DOM テキスト
-- [Visible Text Target](/opb/content-integrity-descriptor/visible-text/) (`VisibleTextTargetIntegrity`): レンダリング時のテキスト
-- [External Resource Target](/opb/content-integrity-descriptor/external-resource/) (`ExternalResourceTargetIntegrity`): `img`、`audio`、`video` 要素など内部または外部参照されるメディアリソース
+- [HTML Fragment Integrity](/opb/content-integrity-descriptor/html/) (`HTMLTargetIntegrity`): HTML 文書の一部
+- [Text within DOM Integrity](/opb/content-integrity-descriptor/text/) (`TextTargetIntegrity`): DOM テキスト
+- [Visible Text within DOM Integrity](/opb/content-integrity-descriptor/visible-text/) (`VisibleTextTargetIntegrity`): レンダリング時のテキスト
+- [External Resource Integrity](/opb/content-integrity-descriptor/external-resource/) (`ExternalResourceTargetIntegrity`): `img`、`audio`、`video` 要素など内部または外部参照されるメディアリソース
 
 これらを組み合わせた CA、あるいは CA の集合 (CA Set) によって、対象のコンテンツの完全性が検証可能となります。
 
