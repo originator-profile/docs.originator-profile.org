@@ -42,6 +42,7 @@ const TOP_LEVEL_RULES = {
   "playground.md": RANGE_HOW_TO,
   "opvc-cli.md": RANGE_HOW_TO,
   "getting-started.md": RANGE_TUTORIAL,
+  "playground-tutorial.md": RANGE_TUTORIAL,
 };
 
 /** TOP_LEVEL_RULES への登録が不要なエントリ */
