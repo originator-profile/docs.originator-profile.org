@@ -16,9 +16,9 @@ tags:
 
 - Content Attestation (CA)
 
-## HTML Target の形式
+## HTML Fragment Integrity の形式
 
-HTML Target は次のような形式です。
+HTML Fragment Integrity は次のような形式です。
 
 ```json
 {
@@ -32,7 +32,7 @@ HTML Target は次のような形式です。
 
 ```json
 {
-  "title": "HTML Target",
+  "title": "HTML Fragment Integrity",
   "type": "object",
   "properties": {
     "type": {
