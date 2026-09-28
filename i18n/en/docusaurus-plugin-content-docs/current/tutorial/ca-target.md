@@ -1,5 +1,5 @@
 ---
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/af4601d/docs/tutorial/ca-target.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/4b5cbfb/docs/tutorial/ca-target.md
 sidebar_position: 3
 ---
 
@@ -10,10 +10,10 @@ We will explain the content and HTML elements to be verified using specific exam
 Content Attestation (CA) includes [Content Integrity Descriptor](/opb/content-integrity-descriptor/) (`target` property), which guarantees the integrity of the content it verifies.
 Content Integrity Descriptor defines the following different types of targets (`type` property) based on Subresource Integrity (SRI):
 
-- [HTML Target](/opb/content-integrity-descriptor/html/) (`HTMLTargetIntegrity`): Part of an HTML document
-- [Text Target](/opb/content-integrity-descriptor/text/) (`TextTargetIntegrity`): DOM text
-- [Visible Text Target](/opb/content-integrity-descriptor/visible-text/) (`VisibleTextTargetIntegrity`): Rendered Text
-- [External Resource Target](/opb/content-integrity-descriptor/external-resource/) (`ExternalResourceTargetIntegrity`): Internally or externally referenced media resources such as `img`, `audio`, and `video` elements
+- [HTML Fragment Integrity](/opb/content-integrity-descriptor/html/) (`HTMLTargetIntegrity`): Part of an HTML document
+- [Text within DOM Integrity](/opb/content-integrity-descriptor/text/) (`TextTargetIntegrity`): DOM text
+- [Visible Text within DOM Integrity](/opb/content-integrity-descriptor/visible-text/) (`VisibleTextTargetIntegrity`): Rendered Text
+- [External Resource Integrity](/opb/content-integrity-descriptor/external-resource/) (`ExternalResourceTargetIntegrity`): Internally or externally referenced media resources such as `img`, `audio`, and `video` elements
 
 A CA, or a set of CAs (CA Set), that combines these makes it possible to verify the integrity of the target content.
 

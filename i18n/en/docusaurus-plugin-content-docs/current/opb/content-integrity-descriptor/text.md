@@ -1,5 +1,5 @@
 ---
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/5fe8e60/docs/opb/content-integrity-descriptor/text.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/4b5cbfb/docs/opb/content-integrity-descriptor/text.md
 tags:
   - Content Integrity Descriptor
   - Web Media Specific Model
@@ -17,9 +17,9 @@ For terms not explained in this document, please see [Terminology](../terminolog
 
 - Content Attestation (CA)
 
-## Text Target format
+## Text within DOM Integrity format
 
-Below is Text Target format
+Below is Text within DOM Integrity format
 
 ```json
 {
@@ -33,7 +33,7 @@ Below is Text Target format
 
 ```json
 {
-  "title": "Text Target",
+  "title": "Text within DOM Integrity",
   "type": "object",
   "properties": {
     "type": {
@@ -79,7 +79,7 @@ CA issuers are RECOMMENDED to specify `cssSelector` so that the elements that `c
 
 :::note
 
-Text Targets use the [`textContent` attribute](https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent) and are different from the [`innerText` attribute](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/innerText).
+Text within DOM Integrity uses the [`textContent` attribute](https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent) and is different from the [`innerText` attribute](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/innerText).
 See [Differences from innerText - MDN](https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent#differences_from_innertext) for the main differences between the two.
 
 :::

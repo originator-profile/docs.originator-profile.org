@@ -1,5 +1,5 @@
 ---
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/fa1db55/docs/opb/content-integrity-descriptor/external-resource.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/4b5cbfb/docs/opb/content-integrity-descriptor/external-resource.md
 tags:
   - Content Integrity Descriptor
   - Web Media Specific Model
@@ -9,11 +9,11 @@ tags:
 
 ## Summary
 
-The External Resource Target defined in this document is a Content Attestation (CA) property for assuring the integrity of external resource files such as images, videos, etc. While it can assure the integrity of the resource referenced by a URL, it is limited to URLs that return the same byte sequence as a response regardless of the user agent.
+The External Resource Integrity defined in this document is a Content Attestation (CA) property for assuring the integrity of external resource files such as images, videos, etc. While it can assure the integrity of the resource referenced by a URL, it is limited to URLs that return the same byte sequence as a response regardless of the user agent.
 
 :::note
 
-We plan to receive feedback on this target from the companies participating in the pilot experiments. We may add better methods in the future while monitoring the status of updates to related specifications.
+We plan to receive feedback on this External Resource Integrity from the companies participating in the pilot experiments. We may add better methods in the future while monitoring the status of updates to related specifications.
 
 Reference: Consideration of a method to enable verification when using CDN with image processing
 
@@ -31,10 +31,10 @@ For terms not explained in this document, please see [Terminology](../terminolog
 
 - Content Attestation (CA)
 
-## External Resource Target Form
+## External Resource Integrity Form
 
 It must be a JSON object.
-Below is an example of an External Resource Target:
+Below is an example of an External Resource Integrity:
 
 ```json
 {
@@ -71,7 +71,7 @@ Make the HTML elements to be verified identifiable by either of the following me
 
 Below is an example of referencing the source and img elements with the `cssSelector` property:
 
-External Resource Target:
+External Resource Integrity:
 
 ```json
 [
@@ -103,7 +103,7 @@ In this case, make the CSS selectors match the HTML source element and img eleme
 
 Below is an example of referencing a video element with the `cssSelector` property.
 
-External Resource Target:
+External Resource Integrity:
 
 ```json
 [
@@ -142,9 +142,9 @@ In this case, make the CSS selectors match the HTML video element and source ele
 </video>
 ```
 
-Below is an example of referencing multiple elements that reference the same resource from a single External Resource Target.
+Below is an example of referencing multiple elements that reference the same resource from a single External Resource Integrity.
 
-External Resource Target:
+External Resource Integrity:
 
 ```json
 {
@@ -167,9 +167,9 @@ In this case, make the CSS selector match the HTML img elements of the web page 
 
 #### Identifying elements by the `integrity` attribute
 
-Below is an example of referencing the source and img elements from an External Resource Target:
+Below is an example of referencing the source and img elements from an External Resource Integrity:
 
-External Resource Target:
+External Resource Integrity:
 
 ```json
 [
@@ -200,9 +200,9 @@ In this case, add the `integrity` attribute to the HTML source element and img e
 </picture>
 ```
 
-Below is an example of referencing a video element from an External Resource Target.
+Below is an example of referencing a video element from an External Resource Integrity.
 
-External Resource Target:
+External Resource Integrity:
 
 ```json
 [
@@ -259,7 +259,7 @@ As described in [SRI Section 5.3](https://www.w3.org/TR/sri/#cross-origin-data-l
 
 ## Validation Process
 
-1. Searches for the HTML elements corresponding to the External Resource Target.
+1. Searches for the HTML elements corresponding to the External Resource Integrity.
    - If the `cssSelector` property is present, it searches for elements specified by the CSS selector in the `cssSelector` property. The target elements are searched for using the `querySelectorAll()` method, starting from the root element of the page's `document` (for example, the `<html>` element for an HTML document).
      - If there is a syntax error in the `cssSelector` property, it may be treated as a verification failure (e.g. [`DOMException`](https://developer.mozilla.org/en-US/docs/Web/API/DOMException) `SyntaxError`).
    - If the `cssSelector` property is absent, it searches for elements whose `integrity` attribute contains the same value as the `integrity` property.
