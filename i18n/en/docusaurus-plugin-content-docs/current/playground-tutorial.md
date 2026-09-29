@@ -33,7 +33,7 @@ This tutorial is an "experimental OP implementation" that does not require produ
   - If authentication is requested, please use the credentials found at the [Content Attestation Server Playground](https://playground.originator-profile.org).
 - Verify that the Site Profile is returned along with a 200 OK status.
 
-## Step 2: Place the Site Profile on the site
+## Step 2: Deploy the Site Profile on the site
 
 - Take the returned JSON, name it `sp.json`, and place it so that it is accessible at the website's well-known URL: `/.well-known/sp.json`.
 
@@ -59,7 +59,7 @@ Refer to the instructions in [Step 5](#step5) for information on how to obtain a
 
 :::
 
-Also, regarding Step 1 and Step 2, please refer to [Site Profile installation document](/tutorial/sp-setup-guide#site-profile-ca-server).
+Also, for Step 1 and Step 2, please also refer to the [Site Profile installation guide](/tutorial/sp-setup-guide#site-profile-ca-server).
 
 ## Step 3: Issue a Content Attestation in the Playground
 
@@ -67,7 +67,7 @@ Also, regarding Step 1 and Step 2, please refer to [Site Profile installation do
 - Use the "Test Request" section on the right side of the screen.
 - Include the URL where the CA will be hosted in the `allowedUrl` field of the Request Body.
   - Example: `http://localhost:8080/*`
-- S/et the `target` in the request body to a [Content Integrity Descriptor](/opb/content-integrity-descriptor/) appropriate for the content.
+- Set the `target` in the request body to a [Content Integrity Descriptor](/opb/content-integrity-descriptor/) appropriate for the content.
   - Example:
     ```json
     {
