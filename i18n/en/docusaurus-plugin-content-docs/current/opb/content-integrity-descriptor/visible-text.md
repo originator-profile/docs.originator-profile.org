@@ -1,5 +1,5 @@
 ---
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/18463bd/docs/opb/content-integrity-descriptor/visible-text.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/4b5cbfb/docs/opb/content-integrity-descriptor/visible-text.md
 tags:
   - Content Integrity Descriptor
   - Web Media Specific Model
@@ -23,9 +23,9 @@ For terms not explained in this document, please see [Terminology](../terminolog
 
 - Content Attestation (CA)
 
-## Visible Text Target Format
+## Visible Text within DOM Integrity Format
 
-Below is a format of Visible Text Target.
+Below is a format of Visible Text within DOM Integrity.
 
 ```json
 {
@@ -39,7 +39,7 @@ Below is a format of Visible Text Target.
 
 ```json
 {
-  "title": "Visible Text Target",
+  "title": "Visible Text within DOM Integrity",
   "type": "object",
   "properties": {
     "type": {
@@ -85,7 +85,7 @@ The string obtained by the [`innerText` attribute](https://html.spec.whatwg.org/
 
 :::note
 
-Visible Text Targets use the [`innerText` attribute](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/innerText) and are different from the [`textContent` attribute](https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent).
+Visible Text within DOM Integrity uses the [`innerText` attribute](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/innerText) and is different from the [`textContent` attribute](https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent).
 See [Differences from innerText - MDN](https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent#differences_from_innertext) for the main differences between the two.
 
 :::

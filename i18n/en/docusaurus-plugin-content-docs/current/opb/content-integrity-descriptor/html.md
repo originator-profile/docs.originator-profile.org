@@ -1,5 +1,5 @@
 ---
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/5fe8e60/docs/opb/content-integrity-descriptor/html.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/4b5cbfb/docs/opb/content-integrity-descriptor/html.md
 tags:
   - Content Integrity Descriptor
   - Web Media Specific Model
@@ -17,9 +17,9 @@ For terms not explained in this document, please see [Terminology](../terminolog
 
 - Content Attestation (CA)
 
-## HTML Target format
+## HTML Fragment Integrity format
 
-HTML Target is expressed in the following format:
+HTML Fragment Integrity is expressed in the following format:
 
 ```json
 {
@@ -33,7 +33,7 @@ HTML Target is expressed in the following format:
 
 ```json
 {
-  "title": "HTML Target",
+  "title": "HTML Fragment Integrity",
   "type": "object",
   "properties": {
     "type": {
