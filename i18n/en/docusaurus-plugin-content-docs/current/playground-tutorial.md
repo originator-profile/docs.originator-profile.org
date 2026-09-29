@@ -21,19 +21,19 @@ This tutorial is an "experimental OP implementation" that does not require produ
 
 :::
 
-## Step 1: Publish the Site Profile in Playground.
+## Step 1: Publish the Site Profile in Playground
 
 - Open the [SP Issuance API for the Content Attestation Server Playground](https://playground.originator-profile.org/#tag/sp/POST/sp).
 - Use the "Test Request" section on the right side of the screen.
 - Include the origin of the site you intend to enable for OP support in the `allowedOrigin` field of the Request Body.
   - Example: `http://localhost:8080`
-  - Please refer to [Site Profile](/opb/site-profile/) or [Website Profile](/opb/website-profile/) for details on each property.
+  - Refer to [Site Profile](/opb/site-profile/) or [Website Profile](/opb/website-profile/) for details on each property.
   - If you are using both Japanese and English Website Profiles, please include the origin of the site you intend to make OP-compatible in the `allowedOrigin` field for both profiles.
-- Please press Send.
+- Press Send.
   - If authentication is requested, please use the credentials found at the [Content Attestation Server Playground](https://playground.originator-profile.org).
-- Please verify that the Site Profile is returned along with a 200 OK status.
+- Verify that the Site Profile is returned along with a 200 OK status.
 
-## Step 2: Place the Site Profile on the site.
+## Step 2: Place the Site Profile on the site
 
 - Take the returned JSON, name it `sp.json`, and place it so that it is accessible at the website's well-known URL: `/.well-known/sp.json`.
 
@@ -55,7 +55,7 @@ content-type: application/json
 :::note
 
 At this point, you will be able to check the Site Profile using the test build of OP Inspector.
-Please refer to the instructions in [Step 5](#step5) for information on how to obtain and install the test build of OP Inspector.
+Refer to the instructions in [Step 5](#step5) for information on how to obtain and install the test build of OP Inspector.
 
 :::
 
@@ -67,7 +67,7 @@ Also, regarding Step 1 and Step 2, please refer to [Site Profile installation do
 - Use the "Test Request" section on the right side of the screen.
 - Include the URL where the CA will be hosted in the `allowedUrl` field of the Request Body.
   - Example: `http://localhost:8080/*`
-- Please set the `target` in the request body to a [Content Integrity Descriptor](/opb/content-integrity-descriptor/) appropriate for the content.
+- S/et the `target` in the request body to a [Content Integrity Descriptor](/opb/content-integrity-descriptor/) appropriate for the content.
   - Example:
     ```json
     {
@@ -77,12 +77,12 @@ Also, regarding Step 1 and Step 2, please refer to [Site Profile installation do
     }
     ```
 - Additionally, you may modify the value of `credentialSubject` to suit the content.
-  - Please refer to [Content Attestation](/opb/ca/) for details on each property.
-- Please press Send.
+  - Refer to [Content Attestation](/opb/ca/) for details on each property.
+- Press Send.
   - If authentication is requested, please use the credentials found at the [Content Attestation Server Playground](https://playground.originator-profile.org).
-- Please verify that a Content Attestation is returned along with a 200 OK response.
+- Verify that a Content Attestation is returned along with a 200 OK response.
 
-## Step 4: Set up Content Attestation.
+## Step 4: Set up Content Attestation
 
 - Add the returned JSON to the page HTML as a Content Attestation Set.
 - Use the following script tag.
@@ -101,5 +101,5 @@ For Steps 3 and 4, please also refer to the [Content Attestation setup documenta
 
 - Install the test build of OP Inspector.
   - For instructions on installing the test build of OP Inspector, please refer to the [Content Attestation Server Playground guide](/playground/#verification-method).
-  - Please refer to the [OP Inspector Guide](/inspector/) for information on how to use OP Inspector.
-- Please follow the OP Inspector guide and confirm that verification has been successful.
+  - Refer to the [OP Inspector Guide](/inspector/) for information on how to use OP Inspector.
+- Follow the OP Inspector guide and confirm that verification has been successful.
