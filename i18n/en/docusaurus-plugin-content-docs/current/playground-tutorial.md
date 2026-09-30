@@ -25,7 +25,7 @@ This tutorial is an "experimental OP implementation" that does not require produ
 
 - Open the [SP Issuance API for the Content Attestation Server Playground](https://playground.originator-profile.org/#tag/sp/POST/sp).
 - Use the "Test Request" section on the right side of the screen.
-- Include the URL pattern of the webpages where the CA will be placed in the `allowedUrl` field of the Request Body.
+- Include the URL pattern of the web page where the CA will be deployed in the `allowedUrl` field of the Request Body.
   - Example: `http://localhost:8080`
   - Refer to [Site Profile](/opb/site-profile/) or [Website Profile](/opb/website-profile/) for details on each property.
   - If you are using both Japanese and English Website Profiles, please include the origin of the site you intend to make OP-compatible in the `allowedOrigin` field for both profiles.
