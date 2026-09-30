@@ -59,7 +59,7 @@ Refer to the instructions in [Step 5](#step5) for information on how to obtain a
 
 :::
 
-Also, for Step 1 and Step 2, please also refer to the [Site Profile installation guide](/tutorial/sp-setup-guide#site-profile-ca-server).
+For Step 1 and Step 2, please also refer to the [Site Profile installation guide](/tutorial/sp-setup-guide#site-profile-ca-server).
 
 ## Step 3: Issue a Content Attestation in the Playground
 
