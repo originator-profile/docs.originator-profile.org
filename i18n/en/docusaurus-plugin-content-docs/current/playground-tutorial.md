@@ -25,7 +25,7 @@ This tutorial is an "experimental OP implementation" that does not require produ
 
 - Open the [SP Issuance API for the Content Attestation Server Playground](https://playground.originator-profile.org/#tag/sp/POST/sp).
 - Use the "Test Request" section on the right side of the screen.
-- Include the origin of the site you intend to enable for OP support in the `allowedOrigin` field of the Request Body.
+- Include the URL pattern of the webpages where the CA will be placed in the `allowedUrl` field of the Request Body.
   - Example: `http://localhost:8080`
   - Refer to [Site Profile](/opb/site-profile/) or [Website Profile](/opb/website-profile/) for details on each property.
   - If you are using both Japanese and English Website Profiles, please include the origin of the site you intend to make OP-compatible in the `allowedOrigin` field for both profiles.
@@ -59,7 +59,7 @@ Refer to the instructions in [Step 5](#step5) for information on how to obtain a
 
 :::
 
-For Step 1 and Step 2, please also refer to the [Site Profile installation guide](/tutorial/sp-setup-guide#site-profile-ca-server).
+For Step 1 and Step 2, please also refer to the [Site Profile setup guide](/tutorial/sp-setup-guide#site-profile-ca-server).
 
 ## Step 3: Issue a Content Attestation in the Playground
 
@@ -95,7 +95,7 @@ Example:
 </script>
 ```
 
-For Steps 3 and 4, please also refer to the [Content Attestation setup documentation](/tutorial/cas-setup-guide#ca-server).
+For Steps 3 and 4, please also refer to the [Content Attestation setup guide](/tutorial/cas-setup-guide#ca-server).
 
 ## Step 5: Verify using the test build of OP Inspector {#step5}
 
