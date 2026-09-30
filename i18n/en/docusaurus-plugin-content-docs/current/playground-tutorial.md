@@ -21,7 +21,7 @@ This tutorial is an "experimental OP implementation" that does not require produ
 
 :::
 
-## Step 1: Publish the Site Profile in Playground
+## Step 1: Issue the Site Profile in the Playground
 
 - Open the [SP Issuance API for the Content Attestation Server Playground](https://playground.originator-profile.org/#tag/sp/POST/sp).
 - Use the "Test Request" section on the right side of the screen.
