@@ -119,10 +119,6 @@ A verification outcome MUST be invalidated when any of the following occurs:
 - The verifier retrieves the SP of the origin again and it differs from the previous verification input
 - The verifier no longer accepts a verification key or OP ID of a CP issuer used for verification
 
-### Verification Time
-
-A verifier MAY regard the [verification time](./index.mdx#verification-time) and the current time as the same point in time while the [visibility](https://html.spec.whatwg.org/multipage/interaction.html#page-visibility) of the Document presenting the verification outcome of the SP does not change.
-
 ### Document Lifecycle and Reuse
 
 | Event                                        | Handling of the verification outcome            |
@@ -178,7 +174,5 @@ In implementations using the WebExtensions API, the concepts in this document co
 | top-level traversable              | `frameType: "outermost_frame"`          |
 | child navigable                    | `frameType: "sub_frame"`                |
 | fenced frame                       | `frameType: "fenced_frame"`             |
-
-The visibility of a Document can be observed through `document.visibilityState` and the `visibilitychange` event.
 
 In WebDriver BiDi, the `browsingContext` and `navigation` identifiers play equivalent roles.

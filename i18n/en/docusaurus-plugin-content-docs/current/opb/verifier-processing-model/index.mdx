@@ -97,8 +97,9 @@ A verification outcome MUST contain at least the following:
 - [Outcome state](#outcome-state): information on the state the verification outcome is in
 - Means of determining [input identity](#input-identity): information on how input identity was determined
 - [Verification time](#verification-time): the time at which verification started
+- [Time boundary](#verification-time): the time at which the results of time-dependent verifications next change (if any)
 
-The verification scope and the verification time are fixed when verification starts. While the outcome state is Not Verified, a verification outcome has no values for them.
+The verification scope and the verification time are fixed when verification starts. While the outcome state is Not Verified, a verification outcome has no values for them. The time boundary is fixed when the outcome state transitions to Verified or Failed.
 
 Including the verification input itself is NOT REQUIRED.
 
@@ -178,7 +179,9 @@ This is a different concept from the Validity Period of a Verifiable Credential.
 
 Verification Time: the time at which verification started. Among the verifications included in the verification scope, those that depend on time (such as verification of the [validity period](/tech/validity-period) of a VC) are evaluated at the verification time.
 
-With respect to time-dependent verifications, a verification outcome is effective only while the results evaluated at the verification time also hold at the current time. While the verification time and the current time can be regarded as the same point in time, the verifier MAY regard those results as holding without evaluating them again. What range is regarded as the same point in time is determined by the verifier's policy.
+Time Boundary: the earliest time after the verification time among the times referenced by the time-dependent verifications included in the verification scope. Examples are the start and end of the validity period of a VC's signature (`iat`, `exp`) and the start and end of the validity period of the information a VC contains (`validFrom`, `validUntil`).
+
+The results of time-dependent verifications do not change until the time boundary is reached. A verification outcome is therefore effective with respect to time-dependent verifications until the time boundary is reached. If there is no time boundary, a verification outcome does not lose its effectiveness through the passage of time.
 
 ### Invalidation {/* #invalidation */}
 
@@ -189,7 +192,7 @@ Invalidated is not Failed. Invalidated means that the outcome cannot be confirme
 A verification outcome MUST be invalidated when either of the following occurs:
 
 - The verification input has changed. What counts as a change in the verification input is defined by each Verifier Processing Document
-- The verification time and the current time can no longer be regarded as the same point in time, and evaluating the time-dependent verifications at the current time gives a result different from that at the verification time
+- The current time has reached the [time boundary](#verification-time)
 
 Not only Verified outcomes but also Failed outcomes are invalidated. If a Failed outcome were kept after its input changed, it would continue to wrongly indicate that the current target did not pass verification.
 
@@ -199,7 +202,7 @@ A verifier MAY reuse a verification outcome only if all of the following are sat
 
 - The [verification scope](#verification-scope) is the same
 - [Input identity](#input-identity) is maintained
-- The results of time-dependent verifications evaluated at the [verification time](#verification-time) also hold at the current time
+- The current time is before the [time boundary](#verification-time)
 
 If any of these is not satisfied, the verifier MUST NOT reuse the outcome. The concrete method of determining identity is defined by the Verifier Processing Document.
 
@@ -224,7 +227,7 @@ A Verifier Processing Document that concretizes this document MUST define all of
 - Discovery: how targets are identified, and the discovery trigger
 - Resolution: the routes through which the [verification input](#verification-input) is obtained, and the [input scope](#input-scope)
 - Verification: the [applicable verifications](#verification-scope) and the unit by which each is identified, the order of verification processing, and when verification starts
-- Retention: how [input identity](#input-identity) is determined, how [invalidation](#invalidation) is determined, a guideline for the range within which the verification time is regarded as the same point in time, and concrete reuse conditions
+- Retention: how [input identity](#input-identity) is determined, how [invalidation](#invalidation) is determined, and concrete reuse conditions
 - Presentation: any specific constraints
 
 In addition, a Verifier Processing Document MUST define, in a separate section, the network accesses caused by the verification processing at each stage and the scope of the [disclosure](#privacy-considerations) they cause.

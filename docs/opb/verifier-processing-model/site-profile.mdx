@@ -119,10 +119,6 @@ SP の検証結果は、Document のライフサイクルによっては無効�
 - 検証者がそのオリジンの SP を改めて取得し、それが以前の検証入力と異なる
 - 検証に用いた CP 発行者の検証鍵または OP ID を、検証者が認めなくなった
 
-### 検証時刻
-
-検証者は、SP の検証結果を提示している Document の[可視性](https://html.spec.whatwg.org/multipage/interaction.html#page-visibility)が変わらない間、[検証時刻](./index.mdx#verification-time)と現在の時刻を同じ時点とみなしてかまいません (MAY)。
-
 ### Document のライフサイクルと再利用
 
 | 事象                                    | 検証結果の扱い                                 |
@@ -178,7 +174,5 @@ WebExtensions API を用いる実装では、本文書の概念は次のよう�
 | top-level traversable            | `frameType: "outermost_frame"`          |
 | 子 navigable                     | `frameType: "sub_frame"`                |
 | fenced frame                     | `frameType: "fenced_frame"`             |
-
-Document の可視性は、`document.visibilityState` および `visibilitychange` イベントによって観測できます。
 
 WebDriver BiDi では、`browsingContext` と `navigation` の識別子が同等の役割を果たします。
