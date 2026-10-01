@@ -183,6 +183,8 @@ Time Boundary: the earliest time after the verification time among the times ref
 
 The results of time-dependent verifications do not change until the time boundary is reached. A verification outcome is therefore effective with respect to time-dependent verifications until the time boundary is reached. If there is no time boundary, a verification outcome does not lose its effectiveness through the passage of time.
 
+If a verifier allows leeway for clock skew in time-dependent verifications (such as the leeway for `exp` permitted by [RFC 7519 Section 4.1.4](https://www.rfc-editor.org/rfc/rfc7519.html#section-4.1.4)), the time boundary is the time that reflects that leeway. How much leeway to allow is determined by the verifier's policy.
+
 ### Invalidation {/* #invalidation */}
 
 Invalidation: the event in which a verification outcome loses its effectiveness while its verification scope remains unchanged, and its outcome state transitions to Invalidated.
