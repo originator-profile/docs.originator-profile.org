@@ -176,7 +176,7 @@ This is a different concept from the Validity Period of a Verifiable Credential.
 
 Verification Time: the time at which verification started. Among the verifications included in the verification scope, those that depend on time (such as verification of the [validity period](/tech/validity-period) of a VC) are evaluated at the verification time.
 
-A verification outcome is effective with respect to time-dependent verifications only while the verification time and the current time can be regarded as the same point in time. What range is regarded as the same point in time is determined by the verifier's policy.
+With respect to time-dependent verifications, a verification outcome is effective only while the results evaluated at the verification time also hold at the current time. While the verification time and the current time can be regarded as the same point in time, the verifier MAY regard those results as holding without evaluating them again. What range is regarded as the same point in time is determined by the verifier's policy.
 
 ### Invalidation {/* #invalidation */}
 
@@ -197,7 +197,7 @@ A verifier MAY reuse a verification outcome only if all of the following are sat
 
 - The [verification scope](#verification-scope) is the same
 - [Input identity](#input-identity) is maintained
-- The [verification time](#verification-time) and the current time can be regarded as the same point in time
+- The results of time-dependent verifications evaluated at the [verification time](#verification-time) also hold at the current time
 
 If any of these is not satisfied, the verifier MUST NOT reuse the outcome. The concrete method of determining identity is defined by the Verifier Processing Document.
 
