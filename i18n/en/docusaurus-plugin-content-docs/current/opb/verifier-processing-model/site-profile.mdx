@@ -102,10 +102,11 @@ A verifier MAY start verification when retrieval of the SP has completed, subjec
 
 ### Input Identity {/* #input-identity */}
 
-[Input identity](./index.mdx#input-identity) of the verification input of an SP is determined by both of the following:
+[Input identity](./index.mdx#input-identity) of the verification input of an SP is determined by all of the following:
 
 - The origin is the same
 - The SP that the verifier last retrieved from that origin is identical to the SP in the verification input
+- The verifier continues to accept the verification keys and OP IDs of the CP issuers used for verification
 
 A verifier MAY reuse a verification outcome for another Document of the same origin.
 
@@ -113,7 +114,10 @@ A verifier MAY reuse a verification outcome for another Document of the same ori
 
 A verification outcome of an SP is not invalidated by the lifecycle of a Document.
 
-If the verifier retrieves the SP of the origin again and it differs from the previous verification input, the previous verification outcome MUST be invalidated.
+A verification outcome MUST be invalidated when any of the following occurs:
+
+- The verifier retrieves the SP of the origin again and it differs from the previous verification input
+- The verifier no longer accepts a verification key or OP ID of a CP issuer used for verification
 
 ### Verification Time
 
