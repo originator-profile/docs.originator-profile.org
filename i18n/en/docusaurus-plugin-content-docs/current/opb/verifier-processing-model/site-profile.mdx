@@ -116,12 +116,14 @@ A verifier MAY reuse a verification outcome for another Document of the same ori
 
 A verification outcome of an SP is not invalidated by the lifecycle of a Document.
 
-A verification outcome MUST be invalidated when any of the following occurs:
+In addition to the conditions of [invalidation](./index.mdx#invalidation) in the Verifier Processing Model, a verification outcome MUST be invalidated when any of the following occurs as a change in the verification input:
 
 - The verifier retrieves the SP of the origin again and it differs from the previous verification input
 - The verifier no longer accepts a verification key or OP ID of a CP issuer used for verification
 
 ### Document Lifecycle and Reuse
+
+Reuse in the following table is always subject to the [reuse](./index.mdx#reuse) conditions of the Verifier Processing Model.
 
 | Event                                        | Handling of the verification outcome            |
 | -------------------------------------------- | ----------------------------------------------- |
