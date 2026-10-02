@@ -1,0 +1,182 @@
+---
+sidebar_position: 1
+---
+
+# Site Profile Verifier Processing in HTML Documents
+
+## 適用範囲
+
+本文書は、[Verifier Processing Model](./index.mdx) を HTML 文書における [Site Profile](../site-profile.md) (SP) の検証について具体化します。本文書は、Verifier Processing Model が[検証者処理文書](./index.mdx#verifier-processing-document)に求める事項を定めます。
+
+SP の検証手順そのものは [Site Profile の検証プロセス](../site-profile.md#verification)にしたがいます。本文書は、その検証をいつ開始し、結果をいつまで有効とし、どう提示するかを定めます。
+
+## 用語 {/* #terminology */}
+
+本文書に説明のない用語については、[用語](../terminology.md)および [Verifier Processing Model](./index.mdx) を参照してください。
+
+加えて、[HTML Standard](https://html.spec.whatwg.org/multipage/) の次の概念を用います。
+
+- Document: ナビゲーションによって生成され、破棄されるまで同一性を保つ文書オブジェクト。navigable が新しい URL へ遷移すると新しい Document になります
+- [navigable](https://html.spec.whatwg.org/multipage/document-sequences.html#navigable): タブや iframe など、ナビゲーションを跨いで存続する入れ物
+- [top-level traversable](https://html.spec.whatwg.org/multipage/document-sequences.html#top-level-traversable): 親をもたない navigable
+- トップレベル文書: top-level traversable の active document
+- [fully active](https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active): その Document が、自身と祖先すべての navigable の active document であること
+- same-document navigation: `history.pushState()` やフラグメントの更新など、Document を変えずに document's URL のみを変えるナビゲーション
+
+:::note
+
+本文書は、特定の実装の識別子 (WebExtensions API の `documentId` など) ではなく HTML Standard の概念で定義します。ブラウザ内蔵の実装、WebDriver BiDi を用いる検証者、クローラのいずれにも同じ定義を適用するためです。実装との対応は[付録 A](#appendix-a) を参照してください。
+
+:::
+
+## 探索 {/* #discovery */}
+
+### 対象の識別
+
+検証対象は、トップレベル文書のオリジンの SP です。
+
+SP はオリジンに束縛されます。Document には束縛されません。
+
+検証者は、トップレベル文書のオリジンの SP を、サブフレーム中のコンテンツの検証に用いてはなりません (MUST NOT)。
+
+:::note
+
+同じ広告が埋め込み先によって異なる検証結果を得ることを防ぐためです。トップレベル文書の SP の流用を認めると、同一の広告が親ページ A では検証を通過し、B では通過しないことが起こりえます。発信者の真正性が埋め込み先によって変わるならば、利用者にとっての信頼性の指標として成立しません。サブフレーム中のコンテンツの検証に用いる材料は [Content Attestation Set and Originator Profile Set Verifier Processing in HTML Documents](./credentials.mdx#input-scope) が定めます。
+
+:::
+
+### 探索の契機
+
+検証者は、トップレベル文書のための response を取得することをユーザーエージェントが決定した後に、SP の探索を開始してかまいません (MAY)。
+
+SP の探索の開始は、当該 Document における Content Attestation Set (CAS) および Originator Profile Set (OPS) の有無に依存してはなりません (MUST NOT)。
+
+:::note
+
+SP はそのオリジンを誰が運営しているかを示すものであり、`originators` プロパティが CA の検証に使えることは副次的な性質です。CAS の有無を契機とすると、CA を提示していないサイトについて運営者の情報が得られなくなります。
+
+一方、CAS の探索は Document の内容を契機とします。この違いは、SP がオリジンに、CA が Document に束縛されることに由来します。
+
+:::
+
+## 解決 {/* #resolution */}
+
+### 取得経路
+
+検証者は、[Site Profile の方法](../site-profile.md)にしたがい、トップレベル文書のオリジンの `/.well-known/sp.json` から SP を取得します。
+
+検証者は、[Fetch Standard](https://fetch.spec.whatwg.org/) にしたがって SP を取得します。HTTP キャッシュに保存された応答を用いてもかまいません (MAY)。
+
+### 入力範囲 {/* #input-scope */}
+
+SP の検証入力は、次に限られます。
+
+- トップレベル文書のオリジンから取得した SP
+- 検証者があらかじめ認めた CP 発行者の検証鍵と OP ID
+
+## 検証 {/* #verification */}
+
+### 適用しうる検証 {/* #applicable-verifications */}
+
+SP に[適用しうる検証](./index.mdx#verification-scope)は次のとおりです。括弧内は、個々の検証を識別する単位です。
+
+- [OP VC Data Model に準拠した VC の検証](../op-vc-data-model.md#verification)のうち、`image` データ型の検証を除くもの (`sites` プロパティおよび `originators` プロパティに含まれる VC ごと)
+- [`allowedOrigin` の検証](../website-profile.md#allowed-origin-validation) (WSP ごと)
+- [`image` データ型の検証](../context.md#image-datatype-の検証) (`image` データ型のプロパティごと)
+
+検証処理の順序は、[Site Profile の検証プロセス](../site-profile.md#verification)にしたがいます。
+
+SP は、`sites` プロパティおよび `originators` プロパティに複数言語の VC を含みえます ([Site Profile の国際化](../site-profile.md#internationalization))。言語によって検証する VC を絞った場合、その検証結果の検証範囲は、適用しうる検証の一部のみを含みます。
+
+:::note
+
+言語によって検証する VC を絞ると、同一のサイトについて、利用者の言語設定によって検証範囲の異なる検証結果が得られます。[提示](./index.mdx#presentation)の要件により、利用者はその違いを識別できます。
+
+:::
+
+### 検証を開始する時点 {/* #verification-start */}
+
+検証者は、SP の取得が完了した時点で検証を開始してかまいません (MAY)。ただし、[開示の範囲](#disclosure)の要件にしたがいます。
+
+検証者は、取得を完了した SP を[入力スナップショット](./index.mdx#input-identity)とします。
+
+## 保持 {/* #retention */}
+
+### 入力同一性 {/* #input-identity */}
+
+SP の検証入力の[入力同一性](./index.mdx#input-identity)は、次のすべてによって判定します。
+
+- オリジンが同一であること
+- 検証者がそのオリジンから最後に取得した SP が、検証入力の SP と同一であること
+- 検証に用いた CP 発行者の検証鍵と OP ID を、検証者が引き続き認めていること
+
+検証者は、同一オリジンの別の Document に対して、検証結果を再利用してかまいません (MAY)。
+
+### 無効化 {/* #invalidation */}
+
+SP の検証結果は、Document のライフサイクルによっては無効化しません。
+
+Verifier Processing Model の[無効化](./index.mdx#invalidation)の条件に加え、検証入力の変化として次のいずれかが生じた時点で、検証結果は無効化します (MUST)。
+
+- 検証者がそのオリジンの SP を改めて取得し、それが以前の検証入力と異なる
+- 検証に用いた CP 発行者の検証鍵または OP ID を、検証者が認めなくなった
+
+### Document のライフサイクルと再利用
+
+次の表の再利用は、いずれも Verifier Processing Model の[再利用](./index.mdx#reuse)の条件にしたがいます。
+
+| 事象                                    | 検証結果の扱い                                 |
+| --------------------------------------- | ---------------------------------------------- |
+| 同一オリジンの別 URL へのナビゲーション | 再利用可能                                     |
+| 別オリジンへのナビゲーション            | 遷移先のオリジンの SP について改めて探索します |
+| リロード                                | 再利用可能                                     |
+| same-document navigation                | 再利用可能                                     |
+| back/forward cache からの復元           | 再利用可能                                     |
+| `document.open()`                       | 再利用可能                                     |
+
+## 提示 {/* #presentation */}
+
+[提示](./index.mdx#presentation)の要件に加え、次の要件があります。
+
+- 提示する VC の言語は、提示の時点で選択します。選択は [RFC 4647 セクション 3](https://www.rfc-editor.org/rfc/rfc4647.html#section-3) の Lookup にしたがうべきです (SHOULD)
+
+SP 配布者は、既定として扱われる VC を含めるべきです (SHOULD)。
+
+## 開示の範囲 {/* #disclosure */}
+
+検証処理は、Document の取得に加えて、次のネットワークアクセスを発生させえます。
+
+- 解決: トップレベル文書のオリジンの `/.well-known/sp.json` の取得
+- 検証および提示: SP に含まれる VC の [`image` データ型](../context.md#the-image-datatype)のプロパティの検証および提示における、その `id` の URL の取得
+
+前者は Document と同一オリジンへのアクセスです。後者は別のオリジンへのアクセスになりえます。これらは、利用者がその Document を利用していることを、アクセス先のオリジンに開示しえます。HTTP キャッシュに保存された応答が用いられる場合、そのネットワークアクセスは生じません。
+
+検証者は、ナビゲーションが開始される前に、検証処理のためのネットワークアクセスを発生させてはなりません (MUST NOT)。たとえば、利用者がロケーションバーに入力している段階で SP を取得してはなりません。利用者が訪問を決めていない段階で、そのオリジンへリクエストが送られるためです。
+
+## プライバシーに関する考慮事項 {/* #privacy-considerations */}
+
+### すべてのナビゲーションにおける取得
+
+[探索の契機](#discovery)は CAS および OPS の有無に依存しないため、検証者は OP に対応していないオリジンを含むすべてのトップレベル文書について SP の取得を試みます。この取得は Document と同一オリジンへのアクセスであり、新たな第三者に閲覧の事実を開示しません。SP を提供していないオリジンについて取得の失敗を保持するかどうかは、本文書の範囲外です。
+
+### `Accept-Language` の送信
+
+SP の取得では `Accept-Language` リクエストヘッダーが送信されえます。[Site Profile のリクエスト](../site-profile.md)が注記するとおり、このヘッダーは利用者にとって私的な情報を明らかにしうるものです。[開示の範囲](#disclosure)の要件により、利用者が訪問を決める前にこのヘッダーが送信されることはありません。
+
+## 付録 A. 実装との対応 {/* #appendix-a */}
+
+_このセクションは非規範的です。_
+
+WebExtensions API を用いる実装では、本文書の概念は次のように対応します。
+
+| 本文書                           | WebExtensions API                       |
+| -------------------------------- | --------------------------------------- |
+| Document の同一性                | `documentId`                            |
+| fully active                     | `documentLifecycle: "active"`           |
+| back/forward cache 中の Document | `documentLifecycle: "cached"`           |
+| 破棄待ちの Document              | `documentLifecycle: "pending_deletion"` |
+| top-level traversable            | `frameType: "outermost_frame"`          |
+| 子 navigable                     | `frameType: "sub_frame"`                |
+| fenced frame                     | `frameType: "fenced_frame"`             |
+
+WebDriver BiDi では、`browsingContext` と `navigation` の識別子が同等の役割を果たします。
