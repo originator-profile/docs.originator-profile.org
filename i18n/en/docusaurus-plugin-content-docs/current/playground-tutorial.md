@@ -65,7 +65,7 @@ For Step 1 and Step 2, please also refer to the [Site Profile setup guide](/tuto
 
 - Open the [CA Issuance API for the Content Attestation Server Playground](https://playground.originator-profile.org/#tag/ca/POST/ca).
 - Use the "Test Request" section on the right side of the screen.
-- Include the URL where the CA will be deployed in the `allowedUrl` field of the request body.
+- Include the URL where the CA will be placed in the `allowedUrl` field of the request body.
   - Example: `http://localhost:8080/*`
 - Set the `target` in the request body to a [Content Integrity Descriptor](/opb/content-integrity-descriptor/) appropriate for the content.
   - Example:
