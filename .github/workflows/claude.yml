@@ -16,7 +16,7 @@ jobs:
       (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude')) ||
       (github.event_name == 'pull_request_review' && contains(github.event.review.body, '@claude')) ||
       (github.event_name == 'issues' && (contains(github.event.issue.body, '@claude') || contains(github.event.issue.title, '@claude')))
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     permissions:
       contents: write
       pull-requests: write
@@ -29,6 +29,6 @@ jobs:
         with:
           fetch-depth: 1
       - name: Run Claude Code
-        uses: "originator-profile/originator-profile/.github/actions/claude_code@9bca3b6dc5bf481e3973812b8ede0918aa383943" # main
+        uses: "originator-profile/originator-profile/.github/actions/claude_code@2287bbeaf9c77bafabad5d989e8f7f3e01bc4670" # main
         with:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
