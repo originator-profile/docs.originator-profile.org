@@ -1,48 +1,43 @@
 ---
 sidebar_position: 120
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/3b2ea94/docs/playground-tutorial.md
 ---
 
-# Playground 環境で OP 対応を体験するチュートリアル
+# Tutorial: Experiencing OP Implementation in the Playground Environment
+
+## Overview
+
+In this tutorial, you will use the [Content Attestation Server Playground](https://playground.originator-profile.org) to verify the steps required for OP (Originator Profile) implementation within a test environment.
+The goal is to gain a step-by-step understanding of the entire workflow—from the issuance and deployment of Site Profiles and Content Attestations to their verification.
+
+This tutorial allows you to verify the following processes in the test environment:
+
+- Issuance and deployment of Site Profiles (SP)
+- Issuance and deployment of Content Attestations (CA)
 
 :::note
 
-このページは翻訳中です。
+This tutorial is an "experimental OP implementation" that does not require production registration.
 
 :::
 
-## 概要
+## Step 1: Issue the Site Profile in the Playground
 
-このチュートリアルでは、[Content Attestation Server Playground](https://playground.originator-profile.org) を使用して、OP 対応に必要となる一連の手順を試験環境で確認します。  
-Site Profile と Content Attestation の発行・設置・検証までの流れを段階的に把握することを目的としています。
+- Open the [SP Issuance API for the Content Attestation Server Playground](https://playground.originator-profile.org/#tag/sp/POST/sp).
+- Use the "Test Request" section on the right side of the screen.
+- Include the origin of the site you are trying to enable for OP support in the `allowedOrigin` field of the request body.
+  - Example: `http://localhost:8080`
+  - Refer to [Site Profile](/opb/site-profile/) or [Website Profile](/opb/website-profile/) for details on each property.
+  - If you are using both Japanese and English Website Profiles, please include the origin of the site you intend to make OP-compatible in the `allowedOrigin` field for both profiles.
+- Press Send.
+  - If authentication is requested, please use the credentials found at the [Content Attestation Server Playground](https://playground.originator-profile.org).
+- Verify that the Site Profile is returned along with a 200 OK status.
 
-本チュートリアルでは、以下の内容を試験環境で確認できます。
+## Step 2: Deploy the Site Profile on the site
 
-- Site Profile（SP）の発行と設置
-- Content Attestation（CA）の発行と設置
+- Take the returned JSON, name it `sp.json`, and place it so that it is accessible at the website's well-known URL: `/.well-known/sp.json`.
 
-:::note
-
-本チュートリアルは本番登録不要の「試験的な OP 対応」です。
-
-:::
-
-## Step 1: Site Profile を Playground で発行する
-
-- [Content Attestation Server Playground の SP 発行 API](https://playground.originator-profile.org/#tag/sp/POST/sp) を開きます。
-- 画面右側の Test Request を使用します。
-- Request Body の `allowedOrigin` に OP 対応しようとしているサイトのオリジンを含めてください。
-  - 例: `http://localhost:8080`
-  - 各プロパティについては [Site Profile](/opb/site-profile/) や [Website Profile](/opb/website-profile/) を参照してください。
-  - 日英両方の Website Profile を使用する場合は、両方の `allowedOrigin` に OP 対応しようとしているサイトのオリジンを含めてください。
-- Send を押してください。
-  - 認証を求められた場合は、[Content Attestation Server Playground](https://playground.originator-profile.org) にある認証情報を使用してください。
-- 200 OK とともに、Site Profile が返ってくることを確認してください。
-
-## Step 2: Site Profile をサイトに設置する
-
-- 返ってきた JSON を sp.json として、 Web サイトの Well-known URL `/.well-known/sp.json` にアクセスできるように配置します。
-
-具体例:
+Example:
 
 ```shell
 $ curl -i http://localhost:8080/.well-known/sp.json
@@ -59,21 +54,21 @@ content-type: application/json
 
 :::note
 
-この時点で テストビルド版 OP Inspector で Site Profile の確認が可能になります。  
-テストビルド版 OP Inspector の入手方法やインストール方法については [Step 5](#step5) にある案内を参照してください。
+At this point, you will be able to check the Site Profile using the test build of OP Inspector.
+Refer to the instructions in [Step 5](#step5) for information on how to obtain and install the test build of OP Inspector.
 
 :::
 
-また Step 1、Step 2 に関しては [Site Profile の設置ドキュメント](/tutorial/sp-setup-guide#site-profile-ca-server) も参考にしてください。
+For Step 1 and Step 2, please also refer to the [Site Profile setup guide](/tutorial/sp-setup-guide#site-profile-ca-server).
 
-## Step 3: Content Attestation を Playground で発行する
+## Step 3: Issue a Content Attestation in the Playground
 
-- [Content Attestation Server Playground の CA 発行 API](https://playground.originator-profile.org/#tag/ca/POST/ca) を開きます。
-- 画面右側の Test Request を使用します。
-- Request Body の `allowedUrl` に CA を設置する URL を含めてください。
-  - 例: `http://localhost:8080/*`
-- Request Body の `target` に コンテンツに合わせた [Content Integrity Descriptor](/opb/content-integrity-descriptor/) を設定してください。
-  - 例:
+- Open the [CA Issuance API for the Content Attestation Server Playground](https://playground.originator-profile.org/#tag/ca/POST/ca).
+- Use the "Test Request" section on the right side of the screen.
+- Include the URL where the CA will be placed in the `allowedUrl` field of the request body.
+  - Example: `http://localhost:8080/*`
+- Set the `target` in the request body to a [Content Integrity Descriptor](/opb/content-integrity-descriptor/) appropriate for the content.
+  - Example:
     ```json
     {
       "type": "TextTargetIntegrity",
@@ -81,18 +76,18 @@ content-type: application/json
       "integrity": "sha256-TL6t/lWLByyNME0lFhb6JrT3RaTF+f2md84n5YTQtx4="
     }
     ```
-- その他、`credentialSubject` の値をコンテンツに合わせて変更しても構いません。
-  - 各プロパティについては [Content Attestation](/opb/ca/) を参照してください。
-- Send を押してください。
-  - 認証を求められた場合は、[Content Attestation Server Playground](https://playground.originator-profile.org) にある認証情報を使用してください。
-- 200 OK とともに、Content Attestation が返ってくることを確認してください。
+- Additionally, you may modify the value of `credentialSubject` to suit the content.
+  - Refer to [Content Attestation](/opb/ca/) for details on each property.
+- Press Send.
+  - If authentication is requested, please use the credentials found at the [Content Attestation Server Playground](https://playground.originator-profile.org).
+- Verify that a Content Attestation is returned along with a 200 OK response.
 
-## Step 4: Content Attestation を設置する
+## Step 4: Deploy Content Attestation
 
-- 返ってきた JSON をページ HTML に Content Attestation Set として追加します。
-- 以下の script タグを使用します。
+- Add the returned JSON to the page HTML as a Content Attestation Set.
+- Use the following script tag.
 
-具体例:
+Example:
 
 ```html
 <script type="application/cas+json">
@@ -100,11 +95,11 @@ content-type: application/json
 </script>
 ```
 
-また Step 3、Step 4 に関しては [Content Attestation の設置ドキュメント](/tutorial/cas-setup-guide#ca-server) も参考にしてください。
+For Steps 3 and 4, please also refer to the [Content Attestation setup guide](/tutorial/cas-setup-guide#ca-server).
 
-## Step 5: テストビルド版 OP Inspector で確認する {#step5}
+## Step 5: Verify using the test build of OP Inspector {#step5}
 
-- テストビルド版 OP Inspector をインストールする。
-  - テストビルド版 OP Inspector のインストールについては、[Content Attestation Server Playground のガイド](/playground/#verification-method)を参照してください。
-  - OP Inspector の使い方は [OP Inspector のガイド](/inspector/)を参照してください。
-- OP Inspector ガイドに従い、検証に成功していることを確認してください。
+- Install the test build of OP Inspector.
+  - For instructions on installing the test build of OP Inspector, please refer to the [Content Attestation Server Playground guide](/playground/#verification-method).
+  - Refer to the [OP Inspector Guide](/inspector/) for information on how to use OP Inspector.
+- Follow the OP Inspector guide and confirm that verification has been successful.
