@@ -15,7 +15,7 @@ For terms not explained in this document, please see [Terminology](./terminology
 - Originator Profile Set (OPS)
 - Site Profile (SP)
 
-## Form
+## Format
 
 The ID MUST be of the form `dns:<dnsname>`, as defined in [RFC 4501](https://www.rfc-editor.org/rfc/rfc4501.html), excluding the `dnsauthority` and `dnsquery` components.
 The `dnsname` must be a fully qualified domain name (FQDN) as defined in [RFC 1034](https://www.rfc-editor.org/rfc/rfc1034) and [RFC 1035](https://www.rfc-editor.org/rfc/rfc1035), and must conform to the hostname specification in [RFC 1123](https://www.rfc-editor.org/rfc/rfc1123). If an internationalized domain name is used, it must use the A-label representation (Punycode) as specified in [RFC 5890](https://www.rfc-editor.org/rfc/rfc5890). In either case, it MUST NOT contain a trailing `.`.

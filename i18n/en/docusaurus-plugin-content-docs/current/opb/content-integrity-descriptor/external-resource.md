@@ -31,7 +31,7 @@ For terms not explained in this document, please see [Terminology](../terminolog
 
 - Content Attestation (CA)
 
-## External Resource Integrity Form
+## External Resource Integrity Format
 
 It must be a JSON object.
 Below is an example of an External Resource Integrity:
