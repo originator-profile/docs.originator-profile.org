@@ -17,7 +17,7 @@ For terms not explained in this document, please see [Terminology](../terminolog
 
 - Content Attestation (CA)
 
-## HTML Fragment Integrity format
+## HTML Fragment Integrity Format
 
 HTML Fragment Integrity is expressed in the following format:
 

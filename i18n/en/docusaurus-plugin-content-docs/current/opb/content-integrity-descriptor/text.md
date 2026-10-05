@@ -17,7 +17,7 @@ For terms not explained in this document, please see [Terminology](../terminolog
 
 - Content Attestation (CA)
 
-## Text within DOM Integrity format
+## Text within DOM Integrity Format
 
 Below is Text within DOM Integrity format
 
