@@ -31,22 +31,6 @@ sidebar_position: 103
 
 実装者はアルゴリズムを定期的に見直し、危殆化したアルゴリズムの使用を中止してください (RECOMMENDED)。
 
-:::note
-
-C2PA 2.0 署名アルゴリズムの許可リストに含まれる `EdDSA` は[^1]、本文書が書かれた時点ではサポートしない実装が一定数存在するため[^2]、`EdDSA` は許可リストに含めていません。
-
-[^1]: https://c2pa.org/specifications/specifications/2.0/specs/C2PA_Specification.html#_signature_algorithms
-
-[^2]: https://github.com/WICG/webcrypto-secure-curves/issues/20
-
-:::
-
-:::note
-
-Originator Profile 技術研究組合の開発するアプリケーションでは、当面の間、署名アルゴリズムは ES256 のみをサポートします。
-
-:::
-
 ## ハッシュアルゴリズム {#hash-algorithm}
 
 OP の仕様に準拠するアプリケーションは、 CA の Content Integrity Descriptor の `integrity` プロパティの値を生成・検証するとき、および各 VC の `digestSRI` プロパティの値を生成・検証するときに、使用するハッシュアルゴリズムについて次の要件を満たす必要があります (MUST)。
@@ -55,17 +39,13 @@ OP の仕様に準拠するアプリケーションは、 CA の Content Integri
 
 実装者はハッシュアルゴリズムを定期的に見直し、危殆化したハッシュアルゴリズムは使用しないようにしてください。
 
-:::note
-
-Originator Profile 技術研究組合の開発するアプリケーションでは、当面の間、ハッシュアルゴリズムは SHA-256 のみをサポートします。
-
-:::
-
 ## セキュリティの考慮事項 {#security-considerations}
 
 _このセクションは非規範的です。_
 
-このセクションでは、[RFC 7696 Section 2.2.3](https://www.rfc-editor.org/rfc/rfc7696.html#section-2.2.3)で要求されている、予想されるアルゴリズムの移行について通知することを目的として、また、鍵の更新と使用する暗号アルゴリズムの定期的な見直しに関する指針として、米国連邦政府が定める鍵管理の推奨事項についての文書である[NIST SP 800-57 Part 1](https://doi.org/10.6028/NIST.SP.800-57pt1r5)と、暗号技術の利用移行についての文書である[NIST SP 800-131A Rev.3 (Initial Public Draft)](https://doi.org/10.6028/NIST.SP.800-131Ar3.ipd)をベースに、Originator Profile でのセキュリティ要件を記載します。
+[RFC 7696 Section 2.2.3](https://www.rfc-editor.org/rfc/rfc7696.html#section-2.2.3)に基づき、鍵の更新と暗号アルゴリズムの見直し、移行に関する指針を示します。
+[NIST SP 800-57 Part 1](https://doi.org/10.6028/NIST.SP.800-57pt1r5)、[NIST SP 800-131A Rev.3 (Initial Public Draft)](https://doi.org/10.6028/NIST.SP.800-131Ar3.ipd)、CRYPTREC の[暗号リスト (LS-0001-2022R2)](https://www.cryptrec.go.jp/list/cryptrec-ls-0001-2022r2.pdf)と[暗号強度要件の設定基準 (LS-0003-2022R1)](https://www.cryptrec.go.jp/list/cryptrec-ls-0003-2022r1.pdf)を参照します。
+本文書の許可リストには、これらの文書で推奨または承認されている暗号アルゴリズムを掲載しています。
 
 ### セキュリティ強度
 
