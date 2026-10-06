@@ -41,7 +41,7 @@ A verifier MUST NOT use the SP of the origin of the top-level document to verify
 
 :::note
 
-This prevents the same advertisement from getting different verification outcomes depending on where it is embedded. If reusing the SP of the top-level document were allowed, the same advertisement could pass verification on parent page A but not on page B. If the authenticity of an originator changed depending on the embedding site, it would not work as a trust signal for users. The materials used to verify content in a subframe are defined by [Content Attestation Set and Originator Profile Set Verifier Processing in HTML Documents](./credentials.mdx#input-scope).
+This prevents the same advertisement from getting different verification outcomes depending on where it is embedded. If reusing the SP of the top-level document were allowed, the same advertisement could pass verification on parent page A but not on page B. If the authenticity of an originator changed depending on the embedding site, it would not work as a trust signal for users. The materials used to verify content in a subframe are defined by [Content Attestation Set Verifier Processing in HTML Documents](./content-attestation-set.mdx#input-scope).
 
 :::
 
