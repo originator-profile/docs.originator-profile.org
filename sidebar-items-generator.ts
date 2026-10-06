@@ -18,6 +18,7 @@ function parseVersion(id: string) {
 function compareVersions(a: string, b: string): number {
   const va = parseVersion(a);
   const vb = parseVersion(b);
+  // バージョンとして解釈できないものは最も新しいものとして扱う (降順で先頭に並ぶ)
   if (!va || !vb) return Number(!va) - Number(!vb);
   for (let i = 0; i < 3; i++) {
     if (va.core[i] !== vb.core[i]) return va.core[i] - vb.core[i];
