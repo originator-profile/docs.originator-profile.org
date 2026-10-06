@@ -34,14 +34,14 @@ Content Attestation は OP VC DM 準拠文書でなければなりません (MUS
 
 #### Content Attestation (CA) のプロパティ一覧 {#content-attestation-properties}
 
-| Name                | Type                   | Description                                                                                                                                                                                                                                                                                                                                                                                                            |
-| ------------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `@context`          | `string[]`             | **REQUIRED.** [OP VC Data Model](./op-vc-data-model.md#vc-properties) に従ってください (MUST)。                                                                                                                                                                                                                                                                                                                        |
-| `type`              | `string[]`             | **REQUIRED.** 必ず `["VerifiableCredential", "ContentAttestation"]` にしてください (MUST)。                                                                                                                                                                                                                                                                                                                            |
-| `issuer`            | `string`               | **REQUIRED.** CA 発行者の [OP ID](./op-id.md) でなければなりません (MUST)。                                                                                                                                                                                                                                                                                                                                            |
-| `credentialSubject` | `object`               | **REQUIRED.** 次の[credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。                                                                                                                                                                                                                                                                                                    |
-| `allowedUrl`        | `string` \| `string[]` | **REQUIRED.** この CA によって表明される情報の対象となる URL です。必ず [URL Pattern string](https://urlpattern.spec.whatwg.org/#pattern-strings) またはその配列でなければなりません (MUST)。空配列にしてはなりません (MUST NOT)。このプロパティで CA が正当な URL の Web ページに設置されているかどうかを[検証](#allowed-url-validation)することができます。                                                          |
-| `target`            | `object[]`             | **REQUIRED.** Content Integrity Descriptor の配列でなければなりません (MUST)。Content Integrity Descriptor はコンテンツの一部の完全性を保証するための仕組みです。このプロパティで CA と対応するコンテンツ内の特定の情報が改ざんされていないかを[検証](#target-integrity-validation)することができます。[Content Integrity Type Registry](./content-integrity-descriptor/index.mdx)に登録されているものを使用できます。 |
+| Name                | Type                   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| ------------------- | ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@context`          | `string[]`             | **REQUIRED.** [OP VC Data Model](./op-vc-data-model.md#vc-properties) に従ってください (MUST)。                                                                                                                                                                                                                                                                                                                                                                       |
+| `type`              | `string[]`             | **REQUIRED.** 必ず `["VerifiableCredential", "ContentAttestation"]` にしてください (MUST)。                                                                                                                                                                                                                                                                                                                                                                           |
+| `issuer`            | `string`               | **REQUIRED.** CA 発行者の [OP ID](./op-id.md) でなければなりません (MUST)。                                                                                                                                                                                                                                                                                                                                                                                           |
+| `credentialSubject` | `object`               | **REQUIRED.** 次の[credentialSubject のプロパティ](#credential-subject-properties)を含む JSON-LD Node Object です。                                                                                                                                                                                                                                                                                                                                                   |
+| `allowedUrl`        | `string` \| `string[]` | **REQUIRED.** この CA によって表明される情報の対象となる URL です。必ず [URL Pattern string](https://urlpattern.spec.whatwg.org/#pattern-strings) またはその配列でなければなりません (MUST)。空配列にしてはなりません (MUST NOT)。各 URL Pattern string は[スキームとホスト名の制約](#allowed-url-host)を満たさなければなりません (MUST)。このプロパティで CA が正当な URL の Web ページに設置されているかどうかを[検証](#allowed-url-validation)することができます。 |
+| `target`            | `object[]`             | **REQUIRED.** Content Integrity Descriptor の配列でなければなりません (MUST)。Content Integrity Descriptor はコンテンツの一部の完全性を保証するための仕組みです。このプロパティで CA と対応するコンテンツ内の特定の情報が改ざんされていないかを[検証](#target-integrity-validation)することができます。[Content Integrity Type Registry](./content-integrity-descriptor/index.mdx)に登録されているものを使用できます。                                                |
 
 #### credentialSubject のプロパティ一覧 {#credential-subject-properties}
 
@@ -56,6 +56,17 @@ VC の署名の有効期間 (`iat`, `exp`) の運用上の扱いについては 
 
 :::
 
+#### `allowedUrl` のスキームとホスト名の制約 {#allowed-url-host}
+
+`allowedUrl` は CA を特定のサイトの Web ページに結びつけるためのプロパティです。
+スキームやホスト名を任意にしたパターンはあらゆるサイトの URL に一致し、この結びつきを失わせます。
+そのため、各 URL Pattern string のスキームとホスト名は次の条件を満たさなければなりません (MUST)。
+
+- スキームは `https` です。ただし、ローカル環境での開発のため、ホスト名が `localhost` の場合に限り `http` を使えます (MAY)。
+- ホスト名は [RFC 1123 Section 2.1](https://www.rfc-editor.org/rfc/rfc1123#section-2.1) に従う固定のホスト名です。サブドメインを任意にするため、先頭に `*.` を付けられます (MAY)。それ以外のワイルドカード、名前付きグループ、正規表現は使えません。
+
+ポート番号、パス、クエリには、URL Pattern の構文を自由に使えます。
+
 #### `allowedUrl` の具体例
 
 ✅ 有効:
@@ -69,6 +80,9 @@ VC の署名の有効期間 (`iat`, `exp`) の運用上の扱いについては 
 - `/article/*` (ベースURLが含まれていない)
 - `example.com/*` (`https://` が指定されていない)
 - `https://example.com/article/(` (構文エラー)
+- `https://*/*` (ホスト名が任意)
+- `*://example.com/*`、`http{s}?://example.com/*` (スキームが `https` に固定されていない)
+- `https://example.(com|net)/*` (ホスト名に正規表現を使っている)
 - `[]` (空配列)
 
 :::note
@@ -217,6 +231,7 @@ CA の検証者は次のことを検証することができます。
 
 1. CA が提示された Web ページの URL を取得します。
 2. `allowedUrl` プロパティの文字列と 1. で得た URL が一致するか確認します。アルゴリズムは[URL Pattern の `test(input, baseURL)`メソッド](https://urlpattern.spec.whatwg.org/#dom-urlpattern-test)を使います。
+   [スキームとホスト名の制約](#allowed-url-host)を満たさない URL Pattern string は、URL と一致しないものとします (MUST)。
 
 :::note
 
