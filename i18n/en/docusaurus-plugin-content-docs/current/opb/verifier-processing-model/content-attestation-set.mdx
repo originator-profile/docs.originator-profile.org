@@ -65,7 +65,7 @@ CPs are verified with the verification keys and OP IDs of CP issuers that the ve
 
 A verifier MUST NOT use an OPS placed in a parent Document or a sibling Document to verify a CA.
 
-"Placed in the same Document" means that it was present in the Document at the time the [input snapshot](./index.mdx#input-identity) was taken. Removing the script element of an OPS after the input snapshot was taken does not affect a verification outcome that has already been settled. However, if the content of the Document is replaced by [`document.open()`](https://html.spec.whatwg.org/multipage/dynamic-markup-insertion.html#dom-document-open), an OPS placed before the replacement MUST NOT be used for subsequent verification.
+"Placed in the same Document" means that it was present in the Document at the time the [input snapshot](./index.mdx#input-identity) was taken.
 
 A distributor presenting a CA in a Document in a subframe MUST place the OPS needed for its verification in the same Document.
 
@@ -175,7 +175,7 @@ The verification input of a single CA MUST be a single input snapshot of a singl
 [Input identity](./index.mdx#input-identity) of the verification input of a CA is determined by all of the following:
 
 - The Document is the same
-- The script element of the CAS containing the CA remains in the Document, and the CAS is the same
+- The CAS containing the CA is the same under the identity for each retrieval route
 - The OPSs used for verification are the same under the identity for each retrieval route
 - The input dependencies of all `target`s have not changed
 - `allowedUrl` also matches the current document's URL
@@ -183,12 +183,10 @@ The verification input of a single CA MUST be a single input snapshot of a singl
 
 The identity of a CAS and an OPS is determined per [retrieval route](#resolution) as follows. The input scope is as defined in [Input Scope](#input-scope) regardless of the retrieval route.
 
-- Embedding: the content of the script element is the same
-- External reference: the URL of the `src` attribute is the same, and the retrieved content is the same
+- Embedding: the script element remains in the Document, and its content is the same
+- External reference: the script element remains in the Document, the URL of the `src` attribute is the same, and the retrieved content is the same
 - OPSs the verifier holds in advance: the verifier continues to hold and accept the same OPS
 - The `originators` property of the Site Profile: [input identity](./site-profile.mdx#input-identity) of the verification outcome of the SP used is maintained
-
-For OPSs, what is compared is the material included in the input snapshot. Removing the script element of an OPS from the Document after the input snapshot was taken does not affect the identity of the OPS.
 
 ### Invalidation {/* #invalidation */}
 
@@ -197,8 +195,7 @@ In addition to the conditions of [invalidation](./index.mdx#invalidation) in the
 - The input dependency of any `target` has changed
 - The verification outcome of the SP used for verification has been invalidated
 - The verifier no longer accepts a verification key or OP ID of a CP issuer used for verification
-- The verifier no longer holds or accepts an OPS it held in advance and used for verification
-- The script element of the CAS containing the CA has been removed from the Document, or the CAS is no longer the same
+- The CAS containing the CA, or an OPS used for verification, is no longer the same under the identity for each retrieval route
 - The content of the Document has been replaced by `document.open()`
 - The document's URL has changed through a same-document navigation, and re-evaluation of `allowedUrl` no longer matches
 

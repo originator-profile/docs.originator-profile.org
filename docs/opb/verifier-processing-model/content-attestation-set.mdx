@@ -65,7 +65,7 @@ CP の検証には、検証者があらかじめ認めた CP 発行者の検証�
 
 検証者は、親の Document または兄弟の Document に設置された OPS を、CA の検証に用いてはなりません (MUST NOT)。
 
-「同一の Document に設置された」とは、[入力スナップショット](./index.mdx#input-identity)を取った時点でその Document に存在していたことを意味します。入力スナップショットを取った後に OPS の script 要素が削除されても、すでに確定した検証結果は影響を受けません。ただし、[`document.open()`](https://html.spec.whatwg.org/multipage/dynamic-markup-insertion.html#dom-document-open) によって Document の内容が置き換えられた場合、置き換えの前に設置されていた OPS を以後の検証に用いてはなりません (MUST NOT)。
+「同一の Document に設置された」とは、[入力スナップショット](./index.mdx#input-identity)を取った時点でその Document に存在していたことを意味します。
 
 サブフレーム中の Document で CA を提示する配布者は、その検証に必要な OPS を同一の Document に設置しなければなりません (MUST)。
 
@@ -175,7 +175,7 @@ CA の検証結果は、Document とその入力スナップショットに束�
 CA の検証入力の[入力同一性](./index.mdx#input-identity)は、次のすべてによって判定します。
 
 - Document が同一であること
-- その CA を含む CAS の script 要素が Document に存在し続けており、CAS が同一であること
+- その CA を含む CAS が、取得経路ごとの同一性において同一であること
 - 検証に用いた OPS が、取得経路ごとの同一性において同一であること
 - すべての `target` の入力依存対象が変化していないこと
 - `allowedUrl` の評価結果が、現在の document's URL に対しても一致すること
@@ -183,12 +183,10 @@ CA の検証入力の[入力同一性](./index.mdx#input-identity)は、次の�
 
 CAS および OPS の同一性は、[取得経路](#resolution)ごとに次のとおり判定します。入力範囲は、取得経路によらず[入力範囲](#input-scope)のとおりです。
 
-- 埋め込み: script 要素の内容が同一であること
-- 外部参照: `src` 属性の URL が同一であり、取得した内容が同一であること
+- 埋め込み: script 要素が Document に存在し続けており、その内容が同一であること
+- 外部参照: script 要素が Document に存在し続けており、`src` 属性の URL が同一で、取得した内容が同一であること
 - 検証者があらかじめ保持する OPS: 検証者が同一の OPS を引き続き保持し、認めていること
 - Site Profile の `originators` プロパティ: 用いた SP の検証結果の[入力同一性](./site-profile.mdx#input-identity)が保たれていること
-
-OPS について比べるのは、入力スナップショットに含まれた材料です。入力スナップショットを取った後に OPS の script 要素が Document から取り除かれても、そのことは OPS の同一性に影響しません。
 
 ### 無効化 {/* #invalidation */}
 
@@ -197,8 +195,7 @@ Verifier Processing Model の[無効化](./index.mdx#invalidation)の条件に�
 - いずれかの `target` の入力依存対象が変化した
 - 検証に用いた SP の検証結果が無効化した
 - 検証に用いた CP 発行者の検証鍵または OP ID を、検証者が認めなくなった
-- 検証に用いた、検証者があらかじめ保持する OPS を、検証者が保持しなくなった、または認めなくなった
-- その CA を含む CAS の script 要素が Document から取り除かれた、またはその CAS が同一でなくなった
+- その CA を含む CAS、または検証に用いた OPS が、取得経路ごとの同一性において同一でなくなった
 - `document.open()` によって Document の内容が置き換えられた
 - same-document navigation によって document's URL が変化し、`allowedUrl` の再評価の結果が一致しなくなった
 
