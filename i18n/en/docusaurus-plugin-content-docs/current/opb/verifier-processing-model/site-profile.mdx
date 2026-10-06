@@ -1,0 +1,182 @@
+---
+sidebar_position: 1
+---
+
+# Site Profile Verifier Processing in HTML Documents
+
+## Scope
+
+This document concretizes the [Verifier Processing Model](./index.mdx) for the verification of [Site Profiles](../site-profile.md) (SP) in HTML documents. This document defines what the Verifier Processing Model requires of a [Verifier Processing Document](./index.mdx#verifier-processing-document).
+
+The verification procedure itself follows the [Site Profile verification process](../site-profile.md#verification). This document defines when that verification starts, how long its outcome remains effective, and how it is presented.
+
+## Terminology {/* #terminology */}
+
+For terms not explained in this document, see [Terminology](../terminology.md) and the [Verifier Processing Model](./index.mdx).
+
+In addition, this document uses the following concepts from the [HTML Standard](https://html.spec.whatwg.org/multipage/):
+
+- Document: a document object created by a navigation that keeps its identity until it is destroyed. When a navigable navigates to a new URL, it gets a new Document
+- [navigable](https://html.spec.whatwg.org/multipage/document-sequences.html#navigable): a container that persists across navigations, such as a tab or an iframe
+- [top-level traversable](https://html.spec.whatwg.org/multipage/document-sequences.html#top-level-traversable): a navigable without a parent
+- Top-level document: the active document of a top-level traversable
+- [fully active](https://html.spec.whatwg.org/multipage/document-sequences.html#fully-active): the Document is the active document of its own navigable and of all ancestor navigables
+- same-document navigation: a navigation that changes only the document's URL without changing the Document, such as `history.pushState()` or a fragment update
+
+:::note
+
+This document is defined in terms of concepts from the HTML Standard, not identifiers of a particular implementation (such as `documentId` in the WebExtensions API), so that the same definitions apply to browser built-in implementations, verifiers using WebDriver BiDi, and crawlers. See [Appendix A](#appendix-a) for the correspondence with implementations.
+
+:::
+
+## Discovery {/* #discovery */}
+
+### Identifying the Target
+
+The verification target is the SP of the origin of the top-level document.
+
+An SP is bound to an origin. It is not bound to a Document.
+
+A verifier MUST NOT use the SP of the origin of the top-level document to verify content in a subframe.
+
+:::note
+
+This prevents the same advertisement from getting different verification outcomes depending on where it is embedded. If reusing the SP of the top-level document were allowed, the same advertisement could pass verification on parent page A but not on page B. If the authenticity of an originator changed depending on the embedding site, it would not work as a trust signal for users. The materials used to verify content in a subframe are defined by [Content Attestation Set Verifier Processing in HTML Documents](./content-attestation-set.mdx#input-scope).
+
+:::
+
+### Discovery Trigger
+
+A verifier MAY start discovering the SP after the user agent has decided to fetch the response for the top-level document.
+
+Starting discovery of the SP MUST NOT depend on whether a Content Attestation Set (CAS) or an Originator Profile Set (OPS) is present in the Document.
+
+:::note
+
+An SP indicates who operates the origin; the fact that its `originators` property can be used to verify CAs is a secondary property. If the presence of a CAS were the trigger, information about the operator could not be obtained for sites that do not present CAs.
+
+Discovery of a CAS, on the other hand, is triggered by the content of the Document. This difference comes from an SP being bound to an origin and a CA being bound to a Document.
+
+:::
+
+## Resolution {/* #resolution */}
+
+### Retrieval Route
+
+A verifier retrieves the SP from `/.well-known/sp.json` of the origin of the top-level document, following the [Site Profile method](../site-profile.md).
+
+A verifier retrieves the SP according to the [Fetch Standard](https://fetch.spec.whatwg.org/). The verifier MAY use a response stored in the HTTP cache.
+
+### Input Scope {/* #input-scope */}
+
+The verification input of an SP is limited to the following:
+
+- The SP retrieved from the origin of the top-level document
+- The verification keys and OP IDs of CP issuers that the verifier has accepted in advance
+
+## Verification {/* #verification */}
+
+### Applicable Verifications {/* #applicable-verifications */}
+
+The [applicable verifications](./index.mdx#verification-scope) for an SP are as follows. The parenthesized text is the unit by which each verification is identified.
+
+- [Verification of VCs conforming to the OP VC Data Model](../op-vc-data-model.md#verification), excluding verification of the `image` datatype (per VC included in the `sites` and `originators` properties)
+- [Verification of `allowedOrigin`](../website-profile.md#allowed-origin-validation) (per WSP)
+- [Verification of the `image` datatype](../context.md#verifying-image-datatype) (per property of the `image` datatype)
+
+The order of verification processing follows the [Site Profile verification process](../site-profile.md#verification).
+
+An SP can contain VCs in multiple languages in its `sites` and `originators` properties ([Site Profile internationalization](../site-profile.md#internationalization)). If the verifier narrows down the VCs to verify by language, the verification scope of that outcome includes only some of the applicable verifications.
+
+:::note
+
+Narrowing down the VCs to verify by language yields, for the same site, verification outcomes with different verification scopes depending on the user's language settings. The [presentation](./index.mdx#presentation) requirements allow users to distinguish them.
+
+:::
+
+### When Verification Starts {/* #verification-start */}
+
+A verifier MAY start verification when retrieval of the SP has completed, subject to the requirements of the [scope of disclosure](#disclosure).
+
+A verifier uses the SP whose retrieval has completed as the [input snapshot](./index.mdx#input-identity).
+
+## Retention {/* #retention */}
+
+### Input Identity {/* #input-identity */}
+
+[Input identity](./index.mdx#input-identity) of the verification input of an SP is determined by all of the following:
+
+- The origin is the same
+- The SP that the verifier last retrieved from that origin is identical to the SP in the verification input
+- The verifier continues to accept the verification keys and OP IDs of the CP issuers used for verification
+
+A verifier MAY reuse a verification outcome for another Document of the same origin.
+
+### Invalidation {/* #invalidation */}
+
+A verification outcome of an SP is not invalidated by the lifecycle of a Document.
+
+In addition to the conditions of [invalidation](./index.mdx#invalidation) in the Verifier Processing Model, a verification outcome MUST be invalidated when any of the following occurs as a change in the verification input:
+
+- The verifier retrieves the SP of the origin again and it differs from the previous verification input
+- The verifier no longer accepts a verification key or OP ID of a CP issuer used for verification
+
+### Document Lifecycle and Reuse
+
+Reuse in the following table is always subject to the [reuse](./index.mdx#reuse) conditions of the Verifier Processing Model.
+
+| Event                                        | Handling of the verification outcome            |
+| -------------------------------------------- | ----------------------------------------------- |
+| Navigation to another URL of the same origin | May be reused                                   |
+| Navigation to another origin                 | Discover the SP of the destination origin again |
+| Reload                                       | May be reused                                   |
+| same-document navigation                     | May be reused                                   |
+| Restoration from the back/forward cache      | May be reused                                   |
+| `document.open()`                            | May be reused                                   |
+
+## Presentation {/* #presentation */}
+
+In addition to the [presentation](./index.mdx#presentation) requirements, the following requirements apply:
+
+- The language of the VCs to present is selected at the time of presentation. The selection SHOULD follow the Lookup scheme in [RFC 4647 Section 3](https://www.rfc-editor.org/rfc/rfc4647.html#section-3)
+
+SP distributors SHOULD include VCs that are treated as the default.
+
+## Scope of Disclosure {/* #disclosure */}
+
+Verification processing can cause the following network accesses in addition to the retrieval of the Document:
+
+- Resolution: retrieval of `/.well-known/sp.json` of the origin of the top-level document
+- Verification and Presentation: retrieval of the `id` URL of properties of the [`image` datatype](../context.md#the-image-datatype) in VCs contained in the SP, for their verification and presentation
+
+The former is an access to the same origin as the Document. The latter can be an access to another origin. These can disclose to the accessed origin that the user is using the Document. When a response stored in the HTTP cache is used, the corresponding network access does not occur.
+
+A verifier MUST NOT cause network accesses for verification processing before a navigation has started. For example, the SP must not be retrieved while the user is typing in the location bar, because a request would be sent to the origin before the user has decided to visit it.
+
+## Privacy Considerations {/* #privacy-considerations */}
+
+### Retrieval on Every Navigation
+
+Because the [discovery trigger](#discovery) does not depend on the presence of a CAS or an OPS, a verifier attempts to retrieve the SP for every top-level document, including those of origins that do not support OP. This retrieval is an access to the same origin as the Document and does not disclose the fact of browsing to any new third party. Whether to retain retrieval failures for origins that do not provide an SP is out of scope of this document.
+
+### Sending `Accept-Language`
+
+The `Accept-Language` request header can be sent when retrieving the SP. As noted in the [Site Profile request](../site-profile.md), this header can reveal information that users consider private. The [scope of disclosure](#disclosure) requirements ensure that this header is not sent before the user decides to visit.
+
+## Appendix A. Correspondence with Implementations {/* #appendix-a */}
+
+_This section is non-normative._
+
+In implementations using the WebExtensions API, the concepts in this document correspond as follows:
+
+| This document                      | WebExtensions API                       |
+| ---------------------------------- | --------------------------------------- |
+| Identity of a Document             | `documentId`                            |
+| fully active                       | `documentLifecycle: "active"`           |
+| Document in the back/forward cache | `documentLifecycle: "cached"`           |
+| Document pending deletion          | `documentLifecycle: "pending_deletion"` |
+| top-level traversable              | `frameType: "outermost_frame"`          |
+| child navigable                    | `frameType: "sub_frame"`                |
+| fenced frame                       | `frameType: "fenced_frame"`             |
+
+In WebDriver BiDi, the `browsingContext` and `navigation` identifiers play equivalent roles.
