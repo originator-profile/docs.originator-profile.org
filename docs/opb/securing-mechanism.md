@@ -18,8 +18,55 @@ sidebar_position: 12
 ### ヘッダー
 
 - `typ` ヘッダーパラメーターは `vc+jwt` でなければなりません (MUST)。
-- `kid` ヘッダーパラメーターは [JWK Thumbprint](https://www.rfc-editor.org/rfc/rfc7638.html) でなければなりません (MUST)。
+- `kid` ヘッダーパラメーターは、署名に用いた鍵の [Key Identifier](#kid) でなければなりません (MUST)。
 - `cty` ヘッダーパラメーターは `vc` でなければなりません (MUST)。
+
+#### `kid` {#kid}
+
+`kid` ヘッダーパラメーターの値は Key Identifier です。Key Identifier は、署名の検証に用いる公開鍵から次の手順で求めます。
+
+1. 公開鍵を [RFC 5280](https://www.rfc-editor.org/rfc/rfc5280.html#section-4.1.2.7) の SubjectPublicKeyInfo (SPKI) として DER で符号化します。SPKI は鍵の種類ごとに標準化された形式でなければなりません (MUST)。楕円曲線の鍵では [RFC 5480](https://www.rfc-editor.org/rfc/rfc5480.html) の `id-ecPublicKey` と `namedCurve` のパラメーター、非圧縮の点の形式、RSA の鍵では [RFC 3279](https://www.rfc-editor.org/rfc/rfc3279.html) の `rsaEncryption` です。
+2. 1 のバイト列の SHA-256 ダイジェストを計算します。
+3. 2 のダイジェスト (32 バイト) を [RFC 4648 セクション 5](https://www.rfc-editor.org/rfc/rfc4648.html#section-5) の base64url で符号化し、末尾のパディング文字 `=` を除きます。結果は 43 文字の文字列です。
+
+Key Identifier にはダイジェストのアルゴリズムを示す接頭辞などを付けません。
+
+公開鍵を JWK として保持している場合も、JWK を SPKI に変換してから Key Identifier を求めなければなりません (MUST)。[JWK Thumbprint](https://www.rfc-editor.org/rfc/rfc7638.html) を Key Identifier として用いてはなりません (MUST NOT)。
+
+OP の `jwks` に含める JWK の `kid` メンバーは、その鍵の Key Identifier でなければなりません (MUST)。ただし[移行](#kid-migration)の間は除きます。
+
+:::note
+
+Key Identifier は鍵だけから決まり、鍵をどの形式で表しても同じ値になります。X.509 証明書に含まれる公開鍵からも、同じ手順で同じ値が得られます。
+
+:::
+
+##### 例 {#kid-example}
+
+_このセクションは非規範的です。_
+
+Web Crypto API の `CryptoKey` (公開鍵) から Key Identifier を求める例を次に示します。
+
+```ts
+const spki = await crypto.subtle.exportKey("spki", key);
+const kid = new Uint8Array(
+  await crypto.subtle.digest("SHA-256", spki),
+).toBase64({ alphabet: "base64url", omitPadding: true });
+```
+
+#### `kid` の移行 {#kid-migration}
+
+本仕様の以前の版は、`kid` ヘッダーパラメーターを JWK Thumbprint と定めていました。Key Identifier への移行は次のとおりおこないます。
+
+- OP の発行者は、OP の `jwks` に同じ公開鍵を 2 つの JWK として含めても構いません (MAY)。一方の `kid` メンバーは Key Identifier、他方は JWK Thumbprint とします。2 つの JWK は、`kid` メンバー以外のメンバーを同じにしなければなりません (MUST)。
+- その鍵を `jwks` に含めている間、JWK Thumbprint を `kid` ヘッダーパラメーターとして署名された VC が有効期間内にあれば、JWK Thumbprint を `kid` メンバーとする JWK だけを `jwks` から除くべきではありません (SHOULD NOT)。そうした VC が無くなった後も、JWK Thumbprint を `kid` メンバーとする JWK は、その鍵を失効するまで、または鍵が危殆化するまで含めても構いません (MAY)。
+- `kid` ヘッダーパラメーターを Key Identifier に切り替えた後に署名する VC では、`kid` ヘッダーパラメーターは Key Identifier でなければなりません (MUST)。それより前に JWK Thumbprint を `kid` ヘッダーパラメーターとして署名された VC は、OP の `jwks` に JWK Thumbprint を `kid` メンバーとする JWK が含まれている間、検証できます。
+
+:::note
+
+検証者は `kid` ヘッダーパラメーターの値の形式を解釈せず、OP の `jwks` に含まれる JWK の `kid` メンバーとの文字列の一致によって検証鍵を選びます。そのため、上の方法による移行では検証者の変更は必要ありません。`jwks` の各 JWK から Key Identifier を計算して `kid` ヘッダーパラメーターと比べる方法で検証鍵を選ぶと、移行の間、JWK Thumbprint を `kid` ヘッダーパラメーターとする VC の検証鍵が見つからないことに注意してください。
+
+:::
 
 ### ペイロード
 
@@ -83,7 +130,7 @@ REQUIRED. [JWT (RFC 7519)](https://www.rfc-editor.org/rfc/rfc7519.html) の仕�
           "x": "ypAlUjo5O5soUNHk3mlRyfw6ujxqjfD_HMQt7XH-rSg",
           "y": "1cmv9lmZvL0XAERNxvrT2kZkC4Uwu5i1Or1O-4ixJuE",
           "crv": "P-256",
-          "kid": "jJYs5_ILgUc8180L-pBPxBpgA3QC7eZu9wKOkh9mYPU",
+          "kid": "Tty_QC0BP0mBl9J4Dt1RKw8DxfrdCSwri_AriBTuSvw",
           "kty": "EC"
         }
       ]
