@@ -32,22 +32,6 @@ We recommend `ES256` as a good balance between performance and security, but do 
 
 Implementers are RECOMMENDED to periodically review algorithms and discontinue use of compromised algorithms.
 
-:::note
-
-Although `EdDSA` is included in the C2PA 2.0 signature algorithm allowlist [^1], it has been excluded from the allowlist here because a significant number of implementations do not support it as of the time of writing [^2].
-
-[^1]: https://c2pa.org/specifications/specifications/2.0/specs/C2PA_Specification.html#_signature_algorithms
-
-[^2]: https://github.com/WICG/webcrypto-secure-curves/issues/20
-
-:::
-
-:::note
-
-Applications developed by the Originator Profile Technology Research Association will support only ES256 as the signature algorithm for the time being.
-
-:::
-
 ## Hash algorithm {#hash-algorithm}
 
 Applications that comply with the OP's specifications MUST meet the following requirements for the hash algorithms used when generating and verifying the `integrity` property value of the CA's Content Integrity Descriptor and when generating and verifying the `digestSRI` property value of each VC.
@@ -56,23 +40,13 @@ Verifiers MUST support verification using SHA-256 hash values, and MAY support v
 
 Implementers should periodically review hash algorithms and avoid using compromised hash algorithms.
 
-:::note
-
-For the time being, applications developed by OP-CIP will only support the SHA-256 hash algorithm.
-
-:::
-
 ## Security Considerations {#security-considerations}
 
 _This section is non-normative._
 
-NIST SP 800-57 Part 1 and the CRYPTREC criteria for establishing cryptographic strength requirements (LS-0003-2022R1) stipulate that new cryptographic protections (such as signature generation) relying on cryptographic algorithms and key lengths providing 112-bit security strength are permitted only until 2030 and are not to be used from 2031 onwards.
-
-:::note
-
-The Initial Public Draft of NIST SP 800-131A Rev.3 proposes designating 112-bit signatures and key establishment as "deprecated" rather than prohibiting them from 2031 onwards, outlining a path to transition directly to quantum-resistant cryptography without passing through a 128-bit stage.
-
-:::
+Guidelines regarding key updates, the review of cryptographic algorithms, and migration are provided based on [RFC 7696 Section 2.2.3](https://www.rfc-editor.org/rfc/rfc7696.html#section-2.2.3).
+Reference is made to [NIST SP 800-57 Part 1](https://doi.org/10.6028/NIST.SP.800-57pt1r5), [NIST SP 800-131A Rev.3 (Initial Public Draft)](https://doi.org/10.6028/NIST.SP.800-131Ar3.ipd), and CRYPTREC's [List of Cryptographic Algorithms (LS-0001-2022R2)](https://www.cryptrec.go.jp/list/cryptrec-ls-0001-2022r2.pdf) and [Criteria for Setting Cryptographic Strength Requirements (LS-0003-2022R1)](https://www.cryptrec.go.jp/list/cryptrec-ls-0003-2022r1.pdf).
+The allowed list in this document includes cryptographic algorithms recommended or approved in these documents.
 
 ### Security Strengths
 
