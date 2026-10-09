@@ -216,8 +216,8 @@ A CA verifier can verify:
 
 Optionally, the verifier can verify the `allowedUrl` property by following these steps:
 
-1. Obtain the URL of the web page that the CA refers to.
-2. The CA checks whether each element of the `allowedUrl` property array matches the URL obtained in step 1. The algorithm uses the [URL Pattern `test(input, baseURL)` method](https://urlpattern.spec.whatwg.org/#dom-urlpattern-test).
+1. Obtain the URL of the web page on which the CA is presented.
+2. Check whether the URL obtained in step 1 matches the `allowedUrl` value, or, if it is an array, at least one of its elements. The algorithm uses the [URL Pattern `test(input, baseURL)` method](https://urlpattern.spec.whatwg.org/#dom-urlpattern-test).
 
 :::note
 

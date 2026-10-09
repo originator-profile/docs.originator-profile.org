@@ -230,7 +230,7 @@ CA の検証者は次のことを検証することができます。
 検証者は次の手順に従って `allowedUrl` プロパティを検証できます (OPTIONAL)。
 
 1. CA が提示された Web ページの URL を取得します。
-2. `allowedUrl` プロパティの文字列と 1. で得た URL が一致するか確認します。アルゴリズムは[URL Pattern の `test(input, baseURL)`メソッド](https://urlpattern.spec.whatwg.org/#dom-urlpattern-test)を使います。
+2. `allowedUrl` が文字列ならその値と、配列ならいずれかの要素と、1. で得た URL が一致するかを確認します。アルゴリズムは[URL Pattern の `test(input, baseURL)`メソッド](https://urlpattern.spec.whatwg.org/#dom-urlpattern-test)を使います。
    [スキームとホスト名の制約](#allowed-url-host)を満たさない URL Pattern string は、URL と一致しないものとします (MUST)。
 
 :::note
