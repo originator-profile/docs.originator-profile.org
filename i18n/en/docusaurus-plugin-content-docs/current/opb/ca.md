@@ -233,7 +233,7 @@ Optionally, the verifier can verify the `allowedUrl` property by following these
 1. Obtain the URL of the web page on which the CA is presented.
 2. Check whether the URL obtained in step 1 matches the `allowedUrl` value, or, if it is an array, at least one of its elements. The algorithm uses the [URL Pattern `test(input, baseURL)` method](https://urlpattern.spec.whatwg.org/#dom-urlpattern-test).
 
-A URL pattern string that does not satisfy the scheme and hostname constraints MUST NOT match a URL.
+A URL pattern string that does not satisfy [the scheme and hostname constraints](#allowed-url-host) MUST NOT match a URL.
 
 :::note
 
