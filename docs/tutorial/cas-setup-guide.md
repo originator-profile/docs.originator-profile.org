@@ -23,7 +23,7 @@ OP を追加する方法としては、[Site Profile の設置](./sp-setup-guide
 具体例:
 
 ```html
-<script type="application/ops+json">
+<script type="application/op-set+json">
   [
     {
       "core": "eyJ...",
@@ -402,7 +402,7 @@ Content Attestation Set は Content Attestation の配列です。
 具体例:
 
 ```html
-<script type="application/cas+json">
+<script type="application/ca-set+json">
   ["eyJ..."]
 </script>
 ```

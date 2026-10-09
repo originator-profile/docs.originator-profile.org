@@ -91,6 +91,10 @@ Webコンテンツ以外のURLを持たないコンテンツ (例: プライベ�
 
 :::
 
+## メディアタイプ {#media-type}
+
+[Securing Mechanism](./securing-mechanism.md) で保護した単体の CA のメディアタイプは `application/ca+jwt` です ([Media Types](./media-types.md#single-vc-types))。
+
 ## 例
 
 _このセクションは非規範的です。_

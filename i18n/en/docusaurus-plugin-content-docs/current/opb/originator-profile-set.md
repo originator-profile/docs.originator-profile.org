@@ -33,9 +33,9 @@ Each JSON object has the following properties:
 | `annotations` | `string[]` | **OPTIONAL.** An array of Profile Annotation. If this property is included, then for each element, the Core Profile in `core` and `credentialSubject.id` MUST be equal. This property SHOULD be included if the OPS recipient has an interest in the trustworthiness of the OP ID holding organization in `credentialSubject.id`. |
 | `media`       | `string[]` | **OPTIONAL.** An array of Web Media Profile. If this property is included, the `credentialSubject.id` of each element and the `credentialSubject.id` of the Core Profile in `core` MUST be equal.                                                                                                                                 |
 
-## JSON Serialization for OPS
+## JSON Serialization for OPS {#json-serialization}
 
-The JSON of the data model is the JSON representation of OPS. The media type is `application/ops+json`.
+The JSON of the data model is the JSON representation of OPS. The [media type](./media-types.md) is `application/op-set+json`.
 
 ### Examples
 

@@ -20,7 +20,7 @@ sidebar_position: 34
 
 script 要素を使用します。埋め込みと参照のどちらの方法も使用可能です。
 
-type 属性を使用してデータの種類が CAS または OPS であることを示さなければなりません (MUST)。 CAS の場合は `application/cas+json` を、 OPS の場合は `application/ops+json` を type 属性に指定しなければなりません (MUST)。
+type 属性を使用してデータの種類が CAS または OPS であることを示さなければなりません (MUST)。 CAS の場合は `application/ca-set+json` を、 OPS の場合は `application/op-set+json` を type 属性に指定しなければなりません (MUST)。非推奨のメディアタイプの扱いは[メディアタイプ](./media-types.md#deprecated)にしたがいます。
 
 ### 埋め込み
 
@@ -33,7 +33,7 @@ _このセクションは非規範的です。_
 単一の CA を含む CAS を埋め込む例を次に示します。
 
 ```htmlembedded
-<script type="application/cas+json">
+<script type="application/ca-set+json">
 ["eyJ..."]
 </script>
 ```
@@ -41,7 +41,7 @@ _このセクションは非規範的です。_
 2つの CA を含む CAS を埋め込む例を次に示します。
 
 ```htmlembedded
-<script type="application/cas+json">
+<script type="application/ca-set+json">
 ["eyJ...", "eyJ..."]
 </script>
 ```
@@ -49,7 +49,7 @@ _このセクションは非規範的です。_
 1つの OP を含む OPS を埋め込む例を次に示します。
 
 ```htmlembedded
-<script type="application/ops+json">
+<script type="application/op-set+json">
 [
   {
     "core": "eyJ...",
@@ -75,11 +75,11 @@ _このセクションは非規範的です。_
 URL で CAS を参照する具体例を次に示します。
 
 ```htmlembedded
-<script type="application/cas+json" src="https://example.com/cas.json" integrity="sha256-XnUoFByIs5DIz6wAvte7AfpYeqPrs42KLR1Mlg9+A/M="></script>
+<script type="application/ca-set+json" src="https://example.com/cas.json" integrity="sha256-XnUoFByIs5DIz6wAvte7AfpYeqPrs42KLR1Mlg9+A/M="></script>
 ```
 
 URL で OPS を参照する例を次に示します。
 
 ```htmlembedded
-<script type="application/ops+json" src="https://example.com/ops.json" integrity="sha256-XnUoFByIs5DIz6wAvte7AfpYeqPrs42KLR1Mlg9+A/M="></script>
+<script type="application/op-set+json" src="https://example.com/ops.json" integrity="sha256-XnUoFByIs5DIz6wAvte7AfpYeqPrs42KLR1Mlg9+A/M="></script>
 ```

@@ -26,7 +26,7 @@ This error occurs when verification of the Originator Profile Set fails.
 - The Core Profile is placed with part of its footer missing.
 
 ```
-    <script type="application/ops+json">
+    <script type="application/op-set+json">
       [
         {
           "core": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImpKWXM1X0lMZ1VjODE4MEwt...RXpun0HYErCDkbzuEMkXO8edtMM_8Znlm6fzElEKWg79ShDrvRKGQNkr41cpl7ycLzFIbKk7epRTlStlq"

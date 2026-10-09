@@ -43,7 +43,7 @@ Originator Profile の検証に失敗した場合に発生します。
 - Core Profile の文末を一部欠損した形で設置。
 
 ```
-    <script type="application/ops+json">
+    <script type="application/op-set+json">
       [
         {
           "core": "eyJhbGciOiJFUzI1NiIsImtpZCI6ImpKWXM1X0lMZ1VjODE4MEwtcE...RXpun0HYErCDkbzuEMkXO8edtMM_8Znlm6fzElEKWg79ShDrvRKGQNkr41cpl7ycLzFIbKk7epRTlStlq"
