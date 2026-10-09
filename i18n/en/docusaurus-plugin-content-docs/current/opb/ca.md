@@ -88,7 +88,7 @@ You are free to use standard URL Pattern syntax for the port number, path, and q
 
 :::note
 
-Extensions for specifying content that does not have a URL outside of web content (e.g., private non-public content) as verification targets are under consideration for future work.
+Extensions for specifying non-web content without a URL (e.g., private, non-public content) as a verification target are under consideration for future work.
 
 :::
 
@@ -251,7 +251,7 @@ Depending on the type of Content Integrity Descriptor, verification may not be p
 
 :::
 
-Verifiers MUST verify the Content Integrity Descriptor using the verification methods defined for each type of Content Integrity Descriptor, and if the verification fails, it is RECOMMENDED that the Content Integrity Descriptor verification fail be displayed to the viewer. It is RECOMMENDED that the Content Integrity Descriptor verification failure be not displayed to the user with the same or higher severity as the CA verification failure.
+Verifiers MUST verify the Content Integrity Descriptor using the verification methods defined for each type of Content Integrity Descriptor, and if the verification fails, it is RECOMMENDED that the Content Integrity Descriptor verification failure be displayed to the viewer. It is RECOMMENDED that the Content Integrity Descriptor verification failure not be displayed to the user with the same or higher severity as the CA verification failure.
 
 ### Reporting the verification results
 
