@@ -2,6 +2,7 @@ import type * as Preset from "@docusaurus/preset-classic";
 import type { Config } from "@docusaurus/types";
 import search from "@easyops-cn/docusaurus-search-local";
 import * as pkg from "./package.json";
+import { sidebarItemsGenerator } from "./sidebar-items-generator";
 
 const url = pkg.homepage;
 const title = pkg.description;
@@ -97,6 +98,7 @@ export default {
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
           sidebarPath: "sidebar.config.ts",
+          sidebarItemsGenerator,
         },
       } satisfies Preset.Options,
     ],
