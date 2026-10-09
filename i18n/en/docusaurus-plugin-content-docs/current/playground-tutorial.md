@@ -90,7 +90,7 @@ For Step 1 and Step 2, please also refer to the [Site Profile setup guide](/tuto
 Example:
 
 ```html
-<script type="application/cas+json">
+<script type="application/ca-set+json">
   ["eyJ..."]
 </script>
 ```

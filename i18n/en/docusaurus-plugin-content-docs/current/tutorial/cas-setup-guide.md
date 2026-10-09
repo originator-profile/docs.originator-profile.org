@@ -24,7 +24,7 @@ You can add OPs by following the steps in the [Site Profile Setup Guide](./sp-se
 Example:
 
 ```html
-<script type="application/ops+json">
+<script type="application/op-set+json">
   [
     {
       "core": "eyJ...",
@@ -402,7 +402,7 @@ Add the Content Attestation Set to the page HTML. Use the following script tag:
 Example:
 
 ```html
-<script type="application/cas+json">
+<script type="application/ca-set+json">
   ["eyJ..."]
 </script>
 ```

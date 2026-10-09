@@ -25,12 +25,12 @@ Example: https://originator-profile.org/en-US/chief-director/:
 
 ```html
 <script
-  type="application/cas+json"
+  type="application/ca-set+json"
   src="/cas/en-US.chief-director.cas.json"
 ></script>
 ```
 
-Specify that it is a CA Set by adding a script tag (`<script type="application/cas+json">`) in the HTML document ([Linking](/opb/link-to-html/)).
+Specify that it is a CA Set by adding a script tag (`<script type="application/ca-set+json">`) in the HTML document ([Linking](/opb/link-to-html/)).
 Within the script tag, you can either write an array of CA ([CAS](/opb/content-attestation-set/)) or reference CAS in the `src` attribute.
 
 https://originator-profile.org/cas/en-US.chief-director.cas.json

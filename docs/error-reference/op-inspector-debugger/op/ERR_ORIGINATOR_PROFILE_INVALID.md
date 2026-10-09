@@ -34,7 +34,7 @@ Originator Profile が無効な形式になっている場合に発生します�
 - Core Profile の文頭を一部欠損した形で設置。
 
 ```
-    <script type="application/ops+json">
+    <script type="application/op-set+json">
       [
         {
           "core": "yJhbGciOiJFUzI1NiIsImtpZCI6ImpKWXM1X0lMZ1VjODE4MEwtcEJQeEJwZ0EzUUM3ZVp1OXdLT2toOW1ZUFUiLCJ0eXAiOiJ2Yytqd3QiLCJjdHkiOiJ2YyJ..."

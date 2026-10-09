@@ -22,9 +22,9 @@ CAS は次のプロパティを持つ JSON Object の配列です。
 | `attestation` | `string`  | **REQUIRED.** Content Attestation です。                                                                                                          |
 | `main`        | `boolean` | **OPTIONAL.** Content Attestation がメインコンテンツに対するものである場合は `true`、そうでない場合は `false` です。デフォルト値は `false` です。 |
 
-## JSON Serialization
+## JSON Serialization {#json-serialization}
 
-上記のデータモデルを次のように変換します。メディアタイプは `application/cas+json` です。
+上記のデータモデルを次のように変換します。[メディアタイプ](./media-types.md)は `application/ca-set+json` です。
 
 ```js
 cas.map((e) =>
