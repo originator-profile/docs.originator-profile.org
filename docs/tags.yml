@@ -1,0 +1,20 @@
+Base Model:
+  label: Base Model
+Content Attestation:
+  label: Content Attestation
+Content Integrity Descriptor:
+  label: Content Integrity Descriptor
+Error Reference:
+  label: Error Reference
+Jurisdiction Specific Model:
+  label: Jurisdiction Specific Model
+Profile Annotation:
+  label: Profile Annotation
+Web Media Specific Model:
+  label: Web Media Specific Model
+inspector:
+  label: OP Inspector
+wordpress:
+  label: WordPress プラグイン
+npm:
+  label: npm パッケージ
