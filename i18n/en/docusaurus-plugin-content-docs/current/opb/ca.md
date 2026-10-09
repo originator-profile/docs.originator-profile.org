@@ -72,15 +72,18 @@ You are free to use standard URL Pattern syntax for the port number, path, and q
 
 ✅ Valid:
 
-- `https://*/*` (arbitrary hostname)
-- `*://example.com/*`, `http{s}?://example.com/*` (scheme not fixed to `https`)
-- `https://example.(com|net)/*` (uses a regular expression for the hostname)
+- `https://example.com/article/*` (wildcard pattern)
+- `https://*.example.com/article/*` (subdomain wildcard)
+- `["https://a.example.com/*", "https://b.example.com/*"]` (array of multiple patterns)
 
 ❌ Invalid:
 
 - `/article/*` (no base URL included)
 - `example.com/*` (no `https://` specified)
 - `https://example.com/article/(` (syntax error)
+- `https://*/*` (arbitrary hostname)
+- `*://example.com/*`, `http{s}?://example.com/*` (scheme not fixed to `https`)
+- `https://example.(com|net)/*` (uses a regular expression for the hostname)
 - `[]` (empty array)
 
 :::note
