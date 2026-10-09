@@ -1,6 +1,6 @@
 ---
 sidebar_position: 25
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/4b5cbfb/docs/opb/ca.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/43145c0/docs/opb/ca.md
 tags:
   - Base Model
   - Content Attestation
@@ -41,7 +41,7 @@ Content Attestation MUST be an OP VC DM compliant document and contain the follo
 | `type`              | `string[]`             | **REQUIRED.** It MUST be `["VerifiableCredential", "ContentAttestation"]`.                                                                                                                                                                                                                                                                                                                                                                            |
 | `issuer`            | `string`               | **REQUIRED.** It MUST be the [OP ID](./op-id.md) of the CA issuer.                                                                                                                                                                                                                                                                                                                                                                                    |
 | `credentialSubject` | `object`               | **REQUIRED.** A JSON-LD Node Object containing the following [credentialSubject properties](#credential-subject-properties).                                                                                                                                                                                                                                                                                                                          |
-| `allowedUrl`        | `string` \| `string[]` | **REQUIRED.** The URL for which information is asserted by this CA. It MUST be a [URL Pattern string](https://urlpattern.spec.whatwg.org/#pattern-strings) or an array of such strings. It MUST NOT be an empty array. This property allows you to [verify](#allowed-url-validation) whether the CA is located on a web page with a valid URL.                                                                                                        |
+| `allowedUrl`        | `string` \| `string[]` | **REQUIRED.** The URL for which information is asserted by this CA. It MUST be a [URL Pattern string](https://urlpattern.spec.whatwg.org/#pattern-strings) or an array of such strings. It MUST NOT be an empty array. Each URL pattern string MUST satisfy the [scheme and hostname constraints](#allowed-url-host). This property allows you to [validate](#allowed-url-validation) whether the CA is deployed on a web page with a legitimate URL. |
 | `target`            | `object[]`             | **REQUIRED.** It MUST be an array of Content Integrity Descriptor. Content Integrity Descriptor is a mechanism for ensuring the integrity of parts of content. This property allows you to [verify](#target-integrity-validation) that specific information in the content that corresponds to the CA has not been tampered with. You can use the ones registered in the [Content Integrity Type Registry](./content-integrity-descriptor/index.mdx). |
 
 #### credentialSubject Properties {#credential-subject-properties}
@@ -57,6 +57,17 @@ Please refer to [Validity period of OP, SP, and CA](../tech/validity-period.mdx)
 
 :::
 
+#### `allowedUrl` Scheme and Hostname Constraints {#allowed-url-host}
+
+`allowedUrl` is a property used to associate the CA with the web pages of a specific site.
+Patterns that leave the scheme or hostname unspecified match URLs from any site, thereby negating this association.
+Therefore, the scheme and hostname of each URL Pattern string MUST satisfy the following conditions:
+
+- The scheme MUST be `https`; however, `http` MAY be used if the hostname is `localhost` (to support local development).
+- The hostname MUST be a fixed hostname compliant with [RFC 1123 Section 2.1](https://www.rfc-editor.org/rfc/rfc1123#section-2.1). A `*.` prefix MAY be used to allow for arbitrary subdomains. No other wildcards, named groups, or regular expressions are permitted.
+
+You are free to use standard URL Pattern syntax for the port number, path, and query components.
+
 #### `allowedUrl` Examples:
 
 ✅ Valid:
@@ -70,11 +81,14 @@ Please refer to [Validity period of OP, SP, and CA](../tech/validity-period.mdx)
 - `/article/*` (no base URL included)
 - `example.com/*` (no `https://` specified)
 - `https://example.com/article/(` (syntax error)
+- `https://*/*` (arbitrary hostname)
+- `*://example.com/*`, `http{s}?://example.com/*` (scheme not fixed to `https`)
+- `https://example.(com|net)/*` (uses a regular expression for the hostname)
 - `[]` (empty array)
 
 :::note
 
-Extensions for specifying content that does not have a URL outside of web content (e.g., private non-public content) as verification targets are under consideration for future work.
+Extensions for specifying non-web content without a URL (e.g., private, non-public content) as a verification target are under consideration for future work.
 
 :::
 
@@ -219,6 +233,8 @@ Optionally, the verifier can verify the `allowedUrl` property by following these
 1. Obtain the URL of the web page on which the CA is presented.
 2. Check whether the URL obtained in step 1 matches the `allowedUrl` value, or, if it is an array, at least one of its elements. The algorithm uses the [URL Pattern `test(input, baseURL)` method](https://urlpattern.spec.whatwg.org/#dom-urlpattern-test).
 
+A URL pattern string that does not satisfy [the scheme and hostname constraints](#allowed-url-host) MUST NOT match a URL.
+
 :::note
 
 Percent-encoded characters are normalized to uppercase according to [RFC 3986 Section 2.1](https://www.rfc-editor.org/rfc/rfc3986#section-2.1) before comparison.
@@ -235,7 +251,7 @@ Depending on the type of Content Integrity Descriptor, verification may not be p
 
 :::
 
-Verifiers MUST verify the Content Integrity Descriptor using the verification methods defined for each type of Content Integrity Descriptor, and if the verification fails, it is RECOMMENDED that the Content Integrity Descriptor verification fail be displayed to the viewer. It is RECOMMENDED that the Content Integrity Descriptor verification failure be not displayed to the user with the same or higher severity as the CA verification failure.
+Verifiers MUST verify the Content Integrity Descriptor using the verification methods defined for each type of Content Integrity Descriptor, and if the verification fails, it is RECOMMENDED that the Content Integrity Descriptor verification failure be displayed to the viewer. It is RECOMMENDED that the Content Integrity Descriptor verification failure not be displayed to the user with the same or higher severity as the CA verification failure.
 
 ### Reporting the verification results
 
