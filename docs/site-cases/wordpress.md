@@ -97,7 +97,7 @@ h1.wp-block-post-title, .wp-block-post-content>*:not(.post-nav-links)
 Embedded を選択したとき出力されるHTMLの一部の例:
 
 ```html
-<script type="application/cas+json">
+<script type="application/ca-set+json">
   ["eyJ..."]
 </script>
 ```
@@ -119,13 +119,13 @@ Embedded を選択したとき出力されるHTMLの一部の例:
 CA が正しく発行されているかどうかは、次の 2 つの方法で確認できます。
 
 - デベロッパーツールで確認する  
-  ブラウザのデベロッパーツールを開き、ページ内に `cas+json` タイプの `<script>` タグが埋め込まれているかを確認します。  
+  ブラウザのデベロッパーツールを開き、ページ内に `ca-set+json` タイプの `<script>` タグが埋め込まれているかを確認します。  
   以下のような要素が存在していれば、CA の発行および設定は正常に行われています。
 
 例:
 
 ```html
-<script type="application/cas+json">
+<script type="application/ca-set+json">
   ["eyJ..."]
 </script>
 ```
@@ -259,7 +259,7 @@ HTML 中に script 要素を用いて OP を埋め込むことが可能です。
 具体例:
 
 ```html
-<script type="application/ops+json">
+<script type="application/op-set+json">
   [
     {
       "core": "eyJ...",
@@ -291,7 +291,7 @@ External を選択したとき出力されるHTMLの一部の例:
 ```html
 <script
   src="https://example.com/cas/1_cas.json"
-  type="application/cas+json"
+  type="application/ca-set+json"
 ></script>
 ```
 

@@ -32,9 +32,9 @@ OPS は JSON オブジェクトの配列でなければなりません (MUST)。
 | `annotations` | `string[]` | **OPTIONAL.** Profile Annotation の配列です。このプロパティを含める場合、各要素は `core` の Core Profile と `credentialSubject.id` が等しくなければなりません (MUST)。 `credentialSubject.id` の [OP ID](./op-id.md) 保有組織の信頼性に OPS の受信者が関心がある場合、このプロパティを含めるべきです (SHOULD)。 |
 | `media`       | `string[]` | **OPTIONAL.** Web Media Profile の配列です。このプロパティを含める場合、各要素について、その `credentialSubject.id` は `core` の Core Profile の `credentialSubject.id` と等しくなければなりません (MUST)。                                                                                                     |
 
-## OPS の JSON Serialization
+## OPS の JSON Serialization {#json-serialization}
 
-データモデルの JSON がそのまま OPS の JSON 表現になります。メディアタイプは `application/ops+json` です。
+データモデルの JSON がそのまま OPS の JSON 表現になります。[メディアタイプ](./media-types.md)は `application/op-set+json` です。
 
 ### 例
 

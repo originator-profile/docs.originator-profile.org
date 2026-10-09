@@ -71,6 +71,10 @@ Profile Annotation で検証する属性あるいは発行ポリシーが同種�
 
 発行者は [OP VC Data Model](./op-vc-data-model.md) および本文書に未定義のプロパティを追加してもよいです (MAY) が、その場合は[登録プロセス](./pa-model/index.mdx#登録プロセス)に従ってください (MUST)。
 
+## メディアタイプ {#media-type}
+
+[Securing Mechanism](./securing-mechanism.md) で保護した単体の PA のメディアタイプは `application/pa+jwt` です ([Media Types](./media-types.md#single-vc-types))。
+
 ## Appendix
 
 ### 例

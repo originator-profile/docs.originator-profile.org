@@ -78,6 +78,10 @@ Extensions for specifying content that does not have a URL outside of web conten
 
 :::
 
+## Media Type {#media-type}
+
+The media type of a single CA secured by the [Securing Mechanism](./securing-mechanism.md) is `application/ca+jwt` ([Media Types](./media-types.md#single-vc-types)).
+
 ## Examples
 
 _This section is non-normative._

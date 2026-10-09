@@ -72,6 +72,10 @@ Furthermore, the name, description, and URL of the Profile Annotation Policy SHO
 
 The issuer MAY add properties not defined in the [OP VC Data Model](./op-vc-data-model.md) and this document, but in such cases, it MUST follow the [registration process](./pa-model/index.mdx#registration-process).
 
+## Media Type {#media-type}
+
+The media type of a single PA secured by the [Securing Mechanism](./securing-mechanism.md) is `application/pa+jwt` ([Media Types](./media-types.md#single-vc-types)).
+
 ## Appendix
 
 ### Example

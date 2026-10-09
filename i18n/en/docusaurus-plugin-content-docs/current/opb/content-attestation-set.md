@@ -23,9 +23,9 @@ CAS is an array of JSON Objects with the following properties:
 | `attestation` | `string`  | **REQUIRED.** The property of Content Attestation.                                                                                 |
 | `main`        | `boolean` | **OPTIONAL.** If Content Attestation is for the main content, state `true`, otherwise state `false`. The default value is `false`. |
 
-## JSON Serialization
+## JSON Serialization {#json-serialization}
 
-Convert the above data model as follows, where the media type is `application/cas+json`:
+Convert the above data model as follows, where the [media type](./media-types.md) is `application/ca-set+json`:
 
 ```js
 cas.map((e) =>

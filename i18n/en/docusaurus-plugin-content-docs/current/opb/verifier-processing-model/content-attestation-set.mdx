@@ -35,7 +35,7 @@ An OPS has no information that binds it to a Document. A Site Profile is bound t
 
 ### Discovery Trigger
 
-A verifier MUST start discovering a CAS when a script element whose `type` attribute is `application/cas+json` is inserted into the Document. Insertion by the parser and insertion by a script are not distinguished.
+A verifier MUST start discovering a CAS when a script element whose `type` attribute is `application/ca-set+json` or the deprecated [media type](../media-types.md#deprecated) `application/cas+json` is inserted into the Document. Insertion by the parser and insertion by a script are not distinguished.
 
 :::note
 

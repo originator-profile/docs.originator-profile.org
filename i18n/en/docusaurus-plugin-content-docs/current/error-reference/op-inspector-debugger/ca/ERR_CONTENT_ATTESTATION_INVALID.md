@@ -33,7 +33,7 @@ This error occurs when the Content Attestation is in an invalid format.
 - A Content Attestation is placed with part of its header missing.
 
 ```
-<script type="application/cas+json">
+<script type="application/ca-set+json">
   [
     {
       "attestation": "yJhbGciOiJFUzI1NiIsImtpZCI6ImpKWXM1X0lMZ1VjODE4MEwtcEJQeEJwZ0EzUUM3ZVp1OXdLT2toOW1ZUFUiLCJ0eXAiOiJ2Yytqd3QiLCJjdHkiOiJ2YyJ9.e...",
