@@ -64,6 +64,8 @@ without passing through a 128-bit security strength.
 
 :::
 
+The security strengths corresponding to the allowed list of cryptographic algorithms defined in this document are as follows:
+
 Signing Algorithms
 
 - ES256: 128 bits
