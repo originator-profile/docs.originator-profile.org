@@ -1,6 +1,6 @@
 ---
 sidebar_position: 103
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/ae49916/docs/opb/algorithm.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/18da2d8/docs/opb/algorithm.md
 ---
 
 # Cryptographic algorithms
@@ -34,7 +34,7 @@ Implementers are RECOMMENDED to periodically review algorithms and discontinue u
 
 :::note
 
-The C2PA 2.0 signature algorithms allowed list includes `EdDSA`[^1], **but at the time of writing this document there are a number of implementations that do not support it** [^2], so `EdDSA` is not included in the allowed list.
+Although `EdDSA` is included in the C2PA 2.0 signature algorithm allowlist [^1], it has been excluded from the allowlist here because a significant number of implementations do not support it as of the time of writing [^2].
 
 [^1]: https://c2pa.org/specifications/specifications/2.0/specs/C2PA_Specification.html#_signature_algorithms
 
@@ -44,7 +44,7 @@ The C2PA 2.0 signature algorithms allowed list includes `EdDSA`[^1], **but at th
 
 :::note
 
-For the time being, applications developed by the Originator Profile Collaborative Innovation Partnership (OP-CIP) will only support the ES256 signature algorithm.
+Applications developed by the Originator Profile Technology Research Association will support only ES256 as the signature algorithm for the time being.
 
 :::
 
@@ -66,7 +66,13 @@ For the time being, applications developed by OP-CIP will only support the SHA-2
 
 _This section is non-normative._
 
-This section outlines the security requirements for Originator Profiles. It is based on [NIST SP 800-57 Part 1](https://doi.org/10.6028/NIST.SP.800-57pt1r5), which provides recommendations for key management in the U.S. federal government (including guidance on key updates and periodic reviews of cryptographic algorithms), and [NIST SP 800-131A Rev.3 (Initial Public Draft)](https://doi.org/10.6028/NIST.SP.800-131Ar3.ipd), which addresses the transition of cryptographic technology usage. It also aims to provide notice regarding the anticipated algorithm transitions required by [RFC 7696 Section 2.2.3](https://www.rfc-editor.org/rfc/rfc7696.html#section-2.2.3).
+NIST SP 800-57 Part 1 and the CRYPTREC criteria for establishing cryptographic strength requirements (LS-0003-2022R1) stipulate that new cryptographic protections (such as signature generation) relying on cryptographic algorithms and key lengths providing 112-bit security strength are permitted only until 2030 and are not to be used from 2031 onwards.
+
+:::note
+
+The Initial Public Draft of NIST SP 800-131A Rev.3 proposes designating 112-bit signatures and key establishment as "deprecated" rather than prohibiting them from 2031 onwards, outlining a path to transition directly to quantum-resistant cryptography without passing through a 128-bit stage.
+
+:::
 
 ### Security Strengths
 
