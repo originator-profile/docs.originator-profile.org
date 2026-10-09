@@ -50,9 +50,19 @@ The allowed list in this document includes cryptographic algorithms recommended 
 
 ### Security Strengths
 
-The NIST SP 800-131A Rev.3 (Initial Public Draft), based on the security strengths defined in NIST SP 800-57 Part 1, recommends against the use of various cryptographic algorithms and key lengths with a security strength of less than 128 bits beginning in 2031. It further calls for a migration to a security strength of 128 bits or greater or to post-quantum cryptographic algorithms.
+NIST SP 800-57 Part 1 and CRYPTREC's Criteria for Setting Cryptographic Strength
+Requirements (LS-0003-2022R1) specify that new cryptographic protections (such as
+signature generation) using cryptographic algorithms and key lengths with a security
+strength of 112 bits should cease by 2030 and should not be used from 2031 onwards.
 
-The security strengths corresponding to the allowed list of cryptographic algorithms defined in this document are as follows:
+:::note
+
+The NIST SP 800-131A Rev.3 (Initial Public Draft) proposes designating 112-bit
+signatures and key establishment as "deprecated" (not prohibited) from 2031 onwards,
+and outlines a transition path directly to post-quantum cryptographic algorithms
+without passing through a 128-bit security strength.
+
+:::
 
 Signing Algorithms
 
