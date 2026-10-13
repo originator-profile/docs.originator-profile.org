@@ -1,6 +1,6 @@
 ---
 sidebar_position: 103
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/ae49916/docs/opb/algorithm.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/18da2d8/docs/opb/algorithm.md
 ---
 
 # Cryptographic algorithms
@@ -32,22 +32,6 @@ We recommend `ES256` as a good balance between performance and security, but do 
 
 Implementers are RECOMMENDED to periodically review algorithms and discontinue use of compromised algorithms.
 
-:::note
-
-The C2PA 2.0 signature algorithms allowed list includes `EdDSA`[^1], **but at the time of writing this document there are a number of implementations that do not support it** [^2], so `EdDSA` is not included in the allowed list.
-
-[^1]: https://c2pa.org/specifications/specifications/2.0/specs/C2PA_Specification.html#_signature_algorithms
-
-[^2]: https://github.com/WICG/webcrypto-secure-curves/issues/20
-
-:::
-
-:::note
-
-For the time being, applications developed by the Originator Profile Collaborative Innovation Partnership (OP-CIP) will only support the ES256 signature algorithm.
-
-:::
-
 ## Hash algorithm {#hash-algorithm}
 
 Applications that comply with the OP's specifications MUST meet the following requirements for the hash algorithms used when generating and verifying the `integrity` property value of the CA's Content Integrity Descriptor and when generating and verifying the `digestSRI` property value of each VC.
@@ -56,21 +40,29 @@ Verifiers MUST support verification using SHA-256 hash values, and MAY support v
 
 Implementers should periodically review hash algorithms and avoid using compromised hash algorithms.
 
-:::note
-
-For the time being, applications developed by OP-CIP will only support the SHA-256 hash algorithm.
-
-:::
-
 ## Security Considerations {#security-considerations}
 
 _This section is non-normative._
 
-This section outlines the security requirements for Originator Profiles. It is based on [NIST SP 800-57 Part 1](https://doi.org/10.6028/NIST.SP.800-57pt1r5), which provides recommendations for key management in the U.S. federal government (including guidance on key updates and periodic reviews of cryptographic algorithms), and [NIST SP 800-131A Rev.3 (Initial Public Draft)](https://doi.org/10.6028/NIST.SP.800-131Ar3.ipd), which addresses the transition of cryptographic technology usage. It also aims to provide notice regarding the anticipated algorithm transitions required by [RFC 7696 Section 2.2.3](https://www.rfc-editor.org/rfc/rfc7696.html#section-2.2.3).
+Guidelines regarding key updates, the review of cryptographic algorithms, and migration are provided based on [RFC 7696 Section 2.2.3](https://www.rfc-editor.org/rfc/rfc7696.html#section-2.2.3).
+Reference is made to [NIST SP 800-57 Part 1](https://doi.org/10.6028/NIST.SP.800-57pt1r5), [NIST SP 800-131A Rev.3 (Initial Public Draft)](https://doi.org/10.6028/NIST.SP.800-131Ar3.ipd), and CRYPTREC's [List of Cryptographic Algorithms (LS-0001-2022R2)](https://www.cryptrec.go.jp/list/cryptrec-ls-0001-2022r2.pdf) and [Criteria for Setting Cryptographic Strength Requirements (LS-0003-2022R1)](https://www.cryptrec.go.jp/list/cryptrec-ls-0003-2022r1.pdf).
+The allowed list in this document includes cryptographic algorithms recommended or approved in these documents.
 
 ### Security Strengths
 
-The NIST SP 800-131A Rev.3 (Initial Public Draft), based on the security strengths defined in NIST SP 800-57 Part 1, recommends against the use of various cryptographic algorithms and key lengths with a security strength of less than 128 bits beginning in 2031. It further calls for a migration to a security strength of 128 bits or greater or to post-quantum cryptographic algorithms.
+NIST SP 800-57 Part 1 and CRYPTREC's Criteria for Setting Cryptographic Strength
+Requirements (LS-0003-2022R1) specify that new cryptographic protections (such as
+signature generation) using cryptographic algorithms and key lengths with a security
+strength of 112 bits should cease by 2030 and should not be used from 2031 onwards.
+
+:::note
+
+The NIST SP 800-131A Rev.3 (Initial Public Draft) proposes designating 112-bit
+signatures and key establishment as "deprecated" (not prohibited) from 2031 onwards,
+and outlines a transition path directly to post-quantum cryptographic algorithms
+without passing through a 128-bit security strength.
+
+:::
 
 The security strengths corresponding to the allowed list of cryptographic algorithms defined in this document are as follows:
 
