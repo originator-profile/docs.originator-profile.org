@@ -75,7 +75,7 @@ Below is an example of referencing a CAS in a URL:
 <script type="application/cas+json" src="https://example.com/cas.json"></script>
 ```
 
-Below is an example of referencing a OPS in a URL:
+Below is an example of referencing an OPS in a URL:
 
 ```htmlembedded
 <script type="application/ops+json" src="https://example.com/ops.json"></script>
