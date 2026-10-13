@@ -1,11 +1,11 @@
 ---
 sidebar_position: 3
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/ae49916/docs/tech/validity-period.mdx
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/b88e53f/docs/tech/validity-period.mdx
 ---
 
 # Validity period of OP, SP, and CA
 
-This page explains the concept of validity period for Originator Profile (OP), Site Profile (SP), and Content Attestation (CA), and the operations of reissuance and re-installation required within the validity period. For property specifications and verification processes of individual VCs, refer to each page of the [Originator Profile Blueprint (OPB)](/opb/).
+This page explains the concept of validity period for Originator Profile (OP), Site Profile (SP), and Content Attestation (CA), the operations of reissuance and re-installation required within the validity period, and how to determine the validity period specified by the issuer. For property specifications and verification processes of individual VCs, refer to each page of the [Originator Profile Blueprint (OPB)](/opb/).
 
 ## Overview of validity period
 
@@ -58,7 +58,7 @@ To maintain an OP, before its validity period expires, the OP must be reissued a
 
 ### Specification at issuance
 
-The validity period of a WSP is determined by the `iat` and `exp` specified at the time of issuance. The default value is one year from the date of issuance.
+The validity period of a WSP is determined by the `iat` and `exp` specified at the time of issuance. The default value is one year from the date of issuance. For how to determine the length of the validity period, see [Choosing the validity period for WSP and CA](#choosing-validity-period).
 
 :::info
 
@@ -82,7 +82,7 @@ Before the validity period of either the WSP or OP expires, reissue the correspo
 
 ### Specification at issuance
 
-The validity period of a CA is determined by the `iat` and `exp` specified at the time of issuance by a CA Server (a server that issues Content Attestations; see [How to use CA Server](/tutorial/cas-setup-guide.md#ca-server) for details). The default value is one year from the date of issuance.
+The validity period of a CA is determined by the `iat` and `exp` specified at the time of issuance by a CA Server (a server that issues Content Attestations; see [How to use CA Server](/tutorial/cas-setup-guide.md#ca-server) for details). The default value is one year from the date of issuance. For how to determine the length of the validity period, see [Choosing the validity period for WSP and CA](#choosing-validity-period).
 
 :::info
 
@@ -98,6 +98,73 @@ To maintain a CA, before the validity periods of the CA and of the OP of the iss
 
 A CA does not need to be reissued in sync with OP reissuance. As long as the OP is within its validity period and the public key distributed by the CP contained in the OP does not change, the existing CA remains valid.
 
+## Choosing the validity period for WSP and CA {/* #choosing-validity-period */}
+
+The validity period of a WSP and a CA is specified by the issuer at the time of issuance.
+The guidelines as of October 2026 are as follows:
+
+- In general, a period of one year or less is recommended.
+- When signing with ES256, a validity period longer than three to four years from issuance is not recommended.
+- Even with a longer validity period, reissuing the OP and updating the SP installation are still required.
+- These guidelines are reviewed annually.
+
+### Why keep the validity period short
+
+An issued WSP or CA ceases to be valid (is revoked) when its validity period expires or when the public key used for signing is removed from the [CP](/opb/cp.md) of the OP.
+Removing a public key revokes all VCs signed with that key at once.
+Because there is no mechanism to revoke an individual CA, revoking a CA means waiting for its validity period to expire.
+
+Therefore, the length of the validity period is the upper bound of the period during which a WSP or CA passes verification.
+For example, even after an article is taken down, if its CA remains in copies of the web page or elsewhere, verification succeeds until the validity period expires.
+On the other hand, a shorter validity period increases the frequency of reissuance and re-installation.
+
+Before lengthening the validity period because of this burden, consider automating reissuance and re-installation.
+Automation reduces the operational burden while keeping the validity period short.
+
+:::note
+
+Revocation of a VC and invalidity of a verification result are different concepts.
+Invalidity is one of the states of a verification result: an established verification result has become no longer valid for the current verification target due to changes in the verification input or the passage of time.
+For example, when the validity period of a CA expires, the CA is revoked, and any verification result that includes verification of that validity period becomes invalid.
+
+:::
+
+### Lifetime of signature algorithms
+
+A longer validity period presupposes that the cryptographic algorithm used for signing can be trusted until the period expires.
+Documents that define usage periods for cryptographic algorithms recommend not creating new signatures with an algorithm when the period during which signature verification is needed exceeds the lifetime of that algorithm[^sp800-57][^cryptrec].
+Because signature verification of a WSP and a CA continues until `exp`, `exp` must be set before the end of the signature algorithm's lifetime.
+Verifying a signature after the lifetime has passed is permitted only when combined with other measures that confirm the validity of the signature[^cryptrec].
+
+Major documents state the following about the usage period of ES256 (ECDSA P-256, 128-bit security strength):
+
+| Document                                                                                                                  | Statement on ES256                                                                                                                                                    |
+| :------------------------------------------------------------------------------------------------------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [NIST SP 800-57 Part 1 Rev.5](https://doi.org/10.6028/NIST.SP.800-57pt1r5) (May 2020)                                     | Recommended cryptoperiod of 1-3 years for signature keys, and several years for verification keys depending on key size. No year counts per algorithm. 128-bit strength is Acceptable in 2031 and beyond |
+| [CRYPTREC LS-0003-2022R1](https://www.cryptrec.go.jp/list/cryptrec-ls-0003-2022r1.pdf) (March 2022)                       | Signature generation at 128-bit strength is usable until 2040                                                                                                          |
+
+:::note
+
+The setting criteria of NIST SP 800-57 and CRYPTREC do not reflect the impact of quantum computers.
+For migration to post-quantum cryptography (PQC) in light of that impact, the following policies and documents exist.
+The upper limit in the guidelines (three to four years) is set as a guide so that WSPs and CAs issued in 2026 expire before these migration deadlines.
+
+- [Executive Order 14412](https://www.whitehouse.gov/presidential-actions/2026/06/securing-the-nation-against-advanced-cryptographic-attacks/) (June 2026): high-value assets and high-impact systems of the US federal government migrate digital signatures to PQC by the end of 2031.
+- [On the Migration to Post-Quantum Cryptography (PQC) in Government Agencies (Interim Report)](https://www.cas.go.jp/jp/seisaku/pqc/pdf/report_202511.pdf) (in Japanese, November 2025): government agencies and the like, in principle, migrate to PQC by around 2035.
+- [CRYPTREC Cipher List (LS-0001-2022R2)](https://www.cryptrec.go.jp/list/cryptrec-ls-0001-2022r2.pdf) (in Japanese, March 2026): a PQC list was newly established, but it does not list signature algorithms yet and additions are under consideration. A revision of the setting criteria (LS-0003-2022R1) is also planned, and for the time being the setting criteria are not applied to public-key cryptography on the PQC list.
+- [NIST IR 8547](https://doi.org/10.6028/NIST.IR.8547.ipd) (Initial Public Draft, November 2024): ECDSA with a strength of 128 bits or more will be Disallowed after 2035.
+- [NIST SP 800-131A Rev.3](https://doi.org/10.6028/NIST.SP.800-131Ar3.ipd) (Initial Public Draft, October 2024): ECDSA with a strength of 128 bits or more is Acceptable for both signature generation and verification, with a note that this may change with the migration to PQC. It also states that data verified with an algorithm whose verification has moved to Legacy use should be treated as equivalent to unprotected data by default (Section 1.2).
+
+:::
+
+:::note
+
+Signatures with 112-bit security strength (such as PS256, which uses 2048-bit RSA keys) cannot be used for new signatures after 2031[^sp800-57].
+When using a signature algorithm other than ES256 from the allowed list, shorten the upper limit according to its security strength.
+See [Cryptographic algorithms](/opb/algorithm.md) for the allowed list and security strengths.
+
+:::
+
 ## Validity period per VC type
 
 OP and SP are not standalone VCs and are not included in the table below. The OP validity period is the intersection of the validity periods of CP, WMP, and PA in the table, and the SP validity period is the intersection of the validity periods of WSP and OP.
@@ -109,3 +176,7 @@ OP and SP are not standalone VCs and are not included in the table below. The OP
 | [PA](/opb/pa.md)                 | PA issuer                                      | 398 days from issuance, or the content validity period, whichever is shorter | `validFrom ≤ iat`, `exp ≤ validUntil` | Before either expires, reissue the OP and update the SP              |
 | [WSP](/opb/website-profile.md)   | Sender                                         | Specified at issuance (default: one year)                                    | Intersected with OP validity period   | Before expiration, reissue the WSP and OP, then update the SP        |
 | [CA](/opb/ca.md)                 | Sender                                         | Specified at issuance (default: one year)                                    | Intersected with OP validity period   | Before expiration, reissue the CA and OP, then update the CAS and SP |
+
+[^sp800-57]: NIST SP 800-57 Part 1 Rev.5 Section 5.6.4. Usage periods per security strength are in Table 4 of Section 5.6.3, and recommended cryptoperiods for cryptographic keys are in Section 5.3.6 and Table 1. For how these are treated in Originator Profile, see [Security considerations for cryptographic algorithms](/opb/algorithm.md#security-considerations).
+
+[^cryptrec]: CRYPTREC LS-0003-2022R1 Section 3.2 ("Basic policy for setting security strength requirements"), Example 2, and note (b) of Table 5.
