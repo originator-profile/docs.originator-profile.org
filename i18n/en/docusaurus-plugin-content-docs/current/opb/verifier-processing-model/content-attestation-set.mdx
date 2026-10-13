@@ -282,6 +282,6 @@ For the correspondence of Document identity, lifecycle, and frame types, see [Ap
 | Readiness of the Document                       | `document.readyState` and the `readystatechange` event                                                                            |
 | Change in an input dependency (parsed DOM)      | Changes observed by a `MutationObserver` on the Document with `subtree`, `childList`, `attributes`, and `characterData` specified |
 | Change in the viewport size                     | The `resize` event                                                                                                                |
-| Change in the size of the matched elements      | A `ResizeObserver` observing the matched elements and comparing reported sizes with baselines captured when observation starts   |
+| Change in the size of the matched elements      | A `ResizeObserver` observing the matched elements and comparing reported sizes with baselines captured when observation starts    |
 | same-document navigation                        | `webNavigation.onHistoryStateUpdated` and `webNavigation.onReferenceFragmentUpdated` of the WebExtensions API                     |
 | Restoration from the back/forward cache         | A `pageshow` event whose `persisted` is `true`                                                                                    |

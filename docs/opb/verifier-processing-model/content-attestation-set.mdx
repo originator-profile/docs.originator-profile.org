@@ -282,6 +282,6 @@ Document の同一性やライフサイクル、フレームの種類の対応�
 | Document の readiness            | `document.readyState` および `readystatechange` イベント                                                            |
 | 入力依存対象 (parsed DOM) の変化 | Document を対象とし、`subtree`、`childList`、`attributes`、`characterData` を指定した `MutationObserver` による変更 |
 | ビューポートの大きさの変化       | `resize` イベント                                                                                                   |
-| 一致した要素の大きさの変化       | 一致した要素を対象とし、監視開始時の大きさを基準値として通知された大きさと比較する `ResizeObserver`                                  |
+| 一致した要素の大きさの変化       | 一致した要素を対象とし、監視開始時の大きさを基準値として通知された大きさと比較する `ResizeObserver`                 |
 | same-document navigation         | WebExtensions API の `webNavigation.onHistoryStateUpdated` および `webNavigation.onReferenceFragmentUpdated`        |
 | back/forward cache からの復元    | `persisted` が `true` である `pageshow` イベント                                                                    |
