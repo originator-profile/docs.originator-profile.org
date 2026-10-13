@@ -1,6 +1,6 @@
 ---
 sidebar_position: 34
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/28c3ada/docs/opb/link-to-html.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/3a24ba2/docs/opb/link-to-html.md
 ---
 
 # Linking Content Attestation Set and Originator Profile Set to A HTML Document
@@ -65,10 +65,6 @@ Below is an example of embedding an OPS containing a single OP:
 
 For referenced method, enter the URL of the CAS or OPS in the src attribute.
 
-The integrity attribute MUST specify a hash value of the resource referenced by the URL.
-The hash value is used to verify subresource integrity (SRI).
-The format of the hash value MUST be the integrity-metadata format of [SRI Section 3.5](https://www.w3.org/TR/SRI/#the-integrity-attribute). Supported hash functions MUST conform to [Hash Algorithms](./algorithm.md#hash-algorithm).
-
 #### Examples
 
 _This section is non-normative._
@@ -76,11 +72,11 @@ _This section is non-normative._
 Below is an example of referencing a CAS in a URL:
 
 ```htmlembedded
-<script type="application/cas+json" src="https://example.com/cas.json" integrity="sha256-XnUoFByIs5DIz6wAvte7AfpYeqPrs42KLR1Mlg9+A/M="></script>
+<script type="application/cas+json" src="https://example.com/cas.json"></script>
 ```
 
-Below is is an example of referencing a OPS in a URL:
+Below is an example of referencing an OPS in a URL:
 
 ```htmlembedded
-<script type="application/ops+json" src="https://example.com/ops.json" integrity="sha256-XnUoFByIs5DIz6wAvte7AfpYeqPrs42KLR1Mlg9+A/M="></script>
+<script type="application/ops+json" src="https://example.com/ops.json"></script>
 ```
