@@ -105,27 +105,27 @@ The guidelines as of October 2026 are as follows:
 
 - In general, a period of one year or less is recommended.
 - When signing with ES256, a validity period longer than three to four years from issuance is not recommended.
-- Even with a longer validity period, reissuing the OP and updating the SP installation are still required.
+- Even with a longer validity period, reissuing the OP and redeploying the updated SP installation are still required.
 - These guidelines are reviewed annually.
 
 ### Why keep the validity period short
 
-An issued WSP or CA ceases to be valid (is revoked) when its validity period expires or when the public key used for signing is removed from the [CP](/opb/cp.md) of the OP.
+An issued WSP or CA loses its validity when its validity period expires or when the public key used for signing is removed from the [CP](/opb/cp.md) of the OP.
 Removing a public key revokes all VCs signed with that key at once.
-Because there is no mechanism to revoke an individual CA, revoking a CA means waiting for its validity period to expire.
+Because there is no mechanism to revoke an individual CA on its own, the only way for a CA to lose its validity is to wait for its validity period to expire.
 
 Therefore, the length of the validity period is the upper bound of the period during which a WSP or CA passes verification.
 For example, even after an article is taken down, if its CA remains in copies of the web page or elsewhere, verification succeeds until the validity period expires.
-On the other hand, a shorter validity period increases the frequency of reissuance and re-installation.
+On the other hand, a shorter validity period increases the frequency of reissuance and redeployment.
 
-Before lengthening the validity period because of this burden, consider automating reissuance and re-installation.
+Before lengthening the validity period because of this burden, consider automating reissuance and redeployment.
 Automation reduces the operational burden while keeping the validity period short.
 
 :::note
 
-Revocation of a VC and invalidity of a verification result are different concepts.
-Invalidity is one of the states of a verification result: an established verification result has become no longer valid for the current verification target due to changes in the verification input or the passage of time.
-For example, when the validity period of a CA expires, the CA is revoked, and any verification result that includes verification of that validity period becomes invalid.
+Revocation of a VC and invalidation of a verification outcome are different concepts.
+Invalidated is one of the states a verification outcome can take: a settled outcome is no longer effective for the current verification target due to a change in the verification input or the passage of time.
+For example, when the validity period of a CA expires, the CA loses its validity, and any verification outcome that includes verification of that validity period is invalidated.
 
 :::
 
@@ -140,7 +140,7 @@ Major documents state the following about the usage period of ES256 (ECDSA P-256
 
 | Document                                                                                                                  | Statement on ES256                                                                                                                                                    |
 | :------------------------------------------------------------------------------------------------------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [NIST SP 800-57 Part 1 Rev.5](https://doi.org/10.6028/NIST.SP.800-57pt1r5) (May 2020)                                     | Recommended cryptoperiod of 1-3 years for signature keys, and several years for verification keys depending on key size. No year counts per algorithm. 128-bit strength is Acceptable in 2031 and beyond |
+| [NIST SP 800-57 Part 1 Rev.5](https://doi.org/10.6028/NIST.SP.800-57pt1r5) (May 2020)                                     | Recommended cryptoperiod of 1-3 years for signature keys, and several years for verification keys depending on key size. It does not specify a number of years per algorithm. 128-bit strength is Acceptable in 2031 and beyond |
 | [CRYPTREC LS-0003-2022R1](https://www.cryptrec.go.jp/list/cryptrec-ls-0003-2022r1.pdf) (March 2022)                       | Signature generation at 128-bit strength is usable until 2040                                                                                                          |
 
 :::note
@@ -153,7 +153,7 @@ The upper limit in the guidelines (three to four years) is set as a guide so tha
 - [On the Migration to Post-Quantum Cryptography (PQC) in Government Agencies (Interim Report)](https://www.cas.go.jp/jp/seisaku/pqc/pdf/report_202511.pdf) (in Japanese, November 2025): government agencies and the like, in principle, migrate to PQC by around 2035.
 - [CRYPTREC Cipher List (LS-0001-2022R2)](https://www.cryptrec.go.jp/list/cryptrec-ls-0001-2022r2.pdf) (in Japanese, March 2026): a PQC list was newly established, but it does not list signature algorithms yet and additions are under consideration. A revision of the setting criteria (LS-0003-2022R1) is also planned, and for the time being the setting criteria are not applied to public-key cryptography on the PQC list.
 - [NIST IR 8547](https://doi.org/10.6028/NIST.IR.8547.ipd) (Initial Public Draft, November 2024): ECDSA with a strength of 128 bits or more will be Disallowed after 2035.
-- [NIST SP 800-131A Rev.3](https://doi.org/10.6028/NIST.SP.800-131Ar3.ipd) (Initial Public Draft, October 2024): ECDSA with a strength of 128 bits or more is Acceptable for both signature generation and verification, with a note that this may change with the migration to PQC. It also states that data verified with an algorithm whose verification has moved to Legacy use should be treated as equivalent to unprotected data by default (Section 1.2).
+- [NIST SP 800-131A Rev.3](https://doi.org/10.6028/NIST.SP.800-131Ar3.ipd) (Initial Public Draft, October 2024): ECDSA with a strength of 128 bits or more is Acceptable for both signature generation and verification, with a note that this may change with the migration to PQC. It also states that data verified with an algorithm whose verification has moved to Legacy use should be treated as equivalent to unprotected data by default (Section 1.2.2).
 
 :::
 
