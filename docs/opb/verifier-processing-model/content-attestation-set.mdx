@@ -216,6 +216,14 @@ rendered result についてのこの近似は、それ以外の要因による�
 
 :::
 
+:::note
+
+[リファレンス実装](https://github.com/originator-profile/originator-profile)は、rendered result について、上記の近似のうち Document の可視性の変化を監視しません。parsed DOM と同じ変化とビューポートの大きさの変化に加え、`target` に一致した要素の大きさの変化を検知します。
+
+Document の可視性の変化を監視しないのは、rendered result に依存する type が非推奨の [`VisibleTextTargetIntegrity`](../content-integrity-descriptor/visible-text.md) のみであり、Document の表示と非表示の切り替えによってレンダリング結果は変わらないと考えられるためです。監視すると、表示を切り替えるたびに検証結果を無効化し、改めて検証することになります。そのためリファレンス実装は、Document が表示された時点で遅延描画などによってレンダリング結果が変わる場合、その変化を検知しません。
+
+:::
+
 ### Document のライフサイクルと再利用 {/* #reuse */}
 
 | 事象                          | 検証結果の扱い                             |

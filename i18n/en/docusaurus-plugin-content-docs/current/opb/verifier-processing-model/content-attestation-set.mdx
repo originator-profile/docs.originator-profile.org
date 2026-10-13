@@ -216,6 +216,14 @@ For the rendered result, this approximation cannot detect layout changes caused 
 
 :::
 
+:::note
+
+The [reference implementation](https://github.com/originator-profile/originator-profile) does not monitor changes to the visibility of the Document among the approximations above for the rendered result. It detects the same changes as for the parsed DOM and changes to the viewport size, plus changes to the size of the elements matching a `target`.
+
+The reference implementation does not monitor changes to the visibility of the Document because the only type that depends on the rendered result is the deprecated [`VisibleTextTargetIntegrity`](../content-integrity-descriptor/visible-text.md), and switching the Document between shown and hidden is not expected to change the rendering result. Monitoring it would invalidate the verification outcome and verify again every time the visibility is switched. As a consequence, the reference implementation does not detect a change in the rendering result when, for example, lazy rendering changes the content at the time the Document is shown.
+
+:::
+
 ### Document Lifecycle and Reuse {/* #reuse */}
 
 | Event                                   | Handling of the verification outcome                 |
