@@ -49,5 +49,5 @@ The following media types are deprecated and will no longer be supported on or a
 | `application/ops+json` | `application/op-set+json` |
 | `application/cas+json` | `application/ca-set+json` |
 
-A distributor MUST NOT use deprecated media types.
+A distributor SHOULD NOT use deprecated media types. A distributor that uses a deprecated media type should migrate to its replacement by 2027-11-01.
 A verifier SHOULD treat a deprecated media type as equivalent to its replacement.

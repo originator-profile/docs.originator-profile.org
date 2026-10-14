@@ -49,5 +49,5 @@ JWT の `typ` ヘッダーパラメーターは、本メディアタイプによ
 | `application/ops+json` | `application/op-set+json`    |
 | `application/cas+json` | `application/ca-set+json`    |
 
-配布者は、非推奨のメディアタイプを用いてはなりません (MUST NOT)。
+配布者は、非推奨のメディアタイプを用いるべきではありません (SHOULD NOT)。非推奨のメディアタイプを用いている配布者は、2027-11-01 までに代わりに用いるメディアタイプへ移行してください。
 検証者は、非推奨のメディアタイプを、代わりに用いるメディアタイプと同じものとして扱うべきです (SHOULD)。
