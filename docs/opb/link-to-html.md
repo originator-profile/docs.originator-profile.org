@@ -20,7 +20,7 @@ sidebar_position: 34
 
 script 要素を使用します。埋め込みと参照のどちらの方法も使用可能です。
 
-type 属性を使用してデータの種類が CAS または OPS であることを示さなければなりません (MUST)。 CAS の場合は `application/cas+json` を、 OPS の場合は `application/ops+json` を type 属性に指定しなければなりません (MUST)。
+type 属性を使用してデータの種類が CAS または OPS であることを示さなければなりません (MUST)。 CAS の場合は `application/ca-set+json` を、 OPS の場合は `application/op-set+json` を type 属性に指定しなければなりません (MUST)。非推奨のメディアタイプの扱いは[メディアタイプ](./media-types.md#deprecated)にしたがいます。
 
 ### 埋め込み
 
@@ -33,7 +33,7 @@ _このセクションは非規範的です。_
 単一の CA を含む CAS を埋め込む例を次に示します。
 
 ```htmlembedded
-<script type="application/cas+json">
+<script type="application/ca-set+json">
 ["eyJ..."]
 </script>
 ```
@@ -41,7 +41,7 @@ _このセクションは非規範的です。_
 2つの CA を含む CAS を埋め込む例を次に示します。
 
 ```htmlembedded
-<script type="application/cas+json">
+<script type="application/ca-set+json">
 ["eyJ...", "eyJ..."]
 </script>
 ```
@@ -49,7 +49,7 @@ _このセクションは非規範的です。_
 1つの OP を含む OPS を埋め込む例を次に示します。
 
 ```htmlembedded
-<script type="application/ops+json">
+<script type="application/op-set+json">
 [
   {
     "core": "eyJ...",
@@ -71,11 +71,24 @@ _このセクションは非規範的です。_
 URL で CAS を参照する具体例を次に示します。
 
 ```htmlembedded
-<script type="application/cas+json" src="https://example.com/cas.json"></script>
+<script type="application/ca-set+json" src="https://example.com/cas.json"></script>
 ```
 
 URL で OPS を参照する例を次に示します。
 
 ```htmlembedded
-<script type="application/ops+json" src="https://example.com/ops.json"></script>
+<script type="application/op-set+json" src="https://example.com/ops.json"></script>
 ```
+
+## 複数の CAS・OPS の紐づけ {#multiple-sets}
+
+CAS や OPS は、検証に必要な VC をすべて含む必要はありません。
+配布者は、検証に必要な VC を複数の CAS や OPS に分け、それぞれを別の script 要素で紐づけることができます (MAY)。たとえば、CA 発行者の OP と PA 発行者の OP を別々の OPS として紐づけることができます。
+検証者は、[入力範囲](./verifier-processing-model/content-attestation-set.mdx#input-scope)に含まれる OPS を合わせて検証に用います。
+
+:::note
+
+含まれる VC の検証に必要な OP をすべて含み、それ単独で検証できる OPS は、オフラインでの検証などで有用な場合があります。
+そうした OPS を区別するメディアタイプは定義していません。
+
+:::

@@ -101,7 +101,7 @@ The default is "Embedded".
 Example of the HTML output when "Embedded" is selected:
 
 ```html
-<script type="application/cas+json">
+<script type="application/ca-set+json">
   ["eyJ..."]
 </script>
 ```
@@ -123,13 +123,13 @@ Once configuration is complete, create a new post or update (re-save) an existin
 You can verify whether the CA has been correctly issued using the following two methods:
 
 - Check using Developer Tools  
-  Open your browser's developer tools and check if a `<script>` tag with the type `cas+json` is embedded in the page.
+  Open your browser's developer tools and check if a `<script>` tag with the type `ca-set+json` is embedded in the page.
   If an element like the one below exists, the CA has been issued and configured correctly.
 
 Example:
 
 ```html
-<script type="application/cas+json">
+<script type="application/ca-set+json">
   ["eyJ..."]
 </script>
 ```
@@ -265,7 +265,7 @@ It is possible to embed the OP directly into the HTML using a `script` element.
 Example:
 
 ```html
-<script type="application/ops+json">
+<script type="application/op-set+json">
   [
     {
       "core": "eyJ...",
@@ -297,7 +297,7 @@ Example of the HTML output when "External" is selected:
 ```html
 <script
   src="https://example.com/cas/1_cas.json"
-  type="application/cas+json"
+  type="application/ca-set+json"
 ></script>
 ```
 

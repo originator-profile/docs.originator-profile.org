@@ -89,7 +89,7 @@ content-type: application/json
 具体例:
 
 ```html
-<script type="application/cas+json">
+<script type="application/ca-set+json">
   ["eyJ..."]
 </script>
 ```

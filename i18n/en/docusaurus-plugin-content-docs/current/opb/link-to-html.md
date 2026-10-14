@@ -21,7 +21,7 @@ For any terms not explained in this document, please see [Terminology](./termino
 
 Use the script element. You can use either the embedded or referenced method.
 
-The type attribute MUST be used to indicate whether the data type is CAS or OPS. For CAS, the type attribute MUST be set to `application/cas+json`, and for OPS, the type attribute MUST be set to `application/ops+json`.
+The type attribute MUST be used to indicate whether the data type is CAS or OPS. For CAS, the type attribute MUST be set to `application/ca-set+json`, and for OPS, the type attribute MUST be set to `application/op-set+json`. Deprecated media types are handled as described in [Media Types](./media-types.md#deprecated).
 
 ### Embedded method
 
@@ -34,7 +34,7 @@ _This section is non-normative._
 Below is an example of embedding a CAS with a single CA:
 
 ```htmlembedded
-<script type="application/cas+json">
+<script type="application/ca-set+json">
 ["eyJ..."]
 </script>
 ```
@@ -42,7 +42,7 @@ Below is an example of embedding a CAS with a single CA:
 Below is an example of embedding a CAS that contains two CAs:
 
 ```htmlembedded
-<script type="application/cas+json">
+<script type="application/ca-set+json">
 ["eyJ...", "eyJ..."]
 </script>
 ```
@@ -50,7 +50,7 @@ Below is an example of embedding a CAS that contains two CAs:
 Below is an example of embedding an OPS containing a single OP:
 
 ```htmlembedded
-<script type="application/ops+json">
+<script type="application/op-set+json">
 [
   {
     "core": "eyJ...",
@@ -72,11 +72,24 @@ _This section is non-normative._
 Below is an example of referencing a CAS in a URL:
 
 ```htmlembedded
-<script type="application/cas+json" src="https://example.com/cas.json"></script>
+<script type="application/ca-set+json" src="https://example.com/cas.json"></script>
 ```
 
 Below is an example of referencing an OPS in a URL:
 
 ```htmlembedded
-<script type="application/ops+json" src="https://example.com/ops.json"></script>
+<script type="application/op-set+json" src="https://example.com/ops.json"></script>
 ```
+
+## Linking Multiple CASs and OPSs {#multiple-sets}
+
+A CAS or an OPS is not required to include all the VCs needed for verification.
+A distributor MAY split the VCs needed for verification across multiple CASs or OPSs and link each of them with a separate script element. For example, the OPs of CA issuers and the OPs of PA issuers can be linked as separate OPSs.
+A verifier uses the OPSs within the [input scope](./verifier-processing-model/content-attestation-set.mdx#input-scope) together for verification.
+
+:::note
+
+An OPS that includes all the OPs needed to verify the VCs it contains, and can therefore be verified on its own, may be useful, for example, for offline verification.
+No media type is defined to distinguish such an OPS.
+
+:::

@@ -24,12 +24,12 @@ https://originator-profile.org/ja-JP/chief-director/ の例:
 
 ```html
 <script
-  type="application/cas+json"
+  type="application/ca-set+json"
   src="/cas/ja-JP.chief-director.cas.json"
 ></script>
 ```
 
-HTML 文書内に script タグ (`<script type="application/cas+json">`) を記述することによって CA Set を提示します ([Linking](/opb/link-to-html/))。
+HTML 文書内に script タグ (`<script type="application/ca-set+json">`) を記述することによって CA Set を提示します ([Linking](/opb/link-to-html/))。
 script タグ内には、CA の配列 ([CAS](/opb/content-attestation-set/)) を記述するか、`src` 属性でその CAS を参照することが可能です。
 
 https://originator-profile.org/cas/ja-JP.chief-director.cas.json

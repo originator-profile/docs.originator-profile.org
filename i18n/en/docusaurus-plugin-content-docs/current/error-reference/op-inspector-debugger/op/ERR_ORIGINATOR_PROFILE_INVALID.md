@@ -35,7 +35,7 @@ This error occurs when the Originator Profile is in an invalid format.
 - The Core Profile is placed with part of its header missing.
 
 ```
-    <script type="application/ops+json">
+    <script type="application/op-set+json">
       [
         {
           "core": "yJhbGciOiJFUzI1NiIsImtpZCI6ImpKWXM1X0lMZ1VjODE4MEwtcEJQeEJwZ0EzUUM3ZVp1OXdLT2toOW1ZUFUiLCJ0eXAiOiJ2Yytqd3QiLCJjdHkiOiJ2YyJ..."
