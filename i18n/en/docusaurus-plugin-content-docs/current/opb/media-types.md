@@ -40,22 +40,9 @@ The `typ` header parameter of the JWT follows the [Securing Mechanism](./securin
 
 These media types are not used to link to a web page. To link a CA to a web page, link a CAS in accordance with [Linking](./link-to-html.md).
 
-## Semantics of Set Media Types {#set-types}
-
-The content of `application/op-set+json` and `application/ca-set+json` is not required to include all the VCs needed for verification.
-A distributor MAY distribute the VCs needed for verification across multiple OPSs or CASs. For example, the OPs of CA issuers and the OPs of PA issuers can be distributed as separate OPSs.
-A verifier uses the OPSs within the [input scope](./verifier-processing-model/content-attestation-set.mdx#input-scope) together for verification.
-
-:::note
-
-An OPS that includes the entire registration chain and can be verified on its own may be useful, for example, for offline verification.
-This document does not define a media type that distinguishes such an OPS.
-
-:::
-
 ## Deprecated Media Types {#deprecated}
 
-The following media types are deprecated and are scheduled to be removed in the future.
+The following media types are deprecated and will no longer be supported on or after 2027-11-01.
 
 | Deprecated Media Type  | Replacement               |
 | ---------------------- | ------------------------- |

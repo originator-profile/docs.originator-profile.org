@@ -79,3 +79,16 @@ URL で OPS を参照する例を次に示します。
 ```htmlembedded
 <script type="application/op-set+json" src="https://example.com/ops.json"></script>
 ```
+
+## 複数の CAS・OPS の紐づけ {#multiple-sets}
+
+CAS や OPS は、検証に必要な VC をすべて含む必要はありません。
+配布者は、検証に必要な VC を複数の CAS や OPS に分け、それぞれを別の script 要素で紐づけることができます (MAY)。たとえば、CA 発行者の OP と PA 発行者の OP を別々の OPS として紐づけることができます。
+検証者は、[入力範囲](./verifier-processing-model/content-attestation-set.mdx#input-scope)に含まれる OPS を合わせて検証に用います。
+
+:::note
+
+含まれる VC の検証に必要な OP をすべて含み、それ単独で検証できる OPS は、オフラインでの検証などで有用な場合があります。
+そうした OPS を区別するメディアタイプは定義していません。
+
+:::

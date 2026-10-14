@@ -80,3 +80,16 @@ Below is an example of referencing an OPS in a URL:
 ```htmlembedded
 <script type="application/op-set+json" src="https://example.com/ops.json"></script>
 ```
+
+## Linking Multiple CASs and OPSs {#multiple-sets}
+
+A CAS or an OPS is not required to include all the VCs needed for verification.
+A distributor MAY split the VCs needed for verification across multiple CASs or OPSs and link each of them with a separate script element. For example, the OPs of CA issuers and the OPs of PA issuers can be linked as separate OPSs.
+A verifier uses the OPSs within the [input scope](./verifier-processing-model/content-attestation-set.mdx#input-scope) together for verification.
+
+:::note
+
+An OPS that includes all the OPs needed to verify the VCs it contains, and can therefore be verified on its own, may be useful, for example, for offline verification.
+No media type is defined to distinguish such an OPS.
+
+:::
