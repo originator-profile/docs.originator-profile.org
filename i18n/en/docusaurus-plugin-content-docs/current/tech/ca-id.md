@@ -85,7 +85,7 @@ The validity of a CA is dependent on the validity of the OP of the organization 
 The existing CA remains valid as long as the OP is within its validity period and the CP contains the public key of the key used to sign the CA (see [CA validity period](/tech/validity-period.mdx#validity-period-of-content-attestation-ca)).
 Therefore, reissuing the OP to add a new key to the CP does not require reissuing the existing CA.
 
-On the other hand, if you remove the old key's public key from the CP, all CAs that signed with that key will be revoked all at once (see [Why keep validity periods short](/tech/validity-period.mdx#Why-keep-validity-periods-short)).
+On the other hand, if you remove the old key's public key from the CP, all CAs that signed with that key will be revoked all at once (see [Why keep validity periods short](/tech/validity-period.mdx#why-keep-validity-periods-short)).
 Before removing the old key, reissue the CA that signed with that key with a new key, keeping the same CA ID, and update the CAS.
 
 ### Issuing with new CA ID {#new-ca-id}
