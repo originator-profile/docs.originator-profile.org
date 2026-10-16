@@ -10,18 +10,18 @@ For more information on the CA data model and validation process, see the [Origi
 
 ## Decision guide {#decision-guide}
 
-| Scene | CA ID |
-| :--------------------------------------- | :-------------------------- |
-| Extension of validity period | [Can be maintained](#keep-ca-id) |
-| Updating the signing key | [Can be maintained](#key-rotation) |
-| Correction of typos and additions | [Can be maintained](#keep-ca-id) |
-| Change titles and thumbnails without changing the main idea | [Can be maintained](#keep-ca-id) |
-| The display changes depending on the device, but the content is the same | [Can be maintained](#granularity) |
-| Replace with different content using the same URL | [Newly assigned](#new-ca-id) |
-| Rewritten so much that the main idea has changed | [New assignment](#new-ca-id) |
-| Splitting an article into multiple pages | [Assign new](#new-ca-id) |
-| Contents vary depending on device | [New assignment](#new-ca-id) |
-| Withdrawing content | [Do not reuse](#delete-ca) |
+| Scene                                                                    | CA ID                              |
+| :----------------------------------------------------------------------- | :--------------------------------- |
+| Extension of validity period                                             | [Can be maintained](#keep-ca-id)   |
+| Updating the signing key                                                 | [Can be maintained](#key-rotation) |
+| Correction of typos and additions                                        | [Can be maintained](#keep-ca-id)   |
+| Change titles and thumbnails without changing the main idea              | [Can be maintained](#keep-ca-id)   |
+| The display changes depending on the device, but the content is the same | [Can be maintained](#granularity)  |
+| Replace with different content using the same URL                        | [Newly assigned](#new-ca-id)       |
+| Rewritten so much that the main idea has changed                         | [New assignment](#new-ca-id)       |
+| Splitting an article into multiple pages                                 | [Assign new](#new-ca-id)           |
+| Contents vary depending on device                                        | [New assignment](#new-ca-id)       |
+| Withdrawing content                                                      | [Do not reuse](#delete-ca)         |
 
 ## What is Content Attestation (CA)? {#what-ca}
 
