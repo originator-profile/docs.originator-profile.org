@@ -19,7 +19,7 @@ For more information on the CA data model and validation process, see the [Origi
 | The display changes depending on the device, but the content is the same | [Can be maintained](#granularity)  |
 | Replace with different content using the same URL                        | [New assignment](#new-ca-id)       |
 | Rewritten so much that the main idea has changed                         | [New assignment](#new-ca-id)       |
-| Splitting an article into multiple pages                                 | [New assignment](#new-ca-id)           |
+| Splitting an article into multiple pages                                 | [New assignment](#new-ca-id)       |
 | Contents vary depending on device                                        | [New assignment](#new-ca-id)       |
 | Withdrawing content                                                      | [Do not reuse](#delete-ca)         |
 
