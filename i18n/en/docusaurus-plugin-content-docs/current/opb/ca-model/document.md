@@ -37,19 +37,18 @@ tags:
 
 #### credentialSubject のプロパティ一覧 {#credential-subject-properties}
 
-| Name             | Type       | Description                                                                                                                                                                                                                                                                                                |
-| ---------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `id`             | `string`   | **REQUIRED.** CA ID でなければなりません (MUST)。 CA ID は [UUIDv4](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-4) の URN 形式の文字列です。コンテンツと CA ID は一対一対応します。                                                                                                      |
-| `type`           | `string`   | **REQUIRED.** `Document` でなければなりません (MUST)。                                                                                                                                                                                                                                                     |
-| `name`           | `string`   | **REQUIRED.** ドキュメントのタイトルです。                                                                                                                                                                                                                                                                 |
-| `description`    | `string`   | **REQUIRED.** ドキュメントの説明です。                                                                                                                                                                                                                                                                     |
-| `image`          | `object`   | **OPTIONAL.** ドキュメントのサムネイル画像です。サムネイル画像がある場合指定するべきです (RECOMMENDED)。 [`image` データ型](../context.md#the-image-datatype) の JSON-LD Node Object でなければなりません (MUST)。このプロパティで CA を[検証](../context.md#verifying-image-datatype)することができます。 |
-| `dateCreated`    | `string`   | **OPTIONAL.** 作成日時です。[`dateTimeStamp` データ型](../context.md#the-datetimestamp-datatype) でなければなりません (MUST)。                                                                                                                                                                             |
-| `dateModified`   | `string`   | **OPTIONAL.** 最終更新日時です。[`dateTimeStamp` データ型](../context.md#the-datetimestamp-datatype) でなければなりません (MUST)。                                                                                                                                                                         |
-| `creator`        | `string[]` | **OPTIONAL.** 作成者の配列です。                                                                                                                                                                                                                                                                           |
-| `url`            | `string`   | **OPTIONAL.** ドキュメントの URL です。                                                                                                                                                                                                                                                                    |
-| `encodingFormat` | `string`   | **OPTIONAL.** コンテンツの符号化形式です。[MIME タイプ](https://developer.mozilla.org/ja/docs/Web/HTTP/Guides/MIME_types)でなければなりません (MUST)。                                                                                                                                                     |
-| `genre`          | `string`   | **OPTIONAL.** ジャンルです。                                                                                                                                                                                                                                                                               |
+| Name             | Type       | Description                                                                                                                                                                                                                                                                                             |
+| ---------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`             | `string`   | **REQUIRED.** CA ID でなければなりません (MUST)。 CA ID は [UUIDv4](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-4) の URN 形式の文字列です。コンテンツと CA ID は一対一対応します。                                                                                                   |
+| `type`           | `string`   | **REQUIRED.** `Document` でなければなりません (MUST)。                                                                                                                                                                                                                                                  |
+| `name`           | `string`   | **REQUIRED.** ドキュメントのタイトルです。                                                                                                                                                                                                                                                              |
+| `description`    | `string`   | **REQUIRED.** ドキュメントの説明です。                                                                                                                                                                                                                                                                  |
+| `image`          | `object`   | **OPTIONAL.** ドキュメントのサムネイル画像です。サムネイル画像がある場合指定するべきです (RECOMMENDED)。 [`image` データ型](../context.md#the-image-datatype) の JSON-LD Node Object でなければなりません (MUST)。このプロパティで CA を[検証](../context.md#image-datatype-の検証)することができます。 |
+| `dateCreated`    | `string`   | **OPTIONAL.** 作成日時です。[`dateTimeStamp` データ型](../context.md#the-datetimestamp-datatype) でなければなりません (MUST)。                                                                                                                                                                          |
+| `dateModified`   | `string`   | **OPTIONAL.** 最終更新日時です。[`dateTimeStamp` データ型](../context.md#the-datetimestamp-datatype) でなければなりません (MUST)。                                                                                                                                                                      |
+| `creator`        | `string[]` | **OPTIONAL.** 作成者の配列です。                                                                                                                                                                                                                                                                        |
+| `encodingFormat` | `string`   | **OPTIONAL.** コンテンツの符号化形式です。[MIME タイプ](https://developer.mozilla.org/ja/docs/Web/HTTP/Guides/MIME_types)でなければなりません (MUST)。                                                                                                                                                  |
+| `genre`          | `string`   | **OPTIONAL.** ジャンルです。                                                                                                                                                                                                                                                                            |
 
 ## Appendix
 
@@ -94,3 +93,9 @@ _このセクションは非規範的です。_
   ]
 }
 ```
+
+:::note
+
+外部リンクのリソースは [External Resource Integrity](../content-integrity-descriptor/external-resource.md) の対象外です。外部リンクのリソースの完全性を保証する仕組み [外部リンクの Content Integrity Descriptor 仕様策定 · Issue #127 · originator-profile/docs.originator-profile.org](https://github.com/originator-profile/docs.originator-profile.org/issues/127) にて検討中です。
+
+:::

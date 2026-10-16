@@ -41,7 +41,6 @@ tags:
 | `dateCreated`    | `string`   | **OPTIONAL.** 作成日時です。[`dateTimeStamp` データ型](../context.md#the-datetimestamp-datatype) でなければなりません (MUST)。                                                                                                                                                                          |
 | `dateModified`   | `string`   | **OPTIONAL.** 最終更新日時です。[`dateTimeStamp` データ型](../context.md#the-datetimestamp-datatype) でなければなりません (MUST)。                                                                                                                                                                      |
 | `creator`        | `string[]` | **OPTIONAL.** 作成者の配列です。                                                                                                                                                                                                                                                                        |
-| `url`            | `string`   | **OPTIONAL.** ドキュメントの URL です。                                                                                                                                                                                                                                                                 |
 | `encodingFormat` | `string`   | **OPTIONAL.** コンテンツの符号化形式です。[MIME タイプ](https://developer.mozilla.org/ja/docs/Web/HTTP/Guides/MIME_types)でなければなりません (MUST)。                                                                                                                                                  |
 | `genre`          | `string`   | **OPTIONAL.** ジャンルです。                                                                                                                                                                                                                                                                            |
 
@@ -88,3 +87,9 @@ _このセクションは非規範的です。_
   ]
 }
 ```
+
+:::note
+
+外部リンクのリソースは [External Resource Integrity](../content-integrity-descriptor/external-resource.md) の対象外です。外部リンクのリソースの完全性を保証する仕組み [外部リンクの Content Integrity Descriptor 仕様策定 · Issue #127 · originator-profile/docs.originator-profile.org](https://github.com/originator-profile/docs.originator-profile.org/issues/127) にて検討中です。
+
+:::
