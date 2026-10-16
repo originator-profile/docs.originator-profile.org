@@ -74,7 +74,6 @@ _このセクションは非規範的です。_
     "dateCreated": "2023-07-04T19:14:00Z",
     "dateModified": "2023-07-04T19:14:00Z",
     "creator": ["山田花子"],
-    "url": "https://media.example.com/video.mp4",
     "encodingFormat": "video/mp4",
     "genre": "Arts & Entertainment"
   },

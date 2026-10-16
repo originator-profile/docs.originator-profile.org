@@ -37,18 +37,18 @@ tags:
 
 #### credentialSubject のプロパティ一覧 {#credential-subject-properties}
 
-| Name             | Type       | Description                                                                                                                                                                                                                                                                                     |
-| ---------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `id`             | `string`   | **REQUIRED.** CA ID でなければなりません (MUST)。 CA ID は [UUIDv4](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-4) の URN 形式の文字列です。コンテンツと CA ID は一対一対応します。                                                                                           |
-| `type`           | `string`   | **REQUIRED.** `Video` でなければなりません (MUST)。                                                                                                                                                                                                                                             |
-| `name`           | `string`   | **REQUIRED.** 動画のタイトルです。                                                                                                                                                                                                                                                              |
-| `description`    | `string`   | **REQUIRED.** 動画の説明です。                                                                                                                                                                                                                                                                  |
-| `image`          | `object`   | **OPTIONAL.** 動画のサムネイル画像です。サムネイル画像がある場合指定するべきです (RECOMMENDED)。 [`image` データ型](../context.md#the-image-datatype) の JSON-LD Node Object でなければなりません (MUST)。このプロパティで CA を[検証](../context.md#image-datatype-の検証)することができます。 |
-| `dateCreated`    | `string`   | **OPTIONAL.** 作成日時です。[`dateTimeStamp` データ型](../context.md#the-datetimestamp-datatype) でなければなりません (MUST)。                                                                                                                                                                  |
-| `dateModified`   | `string`   | **OPTIONAL.** 最終更新日時です。[`dateTimeStamp` データ型](../context.md#the-datetimestamp-datatype) でなければなりません (MUST)。                                                                                                                                                              |
-| `creator`        | `string[]` | **OPTIONAL.** 作成者の配列です。                                                                                                                                                                                                                                                                |
-| `encodingFormat` | `string`   | **OPTIONAL.** コンテンツの符号化形式です。[MIME タイプ](https://developer.mozilla.org/ja/docs/Web/HTTP/Guides/MIME_types)でなければなりません (MUST)。                                                                                                                                          |
-| `genre`          | `string`   | **OPTIONAL.** ジャンルです。                                                                                                                                                                                                                                                                    |
+| Name             | Type       | Description                                                                                                                                                                                                                                                                                        |
+| ---------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`             | `string`   | **REQUIRED.** CA ID でなければなりません (MUST)。 CA ID は [UUIDv4](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-4) の URN 形式の文字列です。コンテンツと CA ID は一対一対応します。                                                                                              |
+| `type`           | `string`   | **REQUIRED.** `Video` でなければなりません (MUST)。                                                                                                                                                                                                                                                |
+| `name`           | `string`   | **REQUIRED.** 動画のタイトルです。                                                                                                                                                                                                                                                                 |
+| `description`    | `string`   | **REQUIRED.** 動画の説明です。                                                                                                                                                                                                                                                                     |
+| `image`          | `object`   | **OPTIONAL.** 動画のサムネイル画像です。サムネイル画像がある場合指定するべきです (RECOMMENDED)。 [`image` データ型](../context.md#the-image-datatype) の JSON-LD Node Object でなければなりません (MUST)。このプロパティで CA を[検証](../context.md#verifying-image-datatype)することができます。 |
+| `dateCreated`    | `string`   | **OPTIONAL.** 作成日時です。[`dateTimeStamp` データ型](../context.md#the-datetimestamp-datatype) でなければなりません (MUST)。                                                                                                                                                                     |
+| `dateModified`   | `string`   | **OPTIONAL.** 最終更新日時です。[`dateTimeStamp` データ型](../context.md#the-datetimestamp-datatype) でなければなりません (MUST)。                                                                                                                                                                 |
+| `creator`        | `string[]` | **OPTIONAL.** 作成者の配列です。                                                                                                                                                                                                                                                                   |
+| `encodingFormat` | `string`   | **OPTIONAL.** コンテンツの符号化形式です。[MIME タイプ](https://developer.mozilla.org/ja/docs/Web/HTTP/Guides/MIME_types)でなければなりません (MUST)。                                                                                                                                             |
+| `genre`          | `string`   | **OPTIONAL.** ジャンルです。                                                                                                                                                                                                                                                                       |
 
 ## Appendix
 
@@ -80,7 +80,6 @@ _このセクションは非規範的です。_
     "dateCreated": "2023-07-04T19:14:00Z",
     "dateModified": "2023-07-04T19:14:00Z",
     "creator": ["山田花子"],
-    "url": "https://media.example.com/video.mp4",
     "encodingFormat": "video/mp4",
     "genre": "Arts & Entertainment"
   },
