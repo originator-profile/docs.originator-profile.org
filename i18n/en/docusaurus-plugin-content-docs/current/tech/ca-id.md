@@ -82,7 +82,7 @@ What changes with the key update is the set of public keys contained in the CP i
 Updating the signing key does not require changing the OP ID or CA ID.
 
 The validity of a CA is dependent on the validity of the OP of the organization that issued it.
-The existing CA remains valid as long as the OP is within its validity period and the CP contains the public key of the key used to sign the CA (see [CA validity period](/tech/validity-period.mdx#content-attestation-ca-validity period)).
+The existing CA remains valid as long as the OP is within its validity period and the CP contains the public key of the key used to sign the CA (see [CA validity period](/tech/validity-period.mdx#validity-period-of-content-attestation-ca)).
 Therefore, reissuing the OP to add a new key to the CP does not require reissuing the existing CA.
 
 On the other hand, if you remove the old key's public key from the CP, all CAs that signed with that key will be revoked all at once (see [Why keep validity periods short](/tech/validity-period.mdx#Why keep validity periods short)).
@@ -125,7 +125,7 @@ Reuse causes different pieces of content to be assigned the same CA ID, breaking
 
 [^ca-id]: [List of properties of `credentialSubject` in Content Attestation](/opb/ca.md#credential-subject-properties). Each CA model (such as [Article Data Model](/opb/ca-model/article.md)) has the same provisions.
 
-[^cas]: [Content Attestation Set](/opb/content-attestation-set.md). A CAS can contain multiple CAs, with `main` being the CA for the main content.
+[^cas]: [Content Attestation Set](/opb/content-attestation-set.md). A CAS can contain multiple CAs. Set `main` to `true` on the entry for the main content's CA.
 
 [^ca-issuer]: `issuer` of [Content Attestation property list](/opb/ca.md#content-attestation-properties).
 
