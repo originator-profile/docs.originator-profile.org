@@ -89,6 +89,6 @@ _このセクションは非規範的です。_
 
 :::note
 
-外部リンクのリソースは [External Resource Integrity](../content-integrity-descriptor/external-resource.md) の対象外です。外部リンクのリソースの完全性を保証する仕組み [外部リンクの Content Integrity Descriptor 仕様策定 · Issue #127 · originator-profile/docs.originator-profile.org](https://github.com/originator-profile/docs.originator-profile.org/issues/127) にて検討中です。
+外部リンクのリソースは [External Resource Integrity](../content-integrity-descriptor/external-resource.md) の対象外です。外部リンクのリソースの完全性を保証する仕組みは [外部リンクの Content Integrity Descriptor 仕様策定 · Issue #127 · originator-profile/docs.originator-profile.org](https://github.com/originator-profile/docs.originator-profile.org/issues/127) にて検討中です。
 
 :::
