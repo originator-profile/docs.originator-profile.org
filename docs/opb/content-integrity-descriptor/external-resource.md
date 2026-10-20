@@ -95,7 +95,7 @@ External Resource Integrity の検証対象となる HTML 要素は、[HTML Stan
 
 :::
 
-:::note[セキュリティ上の注意]
+:::note[セキュリティの考慮事項]
 
 対象要素を限定するのは、ページ作成者が意図しない URL へのリクエストを検証者が発生させないためです。そのようなリクエストは、[SRI セクション 5.3](https://www.w3.org/TR/sri/#cross-origin-data-leakage) に述べられるクロスオリジン情報のリークにつながる可能性があります。
 
