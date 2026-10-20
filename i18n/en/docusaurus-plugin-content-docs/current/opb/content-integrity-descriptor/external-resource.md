@@ -58,9 +58,11 @@ CA issuers should specify `cssSelector` so that the elements that `cssSelector` 
 
 ## Target Elements {#target-elements}
 
-The HTML elements subject to External Resource Integrity verification MUST be limited to those listed in the following table, among the elements defined in [HTML Standard 4.8 Embedded content](https://html.spec.whatwg.org/multipage/embedded-content.html). Verifiers MUST NOT fetch resources of elements not listed in the table. Elements not listed in the table are excluded from verification. The [request destination](https://fetch.spec.whatwg.org/#concept-request-destination) used when fetching a resource MUST be the value in the table.
+The HTML elements subject to External Resource Integrity verification MUST be limited to those listed in the following table, among the elements defined in [HTML Standard 4.8 Embedded content](https://html.spec.whatwg.org/multipage/embedded-content.html). Verifiers MUST NOT fetch resources of elements not listed in the table. Elements not listed in the table are excluded from verification. When the `currentSrc` used for the URL to fetch is an empty string (for example, before the resource is loaded or in an environment that does not implement `currentSrc`), verifiers MAY instead use the resolved URL of the `src` attribute of the `img`, `video`, or `audio` element that has that `currentSrc`.
 
-| Element                                | URL to fetch                                                                                                          | Request destination                                 | Notes                                                                                                                                                                                             |
+The Request destination column of the table shows, for reference, the [request destination](https://fetch.spec.whatwg.org/#concept-request-destination) used when the user agent loads the resource of the element. This document does not specify the request destination used when verifiers fetch resources.
+
+| Element                                | URL to fetch                                                                                                          | Request destination (for reference)                 | Notes                                                                                                                                                                                             |
 | -------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `img`                                  | [`HTMLImageElement.currentSrc`](https://html.spec.whatwg.org/multipage/embedded-content.html#dom-img-currentsrc)      | `image`                                             | The candidate selected by the user agent from the `src` and `srcset` attributes                                                                                                                   |
 | `picture`                              | `currentSrc` of the child `img` element                                                                               | `image`                                             | The `picture` element itself has no URL, so the child `img` element's URL is used                                                                                                                 |
@@ -115,76 +117,45 @@ Make the HTML elements to be verified identifiable by either of the following me
 
 #### Identifying elements by the `cssSelector` property
 
-Below is an example of referencing the source and img elements with the `cssSelector` property:
+Below is an example of referencing the img element in a picture element with the `cssSelector` property. Since the `currentSrc` of the img element is the candidate selected by the user agent from the source and img elements, include the hashes of all resources that may be selected in the `integrity` property.
 
 External Resource Integrity:
 
 ```json
-[
-  {
-    "type": "ExternalResourceTargetIntegrity",
-    "cssSelector": "#hero-image-source",
-    "integrity": "sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
-  },
-  {
-    "type": "ExternalResourceTargetIntegrity",
-    "cssSelector": "#hero-image",
-    "integrity": "sha256-t7WZSGxDdqGvGg/FLw6wk9KFQy5StT1MquCf/htwjBo= sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
-  }
-]
+{
+  "type": "ExternalResourceTargetIntegrity",
+  "cssSelector": "#hero-image",
+  "integrity": "sha256-t7WZSGxDdqGvGg/FLw6wk9KFQy5StT1MquCf/htwjBo= sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
+}
 ```
 
-In this case, make the CSS selectors match the HTML source element and img element of the web page as follows:
+In this case, make the CSS selector match the HTML img element of the web page as follows:
 
 ```html
 <picture>
-  <source
-    id="hero-image-source"
-    srcset="image.jpg"
-    media="(min-width: 400px)"
-  />
+  <source srcset="image.jpg" media="(min-width: 400px)" />
   <img id="hero-image" src="https://cdn.example.com/image.jpg" />
 </picture>
 ```
 
-Below is an example of referencing a video element with the `cssSelector` property.
+Below is an example of referencing a video element with the `cssSelector` property. Since the `currentSrc` of the video element is the candidate selected by the user agent from the source elements, include the hashes of all resources that may be selected in the `integrity` property.
 
 External Resource Integrity:
 
 ```json
-[
-  {
-    "type": "ExternalResourceTargetIntegrity",
-    "cssSelector": "#product-video",
-    "integrity": "sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w= sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
-  },
-  {
-    "type": "ExternalResourceTargetIntegrity",
-    "cssSelector": "#product-video-mp4",
-    "integrity": "sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w="
-  },
-  {
-    "type": "ExternalResourceTargetIntegrity",
-    "cssSelector": "#product-video-webm",
-    "integrity": "sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
-  }
-]
+{
+  "type": "ExternalResourceTargetIntegrity",
+  "cssSelector": "#product-video",
+  "integrity": "sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w= sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
+}
 ```
 
-In this case, make the CSS selectors match the HTML video element and source elements of the web page as follows:
+In this case, make the CSS selector match the HTML video element of the web page as follows:
 
 ```html
 <video id="product-video" poster="https://cdn.example.com/poster.jpg">
-  <source
-    id="product-video-mp4"
-    src="https://cdn.example.com/video.mp4"
-    type="video/mp4"
-  />
-  <source
-    id="product-video-webm"
-    src="https://cdn.example.com/video.webm"
-    type="video/webm"
-  />
+  <source src="https://cdn.example.com/video.mp4" type="video/mp4" />
+  <source src="https://cdn.example.com/video.webm" type="video/webm" />
 </video>
 ```
 
@@ -213,32 +184,22 @@ In this case, make the CSS selector match the HTML img elements of the web page 
 
 #### Identifying elements by the `integrity` attribute
 
-Below is an example of referencing the source and img elements from an External Resource Integrity:
+Below is an example of referencing the img element in a picture element from an External Resource Integrity:
 
 External Resource Integrity:
 
 ```json
-[
-  {
-    "type": "ExternalResourceTargetIntegrity",
-    "integrity": "sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
-  },
-  {
-    "type": "ExternalResourceTargetIntegrity",
-    "integrity": "sha256-t7WZSGxDdqGvGg/FLw6wk9KFQy5StT1MquCf/htwjBo= sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
-  }
-]
+{
+  "type": "ExternalResourceTargetIntegrity",
+  "integrity": "sha256-t7WZSGxDdqGvGg/FLw6wk9KFQy5StT1MquCf/htwjBo= sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
+}
 ```
 
-In this case, add the `integrity` attribute to the HTML source element and img element of the web page as follows:
+In this case, add the `integrity` attribute to the HTML img element of the web page as follows:
 
 ```html
 <picture>
-  <source
-    srcset="image.jpg"
-    media="(min-width: 400px)"
-    integrity="sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
-  />
+  <source srcset="image.jpg" media="(min-width: 400px)" />
   <img
     src="https://cdn.example.com/image.jpg"
     integrity="sha256-t7WZSGxDdqGvGg/FLw6wk9KFQy5StT1MquCf/htwjBo= sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
@@ -251,35 +212,21 @@ Below is an example of referencing a video element from an External Resource Int
 External Resource Integrity:
 
 ```json
-[
-  {
-    "type": "ExternalResourceTargetIntegrity",
-    "integrity": "sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w= sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
-  },
-  {
-    "type": "ExternalResourceTargetIntegrity",
-    "integrity": "sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
-  }
-]
+{
+  "type": "ExternalResourceTargetIntegrity",
+  "integrity": "sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w= sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
+}
 ```
 
-In this case, add the `integrity` attribute to the HTML source element and video element of the web page as follows:
+In this case, add the `integrity` attribute to the HTML video element of the web page as follows:
 
 ```html
 <video
   integrity="sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w= sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
   poster="https://cdn.example.com/poster.jpg"
 >
-  <source
-    src="https://cdn.example.com/video.mp4"
-    integrity="sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w="
-    type="video/mp4"
-  />
-  <source
-    src="https://cdn.example.com/video.webm"
-    integrity="sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
-    type="video/webm"
-  />
+  <source src="https://cdn.example.com/video.mp4" type="video/mp4" />
+  <source src="https://cdn.example.com/video.webm" type="video/webm" />
 </video>
 ```
 
@@ -292,7 +239,7 @@ In this case, add the `integrity` attribute to the HTML source element and video
    - If no elements are found, it may be treated as a verification failure.
 2. Retrieves the resources corresponding to all the elements identified in step 1.
    - Elements not listed in the [Target Elements](#target-elements) table are excluded from verification without fetching their resources. If no elements remain after the exclusion, it may be treated as a verification failure.
-   - The resources are [fetched](https://fetch.spec.whatwg.org/) from the URL shown in the [Target Elements](#target-elements) table, with the request destination shown in the table.
+   - The resources are [fetched](https://fetch.spec.whatwg.org/) from the URL shown in the [Target Elements](#target-elements) table.
    - If a network error occurs, it may be treated as a verification failure (e.g. [`TypeError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError) `Failed to fetch.`, etc.).
 3. Validate each of the resources retrieved in step 2 and the `integrity` property using the methods specified in [SRI section 3.3.5](https://www.w3.org/TR/SRI/#does-response-match-metadatalist).
    - If an unsupported hash algorithm is used, it may be treated as a verification failure.

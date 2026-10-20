@@ -57,9 +57,11 @@ CA 発行者は、ページの動的な変化によらず `cssSelector` がマ�
 
 ## 対象要素 {#target-elements}
 
-External Resource Integrity の検証対象となる HTML 要素は、[HTML Standard 4.8 Embedded content](https://html.spec.whatwg.org/multipage/embedded-content.html) に定義される要素のうち、次の表に列挙するものに限られます (MUST)。検証者は、表にない要素のリソースを取得してはなりません (MUST NOT)。表にない要素は検証対象から除きます。リソースを取得するときの [request destination](https://fetch.spec.whatwg.org/#concept-request-destination) は、表の値でなければなりません (MUST)。
+External Resource Integrity の検証対象となる HTML 要素は、[HTML Standard 4.8 Embedded content](https://html.spec.whatwg.org/multipage/embedded-content.html) に定義される要素のうち、次の表に列挙するものに限られます (MUST)。検証者は、表にない要素のリソースを取得してはなりません (MUST NOT)。表にない要素は検証対象から除きます。取得する URL に用いる `currentSrc` が空文字列の場合 (リソースの読み込み前や、`currentSrc` を実装しない環境など)、検証者は、その `currentSrc` を持つ `img` 要素、`video` 要素、`audio` 要素の `src` 属性を解決した URL を代わりに使用してもかまいません (MAY)。
 
-| 要素                              | 取得する URL                                                                                                     | request destination                   | 備考                                                                                                                                             |
+表の request destination の列は、ユーザーエージェントがその要素のリソースを読み込むときの [request destination](https://fetch.spec.whatwg.org/#concept-request-destination) を参考として示すものです。検証者がリソースを取得するときの request destination は規定しません。
+
+| 要素                              | 取得する URL                                                                                                     | request destination (参考)            | 備考                                                                                                                                             |
 | --------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `img`                             | [`HTMLImageElement.currentSrc`](https://html.spec.whatwg.org/multipage/embedded-content.html#dom-img-currentsrc) | `image`                               | `src` 属性と `srcset` 属性の候補のうちユーザーエージェントが選択したもの                                                                         |
 | `picture`                         | 子の `img` 要素の `currentSrc`                                                                                   | `image`                               | `picture` 要素自身は URL を持たないため、子の `img` 要素の URL を使用                                                                            |
@@ -114,76 +116,45 @@ External Resource Integrity の検証対象となる HTML 要素は、[HTML Stan
 
 #### `cssSelector` プロパティで要素を特定する場合
 
-source 要素と img 要素を `cssSelector` プロパティで参照する場合の具体例を次に示します。
+picture 要素内の img 要素を `cssSelector` プロパティで参照する場合の具体例を次に示します。img 要素の `currentSrc` は、source 要素と img 要素の候補からユーザーエージェントが選択したものになるため、`integrity` プロパティには選択されうるすべてのリソースのハッシュ値を含めます。
 
 External Resource Integrity:
 
 ```json
-[
-  {
-    "type": "ExternalResourceTargetIntegrity",
-    "cssSelector": "#hero-image-source",
-    "integrity": "sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
-  },
-  {
-    "type": "ExternalResourceTargetIntegrity",
-    "cssSelector": "#hero-image",
-    "integrity": "sha256-t7WZSGxDdqGvGg/FLw6wk9KFQy5StT1MquCf/htwjBo= sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
-  }
-]
+{
+  "type": "ExternalResourceTargetIntegrity",
+  "cssSelector": "#hero-image",
+  "integrity": "sha256-t7WZSGxDdqGvGg/FLw6wk9KFQy5StT1MquCf/htwjBo= sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
+}
 ```
 
-このとき Web ページの HTML の source 要素と img 要素に、次のように CSS セレクターがマッチするようにします。
+このとき Web ページの HTML の img 要素に、次のように CSS セレクターがマッチするようにします。
 
 ```html
 <picture>
-  <source
-    id="hero-image-source"
-    srcset="image.jpg"
-    media="(min-width: 400px)"
-  />
+  <source srcset="image.jpg" media="(min-width: 400px)" />
   <img id="hero-image" src="https://cdn.example.com/image.jpg" />
 </picture>
 ```
 
-video 要素を `cssSelector` プロパティで参照する場合の具体例を次に示します。
+video 要素を `cssSelector` プロパティで参照する場合の具体例を次に示します。video 要素の `currentSrc` は、source 要素の候補からユーザーエージェントが選択したものになるため、`integrity` プロパティには選択されうるすべてのリソースのハッシュ値を含めます。
 
 External Resource Integrity:
 
 ```json
-[
-  {
-    "type": "ExternalResourceTargetIntegrity",
-    "cssSelector": "#product-video",
-    "integrity": "sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w= sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
-  },
-  {
-    "type": "ExternalResourceTargetIntegrity",
-    "cssSelector": "#product-video-mp4",
-    "integrity": "sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w="
-  },
-  {
-    "type": "ExternalResourceTargetIntegrity",
-    "cssSelector": "#product-video-webm",
-    "integrity": "sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
-  }
-]
+{
+  "type": "ExternalResourceTargetIntegrity",
+  "cssSelector": "#product-video",
+  "integrity": "sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w= sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
+}
 ```
 
-このとき Web ページの HTML の video 要素と source 要素に、次のように CSS セレクターがマッチするようにします。
+このとき Web ページの HTML の video 要素に、次のように CSS セレクターがマッチするようにします。
 
 ```html
 <video id="product-video" poster="https://cdn.example.com/poster.jpg">
-  <source
-    id="product-video-mp4"
-    src="https://cdn.example.com/video.mp4"
-    type="video/mp4"
-  />
-  <source
-    id="product-video-webm"
-    src="https://cdn.example.com/video.webm"
-    type="video/webm"
-  />
+  <source src="https://cdn.example.com/video.mp4" type="video/mp4" />
+  <source src="https://cdn.example.com/video.webm" type="video/webm" />
 </video>
 ```
 
@@ -212,32 +183,22 @@ External Resource Integrity:
 
 #### `integrity` 属性で要素を特定する場合
 
-source 要素と img 要素を External Resource Integrity から参照する場合の具体例を次に示します。
+picture 要素内の img 要素を External Resource Integrity から参照する場合の具体例を次に示します。
 
 External Resource Integrity:
 
 ```json
-[
-  {
-    "type": "ExternalResourceTargetIntegrity",
-    "integrity": "sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
-  },
-  {
-    "type": "ExternalResourceTargetIntegrity",
-    "integrity": "sha256-t7WZSGxDdqGvGg/FLw6wk9KFQy5StT1MquCf/htwjBo= sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
-  }
-]
+{
+  "type": "ExternalResourceTargetIntegrity",
+  "integrity": "sha256-t7WZSGxDdqGvGg/FLw6wk9KFQy5StT1MquCf/htwjBo= sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
+}
 ```
 
-このとき Web ページの HTML の source 要素と img 要素に次のように `integrity` 属性を付与します。
+このとき Web ページの HTML の img 要素に次のように `integrity` 属性を付与します。
 
 ```html
 <picture>
-  <source
-    srcset="image.jpg"
-    media="(min-width: 400px)"
-    integrity="sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
-  />
+  <source srcset="image.jpg" media="(min-width: 400px)" />
   <img
     src="https://cdn.example.com/image.jpg"
     integrity="sha256-t7WZSGxDdqGvGg/FLw6wk9KFQy5StT1MquCf/htwjBo= sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
@@ -250,35 +211,21 @@ video 要素を External Resource Integrity から参照する場合の具体例
 External Resource Integrity:
 
 ```json
-[
-  {
-    "type": "ExternalResourceTargetIntegrity",
-    "integrity": "sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w= sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
-  },
-  {
-    "type": "ExternalResourceTargetIntegrity",
-    "integrity": "sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
-  }
-]
+{
+  "type": "ExternalResourceTargetIntegrity",
+  "integrity": "sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w= sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
+}
 ```
 
-このとき Web ページの HTML の source 要素と video 要素に次のように `integrity` 属性を付与します。
+このとき Web ページの HTML の video 要素に次のように `integrity` 属性を付与します。
 
 ```html
 <video
   integrity="sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w= sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
   poster="https://cdn.example.com/poster.jpg"
 >
-  <source
-    src="https://cdn.example.com/video.mp4"
-    integrity="sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w="
-    type="video/mp4"
-  />
-  <source
-    src="https://cdn.example.com/video.webm"
-    integrity="sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
-    type="video/webm"
-  />
+  <source src="https://cdn.example.com/video.mp4" type="video/mp4" />
+  <source src="https://cdn.example.com/video.webm" type="video/webm" />
 </video>
 ```
 
@@ -291,7 +238,7 @@ External Resource Integrity:
    - 要素が1つも見つからない場合、検証失敗として扱うことがあります。
 2. 手順1に該当したすべての要素に対応するリソースを取得します。
    - [対象要素](#target-elements)の表にない要素は、リソースを取得せず検証対象から除きます。除いた結果、要素が1つも残らない場合、検証失敗として扱うことがあります。
-   - リソースは、[対象要素](#target-elements)の表に示す URL から、表に示す request destination で[取得](https://fetch.spec.whatwg.org/)します。
+   - リソースは、[対象要素](#target-elements)の表に示す URL から[取得](https://fetch.spec.whatwg.org/)します。
    - ネットワークエラーが発生した場合、検証失敗として扱うことがあります。(例: [`TypeError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError) `Failed to fetch.` など)
 3. 手順2で取得したそれぞれのリソースと `integrity` プロパティを [SRI セクション 3.3.5](https://www.w3.org/TR/SRI/#does-response-match-metadatalist) に規定されている方法で検証します。
    - サポートしていないハッシュアルゴリズムの場合、検証失敗として扱うことがあります。
