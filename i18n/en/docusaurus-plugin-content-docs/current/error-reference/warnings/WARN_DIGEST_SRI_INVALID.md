@@ -40,7 +40,7 @@ slug: /error-reference/WARN_DIGEST_SRI_INVALID
 
 - `id` の URL から画像を取得できることを確認してください。
 - 現在配信している画像から `digestSRI` を再計算し、設定し直してください。
-  `digestSRI` の検証方法は [`image` データ型の検証](../../opb/context.md#image-datatype-の検証)にて確認することができます。
+  `digestSRI` の検証方法は [`image` データ型の検証](../../opb/context.md#verifying-image-datatype)にて確認することができます。
 
 ## 関連情報
 
