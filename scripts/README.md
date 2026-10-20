@@ -4,7 +4,7 @@
 
 ## 前提
 
-[リファレンス実装開発ガイド](https://cip.docs.originator-profile.org/development/)の記載と同等の環境を用意してください。
+[リファレンス実装開発ガイド](https://docs.originator-profile.org/ja/development/)の記載と同等の環境を用意してください。
 
 ## 初期設定
 
