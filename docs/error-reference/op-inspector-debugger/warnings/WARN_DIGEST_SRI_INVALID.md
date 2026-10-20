@@ -14,7 +14,7 @@ slug: /error-reference/WARN_DIGEST_SRI_INVALID
 
 ## 警告メッセージ
 
-- "digestSRI verification failed. This will become an error after 2027. See: https://docs.originator-profile.org/en/opb/context/#the-image-datatype"
+- "digestSRI verification failed. This will become an error after 2027. See: https://docs.originator-profile.org/opb/context/#the-image-datatype"
 
 ## 警告の原因
 
