@@ -21,8 +21,6 @@ Reference: Consideration of a method to enable verification when using CDN with 
 
 ## Scope
 
-- As for video files, videos delivered with Adaptive Bitrate Streaming are not supported. Only videos delivered as a single video file are supported.
-- Resources that are rendered via CSS, such as the background-image CSS property or the content CSS property, are outside the scope of this document.
 - Dynamic resources through [content negotiation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Content_negotiation) are outside the scope of this document.
 
 ## Terminology
@@ -55,6 +53,54 @@ The following properties are defined:
 :::note
 
 CA issuers should specify `cssSelector` so that the elements that `cssSelector` matches will not change regardless of dynamic changes to the page (RECOMMENDED). For example, instead of specifying only a tag name such as `img` for `cssSelector`, specify a more specific CSS selector such as `#hero-image` or `img.rareClassName`. If there is no CSS selector that can stably and uniquely identify the target element, it is RECOMMENDED to update the page and design the page so that it is easier to identify, for example by specifying an id attribute for the target element.
+
+:::
+
+## Target Elements {#target-elements}
+
+The HTML elements subject to External Resource Integrity verification MUST be limited to those listed in the following table, among the elements defined in [HTML Standard 4.8 Embedded content](https://html.spec.whatwg.org/multipage/embedded-content.html). Verifiers MUST NOT fetch resources of elements not listed in the table. Elements not listed in the table are excluded from verification. The [request destination](https://fetch.spec.whatwg.org/#concept-request-destination) used when fetching a resource MUST be the value in the table.
+
+| Element                                | URL to fetch                                                                                                          | Request destination                                 | Notes                                                                                                                                                                                             |
+| -------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `img`                                  | [`HTMLImageElement.currentSrc`](https://html.spec.whatwg.org/multipage/embedded-content.html#dom-img-currentsrc)      | `image`                                             | The candidate selected by the user agent from the `src` and `srcset` attributes                                                                                                                   |
+| `picture`                              | `currentSrc` of the child `img` element                                                                               | `image`                                             | The `picture` element itself has no URL, so the child `img` element's URL is used                                                                                                                 |
+| `source` (parent is `picture`)         | `currentSrc` of the `img` element in the same `picture` element                                                       | `image`                                             | If the URL to fetch does not match the resolved URL of any candidate in the `srcset` attribute of the `source` element, the element is regarded as not selected and is excluded from verification |
+| `source` (parent is `video` / `audio`) | [`HTMLMediaElement.currentSrc`](https://html.spec.whatwg.org/multipage/media.html#dom-media-currentsrc) of the parent | `video` or `audio`, depending on the parent element | If the URL to fetch does not match the resolved URL of the `src` attribute of the `source` element, the element is regarded as not selected and is excluded from verification                     |
+| `video`                                | [`HTMLMediaElement.currentSrc`](https://html.spec.whatwg.org/multipage/media.html#dom-media-currentsrc)               | `video`                                             | The URL of the `poster` attribute is not covered                                                                                                                                                  |
+| `audio`                                | [`HTMLMediaElement.currentSrc`](https://html.spec.whatwg.org/multipage/media.html#dom-media-currentsrc)               | `audio`                                             |                                                                                                                                                                                                   |
+| `track`                                | `src` attribute                                                                                                       | `track`                                             | Subtitle and chapter files such as WebVTT                                                                                                                                                         |
+
+:::note[Elements under consideration]
+
+The following elements and attributes are under consideration for inclusion in a future version.
+
+- `embed` element: covering it only when the `type` attribute is an image, video, or audio MIME type
+- `object` element: covering it only when the `data` and `type` attributes are similarly restricted
+- `map` and `area` elements: the `href` attribute of the `area` element will be considered together with verification of external links ([#127](https://github.com/originator-profile/docs.originator-profile.org/issues/127))
+- Inline SVG (`svg` element): it can be handled by [HTML Fragment Integrity](./html.md), but that may not be suitable, so consideration continues. External SVG files referenced from an `img` element can be handled as the `img` element in the table above
+- MathML (`math` element)
+- The `poster` attribute of the `video` element
+
+:::
+
+:::info[Elements not covered]
+
+The following elements and resources are not covered. Use the following means instead.
+
+- `iframe` element: place a CA Set in the nested document and verify it in that document
+- `script`, `link`, and `style` elements: use the `integrity` attribute of [Subresource Integrity](https://www.w3.org/TR/SRI/)
+- `a` element: the resource of the `href` attribute is navigated to or downloaded by user action and is not loaded automatically. For the status of verification of external links, see [#127](https://github.com/originator-profile/docs.originator-profile.org/issues/127)
+- Form-related elements (such as `input type="image"`) and resources fetched by CSS (such as the `background-image` and `content` properties): display images to be verified with the `img` element
+- Resources fetched by scripts with `fetch()` or `XMLHttpRequest`: insert them into the document as one of the elements listed in the table and display them
+- Videos delivered with Adaptive Bitrate Streaming (such as HLS and DASH): deliver them as a single video file and display them with the `video` element. A mechanism for assuring the integrity of streamed videos is under consideration separately from External Resource Integrity
+
+:::
+
+:::note[Security Considerations]
+
+Target elements are restricted so that verifiers do not cause requests to URLs the page author did not intend. Such requests may lead to the cross-origin data leakage described in [SRI Section 5.3](https://www.w3.org/TR/sri/#cross-origin-data-leakage).
+
+In addition, in order to prevent an attacker from inferring the content of a cross-origin resource in violation of the [Same-Origin Policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy) by using a known or precomputed hash, when using the SRI validation result to determine the loadability of the cross-origin resource, ensure beforehand that the cross-origin resource is explicitly shared with the request initiator using the [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS) protocol.
 
 :::
 
@@ -237,26 +283,6 @@ In this case, add the `integrity` attribute to the HTML source element and video
 </video>
 ```
 
-### Notes
-
-:::note
-
-When referencing a video element, the external resource specified in the src attribute is validated, but the external resource specified in the poster attribute is not validated. Specifications for making external resources specified in the poster attribute verifiable are under consideration.
-
-:::
-
-:::note
-
-A specification is under consideration to enable verification of external resources specified in the `href` attribute of the a element. The current verification process only defines resource retrieval using the `src` attribute or the `currentSrc` property. For more information, see GitHub Issue [#127](https://github.com/originator-profile/docs.originator-profile.org/issues/127).
-
-:::
-
-:::note[Implementation Notes]
-
-As described in [SRI Section 5.3](https://www.w3.org/TR/sri/#cross-origin-data-leakage), in order to prevent an attacker from inferring the content of a cross-origin resource in violation of the [Same-Origin Policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy) by using a known or precomputed hash, when using the SRI validation result to determine the loadability of the cross-origin resource, ensure beforehand that the cross-origin resource is explicitly shared with the request initiator using the [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS) protocol.
-
-:::
-
 ## Validation Process
 
 1. Searches for the HTML elements corresponding to the External Resource Integrity.
@@ -265,10 +291,8 @@ As described in [SRI Section 5.3](https://www.w3.org/TR/sri/#cross-origin-data-l
    - If the `cssSelector` property is absent, it searches for elements whose `integrity` attribute contains the same value as the `integrity` property.
    - If no elements are found, it may be treated as a verification failure.
 2. Retrieves the resources corresponding to all the elements identified in step 1.
-   - The resources are [fetched](https://fetch.spec.whatwg.org/) from the URL of the attribute or property corresponding to the element type.
-     - img element: [`HTMLImageElement.currentSrc` property](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/currentSrc)
-     - video or audio element: [`HTMLMediaElement.currentSrc` property](https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/currentSrc)
-     - Other elements: `src` attribute
+   - Elements not listed in the [Target Elements](#target-elements) table are excluded from verification without fetching their resources. If no elements remain after the exclusion, it may be treated as a verification failure.
+   - The resources are [fetched](https://fetch.spec.whatwg.org/) from the URL shown in the [Target Elements](#target-elements) table, with the request destination shown in the table.
    - If a network error occurs, it may be treated as a verification failure (e.g. [`TypeError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError) `Failed to fetch.`, etc.).
 3. Validate each of the resources retrieved in step 2 and the `integrity` property using the methods specified in [SRI section 3.3.5](https://www.w3.org/TR/SRI/#does-response-match-metadatalist).
    - If an unsupported hash algorithm is used, it may be treated as a verification failure.
