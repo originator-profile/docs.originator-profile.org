@@ -11,7 +11,7 @@ slug: /error-reference/WARN_CERTIFICATE_DEPRECATED
 
 ## 警告コード: WARN_CERTIFICATE_DEPRECATED
 
-非推奨の [Certificate](../../../opb/certificate.md) 形式の Profile Annotation を検出した場合に通知されます。検証の失敗としては扱われません。
+非推奨の [Certificate](../../opb/certificate.md) 形式の Profile Annotation を検出した場合に通知されます。検証の失敗としては扱われません。
 
 ## 警告メッセージ
 
@@ -51,11 +51,11 @@ slug: /error-reference/WARN_CERTIFICATE_DEPRECATED
 
 ## 解決策
 
-- 2027-01-01 以降、Certificate は検証できなくなります。それまでに [Profile Annotation](../../../opb/pa.md) を発行するよう変更してください。
-  Certificate の仕様は [Certificate](../../../opb/certificate.md) にて確認することができます。
+- 2027-01-01 以降、Certificate は検証できなくなります。それまでに [Profile Annotation](../../opb/pa.md) を発行するよう変更してください。
+  Certificate の仕様は [Certificate](../../opb/certificate.md) にて確認することができます。
 
 ## 関連情報
 
-- [`Certificate`](../../../opb/certificate.md)
-- [`Profile Annotation`](../../../opb/pa.md)
+- [`Certificate`](../../opb/certificate.md)
+- [`Profile Annotation`](../../opb/pa.md)
 - [`INFO_PA_ISSUER_NOT_REGISTERED`](./INFO_PA_ISSUER_NOT_REGISTERED.md)

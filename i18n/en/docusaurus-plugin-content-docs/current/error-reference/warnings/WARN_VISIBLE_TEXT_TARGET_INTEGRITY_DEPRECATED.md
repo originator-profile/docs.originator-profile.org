@@ -19,7 +19,7 @@ Content Attestation の `target` に、非推奨の `VisibleTextTargetIntegrity`
 
 ## 警告の原因
 
-- Content Attestation の `target` に `type` が `VisibleTextTargetIntegrity` の [Content Integrity Descriptor](../../../opb/content-integrity-descriptor/index.mdx) が含まれています。
+- Content Attestation の `target` に `type` が `VisibleTextTargetIntegrity` の [Content Integrity Descriptor](../../opb/content-integrity-descriptor/index.mdx) が含まれています。
 - `innerText` により取得されるレンダリング結果はブラウザ実装に依存し、ブラウザ間で一致しないため、完全性検証の根拠として適切ではありません。
 
 ## 例
@@ -40,10 +40,10 @@ Content Attestation の `target` に、非推奨の `VisibleTextTargetIntegrity`
 
 ## 解決策
 
-- `VisibleTextTargetIntegrity` の使用を避けてください。代わりに [TextTargetIntegrity](../../../opb/content-integrity-descriptor/text.md) や [ExternalResourceTargetIntegrity](../../../opb/content-integrity-descriptor/external-resource.md) の使用を検討してください。
-  より詳しくは [Visible Text within DOM Integrity](../../../opb/content-integrity-descriptor/visible-text.md) にて確認することができます。
+- `VisibleTextTargetIntegrity` の使用を避けてください。代わりに [TextTargetIntegrity](../../opb/content-integrity-descriptor/text.md) や [ExternalResourceTargetIntegrity](../../opb/content-integrity-descriptor/external-resource.md) の使用を検討してください。
+  より詳しくは [Visible Text within DOM Integrity](../../opb/content-integrity-descriptor/visible-text.md) にて確認することができます。
 
 ## 関連情報
 
-- [`Visible Text within DOM Integrity`](../../../opb/content-integrity-descriptor/visible-text.md)
-- [`Content Attestation`](../../../opb/ca.md)
+- [`Visible Text within DOM Integrity`](../../opb/content-integrity-descriptor/visible-text.md)
+- [`Content Attestation`](../../opb/ca.md)
