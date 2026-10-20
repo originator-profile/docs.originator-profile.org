@@ -20,8 +20,6 @@ tags:
 
 ## 範囲
 
-- 動画ファイルについては Adaptive Bitrate Streaming で配信される動画は扱いません。単一の動画ファイルとして配信される動画のみ扱います。
-- background-image CSS プロパティや content CSS プロパティといった CSS で取得表示されるリソースは本文書の範囲外です。
 - [コンテンツネゴシエーション](https://developer.mozilla.org/docs/Web/HTTP/Content_negotiation)による動的なリソースは本文書の範囲外です。
 
 ## 用語
@@ -54,6 +52,54 @@ External Resource Integrity の具体例を次に示します。
 :::note
 
 CA 発行者は、ページの動的な変化によらず `cssSelector` がマッチする要素が変わらないように `cssSelector` を指定してください (RECOMMENDED)。たとえば、`cssSelector` に `img` などのタグ名だけを指定するのではなく、 `#hero-image`, `img.rareClassName` のようにより詳細な CSS セレクターを指定してください。対象要素を安定的に一意に特定するような CSS セレクターがないときには、ページを更新して、対象要素に id 属性を指定するなどして特定しやすいようなページ設計をしてください (RECOMMENDED)。
+
+:::
+
+## 対象要素 {#target-elements}
+
+External Resource Integrity の検証対象となる HTML 要素は、[HTML Standard 4.8 Embedded content](https://html.spec.whatwg.org/multipage/embedded-content.html) に定義される要素のうち、次の表に列挙するものに限られます (MUST)。検証者は、表にない要素のリソースを取得してはなりません (MUST NOT)。表にない要素は検証対象から除きます。リソースを取得するときの [request destination](https://fetch.spec.whatwg.org/#concept-request-destination) は、表の値でなければなりません (MUST)。
+
+| 要素                              | 取得する URL                                                                                                     | request destination | 備考                                                                     |
+| --------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ------------------- | ------------------------------------------------------------------------ |
+| `img`                             | [`HTMLImageElement.currentSrc`](https://html.spec.whatwg.org/multipage/embedded-content.html#dom-img-currentsrc) | `image`             | `src` 属性と `srcset` 属性の候補のうちユーザーエージェントが選択したもの |
+| `picture`                         | 子の `img` 要素の `currentSrc`                                                                                   | `image`             | `picture` 要素自身は URL を持たないため、子の `img` 要素の URL を使用    |
+| `source` (親が `picture`)         | 同じ `picture` 要素内の `img` 要素の `currentSrc`                                                                | `image`             | 当該 `source` 要素が選択されていない場合は検証対象から除く               |
+| `source` (親が `video` / `audio`) | 親要素の [`HTMLMediaElement.currentSrc`](https://html.spec.whatwg.org/multipage/media.html#dom-media-currentsrc) | `video` / `audio`   | 当該 `source` 要素が選択されていない場合は検証対象から除く               |
+| `video`                           | [`HTMLMediaElement.currentSrc`](https://html.spec.whatwg.org/multipage/media.html#dom-media-currentsrc)          | `video`             | `poster` 属性の URL は対象外                                             |
+| `audio`                           | [`HTMLMediaElement.currentSrc`](https://html.spec.whatwg.org/multipage/media.html#dom-media-currentsrc)          | `audio`             |                                                                          |
+| `track`                           | `src` 属性                                                                                                       | `track`             | WebVTT などの字幕・チャプターファイル                                    |
+
+:::note[検討中の要素]
+
+次の要素や属性は、将来の版で対象に加えることを検討しています。
+
+- `embed` 要素: `type` 属性が画像・動画・音声の MIME タイプである場合に限って対象とする案
+- `object` 要素: `data` 属性と `type` 属性を同様に限定して対象とする案
+- `map` 要素と `area` 要素: `area` 要素の `href` 属性は、外部リンクの検証 ([#127](https://github.com/originator-profile/docs.originator-profile.org/issues/127)) とあわせて検討します
+- インライン SVG (`svg` 要素): [HTML Fragment Integrity](./html.md) でも扱えますが、適しているとは限らないため検討を続けます。`img` 要素から参照される外部 SVG ファイルは、上表の `img` 要素として扱えます
+- MathML (`math` 要素)
+- `video` 要素の `poster` 属性
+
+:::
+
+:::info[対象外とした要素]
+
+次の要素やリソースは対象外です。それぞれ次の手段を使用してください。
+
+- `iframe` 要素: 入れ子の文書に CA Set を設置し、その文書で検証してください
+- `script` 要素、`link` 要素、`style` 要素: [Subresource Integrity](https://www.w3.org/TR/SRI/) の `integrity` 属性を使用してください
+- `a` 要素: `href` 属性のリソースはユーザー操作によって遷移・ダウンロードされるもので、自動的には読み込まれません。外部リンクの検証の検討状況は [#127](https://github.com/originator-profile/docs.originator-profile.org/issues/127) を参照してください
+- フォーム関連の要素 (`input type="image"` など) や CSS で取得されるリソース (`background-image` プロパティ、`content` プロパティなど): 検証対象とする画像は `img` 要素で表示してください
+- スクリプトから `fetch()` や `XMLHttpRequest` で取得されるリソース: 表に挙げた要素として文書に挿入して表示してください
+- Adaptive Bitrate Streaming (HLS、DASH など) で配信される動画: 単一の動画ファイルとして配信し、`video` 要素で表示してください。ストリーミング配信される動画の完全性を保証する仕組みは、External Resource Integrity とは別に検討しています
+
+:::
+
+:::note[セキュリティ上の注意]
+
+対象要素を限定するのは、ページ作成者が意図しない URL へのリクエストを検証者が発生させないためです。そのようなリクエストは、[SRI セクション 5.3](https://www.w3.org/TR/sri/#cross-origin-data-leakage) に述べられるクロスオリジン情報のリークにつながる可能性があります。
+
+また、攻撃者が既知あるいは事前に計算したハッシュ値により、[同一オリジンポリシー](https://developer.mozilla.org/ja/docs/Web/Security/Same-origin_policy)に違反してクロスオリジンリソースの内容を推測することを防ぐために、SRI 検証結果をクロスオリジンリソースの読み込み可否に使用する場合には、事前に[CORS](https://developer.mozilla.org/ja/docs/Web/HTTP/Guides/CORS) プロトコルを使用してクロスオリジンリソースがリクエスト元と明示的に共有されていることを確認してください。
 
 :::
 
@@ -236,26 +282,6 @@ External Resource Integrity:
 </video>
 ```
 
-### 注意事項
-
-:::note
-
-video 要素を参照する場合、src 属性に指定された外部リソースが検証され、poster 属性に指定された外部リソースは検証されません。poster 属性に指定された外部リソースを検証可能にするための仕様は検討中です。
-
-:::
-
-:::note
-
-a 要素の `href` 属性で指定された外部リソースを検証可能にするための仕様は検討中です。現在の検証プロセスでは `src` 属性または `currentSrc` プロパティを使用したリソース取得のみが定義されています。詳しくは GitHub Issue [#127](https://github.com/originator-profile/docs.originator-profile.org/issues/127) をご確認ください。
-
-:::
-
-:::note[実装上の注意点]
-
-[SRI セクション 5.3](https://www.w3.org/TR/sri/#cross-origin-data-leakage) にあるように、攻撃者が既知あるいは事前に計算したハッシュ値により、[同一オリジンポリシー](https://developer.mozilla.org/ja/docs/Web/Security/Same-origin_policy)に違反してクロスオリジンリソースの内容を推測することを防ぐために、SRI 検証結果をクロスオリジンリソースの読み込み可否に使用する場合には、事前に[CORS](https://developer.mozilla.org/ja/docs/Web/HTTP/Guides/CORS) プロトコルを使用してクロスオリジンリソースがリクエスト元と明示的に共有されていることを確認してください。
-
-:::
-
 ## 検証プロセス
 
 1. External Resource Integrity に対応する HTML 要素を検索します。
@@ -264,10 +290,8 @@ a 要素の `href` 属性で指定された外部リソースを検証可能に�
    - `cssSelector` プロパティがない場合、`integrity` プロパティと同じ値を `integrity` 属性に含む要素を検索します。
    - 要素が1つも見つからない場合、検証失敗として扱うことがあります。
 2. 手順1に該当したすべての要素に対応するリソースを取得します。
-   - リソースは、要素の種類に応じた属性またはプロパティの URL から[取得](https://fetch.spec.whatwg.org/)します。
-     - img 要素: [`HTMLImageElement.currentSrc` プロパティ](https://developer.mozilla.org/ja/docs/Web/API/HTMLImageElement/currentSrc)
-     - video 要素または audio 要素: [`HTMLMediaElement.currentSrc` プロパティ](https://developer.mozilla.org/ja/docs/Web/API/HTMLMediaElement/currentSrc)
-     - その他の要素: `src` 属性
+   - [対象要素](#target-elements)の表にない要素は、リソースを取得せず検証対象から除きます。除いた結果、要素が1つも残らない場合、検証失敗として扱うことがあります。
+   - リソースは、[対象要素](#target-elements)の表に示す URL から、表に示す request destination で[取得](https://fetch.spec.whatwg.org/)します。
    - ネットワークエラーが発生した場合、検証失敗として扱うことがあります。(例: [`TypeError`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError) `Failed to fetch.` など)
 3. 手順2で取得したそれぞれのリソースと `integrity` プロパティを [SRI セクション 3.3.5](https://www.w3.org/TR/SRI/#does-response-match-metadatalist) に規定されている方法で検証します。
    - サポートしていないハッシュアルゴリズムの場合、検証失敗として扱うことがあります。
