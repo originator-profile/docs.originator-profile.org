@@ -5,7 +5,13 @@ tags:
   - Profile Annotation
 ---
 
-# Local Government Certification PA
+# Local Government Certification PA ⚠
+
+:::warning[Deprecation Warning]
+
+Please change to issuing an [Industry Association Membership Certification PA](./membership.md) instead.
+
+:::
 
 ## Terminology
 
