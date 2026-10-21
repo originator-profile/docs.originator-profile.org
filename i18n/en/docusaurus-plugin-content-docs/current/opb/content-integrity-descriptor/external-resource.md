@@ -62,15 +62,15 @@ The HTML elements subject to External Resource Integrity verification MUST be li
 
 The Request destination column of the table shows, for reference, the [request destination](https://fetch.spec.whatwg.org/#concept-request-destination) used when the user agent loads the resource of the element. This document does not specify the request destination used when verifiers fetch resources.
 
-| Element                                | URL to fetch                                                                                                          | Request destination (for reference)                 | Notes                                                                                                                                                                                             |
-| -------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `img`                                  | [`HTMLImageElement.currentSrc`](https://html.spec.whatwg.org/multipage/embedded-content.html#dom-img-currentsrc)      | `image`                                             | The candidate selected by the user agent from the `src` and `srcset` attributes                                                                                                                   |
-| `picture`                              | `currentSrc` of the child `img` element                                                                               | `image`                                             | The `picture` element itself has no URL, so the child `img` element's URL is used                                                                                                                 |
-| `source` (parent is `picture`)         | `currentSrc` of the `img` element in the same `picture` element                                                       | `image`                                             | If the URL to fetch does not match the resolved URL of any candidate in the `srcset` attribute of the `source` element, the element is regarded as not selected and is excluded from verification |
-| `source` (parent is `video` / `audio`) | [`HTMLMediaElement.currentSrc`](https://html.spec.whatwg.org/multipage/media.html#dom-media-currentsrc) of the parent | `video` or `audio`, depending on the parent element | If the URL to fetch does not match the resolved URL of the `src` attribute of the `source` element, the element is regarded as not selected and is excluded from verification                     |
-| `video`                                | [`HTMLMediaElement.currentSrc`](https://html.spec.whatwg.org/multipage/media.html#dom-media-currentsrc)               | `video`                                             | The URL of the `poster` attribute is not covered                                                                                                                                                  |
-| `audio`                                | [`HTMLMediaElement.currentSrc`](https://html.spec.whatwg.org/multipage/media.html#dom-media-currentsrc)               | `audio`                                             |                                                                                                                                                                                                   |
-| `track`                                | `src` attribute                                                                                                       | `track`                                             | Subtitle and chapter files such as WebVTT                                                                                                                                                         |
+| Element                                | URL to fetch                                                                                                     | Request destination (for reference)                 | Notes                                                                                                                                                                                             |
+| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `img`                                  | [`HTMLImageElement.currentSrc`](https://html.spec.whatwg.org/multipage/embedded-content.html#dom-img-currentsrc) | `image`                                             | The candidate selected by the user agent from the `src` and `srcset` attributes                                                                                                                   |
+| `picture`                              | `currentSrc` of the child `img` element                                                                          | `image`                                             | The `picture` element itself has no URL, so the child `img` element's URL is used                                                                                                                 |
+| `source` (parent is `picture`)         | `currentSrc` of the `img` element in the same `picture` element                                                  | `image`                                             | If the URL to fetch does not match the resolved URL of any candidate in the `srcset` attribute of the `source` element, the element is regarded as not selected and is excluded from verification |
+| `source` (parent is `video` / `audio`) | `src` attribute                                                                                                  | `video` or `audio`, depending on the parent element | Covered regardless of whether it is selected by the parent element                                                                                                                                |
+| `video`                                | [`HTMLMediaElement.currentSrc`](https://html.spec.whatwg.org/multipage/media.html#dom-media-currentsrc)          | `video`                                             | The URL of the `poster` attribute is not covered                                                                                                                                                  |
+| `audio`                                | [`HTMLMediaElement.currentSrc`](https://html.spec.whatwg.org/multipage/media.html#dom-media-currentsrc)          | `audio`                                             |                                                                                                                                                                                                   |
+| `track`                                | `src` attribute                                                                                                  | `track`                                             | Subtitle and chapter files such as WebVTT                                                                                                                                                         |
 
 :::note[Elements under consideration]
 
@@ -138,24 +138,44 @@ In this case, make the CSS selector match the HTML img element of the web page a
 </picture>
 ```
 
-Below is an example of referencing a video element with the `cssSelector` property. Since the `currentSrc` of the video element is the candidate selected by the user agent from the source elements, include the hashes of all resources that may be selected in the `integrity` property.
+Below is an example of referencing a video element with the `cssSelector` property. Since the `currentSrc` of the video element is the candidate selected by the user agent from the source elements, include the hashes of all resources that may be selected in the `integrity` property that references the video element. An External Resource Integrity that references a source element verifies the resource of the `src` attribute of that source element, regardless of whether it is selected by the parent element.
 
 External Resource Integrity:
 
 ```json
-{
-  "type": "ExternalResourceTargetIntegrity",
-  "cssSelector": "#product-video",
-  "integrity": "sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w= sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
-}
+[
+  {
+    "type": "ExternalResourceTargetIntegrity",
+    "cssSelector": "#product-video",
+    "integrity": "sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w= sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
+  },
+  {
+    "type": "ExternalResourceTargetIntegrity",
+    "cssSelector": "#product-video-mp4",
+    "integrity": "sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w="
+  },
+  {
+    "type": "ExternalResourceTargetIntegrity",
+    "cssSelector": "#product-video-webm",
+    "integrity": "sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
+  }
+]
 ```
 
-In this case, make the CSS selector match the HTML video element of the web page as follows:
+In this case, make the CSS selectors match the HTML video element and source elements of the web page as follows:
 
 ```html
 <video id="product-video" poster="https://cdn.example.com/poster.jpg">
-  <source src="https://cdn.example.com/video.mp4" type="video/mp4" />
-  <source src="https://cdn.example.com/video.webm" type="video/webm" />
+  <source
+    id="product-video-mp4"
+    src="https://cdn.example.com/video.mp4"
+    type="video/mp4"
+  />
+  <source
+    id="product-video-webm"
+    src="https://cdn.example.com/video.webm"
+    type="video/webm"
+  />
 </video>
 ```
 
@@ -212,21 +232,35 @@ Below is an example of referencing a video element from an External Resource Int
 External Resource Integrity:
 
 ```json
-{
-  "type": "ExternalResourceTargetIntegrity",
-  "integrity": "sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w= sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
-}
+[
+  {
+    "type": "ExternalResourceTargetIntegrity",
+    "integrity": "sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w= sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
+  },
+  {
+    "type": "ExternalResourceTargetIntegrity",
+    "integrity": "sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
+  }
+]
 ```
 
-In this case, add the `integrity` attribute to the HTML video element of the web page as follows:
+In this case, add the `integrity` attribute to the HTML source element and video element of the web page as follows:
 
 ```html
 <video
   integrity="sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w= sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
   poster="https://cdn.example.com/poster.jpg"
 >
-  <source src="https://cdn.example.com/video.mp4" type="video/mp4" />
-  <source src="https://cdn.example.com/video.webm" type="video/webm" />
+  <source
+    src="https://cdn.example.com/video.mp4"
+    integrity="sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w="
+    type="video/mp4"
+  />
+  <source
+    src="https://cdn.example.com/video.webm"
+    integrity="sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
+    type="video/webm"
+  />
 </video>
 ```
 

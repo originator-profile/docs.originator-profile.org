@@ -66,7 +66,7 @@ External Resource Integrity の検証対象となる HTML 要素は、[HTML Stan
 | `img`                             | [`HTMLImageElement.currentSrc`](https://html.spec.whatwg.org/multipage/embedded-content.html#dom-img-currentsrc) | `image`                               | `src` 属性と `srcset` 属性の候補のうちユーザーエージェントが選択したもの                                                                         |
 | `picture`                         | 子の `img` 要素の `currentSrc`                                                                                   | `image`                               | `picture` 要素自身は URL を持たないため、子の `img` 要素の URL を使用                                                                            |
 | `source` (親が `picture`)         | 同じ `picture` 要素内の `img` 要素の `currentSrc`                                                                | `image`                               | 取得する URL が、当該 `source` 要素の `srcset` 属性のいずれの候補を解決した URL とも一致しない場合は、選択されていないものとして検証対象から除く |
-| `source` (親が `video` / `audio`) | 親要素の [`HTMLMediaElement.currentSrc`](https://html.spec.whatwg.org/multipage/media.html#dom-media-currentsrc) | 親要素に応じて `video` または `audio` | 取得する URL が、当該 `source` 要素の `src` 属性を解決した URL と一致しない場合は、選択されていないものとして検証対象から除く                    |
+| `source` (親が `video` / `audio`) | `src` 属性                                                                                                       | 親要素に応じて `video` または `audio` | 親要素で選択されたかどうかによらず検証対象とする                                                                                                 |
 | `video`                           | [`HTMLMediaElement.currentSrc`](https://html.spec.whatwg.org/multipage/media.html#dom-media-currentsrc)          | `video`                               | `poster` 属性の URL は対象外                                                                                                                     |
 | `audio`                           | [`HTMLMediaElement.currentSrc`](https://html.spec.whatwg.org/multipage/media.html#dom-media-currentsrc)          | `audio`                               |                                                                                                                                                  |
 | `track`                           | `src` 属性                                                                                                       | `track`                               | WebVTT などの字幕・チャプターファイル                                                                                                            |
@@ -137,24 +137,44 @@ External Resource Integrity:
 </picture>
 ```
 
-video 要素を `cssSelector` プロパティで参照する場合の具体例を次に示します。video 要素の `currentSrc` は、source 要素の候補からユーザーエージェントが選択したものになるため、`integrity` プロパティには選択されうるすべてのリソースのハッシュ値を含めます。
+video 要素を `cssSelector` プロパティで参照する場合の具体例を次に示します。video 要素の `currentSrc` は、source 要素の候補からユーザーエージェントが選択したものになるため、video 要素を参照する `integrity` プロパティには選択されうるすべてのリソースのハッシュ値を含めます。source 要素を参照する External Resource Integrity は、親要素で選択されたかどうかによらず、その source 要素の `src` 属性のリソースを検証します。
 
 External Resource Integrity:
 
 ```json
-{
-  "type": "ExternalResourceTargetIntegrity",
-  "cssSelector": "#product-video",
-  "integrity": "sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w= sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
-}
+[
+  {
+    "type": "ExternalResourceTargetIntegrity",
+    "cssSelector": "#product-video",
+    "integrity": "sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w= sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
+  },
+  {
+    "type": "ExternalResourceTargetIntegrity",
+    "cssSelector": "#product-video-mp4",
+    "integrity": "sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w="
+  },
+  {
+    "type": "ExternalResourceTargetIntegrity",
+    "cssSelector": "#product-video-webm",
+    "integrity": "sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
+  }
+]
 ```
 
-このとき Web ページの HTML の video 要素に、次のように CSS セレクターがマッチするようにします。
+このとき Web ページの HTML の video 要素と source 要素に、次のように CSS セレクターがマッチするようにします。
 
 ```html
 <video id="product-video" poster="https://cdn.example.com/poster.jpg">
-  <source src="https://cdn.example.com/video.mp4" type="video/mp4" />
-  <source src="https://cdn.example.com/video.webm" type="video/webm" />
+  <source
+    id="product-video-mp4"
+    src="https://cdn.example.com/video.mp4"
+    type="video/mp4"
+  />
+  <source
+    id="product-video-webm"
+    src="https://cdn.example.com/video.webm"
+    type="video/webm"
+  />
 </video>
 ```
 
@@ -211,21 +231,35 @@ video 要素を External Resource Integrity から参照する場合の具体例
 External Resource Integrity:
 
 ```json
-{
-  "type": "ExternalResourceTargetIntegrity",
-  "integrity": "sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w= sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
-}
+[
+  {
+    "type": "ExternalResourceTargetIntegrity",
+    "integrity": "sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w= sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
+  },
+  {
+    "type": "ExternalResourceTargetIntegrity",
+    "integrity": "sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
+  }
+]
 ```
 
-このとき Web ページの HTML の video 要素に次のように `integrity` 属性を付与します。
+このとき Web ページの HTML の source 要素と video 要素に次のように `integrity` 属性を付与します。
 
 ```html
 <video
   integrity="sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w= sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
   poster="https://cdn.example.com/poster.jpg"
 >
-  <source src="https://cdn.example.com/video.mp4" type="video/mp4" />
-  <source src="https://cdn.example.com/video.webm" type="video/webm" />
+  <source
+    src="https://cdn.example.com/video.mp4"
+    integrity="sha256-OYP9B9EPFBi1vs0dUqOhSbHmtP+ZSTsUv2/OjSzWK0w="
+    type="video/mp4"
+  />
+  <source
+    src="https://cdn.example.com/video.webm"
+    integrity="sha256-zc3KMRPJkbv6p7sOq5Di/CNe+4XyqBBuiKjzP3A3NP0="
+    type="video/webm"
+  />
 </video>
 ```
 
