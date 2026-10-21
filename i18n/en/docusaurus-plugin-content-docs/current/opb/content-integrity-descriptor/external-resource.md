@@ -117,28 +117,39 @@ Make the HTML elements to be verified identifiable by either of the following me
 
 #### Identifying elements by the `cssSelector` property
 
-Below is an example of referencing the img element in a picture element with the `cssSelector` property. Since the `currentSrc` of the img element is the candidate selected by the user agent from the source and img elements, include the hashes of all resources that may be selected in the `integrity` property.
+Below is an example of referencing the source and img elements with the `cssSelector` property:
 
 External Resource Integrity:
 
 ```json
-{
-  "type": "ExternalResourceTargetIntegrity",
-  "cssSelector": "#hero-image",
-  "integrity": "sha256-t7WZSGxDdqGvGg/FLw6wk9KFQy5StT1MquCf/htwjBo= sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
-}
+[
+  {
+    "type": "ExternalResourceTargetIntegrity",
+    "cssSelector": "#hero-image-source",
+    "integrity": "sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
+  },
+  {
+    "type": "ExternalResourceTargetIntegrity",
+    "cssSelector": "#hero-image",
+    "integrity": "sha256-t7WZSGxDdqGvGg/FLw6wk9KFQy5StT1MquCf/htwjBo= sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
+  }
+]
 ```
 
-In this case, make the CSS selector match the HTML img element of the web page as follows:
+In this case, make the CSS selectors match the HTML source element and img element of the web page as follows:
 
 ```html
 <picture>
-  <source srcset="image.jpg" media="(min-width: 400px)" />
+  <source
+    id="hero-image-source"
+    srcset="image.jpg"
+    media="(min-width: 400px)"
+  />
   <img id="hero-image" src="https://cdn.example.com/image.jpg" />
 </picture>
 ```
 
-Below is an example of referencing a video element with the `cssSelector` property. Since the `currentSrc` of the video element is the candidate selected by the user agent from the source elements, include the hashes of all resources that may be selected in the `integrity` property that references the video element. An External Resource Integrity that references a source element verifies the resource of the `src` attribute of that source element, regardless of whether it is selected by the parent element.
+Below is an example of referencing a video element with the `cssSelector` property.
 
 External Resource Integrity:
 
@@ -204,22 +215,32 @@ In this case, make the CSS selector match the HTML img elements of the web page 
 
 #### Identifying elements by the `integrity` attribute
 
-Below is an example of referencing the img element in a picture element from an External Resource Integrity:
+Below is an example of referencing the source and img elements from an External Resource Integrity:
 
 External Resource Integrity:
 
 ```json
-{
-  "type": "ExternalResourceTargetIntegrity",
-  "integrity": "sha256-t7WZSGxDdqGvGg/FLw6wk9KFQy5StT1MquCf/htwjBo= sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
-}
+[
+  {
+    "type": "ExternalResourceTargetIntegrity",
+    "integrity": "sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
+  },
+  {
+    "type": "ExternalResourceTargetIntegrity",
+    "integrity": "sha256-t7WZSGxDdqGvGg/FLw6wk9KFQy5StT1MquCf/htwjBo= sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
+  }
+]
 ```
 
-In this case, add the `integrity` attribute to the HTML img element of the web page as follows:
+In this case, add the `integrity` attribute to the HTML source element and img element of the web page as follows:
 
 ```html
 <picture>
-  <source srcset="image.jpg" media="(min-width: 400px)" />
+  <source
+    srcset="image.jpg"
+    media="(min-width: 400px)"
+    integrity="sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
+  />
   <img
     src="https://cdn.example.com/image.jpg"
     integrity="sha256-t7WZSGxDdqGvGg/FLw6wk9KFQy5StT1MquCf/htwjBo= sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="

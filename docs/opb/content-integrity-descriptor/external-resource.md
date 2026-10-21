@@ -116,28 +116,39 @@ External Resource Integrity の検証対象となる HTML 要素は、[HTML Stan
 
 #### `cssSelector` プロパティで要素を特定する場合
 
-picture 要素内の img 要素を `cssSelector` プロパティで参照する場合の具体例を次に示します。img 要素の `currentSrc` は、source 要素と img 要素の候補からユーザーエージェントが選択したものになるため、`integrity` プロパティには選択されうるすべてのリソースのハッシュ値を含めます。
+source 要素と img 要素を `cssSelector` プロパティで参照する場合の具体例を次に示します。
 
 External Resource Integrity:
 
 ```json
-{
-  "type": "ExternalResourceTargetIntegrity",
-  "cssSelector": "#hero-image",
-  "integrity": "sha256-t7WZSGxDdqGvGg/FLw6wk9KFQy5StT1MquCf/htwjBo= sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
-}
+[
+  {
+    "type": "ExternalResourceTargetIntegrity",
+    "cssSelector": "#hero-image-source",
+    "integrity": "sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
+  },
+  {
+    "type": "ExternalResourceTargetIntegrity",
+    "cssSelector": "#hero-image",
+    "integrity": "sha256-t7WZSGxDdqGvGg/FLw6wk9KFQy5StT1MquCf/htwjBo= sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
+  }
+]
 ```
 
-このとき Web ページの HTML の img 要素に、次のように CSS セレクターがマッチするようにします。
+このとき Web ページの HTML の source 要素と img 要素に、次のように CSS セレクターがマッチするようにします。
 
 ```html
 <picture>
-  <source srcset="image.jpg" media="(min-width: 400px)" />
+  <source
+    id="hero-image-source"
+    srcset="image.jpg"
+    media="(min-width: 400px)"
+  />
   <img id="hero-image" src="https://cdn.example.com/image.jpg" />
 </picture>
 ```
 
-video 要素を `cssSelector` プロパティで参照する場合の具体例を次に示します。video 要素の `currentSrc` は、source 要素の候補からユーザーエージェントが選択したものになるため、video 要素を参照する `integrity` プロパティには選択されうるすべてのリソースのハッシュ値を含めます。source 要素を参照する External Resource Integrity は、親要素で選択されたかどうかによらず、その source 要素の `src` 属性のリソースを検証します。
+video 要素を `cssSelector` プロパティで参照する場合の具体例を次に示します。
 
 External Resource Integrity:
 
@@ -203,22 +214,32 @@ External Resource Integrity:
 
 #### `integrity` 属性で要素を特定する場合
 
-picture 要素内の img 要素を External Resource Integrity から参照する場合の具体例を次に示します。
+source 要素と img 要素を External Resource Integrity から参照する場合の具体例を次に示します。
 
 External Resource Integrity:
 
 ```json
-{
-  "type": "ExternalResourceTargetIntegrity",
-  "integrity": "sha256-t7WZSGxDdqGvGg/FLw6wk9KFQy5StT1MquCf/htwjBo= sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
-}
+[
+  {
+    "type": "ExternalResourceTargetIntegrity",
+    "integrity": "sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
+  },
+  {
+    "type": "ExternalResourceTargetIntegrity",
+    "integrity": "sha256-t7WZSGxDdqGvGg/FLw6wk9KFQy5StT1MquCf/htwjBo= sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
+  }
+]
 ```
 
-このとき Web ページの HTML の img 要素に次のように `integrity` 属性を付与します。
+このとき Web ページの HTML の source 要素と img 要素に次のように `integrity` 属性を付与します。
 
 ```html
 <picture>
-  <source srcset="image.jpg" media="(min-width: 400px)" />
+  <source
+    srcset="image.jpg"
+    media="(min-width: 400px)"
+    integrity="sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
+  />
   <img
     src="https://cdn.example.com/image.jpg"
     integrity="sha256-t7WZSGxDdqGvGg/FLw6wk9KFQy5StT1MquCf/htwjBo= sha256-4HLmAAYVRClrk+eCIrI1Rlf5/IKK0+wGoYjRs9vzl7U="
