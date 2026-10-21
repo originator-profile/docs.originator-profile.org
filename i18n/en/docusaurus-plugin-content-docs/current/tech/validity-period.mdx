@@ -112,7 +112,7 @@ The guidelines as of October 2026 are as follows:
 
 An issued WSP or CA loses its validity when its validity period expires or when the public key used for signing is removed from the [CP](/opb/cp.md) of the OP.
 Removing a public key revokes all VCs signed with that key at once.
-Because there is no mechanism to revoke an individual CA on its own, the only way for a CA to lose its validity is to wait for its validity period to expire.
+Because there is no mechanism to revoke an individual CA on its own, revoking a specific CA without also revoking other VCs signed with the same key requires waiting for its validity period to expire.
 
 Therefore, the length of the validity period is the upper bound of the period during which a WSP or CA passes verification.
 For example, even after an article is taken down, if its CA remains in copies of the web page or elsewhere, verification succeeds until the validity period expires.
