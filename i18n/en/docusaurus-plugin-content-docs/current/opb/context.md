@@ -289,6 +289,14 @@ _This section is non-normative._
         "streetAddress": "https://schema.org/streetAddress"
       }
     },
+    "Membership": {
+      "@id": "https://originator-profile.org/ns/cip/v1#Membership",
+      "@context": {
+        "@protected": true,
+        "id": "@id",
+        "type": "@type"
+      }
+    },
     "AdvertisingQualityCertificate": {
       "@id": "https://originator-profile.org/ns/cip/v1#AdvertisingQualityCertificate",
       "@context": {

@@ -4,7 +4,13 @@ tags:
   - Profile Annotation
 ---
 
-# 報道機関登録証 PA
+# 報道機関登録証 PA ⚠
+
+:::warning[非推奨になりました]
+
+代わりに [業界団体所属証 PA](./membership.md) を発行するよう変更してください。
+
+:::
 
 ## 用語
 
