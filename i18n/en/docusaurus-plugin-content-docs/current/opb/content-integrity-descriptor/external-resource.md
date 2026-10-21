@@ -269,7 +269,7 @@ In this case, add the `integrity` attribute to the HTML source element and video
 1. Searches for the HTML elements corresponding to the External Resource Integrity.
    - If the `cssSelector` property is present, it searches for elements specified by the CSS selector in the `cssSelector` property. The target elements are searched for using the `querySelectorAll()` method, starting from the root element of the page's `document` (for example, the `<html>` element for an HTML document).
      - If there is a syntax error in the `cssSelector` property, it may be treated as a verification failure (e.g. [`DOMException`](https://developer.mozilla.org/en-US/docs/Web/API/DOMException) `SyntaxError`).
-   - If the `cssSelector` property is absent, it searches for elements whose `integrity` attribute contains the same value as the `integrity` property.
+   - If the `cssSelector` property is absent, it searches for elements whose `integrity` attribute has the same value as the `integrity` property, using the [specified method](#how-to-identify-element-location).
    - If no elements are found, it may be treated as a verification failure.
 2. Retrieves the resources corresponding to all the elements identified in step 1.
    - Elements not listed in the [Target Elements](#target-elements) table are excluded from verification without fetching their resources. If no elements remain after the exclusion, it may be treated as a verification failure.
@@ -278,7 +278,7 @@ In this case, add the `integrity` attribute to the HTML source element and video
 3. Validate each of the resources retrieved in step 2 and the `integrity` property using the methods specified in [SRI section 3.3.5](https://www.w3.org/TR/SRI/#does-response-match-metadatalist).
    - If an unsupported hash algorithm is used, it may be treated as a verification failure.
 
-## How to identify element location
+## How to identify element location {#how-to-identify-element-location}
 
 Elements are identified as follows, depending on whether the `cssSelector` property is present:
 

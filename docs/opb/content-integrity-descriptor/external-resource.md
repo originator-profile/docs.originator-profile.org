@@ -268,7 +268,7 @@ External Resource Integrity:
 1. External Resource Integrity に対応する HTML 要素を検索します。
    - `cssSelector` プロパティがある場合、`cssSelector` プロパティの CSS セレクターで指定した要素を検索します。対象の要素は、そのページの `document` のルート要素 (例えば、 HTML 文書の場合は `<html>` 要素) から、`querySelectorAll()` メソッドを使用して検索します。
      - `cssSelector` プロパティの構文エラーがある場合、検証失敗として扱うことがあります。(例: [`DOMException`](https://developer.mozilla.org/en-US/docs/Web/API/DOMException) `SyntaxError`)
-   - `cssSelector` プロパティがない場合、`integrity` プロパティと同じ値を `integrity` 属性に含む要素を検索します。
+   - `cssSelector` プロパティがない場合、`integrity` プロパティと同じ値の `integrity` 属性を持つ要素を[規定した方法](#how-to-identify-element-location)で検索します。
    - 要素が1つも見つからない場合、検証失敗として扱うことがあります。
 2. 手順1に該当したすべての要素に対応するリソースを取得します。
    - [対象要素](#target-elements)の表にない要素は、リソースを取得せず検証対象から除きます。除いた結果、要素が1つも残らない場合、検証失敗として扱うことがあります。
@@ -277,7 +277,7 @@ External Resource Integrity:
 3. 手順2で取得したそれぞれのリソースと `integrity` プロパティを [SRI セクション 3.3.5](https://www.w3.org/TR/SRI/#does-response-match-metadatalist) に規定されている方法で検証します。
    - サポートしていないハッシュアルゴリズムの場合、検証失敗として扱うことがあります。
 
-## 要素位置特定方法
+## 要素位置特定方法 {#how-to-identify-element-location}
 
 `cssSelector` プロパティの有無に応じて次のように要素を特定します。
 
