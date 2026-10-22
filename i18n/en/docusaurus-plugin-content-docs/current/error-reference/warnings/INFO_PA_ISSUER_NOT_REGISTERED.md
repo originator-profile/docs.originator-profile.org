@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/ca6a115/docs/error-reference/op-inspector-debugger/warnings/INFO_PA_ISSUER_NOT_REGISTERED.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/710d107/docs/error-reference/warnings/INFO_PA_ISSUER_NOT_REGISTERED.md
 tags:
   - Error Reference
   - Profile Annotation
@@ -9,28 +9,28 @@ slug: /error-reference/INFO_PA_ISSUER_NOT_REGISTERED
 
 # INFO_PA_ISSUER_NOT_REGISTERED
 
-## 情報コード: INFO_PA_ISSUER_NOT_REGISTERED
+## Information Code: INFO_PA_ISSUER_NOT_REGISTERED
 
-Profile Annotation の発行者が、その PA の `credentialSubject.annotation`（[Profile Annotation Policy](../../opb/pa-model/pa-policy.md)）に基づく PA の発行を、[Profile Annotation Issuer 登録証 PA](../../opb/pa-model/profile-annotation-issuer-registration.md) によって認可されていることを確認できなかった場合に通知されます。警告ではなく情報として通知され、検証の失敗としては扱われません。
+This information is reported when it cannot be confirmed that the issuer of a Profile Annotation is authorized, by a [Profile Annotation Issuer Registration PA](../../opb/pa-model/profile-annotation-issuer-registration.md), to issue PAs based on that PA's `credentialSubject.annotation` ([Profile Annotation Policy](../../opb/pa-model/pa-policy.md)). It is reported as information rather than a warning, and is not treated as a verification failure.
 
-## 情報メッセージ
+## Information Message
 
-- "Profile Annotation Issuer is not registered for this annotation scheme (OP[`i`].PA[`j`] issuer: `<発行者の OP ID>`, scheme: `<Profile Annotation Policy の ID>`)"
+- "Profile Annotation Issuer is not registered for this annotation scheme (OP[`i`].PA[`j`] issuer: `<OP ID of the issuer>`, scheme: `<ID of the Profile Annotation Policy>`)"
 
-`i` は Originator Profile Set 内の OP の位置、`j` はその OP に含まれる PA の位置を表します。`scheme` は Profile Annotation Policy の ID で、取得できない場合は `unknown` になります。
+`i` indicates the position of the OP within the Originator Profile Set, and `j` indicates the position of the PA within that OP. `scheme` is the ID of the Profile Annotation Policy; if it cannot be obtained, it is `unknown`.
 
-## 情報の原因
+## Causes
 
-- Profile Annotation Issuer が Profile Annotation Issuer 登録証 PA を保有していません。
-- Profile Annotation Issuer 登録証 PA の `credentialSubject.annotationScheme` に、検証対象の Profile Annotation Policy の ID が含まれていません。
-- Profile Annotation Issuer 登録証 PA の `issuer` が、検証者が信頼する OP レジストリではありません。
-- 検証対象の PA に Profile Annotation Policy の ID が設定されていません。
+- The Profile Annotation Issuer does not hold a Profile Annotation Issuer Registration PA.
+- The `credentialSubject.annotationScheme` of the Profile Annotation Issuer Registration PA does not include the ID of the Profile Annotation Policy being verified.
+- The `issuer` of the Profile Annotation Issuer Registration PA is not an OP registry trusted by the verifier.
+- The PA being verified does not have a Profile Annotation Policy ID set.
 
-## 例
+## Examples
 
-- Profile Annotation Policy の ID が、Profile Annotation Issuer 登録証 PA の `credentialSubject.annotationScheme` に含まれていない。
+- The ID of the Profile Annotation Policy is not included in the `credentialSubject.annotationScheme` of the Profile Annotation Issuer Registration PA.
 
-検証対象 PA の `credentialSubject.annotation`:
+`credentialSubject.annotation` of the PA being verified:
 
 ```json
 {
@@ -41,7 +41,7 @@ Profile Annotation の発行者が、その PA の `credentialSubject.annotation
 }
 ```
 
-Profile Annotation Issuer 登録証 PA の `credentialSubject.annotationScheme`:
+`credentialSubject.annotationScheme` of the Profile Annotation Issuer Registration PA:
 
 ```json
 {
@@ -49,14 +49,14 @@ Profile Annotation Issuer 登録証 PA の `credentialSubject.annotationScheme`:
 }
 ```
 
-## 解決策
+## Resolution
 
-- 認可を確認できないことは、検証対象の PA 自体が無効であることを直ちに意味しません。未確認の PA をどう扱うかは検証者のポリシーに依存します。
-- PA を発行している場合は、OP レジストリから Profile Annotation Issuer 登録証 PA を発行してもらい、`annotationScheme` に発行する Profile Annotation Policy の ID が含まれていることを確認してください。
-  より詳しくは [Profile Annotation Issuer 登録証 PA](../../opb/pa-model/profile-annotation-issuer-registration.md) にて確認することができます。
+- Being unable to confirm authorization does not immediately mean that the PA being verified is itself invalid. How unconfirmed PAs are handled depends on the verifier's policy.
+- If you issue PAs, have an OP registry issue a Profile Annotation Issuer Registration PA to you, and make sure that its `annotationScheme` includes the ID of the Profile Annotation Policy of the PAs you issue.
+  Additional details can be found in [Profile Annotation Issuer Registration PA](../../opb/pa-model/profile-annotation-issuer-registration.md).
 
-## 関連情報
+## Related Information
 
-- [`Profile Annotation Issuer 登録証 PA`](../../opb/pa-model/profile-annotation-issuer-registration.md)
+- [`Profile Annotation Issuer Registration PA`](../../opb/pa-model/profile-annotation-issuer-registration.md)
 - [`Profile Annotation`](../../opb/pa.md)
 - [`WARN_CERTIFICATE_DEPRECATED`](./WARN_CERTIFICATE_DEPRECATED.md)
