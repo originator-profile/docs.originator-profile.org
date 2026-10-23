@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/ca6a115/docs/error-reference/op-inspector-debugger/warnings/WARN_VISIBLE_TEXT_TARGET_INTEGRITY_DEPRECATED.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/710d107/docs/error-reference/warnings/WARN_VISIBLE_TEXT_TARGET_INTEGRITY_DEPRECATED.md
 tags:
   - Error Reference
   - Content Attestation
@@ -9,41 +9,41 @@ slug: /error-reference/WARN_VISIBLE_TEXT_TARGET_INTEGRITY_DEPRECATED
 
 # WARN_VISIBLE_TEXT_TARGET_INTEGRITY_DEPRECATED
 
-## 警告コード: WARN_VISIBLE_TEXT_TARGET_INTEGRITY_DEPRECATED
+## Warning Code: WARN_VISIBLE_TEXT_TARGET_INTEGRITY_DEPRECATED
 
-Content Attestation の `target` に、非推奨の `VisibleTextTargetIntegrity` が含まれている場合に通知されます。検証の失敗としては扱われません。
+This warning is reported when the `target` of a Content Attestation includes the deprecated `VisibleTextTargetIntegrity`. It is not treated as a verification failure.
 
-## 警告メッセージ
+## Warning Message
 
 - "[OP Warning] VisibleTextTargetIntegrity is deprecated in Content Attestation and will be removed after October 2027. innerText-based rendering is platform-dependent and incompatible across browser implementations and cannot serve as a basis for integrity verification. See: https://docs.originator-profile.org/opb/content-integrity-descriptor/visible-text/"
 
-## 警告の原因
+## Causes
 
-- Content Attestation の `target` に `type` が `VisibleTextTargetIntegrity` の [Content Integrity Descriptor](../../opb/content-integrity-descriptor/index.mdx) が含まれています。
-- `innerText` により取得されるレンダリング結果はブラウザ実装に依存し、ブラウザ間で一致しないため、完全性検証の根拠として適切ではありません。
+- The `target` of the Content Attestation includes a [Content Integrity Descriptor](../../opb/content-integrity-descriptor/index.mdx) whose `type` is `VisibleTextTargetIntegrity`.
+- The rendering result obtained via `innerText` depends on the browser implementation and does not match across browsers, so it is not suitable as a basis for integrity verification.
 
-## 例
+## Examples
 
-- Content Attestation の `target` に `VisibleTextTargetIntegrity` が設定されている。
+- `VisibleTextTargetIntegrity` is set in the `target` of the Content Attestation.
 
 ```json
 {
   "target": [
     {
       "type": "VisibleTextTargetIntegrity",
-      "cssSelector": "<CSS セレクター>",
+      "cssSelector": "<CSS selector>",
       "integrity": "sha256-GtNUUolQVlwIkQU9JknWkwkhfdiVmHr/BOnLFFHC5jI="
     }
   ]
 }
 ```
 
-## 解決策
+## Resolution
 
-- `VisibleTextTargetIntegrity` の使用を避けてください。代わりに [TextTargetIntegrity](../../opb/content-integrity-descriptor/text.md) や [ExternalResourceTargetIntegrity](../../opb/content-integrity-descriptor/external-resource.md) の使用を検討してください。
-  より詳しくは [Visible Text within DOM Integrity](../../opb/content-integrity-descriptor/visible-text.md) にて確認することができます。
+- Avoid using `VisibleTextTargetIntegrity`. Consider using [TextTargetIntegrity](../../opb/content-integrity-descriptor/text.md) or [ExternalResourceTargetIntegrity](../../opb/content-integrity-descriptor/external-resource.md) instead.
+  Additional details can be found in [Visible Text within DOM Integrity](../../opb/content-integrity-descriptor/visible-text.md).
 
-## 関連情報
+## Related Information
 
 - [`Visible Text within DOM Integrity`](../../opb/content-integrity-descriptor/visible-text.md)
 - [`Content Attestation`](../../opb/ca.md)

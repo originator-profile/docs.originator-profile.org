@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/8c83e24/docs/error-reference/op-inspector-debugger/warnings/WARN_DIGEST_SRI_INVALID.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/710d107/docs/error-reference/warnings/WARN_DIGEST_SRI_INVALID.md
 tags:
   - Error Reference
   - Base Model
@@ -9,23 +9,23 @@ slug: /error-reference/WARN_DIGEST_SRI_INVALID
 
 # WARN_DIGEST_SRI_INVALID
 
-## 警告コード: WARN_DIGEST_SRI_INVALID
+## Warning Code: WARN_DIGEST_SRI_INVALID
 
-[`image` データ型](../../opb/context.md#the-image-datatype)のプロパティの `digestSRI` による検証に失敗した場合に通知されます。検証の失敗としては扱われませんが、2027 年以降はエラーになる予定です。
+This warning is reported when verification using `digestSRI` fails for a property of the [`image` datatype](../../opb/context.md#the-image-datatype). It is not treated as a verification failure, but it is planned to become an error after 2027.
 
-## 警告メッセージ
+## Warning Message
 
 - "digestSRI verification failed. This will become an error after 2027. See: https://docs.originator-profile.org/opb/context/#the-image-datatype"
 
-## 警告の原因
+## Causes
 
-- `id` の URL から取得した画像が、`digestSRI` のハッシュ値と一致していません。画像が差し替えられたか、`digestSRI` の値が誤っている可能性があります。
-- `digestSRI` に使用可能なハッシュアルゴリズムが含まれていません。
-- `id` の URL から画像を取得できませんでした。
+- The image retrieved from the `id` URL does not match the hash value in `digestSRI`. The image may have been replaced, or the `digestSRI` value may be incorrect.
+- `digestSRI` does not contain any supported hash algorithm.
+- The image could not be retrieved from the `id` URL.
 
-## 例
+## Examples
 
-- 画像を更新したが、`digestSRI` を更新していない。
+- The image was updated, but `digestSRI` was not.
 
 ```json
 {
@@ -36,13 +36,13 @@ slug: /error-reference/WARN_DIGEST_SRI_INVALID
 }
 ```
 
-## 解決策
+## Resolution
 
-- `id` の URL から画像を取得できることを確認してください。
-- 現在配信している画像から `digestSRI` を再計算し、設定し直してください。
-  `digestSRI` の検証方法は [`image` データ型の検証](../../opb/context.md#verifying-image-datatype)にて確認することができます。
+- Make sure the image can be retrieved from the `id` URL.
+- Recalculate `digestSRI` from the image currently being served and set it again.
+  The verification method for `digestSRI` can be found in [Verifying `image` Datatype](../../opb/context.md#verifying-image-datatype).
 
-## 関連情報
+## Related Information
 
-- [`image` データ型](../../opb/context.md#the-image-datatype)
+- [`image` datatype](../../opb/context.md#the-image-datatype)
 - [`WARN_DIGEST_SRI_MISSING`](./WARN_DIGEST_SRI_MISSING.md)
