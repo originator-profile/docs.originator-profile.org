@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/798ebea/docs/tutorial/cas-setup-guide.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/c45611b/docs/tutorial/cas-setup-guide.md
 ---
 
 # Setting Up Content Attestation
