@@ -1,6 +1,6 @@
 ---
 sidebar_position: 34
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/3a24ba2/docs/opb/link-to-html.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/c45611b/docs/opb/link-to-html.md
 ---
 
 # Linking Content Attestation Set and Originator Profile Set to A HTML Document
