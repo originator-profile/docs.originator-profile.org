@@ -7,8 +7,8 @@
   "scripts": {
     "format": "prettier --write .",
     "check": "scripts/check-numbering.js && scripts/check-original-commits.js",
-    "build": "git fetch --unshallow; docusaurus build --out-dir pages && node copy-aov.mjs && node copy-public.mjs",
-    "preview": "node copy-aov.mjs; docusaurus start"
+    "build": "git fetch --unshallow; docusaurus build --out-dir pages && node copy-opf.mjs && node copy-public.mjs",
+    "preview": "node copy-opf.mjs; docusaurus start"
   },
   "devDependencies": {
     "@docusaurus/core": "3.10.2",

@@ -1,4 +1,4 @@
-name: Update aov-source subtree
+name: Update opf-source subtrees
 on:
   schedule:
     # 毎日 JST 9:00 (UTC 0:00) に実行
@@ -7,11 +7,20 @@ on:
 jobs:
   update-subtree:
     environment:
-      name: update-aov-source
-      url: https://github.com/originator-profile/docs.originator-profile.org/tree/main/aov-source
+      name: update-opf-source
+      url: https://github.com/originator-profile/docs.originator-profile.org/tree/main/opf-source
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    strategy:
+      # NOTE: 各ジョブが main に push するため直列に実行する
+      max-parallel: 1
+      fail-fast: false
+      matrix:
+        include:
+          - name: aov
+            repo: doc-opf-architectural-overview
+            secret: AOV_REPO_DEPLOY_KEY
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
@@ -19,11 +28,11 @@ jobs:
       - name: Setup SSH key
         run: |
           mkdir -p ~/.ssh
-          echo "${AOV_REPO_DEPLOY_KEY}" > ~/.ssh/id_ed25519
+          echo "${REPO_DEPLOY_KEY}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan github.com >> ~/.ssh/known_hosts
         env:
-          AOV_REPO_DEPLOY_KEY: "${{ secrets.AOV_REPO_DEPLOY_KEY }}"
+          REPO_DEPLOY_KEY: "${{ secrets[matrix.secret] }}"
       - name: Configure Git
         run: |
           git config user.name github-actions[bot]
@@ -31,7 +40,10 @@ jobs:
           git config core.hooksPath .githooks
       - name: Update subtree
         run: |
-          git subtree pull --prefix=aov-source git@github.com:originator-profile/doc-opf-architectural-overview.git main --squash -m update
+          git subtree pull --prefix="opf-source/${NAME}" "git@github.com:originator-profile/${REPO}.git" main --squash -m update
+        env:
+          NAME: ${{ matrix.name }}
+          REPO: ${{ matrix.repo }}
       - name: Check for changes and push
         run: |
           if git log --oneline origin/main..@ | read; then
