@@ -20,6 +20,12 @@ jobs:
         include:
           - name: aov
             url: https://github.com/originator-profile/doc-opf-architectural-overview.git
+          - name: core
+            url: https://github.com/originator-profile/doc-opf-core-specification.git
+          - name: web-media
+            url: https://github.com/originator-profile/doc-opf-web-media.git
+          - name: email
+            url: https://github.com/originator-profile/doc-opf-email.git
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
@@ -32,7 +38,11 @@ jobs:
           git config core.hooksPath .githooks
       - name: Update subtree
         run: |
-          git subtree pull --prefix="opf-source/${NAME}" "${URL}" main --squash -m update
+          if [ -d "opf-source/${NAME}" ]; then
+            git subtree pull --prefix="opf-source/${NAME}" "${URL}" main --squash -m update
+          else
+            git subtree add --prefix="opf-source/${NAME}" "${URL}" main --squash -m "add opf-source/${NAME}"
+          fi
         env:
           NAME: ${{ matrix.name }}
           URL: ${{ matrix.url }}

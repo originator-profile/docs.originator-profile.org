@@ -57,7 +57,10 @@ Originator Profile では、発行や検証のために以下のツールとガ�
 
 より詳細な仕様を理解したい場合は、以下を参照してください。
 
-- [Architectural Overview (AOV)](pathname:///aov/)
+- [Architectural Overview (AOV)](pathname:///ja/aov/)
+- [Core Specification](pathname:///ja/core/)
+- [Web Media Use Case Specification](pathname:///ja/web-media/)
+- [Email Use Case Specification](pathname:///ja/email/)
 - [Originator Profile Blueprint (OPB)](../opb/)
 
 また、デバッグツールとして、以下のツールも提供されています。

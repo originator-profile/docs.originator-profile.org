@@ -46,15 +46,18 @@ https://docs.originator-profile.org/
 
 本リポジトリでは、OPF 文書のリポジトリを Git Subtree を使用して `opf-source/<name>/` に統合し、`https://docs.originator-profile.org/<name>/` で公開しています。
 
-| name  | リポジトリ                                                                                             |
-| ----- | ------------------------------------------------------------------------------------------------------ |
-| `aov` | [doc-opf-architectural-overview](https://github.com/originator-profile/doc-opf-architectural-overview) |
+| name        | リポジトリ                                                                                             |
+| ----------- | ------------------------------------------------------------------------------------------------------ |
+| `aov`       | [doc-opf-architectural-overview](https://github.com/originator-profile/doc-opf-architectural-overview) |
+| `core`      | [doc-opf-core-specification](https://github.com/originator-profile/doc-opf-core-specification)         |
+| `web-media` | [doc-opf-web-media](https://github.com/originator-profile/doc-opf-web-media)                           |
+| `email`     | [doc-opf-email](https://github.com/originator-profile/doc-opf-email)                                   |
 
 ビルド時に `copy-opf.mjs` が `opf-source/<name>/` の英語版 HTML を `pages/<name>/index.html` に、日本語版 HTML があれば `pages/ja/<name>/index.html` にコピーします。図などの資産はそれぞれのディレクトリにコピーします。日本語版は、サイドバー用のスタブ `docs/<name>/index.mdx` が出力したページを上書きします。
 
 #### OPF 文書の更新方法
 
-`.github/workflows/update-opf-source.yml` が毎日各リポジトリの最新版を取得し、main に push します。手動で取得する場合は以下のコマンドを使用します。`<url>` は公開リポジトリなら `https://github.com/originator-profile/<repository>.git`、非公開リポジトリなら `git@github.com:originator-profile/<repository>.git` です。非公開のリポジトリは、読み取り権限がなければ管理者に権限追加を依頼してください。
+`.github/workflows/update-opf-source.yml` が毎日各リポジトリの最新版を取得し、main に push します。手動で取得する場合は以下のコマンドを使用します。`<url>` は `https://github.com/originator-profile/<repository>.git` です。
 
 ```bash
 git subtree pull --prefix=opf-source/<name> <url> main --squash
@@ -62,13 +65,14 @@ git subtree pull --prefix=opf-source/<name> <url> main --squash
 
 #### OPF 文書の追加方法
 
-1. `git subtree add --prefix=opf-source/<name> <url> main --squash` で取り込む
-2. `copy-opf.mjs` の `sources` に HTML ファイル名（日本語版があれば `jaHtml` も）と資産ディレクトリを追加する
-3. `.github/workflows/update-opf-source.yml` の `matrix` に `name` と `url` を追加する。非公開リポジトリは SSH の URL にし、deploy key を登録して SSH 鍵を用意するステップを追加する（secret は environment `update-opf-source` に登録し、`secrets.<NAME>` の形で静的に参照する）
-4. `public/_redirects` に `/en/<name>/*` から `/<name>/:splat` へのリダイレクトを追加する。日本語版が無い場合は `/ja/<name>/*` も追加する
-5. `public/404.html` のロケール非依存パスの判定に `/<name>/` を追加する
-6. `docs/<name>/`（`docs/aov/` と同様のスタブ）を追加し、`scripts/check-numbering.js` の `TOP_LEVEL_RULES` に登録する
-7. `src/pages/index.mdx`・`docs/getting-started.md` とそれぞれの英語版にリンクを追加する
+1. `copy-opf.mjs` の `sources` に HTML ファイル名（日本語版があれば `jaHtml` も）と資産ディレクトリを追加する
+2. `.github/workflows/update-opf-source.yml` の `matrix` に `name` と `url` を追加する
+3. `public/_redirects` に `/en/<name>/*` から `/<name>/:splat` へのリダイレクトを追加する。日本語版が無い場合は `/ja/<name>/*` も追加する
+4. `public/404.html` のロケール非依存パスの判定に `/<name>/` を追加する
+5. `docs/<name>/`（`docs/aov/` と同様のスタブ。日本語版があれば `PathnameRedirect` に `jaTo="/ja/<name>/"` も渡す）を追加し、`scripts/check-numbering.js` の `TOP_LEVEL_RULES` に登録する
+6. `src/pages/index.mdx`・`docs/getting-started.md` とそれぞれの英語版にリンクを追加する。リンクは `pathname:///<name>/` の形で書く
+
+マージ後、`update-opf-source` Workflow を `workflow_dispatch` で実行すると、`opf-source/<name>/` が無い文書は `git subtree add` で取り込まれます。取り込むまでの間、`copy-opf.mjs` はその文書を飛ばします。本リポジトリは公開リポジトリなので、取り込んだ時点で文書の内容も公開されます。`matrix` への追加は公開してよい時点で行ってください。
 
 ## Originator Profile プロジェクトについて
 
