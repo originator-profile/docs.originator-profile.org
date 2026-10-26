@@ -50,7 +50,7 @@ https://docs.originator-profile.org/
 | ----- | ------------------------------------------------------------------------------------------------------ |
 | `aov` | [doc-opf-architectural-overview](https://github.com/originator-profile/doc-opf-architectural-overview) |
 
-ビルド時に `copy-opf.mjs` が `opf-source/<name>/` の HTML を `pages/<name>/index.html` に、図などの資産を `pages/<name>/` にコピーします。
+ビルド時に `copy-opf.mjs` が `opf-source/<name>/` の英語版 HTML を `pages/<name>/index.html` に、日本語版 HTML があれば `pages/ja/<name>/index.html` にコピーします。図などの資産はそれぞれのディレクトリにコピーします。日本語版は、サイドバー用のスタブ `docs/<name>/index.mdx` が出力したページを上書きします。
 
 #### OPF 文書の更新方法
 
@@ -64,11 +64,12 @@ git subtree pull --prefix=opf-source/<name> \
 #### OPF 文書の追加方法
 
 1. `git subtree add --prefix=opf-source/<name> git@github.com:originator-profile/<repository>.git main --squash` で取り込む
-2. `copy-opf.mjs` の `sources` に HTML ファイル名と資産ディレクトリを追加する
+2. `copy-opf.mjs` の `sources` に HTML ファイル名（日本語版があれば `jaHtml` も）と資産ディレクトリを追加する
 3. `.github/workflows/update-opf-source.yml` の `matrix` に追加し、リポジトリの deploy key を environment `update-opf-source` の secret に登録する
-4. `public/_redirects` に `/ja/<name>/*` と `/en/<name>/*` から `/<name>/:splat` へのリダイレクトを追加する
+4. `public/_redirects` に `/en/<name>/*` から `/<name>/:splat` へのリダイレクトを追加する。日本語版が無い場合は `/ja/<name>/*` も追加する
 5. `public/404.html` のロケール非依存パスの判定に `/<name>/` を追加する
-6. 必要に応じて `docs/<name>/index.mdx`（`docs/aov/index.mdx` と同様のリダイレクト）とリンクを追加する
+6. `docs/<name>/`（`docs/aov/` と同様のスタブ）を追加し、`scripts/check-numbering.js` の `TOP_LEVEL_RULES` に登録する
+7. `src/pages/index.mdx`・`docs/getting-started.md` とそれぞれの英語版にリンクを追加する
 
 ## Originator Profile プロジェクトについて
 

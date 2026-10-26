@@ -54,7 +54,7 @@ This repository integrates OPF document repositories into `opf-source/<name>/` u
 | ----- | ------------------------------------------------------------------------------------------------------ |
 | `aov` | [doc-opf-architectural-overview](https://github.com/originator-profile/doc-opf-architectural-overview) |
 
-During the build process, `copy-opf.mjs` copies the HTML file in `opf-source/<name>/` to `pages/<name>/index.html` and its assets such as drawings to `pages/<name>/`.
+During the build process, `copy-opf.mjs` copies the English HTML file in `opf-source/<name>/` to `pages/<name>/index.html`, and the Japanese HTML file, if any, to `pages/ja/<name>/index.html`. Assets such as drawings are copied into each directory. The Japanese version overwrites the page generated from the sidebar stub `docs/<name>/index.mdx`.
 
 #### How to Update OPF Documents
 
@@ -68,11 +68,12 @@ git subtree pull --prefix=opf-source/<name> \
 #### How to Add OPF Documents
 
 1. Add the repository with `git subtree add --prefix=opf-source/<name> git@github.com:originator-profile/<repository>.git main --squash`
-2. Add the HTML file name and asset directories to `sources` in `copy-opf.mjs`
+2. Add the HTML file name (and `jaHtml` if there is a Japanese version) and asset directories to `sources` in `copy-opf.mjs`
 3. Add an entry to `matrix` in `.github/workflows/update-opf-source.yml`, and register the repository's deploy key as a secret of the `update-opf-source` environment
-4. Add redirects from `/ja/<name>/*` and `/en/<name>/*` to `/<name>/:splat` in `public/_redirects`
+4. Add a redirect from `/en/<name>/*` to `/<name>/:splat` in `public/_redirects`. If there is no Japanese version, also add one from `/ja/<name>/*`
 5. Add `/<name>/` to the locale-independent path check in `public/404.html`
-6. If needed, add `docs/<name>/index.mdx` (a redirect like `docs/aov/index.mdx`) and links to it
+6. Add `docs/<name>/` (a stub like `docs/aov/`) and register it in `TOP_LEVEL_RULES` of `scripts/check-numbering.js`
+7. Add links to `src/pages/index.mdx`, `docs/getting-started.md`, and their English versions
 
 ## About Originator Profile Project
 
