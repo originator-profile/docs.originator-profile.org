@@ -58,18 +58,17 @@ During the build process, `copy-opf.mjs` copies the English HTML file in `opf-so
 
 #### How to Update OPF Documents
 
-`.github/workflows/update-opf-source.yml` fetches the latest version of each repository daily and pushes it to main. To fetch it manually, use the following command. For private repositories, if you do not have read permissions, please request permission from the administrator.
+`.github/workflows/update-opf-source.yml` fetches the latest version of each repository daily and pushes it to main. To fetch it manually, use the following command. `<url>` is `https://github.com/originator-profile/<repository>.git` for public repositories and `git@github.com:originator-profile/<repository>.git` for private repositories. For private repositories, if you do not have read permissions, please request permission from the administrator.
 
 ```bash
-git subtree pull --prefix=opf-source/<name> \
-  git@github.com:originator-profile/<repository>.git main --squash
+git subtree pull --prefix=opf-source/<name> <url> main --squash
 ```
 
 #### How to Add OPF Documents
 
-1. Add the repository with `git subtree add --prefix=opf-source/<name> git@github.com:originator-profile/<repository>.git main --squash`
+1. Add the repository with `git subtree add --prefix=opf-source/<name> <url> main --squash`
 2. Add the HTML file name (and `jaHtml` if there is a Japanese version) and asset directories to `sources` in `copy-opf.mjs`
-3. Add an entry to `matrix` in `.github/workflows/update-opf-source.yml`, and register the repository's deploy key as a secret of the `update-opf-source` environment
+3. Add `name` and `url` to `matrix` in `.github/workflows/update-opf-source.yml`. For a private repository, use its SSH URL, register a deploy key, and add a step that sets up the SSH key (register the secret in the `update-opf-source` environment and reference it statically as `secrets.<NAME>`)
 4. Add a redirect from `/en/<name>/*` to `/<name>/:splat` in `public/_redirects`. If there is no Japanese version, also add one from `/ja/<name>/*`
 5. Add `/<name>/` to the locale-independent path check in `public/404.html`
 6. Add `docs/<name>/` (a stub like `docs/aov/`) and register it in `TOP_LEVEL_RULES` of `scripts/check-numbering.js`

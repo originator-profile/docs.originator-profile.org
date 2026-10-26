@@ -54,18 +54,17 @@ https://docs.originator-profile.org/
 
 #### OPF 文書の更新方法
 
-`.github/workflows/update-opf-source.yml` が毎日各リポジトリの最新版を取得し、main に push します。手動で取得する場合は以下のコマンドを使用します。非公開のリポジトリは、読み取り権限がなければ管理者に権限追加を依頼してください。
+`.github/workflows/update-opf-source.yml` が毎日各リポジトリの最新版を取得し、main に push します。手動で取得する場合は以下のコマンドを使用します。`<url>` は公開リポジトリなら `https://github.com/originator-profile/<repository>.git`、非公開リポジトリなら `git@github.com:originator-profile/<repository>.git` です。非公開のリポジトリは、読み取り権限がなければ管理者に権限追加を依頼してください。
 
 ```bash
-git subtree pull --prefix=opf-source/<name> \
-  git@github.com:originator-profile/<repository>.git main --squash
+git subtree pull --prefix=opf-source/<name> <url> main --squash
 ```
 
 #### OPF 文書の追加方法
 
-1. `git subtree add --prefix=opf-source/<name> git@github.com:originator-profile/<repository>.git main --squash` で取り込む
+1. `git subtree add --prefix=opf-source/<name> <url> main --squash` で取り込む
 2. `copy-opf.mjs` の `sources` に HTML ファイル名（日本語版があれば `jaHtml` も）と資産ディレクトリを追加する
-3. `.github/workflows/update-opf-source.yml` の `matrix` に追加し、リポジトリの deploy key を environment `update-opf-source` の secret に登録する
+3. `.github/workflows/update-opf-source.yml` の `matrix` に `name` と `url` を追加する。非公開リポジトリは SSH の URL にし、deploy key を登録して SSH 鍵を用意するステップを追加する（secret は environment `update-opf-source` に登録し、`secrets.<NAME>` の形で静的に参照する）
 4. `public/_redirects` に `/en/<name>/*` から `/<name>/:splat` へのリダイレクトを追加する。日本語版が無い場合は `/ja/<name>/*` も追加する
 5. `public/404.html` のロケール非依存パスの判定に `/<name>/` を追加する
 6. `docs/<name>/`（`docs/aov/` と同様のスタブ）を追加し、`scripts/check-numbering.js` の `TOP_LEVEL_RULES` に登録する
