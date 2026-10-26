@@ -1,0 +1,4566 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <title>Originator Profile Framework &mdash; Core Specification v0.2 (Public Draft)</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <script
+      src="https://www.w3.org/Tools/respec/respec-w3c"
+      class="remove"
+    ></script>
+    <script type="text/javascript" class="remove">
+      var respecConfig = {
+        latestVersion: null,
+        edDraftURI: "https://docs.originator-profile.org/ja/core/",
+        shortName: "op-core",
+        publishDate: "2026-10-27",
+        github: "https://github.com/originator-profile/doc-opf-core-specification",
+        lang: "ja",
+
+        editors: [ {
+          name: "Shigeya Suzuki",
+          company: "Originator Profile Collaborative Innovation Partnership, Keio University"
+        }],
+
+        authors: [ {
+          name: "Shigeya Suzuki",
+          company: "Originator Profile Collaborative Innovation Partnership, Keio University"
+        }],
+
+        maxTocLevel: 3,
+        localBiblio: {
+          "OPF-AOV": {
+            title: "Originator Profile Framework — Architectural Overview",
+            href: "https://docs.originator-profile.org/aov/",
+            publisher: "Originator Profile Collaborative Innovation Partnership",
+            authors: ["Shigeya Suzuki", "Michiko Kuriyama"],
+            date: "2026"
+          },
+          "OPF-OPS": {
+            title: "Originator Profile Framework &mdash; Operations",
+            publisher: "Originator Profile Collaborative Innovation Partnership",
+            status: "Not yet published"
+          },
+          "OPF-GOV": {
+            title: "Originator Profile Framework &mdash; Operational Governance Requirements",
+            publisher: "Originator Profile Collaborative Innovation Partnership",
+            status: "Not yet published"
+          },
+          "OPF-DNS": {
+            title: "Using Secure DNS for Originator Profile",
+            href: "https://datatracker.ietf.org/doc/draft-shigeya-dns-opkey/",
+            authors: ["Shigeya Suzuki"],
+            date: "2026-10-23",
+            status: "Individual Internet-Draft, work in progress"
+          },
+          "Originator Profile Blueprints": {
+            title: "Originator Profile Blueprints",
+            href: "https://docs.originator-profile.org/en/opb/",
+            publisher: "Originator Profile Collaborative Innovation Partnership"
+          }
+        },
+        addSectionLinks: true, // Turn on § section marker
+        postProcess: [
+          function setTabTitle() {
+            document.title = "[JA] " + document.title.replace(/^Originator Profile Framework — /, "") + " — Originator Profile Framework";
+          },
+          function fixReferenceIds() {
+            const ids = { "規範的参考文献": "normative-references", "参照用参考文献": "informative-references" };
+            const label = (el) => el.textContent.replace(/^\s*[A-Z](\.\d+)*\s*/, "").trim();
+            for (const sec of document.querySelectorAll('section[id="generatedID"]')) {
+              const h = sec.querySelector("h1, h2, h3, h4, h5, h6");
+              const id = h && ids[label(h)];
+              if (id && !document.getElementById(id)) sec.id = id;
+            }
+            for (const a of document.querySelectorAll('a[href="#generatedID"]')) {
+              const host = a.closest("section");
+              const id = a.classList.contains("self-link") && host && host.id !== "generatedID" ? host.id : ids[label(a)];
+              if (id) a.setAttribute("href", "#" + id);
+            }
+          },
+        ],
+        logos: [
+          {
+            src: "https://design.originator-profile.org/downloads/op_logos/png/cip-default-type-vertical.png",
+            url: "https://originator-profile.org/",
+            alt: "Originator Profile CIP",
+            width: 180,
+            height: 80,
+            id: "op-cip-logo",
+          }
+        ]
+      }
+    </script>
+    <style>
+      pre .highlight {
+        font-weight: bold;
+        color: green;
+      }
+      pre .comment {
+        font-weight: bold;
+        color: Gray;
+      }
+      ol.algorithm {
+        counter-reset: numsection;
+        list-style-type: none;
+      }
+      ol.algorithm > li {
+        position: relative;
+        margin: 0.5em 0;
+        padding-left: 2em;
+      }
+      ol.algorithm > li:before {
+        position: absolute;
+        left: 0;
+        font-weight: bold;
+        counter-increment: numsection;
+        content: counters(numsection, ".") ")";
+      }
+      ol.algorithm > li > p:first-child {
+        margin-top: 0;
+      }
+      table.simple {
+        border: 1px solid #999;
+      }
+      table.simple th,
+      table.simple td {
+        border: 1px solid #999;
+      }
+      .dns-state {
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <p class="copyright">
+        Copyright © 2022-2026 <a
+        href="https://originator-profile.org/en-US/">Originator Profile
+        Collaborative Innovation Partnership (OP-CIP)</a>, All rights
+        reserved.
+    </p>
+
+
+    <p class="translation-notice">
+      <strong>本文書は参考訳である。</strong>規範となるのは
+      <a href="https://docs.originator-profile.org/core/">英語版</a>であり、
+      本日本語版と英語版とで内容が食い違う場合は英語版が優先する。
+    </p>
+
+    <section id="abstract">
+      <p>
+        本文書は Originator Profile Framework (OPF) の Core Specification で
+        ある。本文書が規定するのは、すべてのユースケースが共有する部分である。
+        すなわち、Core Profile・Profile Annotation・Content Attestation の
+        識別子とデータモデル、そして Root Core Profile と Accreditation Chain
+        である。また、DNSSEC のもとでの、DNS における issuer の鍵・Originator の鍵・
+        revocation の記録の公開と、コンテンツがどのように配信されるかに依存しない検証手続きの部分も
+        規定する。Originator Profile がどのように Recipient に届くか、Recipient が
+        目にする identity がどのように Originator に結びつけられるか、といった
+        ユースケース固有の事柄は、本文書の上に立つ別の文書が規定する。
+      </p>
+    </section>
+
+    <section id="sotd" class="override">
+      <h2>文書の位置づけ</h2>
+      <p class="note">
+        <strong>本日本語版は参考訳である。</strong>英語版から
+        AI 支援で作成したものであり、規範となるのは<a href="https://docs.originator-profile.org/core/">英語版</a>である。齟齬があれば英語版が優先する。用語は英語のまま残している。
+      </p>
+      <p>
+        本文書は、Originator Profile Collaborative Innovation Partnership
+        (OP-CIP) が開発した Originator Profile Framework (OPF) の現在の設計を
+        記述したものである。本文書は DRAFT の段階にあり、いかなる公式な位置づけ
+        も持たず、OP-CIP メンバーシップの合意を表すものでもない。
+      </p>
+    </section>
+
+    <section id="introduction" class="informative">
+      <h2>はじめに</h2>
+      <p>
+        Originator Profile Framework は、コンテンツの [=Recipient=]（受け手）に
+        対して、そのコンテンツの [=Originator=]（出所）の検証可能な profile を
+        与える。この profile は、[=Core Profile Issuer=] が発行する
+        [=Core Profile=] と、独立した [=Profile Annotation Issuers=] が発行する
+        [=Profile Annotations=] から成る。この枠組みをアーキテクチャの水準で
+        記述しているのが Architectural Overview [[?OPF-AOV]] である。本文書は、
+        枠組みのうちユースケースに依存しない共通の部分を、規範的な用語で規定
+        する。
+      </p>
+      <p>
+        この枠組みが存在するのは、コンテンツの [=Recipient=] が、自分の手元に
+        届いたものの背後に誰がいるのかを判断する材料をほとんど持たないから
+        である。その問題と設計の背景にある論理は [[?OPF-AOV]] が述べている。
+        本文書が述べるのは、その結果として得られる profile が検証可能である
+        ために何を作り、何を運用しなければならないかである。すなわち、識別子、
+        署名された文書が持つプロパティ、DNS に何が公開されるか、その存在と
+        不在が何を意味するか、そして [=Verifier=]（受け手に代わって検証を行う
+        ソフトウェア）が結論に至る手続きである。
+      </p>
+
+      <section id="scope">
+        <h3>スコープ</h3>
+        <p>
+          本文書が規定するのは、すべてのユースケースに共通するものである。
+          すなわち次のものである。
+        </p>
+        <ul>
+          <li>この枠組みが用いる識別子。</li>
+          <li>[=Core Profile=]・[=Profile Annotation=]・[=Content
+            Attestation=] が検証のために持つプロパティ。</li>
+          <li>[=Root Core Profile=] と [=Accreditation Chain=]。</li>
+          <li>issuer が公開する DNS レコードと、その存在および不在の意味。</li>
+          <li>ユースケースが自らの入力を供給する地点までの検証手続き。</li>
+        </ul>
+        <p>
+          本文書は次のものを規定しない。
+        </p>
+        <ul>
+          <li>本文書が依拠する DNS レコード型のワイヤフォーマット。これは
+            [[OPF-DNS]] が定義する。</li>
+          <li>[=Originator Profile=] が [=Recipient=] にどのように配送されるか、
+            コンテンツが提示される際の identity がどのように [=Originator=]
+            に結びつけられるか、検証がどこでいつ行われるか。これらは
+            [=Use Case Specifications=]（Web Media や Email のようなユースケース
+            ごとに、本文書の上に立つ仕様）に属する。</li>
+          <li>issuer が自らの zone を運用する際の運用規則とガバナンス規則。
+            これらは Operational Governance Requirements [[?OPF-GOV]] と
+            Operations 文書 [[?OPF-OPS]] に属する。</li>
+        </ul>
+      </section>
+
+      <section id="relationship-to-other-documents">
+        <h3>他の文書との関係</h3>
+        <p>
+          本文書は、枠組みを説明する Architectural Overview [[?OPF-AOV]] と、
+          本文書の上に立つ諸文書との間に位置する。
+        </p>
+        <p>
+          Internet-Draft
+          [[OPF-DNS]] は、OPKEY というレコード型、その配置、移行期の公開を
+          定義しており、本文書の規範的な参照である。[[OPF-DNS]] が record
+          publisher、すなわち <code>_op</code> の下にレコードを公開する CP issuer
+          または PA issuer と言うところを、本文書は [=issuer=]
+          (<a href="#issuer-identity"></a>) と言う。[=Accreditation Body=] と
+          [=Root Issuer=] は、[[OPF-DNS]] の語では PA issuer である。それらが
+          発行する [=Issuer Accreditations=] は [=Profile Annotations=] だから
+          である。また [=Root Issuer=] は、自らが発行する [=Core Profiles=]
+          については、同じ語で CP issuer である
+          (<a href="#root-core-profile-and-accreditation-chain"></a>)。
+        </p>
+        <p>
+          個々の
+          [=Use Case Specification=]（Web Media、Email、および計画中の Web
+          Advertisement）は、
+          配送、identity の結びつけ、検証の場所と時点、そしてそれらの選択から
+          導かれるセキュリティ上の考慮事項を定義する。Operational Governance
+          Requirements [[?OPF-GOV]] は枠組みを運用する当事者が求められることを
+          述べ、Operations 文書 [[?OPF-OPS]] は、それらの要求を満たすための値、
+          サービスレベル、手順を担う。この 2 つの文書は、どちらもまだ公開されていない。
+        </p>
+        <p>
+          Originator Profile Collaborative Innovation Partnership が公開する
+          Originator Profile Blueprints [[Originator Profile Blueprints]] は、
+          枠組みの文書と資源を今日実装されている形で記述しており、本文書は
+          署名された文書のプロパティ名をそこから採る
+          (<a href="#common-properties"></a>)。Blueprints は現状、次の点で
+          本文書と異なり、それを本文書に揃える作業が進行中である。
+        </p>
+        <ul>
+          <li>失効。本文書は、鍵を [=withdrawn=]（取り下げられる）とし、
+            [=Core Profile=] または [=Profile Annotation=] を revoke するのを、
+            DNS のレコードによって行う (<a href="#revocation-model"></a>)。
+            Blueprints は、失効リストのような独自の失効の仕組みを採らない。</li>
+          <li>鍵の使用を止めること。本文書は鍵を [=Originator Key Record=] から
+            除くことで止め、その鍵を保持する以前の [=Core Profile=] は、期限が
+            切れるか revoke されるまで有効であり続ける。Blueprints は、鍵を
+            [=Core Profile=] に含めないことで止める。</li>
+          <li>信頼の根。本文書は、[=Verifier=] に、[=Root Core Profile=] で
+            終わる [=Accreditation Chain=] を通じて issuer を受け入れさせる
+            (<a href="#root-core-profile-and-accreditation-chain"></a>)。
+            Blueprints は、[=Verifier=] に [=Core Profile Issuers=] の鍵と
+            識別子をあらかじめ受け入れさせる。</li>
+          <li>issuer の認定。本文書は、[=Root Issuer=] 以外のすべての issuer に
+            [=Issuer Accreditation=] を求める。Blueprints は、[=Verifier=] が
+            [=Profile Annotation Issuer=] の登録を確かめることを推奨し、
+            [=Core Profile Issuer=] の認定については何も述べない。</li>
+          <li>record name。Blueprints は、[=Core Profile=] が運ぶ
+            [=Originator Key Record Name=] のためのプロパティも、
+            [=Profile Annotation=] が運ぶ [=Revocation Record Name=] と発行ごとの
+            識別子のためのプロパティも、まだ与えていない
+            (<a href="#common-properties"></a> の issue)。</li>
+          <li>[=Key Identifier=]。本文書はそれを鍵の SubjectPublicKeyInfo から
+            導く (<a href="#key-identifier"></a>)。Blueprints は鍵をその JWK
+            Thumbprint で識別しており、本文書の形へ変更されつつある。</li>
+          <li>[=Profile Annotation=] の終わり。本文書では、署名の有効期間が終わった
+            annotation は効力を失い、[=Originator Profile=] の残りは影響を
+            受けない。Blueprints では、それは [=Originator Profile=] 全体が
+            有効である期間を縮める。</li>
+          <li>他の [=Originator=] についての annotation。本文書では、
+            [=Core Profile=] が保持するものとは別の [=Identity=] を名指す
+            [=Profile Annotation=] は有効でなく、他の annotation は影響を
+            受けない (<a href="#procedure"></a> の手順 8)。Blueprints は、
+            文書の集合（Blueprints の Originator Profile Set）全体を無効として扱う。</li>
+          <li>[=Verifier=] の時計の許容。本文書は 5 分の上限を定める
+            (<a href="#time-parameters"></a>)。Blueprints は、それを
+            [=Verifier=] のポリシーに委ねる。</li>
+        </ul>
+      </section>
+
+      <section id="document-conventions">
+        <h3>本文書の記法</h3>
+        <p>
+          <strong>何が規範的か、key word の無い文は何をするか。</strong>
+          非規範的と記された節、およびすべての note、例、附属書は informative
+          である。それ以外はすべて規範的である。規範的な本文で key word を
+          一つも使わない文は、他所で述べた要件をその出典を示して言い直すか、
+          語や値を定めるか、説明するものである。他のどこにも述べていない要件は key word で
+          述べる。
+        </p>
+        <p>
+          <strong>DNS 名の書き方。</strong>本文書における DNS 名は、
+          末尾のドットを付けない完全修飾ドメイン名として書く。ラベル
+          <code>&lt;originator&gt;</code> と <code>&lt;cp-issuer&gt;</code>
+          は、それぞれの当事者の FQDN を表す。<code>&lt;cp-issuer&gt;</code>
+          は当該の [=Core Profile=] の発行者であり、その [=Core Profile=] を
+          [=Root Issuer=] が発行したときは [=Root Issuer=] である
+          (<a href="#root-core-profile-and-accreditation-chain"></a>)。
+          <code>&lt;issuer&gt;</code> はいずれかの issuer
+          (<a href="#issuer-identity"></a>) の FQDN を、
+          <code>&lt;record-label&gt;</code> は [=record label=]、すなわち issuer が
+          割り当てる名前ごとに選ぶ不透明な左端の label
+          (<a href="#record-names"></a>。<a href="#examples"></a> の例では
+          UUID) を、<code>&lt;host&gt;</code> は
+          host の名前を表す。<code>&lt;name&gt;</code> のような山括弧の
+          ラベルでそれ以外のものは、使う箇所で説明する。
+        </p>
+        <p>
+          <strong>validation state と SVCB のフィールド名。</strong>[[RFC4035]] の
+          DNSSEC の validation state は、<span class="dns-state">Secure</span>
+          や <span class="dns-state">Insecure</span> のように italic で書き、
+          名詞を修飾する形で使う場合も同じとする。SVCB レコード [[RFC9460]] の
+          フィールド名は、<code>ServiceMode</code> や <code>TargetName</code>
+          のように code の書体で書く。
+        </p>
+
+      </section>
+
+      <section id="organization">
+        <h3>本文書の構成</h3>
+        <p>
+          本文書は、ある当事者が何をしなければならないかを、その当事者に
+          関わる節から読み取れるように並べてある。
+        </p>
+        <ul>
+          <li>
+            <a href="#conformance"></a> は、本文書のすべての要求が向けられる
+            6 つのクラスを挙げる。<a href="#terminology"></a> は用語を与える。
+          </li>
+          <li>
+            <a href="#identifiers"></a> と <a href="#data-model"></a> は、
+            この枠組みが [=Originators=]、issuer、鍵をどのように名づけるか、
+            および署名された文書が検証のために何を持つかを規定する。
+          </li>
+          <li>
+            <a href="#dns-layer"></a> は、<code>_op</code> の下の名前、
+            それぞれにおけるレコードの存在と不在の意味、それらを公開する
+            当事者への要件を規定する。この節は、DNS だけに関心のある
+            読者が単独で読めるように書いてある。
+          </li>
+          <li>
+            <a href="#verification"></a> は、[=Verifier=] が実行する手続きと
+            それが導く結論を規定する。<a href="#time-parameters"></a> は、
+            変更がどれだけ速く見えるかを左右するパラメータを、値を定めずに
+            名づける。
+          </li>
+          <li>
+            <a href="#use-case-interface"></a> は、
+            [=Use Case Specification=] が何を定義しなければならないかを述べる。
+            この節はそのような文書に対して規範的である。
+          </li>
+          <li>
+            <a href="#security-considerations"></a> と
+            <a href="#privacy-considerations"></a> は、先行する諸節の要求の
+            背後にある論理を説明し、何を他の文書に委ねているかを述べる。
+            <a href="#registrations"></a> は、本文書が依拠する IANA の登録を
+            どこに要請するかを記録する。附属書は informative である。
+          </li>
+        </ul>
+      </section>
+    </section>
+
+    <section id="conformance">
+      <p>
+        本仕様は 6 つのクラスについて適合性を定義する。本仕様のすべての要求は、
+        そのいずれかに向けられている。
+      </p>
+      <ul>
+        <li><strong>[=Core Profile Issuer=]</strong>: [=Core Profiles=] を
+          発行し、<a href="#originator-key-records"></a> と
+          <a href="#issuer-key-record"></a> のレコードを公開する。</li>
+        <li><strong>[=Profile Annotation Issuer=]</strong>:
+          [=Profile Annotations=] を発行し、
+          <a href="#revocation-records"></a> と
+          <a href="#issuer-key-record"></a> のレコードを公開する。</li>
+        <li><strong>[=Issuer Accreditations=] を発行する body</strong>:
+          [=Root Issuer=]、または [=Accreditation Body=]。
+          <a href="#issuer-key-record"></a> のレコードを公開する。また、
+          <a href="#revocation-records"></a> と <a href="#record-names"></a>
+          が [=Profile Annotation Issuer=] に課す義務は、自らが発行する
+          [=Issuer Accreditations=] について、その立場を併せ持つかどうかに
+          かかわらず、この body に適用される。[=Root Issuer=] が発行する
+          [=Core Profiles=]
+          (<a href="#root-core-profile-and-accreditation-chain"></a>) については、
+          <a href="#originator-key-records"></a> と <a href="#record-names"></a>
+          が [=Core Profile Issuer=] に課す義務が同様にこれに適用される。</li>
+        <li><strong>自らの [=Identity=] の zone にレコードを公開する
+          [=Originator=]</strong>。<a href="#originator-records"></a> が
+          規定するとおりである。[=Originator=] がそれらを公開することを
+          求められるかどうかは [=Use Case Specification=] が定義する。
+          それらが何を意味するかは、どのユースケースでも同じである。</li>
+        <li><strong>[=Verifier=]</strong>: <a href="#verification"></a> の
+          手続きを実行する。</li>
+        <li><strong>[=Use Case Specification=]</strong>: 本仕様の上に立ち、
+          <a href="#use-case-interface"></a> が要求するものを定義する仕様。</li>
+      </ul>
+    </section>
+
+    <section id="terminology">
+      <h2>用語</h2>
+      <p>
+        本文書は、[=Use Case Specifications=]、運用文書、Architectural Overview
+        [[?OPF-AOV]] が依拠する、枠組みの用語を定義する。シリーズの他の文書が
+        これらの定義のいずれかを再掲している場合は、本文書が優先する。
+      </p>
+
+      <section id="terminology-core">
+        <h3>用語</h3>
+
+      <dl>
+        <dt><dfn>Accreditation Body</dfn></dt>
+        <dd>
+          [=Accreditation Body=] は、[=Root Issuer=] が、直接に、またはその
+          権限を受けた entity を介して、[=Issuer Accreditations=] を発行する
+          権限を与えた entity である。
+        </dd>
+
+        <dt><dfn>Accreditation Chain</dfn></dt>
+        <dd>
+          [=Accreditation Chain=] は、ある issuer から [=Root Core Profile=] までの
+          [=Issuer Accreditations=] の列であり、各 issuer の [=Core Profile=]
+          を伴う。各 [=Issuer Accreditation=] は、それが accredit する issuer の
+          [=parent issuer=] が発行したものである。
+        </dd>
+
+        <dt><dfn>Content</dfn></dt>
+        <dd>
+          [=Content=] は [=Originator=] に由来する情報である。
+        </dd>
+
+        <dt><dfn>Content Attestation</dfn></dt>
+        <dd>
+          [=Content Attestation=] は [=Signed Data from Originator=] の一種で
+          あり、[=Content=] が対応する [=Originator=] に由来することを確認する。
+          [=Content Attestation=] は、[=Originator=] の [=Originator Profile=]
+          の一部である [=Core Profile=] が載せる [=Originator Verification
+          Key=] で検証される。
+        </dd>
+
+        <dt><dfn class="lint-ignore" data-lt="Content Validity Periods">Content Validity Period</dfn>（内容の有効期間）</dt>
+        <dd>
+          内容の有効期間は、[=Profile Annotation=] が述べることのできる期間で
+          あり、その間、annotation が述べることが成り立つ。annotation の
+          署名の有効期間を含まなければならない
+          (<a href="#profile-annotation-model"></a>)。
+        </dd>
+
+        <dt><dfn>Core Profile</dfn></dt>
+        <dd>
+          [=Core Profile=] は、ある [=Originator=] に関する本質的な
+          [=Validated Attributes=] の集合であり、[=Core Profile Issuer=] が
+          発行する。ただし [=Root Core Profile=] は、その [=Root Issuer=] が
+          自らについて発行し、他の者は validate しない。これはその
+          [=Originator=] の [=Originator Verification Keys=] を載せる。
+
+          [=Root Core Profile=] 以外の [=Core Profile=] は
+          [=Originator Profile=] の一部である。
+        </dd>
+
+        <dt><dfn>Core Profile Issuer</dfn></dt>
+        <dd>
+          [=Core Profile Issuer=] は、自身の [=Core Profile Policy=] の下で
+          [=Core Profile=] を発行する entity である。
+        </dd>
+
+        <dt><dfn>Core Profile Policy</dfn></dt>
+        <dd>
+          [=Core Profile Policy=] は、[=Core Profiles=] の発行と管理を律する
+          ポリシーの集合である。
+        </dd>
+
+        <dt><dfn data-lt="Identity|Identities">Identity</dfn></dt>
+        <dd>
+          [=Originator=] の [=Identity=] は、その [=Originator=] が枠組みの中で
+          知られるドメイン名である。[=Core Profile=] がこれを載せ、
+          [=Verifier=] は [=Presented Identity=] をこれと照合する。
+        </dd>
+
+        <dt><dfn>Issuer Accreditation</dfn></dt>
+        <dd>
+          [=Issuer Accreditation=] は、issuer 自身の [=Core Profile=] に
+          対する [=Profile Annotation=] であり、枠組みにおけるその issuer の
+          立場、たとえば [=Core Profile Issuer=] や [=Profile Annotation
+          Issuer=] としての立場を述べる。これは [=Root Issuer=] または
+          [=Accreditation Body=] が発行する。
+        </dd>
+
+        <dt><dfn>Issuer Key Record</dfn></dt>
+        <dd>
+          [=Issuer Key Record=] は、鍵そのものではなく [=Key Identifiers=]
+          を列挙する DNS record set である。issuer
+          (<a href="#issuer-identity"></a>) が自身の名前の下でこれを公開し、
+          これは、その issuer の文書の上の署名が受け入れられるべき鍵を
+          名指す。すなわち、issuer が署名に用いている鍵、これから署名に用いる
+          鍵、およびその署名がまだ検証されうる鍵である
+          (<a href="#issuer-key-record"></a>)。
+        </dd>
+
+        <dt><dfn>Issuer Pinning Record</dfn></dt>
+        <dd>
+          [=Issuer Pinning Record=] は、[=Originator=] が自身の [=Identity=] の
+          zone で公開する DNS record set であり、その [=Originator=] のために
+          [=Core Profile=] を発行することを許された [=Core Profile Issuers=]
+          を名指しするか、その [=Originator=] が [=Originator Profile=] を
+          持たないことを宣言する。レコードが issuer を名指している
+          [=Originator=] は、それらの issuer に pin されている（pinned）。
+          このレコードを公開していない [=Originator=]、または zone が署名されて
+          いない [=Originator=] は、[=Use Case Specification=] が unpinned の
+          [=Originator=] を認める場合には unpinned である。[=Use Case
+          Specification=] は、代わりにこのレコードを要求してもよく、その場合
+          にはレコードの不在は失敗である。
+        </dd>
+
+        <dt><dfn>Key Identifier</dfn></dt>
+        <dd>
+          [=Key Identifier=] は [=Originator Verification Keys=] のうちの
+          一つ、または issuer (<a href="#issuer-identity"></a>) の
+          [=Verification Key=] のうち、その issuer が発行する文書の検証に用いる
+          ものを識別する。これは鍵そのものから導かれ、本文書が定めるとおりに
+          計算した public key の digest である。したがって同じ鍵は、
+          [=Content Attestation=] の中、[=Core Profile=] の中、DNS の中の
+          どこに現れても同じ [=Key Identifier=] を持つ。二つの鍵は、同じ digest
+          アルゴリズムで計算した [=Key Identifiers=] が等しいとき同じ鍵である。
+        </dd>
+
+        <dt><dfn>Originator</dfn></dt>
+        <dd>
+          [=Originator=] は、なんらかの [=Content=] を [=Recipients=] へ送る
+          entity である。Originator Profile Framework において
+          [=Originator=] は、[=Content Attestation=] のようなさまざまな形の
+          [=Signed Data from Originator=] を作る entity でもある。この枠組みでは
+          すべての issuer も [=Originator=] である。issuer 自身の [=Core
+          Profile=] はその issuer についてのものであり、issuer が発行する文書は
+          [=Signed Data from Originator=] である
+          (<a href="#issuer-identity"></a>)。
+        </dd>
+
+        <dt><dfn>Originator Key Record</dfn></dt>
+        <dd>
+          [=Originator Key Record=] は、鍵そのものではなく [=Key
+          Identifiers=] を列挙する DNS record set である。[=Core Profile
+          Issuer=] は、自らが発行する [=Core Profile=] ごとに一つを自身の
+          名前の下で公開し、それはその [=Core Profile=] の [=Originator
+          Verification Keys=] のうち取り下げられていないものの [=Key
+          Identifiers=] を列挙する。それが存在することは、その [=Core
+          Profile=] が revoke されていないことを意味する。
+        </dd>
+
+
+        <dt><dfn>Originator Key Record Name</dfn></dt>
+        <dd>
+          [=Originator Key Record Name=] は、[=Originator Key Record=] の
+          完全修飾 DNS 名である。[=Core Profile Issuer=] が割り当て、[=Core
+          Profile=] が保持する。
+        </dd>
+
+        <dt><dfn>Originator Profile</dfn></dt>
+        <dd>
+          [=Originator Profile=] は、ある [=Originator=] に関する
+          [=Validated Attributes=] のうち、枠組みが検証可能にするものの集合で
+          ある。
+
+          [=Originator Profile=] は一つの [=Core Profile=] と一つ以上の
+          [=Profile Annotations=] から成り、[=Use Case Specification=] は
+          これにそのユースケースに固有の文書を加えることができる。[=Core Profile=] は
+          [=Originator Verification Keys=] などの本質的な情報を含み、
+          [=Profile Annotations=] は [=Originator=] に関する追加の [=Validated Attributes=] を
+          与える。
+        </dd>
+
+        <dt><dfn data-lt="Originator Profile Bundles">Originator Profile Bundle</dfn></dt>
+        <dd>
+          [=Originator Profile Bundle=] は、[=Originator Profile=] を運ぶ
+          文書の集合である。すなわち、[=Originator=] についての一つ以上の
+          [=Core Profiles=]（[=Verifier=] は <a href="#procedure"></a> の手順 5
+          で、<a href="#ordering-and-parallelism"></a> の上限の範囲で、その中から
+          選ぶ）、それらとともに提示される [=Profile Annotations=]、各
+          [=Core Profile Issuer=] と各 [=Profile Annotation Issuer=] の
+          [=Accreditation Chain=]（[=Root Core Profile=] で終わる）、および
+          [=Use Case Specification=] が [=Originator Profile=] に加える文書である。
+          [=Originator Profile Bundle=] がどのように [=Verifier=] へ運ばれるかは
+          [=Use Case Specification=] が定義する。
+        </dd>
+
+        <dt><dfn>Originator Verification Key</dfn></dt>
+        <dd>
+          [=Originator Verification Key=] は、[=Originator=] の [=Core
+          Profile=] が載せる [=Verification Key=] であり、[=Signed Data from
+          Originator=] はそれで検証される。
+        </dd>
+
+        <dt><dfn>Permitted Host Record</dfn></dt>
+        <dd>
+          [=Permitted Host Record=] は、[=Originator=] が自身の [=Identity=] の
+          zone で公開する DNS record set であり、その [=Identity=] そのもの
+          ではなく、その配下にもない host が当該 [=Originator=] の
+          [=Originator Profile=] を提示することを許す。
+        </dd>
+
+        <dt><dfn>Presented Identity</dfn></dt>
+        <dd>
+          [=Presented Identity=] は、[=Content=] がその下で [=Recipient=] に
+          届く identity であり、[=Verifier=] が [=Use Case Specification=] の
+          定める方法で配信の経路から得る。たとえば web ページの origin や、
+          メッセージの author のドメインである。[=Verifier=] は、これを
+          [=Core Profile=] にある [=Originator=] の [=Identity=] と照合する。
+        </dd>
+
+        <dt><dfn>Profile Annotation</dfn></dt>
+        <dd>
+          [=Profile Annotation=] は署名済みデータであり、[=Profile
+          Annotation Issuer=] が [=Profile Annotation Policy=] の下で発行し、
+          [=Validated Attributes=] の集合を、両者が対象とする [=Identity=] を介して、
+          ある [=Originator=] の [=Core Profile=] へ結びつける
+          (<a href="#profile-annotation-model"></a>)。
+          [=Profile Annotation=] の種類はそれぞれ特定の目的に仕える。たとえば
+          Organization Profile や、ある法域に固有の annotation である。
+        </dd>
+
+        <dt><dfn>Profile Annotation Issuer</dfn></dt>
+        <dd>
+          [=Profile Annotation Issuer=] は、一つ以上の種類の [=Profile
+          Annotations=] を発行する entity である。それとしての立場と、発行して
+          よい種類は、その [=Issuer Accreditation=] が述べる
+          (<a href="#root-core-profile-and-accreditation-chain"></a>)。
+        </dd>
+
+        <dt><dfn>Profile Annotation Policy</dfn></dt>
+        <dd>
+          [=Profile Annotation Policy=] は、[=Profile Annotations=] の発行と
+          管理を律するポリシーの集合である。
+        </dd>
+
+        <dt><dfn>Recipient</dfn></dt>
+        <dd>
+          [=Recipient=] は [=Content=] を受け取る entity である。
+        </dd>
+
+        <dt><dfn>Revocation Record</dfn></dt>
+        <dd>
+          [=Revocation Record=] は、[=Profile Annotation=] の issuer が自身の
+          名前の下で公開する DNS record set であり、それが存在することは、その
+          annotation が revoke されたことを意味する。
+        </dd>
+
+        <dt><dfn>Revocation Record Name</dfn></dt>
+        <dd>
+          [=Revocation Record Name=] は、ある [=Profile Annotation=] が revoke
+          された場合に、その [=Revocation Record=] が公開される完全修飾 DNS 名
+          である。annotation の issuer が割り当て、[=Profile Annotation=] が
+          保持する。
+        </dd>
+
+        <dt><dfn>Root Core Profile</dfn></dt>
+        <dd>
+          [=Root Core Profile=] は、[=Root Issuer=] の self-signed な
+          [=Core Profile=] である。すべての [=Accreditation Chain=] は
+          [=Root Core Profile=] で終わる。[=Verifier=] は、[=Recipient=] に
+          代わって、自身が受け入れる [=Root Core Profiles=] を手元に保持する。
+          これは検証ソフトウェアとともに配布される。当初は一つである。
+        </dd>
+
+        <dt><dfn>Root Issuer</dfn></dt>
+        <dd>
+          [=Root Issuer=] は [=Root Core Profile=] の発行者である。すなわち、
+          枠組みを統治する body であり、自らの各 [=Root Core Profile=] に、
+          その [=Root Core Profile=] が載せる鍵で署名する。
+        </dd>
+
+        <dt><dfn class="lint-ignore" data-lt="Signature Validity Periods">Signature Validity Period</dfn>（署名の有効期間）</dt>
+        <dd>
+          署名の有効期間は、署名された文書の署名に拠ってよい期間である。それは
+          文書の securing mechanism がその署名について記す期間であり
+          (<a href="#common-properties"></a>)、始まりを含み、終わりを含まない。
+          署名された文書はすべてこれを持ち、本文書が時刻と比べる期間はこれだけ
+          である。
+        </dd>
+
+        <dt><dfn>Signed Data from Originator</dfn></dt>
+        <dd>
+          [=Signed Data from Originator=] は、枠組みの署名済み文書の一般形である。
+          すなわち、それが帰属する当事者、つまり [=Originator=]（すべての issuer
+          はその一つである。<a href="#issuer-identity"></a>）が署名し、
+          <a href="#common-properties"></a> のプロパティを持つ文書である。
+          [=Core Profile=]、[=Profile Annotation=]、[=Content Attestation=]、
+          [=Root Core Profile=] はその種類であり、それらが導かれるモデルは
+          [[?OPF-AOV]] が与える。
+        </dd>
+
+        <dt><dfn>Signing Key</dfn></dt>
+        <dd>
+          [=Signing Key=]（private key とも呼ばれる）は、署名済み
+          データの署名を作るために用いる非対称暗号の鍵ペアの片方である。鍵
+          ペアのもう片方が [=Verification Key=] である。[=Signing Key=] は特定の
+          entity（signer）が自身の管理下に置き、署名済みデータの一部となる
+          署名を生成するために用いる。
+        </dd>
+
+        <dt><dfn data-lt="use case specifications">Use Case Specification</dfn></dt>
+        <dd>
+          [=Use Case Specification=] は、Web Media や Email のような一つの
+          ユースケースについての Originator Profile Framework の仕様であり、
+          Core Specification の上に載る。[=Originator Profile=] とそれに伴う
+          文書がどのように [=Verifier=] に届くか、[=Presented Identity=] が何で
+          あり、それがどのように [=Originator=] へ結びつけられるか、検証が
+          どこでいつ行われるか、そしてそこから導かれる security
+          considerations を定める。
+        </dd>
+
+        <dt><dfn data-lt="Validated Attribute|Validated Attributes">Validated Attribute</dfn></dt>
+        <dd>
+          [=Validated Attribute=] は、ある [=Originator=] に関する情報のうち、
+          それを保持する文書を発行する前に、issuer がその真偽を評価したもので
+          ある。[=Core Profile=] と [=Profile Annotation=] は
+          [=Validated Attributes=] から成り、それぞれ [=Core Profile Issuer=] と
+          [=Profile Annotation Issuer=] が発行の前にそれらを検証する。
+        </dd>
+
+        <dt><dfn>Verification Key</dfn></dt>
+        <dd>
+          [=Verification Key=]（しばしば public key とも呼ばれる）は、署名済み
+          データの署名を検証するために用いる。これは [=Signing Key=] を自身の
+          管理下に置く特定の signer と結びついており、署名済みデータの
+          integrity を検証するために用いる。
+        </dd>
+
+        <dt><dfn>Verifier</dfn></dt>
+        <dd>
+          [=Verifier=] は、[=Recipient=] に代わって [=Originator Profile=] と
+          [=Content Attestation=] を検証するソフトウェア部品である。それが
+          どこに置かれるかは [=Use Case Specification=] が定める。たとえば
+          ブラウザ拡張、メールクライアント、受信メールサーバである。
+        </dd>
+      </dl>
+      </section>
+    </section>
+
+    <section id="identifiers">
+      <h2>識別子と名前</h2>
+      <p>
+        本節は、この枠組みが [=Originators=]、issuer、鍵を名づけるための識別子
+        と、[=Verifier=] が名前を導出せずに引けるように署名された文書が持つ
+        DNS 名を規定する。
+      </p>
+
+      <section id="originator-identity">
+        <h3>Originator の Identity</h3>
+        <p>
+          <strong>Identity とは何か。</strong>
+          [=Originator=] の [=Identity=] は完全修飾ドメイン名である。
+          [=Core Profile=] は、その subject の [=Identity=] を、当該の名前を値と
+          する <code>dns:</code> URI [[RFC4501]] として保持しなければならない
+          (MUST)。サブドメインはそれ自体で一つの identity である。組織が目的ごとに
+          別々の [=Originator Profiles=] を持つ場合は、そのそれぞれに別の
+          [=Identity=] を用いることによってそうし、ある [=Identity=] に対して発行
+          された [=Profile Annotation=] は、別のものについて何も述べない。
+        </p>
+        <p>
+          <strong>identity が何に使われるか。</strong>
+          この [=Identity=] は、[=Use Case Specification=] が定める規則によって
+          [=Presented Identity=] と比較される値である。これは [=Verifier=] が
+          名前解決する名前ではない。issuer のレコードについて [=Verifier=] が
+          引く名前は、<a href="#record-names"></a> が規定するとおり文書が保持
+          している名前であり、[=Identity=] がそれらを組み立てるために使われることは
+          ない。[=Identity=] から組み立てられる名前は、[=Originator=] 自身の
+          レコードの名前だけである (<a href="#originator-records"></a>)。
+        </p>
+        <p>
+          <strong>canonical form。</strong>
+          ドメイン名が canonical form にあるとは、次のすべてを満たすことを
+          いう。
+        </p>
+        <ul>
+          <li>すべての label が小文字であること。</li>
+          <li>すべての label が LDH label
+            [[RFC5890]] であること（したがって国際化された label はその A-label
+            として現れる）。ただし [=Originator Key Record Name=] または
+            [=Revocation Record Name=] の中ではアンダースコアで始まる label
+            [[RFC8552]] も許される。</li>
+          <li>空の label が無いこと。</li>
+          <li>末尾のドットが無いこと。</li>
+        </ul>
+        <p>
+          <code>dns:</code> URI が canonical form にあるとは、
+          そのような名前だけを保持し、他に何も持たないことをいう。すなわち
+          [[RFC4501]] が本来は許す authority も query も持たない。
+        </p>
+        <p>
+          <strong>等しい、配下にある、同じかその配下にある。</strong>
+          二つの名前が
+          等しいとは、その canonical form が 1 オクテットに至るまで等しいことを
+          いう。ある名前が別の名前の配下にあるとは、前者の canonical form が、
+          label の区切りを先頭に付けた後者の canonical form で終わることをいう。
+          こうして一致は label の境界で起きる。たとえば
+          <code>www.example.com</code> は <code>example.com</code> の配下に
+          あるが、<code>badexample.com</code> はそうではない。ある名前が別の
+          名前と同じかその配下にあるとは、両者が等しいか、前者が後者の配下に
+          あることをいう。
+        </p>
+        <p>
+          <strong>署名者の義務。</strong>
+          本仕様の文書に署名する者はすべて、[=Content Attestation=] に署名する
+          [=Originator=] を含め、自らが行う署名の対象に入るすべてのドメイン名を
+          canonical form で書かなければならない (MUST)。それらの名前は、その文書が対象とする
+          [=Identity=]、その文書が issuer として保持する [=Identity=]
+          (<a href="#issuer-identity"></a>)、およびその文書が保持する
+          [=Originator Key Record Name=] または [=Revocation Record Name=]
+          (<a href="#record-names"></a>) である。
+        </p>
+        <p>
+          <strong>Verifier の比較。</strong>
+          [=Verifier=] は、二つのドメイン名を比較する前に、その両方を canonical
+          form にしなければならない (MUST)。canonical form にできない値は、それ
+          を必要とした検査の失敗として扱わなければならない (MUST)。
+        </p>
+        <p>
+          <strong>canonical form にない名前。</strong>
+          [=Verifier=] は、DNS が返した名前が canonical
+          form にないとき、たとえば SVCB record の TargetName が大文字や末尾の
+          点を含むとき、まずそれを canonical form にした上で受け入れなければ
+          ならない (MUST)。そうした名前における大文字小文字の違いや末尾の点は、
+          失敗ではない。[=Verifier=] は、文書の中の canonical form にない値も、
+          同じようにして受け入れてもよい (MAY)。いずれの場合も、canonical form
+          が異なる二つの値を一致とみなしてはならない (MUST NOT)。
+        </p>
+        <p>
+          <strong>規則が当てはまる所。</strong>
+          本節の規則、すなわち canonical form にしてから比較することは、本文書が
+          求めるドメイン名のすべての比較に適用される。
+        </p>
+        <ul>
+          <li>ある文書が保持する [=Identity=] と別の文書が保持する [=Identity=] との
+            比較。</li>
+          <li>[=Identity=] と DNS が返した名前との比較。</li>
+          <li>文書が保持する名前とそれが配下になければならない node との
+            比較。</li>
+        </ul>
+        <p>
+          [=Presented Identity=] が [=Identity=] と比較される場面では、
+          [=Presented Identity=] が何であるか、[=Verifier=] がそれをどう得る
+          か、どう canonical form にするかを [=Use Case Specification=] が定義
+          する (<a href="#use-case-interface"></a>)。比較そのものは本節の規則で
+          ある。
+        </p>
+      </section>
+
+      <section id="issuer-identity">
+        <h3>Issuer の Identity</h3>
+        <p>
+          <strong>issuer とその名前。</strong>
+          [=Core Profile Issuer=]、[=Profile Annotation Issuer=]、
+          [=Accreditation Body=]、[=Root Issuer=] は、それぞれ完全修飾
+          ドメイン名によって識別される。本文書は、これらのいずれをも
+          <dfn>issuer</dfn> と呼ぶ。issuer が署名するすべての文書
+          は、その名前を自らの issuer として保持しなければならない (MUST)。
+          形式は [=Originator=] の [=Identity=] と同じ <code>dns:</code> URI で
+          ある。これは canonical form で書かれ、同じ規則で比較される
+          (<a href="#originator-identity"></a>)。
+        </p>
+        <p>
+          <strong>issuer が公開する場所。</strong>
+          その名前は、issuer が自らの [=Issuer Key Record=] と、役に応じて
+          [=Originator Key Records=] または [=Revocation Records=] を公開する
+          名前でもある。<a href="#dns-layer"></a> が規定するとおり
+          である。issuer として保持する名前の下で公開できない issuer は、検証
+          され得ない。
+        </p>
+        <p>
+          <strong>issuer 自身の Core Profile。</strong>
+          すべての issuer はそれ自体が [=Originator=] である。[=Root Issuer=]
+          以外の issuer は、自らの名前を [=Identity=] として発行された自らの
+          [=Core Profile=] を持ち、issuer としての立場は、その [=Core Profile=]
+          に対する [=Issuer Accreditation=] が述べる。
+          <a href="#root-core-profile-and-accreditation-chain"></a> が規定するとおり
+          である。そのような issuer はその [=Core Profile=] を、
+          [=Root Issuer=] か、自らの [=Accreditation Chain=] 上で
+          [=toward the root=]（root の側）にある [=Core Profile Issuer=] から
+          受ける。それ以外の
+          issuer による [=Core Profile=] は、chain の検証に用いられない
+          (<a href="#chain-verification"></a>)。
+        </p>
+      </section>
+
+      <section id="key-identifier">
+        <h3>Key Identifier</h3>
+        <p>
+          <strong>Key Identifier とは何か。</strong>
+          [=Key Identifier=] は、それが識別する public key の digest である。鍵は
+          DER 符号化された SubjectPublicKeyInfo [[RFC5280]] として表現され、
+          [[OPF-DNS]] が定義するとおりに正規化され、digest はその符号化に対して
+          計算される。したがって同じ鍵は同じ [=Key Identifier=] を持ち、同じ
+          digest アルゴリズムで計算された二つの [=Key Identifiers=] は、それらが
+          同じ鍵を識別するとき、かつそのときに限って等しい。[=Key Identifier=]
+          は、同じアルゴリズムで計算されたものとのみ比較されるので、値を使う側は、
+          どのアルゴリズムがそれを生んだかを知っていなければならない。署名された
+          文書が保持する値については SHA-256 であり、DNS の値についてはその
+          レコードの Matching Type がそれを示す。
+        </p>
+        <p>
+          <strong>どの当事者も SHA-256、ほかのアルゴリズムは追加。</strong>
+          [=Verifier=] は SHA-256 をサポートしなければならず (MUST)、
+          SHA-512 をサポートすべきであり (SHOULD)、[[OPF-DNS]] が
+          Matching Type を定義する他の digest アルゴリズムをサポートしても
+          よい (MAY)。issuer (<a href="#issuer-identity"></a>) は、どの
+          [=Verifier=] もサポートする形が常にあるように、DNS に公開するすべての
+          [=Key Identifier=] について SHA-256 の形を公開しなければならず
+          (MUST)、加えて他の形を公開してもよい (MAY)。署名された文書が保持する
+          [=Key Identifier=] は SHA-256 の形でなければならず (MUST)、文書は
+          アルゴリズムを示すものを何も保持しない。代わりに [=Key Identifier=] を
+          判定するに足るものを保持する文書 (<a href="#common-properties"></a>)
+          は、SHA-256 の形を保持するものとして読む。本文書は、それを保持する
+          プロパティを定めない。<a href="#data-model"></a> を参照。
+        </p>
+        <p>
+          <strong>DNS のレコード。</strong>
+          本文書に従う OPKEY の record set は [=Key Identifiers=] だけを保持する。
+          レコードが [=Verifier=] にとって使える (usable) のは、その field values
+          が [[OPF-DNS]] の受け入れるものであり、かつ [=Verifier=] がその
+          Matching Type をサポートする場合に限られる。受け入れられる値は
+          Certificate Usage 3、Selector 1、Matching Type 1 (SHA-256) または
+          2 (SHA-512) で、Certificate Association Data がその Matching Type の
+          求める長さのものである。[[OPF-DNS]] の Field Values が求めるとおり、
+          [=Verifier=] はそれ以外のレコードをすべて無視し、無視したレコードは
+          どの鍵も識別しない。鍵そのものを運ぶことになる
+          Matching Type 0 は、このフレームワークでは用いない。
+        </p>
+        <div class="note" title="レコードが運ぶのは鍵ではなくダイジェスト">
+          [=Verifier=] はすべての鍵を文書から取り、DNS には、それが現行かどうか
+          だけを尋ねる。鍵そのものを運ぶレコードは、答えの大きさを増やすだけで、
+          照合が確かめることには何も加えない。耐量子の鍵では、その大きさが大きい。
+        </div>
+
+        <p>
+          <strong>issuer が公開する形。</strong>
+          ある record set の中で
+          一つの鍵についてある形を公開する issuer は、その record set の
+          すべての鍵についてその形を公開しなければならない (MUST)。
+          ある record set から鍵を外す issuer は、その中でその鍵を識別する
+          レコードを、Matching Type を問わずすべて同時に外さなければならない
+          (MUST)。そうしなければ、ある形のレコードが残り、その形で照合する
+          [=Verifier=] は、その鍵による署名を受け入れ続ける。
+        </p>
+        <p>
+          <strong>Verifier が探すもの。</strong>
+          [=Verifier=] は、自らが問い合わせた名前で取得した record set に対して
+          鍵を照合する。その名前は、[=Core Profile=] が保持する
+          [=Originator Key Record Name=]（<a href="#procedure"></a> の段取り 6）か、
+          issuer の [=Issuer Key Record=] の名前 (<a href="#issuer-key-record"></a>)
+          である。その record set の中で探す [=Key Identifier=] は、自らが選び、
+          署名の検証に使う鍵から計算したものでなければならない (MUST)。文書が保持
+          する値や、[=Core Profile=] が鍵に添える値は、鍵を選ぶためだけに使う。
+        </p>
+        <div class="note" title="保持された値と計算した値">
+          文書が保持する値を record set と直接比べるとすれば、issuer が誤って記した値に
+          よって、取り下げた鍵による署名が、現行の鍵の [=Key Identifier=] の下で通り
+          うる。署名を検証した鍵から計算すれば、値はその鍵が [=current=] である場合に
+          限って一致し、誤って記した値は鍵を選び損ねるだけで済む。
+        </div>
+        <p>
+          <strong>Verifier がどの形に対して照合するか。</strong>
+          record set が複数の形の [=Key Identifiers=] を保持する場合、
+          [=Verifier=] は、自らがサポートし、かつその record set が保持する形の
+          うち最も強い形に対して鍵を照合しなければならない (MUST)。鍵が一致する
+          のは、その形での当該の鍵の [=Key Identifier=] が存在する場合に限られる。
+          使えるレコードを一つも保持しない record set は、
+          <a href="#originator-key-records"></a> と
+          <a href="#issuer-key-record"></a> のいう意味で存在してはいても、どの
+          鍵とも一致しない。
+        </p>
+        <div class="note" title="最も強い形と、各鍵の形">
+          <p>
+            最も強い形に対して照合することが、より強い形に価値を与える。どれか一つの形で
+            足りるなら、照合の強さは record set が保持する最も弱い形の強さになる。
+          </p>
+          <p>
+            issuer がある形をすべての鍵について公開するか、どの鍵についても公開しないか
+            のどちらかにするのも（<strong>issuer が公開する形</strong>）、同じ照合による。
+            [=Verifier=] が照合する形を欠いた鍵は、まったく一致しない。
+          </p>
+        </div>
+      </section>
+
+      <section id="record-names">
+        <h3>Originator Key Record Name と Revocation Record Name</h3>
+        <p>
+          <strong>名前とは何か、Verifier がそこで何を知るか。</strong>
+          [=Root Core Profile=] 以外の [=Core Profile=] は自らの [=Originator Key Record Name=] を完全な完全修飾
+          ドメイン名として保持しなければならず (MUST)、
+          [=Profile Annotation=] は自らの [=Revocation Record Name=] を同じく
+          完全な完全修飾ドメイン名として保持しなければならない (MUST)。
+          [=Originator Key Record Name=] に record set が存在することは、その
+          [=Core Profile=] が revoke されていないことを意味し、その record set の
+          レコードは現行の鍵を挙げる (<a href="#originator-key-records"></a>。
+          <a href="#procedure"></a> の段取り 6)。[=Revocation Record Name=] に
+          record set が存在することは、その annotation が revoke されたことを
+          意味する (<a href="#revocation-records"></a>。<a href="#procedure"></a>
+          の段取り 8)。
+        </p>
+        <p>
+          <strong>名前がどこにあるか、とその label。</strong>名前は
+          その文書の issuer が割り当てる。[=Originator Key Record Name=] は
+          [=Core Profile Issuer=] が、[=Revocation Record Name=] は annotation の
+          issuer が割り当てる。
+          [=Originator Key Record Name=] は issuer の Originator Key Record node
+          <code>_originator-key._op.&lt;cp-issuer&gt;</code> の配下に、
+          [=Revocation Record Name=] はその Revocation Record node
+          <code>_revocation._op.&lt;issuer&gt;</code> の配下にある
+          (<a href="#originator-key-records"></a>、
+          <a href="#revocation-records"></a>)。どちらの名前でも、左端の label は
+          決して node の label ではなく、これをその名前の <dfn>record label</dfn>
+          と呼ぶ。この語は [[OPF-DNS]] が定義するとおりであり、issuer がこれを
+          選ぶ。[=record label=] と node の間に label があってよく、それらは
+          [=Verifier=] にとって何の意味も持たない。issuer は自らのレコードを
+          複数の zone に分けるためにそれらを使ってよい (MAY)。
+        </p>
+        <p>
+          <strong>record label は不透明であり、名前は再利用されない。</strong>
+          [=Verifier=] は [=record label=] を解釈してはならない (MUST NOT)。
+          issuer は record name を再利用してはならない (MUST NOT)。すなわち、
+          ある [=Core Profile=]、または [=Profile Annotation=] の一回の発行に
+          割り当てられた名前は、決して別のものに割り当てられない。issuer は
+          [=record label=] の生成方法を自ら選び、他のどの当事者もそれを導出しない
+          ので、新しい名前についてはその選択をいつでも変えてよい (MAY)。
+        </p>
+        <div class="note" title="再利用された名前と前の文書">
+          名前を再利用しないのは、その名前を保持する前の [=Core Profile=] が、レコードの
+          無くなった後も出回り続けるからである。その名前に別の [=Core Profile=] のための
+          レコードを再び公開すれば、前のものが revoke されていないように見え、その鍵は
+          後のもののレコードに照らして判定されてしまう。
+          annotation では効果が逆になる。再利用した [=Revocation Record Name=] で後の
+          annotation を revoke すれば、前のものも revoke される。
+        </div>
+        <p>
+          <strong>Core Profile ごと、発行ごとに一つの名前。</strong>
+          [=Originator Key Record Name=] は、一つの [=Core Profile=] を識別
+          する。[=Core Profile Issuer=] は、[=Originator=] の鍵が変わる場合
+          でも、署名の有効期間を更新するだけの場合でも、[=Core Profile=] を発行する
+          たびに新しいものを割り当てなければならない (MUST)。
+          [=Revocation Record Name=] は、一つの [=Profile Annotation=] の一回の
+          発行を識別する。[=Profile Annotation Issuer=] は、その annotation を
+          発行し直すたびに新しいものを割り当てなければならない (MUST)。
+          こうして、前の [=Core Profile=] や annotation の過去の発行の revoke は、
+          後のものに及ばない。
+        </p>
+        <p>
+          <strong>Verifier が名前をどう使うか。</strong>
+          [=Verifier=] は保持されたままの名前を用いなければならず (MUST)、
+          [=Originator Key Record Name=] や [=Revocation Record Name=] を
+          [=Originator=] の [=Identity=] や文書の識別子から導いてはならない
+          (MUST NOT)。名前は issuer が割り当てるものであり、本文書はそれを
+          [=Identity=] にも文書にも結び付けない。[=Verifier=] が [=Originator=]
+          の [=Identity=] から組み立てる名前は、<a href="#originator-records"></a>
+          の名前だけである。それは [=Identity=] から、[=Permitted Host Record=]
+          についてはさらに host から組み立てる。issuer の [=Issuer Key Record=]
+          とその node の名前は、<a href="#issuer-key-record"></a>、
+          <a href="#originator-key-records"></a>、
+          <a href="#revocation-records"></a> が規定するとおり、issuer の
+          [=Identity=] から組み立てられる。
+        </p>
+        <p>
+          <strong>問い合わせの前の検査。</strong>
+          問い合わせの前に、[=Verifier=] は、その名前が issuer の Originator Key
+          Record node または Revocation Record node の配下にあることを検査
+          しなければならない (MUST)。<a href="#originator-key-records"></a> と
+          <a href="#revocation-records"></a> が規定するとおりである。二つの
+          名前の比較は <a href="#originator-identity"></a> が規定するとおりに
+          行い、こうして一致は label の境界で起きる。node そのものである
+          record name は、その node の配下にはなく、この検査に失敗する。この
+          検査は、issuer 自身の名前空間の外にあるレコードが参照されないように
+          する。
+        </p>
+        <div class="note" title="問い合わせの前の検査が防ぐもの">
+          検査が無ければ、文書が保持する record name が issuer 自身の名前空間の
+          外にある名前を指しうる。そうなると、[=Core Profile=] や annotation が
+          revoke されたかを、issuer ではなくその名前を持つ者が決めることになる。
+        </div>
+      </section>
+    </section>
+
+    <section id="data-model">
+      <h2>データモデル</h2>
+      <p>
+        本節は、この枠組みの署名された文書のうち本文書が依拠するプロパティと、
+        その意味を規定する。すなわち、各文書が何を保持するか、どのプロパティが
+        署名の対象の内側にあるか、[=Profile Annotation=] が
+        [=Core Profile=] にどう結びつけられるか、
+        [=Originator Profile Bundle=] が何を含むかである。本節は、securing
+        mechanism を名指す以上には文書の直列化を定義しない。
+      </p>
+
+      <section id="common-properties">
+        <h3>署名された文書に共通のプロパティ</h3>
+        <p>
+          <strong>署名された文書がみな保持するもの。</strong>
+          本文書が依拠する署名された文書、すなわち
+          [=Signed Data from Originator=] のすべてのインスタンスは、本文書の
+          目的において次のものを保持する。
+        </p>
+        <ul>
+          <li>それを発行した当事者の [=Identity=]。形式は
+            <a href="#issuer-identity"></a> のとおり。</li>
+          <li>それが対象とする [=Identity=]。形式は
+            <a href="#originator-identity"></a> のとおり。</li>
+          <li>署名の有効期間（[=Verifier=] が両端に認めうる許容については
+            <a href="#verifier-prerequisites"></a> を参照）。</li>
+          <li>それに署名した鍵の [=Key Identifier=]、または [=Verifier=] が
+            その [=Key Identifier=] を決定するのに足る情報。</li>
+        </ul>
+        <p>
+          <strong>時刻と比べる期間は 1 つ。</strong>
+          本文書が、文書がある時刻に有効かを問う所では、どこでもその文書の
+          署名の有効期間がその時刻を含むかを問う。ほかのどの期間も時刻とは
+          比べない。[=Profile Annotation=] は内容の
+          有効期間も持ちうる。その期間は署名の有効期間を含みさえすればよい
+          (<a href="#profile-annotation-model"></a>)。zone の RRSIG の有効期間は
+          zone の性質であり、署名された文書の性質ではない
+          (<a href="#revocation-model"></a>)。
+        </p>
+        <p>
+          <strong>文書の表現と、署名の内側にあるもの。</strong>
+          これらの文書は Verifiable Credentials のデータモデル
+          [[vc-data-model-2.0]] で表現し、type が <code>vc+jwt</code> である
+          JSON Web Signature [[RFC7515]]、すなわち [[vc-jose-cose]] の JOSE の形として
+          secure しなければならない (MUST)。それらの
+          プロパティと <a href="#record-names"></a> の record name は、署名の
+          対象の内側になければならない (MUST)。それらを欠いた文書は DNS と
+          照合できず、そのとき検証は失敗する。
+        </p>
+        <p>
+          <strong>署名が記す期間と、プロパティの名前。</strong>
+          securing mechanism が署名に
+          拠ってよい期間を記せるときは、本文書はその期間を署名の有効期間とする。
+          上の mechanism はそれができ、期間は token の <code>iat</code> claim から
+          <code>exp</code> claim [[RFC7519]] までである。これに対し、内容の
+          有効期間は securing mechanism ではなくデータモデルの側で記す
+          (<a href="#profile-annotation-model"></a>)。本文書はプロパティを、
+          それが何を保持するかによって呼ぶのであって、ある直列化における
+          プロパティ名によって呼ぶのではない（上で名指した securing mechanism の
+          2 つの claim は別である）。その名前と、各プロパティが文書のどこに位置
+          するかは、[[Originator Profile Blueprints]] が定義する。
+        </p>
+        <div class="issue" title="Blueprints がまだ与えていないプロパティ名">
+          本文書は、署名された文書のプロパティ名を Originator Profile
+          Blueprints [[Originator Profile Blueprints]] に委ねている。
+          Blueprints は現状、[=Core Profile=] の [=Originator Key Record Name=]
+          のためのプロパティを与えず、[=Profile Annotation=] の
+          [=Revocation Record Name=] や発行ごとの識別子のためのものも与えず、
+          さらに [=Core Profile=] が自らの定義しないプロパティを運ぶことを
+          認めない。Blueprints がそれらのプロパティを与えるまでは、本文書が
+          求める名前を運ぶ文書を、両方の文書が受け入れる形で書くことはできない。
+        </div>
+      </section>
+
+      <section id="core-profile-model">
+        <h3>Core Profile</h3>
+        <p>
+          <strong>Core Profile が保持するもの。</strong>
+          [=Core Profile=] は、共通のプロパティに加えて次のものを保持する。
+        </p>
+        <ul>
+          <li>それが対象とする [=Originator=] の
+            [=Originator Verification Keys=]。各鍵は、
+            <a href="#key-identifier"></a> が規定するとおりに
+            [=Key Identifier=] を導けるよう、SubjectPublicKeyInfo として
+            表現できる種類のものでなければならない (MUST)。</li>
+          <li>自らの [=Originator Key Record Name=]。ただし [=Root Core Profile=] である
+            場合を除く。</li>
+        </ul>
+        <p>
+          <strong>鍵の集合は定まっている。</strong>
+          [=Core Profile=] が保持する鍵は、当該の [=Core Profile=] が有効である間に
+          [=Originator=] が署名に用いることを許される鍵の集合であり、発行の時点で
+          定まる。署名済みの [=Core Profile=] は書き換えない。
+          [=Originator=] の鍵が変わると、その [=Core Profile Issuer=] が新しい
+          集合を保持する新しい [=Core Profile=] を発行し、先の
+          [=Core Profile=] は期限が切れるか revoke されるまで有効なままである。
+        </p>
+        <p>
+          <strong>Core Profile ごとに一つのレコード。</strong>[=Root Core
+          Profile=] を除くそれぞれは
+          自らの [=Originator Key Record Name=] を保持し
+          (<a href="#record-names"></a>)、そこに自らの [=Originator Key
+          Record=] が公開される。
+          <a href="#originator-key-records"></a> が求めるとおり、[=Verifier=] は、
+          [=Core Profile=] の鍵とその [=Originator Key Record=] の
+          [=Key Identifiers=] をあわせて扱う。鍵が使えるのは双方がそれを
+          保持している場合に限られる。
+        </p>
+        <p>
+          <strong>複数の鍵、置き換えられた鍵、すべての鍵を同じに扱うこと。</strong>
+          [=Core Profile Issuer=] は、理由を問わず、一つの [=Core Profile=]
+          に複数の鍵を入れてよい (MAY)。鍵を置き換えるために [=Core
+          Profile=] を発行するときは、置き換えられる鍵を入れないべきである
+          (SHOULD NOT)。新しい [=Core Profile=] が置き換えられた鍵を保持すると、
+          その鍵は、先の [=Core Profile=] ではなく新しい [=Core Profile=] の
+          期限が切れるか revoke されるまで使えるままになるからである。
+          本文書は、鍵にそれ以上の役割を与えない。署名の検証のために残しては
+          いるが新たな署名には用いない鍵、という印を付ける手段は定義せず、
+          [=Verifier=] は [=Core Profile=] が保持するすべての鍵を同じに扱わな
+          ければならない (MUST)。
+        </p>
+
+
+        <p>
+          <strong>置き換えられた鍵で署名されたコンテンツは検証可能なまま保たれる。</strong>
+          二つの条件が、置き換えられた鍵で署名されたコンテンツを検証可能なまま
+          保つ。その鍵を保持する [=Core Profile=] が有効で
+          [=Originator Profile Bundle=] に入っていること、そしてその鍵の
+          レコードが、<a href="#originator-key-records"></a> のいう意味での
+          [=retired=] の鍵としてその [=Core Profile=] の
+          [=Originator Key Record=] に残っていることである。その鍵について
+          答えるのは、その [=Core Profile=] とその [=Originator Key Record=]
+          であり、<a href="#security-key-compromise"></a> が述べる代償を伴う。
+        </p>
+      </section>
+
+      <section id="profile-annotation-model">
+        <h3>Profile Annotation</h3>
+        <p>
+          <strong>Profile Annotation が保持するものと、発行の一つ一つが互いに区別されること。</strong>
+          [=Profile Annotation=] は、共通のプロパティに加えて、自らの
+          [=Revocation Record Name=]、ある発行を別の発行から区別する識別子、
+          および自らがどの種類の annotation であるかを示す識別子を保持する。
+          [=Profile Annotation Issuer=] が annotation を発行し直すと、その結果は、
+          自らの識別子と自らの [=Revocation Record Name=] を持つ新しい発行となり
+          (<a href="#record-names"></a>)、先の発行の revocation は後の発行に
+          ついて何も述べない。
+        </p>
+        <p>
+          <strong>annotation が述べることのための、二つ目の期間。</strong>
+          [=Profile Annotation=] は、内容の有効期間も持ってもよい (MAY)。
+          それを持つ場合、その [=Profile Annotation Issuer=] は、それが
+          annotation の署名の有効期間を含むように、すなわち、より遅く始まらず、
+          より早く終わらないように選ばなければならない (MUST)。[=Verifier=] は、
+          そうなっていることを確かめる (<a href="#procedure"></a> の段取り 8)。
+        </p>
+        <p>
+          <strong>Profile Annotation が Core Profile にどう結びつけられるか。</strong>
+          [=Profile Annotation=] は、双方が対象とする [=Identity=] によって
+          [=Core Profile=] に結びつけられる。すなわち、
+          <a href="#procedure"></a> の段取り 8 の検査 (a) が求めるとおり、
+          [=Verifier=] は、annotation が名指す [=Identity=] が [=Core Profile=]
+          の保持する [=Identity=] であることを検査する。annotation は、特定の
+          [=Core Profile=] 文書や特定の鍵を参照してはならない (MUST NOT)。
+          そうすることで、[=Originator=] について新しい [=Core Profile=] が
+          出ても、その鍵が変わっても変わらなくても、annotation は有効なままと
+          なる。
+        </p>
+      </section>
+
+      <section id="content-attestation-model">
+        <h3>Content Attestation</h3>
+        <p>
+          <strong>Content Attestation が証するもの。</strong>
+          [=Content Attestation=] は、ある [=Content=] が [=Originator=] から
+          出たことを証する。attestation が何を覆い、[=Content=] をどう記述
+          するかは [=Use Case Specification=] が定義する。本文書は以下の
+          プロパティにのみ依拠する。
+        </p>
+        <p>
+          <strong>Content Attestation が保持するもの。</strong>
+          [=Content Attestation=] は、それに署名した鍵に対応する
+          [=Originator Verification Key=] の [=Key Identifier=]、またはそれを
+          決めるに足るもの (<a href="#common-properties"></a>) を保持する。
+          [=Verifier=] は、attestation が保持するものによって
+          [=Core Profile=] からその鍵を選び、次に、その鍵が現行のものかを DNS
+          に問う（<a href="#procedure"></a> の段取り 7）。鍵の照合は
+          <a href="#key-identifier"></a> が規定するとおりに行う。それが帰属する
+          [=Originator=] の [=Identity=] は、当該 attestation の issuer として
+          保持される。
+        </p>
+      </section>
+
+      <section id="root-core-profile-and-accreditation-chain">
+        <h3>Root Core Profile、Issuer Accreditation、Accreditation Chain</h3>
+        <p>
+          <strong>Issuer Accreditation とは何か。</strong>
+          issuer の立場は [=Issuer Accreditation=] が述べる。これは、issuer
+          自身の [=Core Profile=] に対する [=Profile Annotation=] であり、
+          その issuer を accredit した body が発行する。それは、その issuer が
+          [=Core Profile Issuer=]、[=Profile Annotation Issuer=]、
+          [=Accreditation Body=] のいずれであるか、またはそのうちの複数であることを
+          述べる。[=Profile Annotation=] であるから、これは
+          [=Revocation Record Name=] を保持し、他のものと同様に revoke され得る。
+          <a href="#terminology"></a> の定義のとおり、[=Accreditation Body=] とは、
+          [=Issuer Accreditations=] を発行することを許された者である。
+        </p>
+        <p>
+          <strong>chain とその向き。</strong>
+          [=Accreditation Chain=] は、ある issuer から root の側へ向かう
+          そのような accreditation の列であり、途中の各 issuer の
+          [=Core Profile=] を伴う。それは [=Root Core Profile=] で終わる。すなわち、自らが
+          保持する鍵で署名された [=Core Profile=] であって、どの issuer も
+          accredit しないものである。本文書は chain の中の位置をこの向きで
+          呼ぶ。ある issuer の <dfn>parent issuer</dfn> とは、その issuer の
+          [=Issuer Accreditation=] を発行した issuer をいい、ある段が別の段
+          より <dfn>toward the root</dfn>（root の側）にあるとは、それがその
+          別の段よりも [=Root Core Profile=] に近いことをいう。
+        </p>
+        <p>
+          <strong>Root Core Profile。</strong>
+          [=Root Core Profile=] は [=Originator Key Record Name=] を保持せず、それについて
+          [=Originator Key Record=] が引かれることはない。それでも、その
+          [=Root Issuer=] の [=Issuer Key Record=] は、他の issuer のものと同じく
+          <code>_issuer-key._op.&lt;issuer&gt;</code> に公開され
+          (<a href="#issuer-key-record"></a>)、すべての chain の最上段について
+          参照される。最上段は [=Root Core Profile=] が保持する鍵で署名されている
+          からである (<a href="#chain-verification"></a>)。[=Verifier=] は、
+          [=Root Core Profile=] が述べる署名の有効期間を検証の条件として扱ってはならない
+          (MUST NOT)。[=Root Core Profile=] は期限切れにならず、
+          <a href="#verifier-prerequisites"></a> の経路を通じて置き換えられ、
+          それが保持する日付はその置き換えの予定である。
+        </p>
+        <div class="note" title="Root Core Profile の日付">
+          [=Root Core Profile=] を日付で判定するとすれば、その置き換えの配布が遅れた
+          だけで、すべての検証が一度に失敗する。置き換えは代わりに、
+          [=Root Core Profile=] を保持するソフトウェアを通じて行われる。DNSSEC の
+          validator が、trust anchor の日付が過ぎても検証を止めないのと同じである。
+        </div>
+        <p>
+          <strong>Root Core Profile がどこから来るか。</strong>
+          [=Verifier=] は、自らが受け入れる [=Root Core Profiles=] を保持し、それ
+          以外を受け入れない (<a href="#verifier-prerequisites"></a>)。それら
+          は検証ソフトウェアとともに届く。本文書は、プロトコル
+          を通じて [=Root Core Profile=] を得る手段を定義しないし、ある issuer から
+          その parent issuer を指す DNS のレコードも無い。したがって chain
+          は、コンテンツに付随する文書から検証される。
+          <a href="#chain-verification"></a> が規定するとおりである。
+        </p>
+        <p>
+          <strong>Core Profile Issuer としての Root Issuer。</strong>
+          どの issuer も [=Root Issuer=] を accredit しないので、[=Root Issuer=]
+          は [=Core Profile Issuer=] としての [=Issuer Accreditation=] を持たずに
+          [=Core Profiles=] を発行する。chain の最上段の issuer の
+          [=Core Profile=] は [=Root Issuer=] が発行し、どの issuer や
+          [=Originator=] の [=Core Profile=] も [=Root Issuer=] が発行してよい
+          （<a href="#procedure"></a> の段取り 5）。
+        </p>
+        <p>
+          <strong>Root Issuer が発行する Core Profile の Originator Key Record。</strong>
+          自らが発行する
+          [=Core Profiles=] については、[=Root Issuer=] はその語の意味での
+          [=Core Profile Issuer=] である。それは、それらの
+          [=Originator Key Record Names=] を自らの名前のもとで
+          <code>_originator-key._op.&lt;issuer&gt;</code> の下に割り当て
+          (<a href="#record-names"></a>)、それらの [=Originator Key Records=] を、
+          <a href="#originator-key-records"></a> が [=Core Profile Issuer=] に
+          求めるとおりに公開する (<a href="#conformance"></a>)。したがって
+          [=Verifier=] は、そのような [=Core Profile=] の
+          [=Originator Key Record=] を、<a href="#procedure"></a> の段取り 6 で、
+          どの [=Core Profile Issuer=] についてとも同じく [=Root Issuer=] の
+          名前の下に見つける。それを持たないのは [=Root Core Profile=] だけで
+          ある。
+        </p>
+        <div class="note" title="Root Issuer の Originator Key Record">
+          [=Root Issuer=] がこれらのレコードを公開しないとすれば、[=Root Issuer=] が
+          発行する [=Core Profile=] の [=Originator Key Record=] を公開する者は無い。
+          [=Verifier=] はその不在を revoke と読み、そのような [=Core Profile=] は
+          どれも使えない。代わりにそれらについて検査を免除すれば、revoke できなく
+          なる。そのような [=Core Profiles=] は必ず存在する。chain の最上段の
+          issuer の [=Core Profile=] は、[=Root Issuer=] からしか来ないからである。
+        </div>
+        <p>
+          <strong>誰が accredit するか、accredit が与えないもの。</strong>
+          [=Issuer Accreditation=] が [=Accreditation Chain=] の段となるのは、
+          その発行者が [=Root Issuer=] であるか、同じ chain の中で
+          それより [=toward the root=]（root の側）で [=Accreditation Body=] として立てられた者である
+          場合に限られる。[=Accreditation Body=] は、[=Root Issuer=] と同じく、どの立場を
+          述べてもよい (MAY)。[=Accreditation Body=] の立場も含む。ある者が
+          与えてよいものと、自ら発行してよいものは別である。自ら文書を発行するには、
+          [=Accreditation Body=] はそのための立場を要する。
+        </p>
+        <ul>
+          <li>[=Core Profile=] を発行するには、[=Core Profile Issuer=] として
+            立てられている必要がある（<a href="#procedure"></a> の段取り 5）。</li>
+          <li>[=Issuer Accreditation=] 以外の
+            種類の [=Profile Annotation=] を発行するには、その種類を含む種類の
+            集合を持つ [=Profile Annotation Issuer=] として立てられている必要が
+            ある（<a href="#procedure"></a> の段取り 8 の検査 (b)）。</li>
+        </ul>
+        <p>
+          <strong>Issuer Accreditation が与える種類。</strong>
+          [=Profile Annotation Issuer=] の立場を述べる [=Issuer Accreditation=]
+          は、その issuer が発行してよい annotation の種類の集合も保持する。
+          [=Issuer Accreditation=]
+          はそれ自体が annotation の一つの種類であり、それを発行してよいのは
+          [=Root Issuer=] と [=Accreditation Body=] だけである。
+          <a href="#procedure"></a> の段取り 8 における種類の検査は、
+          [=Issuer Accreditations=] を含むすべての [=Profile Annotation=] に
+          適用される。
+        </p>
+        <p>
+          <strong>立場そのものが持つ種類。</strong>
+          [=Accreditation Body=] の立場が持つのは [=Issuer Accreditation=] という
+          種類だけであり、
+          [=Root Issuer=] であることも同じである。他の種類については、
+          [=Accreditation Body=] は、どの issuer とも同じく、
+          [=Profile Annotation Issuer=] としての自らの [=Issuer Accreditation=]
+          が与えるものを持ち、どの issuer も accredit しない [=Root Issuer=] は
+          何も持たない。他の種類の annotation を発行する [=Root Issuer=] は、
+          自らが [=Profile Annotation Issuer=] として accredit する別の [=Identity=]
+          のもとでそれを発行する (<a href="#chain-verification"></a>)。
+        </p>
+        <div class="note" title="与える立場と発行する立場">
+          chain のどの段でも、body が与えてよいものと自ら発行してよいものは別々に
+          決まる。立場だけでどの種類の annotation でも発行できる body は、
+          どの accreditation もその annotation を記述しない、ただ一つの issuer に
+          なってしまう。そのとき [=Root Core Profile=] の鍵は、accreditation だけでなく
+          コンテンツについての annotation にも署名することになる。その種類について
+          accredit された別の [=Identity=] は、body がそれまで持っていたものを何も
+          失わせない。
+        </div>
+        <p>
+          <strong>ある者が Accreditation Body とみなされるとき。</strong>
+          ある者を [=Accreditation Body=] とみなすのは、
+          [=Verifier=] がその者を [=Accreditation Body=] として立てる
+          [=Accreditation Chain=] を、その chain についての
+          <a href="#chain-verification"></a> の DNS の確認まで含めて検証した
+          場合に限られる。そのような者は、[=Issuer Accreditations=] を発行する
+          のに [=Profile Annotation Issuer=] の
+          立場を別に持つ必要はない。<a href="#procedure"></a> の段取り 2 と
+          8 では、その者を [=Accreditation Body=] として立てる chain、またはその者の
+          [=Root Core Profile=] が、その accreditation の発行者の chain の役を果たす。
+          それでも、自らが発行する [=Issuer Accreditations=] については、そのような者はその語
+          の意味での [=Profile Annotation Issuer=] であり、
+          <a href="#ordering-and-parallelism"></a> の上限 2 に一つとして数える。
+        </p>
+        <p>
+          <strong>複数の accreditation、複数の chain。</strong>
+          ある issuer が複数の [=Issuer Accreditation=] を持つ場合、
+          [=Verifier=] が検証したそのうちのどれか一つがある種類を認めて
+          いれば、その issuer はその種類を持つ。その accreditation に複数の
+          chain で至れる場合、[=Verifier=] は、次に定める [=Originator Profile Bundle=] の順序で
+          最初に検証したものを用いる。この順序は、issuer に最も近い段から
+          root の側へ向かって組み立てる。
+        </p>
+        <ul>
+          <li>その段の accreditation のうち
+            [=Originator Profile Bundle=] で先に来るものを通る chain を、それより後の
+            accreditation を通る chain より前に置く。</li>
+          <li>同じ accreditation を通る
+            chain どうしは、root の側の次の段に同じ規則を当てて並べる。</li>
+        </ul>
+        <p>
+          用いる chain は、その順序で
+          最初にローカルな検証を通ったものである。
+          <a href="#chain-verification"></a> の DNS の確認はその chain に
+          ついてだけ行い、それが結果を決める。その確認が成功しなかったときに、
+          他の chain を試すことはしない。
+        </p>
+        <div class="note" title="二つめの chain を試す費用">
+          最初の chain だけが決めるのは、DNS の確認が失敗したときに次を試すとすれば、
+          問い合わせの数が、文書から組み立てうる chain の数に左右されるからである。
+          [=Originator Profile Bundle=] を組み立てる者が順序を選び、有効と分かっている
+          経路を先に置く。
+        </div>
+      </section>
+
+      <section id="originator-profile-bundle">
+        <h3>Originator Profile Bundle</h3>
+        <p>
+          <strong>問い合わせの前に Verifier が手元に持つもの。</strong>
+          [=Verifier=] は、いかなる DNS の問い合わせを発する前にも、次のものを
+          手元に持っていなければならない (MUST)。
+        </p>
+        <ul>
+          <li>検証される [=Content Attestation=]、または [=Use Case
+            Specification=] がそれに当たるとするもの
+            （<a href="#use-case-interface"></a> の第 7 項）。</li>
+          <li>それが帰属する [=Originator=] の [=Originator Profile Bundle=]。
+            すなわち次のもの。
+            <ul>
+              <li><a href="#procedure"></a> の手順 5 で [=Verifier=] がその
+                中から選ぶ、その [=Originator=] についての [=Core Profiles=]
+                （<a href="#ordering-and-parallelism"></a> の上限 5 の範囲）。</li>
+              <li>[=Verifier=] が考慮すべき各 [=Profile Annotation=]。</li>
+              <li>上記の各
+                [=Core Profiles=] の [=Core Profile Issuer=] と上記の各
+                [=Profile Annotation Issuers=] の完全な [=Accreditation Chain=]
+                （各 chain の途中にあるすべての issuer の [=Core Profile=] を
+                含む）。</li>
+            </ul>
+          </li>
+        </ul>
+        <p>
+          chain の全体を手元に持つことは、<a href="#ordering-and-parallelism"></a>
+          が求めることである。chain の一部を検証するためにそれを取りに行かなければならない
+          [=Verifier=] は、まだ検証していない文書のために問い合わせを発して
+          いることになる。
+        </p>
+        <p>
+          <strong>Originator Profile Bundle が Verifier に届く道。</strong>
+          [=Use Case Specification=] が、[=Originator Profile Bundle=] が
+          [=Verifier=] に届く道を定義する。これまでに定義された
+          ユースケースでは、それはコンテンツとともに運ばれる。しかし本文書が
+          求めるのは、それが手元にあることだけである。したがって
+          [=Use Case Specification=] は、その一部を別の方法で得てもよい。
+        </p>
+        <p>
+          <strong>Verifier が用いない文書。</strong>
+          [=Verifier=] は、[=Originator Profile Bundle=] が自らの用いない文書、自らの知らない
+          種類の文書、あるいは同じ文書を複数含んでいることを理由に失敗しては
+          ならない (MUST NOT)。同じオクテット列として複数回運ばれた文書は、
+          <a href="#ordering-and-parallelism"></a> の上限に対して 1 つと
+          数え、一度だけ処理する。[=Verifier=] は必要な文書を取り、残りを無視する。
+          これにより、既に配備された [=Verifiers=] を壊すことなく、
+          [=Originator Profile Bundle=] の内容を増やしていける。
+        </p>
+        <p>
+          <strong>少なくとも一つの Profile Annotation。</strong>
+          [=Originator Profile Bundle=] は、[=Use Case Specification=] が求めるとおり
+          (<a href="#use-case-interface"></a>)、[=Originator=] の
+          [=Core Profile=] に加えて、その [=Profile Annotations=] を少なくとも
+          1 つ運ぶ。[=Originator Profile=] は 1 つの [=Core Profile=] と
+          1 つ以上の [=Profile Annotations=] から成るからである
+          (<a href="#terminology"></a>)。annotation 1 つは、本文書が各
+          [=Use Case Specification=] に求めさせる最小であり、[=Core Profile Issuer=] が [=Originator=] を登録する条件は、
+          [[?OPF-GOV]] が定めるとおり、それより多くの annotation を求めうる。
+          [=Verifier=] はこれを検査しない。[=Originator Profile Bundle=] が運ぶ
+          [=Profile Annotations=] の数も、その条件がどの annotation を期待
+          するかも検査しない。
+        </p>
+        <p>
+          <strong>Profile Annotation の順序。</strong>
+          [=Originator Profile Bundle=] が [=Profile Annotations=] を提示する順序には意味が
+          ある。それは、その [=Originator Profile Bundle=] を組み立てた [=Originator=] の選好の
+          順序である。<a href="#ordering-and-parallelism"></a> の上限によって
+          [=Verifier=] が集合の全体に至らず止まるときに、[=Verifier=] は
+          annotation をその順序で処理し、受け取ったままの順序を採る。
+          [=Use Case Specification=] が、単一の順序を与えない経路で
+          annotation を配送する場合、その順序はその仕様自身が定義する
+          (<a href="#use-case-interface"></a>)。
+        </p>
+        <div class="note" title="署名の外にある annotation の順序">
+          この順序はどの署名の内側にもない。各
+          [=Profile Annotation=] はそれぞれ単独で署名されており、そのすべてが
+          同じ経路で [=Verifier=] に届くとは限らない。したがって
+          [=Originator=] と [=Verifier=] の間の当事者がそれを変えうる。そう
+          することは annotation を伏せることに等しく、そのような当事者はいずれ
+          にせよそれができる。
+        </div>
+      </section>
+
+      <section id="documents-outside-the-originator-profile">
+        <h3>Originator Profile の外にある文書</h3>
+        <p>
+          <strong>Originator が署名する文書。</strong>
+          [=Originator=] は、特定のユースケースの目的のために、自らの
+          [=Originator Verification Keys=] に対応する鍵で他の文書にも署名する。そのような
+          文書は [=Originator Profile=] の外にある。自らのレコードの名前を
+          持たず、それについて答える DNS のレコードも無く、DNS で revoke
+          されない。
+        </p>
+        <p>
+          <strong>Originator が署名する文書の有効性。</strong>
+          その有効性は [=Originator Profile=] と、それに署名した鍵に従う。
+          すなわち、<a href="#originator-key-records"></a> のいう意味でその鍵が現行の
+          ものである間、かつそれを保持する [=Core Profile=] が有効である間
+          にのみ、それらの
+          文書は役に立つ。そのような文書が何を含み、[=Verifier=] がそれを
+          どう扱うかは [=Use Case Specification=] が定義する。
+        </p>
+        <p>
+          <strong>Core Profile Issuer が発行する文書。</strong>
+          [=Originator Profile=] の外にある文書のすべてが [=Originator=] に
+          よって署名されるわけではない。[=Use Case Specification=] が、
+          [=Core Profile Issuer=] が [=Originator=] について発行するそのような
+          文書を定義し、それを [=Originator Profile=] に加えない場合、その文書は同じ意味で [=Originator Profile=] の
+          外にあり、その有効性は同様に [=Originator Profile=] と、それに署名
+          した鍵に従う。
+        </p>
+      </section>
+    </section>
+
+    <section id="dns-layer">
+      <h2>DNS 層</h2>
+      <p>
+        本節は、この枠組みが用いる DNS 名、各名前におけるレコードの存在と不在の
+        意味、およびそれらのレコードを公開する issuer と [=Originators=] に
+        本節が課す要件を規定する。本節は自己完結した章として書かれている。[=Verifier=] が DNS に
+        ついて知るべきことはすべてここか [[OPF-DNS]] にあり、本文書の他のどこ
+        にも、ここで述べる意味論を超えて DNS の詳細に依拠する箇所は無い。
+      </p>
+      <p>
+        DNS layer が DNS に掛ける負荷は、[[OPF-DNS]] がその Operational Considerations で
+        述べている。検証 1 回あたりの問い合わせの数、権威サーバに届く量、応答の大きさ、
+        TTL と negative caching、および issuer のゾーンに署名する負荷である。そこでの数字は、
+        本設計と、手元の実験環境で署名したテストゾーンに対する実測からの見積もりであり、
+        実際の配備から得たものではない。
+      </p>
+      <p>
+        <code>_op</code> の下にレコードを公開する issuer は、[[OPF-DNS]] が
+        record publisher と呼ぶものである。[[OPF-DNS]] はそれを CP issuer と
+        PA issuer という二つの役割で名指し、本文書は
+        <a href="#issuer-identity"></a> の四種の [=issuer=] で名指す。
+        [=Accreditation Body=] と [=Root Issuer=] は、[[OPF-DNS]] の語では
+        PA issuer である。それらが発行する [=Issuer Accreditations=] は
+        [=Profile Annotations=] だからである。また [=Root Issuer=] は、
+        自らが発行する [=Core Profiles=] については、同じ語で
+        CP issuer である (<a href="#root-core-profile-and-accreditation-chain"></a>)。
+      </p>
+
+      <section id="namespace">
+        <h3><code>_op</code> の名前空間</h3>
+        <p>
+          <strong>名前と、それぞれの意味。</strong>
+          この枠組みが DNS で用いる名前はすべて <code>_op</code> の label の
+          下に置かれ、<code>_op</code> のすぐ下の label が、ある場合には、
+          その名前が枠組みのどの部分に関わるかを述べる。名前は次のとおりであり、本文書はこれ以外を定義
+          しない。
+        </p>
+        <table class="simple">
+          <thead>
+            <tr>
+              <th>名前</th><th>公開する者</th><th>レコード</th><th>意味</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>_issuer-key._op.&lt;issuer&gt;</code></td>
+              <td>いずれの issuer も (<a href="#issuer-identity"></a>)</td>
+              <td>OPKEY [[OPF-DNS]]</td>
+              <td>当該 issuer の [=Issuer Key Record=]
+                (<a href="#issuer-key-record"></a>)</td>
+            </tr>
+            <tr>
+              <td><code>&lt;record-label&gt;._originator-key._op.&lt;cp-issuer&gt;</code></td>
+              <td>[=Core Profile Issuer=]。自らが発行する [=Core Profiles=]
+                については [=Root Issuer=] を含む
+                (<a href="#root-core-profile-and-accreditation-chain"></a>)</td>
+              <td>OPKEY [[OPF-DNS]]</td>
+              <td>[=Originator Key Record=]。存在することは、この名前を保持する
+                [=Core Profile=] が revoke されていないことを意味する
+                (<a href="#originator-key-records"></a>)</td>
+            </tr>
+            <tr>
+              <td><code>&lt;record-label&gt;._revocation._op.&lt;issuer&gt;</code></td>
+              <td>[=Profile Annotation Issuer=]、または
+                [=Issuer Accreditations=] を発行する body
+                (<a href="#conformance"></a>)</td>
+              <td>TXT</td>
+              <td>[=Revocation Record=]。存在することは当該 annotation が
+                revoke されたことを意味する
+                (<a href="#revocation-records"></a>)</td>
+            </tr>
+            <tr>
+              <td><code>_op.&lt;originator&gt;</code></td>
+              <td>[=Originator=]</td>
+              <td>SVCB [[RFC9460]]</td>
+              <td>この [=Originator=] に対してどの
+                [=Core Profile Issuers=] が発行してよいか、あるいはどの issuer
+                も持たないこと
+                (<a href="#originator-records"></a>)</td>
+            </tr>
+            <tr>
+              <td><code>&lt;host&gt;._site._op.&lt;originator&gt;</code></td>
+              <td>[=Originator=]</td>
+              <td>TXT</td>
+              <td><code>v=op1</code> と読める TXT レコードが、当該 host が
+                この [=Originator=] の [=Originator Profile=] を提示することを許す
+                (<a href="#originator-records"></a>)</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          <strong>並ぶ名前。</strong>
+          issuer は、自らの [=Issuer Key Record=] を
+          <code>_issuer-key._op.&lt;issuer&gt;</code> に、上の表の役に応じて自らのレコードを
+          <code>_originator-key._op.&lt;issuer&gt;</code> と
+          <code>_revocation._op.&lt;issuer&gt;</code> の配下に公開する。
+          これらは <code>_op.&lt;issuer&gt;</code> の下に並ぶ別々の名前である。
+          こうして、自らの [=Verification Keys=] の [=Key Identifiers=] と、公開する
+          [=Originator Key Records=] や [=Revocation Records=] とが名前を共有する
+          ことはない。[=record label=] と <code>_originator-key</code> または
+          <code>_revocation</code> の間に label を挟むことができる。
+          <a href="#record-names"></a> が許すとおりである。
+        </p>
+        <p>
+          <strong>別名と wildcard。</strong>
+          レコードはこれらの名前に公開され、ほかの名前には公開されない。
+          [=Originator=] または issuer は、owner 名が
+          <code>_op.&lt;name&gt;</code> またはその配下のいずれかの名前である
+          CNAME、DNAME、wildcard のレコードを公開してはならない (MUST NOT)。
+          ここで <code>&lt;name&gt;</code> は自らの名前である。
+        </p>
+        <div class="note" title="別名や wildcard がもたらすもの">
+          <p>
+            これらの名前に別名があれば、答えは別名の先を持つ者に渡る。一方、
+            <a href="#record-names"></a> の検査が届くのは、文書が保持する名前だけである。
+            [=Core Profile=] や annotation が revoke されたかを決めるレコードは、
+            別名の先を持つ者が公開するいずれかのレコードとなり、issuer 自身の
+            名前空間の外に置かれることになる。NS レコードによる委任は、
+            そうした効果なしに名前空間を分ける。
+          </p>
+          <p>
+            <code>_op.&lt;name&gt;</code> またはその配下に wildcard があれば、
+            その配下のすべての名前が存在するように見えてしまう。
+            <code>_originator-key._op</code> ではすべての [=Core Profile=] が有効に見え、
+            レコードを取り除いても revoke できなくなる。<code>_revocation._op</code>
+            ではすべての annotation が revoke されたように見え、
+            <code>_site._op</code> では <code>v=op1</code> と読める wildcard が
+            すべての host を許してしまう。
+          </p>
+        </div>
+        <p>
+          <strong>issuer の zone の署名。</strong>
+          issuer の名前のいずれかを持つ zone はどれも、<code>_op.&lt;issuer&gt;</code> の配下の
+          名前の不在が <span class="dns-state">Secure</span> な証明になるように署名しなければならない
+          (MUST)。NSEC レコードで、
+          または Opt-Out フラグを持たない NSEC3 レコードで署名する。
+          NSEC3 と Opt-Out で署名された zone ([[RFC5155]], Section 6)
+          は、その証明を与えない。validator はそのような否定応答に AD ビットを
+          立てられず ([[RFC5155]], Section 9.2)、そのため [=Verifier=] は
+          それを <span class="dns-state">Insecure</span> な応答として読む。
+          <span class="dns-state">Insecure</span> な応答は、issuer が公開
+          するどの名前でも失敗である
+          (<a href="#dnssec-and-resolution-outcomes"></a>)。
+        </p>
+        <p>
+          <strong>委任。</strong>
+          自らの名前空間の
+          一部を他者に運用させたい issuer は、その部分木を NS レコードで委任
+          する。こうすれば、名前は本文書が置いた場所に留まる
+          (<a href="#record-names"></a>)。issuer が自らの名前空間の一部を委任
+          した先の zone は issuer の名前を持つので、issuer の zone の署名の
+          要件どおりに署名される。その zone はさらに、信頼の連鎖の上で issuer
+          の zone とつながっていなければならない。issuer は委任先の zone の
+          DS レコードを自らの zone に公開する。DS レコードが無ければ、委任先の
+          zone からの応答はすべて <span class="dns-state">Insecure</span> になる
+          からである。
+        </p>
+        <p>
+          <strong>Originator の zone。</strong>
+          [=Originator=] の zone は、issuer の zone の署名の要件の対象ではない。
+          [=Originator=] の名前では、<span class="dns-state">Insecure</span> な否定応答と
+          <span class="dns-state">Secure</span> なものは同じに読まれる。
+          [=Originator=] の zone の他の場所にある wildcard や DNAME、たとえば
+          その apex にあるものは、<code>_op.&lt;name&gt;</code> とその配下に
+          ついての、本節の別名と wildcard の禁止の外である。wildcard は、
+          <code>_op.&lt;originator&gt;</code> という名前がひとたび存在すれば
+          そこには及ばず、その名前またはその配下に何らかのレコードを公開する
+          [=Originator=] は、その名前を作り出している。
+        </p>
+        <p>
+          <strong><code>_op.&lt;originator&gt;</code> が存在する前の apex の wildcard。</strong>
+          [=Originator=] が <code>_op.&lt;originator&gt;</code> を作り出すまでは、
+          apex にある <code>v=op1</code> と読める wildcard の TXT レコードは、
+          すべての [=Permitted Host Record=] の名前で合成され、すべての host
+          を許す。これは、本節が禁じる <code>_site._op</code> の下の wildcard
+          がするのと同じことであり、[=Verifier=] は両者を区別しない
+          (<a href="#dnssec-and-resolution-outcomes"></a>)。他の内容を持つ
+          wildcard の TXT レコード、たとえば SPF のレコードは、何も許さない
+          (<a href="#originator-records"></a>)。
+        </p>
+        <p>
+          <strong>Originator の zone の apex にある DNAME。</strong>
+          zone の apex に DNAME
+          を持つ [=Originator=] は、<code>_op.&lt;originator&gt;</code> に
+          公開できるようになる前に、まずそれを取り除かなければならない。
+          DNAME の owner の配下にはレコードが存在できないからである ([[?RFC6672]], Section 2.4)。その名前が存在しない
+          ところでは、問い合わせは別名を経て答えられることがある。
+          [=Verifier=] はそのような応答を <span class="dns-state">Insecure</span> な応答と同じように読む
+          (<a href="#dnssec-and-resolution-outcomes"></a>)。したがって、
+          何も公開しない [=Originator=] は pin されておらず、それは wildcard が
+          無い場合と同じである。
+        </p>
+        <p>
+          <strong>OPKEY の仕様が定義するものと、本文書が定義するもの。</strong>
+          OPKEY のレコード型、その移行期の公開、および <code>_op</code> という
+          アンダースコア付きの名前の登録は [[OPF-DNS]] が定義する。本節の表の
+          各名前の意味と、そこで見つかったレコードを [=Verifier=] がどう扱うかは
+          本文書が定義する。
+        </p>
+      </section>
+
+      <section id="issuer-key-record">
+        <h3>Issuer Key Record</h3>
+        <p>
+          <strong>レコードを公開する場所。</strong>
+          [=issuer=]、すなわち [=Core Profile Issuer=]、[=Profile Annotation
+          Issuer=]、[=Accreditation Body=]、[=Root Issuer=]
+          (<a href="#issuer-identity"></a>) は、自らの [=Issuer Key Record=]
+          を <code>_issuer-key._op.&lt;issuer&gt;</code> における OPKEY の record set
+          として公開しなければならない (MUST)。ここで
+          <code>&lt;issuer&gt;</code> は当該 issuer を識別する名前である
+          (<a href="#issuer-identity"></a>)。
+        </p>
+        <p>
+          <strong>存在が意味すること。</strong>
+          その record set は、当該 issuer
+          の文書の上の署名を [=Verifier=] が受け入れる鍵の [=Key Identifiers=]
+          を列挙する。すなわち、issuer が署名に用いている鍵と、本節の以下が
+          それに並べて保たせる鍵である。その record set に
+          [=Key Identifier=] が存在することは、その鍵による署名が受け入れられる
+          ことを意味する。存在しないことは、受け入れられないことを意味する。
+          その鍵で署名された文書が何と述べていようと同じである。
+        </p>
+        <p>
+          <strong>レコードが運ぶもの。</strong>
+          [=Issuer Key Record=] は当該 issuer 自身の鍵の [=Key Identifiers=]
+          だけを保持する。[=Originator=] の鍵は別の名前に列挙され
+          (<a href="#originator-key-records"></a>)、ある issuer からその parent
+          issuer を指す DNS のレコードは存在しない。
+          [=Accreditation Chain=] は文書から検証される。
+          <a href="#chain-verification"></a> が規定するとおりである。
+        </p>
+        <p>
+          <strong>Verifier の検査。</strong>
+          [=Verifier=] は、issuer の鍵で署名を検証するすべての文書について、
+          その鍵の [=Key Identifier=] が当該 issuer の [=Issuer Key Record=] に
+          存在することを確かめなければならない (MUST)。[=Root Core Profile=] 自体は
+          そのような文書ではない。[=Verifier=] はそれを DNS に照らして検証する
+          のではなく、保持する
+          (<a href="#root-core-profile-and-accreditation-chain"></a>)。一方、
+          [=Root Issuer=] が署名する [=Issuer Accreditations=] と
+          それ以外の [=Core Profiles=] は
+          そのような文書である。chain の他の段のものと同じく、署名した
+          発行者の [=Issuer Key Record=] に照らして検査される
+          (<a href="#chain-verification"></a>)。
+        </p>
+        <p>
+          <strong>署名の鍵を変えること。</strong>
+          issuer が署名に用いる鍵を変えるときは、新しい鍵の
+          [=Key Identifier=] を、前の鍵のものと並べて公開する。
+          <a href="#revocation-model"></a> が求めるとおり、自らの
+          [=Issuer Key Record=] の TTL が過ぎてから、新しい鍵で署名した文書を
+          発行する。新しい鍵で署名した文書が検証を通るより前に、新しい鍵は
+          その issuer の新しい [=Core Profile=] にも載っていなければならない。
+          [=Verifier=] は issuer の鍵を issuer 自身の [=Core Profile=] から取る
+          からである (<a href="#chain-verification"></a>)。その
+          [=Core Profile=] は、issuer が自らの [=Core Profile=] を受ける issuer
+          が発行する (<a href="#issuer-identity"></a>)か、新しい
+          [=Root Core Profile=] である。これらの段取りの順序は
+          [[?OPF-OPS]] が示す。
+        </p>
+        <p>
+          <strong>前の鍵を保つこと。</strong>
+          issuer は、その鍵で署名しかつ revoke していない文書のうち、有効である
+          残りの期間が最も長いものの分と、その期間を越えて
+          <a href="#originator-key-records"></a> の [=retention margin=] の分だけは、前の
+          鍵の [=Key Identifier=] を公開し続ける。<a href="#revocation-model"></a> が
+          求めるとおりである。
+          さもなければ、自らの日付の上では有効な文書、あるいは [=Verifier=] の
+          許容差の内になおある文書が検証不能になる。
+          鍵が compromise された
+          issuer は、その [=Key Identifier=] をただちに取り除かなければならない
+          (MUST)。これにより、その鍵で署名されたすべての文書が無効になる。
+        </p>
+      </section>
+
+      <section id="originator-key-records">
+        <h3>Originator Key Record</h3>
+        <p>
+          <strong>レコードとは何か、何を運ばないか。</strong>
+          [=Core Profile Issuer=] は、自らが発行し、revoke していない
+          [=Core Profile=] ごとに [=Originator Key Record=] を公開しなければ
+          ならない (MUST)。これは、その [=Core Profile=] が保持する
+          [=Originator Key Record Name=] における OPKEY の record set であり、その
+          [=Core Profile=] にある各 [=Originator Verification Key=] の
+          [=Key Identifier=] の形ごとに 1 レコードを含む
+          (<a href="#key-identifier"></a>)。[=Verifier=] は、[=Core Profile=]
+          そのものをどこで得られるかを [=Originator Key Record=] から知ることは
+          ない。本文書はその目的のレコードをそこに置かない。
+        </p>
+        <div class="note" title="Core Profile を issuer から取得すること">
+          [=Core Profile=] をどこで得られるかをレコードが述べるとすれば、[=Verifier=]
+          はそれを issuer から取得することになる。そのとき issuer には個々の
+          [=Verifier=] が見える。DNS が issuer に見せるのは、resolver が転送するもの
+          だけである (<a href="#privacy-what-the-queries-reveal"></a>)。また issuer は、
+          自らのレコードには本来要らないサービスを運用しなければならなくなる。
+          代わりに、[=Originator Profile Bundle=] が、[=Use Case Specification=] の
+          定める道で [=Core Profile=] を運ぶ。
+        </div>
+        <p>
+          <strong>存在と不在。</strong>
+          存在と不在は次の意味を持ち、[=Verifier=] はそのとおりに読まなければ
+          ならない (MUST)。
+        </p>
+        <ul>
+          <li>record set が存在することは、その名前を保持する
+            [=Core Profile=] が revoke されていないことを意味する。</li>
+          <li>あるレコードが存在することは、それが識別する鍵が当該
+            [=Core Profile=] について <dfn>current</dfn>（現行）であることを
+            意味する。</li>
+          <li>他のレコードが残っている中で、あるレコードだけが存在しないことは、
+            その鍵だけがもはや現行のものではないことを意味する。</li>
+          <li>record set 全体が存在しないことは、[=Core Profile=] が何と述べて
+            いようと、その [=Core Profile=] が revoke されたことを意味する。</li>
+        </ul>
+        <p>
+          <strong>registration。</strong>
+          ある [=Originator=] の [=Core Profile Issuer=] への
+          <dfn>registration</dfn>（登録）は、その [=Originator=] の
+          [=Originator Key Record=] が少なくとも一つ公開されている間、有効で
+          ある。[=Core Profile Issuer=] は、それらをすべて取り除くことで登録を
+          終える。
+        </p>
+        <p>
+          <strong>Verifier の規則。</strong>
+          [=Verifier=] は、[=Core Profile=] には現れるがその
+          [=Originator Key Record=] には現れない鍵を受け入れてはならない (MUST NOT)。
+          [=Verifier=] は、[=Originator Key Record=] には現れるが [=Core Profile=]
+          には現れない鍵も、受け入れてはならない (MUST NOT)。[=Verifier=] が
+          署名を検証するのは [=Core Profile=] が保持する鍵によるからである。
+        </p>
+        <p>
+          <strong>鍵が使われなくなる二つのあり方。</strong>
+          [=Originator Verification Key=] が使われなくなるあり方は、退役と
+          取り下げの二つである。鍵は、新しい署名にはもう使われないが、その
+          レコードがそれを保持する各 [=Core Profile=] の
+          [=Originator Key Record=] に残されているとき、<dfn>retired</dfn>
+          （退役している）である。それで署名されたコンテンツは検証
+          可能なままであり、文書やレコードの中にそれが退役していることを示す
+          ものは何も無い (<a href="#core-profile-model"></a>)。鍵は、その
+          レコードがそれを列挙するすべての [=Originator Key Record=] から
+          取り除かれたとき、<dfn>withdrawn</dfn>（取り下げられている）である。
+          それで署名されたコンテンツはもはや検証されない。
+        </p>
+        <p>
+          <strong>Core Profile Issuer への要件。</strong>
+          [=Core Profile Issuer=] は次の要件を満たす。これらは
+          <a href="#revocation-model"></a> が述べる要件であり、[=Verifier=] の
+          正しさがこれに依存する。
+        </p>
+        <ul>
+          <li>
+            <p>
+              [=Originator Key Record=] を公開し、zone の negative caching の期間を
+              過ぎるのを待ってから、その名前を保持する [=Core Profile=] を発行
+              すること。どの [=Core Profile=] も新しい名前を保持する
+              (<a href="#record-names"></a>)。したがってこの待ちは、署名の有効期間を更新する
+              だけの [=Core Profile=] や鍵を替える [=Core Profile=] を含め、
+              発行のたびに先立つ。
+            </p>
+            <div class="note" title="Core Profile を発行する前の待ち">
+              [=Core Profile=] を先に発行すると、[=Verifier=] がその
+              名前が存在しないという証明をキャッシュしてしまうかもしれない。また
+              レコードを先に公開しても、resolver が隣接する名前のレコードから
+              そのような証明を既に合成してしまっているかもしれない
+              [[?RFC8198]]。negative caching の期間を待たなければならないのは
+              そのためである。
+            </div>
+          </li>
+          <li>
+            <p>
+              [=Originator=] の鍵が変わるときは、最初の要件が述べるとおり先に公開した
+              自らの [=Originator Key Record=] を持つ新しい [=Core Profile=] を発行すること。
+              先の [=Core Profile=] の [=Originator Key Record=] を、その中の
+              退役させた鍵のレコードとともに、その [=Core Profile=] が期限切れに
+              なるか revoke されるまで残すこと。<a href="#revocation-model"></a> が
+              求めるとおりである。
+            </p>
+            <p>
+              本文書は、その後に続く短い
+              期間を <dfn>retention margin</dfn> と呼ぶ。これは、レコードの time
+              to live と、関わる時計どうしの差を吸収する。ある
+              [=Core Profile=] が期限切れになり、retention margin が過ぎたら、
+              その [=Originator Key Record=] を取り除いてよい (MAY)。
+            </p>
+            <div class="note" title="Core Profile の期限切れの後もレコードを残すこと">
+              退役させた鍵のレコードを残すことで、その鍵が現行であった間に
+              それで署名されたコンテンツは検証可能なままとなる。
+              [=Core Profile=] が期限切れになり、margin が過ぎたら、その
+              [=Core Profile=] はもはや <a href="#procedure"></a> の検査を通ら
+              ないので、レコードをそれ以上残しても何も得られない。
+            </div>
+            <p>
+              compromise
+              された鍵は、それを列挙するすべての [=Originator Key Record=] から
+              ただちに取り下げなければならない (MUST)。
+              [=Core Profile Issuer=] は、それで作られた署名が検証されなくなる
+              ことを受け入れる。
+            </p>
+          </li>
+          <li>[=Core Profile Issuer=] は、各 [=Originator Key Record=] を、その
+            [=Core Profile=] が保持する名前に置いておかなければならない (MUST)
+            (<a href="#record-names"></a>)。レコードを
+            zone に分ける方法を変える issuer は、新しいレコードについてそうする
+            のであって、既存の名前は、それらを保持する [=Core Profiles=] が
+            期限切れになるか revoke されるまでそのままにしておく。</li>
+        </ul>
+
+      </section>
+
+      <section id="revocation-records">
+        <h3>Revocation Record</h3>
+        <p>
+          <strong>Revocation Record とは何か。</strong>
+          [=Profile Annotation Issuer=] は、[=Profile Annotation=] を期限切れ
+          より前に revoke するために [=Revocation Record=] を公開する。これは、
+          当該 annotation が保持する [=Revocation Record Name=] における TXT の
+          record set であり、その名前はその annotation の一回の発行を名指す
+          (<a href="#record-names"></a>)。存在することは当該 annotation が revoke された
+          ことを、存在しないことは revoke されていないことを意味する。レコードを
+          持つのは revoke された annotation だけである。[=Issuer Accreditations=]
+          を発行する body も、自らが発行した [=Issuer Accreditation=] を同じ
+          方法で revoke し、本節の [=Profile Annotation Issuer=] への要件は
+          その body にも適用される (<a href="#conformance"></a>)。
+        </p>
+        <div class="note" title="revoke された annotation だけのレコード">
+          [=Profile Annotation=] は、有効な間、DNS に自らのレコードを持たない。この点で、
+          [=Originator Key Record=] が鍵も列挙する [=Core Profile=] とは異なる。
+          annotation は鍵を運ばないので、有効なすべての annotation についてレコードを
+          置いても、それが存在することしか述べず、しかも annotation の数は多い。
+          期限切れより前に revoke されたものについてだけレコードを置けば zone は小さく
+          保たれ、単に更新されない annotation にはレコードが要らない。
+        </div>
+        <p>
+          <strong>レコードの形。</strong>
+          この record set は、一つの character-string から成る TXT レコードを
+          一つ持つ。[=Profile Annotation Issuer=] はそれを
+          <code>v=op1; revoked=&lt;time&gt;</code> の形にしなければならない
+          (MUST)。ここで <code>op1</code> はここで定義される内容の版であり、
+          <code>&lt;time&gt;</code> は当該 annotation が revoke された時刻で
+          あって、Internet date and time [[RFC3339]] として書かれる。
+          本文書は署名時点での判定を定義せず (<a href="#outcome"></a>)、
+          <a href="#procedure"></a> のどこもこの値を読まない。他のフィールドは
+          定義されない。とくに、このレコードは revocation の理由を保持しない。
+        </p>
+        <div class="note" title="記録される時刻と、無い理由">
+          この時刻は、本文書の後の改訂が署名時点での有効性を判定できるように
+          記録される。理由を運ばないのは、理由を公開すれば、revocation という
+          事実が述べる以上のことを DNS で述べてしまうからである。
+        </div>
+        <p>
+          <strong>Verifier の規則。</strong>
+          [=Verifier=] は存在だけで判断しなければならない (MUST)。内容を
+          解釈できない record set、あるいはその版が <code>op1</code> でない
+          record set は、revocation として扱わなければならない (MUST)。こうして、
+          内容の誤りが revocation を沈黙に変えてしまうことがない。その名前にその
+          ような record set が無いという <span class="dns-state">Secure</span> な証明の二つの形は、同等の
+          ものとして扱う。
+          <a href="#dnssec-and-resolution-outcomes"></a> が求めるとおりで
+          ある。
+          [=Revocation Record Name=] における <span class="dns-state">Insecure</span> な応答は、検査の
+          失敗であって、不在ではない。
+        </p>
+        <div class="note" title="レコードの内容の後の版">
+          この版の [=Verifier=] は、内容の後の版をすべて revocation として
+          読む。したがって内容を変える改訂は、<code>op1</code> の形のレコードを
+          読めるまま保たなければならなくなる。そうしなければ、すでに配備された
+          [=Verifiers=] に revocation として読まれることなくレコードを変える
+          ことができないからである。
+        </div>
+        <p>
+          <strong>レコードを残す期間と、レコードが要らないとき。</strong>
+          [=Profile Annotation Issuer=] は、revoke した
+          [=Profile Annotation=] の署名の有効期間が終わり、かつ
+          <a href="#verifier-prerequisites"></a> が [=Verifier=] に
+          その終点を越えて認める許容差
+          が過ぎるまで、[=Revocation Record=] を公開し続けなければならない
+          (MUST)。その後は、当該 annotation はどの [=Verifier=] の時計の上でも
+          検証されなくなるので、レコードを取り除いてよい (MAY)。そのような
+          許容差のうち最も長いものは、<a href="#time-parameters"></a> が定める
+          上限である。単に更新されなくなるだけの annotation にレコードは要らない。
+          それは期限切れになった時点で有効でなくなる。[=Revocation Record=] は、
+          その時点より前に annotation を終わらせるためのものである。
+        </p>
+        <p>
+          <strong>期間の終わった annotation。</strong>
+          [=Revocation Record=] が存在しないことに意味があるのは、署名の有効期間が
+          問い合わせの時点でまだ終わっていない annotation についてだけである。
+          期間が終わったかどうかは、<a href="#verifier-prerequisites"></a> の
+          許容差を入れて判定する。同じように判定して期間が終われば、レコードを
+          残す期間の規則が許すとおりレコードは取り除くことができる。
+          したがって、その許容差を入れて判定して期間が検証の時点で終わっている
+          annotation については、不在は何も意味しない。[=Verifier=] は、
+          [=Use Case Specification=] がどの判定時点を指定していようと、その
+          ような annotation を有効なものとして扱ってはならない (MUST NOT)
+          (<a href="#outcome"></a>)。
+        </p>
+        <p>
+          <strong>revocation が見えるようになる速さ。</strong>
+          [=Profile Annotation Issuer=] の zone の negative caching の
+          パラメータと、その zone の RRSIG の有効期間が、revocation がどれだけ早く
+          見えるようになるかを上から抑える。これらの上限は、当該 zone の
+          運用の性質であって、このプロトコルの性質ではない。
+          <a href="#revocation-model"></a> を参照。
+        </p>
+      </section>
+
+      <section id="originator-records">
+        <h3>Originator が公開するレコード</h3>
+        <p>
+          <strong>Originator が公開してよい二つのレコード。</strong>
+          [=Originator=] は、自らの [=Identity=] の zone に 2 種類のレコードを
+          公開してよい (MAY)。本文書はそのどちらも必須としない。
+          [=Use Case Specification=] がそれらを必須とするかどうか、また
+          [=Verifier=] がいつそれらを参照するかは、その仕様が定義する。
+          どちらも、zone が署名されている場合にのみ効力を持つ。[=Verifier=] が
+          それらに基づいて動くのは、問い合わせた名前において応答が <span class="dns-state">Secure</span> で
+          ある場合だけだからである
+          (<a href="#dnssec-and-resolution-outcomes"></a>)。
+        </p>
+        <div class="note" title="_op.&lt;originator&gt; の他者への委任">
+          これらのレコードの運用を他者に任せる [=Originator=] は、issuer が
+          自らの名前空間の一部を委任しうるのと同じく
+          (<a href="#namespace"></a>)、<code>_op.&lt;originator&gt;</code> を
+          NS レコードで委任できる。そのとき委任先の zone は署名され、その DS
+          レコードが [=Originator=] の zone に公開されなければならない。DS
+          レコードが無ければ、委任先からの応答はすべて <span class="dns-state">Insecure</span> であり、
+          レコードは効力を持たない。その名前における CNAME や DNAME は委任では
+          なく、<a href="#namespace"></a> がそれを禁じている。
+        </div>
+        <p>
+          <strong>Issuer Pinning Record。</strong>
+          一つめは [=Issuer Pinning Record=] であり、この [=Originator=] に対して発行することを許された
+          [=Core Profile Issuers=] を名指す。これは
+          <code>_op.&lt;originator&gt;</code> における SVCB の record set
+          [[RFC9460]] である。[[RFC9460]] がそれに求める protocol mapping
+          document は [[OPF-DNS]] であり、各レコードが検証にとって何を
+          意味するかはここで定義する。以下で「root」とは DNS のルート
+          （<code>.</code>）である。
+        </p>
+        <ul>
+          <li><code>ServiceMode</code> のレコードは、その <code>TargetName</code> において許された
+            [=Core Profile Issuer=] を一つ名指す。</li>
+          <li><code>ServiceMode</code> のレコードは、<code>TargetName</code> が root であれば、どの
+            issuer も名指さない。</li>
+          <li><code>TargetName</code> が root である <code>AliasMode</code> のレコードは、この
+            [=Originator=] が [=Originator Profile=] を持たないことを宣言する
+            （この record set の denying form）。</li>
+        </ul>
+        <p>
+          [=Originator=] は、同じ名前において <code>ServiceMode</code> のレコードと
+          <code>AliasMode</code> のレコードを公開してはならない (MUST NOT)。
+        </p>
+        <p>
+          <strong>Verifier がレコードをどう読むか。</strong>
+          [=Verifier=] は <code>AliasMode</code> の <code>TargetName</code> を辿ってはならない
+          (MUST NOT)。
+          <code>TargetName</code> が root でない <code>AliasMode</code> のレコードは、denying form の
+          宣言として読まれ、検証は失敗する。
+          <code>mandatory</code> parameter ([[RFC9460]] Section 8) を持つ
+          レコードは使えない。本文書は、[=Verifier=] が認識しうる parameter を
+          一つも定義しないからである。その他の parameter は無視される。使える
+          レコードを一つも持たない <span class="dns-state">Secure</span> な <code>ServiceMode</code> の record set は
+          失敗であり、それによって [=Originator=] が pin されていない状態に
+          なることはない。
+        </p>
+        <p>
+          <strong>Verifier が TargetName をどう比較するか。</strong>
+          [=Verifier=] は各 <code>TargetName</code> を [=Core Profile=] の issuer と
+          ドメイン名として比較しなければならず (MUST)
+          (<a href="#originator-identity"></a>)、<code>TargetName</code> を名前解決しては
+          ならない (MUST NOT)。<code>ServiceMode</code> のレコードは集合として読まれる。
+          レコードの <code>SvcPriority</code> ([[RFC9460]]) は、<code>ServiceMode</code> と <code>AliasMode</code>
+          を見分けること以外に、ここでは何の意味も持たない。[=Verifier=] は、
+          <code>SvcPriority</code> を理由にある <code>TargetName</code> を他より優先したり、
+          そのうちのどれかを無視したりしてはならない (MUST NOT)。
+        </p>
+        <p>
+          <strong>問い合わせる名前。</strong>
+          [=Verifier=] は、問い合わせる名前を [=Originator=] の [=Identity=] の
+          canonical form から組み立てなければならない (MUST)
+          (<a href="#originator-identity"></a>)。
+          canonical form にできない [=Identity=] は検証の失敗であり、[=Verifier=]
+          は [=Originator=] が pin されていないかのように進めてはならない
+          (MUST NOT)。
+        </p>
+        <div class="note" title="誤った形から組み立てた名前">
+          [=Issuer Pinning Record=] への問い合わせは、<span class="dns-state">Secure</span> な不在が
+          検証の継続を許す唯一の問い合わせである。誤って組み立てられた名前はどこか別の zone の名前であり、
+          その答えはこの [=Originator=] について何も述べない
+          (<a href="#security-resolution-failures"></a>)。
+        </div>
+        <p>
+          <strong>結果。</strong>
+          この record set を参照する [=Verifier=] は、その結果を次のように
+          扱わなければならない (MUST)。
+        </p>
+        <ul>
+          <li><span class="dns-state">Secure</span> な <code>ServiceMode</code> の応答: この [=Originator=] は pin されて
+            いる。[=Core Profile=] の issuer が <code>TargetName</code> の中に無ければ、
+            検証は失敗する。使えるレコードを一つも持たない record set は
+            どの issuer も名指さず、検証は失敗する。<code>TargetName</code> が root
+            (<code>.</code>) だけの record set はその一つである。</li>
+          <li><code>TargetName</code> が何であれ、<span class="dns-state">Secure</span> な <code>AliasMode</code> の応答: 検証は
+            失敗する。
+            record set が、二つのモードについての [=Originator=] への要求に反して
+            <code>ServiceMode</code> のレコードも保持して
+            いる場合も同じである。[=Verifier=] は、そのような record set を
+            <code>ServiceMode</code> の応答として読んではならない (MUST NOT)。</li>
+          <li><span class="dns-state">Secure</span> な不在の証明、または <span class="dns-state">Insecure</span> な応答: この
+            [=Originator=] は pin されていない。検証は続き、その結果には
+            pin されていなかったことが記録される
+            (<a href="#outcome"></a>)。別名を経て到達した応答は、この場合
+            として読まれる
+            (<a href="#dnssec-and-resolution-outcomes"></a>)。</li>
+          <li>名前解決の失敗一般、および <span class="dns-state">Indeterminate</span> という結果: 検証は
+            失敗する。これを不在として扱っては
+            ならない (MUST NOT)。そう扱えば、別の issuer が発行した
+            [=Core Profile=] を握る攻撃者が、この一つの問い合わせを妨げるだけで
+            pin を外せてしまうからである。</li>
+        </ul>
+        <p>
+          <strong>Permitted Host Record。</strong>
+          二つめは [=Permitted Host Record=] であり、
+          <code>&lt;host&gt;._site._op.&lt;originator&gt;</code> における TXT
+          の record set である。それが <span class="dns-state">Secure</span> に存在することは、当該 host が
+          この [=Originator=] の [=Originator Profile=] を提示することを許す。
+          この record set は、一つの character-string から成る TXT
+          レコードを一つ持つ。許可は host ごとに与えられる。複数の host を許す
+          [=Originator=] は、互いのサブドメインである host も含め、host ごとに
+          レコードを公開する。そのレコードの名前が DNS の許す長さを超えることに
+          なる host は、レコードによって許すことはできない。
+        </p>
+        <div class="note" title="許可の範囲とその zone">
+          許可が host ごとに与えられるのは、[=Verifier=] が、提示された host から
+          組み立てた一つの名前を問い合わせ、ほかを問い合わせないからである。host の
+          配下にまで及ぶ許可は、共有の host のように、その配下で提示するすべての当事者に
+          広がってしまう。レコードは host の zone ではなく [=Identity=] の zone に置かれる。
+          host の zone を持つのは host を運用する者であり、その者が
+          [=Originator Profile=] を提示してよいかこそが、このレコードの決めることである。
+          その zone には、署名の有無を問わず、何も求めない。
+        </div>
+        <p>
+          <strong>Originator への要求。</strong>
+          host は名前の中に小文字で、A-label として、末尾のドットを付けずに
+          書かれなければならない (MUST)（<a href="#originator-identity"></a>
+          の canonical form）。[=Originator=] はレコードを
+          <code>v=op1</code> の形にしなければならない (MUST)。すなわち、ここで
+          定義される内容の版だけであって、それ以上は何も無い。このレコードが
+          述べることはすべて、それがそこに在ることによって述べられているからで
+          ある。
+          <a href="#namespace"></a> が求めるとおり、[=Originator=] は
+          <code>_site._op</code> の下に wildcard のレコードを公開しない。
+          wildcard はすべての host を一度に許してしまう。
+        </p>
+        <p>
+          <strong>Verifier の規則。</strong>
+          [=Verifier=] は、提示された host そのものから組み立てた名前を問い
+          合わせなければならず (MUST)、それ以外の名前は問い合わせない。
+          [=Verifier=] は、record set が <code>v=op1</code> という
+          一つの character-string から成る TXT レコードを持つ場合に限り、
+          その host を許されたものとして扱わなければならない (MUST)。そのような
+          レコードを持たない record set、たとえば zone の他の場所にある
+          wildcard から合成されたものは、不在として読まれる。
+          [=Verifier=] は、[=Use Case Specification=] が検査せよと言う host
+          についてのみ、このレコードを参照する（<a href="#procedure"></a> の
+          段取り 3）。<span class="dns-state">Secure</span> な不在の証明、<span class="dns-state">Insecure</span> な応答、および
+          別名を経て到達した応答を、いずれも拒否として扱わなければならない
+          (MUST)。このレコードが参照されるのは、何かがその host を名乗った
+          場合だけだからである。
+        </p>
+        <p>
+          <strong>レコードを変えるもの。</strong>
+          どちらのレコードも静的である。[=Originator=] の鍵が変わっても、それに
+          新しい [=Core Profile=] が発行されても、[=Profile Annotation=] が
+          revoke されても変わらない。変わるのは、[=Originator=] が
+          [=Core Profile Issuer=] を変えるとき、issuer を持たないと宣言する
+          とき、host を許すか、その許可をやめるときである。
+        </p>
+      </section>
+
+      <section id="dnssec-and-resolution-outcomes">
+        <h3>DNSSEC の要求と名前解決の結果</h3>
+        <p>
+          <strong>四つの validation state。</strong>
+          <span class="dns-state">Secure</span>、<span class="dns-state">Insecure</span>、<span class="dns-state">Bogus</span>、<span class="dns-state">Indeterminate</span> と名付けた結果は、
+          [[RFC4035]] Section 4.3 の security state である。
+          レコードの存在や不在について本文書が述べることはすべて、DNSSEC の
+          validation state についての言明である。
+        </p>
+        <p>
+          <strong>Verifier が state を確立する手段。</strong>
+          [=Verifier=] はその state を、次の二つの手段のいずれかによって、
+          自ら決定しなければならない (MUST)。
+        </p>
+        <ul>
+          <li>root ゾーンについての自らの DNSSEC の trust anchor で validate する。</li>
+          <li>認証された経路で到達し、その結果を信頼できる validating
+            resolver に依拠する。</li>
+        </ul>
+        <p>
+          [=Verifier=] は、応答が validate されたという認証
+          されていない指示に依拠してはならない (MUST NOT)。二つの手段の
+          どちらも持たない [=Verifier=] は、本文書の手続きを実行できない。
+          [=Verifier=] が応答の validation state をどう確立するかは、
+          [=Use Case Specification=] が問い合わせさせる名前においても同じである。
+          そのような名前でその state が何を意味するかは、その仕様が定める。
+        </p>
+        <div class="issue" title="依拠できる validating resolver が無い場合の検証">
+          依拠できる validating resolver を持たない [=Verifier=] も、自らの
+          DNSSEC の trust anchor で validate することはできる。本節はそれを認めている。
+          そのような [=Verifiers=] がそれを実際に行えるようにする方法を、
+          validate に要る DNSSEC のデータをどう得るかを含めて検討しており、
+          後の版でその 1 つを記述するかもしれない。本節の要件は変わらない。
+        </div>
+        <p>
+          <strong>resolver に依拠する Verifier。</strong>
+          resolver から state
+          を得る [=Verifier=] は、その resolver が validate していることの
+          保証を、設定または試験によって持たなければならない (MUST)。validate
+          しない resolver からの応答は validation state を持たず、<span class="dns-state">Insecure</span> と
+          して読んではならない (MUST NOT)。
+        </p>
+        <p>
+          <strong>別名。</strong>
+          本文書が定義する名前 (<a href="#namespace"></a>) において、
+          [=Verifier=] はレコードを、問い合わせた名前においてのみ用いなければ
+          ならず (MUST)、別名を辿ってはならない (MUST NOT)。この規則は、
+          [=Use Case Specification=] が [=Verifier=] に問い合わせさせる名前には
+          適用しない。
+        </p>
+        <p>
+          <strong>別名を経て到達した応答。</strong>
+          CNAME または DNAME の
+          レコードが問い合わせを転送した
+          ために record set が別の owner 名に属している応答は、そのレコードが
+          公開されたものか wildcard から合成されたものかを問わず、issuer が
+          公開するすべてのレコードについて、その validation state が何であれ
+          失敗である。[=Originator=] のレコード
+          (<a href="#originator-records"></a>) については、そのような応答は
+          <span class="dns-state">Insecure</span> な応答と同じように読まれる。ただし、その validation state が
+          <span class="dns-state">Bogus</span> または <span class="dns-state">Indeterminate</span> である場合は、結果の表の最後の行が当てはまる。別名の先で見つかった
+          レコードが用いられることは決してない。問い合わせた名前について
+          wildcard から合成された応答は、他の応答と区別されない。
+        </p>
+        <p>
+          <strong>各結果の読み方。</strong>
+          結果は次のように読まれる。
+        </p>
+        <table class="simple">
+          <thead>
+            <tr><th>結果</th><th>[=Verifier=] による読み方</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="dns-state">Secure</span> な応答</td>
+              <td>レコードは存在し、本文書がそれに与える意味を持つ。</td>
+            </tr>
+            <tr>
+              <td><span class="dns-state">Secure</span> な不在の証明。名前または型が存在しないことを証明する
+                denial of existence</td>
+              <td>不在であり、本文書がその名前における不在に与える意味を持つ。
+                そのような証明の二つの形は同等であり、[=Verifier=] はそれらを
+                区別してはならない (MUST NOT)。</td>
+            </tr>
+            <tr>
+              <td><span class="dns-state">Insecure</span></td>
+              <td>本文書がそのレコードについてそう述べている場合に限り不在
+                (<a href="#originator-records"></a>)。それ以外はすべて失敗で
+                あり、とくに issuer が公開するすべてのレコードについて失敗で
+                ある。<span class="dns-state">Insecure</span> な応答が <span class="dns-state">Secure</span> であるかのように
+                用いられることは決してない。別名を経て到達した
+                [=Originator=] のレコードの応答も、同じように読まれる。</td>
+            </tr>
+            <tr>
+              <td><span class="dns-state">Bogus</span>、<span class="dns-state">Indeterminate</span>、または使える応答が無いこと（SERVFAIL、
+                タイムアウト、その他応答が得られないこと）</td>
+              <td>その名前において検証は失敗する。これが不在として読まれる
+                ことは決してない。</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          <strong>最後の行。</strong>
+          <span class="dns-state">Indeterminate</span> という結果は、[=Verifier=] がその state をまったく
+          決定できなかったものである。それはこの行として読まれ、
+          <code>_op.&lt;originator&gt;</code> において pin されていないという
+          経路には至らない。これが、攻撃者が、偽造できないレコードを単に存在
+          しないものへと変えてしまうことを防ぐ。使える応答が無いと結論する前に [=Verifier=]
+          が再試行するかどうか、何回するかは、それ自身の裁量である。
+        </p>
+        <div class="note" title="二種類の Verifier にとっての Indeterminate">
+          <p>
+            resolver から state を得る [=Verifier=] は、<span class="dns-state">Indeterminate</span> という結果
+            を resolver が報告するとおりに見ることになり、それは多くの場合
+            <span class="dns-state">Insecure</span> を報告するのと同じ形である。最後の行が全面的に当てはまる
+            のは、自ら validate する [=Verifier=] だけである。ルートの trust
+            anchor があり、resolver に依拠する [=Verifier=] に求めた保証がある
+            もとでは、<span class="dns-state">Indeterminate</span> という結果は実際には
+            生じない。残るのは DNSSEC のレコードが得られない場合であり、それは
+            名前解決の失敗である。
+          </p>
+          <p>
+            自ら validate し、再帰 resolver を通じて DNS に
+            到達する [=Verifier=] は CD ビットを立てる ([[RFC4035]] Section
+            3.2.2、[[RFC6840]] Section 5.9)。そうすることで、resolver がそうで
+            なければ差し控えるデータを受け取り、自らの判定に至る。resolver の
+            結果に依拠する [=Verifier=] はそれを立てない。いずれの場合も、その
+            結果はこの行として読まれる。
+          </p>
+        </div>
+      </section>
+
+      <section id="revocation-model">
+        <h3>Revocation のモデルと時間に関する制約</h3>
+        <p>
+          <strong>四つの層、それぞれ二通りの終わり方。</strong>
+          次の表の 4 つの層のそれぞれにおいて、有効性は、issuer または
+          [=Originator=] による DNS 上の行為によって終わるか、文書が発行し直され
+          ないまま期限切れになることによって終わる。
+        </p>
+        <table class="simple">
+          <thead>
+            <tr>
+              <th>層</th><th>DNS 上の行為による終わり方</th>
+              <th>期限切れによる終わり方</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>一つの [=Originator Verification Key=]</td>
+              <td>[=Core Profile Issuer=] が、その鍵を列挙するすべての
+                [=Originator Key Record=] からその鍵のレコードを取り除く</td>
+              <td>その鍵を保持するすべての [=Core Profile=] が期限切れになる</td>
+            </tr>
+            <tr>
+              <td>一つの [=Core Profile=]</td>
+              <td>[=Core Profile Issuer=] が、その [=Core Profile=] の
+                [=Originator Key Record=] 全体を取り除く</td>
+              <td>その [=Core Profile=] が期限切れになる</td>
+            </tr>
+            <tr>
+              <td>[=Originator=] の登録</td>
+              <td>[=Core Profile Issuer=] が、その [=Originator=] のすべての
+                [=Originator Key Record=] を取り除く。あるいは、
+                [=Use Case Specification=] が [=Verifier=] に
+                [=Issuer Pinning Record=] を参照させる場合に、
+                [=Originator=] が自らの zone で [=Originator Profile=] を
+                持たないと宣言する</td>
+              <td>その [=Originator=] のすべての [=Core Profile=] が期限切れに
+                なり、新しいものが発行されない</td>
+            </tr>
+            <tr>
+              <td>一つの [=Profile Annotation=]</td>
+              <td>[=Profile Annotation Issuer=] が
+                [=Revocation Record=] を公開する</td>
+              <td>当該 annotation が期限切れになり、発行し直されない</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          <strong>Originator とその Core Profile Issuer がそれぞれできること。</strong>
+          [=Originator=] とその [=Core Profile Issuer=] は、[=Originator Profile=] に対して
+          できることが対称ではない。どちらも他方とは独立に
+          [=Originator Profile=] を止められる（[=Originator=] は、
+          [=Use Case Specification=] が [=Verifier=] に自らの
+          [=Issuer Pinning Record=] を参照させる場合に限る。
+          <a href="#originator-records"></a>）。しかし [=Originator Profile=]
+          の署名の有効期間を延ばせるのは issuer だけである。それらの期間には
+          issuer が署名しており、[=Originator=] は、他者が署名した署名の有効期間を
+          延ばすことはできない。zone が署名されていない [=Originator=] には、自らの手段が
+          まったく無く、自らの [=Core Profile Issuer=] が動くことに依存する。
+        </p>
+        <p>
+          <strong>issuer への要件。</strong>
+          issuer は次の要件を満たす。これらの要件は、
+          自らの日付の上で有効な文書が常に検証可能であり続けるようにする。
+        </p>
+        <ul>
+          <li>[=Profile Annotation Issuer=] は、[=Profile Annotation=] に、
+            それが annotate する [=Core Profile=] の有効性を超えて届く
+            署名の有効期間を与えてはならない (MUST NOT)。
+            </li>
+          <li>[=Core Profile Issuer=] は、[=retired=]（退役させた）
+            [=Originator Verification Key=] のレコードを、その鍵を含む各
+            [=Core Profile=] の [=Originator Key Record=] に、その
+            [=Core Profile=] が期限切れになるまで、および
+            <a href="#originator-key-records"></a> の [=retention margin=] の分だけ、
+            残さなければならない (MUST)。例外は、compromise された
+            ために [=withdrawn=]（取り下げられた）鍵と、revoke された [=Core Profile=] である。
+          </li>
+
+          <li>issuer は、[=Key Identifier=] を自らの [=Issuer Key Record=] に、
+            その鍵で署名した revoke していない文書のうち、有効である残りの期間が
+            最も長いものの分、および <a href="#originator-key-records"></a> の
+            [=retention margin=] の分だけは残さなければならない (MUST)。例外は、
+            compromise されたために取り除かれた鍵である
+            (<a href="#issuer-key-record"></a>)。
+          </li>
+          <li>
+            <p>
+              issuer は、あるレコードに依存する文書を発行する前に、そのレコード
+              を公開しなければならず (MUST)、その二つの間に一定の期間を置かな
+              ければならない (MUST)。さもなければ、[=Verifier=] がそのレコードを
+              欠いた応答をキャッシュに持っているかもしれないからである。その期間は、名前が新しい場合は zone の negative
+              caching の期間 (<a href="#originator-key-records"></a>)、既にある
+              record set にレコードを足す場合はその record set の TTL である。
+            </p>
+          </li>
+        </ul>
+        <div class="note" title="annotation の期間を抑える Core Profile">
+          [=Profile Annotation=] は特定の [=Core Profile=] を参照しない。
+          annotation が [=Core Profile=] に結びつくのは、annotation が名指す
+          [=Identity=] が [=Core Profile=] の保持する [=Identity=] であることによって
+          だけである (<a href="#profile-annotation-model"></a>)。そのため、
+          issuer への要件の一つめがどの [=Core Profile=] に照らして測られるかを、
+          annotation 自体は述べない。いずれにせよ、判定時点で [=Core Profile=] の
+          署名の有効期間が終わっていれば、それに依る検証は <a href="#procedure"></a>
+          の段取り 5 で失敗し、それによって検証される annotation は無い。
+        </div>
+        <p>
+          <strong>行為が見えるようになる速さと、replay の窓。</strong>
+          当該 zone の caching のパラメータが、DNS 上の行為がどれだけ速く見える
+          ようになるかを決め、その RRSIG の有効期間が、古い証明が replay されうる
+          窓を決める。本文書はそのどちらについても値を定めない。
+          <a href="#time-parameters"></a> を参照。
+        </p>
+        <p>
+          <strong>zone の RRSIG の有効期間。</strong>
+          zone の RRSIG の有効期間は、その zone の RRSIG レコード、したがって
+          それらが署名する DNS の応答に拠ってよい期間である。RRSIG の有効期間は
+          zone の性質で、署名された文書の性質ではなく、応答（その中には不在の
+          証明もある）が replay されうる長さだけを抑える。本文書は、zone の RRSIG の有効期間について何も要求しない。
+          <a href="#security-revocation-windows"></a> が代償を述べるその窓を、
+          値を求める対象としてではなく、与えられた限界として扱う。その期間を
+          設定できる場合に推奨される値は、issuer が自らの zone を運用する際の
+          運用規則に属する [[?OPF-OPS]]。
+        </p>
+      </section>
+
+      <section id="transitional-publication">
+        <h3>移行期の公開</h3>
+        <p>
+          <strong>OPKEY の type value が割り当てられるまで。</strong>
+          OPKEY レコードに type value が割り当てられるまで、そのレコードを
+          OPKEY として公開することはできない。その期間について [[OPF-DNS]] は
+          移行期の形式を定義しており、本文書の [=Issuer Key Records=] と
+          [=Originator Key Records=] はその形式で公開される。割り当ての後も一つの
+          名前に両方の形式を保つ [=issuer=] は、[[OPF-DNS]] が求めるとおり、
+          両者を同一に保つ。[=Verifier=] は
+          [[OPF-DNS]] の fallback の規則を実装しなければならない (MUST)。
+          その期間には他に見つかるものが無いからである。
+          移行の間、本文書の他の部分は何も変わらない。名前、各名前における
+          存在と不在の意味、および <a href="#verification"></a> の手続きは、
+          割り当ての前後で同じである。
+        </p>
+      </section>
+    </section>
+
+    <section id="verification">
+      <h2>検証手続き</h2>
+      <p>
+        本節は、[=Verifier=] が、[=Content Attestation=] が有効かどうかと、
+        どの [=Profile Annotations=] が有効かを判断する手続きを規定する。
+        [=Verifier=] には、[=Originator Profile Bundle=]、[=Content
+        Attestation=]（または [=Use Case Specification=] がそれに当たると
+        するもの）、および [=Presented Identity=] が与えられる。本節は、
+        ローカルな段取りと DNS の段取りの順序、[=Use Case Specification=] が
+        供給する入力、およびこの手続きが生む結論を定める。
+      </p>
+
+      <section id="verifier-prerequisites">
+        <h3>Verifier の前提</h3>
+        <p>
+          <strong>Verifier が持つもの。</strong>
+          手続きを実行する前に、[=Verifier=] は次のものを持っていなければ
+          ならない (MUST)。
+        </p>
+        <ul>
+          <li>自らが受け入れる [=Root Core Profiles=] の集合。それぞれが保持する鍵を
+            伴う。この集合はすべての [=Accreditation Chain=] が終わるところで
+            あり、このプロトコルを通じてではなく、検証ソフトウェアとともに
+            [=Verifier=] に届く。</li>
+          <li>DNSSEC の validation state を確立する手段。
+            <a href="#dnssec-and-resolution-outcomes"></a> が求めるとおりで
+            ある。</li>
+          <li>時計と、時刻を比較する際に認める許容差。許容差は
+            <a href="#time-parameters"></a> が定める上限の内にある。その上限に
+            対しては分の精度があれば十分である。有効性を判断する時点を
+            署名の有効期間が含むかどうかを判断する際に、[=Verifier=] は、期間の外にあっても
+            どちらかの端から自らの許容差の内にある時刻を、期間の内にあるものと
+            して扱ってよい (MAY)。
+            </li>
+          <li>[=Originator Profile Bundle=] の文書と、[=Content
+            Attestation=] に当たる文書を解析し、その署名を検証する能力。
+            <a href="#namespace"></a> のレコード型を取得できる DNS クライアント。
+            <a href="#transitional-publication"></a> の移行期の形式が適用される
+            間はそれも含む。</li>
+        </ul>
+        <p>
+          <strong>あらかじめ持つ文書。</strong>
+          [=Verifier=] は、[=Issuer Accreditations=] と issuer の
+          [=Core Profiles=] をあらかじめ持っていてもよい (MAY)。しかし、それら
+          を必須としてはならない (MUST NOT)。
+        </p>
+        <div class="note" title="あらかじめ持つ文書が与えるもの">
+          この手続きが
+          [=Root Core Profiles=] を超えて必要とするものは [=Originator Profile Bundle=] で届く。
+          あらかじめ持つ文書は [=Verifier=] の問い合わせを省くだけで、それ以上のことはしない。
+          <a href="#chain-verification"></a> が求めるとおり、
+          [=Accreditation Chain=] は [=Originator Profile Bundle=] の文書だけから検証されるので、
+          あらかじめ持つ文書が、[=Originator Profile Bundle=] に欠けている段を補うことはない。
+        </div>
+      </section>
+
+      <section id="inputs-from-the-use-case">
+        <h3>ユースケースが供給する入力</h3>
+        <p>
+          <strong>Use Case Specification が定義する入力。</strong>
+          この手続きは、[=Use Case Specification=] が定義する入力の上で実行
+          される。[=Verifier=] が自らに何が与えられるかを知り、
+          [=Use Case Specification=] が <a href="#use-case-interface"></a> のもとで
+          自らの負うものを知るために、それらをここに列挙する。
+        </p>
+        <ul>
+          <li>[=Originator Profile Bundle=] と、それが [=Verifier=] にどう届いたか。</li>
+          <li>[=Presented Identity=] と、それを配送チャネルからどう得るか。</li>
+          <li>[=Presented Identity=] を [=Originator=] の [=Identity=] に結びつける
+            規則。[=Permitted Host Record=] を参照するかどうか、いつ参照するか
+            を含む。</li>
+          <li>[=Originator=] の [=Issuer Pinning Record=] を参照するかどうか、および
+            pin されていないという結果を受け入れてよいかどうか。</li>
+          <li>有効性を判断する時点。<a href="#outcome"></a> の既定と異なる
+            場合。</li>
+          <li>当該ユースケースで何が [=Content Attestation=] の役を果たすか。
+            および、その attestation が [=Originator=] を名指さない場合に
+            [=Originator=] をどう定めるか。</li>
+        </ul>
+        <p>
+          この手続きの他のすべては、どのユースケースでも同じである。
+          <a href="#use-case-interface"></a> が求めるとおり、
+          [=Use Case Specification=] は本文書の要求を弱めない。
+        </p>
+      </section>
+
+      <section id="ordering-and-parallelism">
+        <h3>ローカルな段取りと DNS の段取りの順序</h3>
+        <p>
+          <strong>段取りの三つの群。</strong>
+          <a href="#procedure"></a> の段取りには、何が何に依存するかによって
+          番号が付いているのであって、実行の順序によってではない。段取りは
+          3 つの群に分かれる。[=Verifier=] がローカルに行うこと、DNS に問う
+          こと、そして最後に導く判断である。
+        </p>
+        <p>
+          <strong>問い合わせの前のローカルな検証。</strong>
+          [=Verifier=] は、[=Originator Profile Bundle=] の文書から取った名前について、その文書の
+          署名を、自らが受け入れる [=Root Core Profile=] で終わる
+          [=Accreditation Chain=] を通じて検証し終えるまでは、DNS の問い合わせを
+          発してはならない (MUST NOT)。[=Verifier=] は、さらに、DNS の
+          問い合わせを発する前に、[=Core Profile=] から選んだ鍵で
+          [=Content Attestation=] の署名を検証すべきである (SHOULD)
+          （<a href="#procedure"></a> の段取り 7）。
+        </p>
+        <div class="note" title="ローカルの検査と DNS">
+          <p>
+            [=Originator Profile Bundle=] の中のどの署名も、
+            [=Content Attestation=] の署名も、検証のために DNS を必要と
+            しない。各 issuer の鍵はその issuer の [=Core Profile=] で届く。
+            DNS に問うのは、既に署名を検証した鍵が今なお現行のものかどうか、
+            および [=Core Profile=] や annotation が今なお有効かどうかだけである。
+          </p>
+          <p>
+            [=Content Attestation=] の検査はローカルで済む。それは、本物でない
+            [=Content Attestation=] が、その横の [=Core Profile=] と
+            [=Accreditation Chains=] が本物である場合でも、たとえばそれらが別の
+            [=Originator Profile Bundle=] から写されたものである場合でも、
+            問い合わせを一つも引き起こさないようにする。
+          </p>
+        </div>
+        <p>
+          <strong>並行する問い合わせ。</strong>
+          [=Verifier=] は、検証し終えた文書から導かれる問い合わせを並行して
+          発してよい (MAY)。それらは互いに依存しない。
+          [=Presented Identity=] そのものは [=Originator Profile Bundle=]
+          からではなく配送チャネルから来るが、
+          <a href="#originator-records"></a> の名前は、[=Core Profile=] が運ぶ
+          [=Identity=] から組み立てられる。したがってそれらへの問い合わせは、他のすべての問い合わせと
+          同じく、[=Core Profile Issuer=] の chain と、[=Core Profile=] の
+          署名の検証を待つ。段取り 3 の比較は問い合わせを要しないので、すぐに
+          行ってよい。
+        </p>
+        <p>
+          <strong>5 つの上限。</strong>
+          一回の検証にかかりうる費用は 5 つの上限が抑える。本文書はそれらを
+          番号で引く。
+        </p>
+        <ol>
+          <li>[=Accreditation Chain=] の 4 段。</li>
+          <li>一つの [=Originator Profile=] について異なる
+            [=Profile Annotation Issuers=] 8 者。</li>
+          <li>それらの issuer 全体にわたって数えた、一つの
+            [=Originator Profile=] についての [=Profile Annotations=] 32 件。</li>
+          <li>[=Originator=] 以外の当事者についての
+            [=Issuer Accreditations=] 36 件、および [=Core Profiles=] 36 件。</li>
+          <li>[=Originator=] についての [=Core Profiles=] 2 件。</li>
+        </ol>
+        <p>
+          [=Verifier=] は、5 つすべての内側に収まるものを
+          処理しなければならず (MUST)、それを超えて処理してはならない
+          (MUST NOT)。issuer と [=Originator=] は、5 つのいずれかを
+          超える [=Originator Profile Bundle=] を組み立ててはならない (MUST NOT)。その代わり、
+          その内側で送られたものは、適合するすべての [=Verifier=] によって
+          残らず処理される。本文書は、値を各 [=Verifier=] の選択に委ねずに
+          定めている。それによって、これらは送る側をも拘束する。
+        </p>
+        <p>
+          <strong>上限に数えるもの。</strong>
+          [=Core Profile=] が [=Originator=] についてのものであるとは、それが
+          対象とする [=Identity=] が [=Originator=] のものであることをいい、
+          比較は <a href="#originator-identity"></a> が規定するとおりに行う。
+          その [=Identity=] の配下の名前、たとえばそのサブドメインについての
+          [=Core Profile=] は、別の当事者についてのものとして数える。
+          [=Originator=] が <code>example.com</code> であれば、
+          <code>news.example.com</code> についての [=Core Profile=] は上限 5
+          ではなく上限 4 に数える。
+        </p>
+        <p>
+          <strong>上限 4 と 5 での数え方。</strong>
+          上限 4 と上限 5 は、[=Originator Profile Bundle=] が運ぶその種類の
+          文書をすべて、運ばれる順序で数える。[=Originator Profile Bundle=] が同じオクテット列
+          として複数回運ぶ文書は、どの上限に対しても 1 つと数え、一度だけ
+          処理する。上限 3 の内側に
+          ある [=Originator=] についての [=Issuer Accreditation=] は、
+          [=Accreditation Chain=] の段としても用いてよく、上限 4 には
+          数えない。
+        </p>
+        <p>
+          <strong>上限を超えること。</strong>
+          上限を超えること自体は検証の失敗ではない。どうなるかは上限による。
+        </p>
+        <ul>
+          <li>上限 2 と上限 3: [=Verifier=] は
+            [=Profile Annotations=] を、[=Originator Profile Bundle=] が提示する順序で取り
+            (<a href="#originator-profile-bundle"></a>)、異なる [=Profile Annotation Issuers=] も
+            同じ順序で数え、どちらかの上限に達した時点で止まる。そこに至らな
+            かった annotation は有効でない。これは、用いられない他の annotation
+            と同じである。</li>
+          <li>上限 1: [=Accreditation Chain=] はそのようには
+            切り詰められない。4 段より深い chain は検証されず、したがってその
+            末端の issuer の文書も検証されない。その issuer が
+            [=Core Profile Issuer=] である場合は検証が失敗し、
+            [=Profile Annotation Issuer=] である場合は当該 annotation が有効で
+            なくなる。</li>
+          <li>上限 4 と上限 5: どちらかを超えた文書は、この手続きが用いない文書と
+            して無視される (<a href="#originator-profile-bundle"></a>)。それ自体で検証を失敗
+            させることはない。</li>
+        </ul>
+        <div class="note" title="順序と上限の理由">
+        <p>
+          順序の要求と上限の理由は同じである。与えられた名前を、それを与えた
+          者を検証する前に問い合わせる [=Verifier=] は、[=Originator Profile Bundle=] を提示
+          できる者なら誰にでも、任意の zone に、任意の数の問い合わせを、
+          自らは何の費用も負わずに向けさせることになる。先にローカルで検証
+          すれば、偽造された文書は問い合わせを一つも生まない。
+          [=Root Core Profile=] に至る chain を持たないからである。上限はさらに、
+          本物の chain を持つ当事者が求めうる量を抑える。
+        </p>
+        <p>
+          上限はまた、検証の
+          費用を予測可能に保つ。何もキャッシュしていない [=Verifier=] は、
+          [=Issuer Pinning Record=] に 1 回、[=Core Profile Issuer=] に 2 回、
+          各 [=Profile Annotation Issuer=] に 1 回ずつ、各
+          [=Profile Annotation=] に 1 回ずつ、そして各 chain の各段に 3 回ずつ
+          問い合わせる。上限いっぱいではこれが 151 回であり、
+          [=Permitted Host Record=] を参照する場合はさらに 1 回である。
+          <a href="#chain-verification"></a> が許すとおり chain がキャッシュ
+          されていれば、同じ検証は 43 回で済む。不透明な [=record label=] は、
+          zone の否定応答を積極的にキャッシュ可能なままにする。これが、
+          繰り返される不在の検査を、答える側の zone にとって安いものに保って
+          いる。
+        </p>
+        <p>
+          値は、実際に配備されている水準ぴったりではなく、その上に余地を
+          残して選んである。現に使われている構成では、一つの body が issuer
+          を直接 accredit するので chain は 1 段である。4 段は、国ごとや分野ごとの
+          [=Accreditation Body=] のような中間の body 二つ分と、予備の 1 段の余地を残す。
+          深さを小さく保つのは、それが問い合わせの数だけでなく、[=Originator Profile Bundle=] が
+          運ばなければならない [=Accreditation Chains=] の大きさにも効くから
+          である。後者は配送ごとに一度支払われる。
+        </p>
+        <p>
+          annotation の issuer 8 者は、
+          [=Originator=] が持つと見込まれる数を十分に上回る。見通せる用途では
+          それは一桁である。実配備における分布は測られていないし、狭く設定して
+          後から広げれば本文書の改訂を要するので、広めに設定してある。
+          annotation 32 件は、上限 2 において issuer あたり 4 件を許す。
+          費用を左右するのは上限 3 である。各
+          [=Profile Annotation=] は、その [=Revocation Record=] への
+          問い合わせ 1 回と署名の検証 1 回を要し、上限 1 と上限 2 は、一つの
+          issuer が提示してよい annotation の数を抑えないからである。
+        </p>
+        <p>
+          36 は、一回の検証が必要としうる 9 本の chain、すなわち
+          [=Core Profile Issuer=] の 1 本と 8 者の
+          [=Profile Annotation Issuers=] の各 1 本について、それぞれ 4 段を
+          数えたものである。他の上限の内側にある [=Originator Profile Bundle=] がこれより多くを
+          必要とすることはなく、この上限は、chain を組み立てるローカルの作業
+          を、その後に続く問い合わせと同じく予測可能に保つ。
+        </p>
+        <p>
+          [=Originator=] についての [=Core Profiles=] 2 件とは、先のものと
+          後のものであり、先のものが期限切れになるか revoke されるまで並ぶ
+          (<a href="#core-profile-model"></a>)。[=Originator=] についての
+          [=Issuer Accreditation=] は [=Profile Annotation=] であり、chain の
+          段としても用いられる場合であっても、代わりに上限 3 に数えられる。
+          自らの annotation の issuer を accredit した、あるいは自ら
+          annotation を発行する [=Originator=] はそれを段として必要とし、
+          またそれは既に上限で抑えられているからである。
+        </p>
+        <p>
+          上限が縛るのは文書の数であって、それらから組み立てられる chain の
+          数ではない。ある当事者から root の側へ向かって最初に検証される
+          chain は、その当事者と、root の側に残る段だけで決まるので、一度
+          求めれば使い回せる。ローカルの作業は、chain の数ではなく、文書の数と
+          chain の深さで抑えられる。
+        </p>
+        </div>
+      </section>
+
+      <section id="procedure">
+        <h3>手続き</h3>
+        <p>
+          <strong>段取りと、何が失敗か。</strong>
+          [=Verifier=] は次の段取りを実行する。段取りが別に述べていない限り、
+          成功しなかった検査は検証全体の失敗である。DNS に問い合わせる段取りには
+          (DNS) の印を付ける。問い合わせをどの順で行えるかは、この節の末尾と
+          <a href="#ordering-and-parallelism"></a> にある。
+        </p>
+        <ol class="algorithm">
+          <li>
+            <strong>入力を取る。</strong>[=Use Case Specification=] が定める
+            とおりに [=Originator Profile Bundle=]、[=Content Attestation=]
+            または [=Use Case Specification=] がそれに当たるとするもの
+            （<a href="#use-case-interface"></a> の第 7 項）、および
+            [=Presented Identity=] を得る。この手続きが用いない文書が
+            [=Originator Profile Bundle=] にあれば無視する。それが在ることは失敗
+            ではない。
+          </li>
+          <li>
+            <strong>chain をローカルに検証する。</strong>（ローカルの検証に続く
+            検査は DNS）[=Core Profile
+            Issuer=] と各 [=Profile Annotation Issuer=] について、
+            <a href="#originator-profile-bundle"></a> の順序で、かつ
+            <a href="#ordering-and-parallelism"></a> の上限が許す範囲でのみ、
+            [=Verifier=] が受け入れる [=Root Core Profile=] から、その
+            [=Accreditation Chain=] を検証する。
+            <a href="#chain-verification"></a> が規定するとおりである。chain を
+            検証していない issuer について DNS の問い合わせは発しない。[=Root
+            Issuer=] については、その [=Root Core Profile=] が chain の役を果たす。
+          </li>
+          <li>
+            <p>
+              <strong>identity を結びつける。</strong>（[=Permitted Host
+              Record=] を参照する場合は DNS）[=Presented Identity=] が、
+              [=Core Profile=] の保持する [=Identity=] の [=Originator=] に属する
+              ことを確立する。[=Use Case Specification=] が定める規則により、
+              ドメイン名の比較は <a href="#originator-identity"></a> が規定する
+              とおりに行い、その規則が求める場合は
+              [=Permitted Host Record=] を参照する
+              (<a href="#originator-records"></a>)。
+            </p>
+            <p>
+              <strong>Presented Identity が与えられない場合。</strong>
+              [=Use Case Specification=] が、archive から読む、オフラインで
+              読む、添付から読むといった、配送が [=Presented Identity=] を
+              与えない場面を扱う場合、この段取りは実行しない。そのとき
+              [=Verifier=] は、結びつけを検査していないものとして報告する
+              (<a href="#outcome"></a>)。それだけでは検証の失敗ではない。
+            </p>
+          </li>
+          <li>
+            <strong>[=Originator=] の [=Issuer Pinning Record=] を参照する。</strong>（DNS）
+            [=Use Case Specification=] が求める場合、または [=Verifier=] が
+            そうすることを選んだ場合に参照し、
+            <a href="#originator-records"></a> の結果を適用する。
+            [=Originator=] が pinned であったか unpinned であったか、または
+            その [=Issuer Pinning Record=] を参照しなかったことを記録する
+            (<a href="#outcome"></a>)。
+          </li>
+          <li>
+            <p>
+              <strong>[=Core Profile=] を検査する。</strong>（DNS）
+              [=Core Profile=] の署名を、段取り 2 で検証した（または [=Verifier=] が
+              [=Root Core Profile=] として保持する）当該 issuer 自身の
+              [=Core Profile=] から取った [=Core Profile Issuer=] の鍵で検証する。
+              判断の時点において [=Core Profile=] がその署名の有効期間の内側に
+              あることを検査する (<a href="#outcome"></a>)。
+            </p>
+            <p>
+              <strong>issuer の立場とその鍵。</strong>
+              また、[=Core Profile
+              Issuer=] が、[=Root Issuer=] であるか、段取り 2 でそれに
+              ついて検証した [=Accreditation Chain=] によって
+              [=Core Profile Issuer=] として立てられた issuer であることを検査
+              する。<a href="#chain-verification"></a> が chain の途中の各 issuer
+              の [=Core Profile=] に求めるのと同じである。それ以外の issuer に
+              よる [=Core Profile=] は、この段取りで失敗する。また、それに署名
+              した鍵の [=Key Identifier=] が [=Core Profile Issuer=] の
+              [=Issuer Key Record=] に存在することを検査する。
+            </p>
+            <p>
+              <strong>Originator についての Core Profile が複数ある場合。</strong>
+              [=Originator Profile Bundle=] が [=Originator=] についての
+              [=Core Profile=] を複数運ぶ場合、たとえば [=Originator=] の鍵を
+              替えている間は、それらを <a href="#originator-profile-bundle"></a> の順序で、
+              <a href="#ordering-and-parallelism"></a> の上限 5 の範囲内で、
+              一つずつ試す。それぞれについて順に、その [=Core Profile Issuer=]
+              についての段取り 2、段取り 4、この段取りの検査、段取り 6、
+              段取り 7 を行い、そのすべてが成功する最初の [=Core Profile=] を
+              用いる。
+            </p>
+          </li>
+          <li>
+            <strong>[=Originator Key Record=] を検査する。</strong>（DNS）
+            [=Core Profile=] が保持する [=Originator Key Record Name=] が
+            [=Core Profile Issuer=] の Originator Key Record node の配下にあることを検査し
+            (<a href="#record-names"></a>)、[=Originator Key Record=] を取得する。
+            その [=Core Profile=] を使えるのは、その record set が存在する場合に
+            限られる。それが存在しないことは、その [=Core Profile=] が revoke
+            されたことを意味する (<a href="#originator-key-records"></a>)。
+          </li>
+          <li>
+            <p>
+              <strong>[=Content Attestation=] を検証する。</strong>
+              [=Content Attestation=] が [=Originator=] の [=Identity=] を保持する
+              場合は、それが自らの issuer として保持する [=Identity=]
+              が、[=Core Profile=] が対象とする [=Identity=] であることを検査する
+              (<a href="#originator-identity"></a>)。保持しない場合は、
+              [=Originator=] とその [=Core Profile=] は
+              [=Use Case Specification=] の規則が決めるものであり
+              (<a href="#use-case-interface"></a>)、その決定がこの比較に代わる。
+            </p>
+            <p>
+              <strong>署名。</strong>[=Content Attestation=] が
+              名指す [=Key Identifier=] を持つ、あるいは [=Key Identifier=] の
+              代わりにそれが保持するものが決める
+              (<a href="#common-properties"></a>)
+              [=Originator Verification Key=] を [=Core Profile=] から選び、
+              その鍵で [=Content Attestation=] の署名を検証する。これに問い合わせは
+              要らない (<a href="#ordering-and-parallelism"></a>)。
+            </p>
+            <p>
+              <strong>鍵が現行であること。</strong>その上で、
+              その鍵がその [=Core Profile=] について [=current=] であること、
+              すなわち段取り 6 で取得したその [=Originator Key Record=] がその
+              鍵を保持することを、
+              <a href="#key-identifier"></a> が規定するとおりに照合して検査する。
+              <a href="#originator-key-records"></a> が求めるとおり、
+              [=Originator Key Record=] が保持しない鍵は用いず、
+              [=Originator Key Record=] にはあるが [=Core Profile=] には無い鍵も
+              用いない。鍵は [=Originator Key Records=] からそのレコードを取り除く
+              ことで [=withdrawn=]（取り下げられる）となるので、鍵が現行であるのは
+              [=Originator Key Record=] がその [=Key Identifier=] を保持している
+              間だけである。
+            </p>
+          </li>
+          <li>
+            <p>
+              <strong>各 [=Profile Annotation=] を検査する。</strong>（DNS）
+              <a href="#originator-profile-bundle"></a> の順序で、
+              <a href="#ordering-and-parallelism"></a> の上限が許す範囲まで取る。
+              [=Verifier=] が用いようとする一つ一つについて、次を検査する。
+            </p>
+            <ol type="a">
+              <li>それが名指す [=Identity=] が [=Core Profile=] の保持する
+                [=Identity=] であること (<a href="#originator-identity"></a>)。</li>
+              <li>その発行者がその種類を持つこと。すなわち次のいずれかが
+                成り立つこと。
+                <ol type="i">
+                  <li>[=Verifier=] が、その発行者について、この annotation の
+                    種類を含む種類の集合を保持する [=Issuer Accreditation=] を、
+                    その accreditation の chain とともに検証する。</li>
+                  <li>この annotation が [=Issuer Accreditation=] であり、
+                    [=Verifier=] が、その発行者について、
+                    [=Accreditation Body=] の立場を述べる
+                    [=Issuer Accreditation=] を、その accreditation の chain
+                    とともに検証する。</li>
+                  <li>この annotation が [=Issuer Accreditation=] であり、
+                    その発行者が、[=Verifier=] が受け入れる
+                    [=Root Core Profile=] を持つ [=Root Issuer=] である
+                    (<a href="#root-core-profile-and-accreditation-chain"></a>)。</li>
+                </ol>
+              </li>
+              <li>段取り 2 で検証した（または [=Verifier=] が [=Root Core Profile=]
+                として保持する）当該 issuer の [=Core Profile=] から取った
+                [=Profile Annotation Issuer=] の鍵で、その署名が検証される
+                こと。</li>
+              <li>判断の時点においてそれが署名の有効期間の内側にあり、
+                判断の時点が何であれ、その期間が検証の時点で終わっていないこと。
+                終わったかどうかは <a href="#verifier-prerequisites"></a> の
+                許容差を入れて判定する (<a href="#revocation-records"></a>)。
+                内容の有効期間を持つ場合は、その期間が署名の有効期間を含むこと
+                (<a href="#profile-annotation-model"></a>)。
+                </li>
+              <li>それに署名した鍵の [=Key Identifier=] が当該 issuer の
+                [=Issuer Key Record=] に存在すること。</li>
+              <li>それが保持する [=Revocation Record Name=] が当該 issuer の
+                Revocation Record node の配下にあり (<a href="#record-names"></a>)、
+                そこに [=Revocation Record=] が存在しないこと。</li>
+            </ol>
+            <p>
+              これらのいずれか
+              を満たさない annotation は有効でない。それ自体で検証を失敗させる
+              ことはない。
+            </p>
+            <p>
+              <strong>二つの chain。</strong>発行者がその種類を持つ根拠となる
+              [=Issuer Accreditation=] とその chain は、発行者の鍵を取る
+              registration と chain と同じでなくてよい。そのそれぞれを
+              <a href="#chain-verification"></a> の DNS の確認とともに検証し、
+              どちらかが成功しなければ、その annotation は有効でない。
+            </p>
+            <p>
+              <strong>[=Originator=] についての [=Issuer Accreditation=]。</strong>
+              そうした annotation は、どの立場を述べるものであっても、他と同じ
+              一つの [=Profile Annotation=] である。すなわちこの段取りで検査され、
+              <a href="#ordering-and-parallelism"></a> の上限に数えられる。
+            </p>
+          </li>
+          <li>
+            <strong>結論を導く。</strong><a href="#outcome"></a> が規定する
+            とおりである。
+          </li>
+        </ol>
+        <p>
+          これらの段取りの問い合わせは、次のように待つ
+          (<a href="#ordering-and-parallelism"></a>)。
+        </p>
+        <ul>
+          <li>段取り 3 のうち [=Permitted Host Record=] を参照する場合と、
+            段取り 4 は、問い合わせる名前を [=Core Profile=] が運ぶ [=Identity=]
+            から組み立てる。したがってそれらの問い合わせは、
+            [=Core Profile Issuer=] についての段取り 2 と、段取り 5 における
+            [=Core Profile=] の署名の検証を待つ。段取り 3 の比較は問い合わせを
+            要しないので、すぐに行ってよい。</li>
+          <li>段取り 5 から 8 のうち、段取り 5、6、8 は DNS に問い合わせる。
+            段取り 7 は自らは問い合わせを発せず、段取り 6 の応答を用いる。</li>
+          <li>段取り 5 の問い合わせは、段取り 2 が確立した
+            [=Core Profile Issuer=] の名前についてのものであり、段取り 2 だけの
+            後に続く。</li>
+          <li>段取り 6 と 8 の問い合わせはいずれも、当該 issuer についての
+            段取り 2 と、その名前を取った文書の署名の検証の後に続く。
+            [=Core Profile=] が保持する [=Originator Key Record Name=] に
+            ついては、それは段取り 5 の検証である。</li>
+          <li>段取り 7 が段取り 6 の応答を用いることを除けば、段取り 6 から 8 は
+            互いに依存しない。</li>
+          <li>段取り 5 が [=Originator=] についての複数の [=Core Profiles=] から
+            選ぶときは、候補ごとに順に、その候補の署名を検証した後に得た
+            段取り 4、6、7 の結果を用いる。</li>
+        </ul>
+      </section>
+
+      <section id="chain-verification">
+        <h3>Accreditation Chain の検証とキャッシュ</h3>
+        <p>
+          <strong>chain をどう検証するか。</strong>
+          [=Verifier=] は、[=Accreditation Chain=] を、自らが受け入れる
+          [=Root Core Profile=] から始めて、[=Originator Profile Bundle=] の文書だけを用いて
+          検証しなければならない (MUST)。まず最上位の [=Issuer Accreditation=] を、その
+          [=Root Core Profile=] の鍵で検証し、そうして accredit された issuer の
+          [=Core Profile=] から、次の [=Issuer Accreditation=] を検証する鍵を
+          取り、以下同様に、文書を検証している当の issuer に至るまで続ける。
+        </p>
+        <p>
+          <strong>一つの Root Issuer の Root Core Profile が複数ある場合。</strong>
+          同じ [=Root Issuer=] の [=Root Core Profile=] を [=Verifier=] が二つ以上受け入れて
+          いる場合、たとえばその issuer の鍵を替えている間は、最上位の
+          [=Issuer Accreditation=] と、その [=Root Issuer=] が発行した
+          [=Core Profile=] を、それぞれに署名した鍵を保持する [=Root Core Profile=] で
+          検証する。
+        </p>
+        <p>
+          <strong>各 Issuer Accreditation の期間。</strong>
+          [=Verifier=] は、chain の途中の各 [=Issuer Accreditation=] の期間を、
+          <a href="#procedure"></a> の段取り 8 が annotation の期間を検査する
+          とおりに検査しなければならない (MUST)。判断の時点は
+          <a href="#outcome"></a> のものである。
+        </p>
+        <p>
+          [=Issuer Accreditation=] ではない [=Root Core Profile=] は、その
+          日付によって判断されない
+          (<a href="#root-core-profile-and-accreditation-chain"></a>)。
+        </p>
+        <p>
+          <strong>chain の途中の各 issuer の Core Profile。</strong>
+          [=Verifier=] は、chain の途中の issuer の [=Core Profile=] を、その
+          [=Core Profile=] が [=Root Issuer=] か、同じ chain の中で
+          それより root の側で [=Core Profile Issuer=] として立てられた issuer に
+          よって発行されたのでなければ受け入れてはならない (MUST NOT)。
+          それ以外の者が発行した [=Core Profile=] は、この手続きが用いない
+          文書として無視される (<a href="#originator-profile-bundle"></a>)。そのように発行された
+          [=Core Profile=] も、その発行者の鍵でその [=Core Profile=] の署名を
+          検証し、判断の時点においてその [=Core Profile=] が署名の有効期間の
+          内側にあることを検査するまでは、用いてはならない (MUST NOT)
+          (<a href="#outcome"></a>)。
+        </p>
+        <div class="note" title="issuer の Core Profile の出どころ">
+          [=Root Issuer=] か、[=toward the root=]（root の側）で立てられた
+          [=Core Profile Issuer=] からだけ受け入れるので、
+          issuer の [=Core Profile=] は、chain がすでに確かめた署名によって裏づけられる。
+          偽造された鍵は、問い合わせの前に、ローカルの検査で失敗する。代わりに、
+          その issuer を accredit した者から [=Core Profile=] が来ることを求めれば、
+          accredit するどの body も [=Core Profile Issuer=] になってしまう。
+        </div>
+        <p>
+          <strong>どの Core Profile が次か。</strong>
+          各段で [=Verifier=] は、次の [=Core Profile=] を、当該
+          [=Issuer Accreditation=] が対象とする [=Identity=] によって取らなければ
+          ならず (MUST)、
+          [=Identities=] の比較は <a href="#originator-identity"></a> が規定する
+          とおりに行う。[=Originator Profile Bundle=] は、その [=Identity=] について、
+          そのように立てられた issuer が発行した [=Core Profile=] を二つ以上
+          運ぶことがある。issuer の鍵を替えている間に起きることである。
+          そのとき [=Verifier=] は、[=Originator Profile Bundle=] の順序で最初の、
+          署名が検証でき、かつ判断の時点において署名の有効期間の内側にあるものを
+          取らなければならない (MUST)。それらはすべて
+          <a href="#ordering-and-parallelism"></a> の上限 4 に数える。
+        </p>
+        <p>
+          <strong>Accreditation Chain でないもの。</strong>
+          一つの [=Accreditation Chain=] に、同じ当事者は
+          [=Root Issuer=] も含めて一度だけ現れる。すでにその上にいる
+          当事者に戻る accreditation の列は [=Accreditation Chain=] ではない。
+          受け入れられた [=Root Core Profile=] で終わらない chain は
+          検証されず、<a href="#ordering-and-parallelism"></a> が許すより
+          長い chain も検証されない。そのどちらからも DNS の問い合わせは
+          続かない。
+        </p>
+        <div class="note" title="chain に一度だけ現れる当事者">
+          一つの [=Accreditation Chain=] に同じ当事者は一度しか現れないので、ある者の
+          立場は、その者と root の間にある accreditation だけで決まる。ある者は、自らが
+          accredit した者を通じて立場を得ることはできず、輪を閉じる余分な
+          accreditation によって結果を左右させることもできない。自らが支配する組織を
+          accredit したい body は、別の [=Identity=] を accredit する。
+        </div>
+        <p>
+          <strong>DNS での確認。</strong>検証された chain の各段について、
+          [=Verifier=] は次に DNS で、次のことを確かめなければならない (MUST)。
+        </p>
+        <ol type="a">
+          <li>その段の [=Issuer Accreditation=] に署名した鍵の
+            [=Key Identifier=] が、その accreditation を発行した parent issuer
+            （最上段では [=Root Issuer=]）の [=Issuer Key Record=] に
+            存在すること。</li>
+          <li>その段で accredit された issuer の [=Core Profile=] に署名した鍵の
+            [=Key Identifier=] が、その [=Core Profile=] を発行した issuer の
+            [=Issuer Key Record=] に存在すること。</li>
+          <li>その段の [=Issuer Accreditation=] の [=Revocation Record Name=]
+            が parent issuer の Revocation Record node の配下にあり
+            (<a href="#record-names"></a>)、その accreditation が revoke されて
+            いないこと。確かめ方は <a href="#revocation-records"></a> の検査
+            による。</li>
+        </ol>
+        <p>
+          <strong>検査が成功しなかった場合。</strong>検査 (a) から (c) が
+          成功しなかった場合、[=Issuer Accreditation=] の署名の有効期間の
+          検査が成功しなかった場合と同じく、次のようになる。深すぎる chain の
+          場合と同じである (<a href="#ordering-and-parallelism"></a>)。
+        </p>
+        <ul>
+          <li>その chain が [=Core Profile Issuer=] のものであれば、検証は
+            失敗する。</li>
+          <li>その chain が [=Profile Annotation Issuer=] のものであれば、その
+            annotation は有効でなくなる。</li>
+        </ul>
+        <p>
+          各段を検査するのは、自らの accreditation が revoke された issuer は、
+          もはや持たない立場を渡すことができないからである。
+        </p>
+        <div class="note" title="issuer 自身の Originator Key Record">
+          issuer の立場は、その [=Issuer Accreditation=] を revoke することで終わり、
+          それは検査 (c) が見る。したがって、段ごとに issuer 自身の [=Core Profile=]
+          の [=Originator Key Record=] は参照しない。そのレコードまで参照すれば、
+          すべての chain のすべての段で問い合わせが一つ増える。issuer の [=registration=]
+          （登録）の終わりとその [=Issuer Accreditation=] の revoke とが伴うことは、
+          フレームワークのガバナンスの規則である (<a href="#security-elsewhere"></a>)。
+        </div>
+        <p>
+          <strong>キャッシュした chain。</strong>
+          キャッシュした chain とは、一つの issuer について、[=Verifier=] が
+          検証したその [=Accreditation Chain=] の文書と、そのために参照した DNS
+          の応答である。それは [=Verifier=] 自身のものであり、後の検証が同じ
+          問い合わせを繰り返さずに済むようにするためだけにある。
+          [=Verifier=] は、検証した chain を issuer ごとにキャッシュしてよい
+          (MAY)。
+        </p>
+        <p>
+          <strong>キャッシュした chain を用いてよい期間。</strong>
+          [=Verifier=] は、その chain のために参照したレコードの time
+          to live のうち最も短いものが経過した後に、キャッシュした chain を
+          用いてはならない (MUST NOT)。chain の中の [=Root Core Profile=] 以外の
+          いずれかの文書の署名の有効期間が終わった後にも用いてはならない。そのような
+          文書のいずれかが覆わない判断の時点のために用いてはならない (MUST NOT)
+          (<a href="#outcome"></a>)。そのキャッシュは一回の検証より
+          長く残る記憶域に置くのがよい (SHOULD)。
+        </p>
+        <div class="note" title="一回の検証より長く残るキャッシュ">
+          同じ chain が、その issuer の署名するすべての文書に役立つ。
+          キャッシュの価値は、後の検証が同じ問い合わせを繰り返さずに済むことに
+          ある (<a href="#ordering-and-parallelism"></a>)。一回の検証の間しか
+          残らないキャッシュでは、それが得られない。
+        </div>
+        <p>
+          <strong>キャッシュした chain と Originator Profile Bundle。</strong>
+          キャッシュした chain は、
+          [=Originator Profile Bundle=] が運ぶ文書に代わるものではない。chain 上の issuer の
+          [=Core Profile=] で、キャッシュした chain が持つものとは別のものを
+          [=Originator Profile Bundle=] が運ぶ場合、たとえばその issuer の鍵を替えている間には、
+          [=Verifier=] はその段を [=Originator Profile Bundle=] が運ぶ [=Core Profile=] で検証する。
+          複数あるときは、<strong>どの Core Profile が次か</strong>のとおりに
+          [=Verifier=] が選ぶ。
+        </p>
+      </section>
+
+      <section id="outcome">
+        <h3>結論と判断の時点</h3>
+        <p>
+          <strong>手続きが導くもの。</strong>
+          この手続きは、一つの [=Content Attestation=] について次を導く。
+        </p>
+        <ul>
+          <li><a href="#procedure"></a> のいう意味で検証されたかどうか。</li>
+          <li>それが帰属する [=Originator=] の [=Identity=]。</li>
+          <li>どの [=Profile Annotations=] が有効か。それぞれについて、それを
+            発行した [=Profile Annotation Issuer=] を伴う。</li>
+          <li>[=Originator=] が pin されていたか、pin されていなかったか、
+            あるいはその [=Issuer Pinning Record=] が参照されなかったか。</li>
+          <li>[=Presented Identity=] が [=Originator=] の [=Identity=] に
+            結びつけられたか、あるいは、その場面が
+            [=Presented Identity=] を与えなかったために結びつけが検査され
+            なかったか (<a href="#procedure"></a>)。あるいは、結びつけが
+            確立される前に検証が失敗した場合は、結びつけについては何も
+            導かない。</li>
+          <li>存在と不在の検査がどれだけ新しいか。</li>
+        </ul>
+        <p>
+          <strong>Verifier が報告すること。</strong>
+          [=Verifier=] は、結論を渡すどの場面においても、次のとおりにする。
+        </p>
+        <ul>
+          <li>有効でない [=Profile Annotation=] を有効であるかのように提示して
+            はならない (MUST NOT)。</li>
+          <li>pin されている [=Originator=]、pin されていないもの、その
+            [=Issuer Pinning Record=] が参照されなかったものを互いに区別
+            しなければならない (MUST)。</li>
+          <li>検査されなかった結びつけはそのように報告しなければならない
+            (MUST)。</li>
+        </ul>
+        <p>
+          <strong>結びつけが検査されなかった結論が述べること。</strong>
+          そうした結論が述べているのは、[=Content Attestation=] が検証されたと
+          いうことであって、[=Content=] がそれの名指す [=Originator=] によって
+          提示されたということではない。この結論をどう扱うか、[=Recipient=] に
+          どう示すかは、ここでは規定しない。
+        </p>
+        <p>
+          <strong>判断の時点。</strong>
+          [=Use Case Specification=] が別に定めない限り、有効性は検証の時点で
+          判断される。<a href="#procedure"></a> における署名の有効期間の
+          検査はすべてその時点に対して行われる。別の時点で判断する
+          [=Use Case Specification=]、たとえばメッセージを受け取った時点で
+          判断する仕様は、それがどの時点であり、自らのどの当事者に適用される
+          かを述べる。<a href="#use-case-interface"></a> が求めるとおりである。
+        </p>
+        <p>
+          <strong>署名者が書いた時刻は判断の時点にならない。</strong>
+          [=Use Case Specification=] が有効性を判断する時点は、配送チャネルが
+          [=Verifier=] に与えるものでなければならない (MUST)。署名者が書いた
+          時刻、たとえば文書自身の署名の有効期間の始まりや、署名の属性として保持
+          された時刻は、有効性を判断する時点であってはならない (MUST NOT)。
+          判断される文書の持ち主がその値を選ぶからである。
+        </p>
+        <p>
+          <strong>以前の状態は無い。</strong>
+          DNS における存在や不在の検査は、常に問い合わせの瞬間の状態の検査で
+          あり、いかなる時刻もそれに代えられない。DNS は以前に何を答えたかの
+          記録を持たず、本文書は、以前の状態を問えるようにする仕組みを何も
+          定義しない。あるものが以前の時点で有効であったことを後から示さな
+          ければならないユースケースは、その時点で検証した当事者の記録から
+          そうするのであり、本文書はそのような記録を定義しない。
+        </p>
+      </section>
+
+      <section id="caching">
+        <h3>キャッシュ</h3>
+        <p>
+          <strong>Verifier がキャッシュしてよいものと、その期間。</strong>
+          [=Verifier=] は、得たものを次の範囲でキャッシュしてよい (MAY)。
+        </p>
+        <ul>
+          <li>[=Originator Profile Bundle=] の文書、および [=Content
+            Attestation=]: それ自身の署名の有効期間を超えない範囲。</li>
+          <li>DNS の応答（レコードを運ぶものも、その不在を証明するものも）:
+            それに付いてきた time to live を超えない範囲。</li>
+          <li>検証した [=Accreditation Chain=]:
+            <a href="#chain-verification"></a> が規定するとおり。</li>
+        </ul>
+        <div class="note" title="キャッシュの範囲が守るもの">
+          これらの範囲が、revocation の検知を
+          <a href="#revocation-model"></a> のいうとおりの速さに保つ。これらの
+          いずれかをそれより長く保持する [=Verifier=] は、既に過ぎ去った世界の
+          状態を報告することになる。
+        </div>
+      </section>
+    </section>
+
+    <section id="time-parameters">
+      <h2>時間に関するパラメータ</h2>
+      <p>
+        <strong>パラメータとは何か。</strong>
+        この枠組みの時間上のふるまいは、以下のパラメータが左右する。本文書は
+        それらを名づけ、それぞれを誰が選び、それぞれが何を左右するかを述べ、
+        それらの間の制約を <a href="#revocation-model"></a> で述べる。
+      </p>
+      <p>
+        <strong>値はどこにあるか。</strong>
+        本文書はこれらのパラメータの値を定めない。値は [=Use Case Specifications=]
+        と、issuer が自らの zone を運用する際の運用規則に属する。その規則を
+        担う Operations 文書 [[?OPF-OPS]] はまだ公開されていない。公開される
+        までは、use case に関わる推奨値はその [=Use Case Specification=] に、
+        issuer の zone の time to live、negative caching、RRSIG の有効期間に
+        関わる推奨値は [[OPF-DNS]] に述べる。[=retired=] な鍵のレコードの
+        保持期間と issuer の鍵の重複期間については、推奨値は公開されていない。
+        どちらも下限は <a href="#revocation-model"></a> が与える。
+      </p>
+      <p>
+        <strong>代わりに定数であるものは何か。</strong>
+        本文書が定める数、すなわち [=Verifier=] の時計の許容差の上限と
+        <a href="#ordering-and-parallelism"></a> の 5 つの上限は、
+        protocol constant であって、この意味でのパラメータではない。
+        [=Verifier=] は時刻を比較する際に 5 分を超える許容差を認めては
+        ならない (MUST NOT) (<a href="#verifier-prerequisites"></a>)。
+      </p>
+      <div class="note" title="5 分という上限">
+        5 分は、Kerberos や JSON Web Token を検査するライブラリのように、一般の慣行が
+        認める許容である。許容が関わるのは期間の両端での判定だけであり、その幅は
+        分の単位であって、revoke が見えるようになるまでの遅れは通常は時間の単位
+        である。また、[=Verifier=] の時計そのものをずらす攻撃に対しては、何の守りにも
+        ならない。
+      </div>
+      <table class="simple">
+        <thead>
+          <tr>
+            <th>パラメータ</th><th>選ぶ者</th><th>左右するもの</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>[=Core Profile=] の署名の有効期間</td>
+            <td>[=Core Profile Issuer=]</td>
+            <td>何もしなければ [=Core Profile=]、そしてそれとともに
+              [=registration=]（登録）がどれだけ続くか、および [=Originator=] が
+              どれだけの間それに依拠できるか</td>
+          </tr>
+          <tr>
+            <td>[=Profile Annotation=] の署名の有効期間</td>
+            <td>[=Profile Annotation Issuer=]</td>
+            <td>何もしなければ annotation がどれだけの間有効であるか。
+              [=Core Profile=] のそれによって抑えられる
+              (<a href="#revocation-model"></a>)</td>
+          </tr>
+          <tr>
+            <td>[=Originator Key Record=] と [=Issuer Key Record=] の time to live、
+              およびそれらを保持する zone の negative caching のパラメータ</td>
+            <td>それらを公開する issuer。negative caching のパラメータに
+              ついては、その DNS プロバイダが許す範囲で</td>
+            <td>鍵の取り下げ、[=Core Profile=] の revoke、登録の終わりがどれだけ早く見えるように
+              なるか、および
+              新しいレコードにどれだけ早く依拠できるか
+              (<a href="#originator-key-records"></a>)</td>
+          </tr>
+          <tr>
+            <td>[=Revocation Record=] の time to live、および当該 issuer の
+              zone の negative caching のパラメータ</td>
+            <td>それを公開する issuer。その DNS プロバイダが許す
+              範囲で</td>
+            <td>revocation がどれだけ早く見えるようになるか。変わらなければ
+              ならない状態が不在であるため、これを左右するのは negative
+              caching のパラメータである。レコード自身の time to live はそこに
+              効かない。revocation は取り消されないからである。それが効くのは、
+              問い合わせがどれだけ頻繁に繰り返されるかである</td>
+          </tr>
+          <tr>
+            <td>[=Originator=] のレコードの time to live</td>
+            <td>[=Originator=]。その DNS プロバイダが許す範囲で</td>
+            <td>[=Core Profile Issuer=] の変更、あるいは issuer を持たないと
+              いう宣言が、どれだけ早く効力を持つか</td>
+          </tr>
+          <tr>
+            <td>[=retired=]（退役させた）鍵のレコードの保持期間</td>
+            <td>[=Core Profile Issuer=]</td>
+            <td>その鍵で署名されたコンテンツがどれだけの間検証可能なままで
+              いるか。下からは <a href="#revocation-model"></a> が抑え、それを
+              超えても得るものは無い
+              (<a href="#originator-key-records"></a>)</td>
+          </tr>
+          <tr>
+            <td>issuer の鍵の重なりの期間</td>
+            <td>当該 issuer</td>
+            <td>前の鍵で署名された文書が検証可能なままでいるかどうか。下からは
+              <a href="#revocation-model"></a> が抑える。
+              <a href="#originator-key-records"></a> の [=retention margin=] を含む</td>
+          </tr>
+          <tr>
+            <td>zone の RRSIG の有効期間</td>
+            <td>当該 zone を運用する当事者。その DNS プロバイダが許す範囲で</td>
+            <td>存在や不在の証明が、真でなくなった後どれだけの間 replay され
+              うるか</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="note" title="Core Profile の長い期間">
+        [=Core Profile=] の revoke はその署名の有効期間が終わるのを待たないので、
+        長い期間も許される。revoke は、期間の長さにかかわらず、その
+        [=Originator Key Record=] の time to live の内に見えるようになる。
+      </div>
+      <p>
+        <strong>DNS provider がしばしば設定する 2 つのパラメータ。</strong>
+        zone の negative caching のパラメータと、その zone の RRSIG の有効期間は、
+        zone について答える当事者ではなく、通常 DNS プロバイダが設定する。その 2 つを設定できない
+        issuer は、自らの revocation がどれだけ早く効力を持つかも、新しい
+        レコードにどれだけ早く依拠できるかも約束できない。
+      </p>
+    </section>
+
+    <section id="use-case-interface">
+      <h2>Use Case Specification に対する要求</h2>
+      <p>
+        <strong>Use Case Specification が定義するもの。</strong>
+        [=Use Case Specification=] は、本文書をコンテンツの配送の一つのやり方に
+        当てはめるものである。適合するためには、次のそれぞれを定義しなければ
+        ならない (MUST)。
+      </p>
+      <ol>
+        <li>
+          <strong>[=Originator Profile Bundle=] の配送。</strong>[=Verifier=] が、いかなる DNS の
+          問い合わせを発する前に、<a href="#originator-profile-bundle"></a> に挙げた文書をどの
+          ようにして手元に持つに至るか。また、配送が
+          [=Profile Annotations=] を一つの並びにしない場合、[=Verifier=] が
+          それらを処理する順序。この順序は、上限に達して全体を処理しきれない
+          ときに、どれを先に取るかを決める (<a href="#originator-profile-bundle"></a>)。あわせて、
+          [=Originator Profile Bundle=] を組み立てる者を名指し、その者に、[=Originator=] の
+          [=Core Profile=] に加えて、その [=Originator=] の
+          [=Profile Annotations=] を少なくとも 1 つ [=Originator Profile Bundle=] に入れさせる
+          (<a href="#originator-profile-bundle"></a>)。
+        </li>
+        <li>
+          <strong>[=Presented Identity=]。</strong>当該ユースケースにおいて
+          それが何であるか、[=Verifier=] がそれを配送チャネルからどう得るか、
+          および <a href="#originator-identity"></a> がそれを比較する canonical
+          form にどう変換するか。その変換は、当該チャネル自身の仕様が既に定義
+          しているものでありうる。本文書が求めるのは、
+          [=Use Case Specification=] がそれがどれであるかを述べることである。
+          チャネルがドメイン名をどの形で提示するかは、そのチャネルの性質で
+          あって、この枠組みの性質ではない。
+        </li>
+        <li>
+          <strong>結びつけの規則。</strong>[=Presented Identity=] が、
+          [=Core Profile=] の保持する [=Identity=] の [=Originator=] に属すること
+          をどう確立するか。[=Permitted Host Record=] を参照するかどうか、
+          どの host について参照するかを含む。
+        </li>
+        <li>
+          <strong>[=Originator=] のレコード。</strong>[=Issuer Pinning Record=] を
+          参照するかどうか、当該ユースケースにおいて [=Originator=] がそれを
+          公開することを求められるかどうか、そしてそこで pin されていないという
+          結果が何を意味するか。
+        </li>
+        <li>
+          <strong>検証がどこでいつ行われるか。</strong>どの当事者が手続きを
+          実行するか。また、有効性が検証の時点以外の時点で判断される場合、
+          それがどの時点であり、どの当事者についてであるか
+          (<a href="#outcome"></a>)。
+        </li>
+        <li>
+          <strong>結論がどうなるか。</strong>それがどう記録され、どう渡され、
+          どう提示されるか。また、それを他の当事者から受け取った当事者が何に
+          依拠できるか。
+        </li>
+        <li>
+          <strong>attest される内容。</strong>そのユースケースにおいて何が
+          [=Content Attestation=] に当たるか。すなわち、どの内容が署名されるか、
+          そして [=Verifier=] がそれに署名した鍵をどう得るか。署名が
+          [=Originator=] の [=Identity=] を保持しない場合に、[=Originator=] と
+          その [=Core Profile=] を [=Originator Profile Bundle=] からどう定めるか。
+        </li>
+        <li>
+          <strong>Use Case Specification 自らのセキュリティとプライバシーの考慮事項。</strong>項目 1〜7
+          の選択から導かれるものであり、本文書がその仕様に代わって行えるもの
+          ではない。
+        </li>
+      </ol>
+      <p>
+        <strong>Use Case Specification がしてよいこと、してはならないこと。</strong>
+        [=Use Case Specification=] は、<code>_op</code> の下の DNS 名を定義して
+        はならず、<a href="#namespace"></a> のいずれかの名前における存在や不在
+        の意味を変えてはならず、本文書の要求を弱めてはならない (MUST NOT)。
+        本文書が課さない要求を課してもよく (MAY)、本文書が任意としている
+        ものを必須としてもよい (MAY)。[=Use Case Specification=] は、
+        <a href="#terminology"></a> の用語を、そこで与えられた意味で用いる。
+        そのユースケースに固有の文書を [=Originator Profile=] に加える
+        (<a href="#terminology"></a>) [=Use Case Specification=] は、その文書が
+        何を含むか、[=Originator Profile Bundle=] がそれを運ばなければならない
+        かどうか、およびそれがどのように [=Verifier=] に届くかを定義する。
+        また、それについて <a href="#procedure"></a> の手順に加える検査が
+        あれば、その検査も定義する。この手順自体は、その文書を検査しない。
+      </p>
+    </section>
+
+    <section id="security-considerations" class="informative">
+      <h2>セキュリティに関する考慮事項</h2>
+      <p>
+        本節は、ユースケースに依存しない共通の設計のセキュリティ上の性質を
+        説明する。本節は何の要求も述べない。本節が依拠する要求はすべて
+        <a href="#dns-layer"></a> と <a href="#verification"></a> に書かれて
+        おり、本節はそれらの要求がなぜそこにあるのか、そして何を覆っていない
+        のかを述べる。配送と identity の結びつけから導かれる考慮事項は
+        [=Use Case Specifications=] にあり、OPKEY レコードそのもの、その
+        大きさ、その移行期の形式に固有のものは [[OPF-DNS]] にある
+        (<a href="#security-elsewhere"></a>)。
+      </p>
+
+      <section id="security-dnssec">
+        <h3>DNSSEC と validation の経路への依存</h3>
+        <p>
+          DNS について本文書が述べることはすべて、DNSSEC の validation state
+          についての言明である
+          (<a href="#dnssec-and-resolution-outcomes"></a>)。DNSSEC が無ければ、
+          レコードは名前解決の経路上の誰にでも偽造され、また抑え込まれうる。
+          そして DNS は、[=Originator Profile Bundle=] の文書と
+          [=Content Attestation=] が既に述べていることに何も加えない
+          ことになる。したがってこの枠組みは、[=Verifier=] が自ら validation
+          state を確立していないレコードから、いかなる保証も得ない。
+        </p>
+        <p>
+          [=Verifier=] がその state を確立する道は二つある。自らの trust
+          anchor で validate するか、resolver を認証し応答を保護する経路で
+          validating resolver に到達し、その結果を resolver の言うとおりに
+          受け取るかである。認証されずに届く validation の指示、たとえば
+          平文の応答における AD ビットは、経路上の誰にでも立てられるので、
+          何の保証も与えない。validate しない resolver は AD ビットをまったく
+          立てず、[=Verifier=] はそれを <span class="dns-state">Insecure</span> な応答と区別できない。
+          <a href="#dnssec-and-resolution-outcomes"></a> が、resolver が
+          validate していることの保証を求めるのはそのためである。
+        </p>
+        <p>
+          そのどちらの手段も持たない [=Verifier=] は、
+          <span class="dns-state">Secure</span> な応答を他と区別できず、この手続きのすべての DNS の段取りが
+          その者にとって失敗する。これは、[=Verifier=] をどこに
+          置けるかについての現実の制約である。web ブラウザとメールクライアント
+          は通常、それ自体では DNSSEC を validate しないので、[=Verifier=] を
+          それらの中に置く [=Use Case Specification=] は、二つの手段の
+          どちらかを用意しなければならない
+          (<a href="#use-case-interface"></a>)。
+        </p>
+        <p>
+          関わる zone の運用者は信頼される当事者である。issuer の zone を制御する者は、
+          その issuer の鍵と、それが発行した [=Core Profiles=] または
+          [=Profile Annotations=] についてこの枠組みが信じることを
+          制御する。また [=Originator=] の zone を制御する者は、その pinning を
+          制御する。したがって、zone の DNSSEC の鍵の安全と、その zone を
+          provisioning するインタフェースの安全は、この枠組みの安全の一部で
+          ある。そこから導かれる要求は運用上のものであり、ここには述べない。
+        </p>
+      </section>
+
+      <section id="security-resolution-failures">
+        <h3>名前解決の失敗と pinning の downgrade</h3>
+        <p>
+          <a href="#dnssec-and-resolution-outcomes"></a> は、<span class="dns-state">Bogus</span> な応答、
+          <span class="dns-state">Indeterminate</span> の結果、
+          SERVFAIL、タイムアウト、その他の使える応答が得られないことを、
+          どの名前においても検証の失敗として読み、決して不在としては読まない。
+          その理由は [=Issuer Pinning Record=] にある。
+        </p>
+        <p>
+          [=Verifier=] が
+          <code>_op.&lt;originator&gt;</code> への問い合わせの失敗を、
+          レコードが不在であるかのように扱ったとする。すると、pin された issuer 以外の
+          [=Core Profile Issuer=] からその [=Originator=] の
+          [=Core Profile=] を得ている攻撃者は、その一つの問い合わせの名前解決
+          を妨げるだけで、pin された [=Originator=] を pin されていないように
+          見せられてしまう。pinning は何も守らないことになる。
+          不在が何も revoke されていないことを意味する
+          [=Revocation Record=] においては、同じ規則が、攻撃者が問い合わせを
+          塞ぐことで revocation を隠すことを防ぐ。他の名前では不在が既に失敗を
+          意味するので、失敗を同じに扱っても失うものは無い。
+        </p>
+        <p>
+          pin されていない道へ進む結果は二つだけである。当該レコードが存在
+          しないことの <span class="dns-state">Secure</span> な証明、すなわちそこには何も無いという DNSSEC に
+          裏づけられた言明と、<span class="dns-state">Insecure</span> な応答、すなわち署名されていない zone の
+          状態である。別名を経て到達した応答は後者として読まれる。どちらも、
+          SERVFAIL のような、名前解決を妨げることで
+          生じる種類の失敗ではない。とはいえ <span class="dns-state">Insecure</span> な応答が <span class="dns-state">Secure</span> なものと
+          同じ重みを与えられることは決してない。だからこそ [=Originator=] の
+          レコードは、その zone が署名されている場合にのみ効力を持つ
+          (<a href="#originator-records"></a>)。
+        </p>
+        <p>
+          issuer が公開するレコードは、より厳しく読まれる。そのどれにおいても
+          <span class="dns-state">Insecure</span> な応答は失敗である
+          (<a href="#dnssec-and-resolution-outcomes"></a>)。不在が普通の応答で
+          ある [=Revocation Record Name=] においても同じである。経路上の攻撃者
+          は、署名された zone に <span class="dns-state">Insecure</span> と答えさせることはできない。そうした
+          名前で <span class="dns-state">Insecure</span> な応答を生むのは issuer の側の誤りであり、たとえば
+          自らのレコードを収める zone (<a href="#record-names"></a>) を、署名
+          せずに委譲することである。
+        </p>
+        <p>
+          そこで <span class="dns-state">Insecure</span> を不在として読むなら、その
+          誤りはその下のすべての revocation を黙って無かったことにしてしまう。
+          失敗として読めば、誤りは見える。これは、内容を解析できない
+          [=Revocation Record=] を revocation として数えるのと同じ原則である
+          (<a href="#revocation-records"></a>)。代償として、issuer は自らの
+          レコードを、[=Revocation Record=] も含めて、自らが署名しない zone に
+          公開できない。したがって事実上、issuer が公開するすべての zone が
+          署名されていなければならない。
+        </p>
+        <p>
+          とはいえ <span class="dns-state">Secure</span> な不在の証明は、何も偽造しない攻撃者によっても
+          差し出されうる。[=Issuer Pinning Record=] が存在しないことの証明で、
+          [=Originator=] がそれを公開する前に作られたものは、その中の署名が
+          失効するまで有効であり、[=Verifier=] と権威サーバの間の経路上に
+          いる攻撃者は、その期間内にそれを replay できる。すると [=Verifier=]
+          は pin されていない [=Originator=] の場合と同じく進み、
+          [=Issuer Pinning Record=] が名指さない issuer からの
+          [=Core Profile=] が受け入れられる。
+        </p>
+        <p>
+          その record set の denying form
+          (<a href="#originator-records"></a>) も同じようにさらされる。古い不在の証明が失効するまでは、
+          [=Originator Profile=] を持たないと宣言した [=Originator=] は、
+          攻撃者が到達できる [=Verifier=] に対しては、その宣言によって守られ
+          ない。これは <a href="#security-revocation-windows"></a> の replay
+          を [=Issuer Pinning Record=] に当てはめたものであり、同じ限界を持つ。
+          経路上のその位置が要り、署名とともに終わる。
+        </p>
+        <p>
+          [=Originator=] が
+          [=Issuer Pinning Record=] の名指す issuer を替えたときも、前の issuer を
+          名指していた以前の応答は同じように replay でき、その応答の署名が
+          失効するまで、前の issuer からの [=Core Profile=] が受け入れられる。
+          したがって [=Issuer Pinning Record=] を公開する、あるいはそれが名指す
+          issuer を替える [=Originator=] がその効果を完全に得るのは、その
+          zone のそれ以前の応答にある署名が失効してからであり、その期間は
+          通常その DNS プロバイダが定める (<a href="#time-parameters"></a>)。
+        </p>
+        <p>
+          同じ非対称性、すなわち [=Issuer Pinning Record=] の名前を除くすべての
+          名前で不在が失敗を意味することは、ドメイン名をどう比較するかにも
+          重みを置く。
+          <a href="#originator-identity"></a> は、[=Verifier=] が両側を
+          canonical form にした上で厳密に一致させることを求める。緩い一致は
+          許さず、canonical form が異なる二つの値は、どれほど似て見えても別の
+          名前である。
+        </p>
+        <p>
+          異なる二つの名前を一つの canonical form へ写してしまう
+          正規化は、[=Verifier=] に、与えられていない名前を受け入れさせる。
+          成功すべきところで失敗する正規化は、一般には検査が一つ失敗する費用
+          しか生まない。一つを除くすべての名前で不在は失敗を意味するから
+          である。
+        </p>
+        <p>
+          その例外が [=Issuer Pinning Record=] であり、これは [=Originator=] の
+          [=Identity=] から組み立てた名前で問い合わせられる。誤って組み立てられた
+          名前は、どこか別の zone の名前である。その <span class="dns-state">Secure</span> な不在の証明は、
+          誰も問うていない問いについての真の答えであり、それを採れば、pin
+          された [=Originator=] が pin されていないものになってしまう。だから
+          こそ <a href="#originator-records"></a> は、その名前を canonical
+          form から組み立てること、および canonical form にできない [=Identity=] を、
+          pin されていないという結果ではなく失敗とすることを求めている。
+        </p>
+        <p>
+          この規則の代償は可用性である。手続きが参照するどの当事者の DNS の
+          障害も、[=Use Case Specification=] が参照する場合の
+          [=Originator=] 自身の zone を含めて、pin されていないという結果では
+          なく、失敗した検証になる。[=Verifier=] は、使える応答が無いと結論
+          する前に再試行することができ、どう再試行するかはその裁量である。
+          応答が不在であったかのように進めることはしない。
+          <a href="#dnssec-and-resolution-outcomes"></a> がそれを禁じている。
+        </p>
+        <p>
+          pin する [=Originator=] は <code>_op.&lt;originator&gt;</code> に
+          レコードを公開し、それ以後、そのレコードを取り除けるのは自らの zone
+          への変更だけである。zone の他の場所にある CNAME や wildcard は、
+          存在する名前には何の効果も持たず、その名前そのものにある別名は
+          <span class="dns-state">Insecure</span> な応答と同じように読まれ、決して辿られない。したがって、他の
+          どの zone も [=Originator=] を pin された状態にも pin されていない
+          状態にもできない (<a href="#dnssec-and-resolution-outcomes"></a>)。
+        </p>
+      </section>
+
+      <section id="security-resource-exhaustion">
+        <h3>資源の枯渇と増幅</h3>
+        <p>
+          [=Verifier=] が問い合わせる名前は [=Originator Profile Bundle=] の文書から取られる。
+          本文書が定めているのは <code>_op</code> の下の label だけであり、
+          その接尾辞は、当該文書が主張する issuer の名前である。したがって、
+          [=Originator Profile Bundle=] を [=Verifier=] の前に差し出せる者は誰でも、それが
+          どの zone に、何回問い合わせるかを選べてしまう。これによって害を
+          受けうる当事者は 3 者あり、本仕様はそのそれぞれに別のしかたで答える。
+        </p>
+        <p>
+          <strong>第三者の zone に対する、反射による害。</strong>被害者の名前を
+          偽造した文書の issuer として書き、それを多数の [=Verifiers=] に
+          見せる攻撃者は、そのそれぞれに
+          <code>_issuer-key._op.&lt;victim&gt;</code> を問い合わせさせることになる。
+          問い合わせを送るのは [=Verifiers=] の resolver であり、その送信元
+          アドレスは偽造できない。応答は被害者ではなくそれらの resolver に
+          返る。被害者の権威サーバが受け取るのは、resolver ごと、negative
+          caching の期間ごとに一つの小さな問い合わせであり、それに対して
+          キャッシュ可能な不在の証明を返す。増幅率は 1 を下回る。これは
+          resolver を通じて問い合わせることの性質であり、手続きがどの順序を
+          とっても成り立つ。
+        </p>
+        <p>
+          <strong>[=Verifier=] 自身に対する、枯渇による害。</strong>これが、
+          この枠組みに対して仕掛けるのが最も安い攻撃である。多数の
+          [=Profile Annotations=] を、それぞれ別の issuer から、それぞれ深い
+          chain とともに含み、しかもあらゆるキャッシュを外すように名前を
+          選んだ [=Originator Profile Bundle=] は、[=Verifier=] に名前ごとの問い合わせ 1 回と
+          DNSSEC の validation 1 回を費やさせる。
+          <a href="#ordering-and-parallelism"></a> の二つの要求がこれに答える。
+        </p>
+        <p>
+          一つめは順序である。[=Verifier=] は、文書から取った名前を、その文書の
+          署名が、自らの受け入れる [=Root Core Profile=] で終わる
+          [=Accreditation Chain=] を通じて検証されるまでは問い合わせない。
+          これが可能なのは、chain が [=Originator Profile Bundle=] の中にあり、どの署名も検証の
+          ために DNS を必要としないからである。偽造された文書はそのような
+          chain を持たないので、問い合わせを一つも生まない。それが
+          [=Verifier=] に強いるのは署名の検証であり、これはローカルな費用で
+          ある。
+        </p>
+        <p>
+          偽造された [=Content Attestation=] を、別の [=Originator Profile Bundle=] から
+          写した本物の [=Core Profile=] と本物の [=Accreditation Chains=] の
+          横に置くことはできる。それが問い合わせを引き起こさないのは、
+          [=Verifier=] がどの問い合わせよりも前に attestation 自身の署名を
+          検証するからである (<a href="#ordering-and-parallelism"></a>)。
+          そうしない [=Verifier=] は本物の issuer の名前を問い合わせることに
+          なる。その応答はキャッシュできるので、費用は小さいが無ではない。
+        </p>
+        <p>
+          二つめは、[=Profile Annotation Issuers=] の数と chain の深さ
+          の上限であり、これがそのローカルな費用を抑え、本物の chain を持つ
+          当事者が求めうる量を抑える。この二つによって、一回の検証の費用は
+          予測可能になる。
+        </p>
+        <p>
+          [=Verifier=] が何もキャッシュしていないときは、
+          [=Issuer Pinning Record=] に 1 回、[=Core Profile Issuer=] に 2 回、
+          各 [=Profile Annotation Issuer=] に 1 回ずつ、各
+          [=Profile Annotation=] に 1 回ずつ、各 chain の各段に 3 回ずつ
+          問い合わせ、[=Permitted Host Record=] を参照する場合はさらに 1 回で
+          ある。数え方は <a href="#ordering-and-parallelism"></a> の note の
+          とおりである。chain がキャッシュされていれば、chain の各段への
+          問い合わせはもう発せられない。chain は issuer ごとにキャッシュできる
+          (<a href="#chain-verification"></a>)。
+        </p>
+        <p>
+          この順序は、これを得るために変えられた。設計の以前の版は、署名の
+          検証と並行して問い合わせを発することを許していた。そのため、偽造
+          された文書が名前ごとに問い合わせ 1 回を生み、接尾辞は攻撃者が選ぶ
+          ものになっていた。
+        </p>
+        <p>
+          手放したのは、名前を読んだ直後に問い合わせを
+          発することで得られる先行分であり、[=Originator=] のレコードへの
+          問い合わせもそれに含まれる。その名前は [=Core Profile=] が運ぶ
+          [=Identity=] から組み立てられるからである。それはミリ秒の単位である。chain の
+          ローカルな検証は速いからである。この分析は chain が [=Originator Profile Bundle=] の
+          中にあることを前提としている。まだ検証していない文書に基づいて、
+          chain の一部を DNS でもほかの手段でも [=Verifier=] に取りに行かせる
+          [=Use Case Specification=] は、検証されていない名前への要求を
+          再び持ち込むことになり、この分析をやり直さなければならない。
+        </p>
+        <p>
+          <strong>本物の文書に対する、押し出しによる害。</strong>上限は、
+          署名を検証する前に [=Originator Profile Bundle=] の順序で文書を数える。したがって、
+          本物の文書より前に文書を置ける当事者、たとえば [=Originator Profile Bundle=] を中継
+          したり書き換えたりする当事者は、本物の文書を上限の外へ押し出し、
+          検証を失敗させたり annotation を有効でなくしたりできる。そのような
+          当事者は本物の文書を取り除くこともできるので、上限がその当事者に
+          新しい能力を与えることはない。それが得るのは拒否であって、偽の
+          結果では決してない。
+        </p>
+        <p>
+          <strong>issuer の zone に対する、正当な負荷による害。</strong>
+          issuer の権威サーバに届くのは、その issuer への本物の chain を検証
+          した [=Verifiers=] の問い合わせであり、それらは resolver によって
+          集約され、キャッシュされる。Revocation Record node では不在が普通の
+          応答である。NSEC レコードで署名された zone では、
+          aggressive negative caching [[?RFC8198]] を行う resolver は、既に
+          見た gap の中の名前への問い合わせに、権威サーバに再び問うことなく
+          答えられる。そのため、存在しない名前への問い合わせが issuer に届く
+          ことはまれになる。
+        </p>
+        <p>
+          同じキャッシュは、新しく公開された名前を、その
+          zone の negative caching の期間が過ぎるまで見えなくする。
+          <a href="#originator-key-records"></a> が、その名前を保持する文書を発行する前に
+          issuer に待たせるのはこのためである。<a href="#namespace"></a> は、
+          不在が <span class="dns-state">Secure</span> な証明になるよう、zone を Opt-Out なしで署名することを
+          求める。NSEC と NSEC3 のどちらで署名するかは選択の問題であり、それに
+          ついての推奨は運用文書 [[?OPF-OPS]] が与える。
+          残る負荷は
+          DNS で公開することの通常の費用であり、issuer のサーバの可用性は、
+          その登録がどれだけの価値を持つかの一部である
+          (<a href="#security-revocation-windows"></a>)。
+        </p>
+      </section>
+
+      <section id="security-revocation-windows">
+        <h3>Revocation の遅れと replay の窓</h3>
+        <p>
+          この枠組みにおける revocation は即座ではなく、その遅れは、revoke する
+          当事者がしばしば設定できないパラメータによって抑えられる
+          (<a href="#time-parameters"></a>)。そこから 3 つの窓が生じる。
+        </p>
+        <ul>
+          <li>
+            <p>
+            <strong>検知の遅れ。</strong>鍵の取り下げ、[=Core Profile=] の revoke、登録の終わりが
+            見えるのは、
+            [=Originator Key Record=] や [=Issuer Key Record=] についてキャッシュされた
+            肯定応答が期限切れになるときであり、すなわちその time to live の
+            内側である。[=Profile Annotation=] の revocation が見えるのは、
+            [=Revocation Record=] が存在しなかったというキャッシュされた証明が
+            期限切れになるときであり、すなわち
+            [=Profile Annotation Issuer=] の zone の negative caching の期間の
+            内側である。
+            </p>
+            <p>
+            この期間は、issuer ではなく zone の DNS プロバイダが
+            設定するのが普通であり、1 日の単位になることもある。これまでに
+            定義されたユースケースが必要とする revocation は、分の単位ではなく
+            日の単位であるため、本仕様はこれを受け入れている。自らの zone の
+            negative caching のパラメータを設定できる issuer、あるいは自らの
+            Revocation Record node をそれができる zone に委譲する issuer は、この
+            遅れを短くできる。それ以上を必要とするユースケースは、本仕様のこの
+            部分をやり直さなければならない。
+            </p>
+          </li>
+          <li>
+            <strong>Replay。</strong>[=Verifier=] と権威サーバの間の経路上に
+            いる攻撃者は、署名された時点では真であった応答を replay できる。
+            その後に取り除かれた record set や、[=Revocation Record=] が公開
+            される前に作られた不在の証明である。その窓は当該 zone の
+            RRSIG の有効期間であり、プロバイダはこれを日や週の単位に設定するのが普通
+            である。その内側では、攻撃者が到達できる [=Verifier=] から
+            revocation を隠せる。この攻撃には経路上の位置が要り、その効果は
+            署名とともに終わる。
+          </li>
+          <li>
+            <strong>古い応答。</strong>権威サーバに到達できない間、古いデータ
+            を提供する resolver [[?RFC8767]] は、取り除かれた record set を
+            その time to live を超えて生かし続けうる。これを突くには issuer の
+            サーバを到達不能にする必要があるので、それらのサーバの可用性は、
+            issuer が与える revocation の保証の一部である。
+          </li>
+        </ul>
+        <p>
+          上の 3 つの窓の前に、当事者が動くまでの時間もかかる。compromise を
+          知った issuer は、いずれの窓が動き出すよりも前に、その変更を公開
+          しなければならず、本文書はその時間を何も抑えていない。[=Verifier=] に対する
+          キャッシュの上限 (<a href="#caching"></a>) は、これらの窓を zone の
+          パラメータが許すかぎり短く保つためのものである。文書や応答をそれ
+          より長く保持する [=Verifier=] は、自らの遅れをそこに加えることに
+          なる。
+        </p>
+      </section>
+
+      <section id="security-key-compromise">
+        <h3>鍵の compromise</h3>
+        <p>
+          <strong>[=Originator=] の鍵。</strong>[=Originator Verification
+          Key=] に対応する [=Signing Key=] を握る攻撃者は、その鍵が現行のものでなくなるまで、
+          [=Originator=] の名前で [=Content Attestations=] に署名できる。
+          [=Core Profile Issuer=] は、その鍵を列挙するすべての
+          [=Originator Key Record=] からその鍵のレコードを取り除くことでそれを
+          終わらせる。ただし上記の検知の遅れを伴う。
+          <a href="#revocation-model"></a> が本来求める保持は、compromise された
+          鍵には適用されず、issuer は、その鍵で署名されたコンテンツが検証され
+          なくなることを受け入れる。
+        </p>
+        <p>
+          [=Originator=] 自身にも、[=Core Profile Issuer=] を通さない
+          手段が一つある。自らの zone で [=Originator Profile=] を持たないと
+          宣言することである (<a href="#originator-records"></a>)。これは粗い
+          手段である。すべてを止めてしまうからであり、また、zone が署名されて
+          いる [=Originator=] にしか使えず、[=Verifier=] がそのレコードを参照
+          するユースケースでしか使えない。それを持たない [=Originator=] は、
+          自らの [=Core Profile Issuer=] がどれだけ速く動くかに依存する。それは
+          本文書が定めないサービス水準である。この非対称性は本質的である。
+          issuer は署名の有効期間の終わりを自らの署名の内側に書き込むので、
+          [=Originator=] はそれを延ばすことができず、短く切り上げること
+          しかできない。
+        </p>
+        <p>
+          <strong>置き換えた鍵を残すこと。</strong>鍵を入れ替える
+          [=Originator=] は、置き換えた鍵を [=retired=]（退役した）鍵として保つか、
+          その [=Core Profile Issuer=] に取り下げてもらうかを選ばなければならない。保つ場合、その鍵のレコードは、その鍵を保持
+          する各 [=Core Profile=] の [=Originator Key Record=] に、その
+          [=Core Profile=] が期限切れになるか revoke されるまで残る
+          (<a href="#originator-key-records"></a>)。取り下げる場合、そのレコードを
+          すべての [=Originator Key Record=] からただちに取り除く。この選択は、ある性質を別の性質と
+          引き換えにするものである。保てば、その [=Core Profile=] が続く間、
+          その鍵で既に署名された [=Content Attestation=] がすべて検証可能な
+          ままになる。取り下げれば、その鍵の compromise が使われうる窓が
+          閉じる。
+        </p>
+        <p>
+          この窓は時とともに狭まらない。[=Content Attestation=]
+          がいつ署名されたかについて、[=Verifier=] は信頼できる説明を持たない
+          からである。attestation が保持する唯一の時刻は、その署名者が書いた
+          ものであり、<a href="#outcome"></a> はまさにその理由でそれを判断から
+          除いている。したがって、なお現行である鍵の [=Signing Key=] を握る
+          攻撃者は、古く見える attestation を作れる。そして枠組みの中に、それを、
+          その鍵が残された目的である本物の古いコンテンツと区別するものは無い。
+          よって、compromise されたと考えられる鍵は、どのコンテンツが検証され
+          なくなろうと、ただちに [=withdrawn=]（取り下げられる）となる。
+        </p>
+        <p>
+          置き換えた鍵の二つの扱い方、
+          すなわち退役させるか、新しい鍵でコンテンツに署名し直して置き換えた鍵を
+          取り下げるかのどちらがユースケースに合うかは、配送された後にコンテンツ
+          に署名し直せるかどうかによる。どちらを推奨するかは
+          [=Use Case Specification=] が述べる事柄である。
+        </p>
+        <p>
+          <strong>issuer の鍵。</strong>issuer の [=Issuer Key Record=] にある鍵の
+          compromise は、その鍵が署名したすべての文書に及ぶ。
+          [=Core Profile Issuer=] であればそのすべての [=Core Profile=]
+          （[=Root Issuer=] が発行したものを含む）に、
+          [=Profile Annotation Issuer=] であればそのすべての
+          [=Profile Annotation=] に及ぶ。[=Root Issuer=] または
+          [=Accreditation Body=] であれば、その鍵で署名したすべての
+          [=Issuer Accreditation=]、したがってそれらを通るすべての
+          [=Accreditation Chain=] にも及ぶ。これを封じ込める手段は、
+          X.509 における中間認証局の compromise に対するものと同じ形をしており、
+          3 つある。
+        </p>
+        <ol>
+          <li>当該 issuer が、自らの [=Issuer Key Record=] からその鍵を取り除く。
+            それで署名されたすべての署名は、その record set の time to live の
+            内側で <a href="#issuer-key-record"></a> の検査を通らなくなる。</li>
+          <li>侵害された issuer の [=Issuer Accreditation=] を発行した issuer、
+            すなわちその [=parent issuer=] が、その accreditation の
+            [=Revocation Record=] を公開する。
+            その issuer を通るすべての [=Accreditation Chain=] が通らなくなる。
+            <a href="#chain-verification"></a> が chain の最後の段だけでなく
+            各段の revocation を検査するのはこのためである。その検査が無ければ、
+            この手段は効力を持たない。</li>
+          <li>当該 issuer が、影響を受けるすべての文書を新しい鍵で発行し直し、
+            新しい文書が、[=Use Case Specification=] の定めるところにより
+            [=Verifiers=] に届く。</li>
+        </ol>
+        <p>
+          初めの二つは DNS のキャッシュの時間の内側で効力を持つ。三つめは
+          再配布にかかる時間だけかかり、それが完了するまで、影響を受けた
+          [=Originators=] は検証され得ない。issuer がどの期限までに動くか、
+          何を報告しなければならないかは、この枠組みのガバナンスの事柄であり、
+          ここには述べない。
+        </p>
+        <p>
+          <strong>[=Root Core Profile=]。</strong>[=Root Issuer=] には
+          [=parent issuer=] が無く、したがってその [=Root Core Profile=] には revoke
+          されうる accreditation も無い。その
+          compromise は、[=Verifiers=] が
+          受け入れる集合からそれを取り除くことで扱われる。取り除きは、検証
+          ソフトウェアが配布され更新される経路を通じて行われ、それは
+          [=Root Core Profile=] が届いた経路でもある
+          (<a href="#verifier-prerequisites"></a>)。これは、DNSSEC が自らの
+          root trust anchor に与える扱いであり、X.509 の root store が
+          compromise された root に与える扱いでもある。
+        </p>
+        <p>
+          [=Issuer Key Record=] からの鍵の除去は
+          [=Root Core Profile=] にも当てはまる。その [=Root Issuer=] も、他の issuer と
+          同じく [=Issuer Key Record=] を公開するからである。compromise された鍵を
+          そのレコードから取り除けば、その鍵で署名されたすべての文書が
+          DNS のキャッシュの時間の内側で通らなくなる。
+          その間に、[=Root Core Profile=] の置き換えが、検証ソフトウェアが配布される
+          経路を通じて進む。
+        </p>
+      </section>
+
+      <section id="security-pinning">
+        <h3>Pinning が何を守るか、そしてなぜ任意なのか</h3>
+        <p>
+          発行すべきでない [=Identity=] に対して [=Core Profile=] を発行した
+          [=Core Profile Issuer=] は、誤りによるのであれ、欺かれたのであれ、
+          compromise されたのであれ、その保持者に検証される profile を与えて
+          しまう。[=Issuer Pinning Record=] は、[=Originator=] が、自分に対して発行して
+          よい issuer はどれかを述べることを可能にする。これにより、他の
+          issuer からの profile は <a href="#originator-records"></a> で
+          通らなくなる。またこれは、[=Originator=] が自らの条件で issuer を
+          変えることを可能にし、否定の形では、[=Core Profile Issuer=] の助けなしに自らの profile
+          を止めることを可能にする。本文書は、これらのいずれも
+          [=Originator=] に求めていない。レコードが不在であれば、
+          [=Verifier=] は pin されていない道を進む。
+        </p>
+        <p>
+          それが任意でありうる理由は、これまでに定義されたユースケースでは、
+          コンテンツが、[=Core Profile Issuer=] の制御しない要素によって
+          その [=Originator=] に結びつけられているからである。
+          [=Presented Identity=] は配送チャネルから来るのであり、
+          [=Use Case Specification=] の結びつけの規則は、
+          [=Core Profile=] が何かの役に立つより前に、それを
+          [=Core Profile=] の保持する [=Identity=] と照合する。誤って発行された
+          [=Core Profile=] は、そのとき、被害者の identity の下でコンテンツを
+          提示することもできる攻撃者にしか役立たない。それは二つめの、独立した
+          破綻である。その要素が各ユースケースにおいて何であるか、それを issuer
+          から独立に保つものが何かは、当該 [=Use Case Specification=] が述べる。
+        </p>
+        <p>
+          この論理は、照合すべき [=Presented Identity=] が無い場面では成り立た
+          ない。archive から、オフラインで、あるいは添付から読まれるコンテンツ
+          や、manifest のようにコンテンツとともに運ばれる容れ物に入って、
+          その [=Originator=] 以外の場所から提示されるコンテンツである。
+          [=Originator Profile Bundle=] と attest されたコンテンツをそのように
+          運ぶこと自体は問題ではない。署名も DNS の検査
+          も、他のどこででもそうであるように働く。欠けているのは独立した
+          identity である。そのため、誤って発行された [=Core Profile=] に対する
+          唯一の守りは issuer の正しさになり、二つめの要素を取り戻すものが
+          pinning である。
+        </p>
+        <p>
+          したがって、そのような場面についての
+          [=Use Case Specification=] は、[=Issuer Pinning Record=] を求めて二つめの
+          要素を戻すか、一つだけで済ませるかのいずれかである。後者の場合、
+          <a href="#outcome"></a> は [=Verifier=] に、結びつけを検査しなかった
+          と報告させる。こうして、欠けているものが結論の中に埋もれるのではなく、
+          結論とともに運ばれる。pinning の他に、誤った発行に対する手立ては
+          issuer に課される手立てであり、この枠組みのガバナンスに属する。
+        </p>
+      </section>
+
+      <section id="security-elsewhere">
+        <h3>他の文書で述べる考慮事項</h3>
+        <p>
+          次に挙げるのは、この枠組みのセキュリティ上の考慮事項のうち、本文書が
+          論じないものである。それらは他の場所で決まるからである。
+        </p>
+        <ul>
+          <li>各 [=Use Case Specification=] において:
+            <ul>
+              <li>[=Originator Profile
+                Bundle=] と [=Content=] への結びつけがどう配送されるか、[=Presented Identity=] がどう得られ、どう結びつけられる
+                かの帰結。</li>
+              <li>当該チャネルが持つ他の署名層や転送層との相互作用、および
+                一方の層が保たれ他方が破れたときに何が起きるか。</li>
+              <li>[=Verifier=] が
+                どこに置かれ、そこで DNSSEC の validation をどう得るか。</li>
+              <li>そして、
+                結論を他の当事者から受け取った当事者が何に依拠してよいか。</li>
+            </ul>
+          </li>
+          <li>[[OPF-DNS]] において: OPKEY の応答の大きさ、レコードの移行期の
+            形式と、その代用が恒久化する危険、および DNSSEC の不在証明を通じた
+            issuer の [=Originator Key Records=] の列挙。</li>
+          <li>この枠組みの運用文書とガバナンス文書において:
+            <ul>
+              <li>issuer の zone と
+                provisioning インタフェースの保護、</li>
+              <li>そのサーバの可用性、</li>
+              <li>compromise
+                の際の期限と報告義務、</li>
+              <li>その zone のキャッシュと署名のパラメータ、</li>
+              <li>誤った発行に対する手立て、</li>
+              <li>そして [=Issuer Accreditation=] の失効に
+                issuer 自身の登録の終わりが伴うこと。
+                <a href="#chain-verification"></a> は issuer の
+                [=Originator Key Records=] を参照しないことで、これに依っている。</li>
+            </ul>
+          </li>
+        </ul>
+      </section>
+    </section>
+
+    <section id="privacy-considerations" class="informative">
+      <h2>プライバシーに関する考慮事項</h2>
+      <p>
+        本文書の手続きが他の当事者に届くのは一つの道だけである。
+        <a href="#procedure"></a> の DNS の問い合わせである。本節は、それらの
+        問い合わせが誰に何を明かすか、そしてそれを抑えるために本仕様が何をして
+        いるかを述べる。本節は何の要求も述べない。ある当事者が、知り得たもの
+        をどう扱うかは、この枠組みのガバナンスの事柄である。また、どの
+        メッセージがいつ読まれたかのような、ユースケースが付け加えるものは
+        [=Use Case Specification=] の事柄である
+        (<a href="#use-case-interface"></a>)。
+      </p>
+
+      <section id="privacy-what-the-queries-reveal">
+        <h3>問い合わせが誰に何を明かすか</h3>
+        <p>
+          [=Verifier=] が送るすべての問い合わせは、それが用いる resolver に
+          見える。どの DNS の問い合わせもそうであるのと同じである。その
+          resolver に見えるのは <a href="#namespace"></a> の名前である。
+          すなわち、どの issuer の [=Issuer Key Records=] か、その
+          [=Originator Key Records=] と [=Revocation Records=] のどれか、
+          そして、ユースケースが
+          それらを参照する場合は、どの [=Originator=] のレコードか、である。
+          これは、[=Recipient=] が名前解決するすべての名前について自らの
+          resolver に対して負っている露出であり、同じ手立てが当てはまる。
+          [=Recipient=] が自ら選んで信頼する resolver、そこへの暗号化された
+          転送、そして resolver 側での query name minimisation である。本文書が
+          この経路に新しい当事者を加えることはない。加わるのは issuer から
+          見えるものであり、それを次に述べる。
+        </p>
+        <p>
+          issuer の権威サーバに届くのは、resolver が転送するものである。
+          すなわち、resolver ごとに集約され、キャッシュによって減らされた
+          問い合わせであり、その名前の [=record label=] は不透明である。
+        </p>
+        <p>
+          したがって
+          [=Core Profile Issuer=] は、ある [=Originator=] の profile の検証が
+          何らか行われていることを、resolver と time to live の粒度で知り得る。
+          その label を割り当てたのは issuer であり、それがどの [=Originator=]
+          を表すかを知っているからである。しかし、どの [=Verifier=] が、どの
+          [=Recipient=] が問うたかは知り得ない。問い合わせは resolver から
+          来るからである。[=Profile Annotation Issuer=] も、自らの annotation
+          について同じことを知る。[=Accreditation Chain=] のための問い合わせが、
+          その途中の issuer に伝えるのは、chain の始まる issuer の何らかの文書が検証
+          された、ということだけである。chain は、その issuer の署名する
+          すべての文書について同じであり、また、すべての中で最もよくキャッシュ
+          されるからである。
+        </p>
+        <p>
+          resolver と権威サーバの間の経路上の観測者に見えるのは、issuer の名前
+          と不透明な [=record label=] である。その issuer のレコードの一つが検査されて
+          いることは分かるが、それがどの [=Originator=] のものかは分からない。
+          label が不透明であるのは、
+          まさに [=Originator=] が問い合わせの名前に書かれないようにするため
+          である。この守りは経路上の観測者に対するものであって、label を
+          割り当てた issuer に対するものではない。[=Originator=] 自身の
+          レコードへの問い合わせは例外である。それらは [=Originator=] の
+          [=Identity=] を、[=Permitted Host Record=] への問い合わせはさらに host
+          を、名前に含む。したがって、ユースケースがそれらのレコードを参照
+          する場合、経路上の観測者は、どの [=Originator=] のコンテンツが検証
+          されているかを知る。
+        </p>
+        <p>
+          [=Originator=] は、issuer のレコードへの問い合わせから何も知らない。
+          そのいずれも自らの zone へは行かないからである。
+          [=Use Case Specification=] が [=Verifier=] に [=Originator=] 自身の
+          zone のレコードを参照させる場合、その zone のサーバに見えるのは、
+          issuer のサーバに見えるのと同じ、resolver の粒度で集約された
+          それらの問い合わせであり、それ以上ではない。[=Verifier=] が
+          [=Originator=] に対して特定されることもない。これは意図された性質で
+          ある。設計は、[=Verifier=] が [=Originator=] から HTTPS で何かを
+          取得する形を退けた。それは、各 [=Recipient=] を、そのコンテンツを
+          読んでいる当の [=Originator=] に見せてしまうものだったからである。
+        </p>
+      </section>
+
+      <section id="privacy-what-cannot-be-asked">
+        <h3>DNS に問えないこと</h3>
+        <p>
+          レコードの名前は文書によって運ばれるのであって [=Identity=] から導かれる
+          ことは決してないので、[=Core Profile=] を持たない当事者は、ある
+          [=Originator=] が登録されているか、どの issuer に登録されているかを
+          DNS に問うことができない。また [=Profile Annotation=] を持たない
+          当事者は、それが revoke されたかどうかを問うことができない。issuer の
+          zone を、その不在証明のレコードを辿って歩いて得られるのは、不透明な
+          [=record label=] と鍵の digest であって、その issuer の [=Originators=] の一覧
+          ではない。
+        </p>
+        <p>
+          同じ性質から、[=Verifier=] は、与えられていない文書に
+          ついて問い合わせを発せず、<a href="#ordering-and-parallelism"></a> に
+          より、署名を検証していない文書についても発しない。偽造した文書を
+          提示した当事者は、それが調べられたかどうかを DNS から何も知り得ない。
+        </p>
+        <p>
+          その代償は、第三者が issuer の登録を DNS だけから監査できないこと
+          である。issuer が自らの変更の履歴を公開するかどうか、どう公開するかは、
+          この枠組みのガバナンスの事柄である。
+        </p>
+      </section>
+
+      <section id="privacy-logs">
+        <h3>問い合わせのログ</h3>
+        <p>
+          問い合わせを見る当事者、すなわち resolver と issuer の権威サーバは、
+          それらを記録しうる。何をどれだけの期間保持し、誰がそれを見てよいかは、
+          それらの当事者に課される義務であって、本文書は述べない。issuer に
+          ついては、この枠組みのガバナンスの事柄である。この手続きがそのような
+          ログに残すものは、resolver のアドレス、issuer の名前、不透明な
+          [=record label=]、そして時刻である。
+        </p>
+      </section>
+    </section>
+
+    <section id="registrations" class="informative">
+      <h2>IANA Considerations</h2>
+      <p>
+        本文書は自らの登録を何も要請しない。本文書が依存するレコード型と
+        アンダースコア付きの名前は、表のとおり [[OPF-DNS]] が要請する。文書の
+        配送の形が独自の登録（メッセージのパートのメディア型など）を要する
+        [=Use Case Specification=] は、その登録を自身で要請する。
+      </p>
+      <table class="simple">
+        <thead>
+          <tr>
+            <th>登録の対象</th><th>レジストリ</th><th>要請する文書</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>OPKEY のレコード型。[=Issuer Key Record=]
+              (<a href="#issuer-key-record"></a>) と [=Originator Key Record=]
+              (<a href="#originator-key-records"></a>) がこれで公開される</td>
+            <td>Resource Record (RR) TYPEs, in the Domain Name System (DNS)
+              Parameters registry</td>
+            <td>[[OPF-DNS]]</td>
+          </tr>
+          <tr>
+            <td>アンダースコア付きの名前 <code>_op</code>。
+              <a href="#namespace"></a> のすべての名前がこの下に置かれる。
+              OPKEY、SVCB、TXT の各レコード型について</td>
+            <td>Underscored and Globally Scoped DNS Node Names
+              [[?RFC8552]]</td>
+            <td>[[OPF-DNS]]</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+        label <code>_issuer-key</code>、<code>_originator-key</code>、<code>_revocation</code>、
+        <code>_site</code> は <code>_op</code> の下に現れるが、登録されない。
+        上に挙げたレジストリが保持するのは globally scoped な名前であり、その
+        下に何が置かれるかは、その名前空間を定義する文書が定義する
+        (<a href="#namespace"></a>)。本文書は
+        <a href="#originator-records"></a> の SVCB の record set について
+        service parameter を定義しないので、それらのパラメータのレジストリに
+        何の項目も求めない。
+      </p>
+    </section>
+
+    <section id="examples" class="appendix informative">
+      <h2>例</h2>
+      <p>
+        この附属書は、一つの通した例を与える。[=Originator=]、
+        [=Core Profile Issuer=]、二つの [=Profile Annotation Issuers=] の
+        zone の内容、[=Originator Profile Bundle=] の文書と
+        [=Content Attestation=] が何を保持するか、そして
+        <a href="#procedure"></a> の各段取りにおける問い合わせとその結果で
+        ある。名前、[=record label=]、digest は架空のものであり、digest は
+        短くしてある。[=record label=] は UUID で書く。たとえば
+        <code>7f3e1c2a-9b4d-4e8f-a1c5-2d6b8e0f4a91._originator-key._op.cp-issuer.example</code>
+        という名前では、<a href="#namespace"></a> が
+        <code>&lt;record-label&gt;</code> と書く位置に UUID が入っている。ここには、本文書の本体が規定すること以上のものは無い。
+      </p>
+
+      <section id="examples-parties">
+        <h3>当事者</h3>
+        <table class="simple">
+          <thead>
+            <tr><th>役割</th><th>Identity</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>[=Originator=]</td><td><code>news-publisher.example</code></td>
+            </tr>
+            <tr>
+              <td>[=Core Profile Issuer=]</td>
+              <td><code>cp-issuer.example</code></td>
+            </tr>
+            <tr>
+              <td>[=Profile Annotation Issuer=] 1、業界団体</td>
+              <td><code>press-assoc.example</code></td>
+            </tr>
+            <tr>
+              <td>[=Profile Annotation Issuer=] 2、ファクトチェックの
+                組織</td>
+              <td><code>factcheck.example</code></td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          この [=Originator=] は、一つの [=Originator Verification Key=] を
+          保持する [=Core Profile=] を一つ持つ。また、二つの
+          [=Profile Annotation Issuers=] のそれぞれから
+          [=Profile Annotation=] を一つずつ持つ。
+          <code>factcheck.example</code> が発行したものは期限切れの前に revoke
+          されており、もう一方はされていない。
+        </p>
+      </section>
+
+      <section id="examples-originator-zone">
+        <h3>Originator の zone</h3>
+        <p>
+          この [=Originator=] は、自分に対して発行してよい
+          [=Core Profile Issuers=] を名指す
+          <a href="#originator-records"></a> のレコードを公開している。この
+          zone は署名されている。署名されていなければ、このレコードは効力を
+          持たない。
+        </p>
+        <pre class="example" title="news-publisher.example">
+; optional: this Originator names one permitted Core Profile Issuer
+_op.news-publisher.example.   3600  IN  SVCB  1 cp-issuer.example.
+</pre>
+        <p>
+          この例に [=Permitted Host Record=] は現れない。コンテンツは [=Identity=]
+          そのものの配下の host の下で提示されているからである。別のドメインの
+          host の下でコンテンツが提示される [=Originator=] であれば、その host
+          について <code>&lt;host&gt;._site._op.news-publisher.example</code> に
+          <code>v=op1</code> を保持する TXT の record set を公開することに
+          なる (<a href="#originator-records"></a>)。
+        </p>
+      </section>
+
+      <section id="examples-cp-issuer-zone">
+        <h3>Core Profile Issuer の zone</h3>
+        <p>
+          この zone は、当該 issuer の [=Issuer Key Record=] と、それとは別の
+          名前でこの [=Originator=] の [=Core Profile=] の
+          [=Originator Key Record=] を保持する。OPKEY
+          レコードのフィールド、およびその中で [=Key Identifier=] が保持される
+          形式は [[OPF-DNS]] が定義する。TLSA の record set は
+          <a href="#transitional-publication"></a> の移行期の形式であり、
+          type value が割り当てられるまでの間だけ公開される。
+        </p>
+        <pre class="example" title="cp-issuer.example">
+; the Issuer Key Record: the key with which this issuer signs
+_issuer-key._op.cp-issuer.example.   3600  IN  OPKEY  3 1 1 ( c9d1...cip-key-spki-sha256...02 )
+_issuer-key._op.cp-issuer.example.   3600  IN  TLSA   3 1 1 ( c9d1...cip-key-spki-sha256...02 )   ; transitional
+
+; the Originator Key Record of the Core Profile of news-publisher.example, one record per current key
+; (the leftmost label, a UUID, is the record label)
+7f3e1c2a-9b4d-4e8f-a1c5-2d6b8e0f4a91._originator-key._op.cp-issuer.example.   3600  IN  OPKEY  3 1 1 ( 1f3a...key1-spki-sha256...9c )
+7f3e1c2a-9b4d-4e8f-a1c5-2d6b8e0f4a91._originator-key._op.cp-issuer.example.   3600  IN  TLSA   3 1 1 ( 1f3a...key1-spki-sha256...9c )   ; transitional
+</pre>
+        <p>
+          [=record label=] <code>7f3e1c2a-9b4d-4e8f-a1c5-2d6b8e0f4a91</code> は
+          不透明であり、issuer が選んだものである。
+          [=Verifier=] は名前の全体を [=Core Profile=] から取り、それが
+          <code>_originator-key._op.cp-issuer.example</code> の配下にあることだけを
+          検査する (<a href="#record-names"></a>)。レコードを複数の zone に
+          分ける issuer は両者の間に label を挟むので、同じレコードが代わりに
+          <code>7f3e1c2a-9b4d-4e8f-a1c5-2d6b8e0f4a91.7f._originator-key._op.cp-issuer.example</code>
+          に置かれることもありうる。[=Verifier=] はどちらの場合も同じことを
+          する。
+        </p>
+      </section>
+
+      <section id="examples-pa-issuer-zones">
+        <h3>Profile Annotation Issuer の zone</h3>
+        <p>
+          各 [=Profile Annotation Issuer=] は、[=Core Profile Issuer=] と同じ
+          種類の名前で自らの [=Issuer Key Record=] を公開する。
+          <code>_revocation</code> の下にレコードを持つのは revoke された
+          annotation だけなので、何も revoke していない issuer の zone には
+          そのレコードが無い。
+        </p>
+        <pre class="example" title="press-assoc.example and factcheck.example">
+; press-assoc.example: nothing revoked, so no record below _revocation
+_issuer-key._op.press-assoc.example.   3600  IN  OPKEY  3 1 1 ( 55ae...pa1-key-spki-sha256...71 )
+
+; factcheck.example: one annotation revoked before its expiry (record label 3a9f6d1e-...-e6d7)
+_issuer-key._op.factcheck.example.     3600  IN  OPKEY  3 1 1 ( 8c40...pa2-key-spki-sha256...d3 )
+3a9f6d1e-5c2b-4a7e-9e0d-b4f1c8a2e6d7._revocation._op.factcheck.example.   600  IN  TXT  "v=op1; revoked=2026-11-15T09:30:00Z"
+</pre>
+        <p>
+          このレコードの内容は <a href="#revocation-records"></a> が定義する
+          形式である。すなわち版と revocation の時刻である。[=Verifier=] は
+          record set の存在だけで判断するので、上の値は手続きの何も変えない。
+          それがそこにあるのは、zone を読む運用者のためであり、その時刻を
+          必要としうる後の用途のためである。
+        </p>
+      </section>
+
+      <section id="examples-documents">
+        <h3>文書が何を保持するか</h3>
+        <p>
+          [=Originator Profile Bundle=] と [=Content Attestation=] は
+          次のものを保持する。各プロパティは、ある直列化に
+          おける名前によってではなく、それが何を保持するかによって記述して
+          ある (<a href="#common-properties"></a>)。
+        </p>
+        <table class="simple">
+          <thead>
+            <tr><th>文書</th><th>ここで保持するもの</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>[=Core Profile=]</td>
+              <td>issuer は <code>dns:cp-issuer.example</code>、subject は
+                <code>dns:news-publisher.example</code>。一つの
+                [=Originator Verification Key=]。その
+                [=Key Identifier=] は
+                <code>1f3a&hellip;9c</code>。[=Originator Key Record Name=] は
+                <code>7f3e1c2a-9b4d-4e8f-a1c5-2d6b8e0f4a91._originator-key._op.cp-issuer.example</code>。
+                そして署名の有効期間</td>
+            </tr>
+            <tr>
+              <td>[=Profile Annotation=] 1</td>
+              <td>issuer は <code>dns:press-assoc.example</code>、subject は
+                <code>dns:news-publisher.example</code>。[=Revocation Record Name=]
+                は
+                <code>b2c4e8a0-1d3f-4b6c-8e9a-5f7d2c1b0a94._revocation._op.press-assoc.example</code>。
+                この発行の識別子。そして [=Core Profile=] の署名の有効期間の
+                内側にある署名の有効期間</td>
+            </tr>
+            <tr>
+              <td>[=Profile Annotation=] 2</td>
+              <td>上と同じ。ただし issuer は
+                <code>dns:factcheck.example</code>、
+                [=Revocation Record Name=] は
+                <code>3a9f6d1e-5c2b-4a7e-9e0d-b4f1c8a2e6d7._revocation._op.factcheck.example</code></td>
+            </tr>
+            <tr>
+              <td>[=Content Attestation=]</td>
+              <td>issuer は <code>dns:news-publisher.example</code>。それに署名した
+                鍵の [=Key Identifier=] は
+                <code>1f3a&hellip;9c</code>。そして、
+                [=Use Case Specification=] が定義するとおりの、それが覆う
+                対象</td>
+            </tr>
+            <tr>
+              <td>三つの [=Accreditation Chains=]</td>
+              <td>三者の issuer のそれぞれについて、自らの
+                [=Core Profile=] と [=Issuer Accreditation=]、および
+                root の側の各 issuer のそれら。[=Root Core Profile=] に至るまで</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="examples-procedure">
+        <h3>手続きの各段取り</h3>
+        <p>
+          段取りは <a href="#procedure"></a> のものであり、そこで番号が付けられ
+          ている順に並べてある。
+        </p>
+        <table class="simple">
+          <thead>
+            <tr>
+              <th>段取り</th><th>問い合わせ</th><th>ここでの結果</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1 入力を取る</td>
+              <td>無し</td>
+              <td>[=Originator Profile Bundle=] と [=Content Attestation=]
+                は手元にあり、[=Presented Identity=] は、
+                コンテンツが提示された host、すなわち
+                <code>www.news-publisher.example</code> である</td>
+            </tr>
+            <tr>
+              <td>2 chain をローカルに検証する</td>
+              <td>無し</td>
+              <td>三つの chain はいずれも、[=Verifier=] が受け入れる
+                [=Root Core Profile=] まで検証される。これが成功するまで、文書が
+                保持するどの名前についても問い合わせは発しない</td>
+            </tr>
+            <tr>
+              <td>3 identity を結びつける</td>
+              <td>この例では問い合わせ無し</td>
+              <td>host が [=Core Profile=] の保持する [=Identity=] の配下に
+                あるので、[=Use Case Specification=] の規則は問い合わせなしに
+                満たされる。別のドメインの host であれば
+                <code>&lt;host&gt;._site._op.news-publisher.example</code> で検査
+                される</td>
+            </tr>
+            <tr>
+              <td>4 [=Issuer Pinning Record=] を参照する</td>
+              <td><code>_op.news-publisher.example</code> SVCB</td>
+              <td><code>ServiceMode</code> の <span class="dns-state">Secure</span> な応答であり、その <code>TargetName</code>
+                <code>cp-issuer.example</code> は [=Core Profile=] の
+                issuer である。この [=Originator=] は pin されている。
+                <span class="dns-state">Secure</span> な不在の証明、または <span class="dns-state">Insecure</span> な応答であれば pin されて
+                いないことになり、検証は続く。名前解決の失敗であれば検証は
+                終わる</td>
+            </tr>
+            <tr>
+              <td>5 [=Core Profile=] を検査する</td>
+              <td><code>_issuer-key._op.cp-issuer.example</code> OPKEY</td>
+              <td>署名は、当該 issuer 自身の [=Core Profile=] が保持する鍵で
+                検証され、[=Core Profile=] は署名の有効期間の内側にあり、その鍵の
+                [=Key Identifier=] <code>c9d1&hellip;02</code> は
+                [=Issuer Key Record=] にある</td>
+            </tr>
+            <tr>
+              <td>6 [=Originator Key Record=] を検査する</td>
+              <td><code>7f3e1c2a-&hellip;-4a91._originator-key._op.cp-issuer.example</code>
+                OPKEY</td>
+              <td>この名前は当該 issuer の Originator Key Record node の配下にあり、
+                record set は存在して
+                <code>1f3a&hellip;9c</code> を保持している。その
+                [=Core Profile=] は revoke されておらず、その鍵は現行のもので
+                ある</td>
+            </tr>
+            <tr>
+              <td>7 [=Content Attestation=] を検証する</td>
+              <td>無し</td>
+              <td>attestation が名指す [=Key Identifier=]
+                <code>1f3a&hellip;9c</code> の [=Core Profile=] の鍵で署名が
+                検証され、その [=Key Identifier=] は [=Originator Key Record=] に
+                ある</td>
+            </tr>
+            <tr>
+              <td>8 各 [=Profile Annotation=] を検査する</td>
+              <td><code>_issuer-key._op.press-assoc.example</code> OPKEY と
+                <code>b2c4e8a0-&hellip;-0a94._revocation._op.press-assoc.example</code>
+                TXT。<code>_issuer-key._op.factcheck.example</code> OPKEY と
+                <code>3a9f6d1e-&hellip;-e6d7._revocation._op.factcheck.example</code>
+                TXT</td>
+              <td>どちらの annotation も [=Core Profile=] の保持する [=Identity=]
+                を名指し、どちらの署名も検証され、それらに署名した鍵はそれぞれの
+                issuer の [=Issuer Key Records=] にあり、どちらも署名の有効期間の内側に
+                ある。<code>_revocation</code> の下の一つめの名前は <span class="dns-state">Secure</span> な
+                不在の証明を返すので、その annotation は有効である。二つめは
+                record set を返すので、その annotation は有効でない。どちらも
+                検証を失敗させない</td>
+            </tr>
+            <tr>
+              <td>9 結論を導く</td>
+              <td>無し</td>
+              <td>[=Content Attestation=] は検証された。対象は
+                [=Originator=] <code>news-publisher.example</code> であり、それは
+                pin されていた。<code>press-assoc.example</code> の annotation
+                は有効であり、<code>factcheck.example</code> のそれは有効で
+                ない。検査の新しさは上記の応答のそれである</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          三つの [=Accreditation Chains=] のための問い合わせを別にすると、この
+          検証が発する問い合わせは、<a href="#ordering-and-parallelism"></a>
+          の note のとおりに数えて 7 つである。[=Issuer Pinning Record=] に
+          1 つ、[=Core Profile Issuer=] に 2 つ、各
+          [=Profile Annotation Issuer=] に 1 つずつ、各
+          [=Profile Annotation=] に 1 つずつである。[=Permitted Host Record=]
+          を参照する場合は、さらに 1 つ加わる。段取り 5 の問い合わせは
+          [=Core Profile Issuer=] についての段取り 2 の後に続く。段取り 4 と 6
+          の問い合わせは、それに加えて [=Core Profile=] の署名の検証の後に、
+          段取り 8 の問い合わせは各 annotation の署名の検証の後に続く。それらの
+          署名を検証し終えたら、問い合わせは互いを待たず、まとめて発してよい。
+          段取り 7 は問い合わせを発さず、この例では段取り 3 も発しない
+          (<a href="#ordering-and-parallelism"></a>)。
+        </p>
+      </section>
+    </section>
+
+
+
+  </body>
+</html>
