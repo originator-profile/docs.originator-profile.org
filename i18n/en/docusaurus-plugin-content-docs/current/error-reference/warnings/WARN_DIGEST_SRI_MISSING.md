@@ -1,6 +1,6 @@
 ---
 sidebar_position: 3
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/8c83e24/docs/error-reference/op-inspector-debugger/warnings/WARN_DIGEST_SRI_MISSING.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/710d107/docs/error-reference/warnings/WARN_DIGEST_SRI_MISSING.md
 tags:
   - Error Reference
   - Base Model
@@ -9,25 +9,25 @@ slug: /error-reference/WARN_DIGEST_SRI_MISSING
 
 # WARN_DIGEST_SRI_MISSING
 
-## 警告コード: WARN_DIGEST_SRI_MISSING
+## Warning Code: WARN_DIGEST_SRI_MISSING
 
-[`image` データ型](../../opb/context.md#the-image-datatype)のプロパティに `digestSRI` が設定されていない場合に通知されます。検証の失敗としては扱われませんが、2027 年以降はエラーになる予定です。
+This warning is reported when `digestSRI` is not set on a property of the [`image` datatype](../../opb/context.md#the-image-datatype). It is not treated as a verification failure, but it is planned to become an error after 2027.
 
-## 警告メッセージ
+## Warning Message
 
 - "digestSRI is missing. This will become an error after 2027. See: https://docs.originator-profile.org/opb/context/#the-image-datatype"
 
-## 警告の原因
+## Causes
 
-- 次のいずれかの `image` データ型のプロパティに `digestSRI` が設定されていません。
-  - Web メディアの `logo`
-  - Profile Annotation の `image`
-  - Site Profile の `image`
-  - Content Attestation の `image`
+- `digestSRI` is not set on one of the following properties of the `image` datatype:
+  - `logo` of a Web media
+  - `image` of a Profile Annotation
+  - `image` of a Site Profile
+  - `image` of a Content Attestation
 
-## 例
+## Examples
 
-- `image` に `id` のみが設定されている。
+- Only `id` is set in `image`.
 
 ```json
 {
@@ -37,9 +37,9 @@ slug: /error-reference/WARN_DIGEST_SRI_MISSING
 }
 ```
 
-## 解決策
+## Resolution
 
-- `digestSRI` に画像の完全性を保証するハッシュ値を設定してください。
+- Set `digestSRI` to a hash value that ensures the integrity of the image.
 
 ```json
 {
@@ -50,9 +50,9 @@ slug: /error-reference/WARN_DIGEST_SRI_MISSING
 }
 ```
 
-より詳しくは [`image` データ型](../../opb/context.md#the-image-datatype)にて確認することができます。
+Additional details can be found in [`image` datatype](../../opb/context.md#the-image-datatype).
 
-## 関連情報
+## Related Information
 
-- [`image` データ型](../../opb/context.md#the-image-datatype)
+- [`image` datatype](../../opb/context.md#the-image-datatype)
 - [`WARN_DIGEST_SRI_INVALID`](./WARN_DIGEST_SRI_INVALID.md)

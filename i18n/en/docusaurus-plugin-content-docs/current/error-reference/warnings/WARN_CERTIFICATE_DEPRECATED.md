@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/ca6a115/docs/error-reference/op-inspector-debugger/warnings/WARN_CERTIFICATE_DEPRECATED.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/710d107/docs/error-reference/warnings/WARN_CERTIFICATE_DEPRECATED.md
 tags:
   - Error Reference
   - Profile Annotation
@@ -9,23 +9,23 @@ slug: /error-reference/WARN_CERTIFICATE_DEPRECATED
 
 # WARN_CERTIFICATE_DEPRECATED
 
-## 警告コード: WARN_CERTIFICATE_DEPRECATED
+## Warning Code: WARN_CERTIFICATE_DEPRECATED
 
-非推奨の [Certificate](../../opb/certificate.md) 形式の Profile Annotation を検出した場合に通知されます。検証の失敗としては扱われません。
+This warning is reported when a Profile Annotation in the deprecated [Certificate](../../opb/certificate.md) format is detected. It is not treated as a verification failure.
 
-## 警告メッセージ
+## Warning Message
 
 - "Certificate is deprecated (OP[`i`].PA[`j`])"
 
-`i` は Originator Profile Set 内の OP の位置、`j` はその OP に含まれる PA の位置を表します。
+`i` indicates the position of the OP within the Originator Profile Set, and `j` indicates the position of the PA within that OP.
 
-## 警告の原因
+## Causes
 
-- Profile Annotation の `type` に `ProfileAnnotation` が含まれていません。旧形式の Certificate（`type` が `["VerifiableCredential", "Certificate"]`）で発行されている可能性があります。
+- The `type` of the Profile Annotation does not include `ProfileAnnotation`. It may have been issued in the legacy Certificate format (where `type` is `["VerifiableCredential", "Certificate"]`).
 
-## 例
+## Examples
 
-- `type` が `["VerifiableCredential", "Certificate"]` になっている。
+- `type` is set to `["VerifiableCredential", "Certificate"]`.
 
 ```json
 {
@@ -43,18 +43,18 @@ slug: /error-reference/WARN_CERTIFICATE_DEPRECATED
     "certificationSystem": {
       "id": "urn:uuid:14270f8f-9f1c-4f89-9fa4-8c93767a8404",
       "type": "CertificationSystem",
-      "name": "<認証制度名>"
+      "name": "<Certification system name>"
     }
   }
 }
 ```
 
-## 解決策
+## Resolution
 
-- 2027-01-01 以降、Certificate は検証できなくなります。それまでに [Profile Annotation](../../opb/pa.md) を発行するよう変更してください。
-  Certificate の仕様は [Certificate](../../opb/certificate.md) にて確認することができます。
+- Certificates can no longer be verified on or after 2027-01-01. Before then, switch to issuing a [Profile Annotation](../../opb/pa.md).
+  The Certificate specification can be found in [Certificate](../../opb/certificate.md).
 
-## 関連情報
+## Related Information
 
 - [`Certificate`](../../opb/certificate.md)
 - [`Profile Annotation`](../../opb/pa.md)

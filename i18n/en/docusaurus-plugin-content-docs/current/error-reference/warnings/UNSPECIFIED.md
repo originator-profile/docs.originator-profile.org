@@ -1,6 +1,6 @@
 ---
 sidebar_position: 6
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/ca6a115/docs/error-reference/op-inspector-debugger/warnings/UNSPECIFIED.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/710d107/docs/error-reference/warnings/UNSPECIFIED.md
 tags:
   - Error Reference
 slug: /error-reference/UNSPECIFIED
@@ -8,25 +8,25 @@ slug: /error-reference/UNSPECIFIED
 
 # UNSPECIFIED
 
-## コード: UNSPECIFIED
+## Code: UNSPECIFIED
 
-種類が特定されていない通知やエラーに割り当てられるコードです。
+This code is assigned to notifications and errors whose type is not specified.
 
-## メッセージ
+## Message
 
-通知の内容によって異なります。メッセージを確認してください。
+The message varies depending on the content of the notification. Check the message.
 
-## 発生する状況
+## When It Occurs
 
-- 構造化された詳細を伴わない警告・情報が通知された場合。
-- エラーオブジェクトに `code` (`ERR_*`) が設定されていない場合。
-- エラー以外の値が例外として投げられた場合。
+- When a warning or information is reported without structured details.
+- When `code` (`ERR_*`) is not set on the error object.
+- When a value other than an error is thrown as an exception.
 
-## 解決策
+## Resolution
 
-- `UNSPECIFIED` 自体には固有の原因や解決策はありません。表示されているメッセージや詳細、位置を手がかりに原因を確認してください。
-- [エラーコード一覧](../index.mdx)に該当するエラーコードがないか確認してください。
+- `UNSPECIFIED` itself has no specific cause or resolution. Use the displayed message, details, and location as clues to identify the cause.
+- Check whether a matching error code exists in the [Error Code List](../index.mdx).
 
-## 関連情報
+## Related Information
 
-- [エラーコード一覧](../index.mdx)
+- [Error Code List](../index.mdx)
