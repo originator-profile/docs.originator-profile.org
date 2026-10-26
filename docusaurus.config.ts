@@ -154,6 +154,18 @@ export default {
               label: "Architectural Overview",
               href: "https://github.com/originator-profile/doc-opf-architectural-overview",
             },
+            {
+              label: "Core Specification",
+              href: "https://github.com/originator-profile/doc-opf-core-specification",
+            },
+            {
+              label: "Web Media Use Case Specification",
+              href: "https://github.com/originator-profile/doc-opf-web-media",
+            },
+            {
+              label: "Email Use Case Specification",
+              href: "https://github.com/originator-profile/doc-opf-email",
+            },
           ],
         },
         ...footerLinks,
