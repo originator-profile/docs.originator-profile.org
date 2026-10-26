@@ -1,0 +1,3481 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <title>Originator Profile Framework &mdash; Web Media Use Case Specification v0.2 (Public Draft)</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <script
+      src="https://www.w3.org/Tools/respec/respec-w3c"
+      class="remove"
+    ></script>
+    <script type="text/javascript" class="remove">
+      var respecConfig = {
+        latestVersion: null,
+        edDraftURI: "https://docs.originator-profile.org/ja/web-media/",
+        shortName: "op-web-media",
+        publishDate: "2026-10-27",
+        github: "https://github.com/originator-profile/doc-opf-web-media",
+        lang: "ja",
+
+        editors: [ {
+          name: "Shigeya Suzuki",
+          company: "Originator Profile Collaborative Innovation Partnership, Keio University"
+        }],
+
+        authors: [ {
+          name: "Shigeya Suzuki",
+          company: "Originator Profile Collaborative Innovation Partnership, Keio University"
+        }],
+
+        maxTocLevel: 4,
+
+        postProcess: [
+          function setTabTitle() {
+            document.title = "[JA] " + document.title.replace(/^Originator Profile Framework — /, "") + " — Originator Profile Framework";
+          },
+          function fixReferenceIds() {
+            const ids = { "規範的参考文献": "normative-references", "参照用参考文献": "informative-references" };
+            const label = (el) => el.textContent.replace(/^\s*[A-Z](\.\d+)*\s*/, "").trim();
+            for (const sec of document.querySelectorAll('section[id="generatedID"]')) {
+              const h = sec.querySelector("h1, h2, h3, h4, h5, h6");
+              const id = h && ids[label(h)];
+              if (id && !document.getElementById(id)) sec.id = id;
+            }
+            for (const a of document.querySelectorAll('a[href="#generatedID"]')) {
+              const host = a.closest("section");
+              const id = a.classList.contains("self-link") && host && host.id !== "generatedID" ? host.id : ids[label(a)];
+              if (id) a.setAttribute("href", "#" + id);
+            }
+          },
+        ],
+
+        localBiblio: {
+          "OPF-AOV": {
+            title: "Originator Profile Framework — Architectural Overview",
+            href: "https://docs.originator-profile.org/aov/",
+            publisher: "Originator Profile Collaborative Innovation Partnership"
+          },
+          "OPF-CORE": {
+            title: "Originator Profile Framework — Core Specification",
+            href: "https://docs.originator-profile.org/core/",
+            publisher: "Originator Profile Collaborative Innovation Partnership"
+          },
+          "OPF-EMAIL": {
+            title: "Originator Profile Framework — Email Use Case Specification",
+            href: "https://docs.originator-profile.org/email/",
+            publisher: "Originator Profile Collaborative Innovation Partnership"
+          },
+          "OPF-GOV": {
+            title: "Originator Profile Framework — Operational Governance Requirements",
+            publisher: "Originator Profile Collaborative Innovation Partnership",
+            status: "Not yet published"
+          },
+          "OPF-OPS": {
+            title: "Originator Profile Framework — Operations",
+            publisher: "Originator Profile Collaborative Innovation Partnership",
+            status: "Not yet published"
+          },
+          "OPF-WEB-AD": {
+            title: "Originator Profile Framework — Web Advertisement Use Case Specification",
+            publisher: "Originator Profile Collaborative Innovation Partnership",
+            status: "Not yet published"
+          },
+          "OPF-DNS": {
+            title: "Using Secure DNS for Originator Profile",
+            href: "https://datatracker.ietf.org/doc/draft-shigeya-dns-opkey/",
+            date: "2026-10-23",
+            status: "Individual Internet-Draft, work in progress"
+          },
+          "Originator Profile Blueprints": {
+            title: "Originator Profile Blueprints",
+            href: "https://docs.originator-profile.org/en/opb/",
+            publisher: "Originator Profile Collaborative Innovation Partnership"
+          },
+          "The Originator Profile Charter": {
+            title: "The Originator Profile Charter",
+            href: "https://originator-profile.org/en-US/charter/",
+            publisher: "Originator Profile Collaborative Innovation Partnership",
+          }
+        },
+        addSectionLinks: true, // Turn on § section marker
+        logos: [
+          {
+            src: "https://design.originator-profile.org/downloads/op_logos/png/cip-default-type-vertical.png",
+            url: "https://originator-profile.org/",
+            alt: "Originator Profile CIP",
+            width: 180,
+            height: 80,
+            id: "op-cip-logo",
+          }
+        ]
+      }
+    </script>
+    <style>
+      pre .highlight {
+        font-weight: bold;
+        color: green;
+      }
+      pre .comment {
+        font-weight: bold;
+        color: Gray;
+      }
+      ol.algorithm {
+        counter-reset: numsection;
+        list-style-type: none;
+      }
+      ol.algorithm > li {
+        position: relative;
+        margin: 0.5em 0;
+        padding-left: 2em;
+      }
+      ol.algorithm > li:before {
+        position: absolute;
+        left: 0;
+        font-weight: bold;
+        counter-increment: numsection;
+        content: counters(numsection, ".") ")";
+      }
+      ol.algorithm > li > p:first-child {
+        margin-top: 0;
+      }
+      table.simple {
+        border: 1px solid #999;
+      }
+      table.simple th,
+      table.simple td {
+        border: 1px solid #999;
+      }
+      .dns-state {
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <p class="copyright">
+        Copyright © 2022-2026 <a
+        href="https://originator-profile.org/en-US/">Originator Profile
+        Collaborative Innovation Partnership (OP-CIP)</a>, All rights
+        reserved.
+    </p>
+
+    <p class="translation-notice">
+      <strong>本文書は参考訳である。</strong>規範となるのは
+      <a href="https://docs.originator-profile.org/web-media/">英語版</a>であり、
+      本日本語版と英語版とで内容が食い違う場合は英語版が優先する。
+    </p>
+
+    <section id="abstract">
+      <p>
+        本文書は Originator Profile Framework の Web Media
+        [=Use Case Specification=] である。Use Case Specification とは、
+        Core Specification の上に立って、framework を一つのユースケースに
+        当てはめる仕様をいう。本文書は、website 上で公開され web ページの中で
+        [=Recipient=] に提示されるコンテンツに、この framework を当てはめた仕様
+        である。本文書は、Originator Profile がそのようなページの中でどのように
+        運ばれるか、[=Verifier=]（Recipient に代わって Originator Profile と
+        Content Attestation を検証するソフトウェアの構成要素）が DNS のどの
+        レコードを引き、そのうち [=Originator=] が公開することを求められる、
+        または推奨されるのはどれかを定める。また、[=Verifier=] がプロファイルをどのように検証するか、そして validity と revocation をどの時点を基準として判断するか
+        も定める。
+      </p>
+      <p>
+        本文書は [=Originator Profile=] に文書を 1 つ、すなわち
+        [=Web Media Profile=] を加え、framework の DNS 設計にはレコードを
+        追加しない。本文書が加えるのは、ページの origin と
+        コンテンツの [=Originator=] とを結びつける binding と、ページがどこでいつ
+        検証されるかの規則である。本仕様が土台とする一般モデル、データモデル、
+        DNS の手続きは Architectural Overview [[OPF-AOV]] と Core
+        Specification [[OPF-CORE]] が定めており、ここでは繰り返さない。
+      </p>
+    </section>
+
+    <section id="sotd" class="override">
+      <h2>文書の位置づけ</h2>
+      <p class="note">
+        <strong>本日本語版は参考訳である。</strong>英語版から
+        AI 支援で作成したものであり、規範となるのは<a href="https://docs.originator-profile.org/web-media/">英語版</a>である。齟齬があれば英語版が
+        優先する。用語は英語のまま残している。
+      </p>
+      <p>
+        本文書は、Originator Profile Collaborative Innovation Partnership
+        (OP-CIP) が開発した Originator Profile Framework (OPF) の Web Media
+        [=Use Case Specification=] の、現在の設計を記述したものである。本文書は DRAFT の
+        段階にあり、いかなる公式な位置づけも持たず、OP-CIP メンバーシップの
+        合意を表すものでもない。
+      </p>
+      <p>
+        本文書はこの文書の最初のドラフトである。この版が未決のまま残す点は、
+        本文中でそれが生じる箇所に ISSUE として印を付けてある。
+        Originator Profile Blueprints が web メディアについて述べることを本文書へ
+        移す作業が進行中である（<a href="#relationship-to-other-documents"></a>）。
+      </p>
+
+      <div class="note" title="フレームワークの文書はすべて策定中である">
+        本文書を含め Originator Profile Framework の文書はすべて策定中であり、
+        フレームワークが依拠する Internet-Draft [[?OPF-DNS]] も同じである。
+        ここで引用している節はどれもまだ安定していない。したがって、文書の
+        節への参照は、どの文書のものであっても、節番号ではなく、指し示す対象の
+        名前によって行っている。
+      </div>
+    </section>
+    <section id="introduction" class="informative">
+      <h2>はじめに</h2>
+      <p>
+        Originator Profile Framework は、コンテンツの [=Recipient=] が、その
+        コンテンツの [=Originator=] は誰か、そしてその [=Originator=] について
+        第三者が何を validate したかを、[=Originator=] 自身が提示するデータから
+        知ることを可能にする。Architectural Overview [[OPF-AOV]] は一般モデルを
+        記述している。Core Specification [[OPF-CORE]] はすべての use case が
+        共有するフレームワークの部分を定め、コンテンツをどう届けるかに依る部分は、
+        届け方ごとの [=Use Case Specification=] に委ねている。本文書は、website
+        上で公開され web ページの中で提示されるコンテンツについての
+        [=Use Case Specification=] であり、その use case のモデル、すなわち
+        [=Web Media Specific Model=] も定める。
+      </p>
+      <p>
+        概略を述べれば、このユースケースは次の 3 つから成る。
+      </p>
+      <ul>
+        <li>
+          [=Originator Profile=] は、それをページとコンテンツに結びつける文書
+          とともにページの中を運ばれる。その文書とは、コンテンツに対する
+          [=Content Attestation=]（コンテンツへの署名による証明）と、
+          サイトの well-known リソースから配られ、[=Originator Profile=] を
+          提示してよい origin を列挙する [=Website Profile=] である。この 2 つはいずれも [=Core Profile=] の
+          [=Originator Verification Key=] で署名される。このユースケースでは、
+          [=Originator Profile=] は、[=Originator=] ではなく
+          [=Core Profile Issuer=] が発行する [=Web Media Profile=] も含む。
+          [=Content Attestation=] と [=Website Profile=] は、
+          [=Originator Profile=] そのものの外側にある。
+        </li>
+        <li>
+          DNS は、Core Specification がすべてのユースケースで与えている役割、
+          すなわち鍵が現行であることの確認（currency）と revocation を担う（<a
+          data-cite="OPF-CORE#ordering-and-parallelism">[[OPF-CORE]],
+          Ordering of Local and DNS Steps</a>）。[=Originator=] が
+          自身の [=Identity=] のゾーンに公開するレコードは、Core Specification
+          では optional であり、[=Use Case Specification=] がそれを要求する
+          ことも許されている。このユースケースはそれを optional のままとする。
+          ただし、[=Website Profile=] が自らの [=Identity=] の外の host を
+          挙げる [=Originator=] は [=Permitted Host Record=] を要する（<a
+          href="#binding"></a>）。したがって、自らのゾーンが DNSSEC で署名
+          されていない組織でも、この framework を利用できる。
+        </li>
+        <li>
+          検証は、ページが提示される時点で、ブラウザ拡張のようなブラウジング
+          ソフトウェア内の [=Verifier=] か、ページを取得するサービスによって
+          行われる。この配送チャネルには結果を記録しておける
+          場所が無いため、判断はページが提示されるたびに改めて行われ、
+          validity は検証の時点を基準として判断される。
+        </li>
+      </ul>
+
+      <section id="relationship-to-other-documents">
+        <h3>他の文書との関係</h3>
+        <p>
+          本文書は、Core Specification [[OPF-CORE]] のいう意味での
+          [=Use Case Specification=] である。すなわち、Core Specification をコンテンツ配送の一つの
+          やり方に当てはめ、Core Specification が [=Use Case Specification=]
+          に委ねている事項を定める。その事項は次のとおりである。
+        </p>
+        <ul>
+          <li>[=Originator Profile=] を構成する文書がどう配送されるか。</li>
+          <li>コンテンツがどの identity の下で提示され、その identity が
+          [=Originator=] にどう結びつけられるか。</li>
+          <li>[=Originator=] 自身のレコードのうちどれが引かれるか。</li>
+          <li>検証がどこでいつ行われるか。</li>
+          <li>その結果がどう扱われるか。</li>
+          <li>何が attest されるコンテンツに当たるか（この版では一部しか
+          定めていない。<a href="#page-outside"></a>）。</li>
+          <li>これらの選択から導かれる security と privacy の考慮。</li>
+        </ul>
+        <p>
+          本文書は、framework の他の文書が定めていることを繰り返さない。とくに
+          次のとおりである。
+        </p>
+        <ul>
+          <li>
+            Base Model と、[=Core Profile=] と [=Profile Annotation=] の
+            データモデルは、Architectural Overview [[OPF-AOV]] が定めている。
+            Base Model を拡張する [=Web Media Specific Model=] は本文書が
+            定める。本文書が用いる
+            用語は Core Specification [[OPF-CORE]] が定めている。ただし web
+            media のユースケースの用語は <a href="#terminology-web"></a> が
+            定める。
+          </li>
+          <li>
+            Core Specification [[OPF-CORE]] は、[=Originator Profile=] を
+            検証する規範的な手続き、DNS レコードの内容と形式、
+            [=Key Identifier=] の導出とそこで用いるダイジェストアルゴリズムを
+            定めている。また、2 つのドメイン名を比較する規則、名前解決の各結果の
+            意味、そして validity をどの時点を基準として判断するかの一般規則も
+            定めている。このユースケースで比較する 2 つの名前は、
+            [=Page Origin=] の host と [=Originator=] の [=Identity=] である。
+            リソースレコード型は [[?OPF-DNS]] が定めている。
+          </li>
+          <li>
+            電子メールについての対応する仕様は [[OPF-EMAIL]] である。この 2 つ
+            は同じ framework の 2 つの [=Use Case Specifications=] である。両者がどう異なる
+            かは <a href="#differences"></a> に示してあり、同じ比較が同文書に
+            も載っている。
+          </li>
+          <li>
+            Originator Profile Blueprints [[?Originator Profile Blueprints]]
+            は、Originator Profile Collaborative Innovation Partnership が
+            公開しており、framework の文書とリソースを今日実装されているとおりに
+            記述している。本文書はそれを参考として引く。本文書がまだ文書の内容や
+            形を定めていない所では、それらを Blueprints が述べるとおりに残し
+            （<a href="#page-outside"></a>）、本文書が要求するのは本文書自身が
+            述べることだけである。Blueprints が web メディアについて述べることを
+            本文書へ移す作業が進行中である。次の点で、今の Blueprints は本文書と
+            異なっており、Blueprints を本文書に合わせる作業が進行中である。
+            Core Specification と異なる点は、そちらに挙げてある（<a
+            data-cite="OPF-CORE#relationship-to-other-documents">[[OPF-CORE]],
+            Relationship to Other Documents</a>）。
+            <ul>
+              <li>[=Page Origin=] の結び付け。本文書は <a href="#binding"></a>
+                の条件をそれぞれ要求する。Blueprints は origin の比較を任意とし、
+                host が [=Originator=] の [=Identity=] とどういう関係にあるかに
+                条件を置かない。</li>
+              <li>ページの URL。本文書は [=Verifier=] に
+                <code>allowedUrl</code> の確認を要求する（<a
+                href="#verification-allowed-url"></a>）。Blueprints は
+                その確認を [=Verifier=] に委ねる。</li>
+              <li>bundle の中の [=Profile Annotations=]。本文書は
+                [=Originator=] に 1 つ以上を提示することを要求する（<a
+                href="#page-bundle"></a>）。Blueprints では Originator Profile
+                Set の annotation は任意である。</li>
+              <li>well-known リソース。本文書は、ページが文書を運ぶかどうかに
+                かかわらず、[=Verifier=] が well-known リソースを要求することを
+                求める（<a href="#page-delivery-requests"></a>）。Blueprints は
+                その要求を [=Verifier=] に委ねる。</li>
+              <li>[=Web Media Profile=]。本文書は [=Originator=] に、bundle
+                の中でそれを 1 つ提示することを要求し（<a
+                href="#page-bundle"></a>）、[=Verifier=] に、その発行者、署名、
+                署名の有効期間を確かめることを要求する（<a
+                href="#verification-wmp"></a>）。Blueprints では
+                Originator Profile Set の media は任意である。</li>
+            </ul>
+          </li>
+        </ul>
+        <p>
+          本文書の scope は web media である。すなわち、[=Originator=] が公開
+          するコンテンツであって、その [=Website Profile=] が名前を挙げている
+          origin を持つページの中で提示されるものである。その origin のホスト
+          は [=Originator=] 自身の [=Identity=] である必要はない。そのホストが
+          その [=Identity=] との間に満たすべき関係は <a href="#binding"></a> が
+          述べるとおりである。
+        </p>
+        <p>
+          広告のために供給されるコンテンツは、本文書の scope に含まれない。
+          それは web 広告のための別の [=Use Case Specification=]
+          [[?OPF-WEB-AD]] が扱い、その文書は本文書の一部を上書きすると
+          想定される。そのようなコンテンツをどの origin に束縛するかという
+          問いは、その文書に委ねる。
+        </p>
+      </section>
+    </section>
+
+    <section id="conformance">
+      <p>
+        本仕様に適合する実装とは、web ページの中で [=Originator Profile=] を
+        提示する実装、または web ページの中で提示されたものを検証する実装で
+        あって、それぞれの役割について本文書が求めるところを
+        満たすものである。要件が特定の当事者、すなわち [=Originator=] または
+        [=Verifier=] に課されている場合、その要件はその役割を担う実装に適用される。
+      </p>
+      <p>
+        規範的な本文で key word を一つも使わない文は、他所で述べた要件をその
+        出典を示して言い直すか、語や値を定めるか、説明するものである。他に
+        所在の無い要件は key word で述べる。
+      </p>
+      <p>
+        [[?RFC4035]] の DNSSEC の validation state は、<span class="dns-state">Secure</span>
+        や <span class="dns-state">Insecure</span> のように italic で書き、
+        名詞を修飾する形で使う場合も同じとする。SVCB レコード [[?RFC9460]] の
+        フィールド名は、<code>ServiceMode</code> や <code>TargetName</code>
+        のように code の書体で書く。
+      </p>
+    </section>
+
+    <section id="terminology">
+      <h2>用語</h2>
+      <p>
+        以下の用語のうち imported と記したものは、本文書では Core
+        Specification [[OPF-CORE]] が与える意味で用いる。ここに列挙してあるのは、
+        本文書の中で用語参照が解決されるようにするためだけであって、定義の
+        正本は [[OPF-CORE]] のものである。両者が食い違う場合は [[OPF-CORE]] が
+        優先する。残りの用語は web media のユースケースの用語であり、ここで
+        定義する。それらの定義の正本は本文書のものである。
+      </p>
+      <div class="issue" title="imported な用語を相互参照せず再掲していること">
+        imported な用語は、[[OPF-CORE]] への文書間の相互参照によって解決する
+        のではなく、本文書の中に再掲してある。これは、それらを自動で解決する
+        相互参照データベースが公表済みの仕様しか対象としておらず、[[OPF-CORE]]
+        がそこに入っていないためである。各項目は [[OPF-CORE]] の定義箇所への
+        リンクを持つ。framework の各文書の公表の段取りが定まった時点で、これら
+        の項目は文書間の相互参照に置き換え、本文書からは削除する。
+      </div>
+
+      <section id="terminology-imported">
+        <h3>他文書から取り込んだ用語</h3>
+        <dl>
+          <dt><dfn data-lt="Accreditation Chains">Accreditation Chain</dfn></dt>
+          <dd>
+            他文書から取り込んだ用語。<a
+            data-cite="OPF-CORE#dfn-accreditation-chain">[[OPF-CORE]],
+            Accreditation Chain</a> を見よ。
+          </dd>
+
+          <dt><dfn data-lt="Contents">Content</dfn></dt>
+          <dd>
+            他文書から取り込んだ用語。<a data-cite="OPF-CORE#dfn-content">[[OPF-CORE]],
+            Content</a> を見よ。
+          </dd>
+
+          <dt><dfn data-lt="Content Attestations">Content Attestation</dfn></dt>
+          <dd>
+            他文書から取り込んだ用語。<a
+            data-cite="OPF-CORE#dfn-content-attestation">[[OPF-CORE]], Content
+            Attestation</a> を見よ。
+          </dd>
+
+          <dt><dfn class="lint-ignore" data-lt="Content Validity Periods">Content Validity Period</dfn>（内容の有効期間）</dt>
+          <dd>
+            他文書から取り込んだ用語。<a
+            data-cite="OPF-CORE#dfn-content-validity-periods">[[OPF-CORE]],
+            Content Validity Period</a> を見よ。 
+          </dd>
+
+          <dt><dfn data-lt="Core Profiles">Core Profile</dfn></dt>
+          <dd>
+            他文書から取り込んだ用語。<a data-cite="OPF-CORE#dfn-core-profile">[[OPF-CORE]],
+            Core Profile</a> を見よ。
+          </dd>
+
+          <dt><dfn data-lt="Core Profile Issuers">Core Profile Issuer</dfn></dt>
+          <dd>
+            他文書から取り込んだ用語。<a
+            data-cite="OPF-CORE#dfn-core-profile-issuer">[[OPF-CORE]], Core
+            Profile Issuer</a> を見よ。
+          </dd>
+
+          <dt><dfn>current</dfn></dt>
+          <dd>
+            他文書から取り込んだ用語。<a data-cite="OPF-CORE#dfn-current">[[OPF-CORE]],
+            current</a> を見よ。
+          </dd>
+
+          <dt><dfn data-lt="Identities">Identity</dfn></dt>
+          <dd>
+            他文書から取り込んだ用語。<a data-cite="OPF-CORE#dfn-identity">[[OPF-CORE]],
+            Identity</a> を見よ。
+          </dd>
+
+          <dt><dfn data-lt="Issuer Key Records">Issuer Key Record</dfn></dt>
+          <dd>
+            他文書から取り込んだ用語。<a
+            data-cite="OPF-CORE#dfn-issuer-key-record">[[OPF-CORE]], Issuer
+            Key Record</a> を見よ。
+          </dd>
+
+          <dt><dfn>Issuer Pinning Record</dfn></dt>
+          <dd>
+            他文書から取り込んだ用語。<a
+            data-cite="OPF-CORE#dfn-issuer-pinning-record">[[OPF-CORE]], Issuer
+            Pinning Record</a> を見よ。
+          </dd>
+
+          <dt><dfn data-lt="Key Identifiers">Key Identifier</dfn></dt>
+          <dd>
+            他文書から取り込んだ用語。<a data-cite="OPF-CORE#dfn-key-identifier">[[OPF-CORE]],
+            Key Identifier</a> を見よ。
+          </dd>
+
+          <dt><dfn data-lt="Originators">Originator</dfn></dt>
+          <dd>
+            他文書から取り込んだ用語。<a data-cite="OPF-CORE#dfn-originator">[[OPF-CORE]],
+            Originator</a> を見よ。
+          </dd>
+
+          <dt><dfn data-lt="Originator Key Records">Originator Key Record</dfn></dt>
+          <dd>
+            他文書から取り込んだ用語。<a
+            data-cite="OPF-CORE#dfn-originator-key-record">[[OPF-CORE]],
+            Originator Key Record</a> を見よ。
+          </dd>
+
+          <dt><dfn data-lt="Originator Profiles">Originator Profile</dfn></dt>
+          <dd>
+            他文書から取り込んだ用語。<a
+            data-cite="OPF-CORE#dfn-originator-profile">[[OPF-CORE]], Originator
+            Profile</a> を見よ。
+          </dd>
+
+          <dt><dfn data-lt="Originator Profile Bundles">Originator Profile Bundle</dfn></dt>
+          <dd>
+            他文書から取り込んだ用語。<a
+            data-cite="OPF-CORE#dfn-originator-profile-bundles">[[OPF-CORE]],
+            Originator Profile Bundle</a> を見よ。本仕様では、ページの中か
+            [=Page Origin=] の well-known リソースで運ばれる
+            （<a href="#page-bundle"></a>、<a href="#page-delivery"></a>）。
+          </dd>
+
+          <dt><dfn data-lt="Originator Verification Keys">Originator Verification Key</dfn></dt>
+          <dd>
+            他文書から取り込んだ用語。<a
+            data-cite="OPF-CORE#dfn-originator-verification-key">[[OPF-CORE]],
+            Originator Verification Key</a> を見よ。
+          </dd>
+
+          <dt><dfn data-lt="Permitted Host Records">Permitted Host Record</dfn></dt>
+          <dd>
+            他文書から取り込んだ用語。<a
+            data-cite="OPF-CORE#dfn-permitted-host-record">[[OPF-CORE]],
+            Permitted Host Record</a> を見よ。
+          </dd>
+
+          <dt><dfn data-lt="Presented Identities">Presented Identity</dfn></dt>
+          <dd>
+            他文書から取り込んだ用語。<a
+            data-cite="OPF-CORE#dfn-presented-identity">[[OPF-CORE]], Presented
+            Identity</a> を見よ。
+          </dd>
+
+          <dt><dfn data-lt="Profile Annotations">Profile Annotation</dfn></dt>
+          <dd>
+            他文書から取り込んだ用語。<a data-cite="OPF-CORE#dfn-profile-annotation">[[OPF-CORE]],
+            Profile Annotation</a> を見よ。
+          </dd>
+
+          <dt><dfn data-lt="Profile Annotation Issuers">Profile Annotation Issuer</dfn></dt>
+          <dd>
+            他文書から取り込んだ用語。<a
+            data-cite="OPF-CORE#dfn-profile-annotation-issuer">[[OPF-CORE]],
+            Profile Annotation Issuer</a> を見よ。
+          </dd>
+
+          <dt><dfn data-lt="Recipients">Recipient</dfn></dt>
+          <dd>
+            他文書から取り込んだ用語。<a data-cite="OPF-CORE#dfn-recipient">[[OPF-CORE]],
+            Recipient</a> を見よ。
+          </dd>
+
+          <dt><dfn>retired</dfn></dt>
+          <dd>
+            他文書から取り込んだ用語。<a data-cite="OPF-CORE#dfn-retired">[[OPF-CORE]],
+            retired</a> を見よ。
+          </dd>
+
+          <dt><dfn data-lt="Revocation Records">Revocation Record</dfn></dt>
+          <dd>
+            他文書から取り込んだ用語。<a
+            data-cite="OPF-CORE#dfn-revocation-record">[[OPF-CORE]], Revocation
+            Record</a> を見よ。
+          </dd>
+
+          <dt><dfn data-lt="Root Core Profiles">Root Core Profile</dfn></dt>
+          <dd>
+            他文書から取り込んだ用語。<a data-cite="OPF-CORE#dfn-root-core-profile">[[OPF-CORE]],
+            Root Core Profile</a> を見よ。
+          </dd>
+
+          <dt><dfn data-lt="Root Issuers">Root Issuer</dfn></dt>
+          <dd>
+            他文書から取り込んだ用語。<a data-cite="OPF-CORE#dfn-root-issuer">[[OPF-CORE]],
+            Root Issuer</a> を見よ。
+          </dd>
+
+          <dt><dfn class="lint-ignore" data-lt="Signature Validity Periods">Signature Validity Period</dfn>（署名の有効期間）</dt>
+          <dd>
+            他文書から取り込んだ用語。<a
+            data-cite="OPF-CORE#dfn-signature-validity-periods">[[OPF-CORE]],
+            Signature Validity Period</a> を見よ。 
+          </dd>
+
+          <dt><dfn data-lt="Use Case Specifications">Use Case Specification</dfn></dt>
+          <dd>
+            他文書から取り込んだ用語。<a
+            data-cite="OPF-CORE#dfn-use-case-specifications">[[OPF-CORE]], Use
+            Case Specification</a> を見よ。
+          </dd>
+
+          <dt><dfn data-lt="Validated Attributes">Validated Attribute</dfn></dt>
+          <dd>
+            他文書から取り込んだ用語。<a
+            data-cite="OPF-CORE#dfn-validated-attribute">[[OPF-CORE]],
+            Validated Attribute</a> を見よ。
+          </dd>
+
+          <dt><dfn data-lt="Verifiers">Verifier</dfn></dt>
+          <dd>
+            他文書から取り込んだ用語。<a data-cite="OPF-CORE#dfn-verifier">[[OPF-CORE]],
+            Verifier</a> を見よ。
+          </dd>
+
+          <dt><dfn>withdrawn</dfn></dt>
+          <dd>
+            他文書から取り込んだ用語。<a data-cite="OPF-CORE#dfn-withdrawn">[[OPF-CORE]],
+            withdrawn</a> を見よ。
+          </dd>
+        </dl>
+      </section>
+
+      <section id="terminology-web">
+        <h3>本仕様に固有の用語</h3>
+        <dl>
+
+          <dt><dfn data-lt="Page Origins">Page Origin</dfn></dt>
+          <dd>
+            ある提示における [=Page Origin=] とは、[=Content=] が
+            [=Recipient=] に提示されるページの origin [[RFC6454]] である。
+            これは [=Content=] が届く際の identity であり、本仕様が
+            [=Originator=] に結びつける対象である。すなわち、このユースケース
+            における [=Presented Identity=] であり、<a
+            href="#presented-identity"></a> が求めるとおりに取得され、正規形に
+            直される。
+          </dd>
+
+          <dt><dfn data-lt="Web Media Profiles">Web Media Profile</dfn></dt>
+          <dd>
+            [=Web Media Profile=] は、website で [=Content=] を公開する
+            [=Originator=] に関する [=Validated Attributes=] の集合である。
+            編集方針や連絡先情報のように、web メディア向けの領域固有な
+            [=Validated Attributes=] を含む。このユースケースでは、これは
+            [=Core Profile=] と [=Profile Annotations=] とともに
+            [=Originator Profile=] の一部であり、これが有効でなくなると
+            [=Originator Profile=] も有効でなくなる。
+          </dd>
+
+          <dt><dfn data-lt="Web Media Profile Issuers">Web Media Profile Issuer</dfn></dt>
+          <dd>
+            [=Web Media Profile Issuer=] は、[=Core Profile Issuer=] が
+            [=Web Media Specific Policy=] の下で [=Originator=] のために
+            [=Web Media Profile=] を発行するときの役割であり、独立した
+            Entity ではない。本仕様が求めるとおり、ある [=Originator=] の [=Web Media Profile=] は、その
+            [=Originator=] の [=Core Profile=] を発行した [=Core Profile
+            Issuer=] が発行する。
+            この issuer は、プロファイルに含まれる Attributes を
+            validate し、それらが [=Originator=] を正確に表していることを保証する
+            責任を負う。
+          </dd>
+
+          <dt><dfn data-lt="Web Media Specific Models">Web Media Specific Model</dfn></dt>
+          <dd>
+            [=Web Media Specific Model=] は、Web Media のユースケースに向けて
+            Base Model を拡張したモデルであり、領域固有な
+            [=Validated Attributes=] と validation の仕組みを取り込む。
+          </dd>
+
+          <dt><dfn data-lt="Web Media Specific Policies">Web Media Specific Policy</dfn></dt>
+          <dd>
+            [=Web Media Specific Policy=] は、[=Core Profile Issuer=] が発行する
+            [=Web Media Profile=] と、[=Originator=] 自身が発行する
+            [=Website Profile=] について、その発行と管理を律するポリシーの集合
+            である。
+          </dd>
+
+          <dt><dfn data-lt="Website Profiles">Website Profile</dfn></dt>
+          <dd>
+            [=Website Profile=] は Signed Data from Originator であり、
+            [=Originator=] 自身が発行し、その [=Originator=] が自身の
+            [=Content=] を公開する website を述べる。[=Verifier=] は、web
+            ページを [=Originator=] に結びつけるためにこれを必要とする。この
+            プロファイルは、それらの website の origin などの情報を含む。
+            これは [=Originator Profile=] の一部ではない。[=Content
+            Attestation=] と同じくその外側にある。それに署名した鍵が
+            [=current=] でなくなったとき、その鍵を運ぶ [=Core Profile=] が
+            valid でなくなったとき、またはそれ自身の署名の有効期間が
+            終わったときに効力を失う（<a href="#validity-layers"></a>）。
+          </dd>
+        </dl>
+      </section>
+    </section>
+
+    <section id="page">
+      <h2>ページの構造</h2>
+      <p>
+        本仕様に従って [=Originator Profile=] を提示するページは、3 種類のもの
+        を運ぶ。[=Originator Profile Bundle=]、そのプロファイルの外側にあって
+        それとともに運ばれる文書、そしてコンテンツそのものである。本節はこれら
+        がそれぞれ何であるかを述べる。[=Verifier=] がそれらに対して何をするかは
+        <a href="#verification"></a> にある。
+      </p>
+
+      <section id="page-bundle">
+        <h3>Originator Profile Bundle</h3>
+        <p>
+          <strong>Bundle が運ぶもの。</strong>[=Originator=] は、自身の
+          [=Originator Profile Bundle=] に、Core Specification が
+          [=Originator Profile Bundle=] の運ぶものと定める文書を含めなければ
+          ならない (MUST)（<a
+          data-cite="OPF-CORE#originator-profile-bundle">[[OPF-CORE]],
+          Originator Profile Bundle</a>）。これらの各文書の形式は
+          Core Specification [[OPF-CORE]] が定めている。
+        </p>
+        <p>
+          <strong>Originator が bundle の中で提示するもの。</strong>[=Originator=]
+          は、自身の [=Originator Profile Bundle=] の中で、
+          自身の [=Profile Annotations=] を少なくとも 1 つ提示しなければ
+          ならない (MUST)。これは、Core Specification が各
+          [=Use Case Specification=] に、[=Originator Profile Bundle=] を組む
+          当事者に課すよう求めている要件である（<a
+          data-cite="OPF-CORE#use-case-interface">[[OPF-CORE]], Requirements
+          on Use Case Specifications</a>）。
+          このユースケースでは、[=Originator Profile=] は [=Originator=] の
+          [=Web Media Profile=] を含み（<a href="#page-outside"></a>）、
+          [=Originator=] は、自身の [=Web Media Profile=] も、ページの中か
+          well-known リソースで、自身の [=Originator Profile Bundle=] の中に
+          提示しなければならない (MUST)（<a href="#page-delivery"></a>）。
+        </p>
+        <p>
+          <strong>chain は全体がページとともに運ばれる。</strong>
+          [=Originator Profile Bundle=] は各 [=Accreditation Chain=] の全体を
+          運ばなければならない (MUST)。[=Verifier=] は、ページと
+          [=Page Origin=] の well-known リソースが運ぶもの以外に
+          [=Originator Profile=] の一部を取得することを求められていない
+          （<a href="#page-delivery"></a>）。[=Core Profile Issuer=] と各
+          [=Profile Annotation Issuer=] の [=Core Profile=] は、それぞれの
+          [=Accreditation Chain=] とともに [=Originator Profile Bundle=] の
+          中にある。ただし [=Verifier=] が持つ [=Root Core Profile=] は除く。
+        </p>
+        <p>
+          <strong>Verifier が使わない文書は失敗ではない。</strong>
+          Core Specification が求めるとおり（<a
+          data-cite="OPF-CORE#originator-profile-bundle">[[OPF-CORE]],
+          Originator Profile Bundle</a>）、[=Verifier=] は、[=Originator Profile Bundle=] が自分の使わない文書や
+          認識しない文書を運んでいるという理由で、検証を失敗として扱わない。
+          これがあるからこそ、将来の版がページに文書を追加したり、
+          [=Originator Profile Bundle=] の一部を別の経路で取得するようにしたり
+          しても、既に配備された [=Verifier=] を壊さずに済む。
+        </p>
+      </section>
+
+      <section id="page-outside">
+        <h3>Originator Profile の外側にある文書</h3>
+        <p>
+          <strong>プロファイルの外側にある 2 つの文書と、その内側にある Web
+          Media Profile。</strong>2 つの文書が
+          [=Originator Profile=] の外側にあり、それとともに運ばれる。
+          [=Content Attestation=] と [=Website Profile=]
+          である。[=Content Attestation=] は、そのページの [=Content=] が
+          [=Originator=] に由来することを証する。[=Website Profile=] は、
+          その [=Originator Profile=] を提示してよい origin を列挙する
+          もので、<a href="#binding"></a> が [=Page Origin=] と突き合わせる
+          対象はこの文書である。[=Web Media Profile=] は、[=Originator=] の
+          web メディアに固有の情報を運ぶもので、このユースケースでは
+          [=Originator Profile=] の一部である。Core Specification は、
+          [=Use Case Specification=] がそう定めることを認めている。
+          <a href="#verification"></a> の手続きはその発行者、署名、
+          署名の有効期間を確かめ、本版は [=Verifier=] がそれに対してほかに何をするかを
+          定めない。
+        </p>
+        <p>
+          <strong>Website Profile を誰が発行し、どの鍵で署名するか。</strong>
+          [=Website Profile=] は [=Originator=] 自身が発行しなければならず
+          (MUST)、その発行者はその [=Originator=] の [=Identity=] である。
+          [=Originator=] は、これと [=Content Attestation=] に、自身の
+          [=Core Profile=] の [=Originator Verification Key=] で署名する。
+        </p>
+        <p>
+          <strong>Web Media Profile を誰が発行し、どの鍵で署名するか。</strong>
+          [=Web Media Profile=] は、それが対象とする [=Originator=] の
+          [=Core Profile=] を発行した [=Core Profile Issuer=] が発行し、その
+          issuer 自身の [=Core Profile=] の鍵で署名しなければならず (MUST)、
+          [=Originator=] 自身が発行するのではない。その issuer は、
+          [=Core Profile=] に署名するのと同じようにそれに署名する。本仕様は、
+          その役割を [=Web Media Profile Issuer=] と呼ぶ。
+          [=Web Media Profile=] は [=Web Media Specific Policy=] の下で
+          発行される。その policy が発行者に何を求めるかは、ここではなく
+          Operational Governance Requirements [[?OPF-GOV]] が述べる。
+        </p>
+        <p>
+          <strong>validity はプロファイルと署名鍵に従う。</strong>この 2 つの
+          文書はどちらも DNS に登録されず、どちらも自前の revocation 機構を
+          持たない。その validity は [=Originator Profile=] と、それらに署名
+          した鍵に従う。これは Core Specification [[OPF-CORE]] が
+          [=Originator Profile=] の外側にある文書について述べているとおりで
+          ある。[=Web Media Profile=] も DNS にレコードを持たず、自前の
+          revocation 機構も持たない。それと [=Originator Profile=] は
+          ともに終わる（3 つのそれぞれが服する validity の層:
+          <a href="#validity-layers"></a>。外側にある 2 つの文書の位置が
+          1 つのサイトについての主張の撤回にとって何を意味するか:
+          <a href="#security-retraction"></a>）。
+        </p>
+        <p>
+          <strong>allowedUrl が挙げてよいもの。</strong>[=Originator=] は、
+          [=Content Attestation=] の <code>allowedUrl</code> に書く各 URL
+          Pattern string [[URLPATTERN]] を、scheme を <code>https</code>
+          （host が <code>localhost</code> の場合は <code>http</code> でもよい）
+          とし、固定の host 名を持つ形で書かなければならない (MUST)。host 名が
+          固定であるとは [[RFC1123]] Section 2.1 の意味においてであり、
+          許される wildcard は先頭の <code>*.</code> のラベルだけである。
+          <code>allowedUrl</code> がそれ以外に何を挙げてよいかは、
+          Operational Governance Requirements [[?OPF-GOV]] が上限を定める。
+        </p>
+        <div class="issue" title="プロファイルの外側にある文書と Web Media Profile の内容はここではまだ定義していない">
+          <p>
+            Core Specification [[OPF-CORE]] は、[=Originator Profile=] の外側に
+            ある文書が何を含み、[=Verifier=] がそれに対して何をするかの定義を
+            [=Use Case Specification=] に委ねているが、本版はまだそれを行って
+            いない。それらの文書と、このユースケースが [=Originator Profile=]
+            に加える [=Web Media Profile=] のそれぞれについて、下の箇条は、本文書が確定させて
+            いること、現在の Originator Profile Blueprints
+            [[?Originator Profile Blueprints]] でその文書を述べているページ、
+            ここではまだ定義していないこと、を挙げる。
+          </p>
+          <ul>
+            <li>
+              <strong>[=Website Profile=]。</strong>
+              <ul>
+                <li>ここで確定していること: サイトの代表 URL と、[[RFC6454]] の
+                  意味での origin（scheme、host、既定でないポート）を 1 つ以上
+                  運ぶ。その発行者と、それに署名する鍵は、この節で述べている。</li>
+                <li>Blueprints では: <a
+                  href="https://docs.originator-profile.org/en/opb/website-profile/">Website
+                  Profile</a>。そこでは、値は origin の ASCII serialization
+                  として、path、query、fragment を含めず、既定のポートを省いて
+                  書く。これは URL Standard [[URL]] が origin を serialize する
+                  形である。<a href="#binding"></a> の比較は、別の形で書かれた
+                  値でもそれを parse して得られる origin を指すように定めてある。</li>
+                <li>ここではまだ定義していないこと: プロパティ名、多重度、origin
+                  の書き方。これらは Blueprints から取る。</li>
+              </ul>
+            </li>
+            <li>
+              <strong>[=Content Attestation=]。</strong>
+              <ul>
+                <li>ここで確定していること: 本版が名指すプロパティは
+                  <code>allowedUrl</code> 一つだけであり、それが何を挙げてよいかを
+                  述べるため（この節）と、[=Verifier=] にその確認を求めるため
+                  （<a href="#verification-allowed-url"></a>）に名指して
+                  いる。それに
+                  署名する鍵は、この節で述べている。</li>
+                <li>Blueprints では: <a
+                  href="https://docs.originator-profile.org/en/opb/content-integrity-descriptor/">Content
+                  Integrity Descriptor</a>。Blueprints は web ページ向けに、
+                  [[OPF-AOV]] の意味での Content Integrity Descriptor を 3 種類
+                  登録している。HTML の断片（その outerHTML）、DOM の部分木の中の
+                  テキスト（その textContent）、外部リソースである。4 つ目の
+                  DOM の部分木の中の可視テキスト（その innerText）は、そこでは
+                  非推奨である。<code>allowedUrl</code>
+                  のほか、[=Content Attestation=] が何を運ぶべきかは Blueprints
+                  が述べるとおりのままである。</li>
+                <li>ここではまだ定義していないこと: [=Content Attestation=] が
+                  それらの種類のどれを、どの形で運ぶか。そして、そこから定まる、
+                  [=Verifier=] が [=Content Attestation=] をページの
+                  [=Content=] とどう突き合わせるか。</li>
+              </ul>
+            </li>
+            <li>
+              <strong>[=Web Media Profile=]。</strong>
+              <ul>
+                <li>ここで確定していること: その発行者と、それに署名する鍵。
+                  この節で述べている。そして、[=Verifier=] がそれについて何を
+                  確かめるか（<a href="#verification-wmp"></a>）。</li>
+                <li>Blueprints では: <a
+                  href="https://docs.originator-profile.org/en/opb/web-media-profile/">Web
+                  Media Profile</a>。そこでは、組織の登録情報ではない、
+                  [=Originator=] の web メディアに固有の [=Validated Attributes=]、
+                  たとえば編集方針、プライバシーポリシー、連絡先情報、ロゴ、
+                  公式 URL を運ぶ。</li>
+                <li>ここではまだ定義していないこと: その内容。そして、そこから
+                  定まる、[=Verifier=] が [=Web Media Profile=] に対して <a
+                  href="#verification-wmp"></a> の確認のほかに何をするか。</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="page-delivery">
+        <h3>Originator Profile Bundle と Content Attestation が Verifier に届く道筋</h3>
+        <p>
+          [=Originator Profile Bundle=]（このユースケースでは
+          [=Web Media Profile=] も運ぶ）と、[=Originator Profile=] の
+          外側にある 2 つの文書、すなわち [=Website Profile=] と
+          [=Content Attestation=]（<a href="#page-outside"></a>）は、2 つの
+          経路で [=Verifier=] に届く。ページは [=Originator Profile Bundle=]
+          と [=Content Attestation=] を運び、[=Page Origin=] の well-known
+          リソースは [=Originator Profile Bundle=] と [=Website Profile=] を
+          運ぶ。[=Verifier=] が同梱する文書をそれらに
+          加えることができる。[=Originator Profile=] のいかなる部分も DNS
+          から取得されることはない。これらすべての出どころの文書は、
+          <a href="#page-delivery-order"></a> の順序で合わせて取り扱われる。
+          その順序の意味は Core Specification [[OPF-CORE]] が与えるところに
+          よる。
+        </p>
+        <p>以下の小節は次のことを述べる。</p>
+        <ul>
+          <li>ページが文書をどう運ぶか（<a
+            href="#page-delivery-in-page"></a>）。</li>
+          <li>[=Verifier=] がいつページを読み、結果がいつ終わるか（<a
+            href="#page-delivery-reading"></a>）。</li>
+          <li>2 つの経路と、[=Verifier=] が同梱する文書とを、どう合わせて
+            用いるか（<a href="#page-delivery-routes"></a>）。</li>
+          <li>文書をどの順序で取り扱うか（<a
+            href="#page-delivery-order"></a>）。</li>
+          <li>[=Verifier=] が 1 つの文書の発行の中からどう選ぶか（<a
+            href="#page-delivery-issuances"></a>）。</li>
+          <li>1 つのページの [=Originator=] どうしをどう分けて扱うか（<a
+            href="#page-delivery-originators"></a>）。</li>
+          <li>well-known リソースと参照された文書への要求をどう行うか（<a
+            href="#page-delivery-requests"></a>）。</li>
+          <li>フレームの中で提示される [=Content=] について何が成り立つか（<a
+            href="#page-delivery-frames"></a>）。</li>
+        </ul>
+
+        <section id="page-delivery-in-page">
+          <h4>ページの中に運ばれる文書</h4>
+        <p>
+          ページはこれらの文書を
+          <code>script</code> 要素 [[HTML]] の中に運ぶ。
+          その要素は <code>type</code> 属性を持たなければならない (MUST)。
+          その値は、要素が
+          Content Attestation Set を運ぶ場合は
+          <code>application/ca-set+json</code>、Originator Profile Set を運ぶ
+          場合は <code>application/op-set+json</code> である。要素は次の 2 つの
+          形式のいずれかを取り、ページはどちらを用いてもよい (MAY)。
+        </p>
+        <ul>
+          <li>
+            埋め込み形式: <code>script</code> 要素の内容が JSON オブジェクト
+            そのものである。
+          </li>
+          <li>
+            参照形式: 要素は <code>src</code> 属性の URL によってオブジェクト
+            を指し示し、[=Verifier=] がその URL からオブジェクトを取得する。
+            本仕様は、そのような要素に <code>integrity</code> 属性
+            [[?SRI]] を求めず、付いている場合についても [=Verifier=] に何も
+            求めない。ブラウジングソフトウェア自身は、そのような要素の URL を
+            取得しない。型を知らない script 要素は処理しないからである
+            [[HTML]]。取得するのは [=Verifier=] である。
+          </li>
+        </ul>
+        <div class="issue" title="2 つの set の最終的なメディアタイプ">
+          値 <code>application/ca-set+json</code> と
+          <code>application/op-set+json</code> は、Originator Profile
+          Blueprints [[?Originator Profile Blueprints]] が求めるものである。
+          Blueprints は、それ以前に用いられていた値
+          <code>application/cas+json</code> と
+          <code>application/ops+json</code> を非推奨とし、2027 年 11 月 1 日に
+          そのサポートを終える。それまでは、ページはそれらを用いないことが、
+          [=Verifier=] はそれぞれをそれに代わる値として扱うことが望ましいと
+          されている。この移行を本仕様が引き継ぐかどうかは決まっていない。
+          メディアタイプを最終的に何にするかは検討中であり、それらをどこに
+          登録するかは別の問いである（<a href="#iana"></a>）。
+        </div>
+        <p>
+          <strong>ページについて本仕様が未定のまま残すこと。</strong>本仕様は
+          次のどれも定めない。
+        </p>
+        <ul>
+          <li>そのような要素がページのどこ、head か body かに置かれるか。</li>
+          <li>[=Verifier=] がいつページを読むか（<a
+            href="#page-delivery-reading"></a>）のほか、それが与えられたページから
+            文書を取り出す手続き。</li>
+          <li>2 種類の set がそれぞれ何を含むか。個々の文書の内容を定めないのと
+            同様である（<a href="#page-outside"></a>）。</li>
+          <li>1 つの Originator Profile Set が、それの運ぶ
+            [=Profile Annotations=] に単一の順序を与えるかどうか。これは、本仕様が
+            述べる何ごとかによってではなく、その set の形式から決まる。その形式を
+            定める版がそれを決し、順序を与えない場合にはその順序をここに書く。</li>
+        </ul>
+        <p>
+          <strong>各形式でページが決めるもの。</strong>本仕様が、文書がページの
+          中に運ばれる、と述べるとき、それは両方の形式を
+          指す。2 つの形式は、ページが何を決めるかで異なる。埋め込み形式では、
+          ページは文書そのものを決める。参照形式では、ページが決めるのは URL
+          だけである。その URL を配信する者が、取得で何が得られるかを選び、
+          文書を返さないことも、以前の文書や別の文書を返すこともできる。ただし、
+          返したものがその発行者の署名を持たなければ、検証に通らない（それが
+          何を成り立たせ、何を成り立たせないかは <a href="#security-delivery"></a>）。
+        </p>
+        <div class="note" title="トランスポートが守るものと守らないもの">
+          [=Originator Profile Bundle=] の authenticity は、その中の文書が
+          運ぶ署名だけに依っており、他の何にも依っていない。ページを HTTPS で
+          配信することは [=Page Origin=] を確立し、それは
+          <a href="#binding"></a> が必要とするものである。しかしそれは
+          [=Originator=] について何も述べない。その origin を支配する者が、
+          ページが何を運ぶかを支配するからである。文書の外側には、コンテンツと
+          [=Originator Profile Bundle=] の存在とをまとめて守る署名が無い。
+          <a href="#binding"></a> が [=Website Profile=] 自身の
+          言い分以上のものを求めるのは、一つにはこのためである。各文書の
+          authenticity はそれ自身の署名に依っているので、
+          文書を参照する要素に <code>integrity</code> 属性を求めない。参照先を
+          差し替えられる者が得るのは、検証に通らないページ以上のものではなく、
+          それは <a href="#security-delivery-denial"></a> が述べる否認である。
+        </div>
+        </section>
+
+        <section id="page-delivery-reading">
+          <h4>ページを読む時点</h4>
+        <p>
+          <strong>読み取りは要素が挿入されたときに始まる。</strong>
+          [=Verifier=] は、<code>type</code> が
+          <code>application/ca-set+json</code> である要素の文書を探すことを、
+          その要素が Document に挿入された [[HTML]] ときに始めなければならない
+          (MUST)。挿入したのがパーサーかスクリプトかは問わない。
+          <code>template</code> 要素の内容の中の要素や shadow tree の中の要素は、
+          この意味で Document に挿入されたものではなく、読まれない。ページを
+          取得するサービスはスクリプトを実行しないので、取得したソースの要素を
+          読む。
+        </p>
+        <p>
+          <strong>1 つの attestation の手続きの入力。</strong>1 つの
+          [=Content Attestation=] の手続きが用いる文書は、1 つの Document の
+          ある 1 時点の状態から取らなければならない (MUST)。それらは、その
+          Document の要素、それがトップレベル文書である場合はその
+          [=Page Origin=] の well-known リソース（<a
+          href="#page-delivery-frames"></a>）、そして [=Verifier=] が同梱する
+          文書から来る。親の文書や兄弟の文書の要素は用いない。<a
+          href="#verification-allowed-url"></a> が比べるページの URL は、
+          その時点のその Document の URL である。
+        </p>
+        <p>
+          <strong>結果は、それが依拠したものが変わると終わる。</strong>
+          [=Verifier=] は、次のいずれかが起きたら、[=Content Attestation=]
+          についての結果を無効にしなければならない (MUST)。
+        </p>
+        <ul>
+          <li>手続きが用いた文書を運んでいた要素が、Document に留まらなく
+            なる。</li>
+          <li>その [=Content Attestation=] が対象とするものが変わる。</li>
+          <li><code>allowedUrl</code> の確認をやり直すことになる（<a
+            href="#verification-allowed-url"></a>）。</li>
+        </ul>
+        <p>
+          結果を無効にした後、[=Verifier=] はその [=Content Attestation=] を
+          改めて検証してよい (MAY)。無効にした結果は検証の失敗ではなく、
+          失敗としては提示されない。
+        </p>
+        <p>
+          <strong>スクリプトで内容を組むページがすること。</strong>
+          [=Content Attestation=] が対象とする [=Content=] をスクリプトで組む
+          ページは、Content Attestation Set を運ぶ要素を、その [=Content=] を
+          組み終えた後に初めて挿入しなければならない (MUST)。その attestation
+          の検証に要る Originator Profile Set を運ぶ要素は、その要素より
+          遅くならないように挿入しなければならない (MUST)。
+        </p>
+        <div class="issue" title="入力を Document から取る時点">
+          要素が挿入された後、手続きの入力をいつ Document から取るかは、本改訂
+          では定まっていない。
+        </div>
+        </section>
+
+        <section id="page-delivery-routes">
+          <h4>2 つの経路と、Verifier が同梱する文書</h4>
+        <p>
+          <strong>両方の経路を用い、どちらも優先しない。</strong>
+          [=Page Origin=] の well-known リソースとは、その origin のパス
+          <code>/.well-known/sp.json</code> [[RFC8615]] にあるリソースで
+          あり、その形式は Originator Profile Blueprints [[?Originator Profile
+          Blueprints]] が与える。そのリソースは Originator Profile Set と
+          [=Website Profiles=] を運ぶ。[=Content Attestation=] は運ばない。
+          [=Content Attestation=] は、ページの中か、[=Verifier=] が同梱する
+          文書の中でだけ [=Verifier=] に届く。ページは [=Website Profile=] を
+          運ばない。[=Website Profile=] は、そのリソースからか、[=Verifier=]
+          が同梱する文書の中でだけ [=Verifier=] に届く。[=Verifier=] は、ページの中にいずれかの形式で
+          運ばれる文書を、そのリソースにある文書と合わせて用いなければならない
+          (MUST)。どちらの経路も他方に優先しない。各文書は
+          <a href="#verification-procedure"></a> が述べるとおりそれぞれ単独で
+          検証され、検証に通った文書は、どの経路で来たものであってもすべて
+          用いられる。したがって、一方の経路が欠いた文書も、他方の経路が
+          運んでいれば欠けてはいない。
+        </p>
+        <p>
+          <strong>何も得られない経路。</strong>ページがそのような要素を運んで
+          いない、あるいは well-known リソースが得られない場合、その経路からは
+          何も得られないが、それ自体では検証の失敗ではない。
+          ページが [=Content Attestation=] を運んでいるのに、その
+          [=Originator=] の [=Core Profile=] がどちらの経路からも来ず、
+          [=Verifier=] が同梱する文書の中にも無いなら、その [=Content
+          Attestation=] の検証は失敗する。これは Core Specification
+          [[OPF-CORE]] の手順から導かれる。その手順では、成功しない検査は失敗
+          である。[=Page Origin=] が与えられる場合、[=Website Profile=] は
+          well-known リソースか [=Verifier=] が同梱する文書からしか来ない。
+          したがって、そのどちらからも得られなければ <a href="#binding"></a>
+          の binding は失敗する。
+        </p>
+        <p>
+          <strong>問い合わせの前に両方の経路を。</strong>
+          [=Verifier=] は、DNS の問い合わせを 1 つでも出す前に、両方の経路の
+          文書を取らなければならない (MUST)。[=Verifier=] は問い合わせの前に
+          [=Originator Profile Bundle=] と [=Content Attestation=] を揃えることを
+          求められているからである [[OPF-CORE]]。
+          [=Verifier=] が打ち切った経路からは何も得られず、問い合わせを始めた
+          後に届いた文書はその検証に加えない。いつ経路を打ち切るかは
+          [=Verifier=] が決める。
+          [=Page Origin=] を与えない状況（<a href="#presented-identity"></a>）
+          と、origin が opaque なページでは、well-known リソースは存在せず、
+          文書はページが運ぶものと、[=Verifier=] が手元に持つものである。
+        </p>
+        <p>
+          <strong>Verifier が同梱する文書。</strong>[=Verifier=] は、これに
+          加えて自分が同梱する文書を用いてもよい (MAY)。それらの各文書も同じ
+          ようにそれぞれ単独で検証され、検証に通った場合にだけ用いられる。
+          それらは、<a href="#page-delivery-order"></a> の順序で、2 つの経路の
+          文書の後に取り扱われる。
+        </p>
+        </section>
+
+        <section id="page-delivery-order">
+          <h4>文書を取り扱う順序</h4>
+        <p>
+          [=Verifier=] は、これらの出どころの
+          文書を、<a href="#page-outside"></a> の文書も含めて、次の順序で
+          取り扱わなければならない (MUST)。この順序は、Core Specification
+          [[OPF-CORE]] が [=Verifier=] に [=Originator Profile Bundle=] の
+          文書を取り扱わせ、その上限を当てさせる順序である。[=Originator=] が
+          公開する文書が先に来て、[=Verifier=] が同梱する文書はそれらすべての
+          後に来る。
+        </p>
+        <ol>
+          <li>[=Page Origin=] の well-known リソースにある文書。</li>
+          <li>ページの中に運ばれる文書。ページ内の要素の順に取る。</li>
+          <li>[=Verifier=] が同梱する文書。</li>
+        </ol>
+        <p>
+          1 つの経路または 1 つの要素の中では、文書はそれが与える順に取り扱われる。
+        </p>
+        <div class="note" title="出どころの間の順序">
+          処理の順序は Core Specification [[OPF-CORE]] の上限の内での優先の
+          順序であり、その優先は [=Originator=] が与えるものである。したがって、
+          [=Verifier=] が同梱する文書が、[=Originator=] の提示した文書を
+          押しのけることはない。[=Page Origin=] を制御する Originator 以外の
+          [=Originator=]、たとえば配信された記事の [=Originator=] にとっては、
+          well-known リソースでの順序はその制御する者の順序であり、その者が
+          その順序によってできることは <a href="#security-delivery-denial"></a>
+          が述べる否認以上のものではない。
+        </div>
+        <p>
+          <strong>重複と、順序が律するもの。</strong>既に取り扱った文書は、
+          同じ出どころからであれ別の出どころからであれ、2 度目に現れたときには
+          再び取り扱わない。したがって、その文書は上限に対して 1 つとして
+          数えられる。文書は、その署名済みの形が既に取り扱った文書のそれと
+          1 文字ずつ同一であるとき、その文書と同じである。この順序が律するのは、
+          [=Verifier=] が上限の内で何を処理するかだけである。[=Verifier=] が
+          検証したものをどの順序で提示するかは、これによって律されない
+          （<a href="#presentation"></a>）。
+        </p>
+        </section>
+
+        <section id="page-delivery-issuances">
+          <h4>1 つの文書の発行の中から選ぶ</h4>
+        <p>
+          検証に通った文書の中に 1 つの文書の発行が複数含まれる場合、
+          [=Verifier=] はそのうちの 1 つを用い、その他は手続きが用いない文書
+          として扱う。どの発行が 1 つの文書の発行であり、そのどれを用いるかは
+          次のとおりである。
+        </p>
+        <p>
+          <strong>Profile Annotation の発行。</strong>
+          2 つの [=Profile Annotation=] は、同じ種類で、同じ
+          [=Profile Annotation Issuer=] が同じ [=Originator=] について発行した
+          ものであれば、1 つの文書の発行である。検証に通った文書の中にそのような
+          発行が複数含まれる場合、[=Verifier=] は、判定時刻
+          （<a href="#time-of-judgement"></a>）を署名の有効期間が含むものの中で、
+          署名の有効期間の始まりが最も遅いものを用いなければならない (MUST)。
+          [=Verifier=] は、その他を手続きが用いない文書として扱う。始まりが同時の 2 つがあれば、
+          <a href="#page-delivery-order"></a> の順序で先に取り扱った方を
+          用いる。
+        </p>
+        <p>
+          <strong>1 つのサイトの Website Profile。</strong>同じ [=Originator=]
+          がサイトの同じ代表 URL について発行した [=Website Profile=] が複数
+          ある場合も同じである。それらは 1 つの文書の発行である。同じ
+          [=Originator=] が異なるサイトについて発行した [=Website Profile=] は
+          それぞれ別の文書であり、そのいずれも用いられる。
+        </p>
+        <p>
+          <strong>1 つの Originator の Web Media Profile。</strong>同じ
+          [=Core Profile Issuer=] が同じ [=Originator=] について発行した
+          [=Web Media Profile=] が複数ある場合も同じである。それらは 1 つの
+          文書の発行であり、用いるものは <a href="#verification-wmp"></a> の
+          確認に通ったものの中から選ぶ。
+        </p>
+
+        <p>
+          <strong>選択が決めるもの。</strong>この選択は、検証に通り、かつ判定時刻において有効である
+          文書の中で行う。したがって、検証に通らない文書や、その時点で有効で
+          ない文書が、そうである文書を押しのけることはない。その中で、
+          署名の有効期間の始まりは発行の間で選ぶためだけに、代表 URL はどの発行が 1 つの
+          文書に属するかを見分けるためだけに用いられる（<a href="#binding"></a>）。
+        </p>
+        <div class="issue" title="1 つの文書の、言語の異なる発行">
+          現在の Originator Profile Blueprints
+          [[?Originator Profile Blueprints]] は、複数の言語の
+          [=Profile Annotation=] や [=Website Profile=] を、別々の文書として
+          並べて配布する。本小節のもとでは、そうした文書は、種類、発行者、
+          対象が同じであるか、発行者と代表 URL が同じであるので、1 つの文書の
+          発行であり、[=Verifier=] はそのうちの 1 つを用いる。文書の言語を
+          文書どうしを見分けるものとするかどうかは決まっていない。
+        </div>
+        </section>
+
+        <section id="page-delivery-originators">
+          <h4>1 つのページの複数の Originator</h4>
+        <p>
+          1 つのページが、
+          複数の [=Originator=] の文書を運ぶことがある。他の [=Originator=]
+          から配信された記事を運ぶページや、アグリゲータのページである。各
+          [=Content Attestation=] は自分の [=Originator=] を名指し、自分が
+          対象とする [=Content=] と共に運ばれるので、どの
+          [=Originator Profile=] に対して検証するかに疑いはない。
+          <a href="#verification-procedure"></a> の手続きは
+          [=Content Attestation=] ごとに、その attestation が名指す発行者を
+          [=Identity=] とする [=Core Profile=] を用いて行われ、Core Specification
+          [[OPF-CORE]] の上限は各 [=Originator Profile=] に別々に当てはまる。
+        </p>
+        <p>
+          <strong>1 つの attestation の手続きが数えるもの。</strong>1 つの
+          [=Content Attestation=] について行う手続きでは、その手続きの
+          [=Originator Profile Bundle=] は、その attestation に紐付く文書である。
+          それは、その attestation が名指す [=Originator=] の文書と、その
+          [=Core Profile=] と [=Profile Annotations=] の発行者たちの
+          [=Accreditation Chains=] とであり、それらがページの
+          どの経路、どの要素から来たかを問わない。ページの文書のうち他の
+          attestation にだけ紐付くものは、その手続きの上限には数えない。この
+          attestation の連鎖に用いられる文書は、それがページの他の
+          [=Originator=] の文書でもある場合にも、この attestation について
+          数える。
+        </p>
+        <p>
+          <strong>1 つのページの Originator は互いに独立である。</strong>
+          [=Verifier=] は、1 つのページの [=Originator=] どうしが互いに独立で
+          あるので、それらについての手続きを並列に行ってもよい (MAY)。1 つの
+          [=Originator=] の手続きの中では <a href="#verification-procedure"></a>
+          の順序がそのまま保たれる。1 つの Document の複数の
+          [=Content Attestation=] の手続きが同じ [=Originator Profile=] を
+          用いる場合、[=Verifier=] はそれを 1 度だけ検証し、その結果が
+          無効にされていない間、それぞれの手続きでその結果を用いてもよい
+          (MAY)（<a href="#page-delivery-reading"></a>）。結果は、Core
+          Specification が定めるとおり、[=Content Attestation=] ごとに得られる。
+        </p>
+        </section>
+
+        <section id="page-delivery-requests">
+          <h4>well-known リソースと参照された文書への要求</h4>
+        <p>
+          <strong>どの Verifier も well-known リソースを要求する。</strong>
+          [=Verifier=] は、ページが本節の文書のどれかを運んでいるかどうかに
+          かかわらず、そのページの [=Page Origin=] の well-known リソースを
+          要求しなければならない (MUST)。そうしなければ、
+          [=Content Attestation=] を運ぶが [=Originator Profile Bundle=] を
+          運ばないページが失敗するからである。
+          [=Verifier=] は HTTP キャッシュ [[RFC9111]] に保持された応答を用いて
+          もよい (MAY)。得たものは <a href="#caching-and-revisiting"></a> の
+          上限の範囲で保持する。
+        </p>
+        <p>
+          <strong>ブラウジングソフトウェアの中の Verifier が要求してよい時。</strong>
+          ブラウジングソフトウェアの中の [=Verifier=] は、ブラウジング
+          ソフトウェアがそのページへのナビゲーションを始める前にその要求をしては
+          ならない (MUST NOT)。[=Recipient=] が訪れると決めていない origin に
+          要求が届かないようにするためである。とくに、アドレスを入力している
+          途中では要求せず、[=Recipient=] がまだ行っていないナビゲーションに
+          備えてブラウジングソフトウェアが前もって用意したページについても
+          要求しない。要求をいつするかについて、本仕様はこれ以上定めない。
+        </p>
+        <p>
+          <strong>要求に credential を付けない。</strong>[=Verifier=] は、
+          参照された文書や well-known リソースへの要求に credential を付けては
+          ならない (MUST NOT)。要求は credentials mode を "omit" [[FETCH]]
+          として行い、したがって cookie も authorization ヘッダフィールドも
+          運ばない。要求が通常運ぶヘッダフィールドは credential ではなく、
+          通常どおり送られる（<a href="#privacy"></a>）。参照された文書に
+          ついては、その URL をページが選ぶので、credential を付けて行う要求は
+          [=Recipient=] の credential をページの選んだ host に届けることになる。
+        </p>
+        <p>
+          <strong>ページを取得するサービス。</strong>要求に応じてページを取得
+          するサービスは、ホストが非公開アドレス、たとえばループバック、
+          リンクローカル、プライベート用途のアドレスやサービス自身の基盤の
+          アドレスであるか、またはそこに解決される URL から参照された文書を
+          取得することを拒むべきである (SHOULD)。ページ自体と、どちらかの要求の
+          リダイレクトを追って至るすべての URL にも同じ規則を当てるべきである
+          (SHOULD)。
+        </p>
+        <div class="issue" title="well-known リソースに至るためにリダイレクトを追うかどうか">
+          [=Verifier=] は well-known リソースを [=Page Origin=] に要求する。
+          その要求に対して返されたリダイレクト、とくに別の origin へのリダイレクト
+          を追うべきかどうかは、この版では決まっていない。[=Verifier=] が別の
+          origin へのリダイレクトを追う場合、その origin を配信する者が、
+          [=Verifier=] がこの経路から何を受け取るかを選び
+          （<a href="#security-delivery"></a>）、検証が行われていることを知る
+          （<a href="#privacy"></a>）。
+        </div>
+        </section>
+
+        <section id="page-delivery-frames">
+          <h4>フレームの中で提示されるコンテンツ</h4>
+        <p>
+          トップレベルの document [[HTML]] の [=Page Origin=] の well-known
+          リソースから得た文書は、フレームの中、すなわちそのトップレベルの
+          document の中に入れ子になった document の中で提示される [=Content=]
+          の検証に用いてはならない (MUST NOT)。
+        </p>
+        <div class="issue" title="フレームの中で提示されるコンテンツ">
+          フレームの中で提示される [=Content=] の [=Page Origin=] がどの origin
+          であるか、また [=Verifier=] がフレームの origin の well-known リソースを
+          取得するかは、この版では決まっていない。その答えは、web 広告のための
+          [=Use Case Specification=] [[?OPF-WEB-AD]] が与えると想定される広告の
+          扱いにも左右されうる（<a href="#relationship-to-other-documents"></a>）。
+        </div>
+        </section>
+      </section>
+    </section>
+
+    <section id="origin">
+      <h2>Presented Identity と Originator のレコード</h2>
+      <p>
+        本仕様は、framework の DNS 設計にリソースレコードも名前も追加しない。
+        名前、レコード型、形式は Core Specification [[OPF-CORE]] と
+        [[?OPF-DNS]] が定めている。本仕様が定めるのは、このユースケースに
+        おいて [=Verifier=] がそれらのレコードのうちどれを引くか、
+        [=Originator=] が公開することを求められるのはどれか、そしてそれらが
+        存在しないことが何を意味するか、である。
+      </p>
+
+      <section id="presented-identity">
+        <h3>Presented Identity</h3>
+        <p>
+          <strong>Presented Identity とは何か。</strong>ページの [=Content=] が
+          提示される際の identity は [=Page Origin=] である。すなわち、その
+          [=Content=] が提示されるページの origin [[RFC6454]]、つまりその
+          scheme、host、および scheme の既定でない場合のポートである。これは、
+          このユースケースにおける [=Presented Identity=] である。
+        </p>
+        <p>
+          <strong>Page Origin を与えない状況。</strong>本仕様の下で公開
+          されたコンテンツは、ブラウジングソフトウェアのナビゲーションの外で
+          読まれることもありうる。アーカイブビューア、オフラインリーダ、
+          メールの添付のビューアで読む、といった場合である。それらが
+          [=Page Origin=] を与えない状況であり、配送が
+          [=Presented Identity=] を与えない状況にあたる（<a
+          data-cite="OPF-CORE#procedure">[[OPF-CORE]], Procedure</a> の手順 3）。
+          本仕様はそれらも対象とする。ブラウジングソフトウェアが提示する
+          ページは、opaque な origin の下であってもそれに含まれない。その
+          ようなページは、本節の塊「正規形に直せない host」で扱う。
+        </p>
+        <p>
+          <strong>突き合わせる名前は host である。</strong>
+          [=Presented Identity=] は、その host を通して突き合わされる。
+          [=Verifier=] は突き合わせの前に [=Page Origin=] の host を取り出し、
+          その host が、本仕様が [=Core Profile=] の運ぶ [=Identity=] と突き合わせる
+          名前である。
+          [=Verifier=] はその host を、Core
+          Specification [[OPF-CORE]] がドメイン名を比較する際の正規形に直さ
+          なければならない (MUST)。ページの URL を parse するとその形になる。
+          parse 済みの URL におけるドメインの host は小文字の ASCII 名だから
+          である。ただし、parse 済みの URL は末尾ドットを残していることが
+          ある。正規形には末尾ドットが無いので、[=Verifier=] は比較の前に
+          そのドットを取り除く。
+        </p>
+        <p>
+          <strong>比較そのものは Core Specification のものである。</strong>
+          origin 全体は <a href="#binding"></a> が述べるとおりに比較される。
+          それを除けば、本仕様は独自の変換を定めない。比較そのものは、ある
+          名前が別の名前の下にあるとはどういうことかを含めて、
+          Core Specification [[OPF-CORE]] の規則による。
+        </p>
+        <p>
+          <strong>正規形に直せない host。</strong>IP アドレスリテラルなど、
+          ドメイン名でない host はその形に直せない。Core Specification
+          [[OPF-CORE]] は、正規形に直せない値を、それを必要とした検査の失敗と
+          しているので、そのような host を origin に持つページについては
+          <a href="#binding"></a> の binding が失敗する。ローカルファイルから、
+          <code>data:</code> URL から、または sandbox 化されたフレームの中で
+          読まれたページの origin のような opaque な origin には、正規形に
+          直せる host が無い。したがって、そのような origin の下で提示された
+          ページについても binding は失敗し、その host について問い合わせは
+          行わない。
+        </p>
+        <div class="note" title="opaque な origin と未検査の経路">
+          opaque な origin の下にあるページを [=Page Origin=] を与えない設定の
+          1 つに数えれば、ページを組み立てる者が、binding を検査していないものと
+          して報告される経路を選べてしまう。sandbox 化されたフレームや
+          <code>data:</code> URL はページの側が作るものであり、アーカイブ
+          ビューアやオフラインリーダはそうではない。
+        </div>
+      </section>
+
+      <section id="binding">
+        <h3>Page Origin を Originator に結びつける</h3>
+        <p>
+          <strong>Verifier が成り立たせるもの。</strong>[=Verifier=] は、
+          ページの [=Content=] を、[=Core Profile=] が運ぶ [=Identity=] を持つ
+          [=Originator=] のものとして扱う前に、次のすべてを成り立たせなければ
+          ならない (MUST)。
+        </p>
+        <ul>
+          <li>
+            [=Website Profile=] が、その [=Core Profile=] の
+            [=Originator Verification Key=] の下で検証でき、判定時刻
+            （<a href="#time-of-judgement"></a>）において自身の署名の有効期間の内に
+            あること。かつ、[=Website Profile=] の発行者がその [=Originator=]
+            の [=Identity=] であること。
+          </li>
+          <li>
+            [=Page Origin=] が、[=Website Profile=] の挙げる origin のいずれか
+            であること。
+          </li>
+          <li>
+            [=Page Origin=] の host が、[=Originator=] の [=Identity=] であるか
+            その下にあること。あるいは、その [=Identity=] のゾーンがその host に
+            ついての [=Permitted Host Record=] を、認証されたデータとして公開
+            していること。
+          </li>
+        </ul>
+        <p>
+          <strong>Page Origin が挙げられた origin の 1 つであるとき。</strong>
+          [=Page Origin=] が [=Website Profile=] の挙げる origin のいずれかで
+          あるのは、その origin としての serialization（[[HTML]]）が、
+          [=Website Profile=] の運ぶ値を URL として [[URL]] parse して得た
+          URL の origin のそれと等しい場合であり、かつその場合に限る。
+          <a href="#presented-identity"></a> の比較の前に [=Verifier=] が host
+          から取り除く末尾のドットは、この比較では取り除かない。parse できない
+          値、または origin が opaque である値は、どの origin も挙げていない。
+        </p>
+        <p>
+          <strong>ゾーンが許していない、Identity の外の host。</strong>
+          [=Page Origin=] の host が [=Originator=] の [=Identity=] でもなく、
+          その下にもない場合、[=Permitted Host Record=] の認証された不在、
+          および <span class="dns-state">Insecure</span> な応答は、いずれも
+          検証を失敗させる。それは Core Specification が求めるとおりであり（<a
+          data-cite="OPF-CORE#originator-records">[[OPF-CORE]], Records
+          Published by the Originator</a>）、名前解決のあらゆる失敗と同じである。<span class="dns-state">Insecure</span> な応答とは、署名
+          されていないゾーンからの応答である。そのような host を、pinning
+          されていない [=Originator Profile=]（<a href="#origin-zone"></a>）を
+          提示しているものとして扱ってはならない (MUST NOT)。
+          [=Website Profile=] がその host を自分のものであると主張しており、
+          失敗の中身は、[=Originator=] の [=Identity=] のゾーンがその主張を
+          裏づけていない、ということだからである。
+        </p>
+        <p>
+          <strong>Permitted Host Record をどの名前について引くか。</strong>
+          [=Permitted Host Record=] を引く場合、[=Verifier=] は
+          [=Page Origin=] の host について、
+          <a href="#presented-identity"></a> の正規形でそれを引く。レコードが
+          どの名前を覆うか、そしてその存在と不在をどう読むかは Core
+          Specification のものであり（<a
+          data-cite="OPF-CORE#originator-records">[[OPF-CORE]], Records
+          Published by the Originator</a>）、[=Verifier=] はここでもそれを
+          変えずに適用する。
+        </p>
+        <div class="note" title="攻撃者が自ら署名する Website Profile">
+          [=Originator=] の [=Identity=] に対して誤って発行された [=Core Profile=]
+          を入手した攻撃者は、自分のサイトを名指しする [=Website Profile=] に
+          署名できる。[=Website Profile=] は [=Originator=] 自身が発行するもの
+          だからである。挙げられた origin との突き合わせが binding のすべてで
+          あったなら、この 1 つの失敗だけで なりすましが成立してしまう。host が
+          [=Originator=] の [=Identity=] に対して一定の関係に立つことを、名前自身に
+          よってか [=Originator=] 自身のゾーンのレコードによって示させる要件が、
+          2 つめの失敗を必要にしている。
+        </div>
+        <p>
+          <strong>代表 URL は関与しない。</strong>[=Website Profile=] は、
+          サイトの代表 URL も運ぶ。その URL は、binding にも、検証のいかなる
+          判断にも関与しない。それは提示のための情報であり、ほかには、
+          [=Website Profile=] のどの発行が 1 つの文書の版であるかを見分ける
+          ためだけに用いられる（<a href="#page-delivery-issuances"></a>）。
+        </p>
+      </section>
+
+      <section id="origin-zone">
+        <h3>Originator のレコードとそのゾーン</h3>
+        <p>
+          <strong>レコードが公開される場所。</strong>[=Originator=] が公開
+          できる 2 つのレコードは、いずれも
+          [=Originator=] 自身の [=Identity=] のゾーンの、Core Specification
+          [[OPF-CORE]] が定める名前において公開される。[=Page Origin=] の
+          host が [=Originator=] の [=Identity=] でもその下でもない場合、その host
+          のゾーンはこの framework のレコードを何も持たず、DNSSEC で署名されて
+          いることを要求されない。
+        </p>
+        <p>
+          <strong>Issuer Pinning Record は任意であり、引くかどうかは状況に
+          よる。</strong>[=Originator=] は、自身の [=Issuer Pinning Record=]、
+          すなわち自分に対して発行することを許された [=Core Profile Issuers=]
+          を挙げるレコードを公開することを要求されない。したがって、自身の
+          [=Identity=] のゾーンに署名することも一切要求されない。[=Verifier=]
+          がそのレコードを引くかどうかは状況によって決まる。状況が
+          [=Page Origin=] を与えない場合、[=Verifier=] はそれを引かなければ
+          ならず (MUST)、[=Page Origin=] が与えられる場合、[=Verifier=] はそれを
+          引いてもよい (MAY)。そのレコードを引く [=Verifier=] は、その結果を
+          Core Specification が求めるとおりに扱う（<a
+          data-cite="OPF-CORE#originator-records">[[OPF-CORE]], Records
+          Published by the Originator</a>）。
+        </p>
+        <p>
+          <strong>結果の読み方は Core Specification のものである。</strong>認証された不在と
+          <span class="dns-state">Insecure</span> な応答、そして別名を経て到達した応答は、
+          [=Originator=] を pinning されていない状態のままとし、検証は続く。それ以外の
+          結果は、Core Specification が述べるとおり、[=Originator=] を pinning するか、
+          検証を失敗させるかのどちらかである（<a
+          data-cite="OPF-CORE#originator-records">[[OPF-CORE]], Records
+          Published by the Originator</a>。<a
+          data-cite="OPF-CORE#dnssec-and-resolution-outcomes">[[OPF-CORE]],
+          DNSSEC Requirements and Resolution Outcomes</a>）。本仕様はそれに何も付け加えない。
+          検証状態を resolver から得る [=Verifier=] に <span
+          class="dns-state">Indeterminate</span> な結果がどう見えるか、そして
+          <a href="#verification-parties"></a> の保証のもとではその状態がなぜ生じないかも、
+          そこに注記されている。
+        </p>
+        <p>
+          <strong>レコードの公開の推奨。</strong>自身の [=Identity=] のゾーンが
+          DNSSEC で署名されている [=Originator=] は、自身の
+          [=Issuer Pinning Record=] を公開するのがよい (SHOULD)。レコードは、
+          応答が認証されている場合にのみ効力を持つ。したがって、署名されていない
+          ゾーンにあるレコードや、<code>_op.&lt;originator&gt;</code> に委任された
+          ゾーンであって [=Originator=] の [=Identity=] のゾーンに DS レコードが
+          無いものにあるレコードは効力を持たない。本仕様はいかなる [=Originator=] に
+          対してもそのゾーンに署名することを要求しない。署名できない組織も
+          参加できるようにするためである（<a href="#security-pinning"></a>）。
+        </p>
+        <p>
+          <strong>ゾーンの残り。</strong>[=Originator=] の
+          [=Identity=] のゾーンの別の所にある wildcard や DNAME と、レコードの公開が
+          それらに及ぼすことは、Core Specification が述べるとおりである。その名前を
+          [=Originator=] がどう確かめるかは [[?OPF-OPS]] にある。
+        </p>
+        <p>
+          <strong>Originator のゾーンに署名しなければならないとき。</strong>
+          [=Permitted Host Record=] が必要となるのは <a href="#binding"></a>
+          が挙げる場合、すなわち [=Website Profile=] が名前を挙げている host
+          であって、[=Originator=] の [=Identity=] でもなくその下にも無いものに
+          ついてだけである。<a href="#binding"></a> から、そのような host を
+          挙げる [=Originator=] は自身の [=Identity=] のゾーンに署名しなければ
+          ならないことが導かれる。[=Verifier=] は応答が認証されている場合に
+          のみそのレコードに基づいて動作するからである。自身の [=Identity=] で
+          あるかその下にある host しか挙げない [=Originator=] にはその必要が
+          無い。
+        </p>
+        <p>
+          <strong>発行者のレコードは Core Specification のものである。</strong>
+          発行者たちが公開するレコード、すなわち各発行者の [=Issuer Key
+          Record=]、[=Core Profile Issuer=] の [=Originator Key Records=]、
+          [=Profile Annotation Issuer=] の [=Revocation Records=] は、
+          すべてのユースケースに共通であり、Core Specification が定めている（<a
+          data-cite="OPF-CORE#issuer-key-record">[[OPF-CORE]], Issuer Key
+          Record</a>。<a
+          data-cite="OPF-CORE#originator-key-records">[[OPF-CORE]],
+          Originator Key Records</a>。<a
+          data-cite="OPF-CORE#revocation-records">[[OPF-CORE]], Revocation
+          Records</a>）。本仕様はそれらに対して、それ以上の要件を
+          何も課さない。
+        </p>
+      </section>
+    </section>
+
+    <section id="verification">
+      <h2>検証</h2>
+      <p>
+        本節は、このユースケースについて、Core Specification [[OPF-CORE]] の
+        検証手続きをどの当事者が実行するか、その当事者が自らの動作する場所で
+        DNSSEC の validation state を確立するために何を備えている必要がある
+        か、その当事者が [=Web Media Profile=] をどう確かめ、ページの URL を
+        <code>allowedUrl</code> とどう照合するか、そして結果がどう扱われるかを
+        定める。validity をどの時点を基準として判断するかは <a
+        href="#time-of-judgement"></a> にある。
+      </p>
+
+      <section id="verification-parties">
+        <h3>検証を行う当事者</h3>
+        <p>
+          <strong>Verifier の 2 つの配置。</strong>検証を行う当事者は、[=Recipient=] にページを提示する当事者か、
+          ページを取得して検証するサービスである。本仕様はその当事者に独自の
+          名前を与えない。この役割を指す用語は [[OPF-CORE]] から import した
+          [=Verifier=] であり（<a href="#terminology-imported"></a>）、2 つの
+          配置の違いは、何を検査しな
+          ければならないかにではなく、何を入手できるかにある。サービスが到達
+          した結果を、その後ページを提示する別の当事者に伝えるかどうか、また
+          その当事者がその結果の何に依拠してよいかは未決である
+          （<a href="#result"></a>）。
+        </p>
+        <p>
+          <strong>validation state を確立する 2 つの手段。</strong>[=Verifier=] は、自らが依拠するすべての応答について、Core Specification
+          が求めるとおり（<a
+          data-cite="OPF-CORE#dnssec-and-resolution-outcomes">[[OPF-CORE]],
+          DNSSEC Requirements and Resolution Outcomes</a>）、自前の trust anchor
+          で validate するか、validating resolver を認証しその応答を保護する
+          チャネルを通すかによって、DNSSEC の validation state を確立する。
+          resolver に依拠する場合、[=Verifier=] は、設定または試験によって、その
+          resolver が validate することの保証を持つ。そのどちらもできない [=Verifier=] は、Core Specification が
+          述べるとおり、そもそもこの手続きを実行できない。
+        </p>
+        <p>
+          <strong>validate しない resolver からの応答は Insecure ではない。</strong>そのような resolver からの応答は validation state を持たず、
+          [=Verifier=] はそれを <span class="dns-state">Insecure</span> と読まない。
+          [[OPF-CORE]] が求めるとおりである。このユースケースでこの読み方が意味を持つのは、
+          [=Originator=] の [=Issuer Pinning Record=] については、<span class="dns-state">Insecure</span> な
+          応答が [=Originator=] を pinning されていない状態のままとするから
+          である（<a href="#origin-zone"></a>。<a
+          data-cite="OPF-CORE#dnssec-and-resolution-outcomes">[[OPF-CORE]],
+          DNSSEC Requirements and Resolution Outcomes</a>）。
+        </p>
+        <p>
+          <strong>ブラウジングソフトウェアの中の Verifier は自前の手段を備える。</strong>拡張のように、ブラウジングソフトウェアの中で動作する [=Verifier=] は、
+          ブラウジングソフトウェアが自身の目的のために行う名前解決を通じて
+          得た応答を、それだけを理由に認証されたデータとして扱ってはならない
+          (MUST NOT)。ブラウジングソフトウェアは一般に DNSSEC を validate
+          しない。また、応答が validate されたという表示は、その表示自体が
+          認証されないまま届くなら、ネットワーク経路上の誰でも書き込める。したがって、そのような
+          [=Verifier=] は 2 つの手段のいずれかを自ら備える。自前の validator か、
+          validating resolver への認証されたチャネルである。
+        </p>
+        <p>
+          <strong>ページを取得するサービス。</strong>どちらの手段を備えるかは、そのサービス自らの配備の問題で
+          あり、到達した結果をどうするかは <a href="#result"></a>
+          に、その過程で [=Recipient=] について何を知ることになるかは
+          <a href="#privacy-verification-service"></a> にある。
+        </p>
+      </section>
+
+      <section id="verification-procedure">
+        <h3>検証の手続き</h3>
+        <p>
+          <strong>一般手続きの番号に合わせた手順。</strong>ページの中で提示
+          された [=Originator Profile=] を検証する [=Verifier=] は、次の手順を
+          実行しなければならない (MUST)。この手順は Core Specification
+          [[OPF-CORE]] の一般手続きに従っており、番号もその一般手続きの番号
+          付けに合わせてある。ここに書いてあるのは本仕様に固有の内容だけである。
+          「一般手続きと同じである」と述べる手順は、一般手続きのその手順に、
+          その手順が加えるものだけを足したものである。
+        </p>
+        <p>
+          <strong>どの問い合わせが何を待つか。</strong>DNS に問い合わせる手順
+          には印を付けてある。一般手続きと同じく、ある発行者の
+          [=Accreditation Chain=] をローカルに検証し終えるまでは、その発行者に
+          ついての問い合わせを行わない。[=Root Issuer=] については、その
+          [=Root Core Profile=] が chain の役を果たす。手順 3 と手順 4 で問い合わせる名前は
+          [=Core Profile=] が運ぶ [=Identity=] から作られる。したがって、この
+          2 つの問い合わせは、[=Core Profile Issuer=] の chain をローカルに
+          検証し、かつ [=Core Profile=] の署名をその発行者の鍵で検証した後に
+          だけ行う。[=Website Profile=] の検証と、[=Page Origin=] をそれが
+          挙げる origin と比べることは、問い合わせを要さず、chain を待つ必要が
+          無い。
+        </p>
+        <ol class="algorithm">
+          <li>
+            <p>
+              <strong>入力を取る。</strong>[=Verifier=] は、開始前に一般手続きが
+              求めるものを備えている。すなわち、自らが受け入れる
+              [=Root Core Profiles=]、DNSSEC の validation state を確立する手段
+              （<a href="#verification-parties"></a>）、そして時計である。
+              そのうえで、<a href="#page"></a> が定める
+              [=Originator Profile Bundle=]、[=Content Attestation=]、
+              [=Website Profile=] を、次の 3 つの出どころから取る。
+            </p>
+            <ul>
+              <li>ページ（このうち最初の 2 つを運び、それらを埋め込むか、URL で
+                指し示す）。</li>
+              <li>[=Page Origin=] の well-known リソース（このうち 1 つ目と
+                3 つ目を運ぶ）。</li>
+              <li>自分が同梱するもの。</li>
+            </ul>
+            <p>
+              それ以外に何も取得しない。<a href="#page-delivery-routes"></a> が
+              求めるとおり、DNS の問い合わせを 1 つでも出す前に両方の経路の
+              文書を取り、打ち切った経路からは何も得られない。
+            </p>
+            <p>
+              <strong>Content を結び付けるもの、および用いない文書。</strong>
+              このユースケースでは、[=Content Attestation=] そのものが
+              [=Originator Profile=] を [=Content=] に結び付けるものであり（<a
+              data-cite="OPF-CORE#use-case-interface">[[OPF-CORE]], Requirements
+              on Use Case Specifications</a> の第 7 項）、[=Verifier=] が最初に
+              検証すべき、[=Originator Profile Bundle=] と
+              [=Content Attestation=] の外側の署名は無い。
+              [=Web Media Profile=] はこのユースケースでは
+              [=Originator Profile=] の一部であり、以下の手順はその発行者、
+              署名、署名の有効期間を確かめる（手順 5）。本版は [=Verifier=] がそれに対してほかに
+              何をするかを定めない（<a href="#page-outside"></a>）。この手続きが
+              用いない文書がページの中にあること自体は失敗ではない。
+            </p>
+          </li>
+          <li>
+            <p>
+              <strong>Accreditation Chain をローカルに検証する</strong>
+              （ローカルな検証に続く検査で DNS）。この手順は一般手続きと同じで
+              あり、当該発行者についてのいかなる DNS への問い合わせよりも前に
+              行う。ローカルな検証に必要なものはすべて
+              [=Originator Profile Bundle=] の中にある
+              （<a href="#page-bundle"></a>）ので、そのために手順 1 で得たもの
+              以外に何も取得せず、ローカルに検証できない chain は問い合わせを
+              1 回も要しない。
+            </p>
+            <p>
+              <strong>DNS での検査、および保持している chain。</strong>
+              一般手続きが検証済みの chain の各段について求める DNS での検査は、
+              その一般手続きが述べるとおりに行う。本仕様はそこに何も加えない。Core Specification が認めるとおり（<a
+              data-cite="OPF-CORE#chain-verification">[[OPF-CORE]],
+              Accreditation Chain Verification and Caching</a>）、
+              <a href="#caching-and-revisiting"></a> の範囲内で chain を既に検証して
+              保持している [=Verifier=] は、これらの問い合わせをいずれも繰り返さない。
+            </p>
+          </li>
+          <li>
+            <p>
+              <strong>identity を結びつける</strong>（1 つの場合に DNS）。
+              <a href="#binding"></a> の次の条件をそれぞれ成り立たせる。
+            </p>
+            <ul>
+              <li>[=Website Profile=] が [=Core Profile=] の
+                [=Originator Verification Key=] の下で検証でき、その profile
+                が運ぶ [=Identity=] を持つ [=Originator=] が発行者であり、かつ
+                判断の基準時点（<a href="#time-of-judgement"></a>）において
+                それ自身の署名の有効期間の内にあること。</li>
+              <li>[=Page Origin=] が [=Website Profile=] の挙げる origin の
+                いずれかであること。</li>
+              <li>[=Page Origin=] の host がその [=Identity=] に対して求められる
+                関係に立つこと。</li>
+            </ul>
+            <p>
+              [=Permitted Host Record=] を引くのは、その host が
+              [=Originator=] の [=Identity=] でもその下でもない場合だけである。
+              引く場合には <a href="#binding"></a> が述べる失敗が適用される。
+            </p>
+            <p>
+              <strong>Page Origin を与えない状況。</strong>配送が
+              [=Page Origin=] を与えない場合（<a href="#presented-identity"></a>）、<a
+              href="#binding"></a> の条件を成り立たせられず、この手順は実行
+              されない。[=Verifier=] は
+              binding を検査していないものとして報告する。これは一般手続きが
+              用意しているものであり、それ自体は検証の失敗ではない。残りの手順は
+              実行され、手順 4 もその中にあって、そのときは必須となる。
+            </p>
+            <p>
+              <strong>opaque な origin の下のページ。</strong>ローカルファイル
+              から、<code>data:</code> URL から、または sandbox 化された
+              フレームの中で読まれたもののように、ブラウジングソフトウェアが
+              opaque な origin の下で提示するページは、[=Page Origin=] を与え
+              はするが、その host は正規形に直せない
+              （<a href="#presented-identity"></a>）。したがって binding は
+              失敗する。
+            </p>
+          </li>
+          <li>
+            <p>
+              <strong>[=Originator=] の [=Issuer Pinning Record=] を引く</strong>
+              （DNS。[=Core Profile Issuer=] についての手順 2 と、
+              [=Core Profile=] の署名の検証の後。名前はその profile が運ぶ
+              [=Identity=] から作られるからである）。
+            </p>
+            <p>
+              <strong>そのレコードを引く場合と、その結果。</strong>状況が
+              [=Page Origin=] を与えず、手順 3 が実行されない場合、
+              [=Originator=] の [=Identity=] のゾーンにある
+              [=Issuer Pinning Record=] が引かれる。[=Page Origin=] が与えられる
+              場合、それを引くかどうかは [=Verifier=] の選択である。いずれも
+              <a href="#origin-zone"></a> が求めるとおりである（2 つの状況が
+              なぜ異なるかは <a href="#security-pinning"></a>）。どちらの場合も、このユースケースでは [=Originator=] が
+              そのレコードを公開することを求められていない。それを引く
+              [=Verifier=] は各結果を <a href="#origin-zone"></a> が求めるとおり
+              に扱い、[=Originator=] が pinning されていたか、
+              されていなかったか、またはその [=Issuer Pinning Record=] が引かれ
+              なかったかは、結果に引き継がれる。
+            </p>
+          </li>
+          <li>
+            <p>
+              <strong>[=Core Profile=] が現行であることを検査する</strong>
+              （DNS）。一般手続き（<a
+              data-cite="OPF-CORE#procedure">[[OPF-CORE]], Procedure</a> の手順 5）と同じであり、
+              判断の基準時点は <a href="#time-of-judgement"></a> のものである。[=Core Profile Issuer=] の鍵は、
+              [=Originator Profile Bundle=] の [=Accreditation Chain=] または
+              [=Verifier=] が持つ [=Root Core Profile=] にある、その発行者
+              自身の [=Core Profile=] から取り、それを得るために何も取得しない。
+              そのうえで一般手続きが行う検査、すなわち [=Core Profile=] に署名
+              した鍵がその発行者の現に公開している鍵であることの検査は、DNS に
+              おいて行う。
+            </p>
+            <p>
+              <strong>Web Media Profile。</strong>[=Originator=] の
+              [=Web Media Profile=] も、<a href="#verification-wmp"></a> が
+              述べるとおりに確かめる。Bundle が 1 つも運ばない場合、発行者と鍵の
+              確認に通るものが無い場合、または通ったもののどれも判断の基準時点に
+              おいて有効でない場合、この手順は失敗する。
+            </p>
+          </li>
+          <li>
+            <strong>[=Originator Key Record=] を検査する</strong>（DNS）。一般手続きと同じである。
+            [=Core Profile=] が運ぶ名前の [=Originator Key Record=] が存在する。
+            本仕様はこの手順に何も加えない。
+          </li>
+          <li>
+            <p>
+              <strong>[=Content Attestation=] を検証する。</strong>
+            </p>
+            <p>
+              <strong>Content Attestation に署名した鍵。</strong>一般手続きと
+              同じである。これに署名した鍵は、その [=Key Identifier=] で選ばれる
+              [=Core Profile=] の [=Originator Verification Key=] であり、
+              その [=Core Profile=] について [=current=] である。<a
+              data-cite="OPF-CORE#procedure">[[OPF-CORE]], Procedure</a> の
+              手順 7 が求めるとおりである。鍵は、そのレコードを
+              [=Originator Key Records=] から消すことで [=withdrawn=] になる。
+              したがって鍵が [=current=] であるのは、その [=Core Profile=]
+              の [=Originator Key Record=] がその [=Key Identifier=] を載せて
+              いる間だけである。
+            </p>
+            <p>
+              <strong>Website Profile の鍵と、署名の有効期間。</strong>手順 3 が
+              依拠した [=Website Profile=] に署名した鍵も、同じ意味で [=current=] で
+              なければならない (MUST)。[=Originator Profile=] の外側にある文書は、
+              それに署名した鍵が [=current=] である間しか用をなさないからである
+              （<a href="#validity-layers"></a>）。[=Content Attestation=] は、
+              判断の基準時点においてそれ自身の署名の有効期間の内になければ
+              ならない (MUST)。その署名の有効期間がその時点を含まない
+              [=Content Attestation=] や [=Website Profile=] は、手続きが用いない
+              文書である（<a href="#validity-layers"></a>）。
+            </p>
+            <p>
+              <strong>ページの URL と <code>allowedUrl</code>。</strong>
+              [=Verifier=] は、[=Content Attestation=] が提示されたページの URL
+              が、その [=Content Attestation=] の <code>allowedUrl</code>
+              プロパティに一致することを、<a href="#verification-allowed-url"></a>
+              が述べるとおりに確かめなければならない (MUST)。この
+              プロパティは Originator Profile Blueprints
+              [[?Originator Profile Blueprints]] が定めている。その値は URL
+              Pattern の文字列 [[URLPATTERN]]、またはそのような文字列の配列で
+              ある。ページの URL が <code>allowedUrl</code> に一致しない
+              [=Content Attestation=] は、そのページについて用いてはならない
+              (MUST NOT)。
+            </p>
+            <div class="note" title="Content Attestation が固定するもの">
+              [=Content Attestation=] は、それが対象とする [=Content=] を
+              固定するが、それを提示してよいページを固定するものはその中に
+              ほかに無い。したがって、この確認を省く [=Verifier=] は、正規の
+              [=Content Attestation=] を、その [=Content=] を再現しただけの
+              ページの上で受け入れてしまう（<a
+              href="#security-delivery-other-page"></a>）。
+            </div>
+          </li>
+          <li>
+            <strong>各 [=Profile Annotation=] を検査する</strong>（DNS）。
+            一般手続きと同じであり、判断の基準時点は <a
+            href="#time-of-judgement"></a> のそれである。annotation の署名の有効期間が
+            その時点を含み、内容の有効期間を持つ場合はその期間が署名の有効期間を含み、
+            その annotation についての [=Revocation Record=] が存在しないこと。本仕様はその手順に
+            何も加えない。
+          </li>
+          <li>
+            <strong>結果を導いて報告する。</strong>一般手続きと同じである。
+            結果が何を区別するか、および存在と不在の検査の新しさをどう報告する
+            かについての一般手続きの要件は、ここでもそのまま適用され、結果は
+            その後 <a href="#result"></a> と <a href="#presentation"></a> に
+            渡る。
+          </li>
+        </ol>
+        <p>
+          <strong>この手続きが加える問い合わせ。</strong>この手続きが行う
+          DNS への問い合わせの数は、一般手続きのそれに、多くとも 1 回を加えた
+          ものである。加わるのは [=Permitted Host Record=] であり、
+          [=Page Origin=] の host が [=Originator=] の [=Identity=] でもなく
+          その下にもない場合である。chain を既に検証して保持しているサイトを
+          再訪する場合はこれより少なくなる（<a href="#caching-and-revisiting"></a>）。
+        </p>
+        <div class="issue" title="allowedOrigin を運び allowedUrl を運ばない Content Attestation">
+          手順 7 は [=Verifier=] に <code>allowedUrl</code> の確認を求める。
+          古い形の [=Content Attestation=] は、<code>allowedOrigin</code> だけを
+          運び、<code>allowedUrl</code> を運ばないことがある。そのような
+          [=Content Attestation=] を用いないのか、代わりに
+          <code>allowedOrigin</code> と突き合わせるのか、定めた日に終わる移行
+          期間の間は受け入れるのかは、決まっていない。そのような文書が流通して
+          いるかどうかは、ここでは確かめられていない。
+        </div>
+        <div class="issue" title="ページに URL が無い場合の allowedUrl の確認">
+          [=Page Origin=] を与えない状況（<a href="#presented-identity"></a>）
+          では、手順 3 は実行されない。そのとき <a
+          href="#verification-allowed-url"></a> の確認がどうなるかは
+          決まっていない。すなわち、それも同じく実行せずに未検査と報告するのか、
+          その状況がページについて記録している URL と突き合わせるのか、
+          それともその [=Content Attestation=] を用いないのかである。
+        </div>
+      </section>
+
+      <section id="verification-wmp">
+        <h3>Web Media Profile を確かめる</h3>
+        <p>
+          <strong>Web Media Profile について確かめること。</strong>
+          <a href="#verification-procedure"></a> の手順 5 において、
+          [=Verifier=] は、[=Originator Profile Bundle=] が [=Originator=] の
+          [=Web Media Profile=] を運ぶことを確かめる（<a
+          href="#page-bundle"></a>）。運ぶもののそれぞれについて、それが
+          その手順で検証した [=Core Profile=] を発行した [=Core Profile Issuer=]
+          によって発行されていること（<a href="#page-outside"></a>）と、その署名が、
+          [=Accreditation Chain=] または [=Verifier=] が持つ [=Root Core Profile=]
+          の中のその issuer 自身の [=Core Profile=]
+          から取った鍵で検証できることを確かめる。さらに、その鍵がその issuer
+          が現に公開しているものであることを、その手順で得た
+          [=Issuer Key Record=] を用いて、問い合わせを足さずに確かめる。これらのいずれかに
+          通らない [=Web Media Profile=] は、手続きが用いない文書である。
+        </p>
+        <p>
+          <strong>Web Media Profile の署名の有効期間。</strong>発行者と鍵の
+          確認に通った [=Web Media Profile=] のうち、いずれか 1 つの
+          署名の有効期間が判断の基準時点を含む必要がある。
+          [=Originator Profile=] はその [=Web Media Profile=] とともに終わる
+          からである（<a href="#validity-layers"></a>）。[=Web Media Profile=]
+          のそれ以外の点は確かめない（<a href="#page-outside"></a>）。
+        </p>
+      </section>
+
+      <section id="verification-allowed-url">
+        <h3>ページの URL を allowedUrl と照合する</h3>
+        <p>
+          <a href="#verification-procedure"></a> の手順 7 は、[=Verifier=] に、
+          ページの URL が [=Content Attestation=] の <code>allowedUrl</code>
+          に一致することを確かめるよう求めている。本節は、その照合のしかたを
+          述べる。
+        </p>
+        <p>
+          <strong>ページの URL の照合のしかた。</strong>ページの URL は、
+          入力を取る Document の URL（<a href="#page-delivery-reading"></a>）
+          であり、query と fragment を含むすべての成分を持つ。リダイレクトを
+          辿ったサービスにとっては、最終的に与えられた Document の URL で
+          ある。URL は、文字列から構成したパターンに一致するときその文字列に
+          一致し、配列のいずれか 1 つの文字列に一致するときその配列に一致する。
+          [=Verifier=] は、パターンとして parse できない文字列と、<a
+          href="#page-outside"></a> の制約を満たさない文字列を、どの URL
+          にも一致しないものとして扱わなければならない (MUST)。
+        </p>
+        <p>
+          <strong>Document の中での URL の変化。</strong>新しい Document に
+          ならずに Document の URL が変わる場合、たとえば fragment への
+          ナビゲーションでは、[=Verifier=] は <code>allowedUrl</code> の確認を
+          新しい URL に対してやり直さなければならない (MUST)。前の一致に依拠
+          していた結果は終わる（<a href="#page-delivery-reading"></a>）。
+        </p>
+      </section>
+
+      <section id="result">
+        <h3>結果がどう扱われるか</h3>
+        <p>
+          <strong>結果を記録しておく場所は無い。</strong>配送チャネルは結果を記録しておける場所を提供せず、本仕様は記録された
+          結果の形式も、それを封印する手段も定めない。ページは [=Verifier=] が読む文書であって、それを扱う
+          当事者が自前のフィールドを付け加えるメッセージではない。[=Verifier=] が
+          書いたものは、次にそれを読む当事者にページとともに運ばれることが無い。
+          したがって [=Verifier=] は提示のたびに改めて判断する
+          （<a href="#time-of-judgement"></a>）。
+        </p>
+        <p>
+          <strong>結果が当事者の間を渡るかどうか。</strong>検証する当事者と提示する当事者が同一である場合、すなわちブラウジング
+          ソフトウェアの中の [=Verifier=] の場合、当事者間を結果が渡ることはそもそも
+          無い。結果は導かれ、提示され（<a href="#presentation"></a>）、提示の
+          後には何も残らない。サービスが検証し、ページを提示する当事者が別である場合、結果は両者の
+          間に成り立つ取り決めによってその当事者に届く。本仕様はその取り決めを
+          定めない。
+        </p>
+        <div class="issue" title="検証サービスから結果を受け取った当事者が何に依拠してよいか">
+          <p>
+            Core Specification [[OPF-CORE]] は、ある当事者が別の当事者から結果を
+            受け取ったときに何に依拠してよいかを、[=Use Case Specification=] が述べることを
+            求めている。これに関わる次の 3 つが、この版では決まっていない。
+          </p>
+          <ul>
+            <li>ページを取得するサービスが、その結果を、ページを提示する別の当事者に
+            伝えるかどうか。<a href="#verification-parties"></a> は [=Verifier=] の
+            2 つの配置のうちの一つとしてサービスを認める。本節は、結果が両者の間に
+            成り立つ取り決めによって提示を行う当事者に届くとだけ述べており、この
+            2 つが同一の当事者であるかどうかを述べていない。
+            </li>
+            <li>同一でない場合に、結果がどのような形式で伝えられるか、そして
+            受け取った当事者が何に依拠してよいか。</li>
+            <li>ある当事者から別の当事者へ渡った結果に依拠してよい信頼の境界が
+            必要かどうか。このユースケースはそれを定めていない。</li>
+          </ul>
+          <p>
+            このユースケースは結果を記録しないので、結果を記録するための値を
+            定めず、結果を保持する手段も持たない（<a
+            href="#time-of-judgement"></a>）。
+          </p>
+        </div>
+      </section>
+
+      <section id="presentation">
+        <h3>提示</h3>
+        <p>
+          <strong>提示されるものについて Core Specification が既に求めていること。</strong>検証の結果は、それが対象とする [=Content=] とともに [=Recipient=] に
+          提示される。
+          Core Specification [[OPF-CORE]] は、[=Profile Annotation=] が効力を
+          持っているかのように [=Verifier=] が提示すべきでないものを述べ、
+          結果が pinning について何を区別するか、すなわち pinning されている
+          [=Originator=]、されていないもの、その [=Issuer Pinning Record=] が
+          引かれなかったものを述べている。そのどちらもここでは繰り返さない。
+          このユースケースで [=Issuer Pinning Record=] が引かれないのは、[=Page Origin=] が与えられ、
+          [=Verifier=] がそのレコードを引くことを選ばなかった場合だけである
+          （<a href="#origin-zone"></a>）。
+        </p>
+        <p>
+          <strong>検査されなかった binding。</strong>Core Specification は、検査
+          されなかった binding を結果がその旨報告することも求めている。このユースケースでは、それは
+          [=Page Origin=] を与えない状況について当てはまる。ブラウジング
+          ソフトウェアの中で提示されるページはこれを持ち、その
+          binding は検査される。これに対し、[=Page Origin=] を与えない状況
+          （<a href="#presented-identity"></a>）のいずれかで読まれる
+          コンテンツはこれを持たず、その場合の結果は binding が検査されな
+          かったことを運ぶ。
+        </p>
+        <p>
+          <strong>判断はそれを下した時点のもの。</strong>[=Verifier=] が提示するものは、検証した時点で下した判断であり、他の
+          いかなる時点についての言明でもない
+          （<a href="#time-of-judgement"></a>）。[=Verifier=] がある検証から次の
+          検証へ持ち越してよいものは、Core Specification [[OPF-CORE]] と
+          <a href="#caching-and-revisiting"></a> に列挙してある。結果はその中に
+          含まれない。
+        </p>
+        <p>
+          <strong>現在の実装。</strong>現在の実装では、[=Verifier=] はブラウザ拡張であり、結果を
+          [=Recipient=] に提示する役も担う。これがデモンストレーションの
+          ユーザーインタフェースである。[=Recipient=] に要となる視覚的な情報を
+          与えるために、ブラウジングソフトウェアそのものに手を入れることも
+          検討されている。
+        </p>
+        <div class="issue" title="Content Attestation を運ばないページ">
+          本仕様は、[=Content Attestation=] を運ばないページを評価しない（<a
+          href="#security-delivery-denial"></a>）。現在の Originator Profile
+          Blueprints [[?Originator Profile Blueprints]] は、そのようなページが
+          自身の well-known リソースから得る [=Website Profile=] を検証し、
+          そのサイトを運営する [=Originator=] を提示する。そのようなページに
+          ついて [=Verifier=] が何かを提示してよいか、どのような条件でよいかは
+          決まっていない。
+        </div>
+      </section>
+    </section>
+
+    <section id="validity">
+      <h2>Validity、revocation、時刻</h2>
+      <p>
+        本節は、一般モデルの validity の層がこのユースケースでどう現れるか、
+        そして発行がどのような不変条件に服するかを記す。また、ここでは置き換えられた鍵を retired
+        な鍵として残すか withdraw するか、validity をどの時点を基準として判断するか、そして [=Verifier=] が
+        ページのある提示から次の提示へ何を持ち越してよいかも記す。
+      </p>
+
+      <section id="validity-layers">
+        <h3>Validity の層</h3>
+        <p>
+          <strong>4 つの層は Core Specification のものである。</strong>このユースケースでは、validity の層は Core Specification の 4 つ（<a
+          data-cite="OPF-CORE#revocation-model">[[OPF-CORE]], Revocation Model
+          and Time Constraints</a>）の外側に無い。ページとともに運ばれる
+          文書の外側にあるものが、ページに署名することが無いからである。このユースケースに
+          固有のことが 2 つある。鍵の層が覆うのは、[=Content Attestation=] と
+          [=Website Profile=] に署名する鍵である。[=Originator=] が登録を終わらせる宣言は、
+          [=Verifier=] がその [=Issuer Pinning Record=] を引く所でのみ効力を持つ
+          （<a href="#origin-zone"></a>）。
+        </p>
+        <p>
+          <strong>プロファイルの外側の文書は層を成さない。</strong>[=Content Attestation=] と
+          [=Website Profile=] は、DNS における名前も revocation 機構も持たない
+          （<a href="#page-outside"></a>）。それらは次の 3 つの道のいずれかに
+          よって効力を失う。
+        </p>
+        <ul>
+          <li>それらに署名した鍵が [=current=] でなくなること（鍵の層）。</li>
+          <li>その鍵を運ぶ [=Core Profile=] が valid でなくなること（Core Profile の層、
+          または当該 [=Originator=] のすべての [=Core Profile=] を終わらせる登録の層）。</li>
+          <li>それら自身の署名の有効期間が終わること。</li>
+        </ul>
+        <p>
+          <strong>Web Media Profile と Originator Profile はともに終わる。</strong>
+          [=Web Media Profile=] は、
+          [=Originator=] の [=Core Profile=] が valid でなくなると valid で
+          なくなり、[=Originator Profile=] は、その [=Web Media Profile=] の
+          署名の有効期間が終わると valid でなくなる。[=Verifier=] はその
+          終わりを確かめる（<a href="#verification-wmp"></a>）。これは層を
+          加えない。
+          [=Web Media Profile=] は DNS における名前も自前の revocation 機構も
+          持たないからである。それは、それに署名した鍵を
+          [=Core Profile Issuer=] がもう公開しなくなったときにも終わる（<a
+          href="#verification-wmp"></a>）。
+        </p>
+        <p>
+          <strong>Website Profile は Web Media Profile に従属しない。</strong>2 つの文書は
+          並べてともに運ぶことができるが、[=Website Profile=] の validity は
+          [=Web Media Profile=] の validity に依らず、上に挙げた 3 つが、
+          [=Website Profile=] が効力を失う道のすべてである。
+          [=Web Media Profile=] が終わっているとき、その [=Originator=] の各
+          [=Content Attestation=] の検証は、その [=Website Profile=] が何であれ
+          <a href="#verification-procedure"></a> の手順 5 で失敗する。
+          [=Website Profile=] そのものは影響を受けず、
+          [=Originator Profile=] が valid な [=Web Media Profile=] を運ぶように
+          なれば再び用いられる。
+        </p>
+        <p>
+          <strong>1 つのサイトについての主張だけを撤回することはできない。</strong>効力を失う道がその 3 つしか無いので、このユースケースでは、あるサイトについての主張
+          の撤回が、鍵または [=Core Profile=] の revocation に畳み込まれる。
+          撤回するべき第 3 のものが存在しない。これは簡潔さであると同時に粗さ
+          でもある。[=Website Profile=] が挙げる origin のうちの 1 つで自らの
+          [=Originator Profile=] を提示するのをやめたい [=Originator=] には、その 1 つの
+          主張だけを撤回する手段が無いからである。そこから何が導かれるかは
+          <a href="#security-retraction"></a> にある。
+        </p>
+        <div class="note" title="誤って発行した Web Media Profile を正す">
+          誤った発行と後の発行を手にした [=Verifier=] は後のものを用い（<a
+          href="#page-delivery-issuances"></a>）、それが誤りを正す。前のものは
+          署名の有効期間が終わるまで検証に通り続ける。その終わりを待てない
+          [=Core Profile Issuer=] は [=Core Profile=] を revoke し、それによって両方が終わる。
+        </div>
+      </section>
+
+      <section id="validity-invariants">
+        <h3>発行に関する不変条件</h3>
+        <p>
+          <strong>Core Specification の不変条件はそのまま適用される。</strong>このユースケースは、Core Specification が発行に課す不変条件（<a
+          data-cite="OPF-CORE#revocation-model">[[OPF-CORE]], Revocation Model
+          and Time Constraints</a>）に何も加えない。
+          第 1 に、[=Profile Annotation=] の validity は、それが annotate する
+          [=Core Profile=] の validity の内にある。第 2 に、[=retired=] な鍵の
+          レコードは、それを運ぶ [=Core Profile=] が期限切れになるまで、同文書が
+          述べる retention margin と例外とともに保持される。第 3 に、発行者は
+          [=Key Identifier=] を、<a
+          data-cite="OPF-CORE#revocation-model">[[OPF-CORE]], Revocation Model
+          and Time Constraints</a> が求める間、自らの [=Issuer Key Record=] に
+          載せておく。[=Verifier=] はいずれにせよ両方の
+          署名の有効期間を検査するので、第 1 のものは [=Verifier=] のための
+          簡略化ではなく、互いに矛盾する文書を発行するなという発行者に対する規則である。
+        </p>
+        <p>
+          <strong>置き換えられた鍵で署名されたコンテンツがどれだけの間検証できるか。</strong>[=retired=] な鍵は [=withdrawn=] ではない。そのレコードは残っているので、
+          それで署名された文書は <a href="#verification-procedure"></a> の
+          手順 7 を引き続き通る。
+          したがって、置き換えられた鍵で署名され既に公開されたコンテンツがどれ
+          だけの間検証可能であり続けるかは、その鍵を運ぶ [=Core Profile=] の
+          署名の有効期間で上限が決まり、鍵が [=withdrawn=] になれば、
+          すなわち [=Originator=] が鍵を retire せずに withdraw することを
+          選べば（<a href="#key-retirement"></a>）、そこで短く切り上げられる。
+        </p>
+        <p>
+          <strong>Website Profile の署名の有効期間が、Originator がやめた主張の上限になる。</strong>本仕様が発行に課す要件の 1 つ目は、[=Website Profile=] の
+          署名の有効期間についてのものである。[=Originator=] は、ある origin を挙げるのをやめてからその主張が
+          提示されなくなるまでの間に許容できる遅れを超えない長さに、その期間を
+          設定するのがよい (SHOULD)。[=Website Profile=] は自前の revocation
+          機構を持たないので、[=Originator=] がもはや挙げていない origin がなお
+          提示されうる長さは、その期間で上限が決まる。
+        </p>
+        <p>
+          <strong>長さは定めない。</strong>この要件は 2 つの期間の関係ではなく、
+          1 つの期間に対する上限である。本仕様は長さを定めず、framework から導かれ
+          る長さも無い。推奨値はまだ設定されていない
+          （<a href="#parameters"></a>）。その理由は
+          <a href="#security-retraction"></a> にある。
+        </p>
+        <p>
+          <strong>置き換える Website Profile が先に期限切れにならない。</strong>2 つ目の要件は、別の [=Website Profile=] を置き換えるために発行する
+          [=Website Profile=] についてのものである。同じサイトについて別の
+          [=Website Profile=] を置き換えるために [=Website Profile=] を発行する
+          [=Originator=] は、その署名の有効期間を、置き換えられるものの
+          署名の有効期間より先に終わらせないのがよい (SHOULD NOT)。
+          置き換えたものが期限切れになると、[=Verifier=] は置き換えられたものを
+          再び用い、[=Originator=] が挙げるのをやめた origin が再び提示できるようになる。
+          [=Verifier=] がそうするのは、署名の有効期間が判定時刻を
+          含むもののうち開始が最も遅い発行を用いるからである
+          （<a href="#page-delivery-issuances"></a>）。
+        </p>
+        <p>
+          <strong>それ以上の不変条件は無い。</strong>[=Website Profile=] についての 2 つの要件以上に、本仕様は不変条件を加えない。とくに、framework は
+          [=Originator Profile=] の外側にある文書の署名の有効期間と
+          [=Core Profile=] の署名の有効期間との間に不変条件を置いておらず、
+          その必要も無い。そのような文書は、それ自身の署名の有効期間が何を
+          述べていようと、鍵と [=Core Profile=] が現行である間しか用をなさないから
+          である（<a href="#validity-layers"></a>）。
+        </p>
+      </section>
+
+      <section id="key-retirement">
+        <h3>置き換えられた鍵を retired として残すか withdraw するか</h3>
+        <p>
+          <strong>Web media は署名し直し、置き換えられた鍵を withdraw する。</strong>このユースケースでは、署名鍵を差し替える [=Originator=] は自らが提示する文書を新しい鍵で
+          署名し直すのがよい (SHOULD)。その文書とは、自らが公開するコンテンツの
+          [=Content Attestations=] と、<a href="#page-outside"></a> の文書のうち
+          自らが署名するものである。そのうえで、置き換えられた鍵を自らの
+          [=Core Profile Issuer=] に withdraw させるのがよい (SHOULD)。サイト上で公開されたコンテンツは
+          [=Originator=] 自身が配信しており、公開の後に署名し直すことができる。
+          Core Specification はこの選択を、まさにこの点にかからせている（<a
+          data-cite="OPF-CORE#security-key-compromise">[[OPF-CORE]], Key
+          Compromise</a>）。そしてこれがこの方策をここで採りうるものにしている。
+        </p>
+        <p>
+          <strong>Core Specification が use case に委ねる選択。</strong>署名鍵を差し替える [=Originator=] は、2 つの道のどちらかを選ぶ。置き換えられた鍵を [=retired=] な
+          鍵として残すことができる。その場合、その鍵のレコードは、
+          その鍵を運ぶ各 [=Core Profile=] の [=Originator Key Record=] に、その
+          [=Core Profile=] が期限切れになるまで残る
+          （<a href="#validity-invariants"></a>）。あるいは自身の [=Core Profile Issuer=] に withdraw させることができる。その場合、その鍵のレコードを、
+          それを載せているすべての [=Originator Key Record=] から消す。Core Specification は、その
+          選択が何と何を引き換えにするものかを述べ、どちらが適するかを述べる
+          ことを各 [=Use Case Specification=] に委ねている。
+        </p>
+        <p>
+          <strong>Core Profile は署名された後に変えられない。</strong>したがって、置き換えられた鍵を
+          運ぶ [=Core Profile=] は期限が来るまで効力を保つ。新しい鍵の
+          ために発行される [=Core Profile=] は置き換えられた鍵を運ばないものと
+          される。これは Core Specification [[OPF-CORE]] が
+          [=Core Profile Issuer=] に推奨していることである。
+        </p>
+        <p>
+          <strong>鍵を retired として残すと、狭まらない窓が残る。</strong>置き換えられた鍵を [=retired=] な鍵として残した場合に何を支払うことになるかは、
+          Core Specification [[OPF-CORE]] が述べている。その鍵を運ぶ
+          [=Core Profile=] が効力を持つ間、その秘密鍵を持つ者は、[=Verifier=] が本物の古い
+          [=Content Attestation=] と区別できないものに署名できる。その
+          attestation がいつ署名されたかについての信頼できる説明を
+          [=Verifier=] が持たないからである
+          （<a href="#time-of-judgement"></a>）。この窓は時間が経っても狭まら
+          ない。したがって、Core Specification [[OPF-CORE]] が述べるとおり、
+          compromise されたと考えられる鍵は、その結果どのコンテンツが検証
+          できなくなろうと、直ちに [=withdrawn=] とされる。
+        </p>
+      </section>
+
+      <section id="time-of-judgement">
+        <h3>判断の基準時点</h3>
+        <p>
+          <strong>validity は検証の時点を基準として判断する。</strong>Core Specification [[OPF-CORE]] は、[=Use Case Specification=] が別段の定めを
+          しない限り、validity を検証の時点を基準として判断するものとし、それ
+          以外の時点は、配送チャネルが [=Verifier=] に与えるものに限っている。本
+          仕様は別段の定めをしない。validity は検証が実行される時点を基準として
+          判断され、<a href="#verification-procedure"></a> における
+          署名の有効期間の検査はすべてその時点に対して行われる。
+          このチャネルは、名指しできるような他の時点を与えない。
+          [=Verifier=] が時計のずれに対して認める許容は、その期間のどちらの
+          端についても、Core Specification [[OPF-CORE]] の一般手続きのものである。
+        </p>
+        <div class="note" title="ページが運びうる時刻">
+          ページが運ぶ
+          ものはそれを公開する当事者が書いたものであり、その当事者が書いた時刻
+          は一般規則が除外するものである。文書を判断される当事者自身がその値を
+          選ぶことになるからである。また、そのような時刻を保存しておけるものも
+          無い（<a href="#result"></a>）。
+        </div>
+        <p>
+          <strong>サービスが下した判断。</strong>サービスが検証し、ページを提示する
+          当事者が別である場合、判断はそのサービスが検証した時点で下したもので
+          ある。それが提示される時点でどれだけ古くてよいかは、
+          <a href="#result"></a> が未決のまま残している取り決めに属する。
+        </p>
+        <p>
+          <strong>結果は保持されないので、公開時の validity を示すものも無い。</strong>このユースケースは検証の結果を保持する手段を持たず、そのための手段も
+          定めない。したがって、アーカイブされたページの複製も、後日のその
+          検証も、そのページが公開された時点でプロファイルが valid であった
+          ことを、この framework の中で示すことはできない。そのような証明が
+          求められる場合、それは framework の外から得るべきものである。
+          アーカイブされたページの複製をどう扱うかは別の問いであり、本仕様は
+          それを決めない。
+        </p>
+      </section>
+
+      <section id="caching-and-revisiting">
+        <h3>キャッシュとページの再訪</h3>
+        <p>
+          <strong>保持してよい範囲は Core Specification のものであり、検証済みの chain のキャッシュは実行コンテキストより長く残す。</strong>[=Verifier=] が入手したものを保持してよい範囲は Core Specification のもの
+          であり（<a data-cite="OPF-CORE#caching">[[OPF-CORE]], Caching</a>。<a
+          data-cite="OPF-CORE#chain-verification">[[OPF-CORE]], Accreditation Chain
+          Verification and Caching</a>）、本仕様はこれを広げない。ブラウジングソフトウェアの中で動作する [=Verifier=] は、検証済みの
+          [=Accreditation Chains=] の自身のキャッシュを、検証が走った実行
+          コンテキストよりも長く生き残る記憶域に保持するのがよい (SHOULD)。
+        </p>
+        <div class="note" title="実行コンテキストとキャッシュ">
+          検証が走った実行コンテキストは、アイドルになると停止されるのが
+          普通であり、そのメモリの中にしか無いキャッシュは次の提示の時点で
+          再び空になっている。
+          キャッシュの価値は、後の検証が前の検証の問い合わせを繰り返さずに済む
+          ことにあり、その価値はキャッシュが生き残ってはじめて実現する。
+        </div>
+        <p>
+          <strong>再訪では問い合わせが減る。</strong>発行者の chain を既に検証して保持しているサイトを再訪する場合、それら
+          の chain に関わる問い合わせは繰り返されない。残るのは [=Originator=]
+          とその [=Core Profile=] についての問い合わせ、および各
+          [=Profile Annotation=] についての問い合わせであり、これらもまた、
+          time to live の内にある DNS 応答のキャッシュから答えられうる。
+        </p>
+        <p>
+          <strong>ブラウジングソフトウェアのキャッシュにあるページは判断を伴わない。</strong>ブラウジングソフトウェアのキャッシュに保持されたページの検証は、
+          結果が保持されないので（<a href="#time-of-judgement"></a>）、提示の
+          たびに改めて行われる。したがって revocation は、time to
+          live の内にあるキャッシュから応答が読まれることのなくなった最初の提示
+          において効力を生じる。revocation が検知されるまでの遅れは、一般モデル
+          と同じく、それらの time to live によって上から抑えられており、ページを
+          長期にキャッシュしてもその遅れは延びない。
+        </p>
+        <div class="issue" title="結果をその上限の範囲で再利用してよいか">
+          この版では、[=Verifier=] がある検証の結果を後の提示に、たとえば
+          リロードのときや同じ origin の別のページで再利用してよいかは決まって
+          いない。そのような再利用は、その結果が依拠する各文書の署名の有効期間の
+          終わりと、各 DNS 回答の TTL の満了とのいずれよりも遅くまでは続かない
+          （<a href="#time-of-judgement"></a>）。現在の Originator Profile
+          Blueprints [[?Originator Profile Blueprints]] は、検証されるものと
+          その入力のすべてが変わらず、かつそれらの終わりのうち最も早いものが
+          まだ来ていない間だけ再利用を認め、well-known リソースにある文書に
+          ついての結果を同じ origin の別のページに再利用することを認めている。
+        </div>
+      </section>
+
+      <section id="parameters" class="informative">
+        <h3>パラメータ</h3>
+        <p>
+          一般モデルのパラメータは、このユースケースにおいて次のように効いて
+          くる。挙げてある値は配備の目安として示す推奨である。要件では
+          なく、運用経験に照らして検証されたものでもない。
+        </p>
+        <p>
+          下の推奨値は、この framework の運用文書 [[?OPF-OPS]] の値であり、
+          こうした値は本来そこに置かれる。その文書はまだ公開されていない。
+          公開されるまでは、このユースケースにかかわる値をここに示し、本仕様の
+          後の版では運用文書を参照する形にする。
+        </p>
+        <table class="simple">
+          <thead>
+            <tr>
+              <th>パラメータ</th>
+              <th>このユースケースにおける効き方</th>
+              <th>推奨値</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>[=Core Profile=] または [=Profile Annotation=] の署名の有効期間</td>
+              <td>
+                ページが提示される時点がその期間の内にあるかどうか。ページは
+                公開から長く経ってから提示されることがあるので、この期間は、
+                [=Originator=] が新しい [=Core Profile=]、または改めて発行された
+                [=Profile Annotation=] を添えて提示しない限り、
+                ページが検証され続ける長さを上から抑える。
+              </td>
+              <td>
+                [=Core Profile=] は最長 398 日、通常 1 年（見直すべき暫定の値）。
+                [=Profile Annotation=] の署名の有効期間はその [=Core Profile=]
+                の署名の有効期間に収まるが、これは推奨値ではなく、
+                <a href="#validity-invariants"></a> に再掲した枠組みの要求である
+              </td>
+            </tr>
+            <tr>
+              <td>[=Originator Key Record=] の time to live</td>
+              <td>
+                鍵の削除が、[=Verifier=] の用いる resolver に届くまでの遅れ。
+                1 通の [=Core Profile=] の、その [=Originator Key Record=] の
+                削除による revoke も、同じ時間だけ遅れる。
+              </td>
+              <td>
+                1 時間
+              </td>
+            </tr>
+            <tr>
+              <td>[=Profile Annotation Issuer=] のゾーンの negative caching 時間</td>
+              <td>annotation の revocation が検知されるまでの遅れ。</td>
+              <td>
+                発行者の DNS プロバイダに依存する。推奨の目安は 1 時間、長くても
+                1 日
+              </td>
+            </tr>
+            <tr>
+              <td>
+                [=Originator=] 自身のレコードの time to live:
+                [=Issuer Pinning Record=] と [=Permitted Host Record=]
+              </td>
+              <td>
+                [=Originator=] が許す [=Core Profile Issuers=] の変更、または
+                自分には [=Originator Profile=] が無いという宣言が、どれだけ
+                早く効力を生じるか。これは [=Issuer Pinning Record=] を引く
+                [=Verifier=] についてのものである（<a href="#origin-zone"></a>）。また、
+                ある host のレコードを削除してから、その host が許されなく
+                なるまでにどれだけかかるか（<a href="#security-retraction"></a>）。
+                初めて公開したレコードは、そのゾーンの negative caching 時間が
+                過ぎてから見える。この時間は、通常はプロバイダが設定する。
+              </td>
+              <td>
+                これらのレコードは静的であり、その点では長くてよい。一方、
+                [=Originator Profile=] が無いという宣言がどれだけ早く効くかという点は
+                短いことを求める。推奨値は 1 時間
+              </td>
+            </tr>
+            <tr>
+              <td>[=Website Profile=] の署名の有効期間</td>
+              <td>
+                [=Originator=] が主張するのをやめたサイトについての主張が、
+                なおどれだけの間提示されうるか。[=Website Profile=] は自前の
+                revocation 機構を持たないので、この期間が 1 つのサイトについての
+                主張の撤回を上から抑えるものである（<a href="#validity-invariants"></a>、
+                <a href="#security-retraction"></a>）。
+              </td>
+              <td>
+                <a href="#validity-invariants"></a> が [=Originator=] に求める
+                ところによって抑えられる。推奨値はまだ設定されていない。
+                Originator Profile Blueprints [[?Originator Profile
+                Blueprints]] は 1 年以下を推奨している
+              </td>
+            </tr>
+            <tr>
+              <td>[=Web Media Profile=] の署名の有効期間</td>
+              <td>
+                このユースケースでは [=Originator Profile=] を終わらせる（<a
+                href="#validity-layers"></a>）。<a
+                href="#verification-wmp"></a> が、
+                [=Web Media Profile=] の発行者と鍵とともにそれを確かめる。
+              </td>
+              <td>
+                推奨値はまだ設定されていない
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </section>
+
+    <section id="security" class="informative">
+      <h2>Security Considerations</h2>
+      <p>
+        本節は、このユースケースの security が何に依っており、何を対象として
+        いないかを説明する。本節は要件を述べない。本節が依拠する要件はすべて
+        <a href="#page"></a>、<a href="#origin"></a>、
+        <a href="#verification"></a>、<a href="#validity"></a> に述べてある。
+      </p>
+      <p>
+        ユースケースに依存しない framework の security 上の性質は、Core
+        Specification [[OPF-CORE]] の security considerations にあり、ここでは
+        繰り返さない。レコードそのもの、そのサイズ、移行期の形式に関わるものは
+        [[?OPF-DNS]] にある。
+      </p>
+
+      <section id="security-delivery">
+        <h3>Originator Profile Bundle と Content Attestation がどう配送されるか</h3>
+        <p>
+          [=Originator Profile Bundle=] と、それとともに運ばれる文書は、
+          <a href="#page-delivery"></a> の経路で [=Verifier=] に届く。ページに
+          埋め込まれるか、ページから URL で名指しされるか、[=Page Origin=] の
+          well-known リソースから得られるかである。[=Verifier=] は、自分が同梱
+          する文書を加えることができる。そのいずれも DNS から取得されることはない。
+          文書が埋め込まれている場合、[=Verifier=] は何かを問い合わせる前に、
+          ページが与えるものを手元に持っており、攻撃者が妨害したり観測したり
+          できる取得として残るのは、いずれにせよ行われる well-known リソース
+          への要求だけである（<a href="#page-delivery-requests"></a>）。
+        </p>
+        <p>以下の小節は次のことを扱う。</p>
+        <ul>
+          <li>経路が何を成り立たせ、何を成り立たせないか（<a
+            href="#security-delivery-routes"></a>）。</li>
+          <li>攻撃者や、文書を運ぶどの当事者にもできるのが、誤った結果ではなく
+            denial であるのはなぜか（<a
+            href="#security-delivery-denial"></a>）。</li>
+          <li>文書を別のページに移せないのは何によるか（<a
+            href="#security-delivery-other-page"></a>）。</li>
+          <li>ページが [=Verifier=] の前に積める仕事を何が抑えるか（<a
+            href="#security-delivery-cost"></a>）。</li>
+        </ul>
+
+        <section id="security-delivery-routes">
+          <h4>経路が成り立たせるもの</h4>
+        <p>
+          文書が参照されているか well-known リソースから得られる場合には取得が
+          存在し、そのリソースを配信する者、あるいはその取得に干渉できる者が、
+          [=Verifier=] が何を受け取るかを選ぶ。その者は文書を差し控えることも、
+          文書の以前の発行を返すことも、文書を別の順序で返すこともでき、これは
+          <a href="#security-delivery-denial"></a> の denial である。しかし、
+          ある文書の位置に何を置いても、その文書の発行者が署名したもので
+          なければ検証に通らない。
+        </p>
+        <p>
+          経路が成り立たせるものと、署名が成り立たせるものとは、分けて考え
+          なければならない。どの経路も [=Originator=] について何ひとつ成り
+          立たせない。ページを改変できる攻撃者は、ページに埋め込まれている
+          ものを改変できるのと同じ自由さで、ページの中の参照も改変でき、参照
+          されたリソースや well-known リソースを配信する者は、それが何を返すかを
+          選ぶからである。各文書の authenticity は、経路が何であれ、その文書が
+          運ぶ署名と <a href="#binding"></a> の binding に依っている。本節の
+          他の事柄にとって経路に違いが無いのは、そのためである。
+        </p>
+        <p>
+          このユースケースに無いのは、ページ全体に対する署名である。
+          トランスポートは [=Page Origin=] を確立するが、[=Originator=] に
+          ついては何も確立しない（<a href="#page-delivery-in-page"></a> の、
+          トランスポートが守るものについての注記）。
+          文書をページにつなぎとめているのは、それらの文書が運ぶ署名、
+          <a href="#binding"></a> の binding、そして [=Content Attestation=]
+          についてはページの URL の確認（<a
+          href="#verification-allowed-url"></a>）である。framework の検査が失敗したとき、後に残って立って
+          いる第 2 の判断は存在しない。本仕様の下で [=Recipient=] に伝えられる
+          ことは、すべてが一度に崩れる。
+        </p>
+        </section>
+
+        <section id="security-delivery-denial">
+          <h4>誤った結果ではなく denial</h4>
+        <p>
+          ページを改変できる攻撃者は、文書を取り去って、[=Originator Profile=]
+          を提示しないページを残すことができる。これは誤った結果を生まない。
+          [=Originator=] が [=Page Origin=] の well-known リソースからも
+          [=Originator Profile Bundle=] を配信している場合、それをページから
+          取り去ってもそれは無くならない。[=Verifier=] は、ページがそれを
+          運んでいるかどうかにかかわらず、そのリソースを得るからである（<a
+          href="#page-delivery-requests"></a>）。[=Website Profile=] は
+          そこでしか配信されない。
+          [=Content Attestation=] をページから取り去ると、
+          [=Originator Profile=] を提示しないページが残る。これは次の段落が
+          述べる場合である。
+        </p>
+        <p>
+          [=Content Attestation=] を運ぶページは、その [=Originator=] の
+          [=Core Profile=] が得られない場合でも [=Originator Profile=] を提示
+          するページである。その場合には検証が失敗し
+          （<a href="#page-delivery-routes"></a>）、評価されないままにはならない。
+          [=Content Attestation=] を運ばないページは、その [=Page Origin=] の
+          well-known リソースが何を運んでいようと、[=Originator Profile=] を
+          提示しない。結果は [=Content Attestation=] ごとに得られる
+          （<a href="#page-delivery-originators"></a>）ので、それを 1 つも運ばないページ
+          には結果が無い。そのようなページは本仕様の下で評価されず、本仕様は
+          それについて何も述べないので、結果が無いこと自体は結果ではない。すなわち、framework による裏書きは、[=Recipient=] に届く
+          途中のコンテンツから奪うことはできるが、コンテンツに対して偽造する
+          ことはできない。
+        </p>
+        <p>
+          ページを改変できる者だけでなく、文書が [=Verifier=] に届くまでの間に
+          それを運び、あるいは並べるすべての当事者にとっても、できるのは
+          denial だけであり、誤った結果ではない。そのような当事者には、[=Page Origin=] の well-known リソース
+          やページが名指す URL について応答する者（<a href="#page-delivery"></a>）、
+          [=Originator=] のために [=Content Attestations=] を配布する当事者、
+          [=Verifier=] が同梱する文書を供給する者が含まれる。いずれも、
+          [=Originator Profile Bundle=] の文書がどの順序で [=Verifier=] に届くか、
+          どれが届くかを変えることができるが、文書を改変することはできない。
+          各文書はそれぞれ単独で署名されているからである。
+        </p>
+        <p>
+          そのような当事者が得るのは denial であって、誤った結果ではない。
+          順序や取捨を変えることは
+          文書を差し控えることに等しい。これは Core Specification [[OPF-CORE]]
+          が [=Profile Annotations=] の順序について述べるとおりである。また、
+          その当事者が 2 度目に加えた文書が別の文書を上限の外へ押し出すことは
+          ない。<a href="#page-delivery-order"></a> がそれを 1 度だけ取り扱うから
+          である。[=Web Media Profile=] をページと well-known リソースから
+          取り除くことも、同じく失敗をもたらし（<a
+          href="#verification-procedure"></a> の手順 5）、誤った結果は
+          もたらさない。
+        </p>
+        </section>
+
+        <section id="security-delivery-other-page">
+          <h4>文書を別のページに移すこと</h4>
+        <p>
+          文書を別のページに移し替えることもできない。[=Originator=] の本物のページから
+          [=Originator Profile Bundle=] と [=Content Attestation=] を複製して
+          自分のページに載せ、[=Website Profile=] を自分の origin の
+          well-known リソースに載せる攻撃者を止める
+          のは、ページ全体に対する何らかの署名ではなく
+          <a href="#binding"></a> である。そのページの [=Page Origin=] は
+          [=Website Profile=] が挙げる origin のいずれかでなければならず、その
+          host は [=Originator=] の [=Identity=] であるか、その下にあるか、その
+          [=Identity=] のゾーンのレコードによって許されていなければならない。
+        </p>
+        <p>
+          [=Content Attestation=] は、第 2 の確認によってもページにつなぎとめ
+          られる。ページの URL が、その [=Content Attestation=] の運ぶ
+          <code>allowedUrl</code> に一致しなければならない
+          （<a href="#verification-allowed-url"></a>）。この確認は、
+          正規の [=Content Attestation=] を、それが名指さない URL のページに
+          置いたものを止める。そのページがその attestation の対象とする
+          [=Content=] を再現している場合、すなわち attestation 自身の内容では
+          止められない場合でも止め、そのページが [=Website Profile=] の挙げる
+          origin の上にある場合でも止める。
+        </p>
+        <p>
+          <code>allowedUrl</code> の確認で得られるものは、
+          <code>allowedUrl</code> をどれだけ狭く書くかに依る。host 全体を
+          名指す pattern は、その host のすべてのページを認める。内容が必要と
+          する以上に広く書かないことは、[=Originator=] と、その代わりに署名する
+          オペレータの規律であり、Operational Governance Requirements
+          [[?OPF-GOV]] がそれを両者に課す。必要以上に広く書かれた pattern が
+          悪用されたなら、それは運用の失敗であって、確認の失敗ではない。
+        </p>
+        <p>
+          他者の文書を寄せ集めたページに載せられた [=Content Attestation=] が、
+          そのページのコンテンツを対象としていないことがどこまで判明するかは、
+          本版では答えられない。[=Content Attestation=] が何を含むかをここでは
+          定めていないからである。そこから定めるべき Content Integrity
+          Descriptor の種類は、Originator Profile Blueprints
+          [[?Originator Profile Blueprints]] が述べるものである（<a
+          href="#page-outside"></a>）。それが
+          定まるまでは、他者の文書を寄せ集めたページに対して本文書が述べる
+          ことは、binding と <code>allowedUrl</code> の確認がすべてである。
+        </p>
+        </section>
+
+        <section id="security-delivery-cost">
+          <h4>検証のコスト</h4>
+        <p>
+          配送はまた、[=Verifier=] の前にページを持ち込める者は、その前に
+          仕事を積めるということでもある。このユースケースには、Core
+          Specification の検査が始まる前に攻撃者を止める前提条件が無い。最初に検証
+          すべき、[=Originator Profile Bundle=] と [=Content Attestation=] の外側の署名が存在しないからである
+          （<a href="#verification-procedure"></a> の手順 1）。[=Verifier=] は
+          持ち込まれたページを何であれ評価する。
+        </p>
+        <p>
+          コストを抑えるのは一般手続きの順序である。そこでは、[=Originator Profile Bundle=] の [=Accreditation Chains=] を
+          ローカルに検証してから、当該発行者についての DNS への問い合わせを行う
+          （<a href="#verification-procedure"></a> の手順 2）。したがって、
+          捏造された [=Originator Profile Bundle=] を運ぶページはローカルな検証のコストだけを生じ、
+          問い合わせを生じない。[=Originator=] 自身のレコードについての問い合わせ
+          も例外ではない。その名前は [=Core Profile=] から来るので、その chain
+          の検証を待つからである。その帰結は Core Specification [[OPF-CORE]] が
+          述べるところである。
+        </p>
+        <p>
+          [=Verifier=] にその仕事をさせられるのが誰かは、[=Verifier=] の配置に
+          よって異なる。ブラウジングソフトウェアの中の [=Verifier=] には
+          [=Recipient=] 自身のブラウジングによってページが持ち込まれるので、
+          攻撃者はまず [=Recipient=] をそのページに連れてこなければならない。
+          要求に応じてページを取得するサービスには、それに依頼できる者なら誰でも
+          ページを持ち込める（<a href="#verification-parties"></a>）。
+        </p>
+        <p>
+          参照された文書はページの選んだ URL から取得され、要求に応じて取得する
+          サービスは、ページの作者が持たないネットワーク上の位置を占めている。
+          ホストがサービスのネットワークの内側のアドレスであるか、またはそこに
+          解決される URL や、要求と共に
+          送られる credential は、取得を、ページに代わって [=Verifier=] の
+          位置から行われる要求に変えてしまいかねない。credential と非公開
+          アドレスについての <a href="#page-delivery-requests"></a> の規則は、これを
+          防ぐためのものである。
+        </p>
+        <p>
+          ページが複数の [=Originator=] の文書を運ぶ場合
+          （<a href="#page-delivery-originators"></a>）、検証のコストは
+          [=Content Attestation=] ごとに生じる。他の [=Originators=] の本物の
+          ページから複製された文書はローカルには検証に通るが、問い合わせを
+          要さない <a href="#binding"></a> の比較で
+          失敗する。したがって、その attestation について他の手順の問い合わせを
+          出す前にその比較を行う [=Verifier=] は、それらに問い合わせを費やさない。
+        </p>
+        <p>
+          ニュースアグリゲータのトップページのように、多くの [=Originator=] から
+          コンテンツを集めるページは、多数の [=Content Attestation=] を運びうる。
+          また、コンテンツを動的に取り込むように設計されたページは、取り込む
+          コンテンツが伴ってくるだけの数を運び、その数は提示のたびに変わりうる。
+          attestation の 1 つ 1 つがそれ自身の検証のコストを加えるので、1 つの
+          ページの数は、それを検証するコストに直接効く。そのようなページの
+          運用者は、ページがコンテンツをどう集めるかを選ぶときにこれを考慮に
+          入れることができる。
+        </p>
+        </section>
+      </section>
+
+      <section id="security-presented-identity">
+        <h3>Presented Identity をどう取得し、どう結びつけるか</h3>
+        <p>
+          このユースケースにおいてコンテンツが提示される際の identity は
+          [=Page Origin=] であり、[=Verifier=] はそれを、評価しようとしている
+          ページの URL から取る（<a href="#presented-identity"></a>）。
+          コンテンツがその origin の下で届いたことを成り立たせるものは
+          framework の中には無い。それはトランスポートの仕事であり、それが
+          このチャネルの持つ唯一のもう一つの層である。ページが HTTPS で配信
+          される場合、host が名指しされたものであるという保証はトランスポートと
+          それが依拠する認証局の保証であり、それは [=Page Origin=] を確立し、
+          それ以上のものは確立しない（<a href="#page-delivery-in-page"></a>）。
+        </p>
+        <p>
+          TLS 無しで配信されるページには
+          そのような保証がそもそも無く、ネットワーク経路上の攻撃者がコンテンツ
+          と、それとともに運ばれる文書とを等しく選ぶことになる。scheme は
+          <a href="#binding"></a> が突き合わせる origin の一部であるから、
+          [=Website Profile=] が scheme を <code>https</code> とする origin
+          しか挙げていない [=Originator=] については、TLS 無しで配信される
+          ページでは binding が失敗する。そのようなページの [=Page Origin=] は
+          挙げられた origin のいずれでもない。
+        </p>
+        <p>
+          identity を比較される形に直すことは、ここではほとんどコストを生まない。
+          ページの URL を parse した時点で、[=Verifier=] が取り除く末尾ドットを
+          除けば既に小文字の ASCII の host が得られているので、本仕様は独自の
+          変換を定めない
+          （<a href="#presented-identity"></a>）。変換が開く種類の誤りは、
+          ここでは、URL のパーサが行う変換と Core
+          Specification [[OPF-CORE]] の A-label の形とが食い違う少数の名前に
+          限られる。
+        </p>
+        <p>
+          Core Specification が比較に課すところはそのまま当てはまる（<a
+          data-cite="OPF-CORE#security-resolution-failures">[[OPF-CORE]],
+          Resolution Failures and the Pinning Downgrade</a>）。比較は正規形
+          どうしで行われ、かつ厳密である。したがって、他の名前に似ているという理由で
+          登録された host は、自分自身にだけ結びつき、他の何にも結びつかない。
+          [=Recipient=] が、自分の知っている名前に似た名前をどう受け取るかは、
+          framework が答える問いではない。
+        </p>
+        <p>
+          Core Specification [[OPF-CORE]] は、[=Core Profile Issuer=] とは独立
+          に何がコンテンツをその [=Originator=] に結びつけるのかを、各
+          [=Use Case Specification=] が述べることを求めている。発行されるべきでなかった [=Identity=]
+          に対して発行された [=Core Profile=] が、それだけでは足りないように
+          するためである。このユースケースにおいて、[=Core Profile Issuer=] とは独立に
+          コンテンツをその [=Originator=] に結びつける要素となるのは、
+          [=Page Origin=] の host と [=Originator=] の [=Identity=] との間に
+          <a href="#binding"></a> が求める関係である。
+        </p>
+        <p>
+          誤って発行された [=Core Profile=] を持つ者は、自らのページを、次のどちらかの下で提示しなければならない。
+          1 つは、その [=Identity=] であるかその下にある host であり、これには
+          [=Originator=] 自身の名前空間にある名前と、それを配信する手段とを
+          支配することが要る。もう 1 つは、[=Originator=] 自身のゾーンが許す
+          host であり、これにはそのゾーンを支配することが要る。いずれも第 2 の失敗であり、
+          第 1 の失敗とは別のものであって、別の当事者の手中にある。
+          [=Website Profile=] はその要素ではない。理由は
+          <a href="#binding"></a> の注記が述べるとおりで、その要素は名前で
+          あって、文書ではない。
+        </p>
+        <p>
+          [=Originator=] の [=Identity=] の下にある host がページを結びつける
+          強さは、[=Originator=] がその [=Identity=] の下のすべての名前を
+          支配している程度にとどまる。その下の名前の
+          うち、[=Originator=] が委任したもの、利用者に渡したもの、もはや
+          保持していないサービスを指したまま放置したものは、[=Originator=] の
+          ゾーンを何も変えることなく別の当事者が配信できる。そのような当事者が
+          誤って発行された [=Core Profile=] も併せ持てば、binding を満たす。
+        </p>
+        <p>
+          自身の [=Identity=] に対して誤って発行された [=Core Profile=] に対して
+          [=Originator=] 自身が持つ手段は、
+          binding が何を成り立たせるかとは別の問いである。Core Specification は
+          許された [=Core Profile Issuers=] を挙げるレコードを必須とせず、[=Use Case
+          Specification=] がそれを要求することを許している。要求する場合には、
+          すべての [=Originator=] が自前の手段を手にする（<a
+          data-cite="OPF-CORE#security-pinning">[[OPF-CORE]], What Pinning
+          Protects, and Why It Is Optional</a>）。このユースケースはそれを要求
+          しない（<a href="#origin-zone"></a>）。また [=Page Origin=] が与えられる場合には
+          [=Verifier=] はそれを引かなくてよい。
+        </p>
+        <p>
+          自身の [=Issuer Pinning Record=] を公開していない [=Originator=] は、
+          自分が求めていない [=Core Profile=] を revoke してもらうにあたり、
+          自らの [=Core Profile Issuer=] に依存することになる。ゾーンが署名
+          されているものには、それを公開して、そのレコードが引かれる所でその
+          ような手段を手にすることが推奨されている
+          （<a href="#security-pinning"></a>）。<a href="#binding"></a> の
+          binding は、[=Originator=] が 2 つのどちらであるかに左右されない。
+          pinning されている [=Originators=] にも、されていないものにも等しく
+          当てはまる。
+        </p>
+        <p>
+          ある host が [=Permitted Host Record=] によって許される場合、それを
+          許しているのは [=Originator=] であって [=Core Profile Issuer=] ではなく、その許可の
+          security は [=Originator=] のゾーンの security である。
+          [=Permitted Host Record=] の名前にあるレコード集合で、Core
+          Specification [[OPF-CORE]] の定める形のレコードを含まないもの、
+          たとえばゾーンの別の所にある wildcard から合成されたものは、不在と
+          読まれる（<a href="#binding"></a>）。
+        </p>
+        <p>
+          許された host
+          のゾーンはこの framework のレコードを何も持たず、署名されていること
+          を要求されない（<a href="#origin-zone"></a>）。したがってこの
+          framework は、それを運用する当事者に何も求めない。その当事者にできる
+          ことは、host を配信する者なら誰にでもできることである。
+          [=Originator=] がその host を許すのも、許すのをやめるのも、自身の
+          ゾーンにおいてのみである。やめることが何に及び、何に及ばないかは
+          <a href="#security-retraction"></a> にある。
+        </p>
+      </section>
+
+      <section id="security-verifier-placement">
+        <h3>Verifier がどこに置かれるか、そこで DNSSEC の validation をどう得るか</h3>
+
+        <p>
+          <a href="#verification-parties"></a> の 2 つの配置はいずれも、依拠
+          できる DNSSEC の validation state を、Core Specification
+          [[OPF-CORE]] が認める 2 つの手段のいずれかによって必要とする。両者は
+          それをどれだけ容易に手にできるかにおいて異なる。ブラウジング
+          ソフトウェアの中の [=Verifier=] は、[=Recipient=] のいる場所で、
+          [=Recipient=] が支配していないネットワークの上で、その端末に与えられた
+          resolver が何であれそれとともに動作する。ブラウジングソフトウェアは
+          一般に DNSSEC を validate しない。また、応答が validate されたという
+          表示は、その表示自体が認証されないまま届くなら、ネットワーク経路上の
+          誰でも書き込める。<a href="#verification-parties"></a> がその要件を
+          明示的に述べ、その根拠を退けているのはこのためである。
+        </p>
+        <p>
+          ページを取得するサービスは、
+          自らの配備の問題としてどちらの手段でも備えることができ、この 1 点に
+          限れば 2 つのうち容易な方である。その代償は別の所にある。すなわち
+          [=Recipient=] について何を知ることになるかという点
+          （<a href="#privacy-verification-service"></a>）と、結果がページを提示する当事者に届か
+          なければならないという点（<a href="#result"></a>）である。
+        </p>
+        <p>
+          ここで最も重要なのは、pinning されていない経路がそもそも存在するという
+          点である。Core Specification は、[=Use Case Specification=] が
+          pinning されていない [=Originator=] を受け入れる場合にだけ、[=Verifier=]
+          が pinning されていないまま先へ進むことを認める。レコードを要求する
+          [=Use Case Specification=] ではその不在が失敗となり、pinning されて
+          いない経路は存在しない（<a
+          data-cite="OPF-CORE#security-pinning">[[OPF-CORE]], What Pinning
+          Protects, and Why It Is Optional</a>）。このユースケースはそのレコードを
+          要求しない。認証された不在と <span class="dns-state">Insecure</span> な応答は、いずれも [=Originator=] を
+          pinning されていない状態のままとし、検証は続く
+          （<a href="#origin-zone"></a>）。別名を経て到達した応答は
+          <span class="dns-state">Insecure</span> な応答として読まれる。
+          [=Page Origin=] が与えられる場合、[=Verifier=] はそもそもそのレコードを
+          引かなくてよく（<a href="#origin-zone"></a>）、
+          そのときはそれについて応答を読まない。
+        </p>
+        <p>
+          [=Originator=] の 2 つのレコードのうちもう一方である
+          [=Permitted Host Record=] は、pinning されていない結果を認めない。
+          このレコードについては、認証された不在も
+          <span class="dns-state">Insecure</span> な応答もいずれも失敗である。
+          そのような host は
+          pinning されていない [=Originator Profile=] を提示しているものとして
+          扱われない（<a href="#binding"></a>）。そこでは [=Website Profile=]
+          がその host を自分のものであると主張しており、それを裏づけるものが
+          期待されているからである。2 つのレコードのうち一方は pinning されて
+          いない結果を認め、他方は認めない。攻撃者が向き合うのは、この非対称性
+          である。
+        </p>
+        <p>
+          ネットワーク経路上の攻撃者が、pinning されていない結果を用いてできる
+          ことは、Core Specification が述べるとおりである（<a
+          data-cite="OPF-CORE#security-resolution-failures">[[OPF-CORE]],
+          Resolution Failures and the Pinning Downgrade</a>）。pinning されて
+          いない経路に至る結果はどちらも偽造できず、名前解決を妨害すれば失敗で
+          あって決して不在にはならない（<a href="#origin-zone"></a>）。攻撃者に
+          残るのは、[=Originator=] が [=Issuer Pinning Record=] またはその否定の
+          形を公開する前に作られた不在の証明を、その署名が切れるまで replay
+          することである。validate しない resolver はあらゆる応答を
+          <span class="dns-state">Insecure</span> に見せかねず、それを除くのが
+          <a href="#verification-parties"></a> の求める保証である。
+        </p>
+        <p>
+          同じ replay は [=Permitted Host Record=] については逆向きに働く。[=Originator=]
+          がそのレコードを削除する前に作られた、そのレコードを運ぶ認証済みの
+          応答は、その署名が切れるまで提示でき、その間その host がもう許されて
+          いないことを隠す（<a href="#security-retraction"></a>）。
+        </p>
+        <p>
+          認証済みの応答の replay を除けば、
+          ネットワーク経路上の攻撃者は、pinning されている [=Originator=] を
+          pinning されていないものに変えることはできない。できるのは検証を
+          抑え込むことだけである。失敗を示された [=Recipient=] は、そのような
+          攻撃者と一時的に到達できないゾーンとを区別できない。どちらの場合も
+          同じ結果が報告されるからである。また、問い合わせが平文で resolver に
+          届く場合には、名前がどの [=Originator=] を検証しているかを語るので、
+          この抑え込みは特定の一者を狙って行える。
+        </p>
+        <p>
+          ネットワーク経路上の攻撃者にできることについてのこの限界が成り立つのは、
+          <a href="#verification-parties"></a> の要件を
+          満たす [=Verifier=] についてだけである。応答が validate されたという
+          認証されていない表示を額面どおりに受け取ってしまう [=Verifier=] には、
+          限界がまったく無い。その場合はすべての応答が攻撃者の選ぶところと
+          なり、不在と読まれる応答もその中に含まれる。そのような [=Verifier=] に
+          とって、pinning されていない経路は攻撃者が好きに開けるものであり、
+          framework は、ページとともに運ばれた文書が既に主張していること以上の
+          ものを何も加えない。Core Specification [[OPF-CORE]] はこれを、この
+          要件が存在する理由として挙げている。
+        </p>
+        <p>
+          この要件は、このユースケースで
+          最も多く見られるであろう配置に最も重くのしかかる。ブラウジング
+          ソフトウェアの中の [=Verifier=] こそが、拠り所にできる自前の validating
+          resolver を持たないものだからである。
+          2 つの手段のどちらも備えない [=Verifier=] はそもそも
+          検証できず、代わりに拠るべきより弱い検査も存在しない。
+        </p>
+        <p>
+          pinning されていない経路の代償は、replay の窓を除けば、攻撃者が
+          そこから得うるものではなく、それが通常たどられる経路であるという点に
+          ある。レコード
+          の公開は [=Originator=] に要求されておらず、推奨されるのはその
+          [=Identity=] のゾーンが署名されている場合だけである
+          （<a href="#origin-zone"></a>）。何も公開しない
+          [=Originators=] については、誤って発行された [=Core Profile=] に
+          対する第 2 の要素が端的に不在であり、<a href="#binding"></a> の
+          binding がそのすべてを担う
+          （<a href="#security-presented-identity"></a>）。[=Page Origin=] が
+          与えられ、[=Verifier=] がそのレコードを引かない場合には、すべての
+          [=Originator=] について同じことが言える。
+        </p>
+        <p>
+          [=Originator=] が
+          pinning されていたか、されていなかったか、引かれなかったかは結果に
+          引き継がれる（<a data-cite="OPF-CORE#outcome">[[OPF-CORE]], Outcome
+          and Time of Judgement</a>）ので、
+          結果を受け取った当事者は、それが pinning されていなかったこと、または
+          そのレコードが引かれなかったことを見て取れる。
+          見て取れないのは、認証された 2 つの結果のどちらがそれをもたらしたか
+          である。署名されたゾーンにそのようなレコードを公開していない
+          [=Originator=] なのか、ゾーンがそもそも署名されていないものなのか、
+          である。この 2 つは異なる validation state で
+          あり、[=Verifier=] はどちらを得たかを知っている。しかし本文書はその
+          区別をつける機会を与えない。一般モデルがそのいずれをも結果に引き
+          継がないからである。
+        </p>
+        <p>
+          配置はもう 1 つのことを決める。誰が保証を手にするか、である。
+          ブラウジングソフトウェアの中の [=Verifier=] は自ら応答を得ており、自分が
+          何を validate したかを知っている。サービスが検証し、ページを提示する
+          当事者が別である場合、DNS についての保証はそのサービスのものであり、
+          提示する当事者は自前の保証を持たない。持っているのは、サービスが
+          告げたものである。その何に依拠してよいかは未決であり
+          （<a href="#result"></a>）、Core Specification が [=Use Case
+          Specification=] に答えることを求めていながら、このユースケースが
+          未決のまま残している問いがこれである（<a
+          data-cite="OPF-CORE#use-case-interface">[[OPF-CORE]], Requirements
+          on Use Case Specifications</a>）。
+        </p>
+      </section>
+
+      <section id="security-pinning">
+        <h3>Core Profile Issuer を挙げることが、求められず推奨にとどまる理由</h3>
+        <p>
+          許された [=Core Profile Issuers=] を挙げるレコードの公開は、この
+          ユースケースでは optional である。したがって、誤って発行された
+          [=Core Profile=] に対する第 2 の、そして独立した要素は、ある
+          [=Originators=] には存在し、他のものには存在しない。
+          レコードの公開を要件にすることはできない。このレコードは [=Originator=] 自身の
+          [=Identity=] のゾーンにあり、[=Verifier=] は応答が認証されている場合にのみ
+          それに基づいて動作する。したがってこれを要求することは、そのゾーンが
+          DNSSEC で署名されていることを要求することになる。このユースケースは
+          それを要求しない立場を採っている（<a href="#origin-zone"></a>）。
+        </p>
+        <p>
+          署名の負担が掛かるのは [=Originator=] と、その [=Identity=] のゾーンだけである。
+          [=Permitted Host Record=] が許す host はこの framework のレコードを
+          何も持たないので、多数のサイトを持つ [=Originator=] も、署名すべき
+          ゾーンは 1 つであって、サイトごとに 1 つではない。
+        </p>
+        <p>
+          レコードの公開がなりうるもの、そして <a href="#origin-zone"></a> がこれを
+          そうしているものは、公開にそれ以上の負担が掛からない
+          [=Originators=]、すなわち既にゾーンが署名されているものに対する
+          推奨である。それらの [=Originators=]
+          については、そのレコードが引かれる所で、第 2 の、そして独立した要素が
+          存在することになる。そしてゾーンに署名できない [=Originator=] が、
+          それによってこのユースケースから締め出されることも無い。
+        </p>
+        <p>
+          [=Verifier=] もまた、あらゆる状況でそのレコードを引くことを求められる
+          わけではない。状況が [=Page Origin=] を与える場合、
+          <a href="#binding"></a> の binding がそれ自体で、[=Core Profile Issuer=] から独立した
+          第 2 の要素となる（<a href="#security-presented-identity"></a>）。
+          本仕様はそこでは引くかどうかを [=Verifier=] に委ねる。状況が
+          [=Page Origin=] を与えない場合、binding は検査されず、そのレコードが
+          そのような要素の唯一のものとなるので、[=Verifier=] はそれを引くことを
+          求められる（<a href="#origin-zone"></a>）。
+        </p>
+        <p>
+          そのレコードを引かない [=Verifier=] は問い合わせを 1 つ減らし
+          （<a href="#privacy-what-the-queries-name"></a>）、pinning と、レコードの否定の形による宣言の両方を
+          手放す。したがって <a href="#origin-zone"></a> の推奨が効くのは、
+          [=Page Origin=] を与えない状況と、そのレコードを引くことを選ぶ
+          [=Verifiers=] の下においてである。
+        </p>
+        <p>
+          レコードを公開しても、すべての攻撃者に対して即座に守られるわけでは
+          ない。レコードの公開より前に配信された不在の証明は、その署名が
+          切れるまで replay されうる（<a href="#security-verifier-placement"></a>）。
+          したがって、自らを pinning した [=Originator=] がネットワーク経路上の
+          攻撃者から守られるのは、その時点以後である。否定の形の
+          宣言についても同じである。それにかかる時間は [=Originator=] のゾーン
+          の RRSIG の有効期間であり、これは通常その DNS プロバイダが設定する。
+          レコードを一度公開すれば、[=Originator=] 自身のゾーンの変更だけが
+          そのレコードを取り除け、他のどのゾーンも pinning を供給することも
+          取り除くこともできない。Core Specification が述べるとおりである（<a
+          data-cite="OPF-CORE#security-resolution-failures">[[OPF-CORE]],
+          Resolution Failures and the Pinning Downgrade</a>）。
+        </p>
+        <p>
+          同じレコードが、[=Originator=] が自らについて述べうるもう一つのこと
+          も運ぶ。否定の形において、このレコードは当該 [=Originator=] には
+          [=Originator Profile=] がそもそも無いと宣言する。その宣言を認証された
+          データとして読んだ [=Verifier=] は、それに出会った場面すべてで検証を失敗
+          させる。Core Specification [[OPF-CORE]] は 1 つの名前において両方の
+          形式を定めており、<a href="#validity-layers"></a> はこの宣言を、
+          [=Core Profile=] が valid でなくなる手段の中に記録している。
+        </p>
+        <p>
+          この宣言
+          は、pinning と共通の条件に服する。すなわち、ゾーンが署名されている
+          場合にのみ効力を持つ。このユースケースでは 2 つめの条件がある。
+          [=Verifier=] がそのレコードを引く所でのみ効力を持つ。それは
+          [=Page Origin=] を与えないすべての状況であり、それ以外の状況では
+          [=Verifier=] が引くことを選んだ場合である。
+        </p>
+        <p>
+          ゾーンが署名されている
+          [=Originator=] は、自らの [=Core Profile Issuer=] とは独立に、自らの
+          [=Originator Profile=] の web 上での使用を、そのレコードが引かれる所で
+          止める手段を手にしている。
+          ゾーンが署名されていない [=Originator=] はそれを持たず、登録の削除を
+          自らの [=Core Profile Issuer=] に依存する。これが、<a href="#origin-zone"></a> が
+          本節に委ねた帰結である。これは [=Originator=] の [=Originator Profile=] 全体に
+          関わることである。他が有効なまま 1 つのサイトについての主張を撤回する
+          のは別の事柄であり、<a href="#security-retraction"></a> にある。
+        </p>
+      </section>
+
+      <section id="security-retraction">
+        <h3>1 つのサイトについての主張を撤回する</h3>
+        <p>
+          [=Website Profile=] は自前の revocation 機構を持たない。したがって、
+          自ら挙げた origin の 1 つで自らの [=Originator Profile=] を提示するのをやめたい
+          [=Originator=] は、その主張だけを revoke することによってはそれを
+          行えない。新しい [=Website Profile=] を発行するほかなく、置き換え
+          られた方は、それ自身の署名の有効期間が終わるまで検証可能であり
+          続ける。
+        </p>
+        <p>
+          撤回の粗さに対する答えは新しい機構ではなく、署名の有効期間の長さである。
+          [=Website Profile=] の validity が短ければ、それがする主張は、それを
+          置き換える [=Website Profile=] で同じ主張をしないことによって事実上
+          撤回される。そして古い主張がなお提示されうる期間は、その期間の
+          残りである。framework はこのためにリソースレコードを追加しない。
+          したがって、このユースケースにおける撤回の粗さは、[=Originator=] が
+          [=Website Profile=] をどれだけの長さ valid にするかの問題である。
+        </p>
+        <p>
+          署名の有効期間の長さから導かれる 2 つの推奨、すなわちその長さに
+          ついてのものと、置き換えるものを先に期限切れにしないことについての
+          ものは <a href="#validity-invariants"></a> にあり、本節の論の効き目は
+          そこに現れる。その長さがどれだけであるべきかは運用上の値であり、
+          ここでは定めない。それは運用文書の扱う事柄であり、値はまだ設定されて
+          いない。<a href="#parameters"></a> がこのユースケースのパラメータの
+          一つとして記録している。
+        </p>
+        <p>
+          1 つの非対称性が残り、これは validity を短くしても解消しない。
+          [=Permitted Host Record=] を削除することは、そのレコードが許していた
+          host を許すのをやめることである。その削除は、それが見えた時点、すなわちその
+          レコード集合の time to live が尽きた後、そしてネットワーク経路上の
+          攻撃者に対しては以前の応答の署名が切れた後に効力を生じる
+          （<a href="#security-verifier-placement"></a>）。しかし
+          削除は [=Originator=] 自身の [=Identity=] であるかその下にある host については何も
+          しない。そのような host についてはそもそもそのレコードが引かれていない
+          からである（<a href="#binding"></a>）。あるサイトについてより速い撤回
+          を望む [=Originator=] は、それを、host が自身の [=Identity=] の外にある
+          サイトについてしか得られない。
+        </p>
+      </section>
+    </section>
+
+    <section id="privacy" class="informative">
+      <h2>Privacy Considerations</h2>
+      <p>
+        本節は、このユースケースにおける検証が何を誰に対して明らかにするか、
+        そしてそれを限定するためにこのユースケースが何をしているかを述べる。本節は要件を
+        述べない。
+        <a href="#verification-procedure"></a> の問い合わせが一般に何を明らかに
+        するか、およびそれに対する手立ては、Core Specification [[OPF-CORE]] の
+        privacy considerations にあり、ここでは繰り返さない。このユースケース
+        が加えるのは、同文書が [=Use Case Specification=] に委ねている事柄である。
+        それは、問い合わせがいつ行われるか、文書を得ることが何を明かすか、
+        どの当事者がどこで動作して行う
+        か、[=Originator=] 自身のゾーンに対する問い合わせが何を名指しするか、
+        そしてページを取得する [=Verifier=] が何を知ることになるか、である。
+      </p>
+
+      <section id="privacy-when-queries-are-made">
+        <h3>問い合わせがいつ行われるか</h3>
+      <p>
+        問い合わせはページが提示されるときに行われる。検証の結果は保持されず、
+        判断は毎回改めて行われる（<a href="#result"></a>、
+        <a href="#time-of-judgement"></a>）。したがって、ブラウジング
+        ソフトウェアのキャッシュに保持されたページは、再び表示されるときに再び
+        検証され（<a href="#caching-and-revisiting"></a>）、キャッシュが答え
+        られない問い合わせのタイミングは [=Recipient=] のブラウジングの
+        タイミングである。
+      </p>
+      <p>
+        キャッシュは、問い合わせのタイミングが明かすものを狭めるが、無くしはしない。chain を
+        既に検証して保持しているサイトを再訪する場合、それらの chain について
+        の問い合わせは一つも繰り返されず、DNS からの応答はその time to live
+        が尽きるまで使える（<a href="#caching-and-revisiting"></a>）。したがって
+        問い合わせが印すのは、ページが読まれるたびではなく、最初の訪問と、
+        キャッシュが期限切れになった後の訪問である。
+      </p>
+      </section>
+
+      <section id="privacy-document-retrieval">
+        <h3>文書を得ることが明かすもの</h3>
+      <p>
+        問い合わせが [=Originator=] に届くのは、そのゾーンのサーバを通して、
+        それらのサーバが受け取る総計としてだけである。これに対して
+        文書の取得が何を明かすかは、文書がどの経路で得られるかによる。文書がページに
+        埋め込まれている場合、[=Originator Profile=] を得るために well-known
+        リソースへの要求のほかには何も取得されない。
+      </p>
+      <p>
+        文書が [=Page Origin=] の
+        well-known リソースから得られる場合（<a href="#page-delivery"></a>）、
+        [=Verifier=] はそれを、ページを配信するサーバから取得する。そのサーバは
+        ページが取得されたことを既に知っている。それまで読まれたことを知らな
+        かった当事者がそれを知ることは無く、取得が加えるのは、[=Recipient=] が
+        [=Verifier=] を使っている、ということである。ページが、ページを配信する
+        host の上の URL で文書を名指ししている場合も同じである。その URL が
+        別の host の上にある場合、[=Verifier=] はそこから文書を取得し、ページを
+        配信していないその host は、自分を名指すページが検証されていることを
+        知る。
+      </p>
+      <p>
+        well-known リソースへの要求はページが [=Originator Profile=] を運んで
+        いるかどうかにかかわらず行われるので（<a href="#page-delivery-requests"></a>）、
+        [=Recipient=] が [=Verifier=] を使っているという事実は、枠組みに参加
+        していないサイトも含め、[=Recipient=] が訪れるすべてのサイトに明かされる。
+        その事実はある [=Recipient=] を他と見分ける材料に
+        なりうる。
+      </p>
+      <p>
+        その要求は、[=Recipient=] がそのページを訪れると決める前には
+        行われない。要求は、[=Recipient=] が好む言語など、ブラウジング
+        ソフトウェアが通常送るものを運び、HTTP キャッシュに保持された
+        応答があれば、要求はそもそも行われない。
+      </p>
+      </section>
+
+      <section id="privacy-which-party">
+        <h3>どの当事者が問い合わせを行うか</h3>
+      <p>
+        どの当事者が問い合わせを行い、その当事者がどこで動作するかが、誰が
+        それを見るかを決める。ブラウジングソフトウェアの中の [=Verifier=] は
+        [=Recipient=] 自身の端末の上で動作し、その端末またはそのネットワークに
+        与えられた resolver を用いるか、自ら validate する。いずれにせよその
+        resolver、またはそれが到達する権威サーバは、どの
+        [=Originator Profiles=] がいつ検証されているかを見る。つまり、
+        [=Originator Profile=] を提示するサイトのうちどれを [=Recipient=] が
+        読んでいるか、そしてそれをいつ読んでいるかを見る。
+      </p>
+      <p>
+        ブラウジングソフトウェアの中の [=Verifier=] が
+        validating resolver への自前の経路を持つ場合
+        （<a href="#verification-parties"></a>）、それによってその resolver を
+        選んでいることになり、その resolver は本手順のすべての問い合わせを
+        [=Recipient=] 自身のアドレスから見る。その選択は [=Verifier=] のもので
+        あって、[=Recipient=] のものではない。このユースケースでは、サービスが
+        検証するのでない限り、これを集約することで [=Recipient=] からこの露出を
+        取り除く当事者はいない。
+      </p>
+      </section>
+
+      <section id="privacy-what-the-queries-name">
+        <h3>問い合わせが何を名指しするか</h3>
+      <p>
+        問い合わせが何を名指しするかは、一般モデルと同じ切り分けに従う。発行者
+        が公開する [=Originator Key Records=] と [=Revocation Records=] は不透明な label を運ぶので、resolver と権威サーバの
+        間の観測者が知るのは、発行者のレコードのいずれかが検査されているということであって、
+        それが誰のものかではない。この性質は Core Specification [[OPF-CORE]]
+        のものであり、ここでもそのまま成り立つ。
+        この性質は、[=Originator=]
+        自身のゾーンのレコードには及ばない。それらの名前はドメインそのものを
+        運ぶからである。
+      </p>
+      <p>
+        [=Originator=] が、許された [=Core Profile Issuers=] を挙げるレコードの
+        公開を求められていないことは、この露出を減らさない。そのレコードを引く
+        [=Verifier=] は、それが存在するかどうかにかかわらず問い合わせるからで
+        ある。[=Verifier=] がそれを引くことを求められるのは [=Page Origin=] を
+        与えない状況だけであり、それ以外の状況では引いてもよい
+        （<a href="#origin-zone"></a>）。検証のたびに引く
+        [=Verifier=] は、自らが評価するすべてのページについて問い合わせを行い、
+        [=Originator=] のゾーンはそれを見る。求められる所でだけ引く
+        [=Verifier=] は、ブラウジングソフトウェアの中で提示されるページに
+        ついては問い合わせを行わない。
+      </p>
+      <p>
+        ゾーンのサーバがその問い合わせを見るのは、それらに問い合わせる
+        resolver が作り出す総計としてだけであり、キャッシュによって減る。1 つの
+        レコードがその [=Originator=] のすべてのページに対して用いられるから
+        である。またゾーンのサーバは、どの [=Recipient=] が尋ねたかを知らない。
+        問い合わせは resolver から届くからである。[=Permitted Host Record=] を
+        引くのは、[=Originator=] の [=Identity=] でもなくその下にも無い host に
+        ついてだけであり
+        （<a href="#binding"></a>）、その名前はその
+        host を運ぶ。
+      </p>
+      </section>
+
+      <section id="privacy-verification-service">
+        <h3>ページを取得するサービスが知ること</h3>
+      <p>
+        ページを取得する [=Verifier=] は、ブラウジングソフトウェアの中の [=Verifier=]
+        が知らないことを知る。検証するためにはページを持たなければならないので、
+        そのページの URL を持ち、どの [=Originator=] かだけでなく、どのページが
+        検証されているかを知る。[=Recipient=] にそのページがこれから見せられる
+        という理由でサービスがページを取得する場合、サービスはその閲覧を、
+        それが起きている時点で知る。
+        そのようなサービスがそういう位置に置かれるのかどうかは未決である
+        （<a href="#verification-parties"></a>、<a href="#result"></a>）。
+        ブラウジングソフトウェアの中の [=Verifier=] は、[=Recipient=] 自身の端末が
+        既に持っていること以上のものを何も知らない。
+      </p>
+      <p>
+        resolver においては、この
+        引き換えが逆向きに働く。サービスは多数の [=Recipients=] のために検証
+        するので、その resolver と、それが問い合わせるゾーンとが見るものは、
+        それらにわたって集約
+        されている。これに対し、[=Recipient=] 自身の端末の上の、ブラウジング
+        ソフトウェアの中の [=Verifier=] は何も集約しない。<a href="#verification-parties"></a> の 2 つの配置は、この
+        ように、security において異なるのと同じく privacy においても異なる
+        （<a href="#security-verifier-placement"></a>）。そしてこの引き換えは、
+        resolver に対する露出と、サービス自身に対する露出との間のものである。
+      </p>
+      <div class="issue" title="検証サービスが知り得たものをどう扱ってよいか">
+        本仕様は、他者のために検証する当事者が、取得したページや、どの
+        [=Recipient=] がどのページをこれから読もうとしていたかという知識を
+        どう扱ってよいかについて、何の制限も課していない。また framework は
+        その当事者にいかなる位置づけも与えていない。その当事者とページを提示
+        する当事者との間の取り決めは未決のまま残されており
+        （<a href="#result"></a>）、本仕様はそのような当事者が立つ信頼の境界を
+        定めていない。本仕様がそのような当事者に
+        何かを求めるべきかどうか、あるいはこの事柄が本文書ではなく framework
+        のガバナンスに属するのかどうかは、この版では決まっていない。
+        これは、依拠してよいものについて <a href="#result"></a> が提起する問い
+        の、privacy 側の半分である。
+      </div>
+      </section>
+    </section>
+
+    <section id="iana">
+      <h2>IANA Considerations</h2>
+      <p>
+        本仕様は登録の要求をしない。本仕様は登録されていない well-known URI を
+        1 つ使い、ほかには何の登録も要さない。
+      </p>
+      <p>
+        <a href="#page-delivery-routes"></a> の well-known リソースは、パス
+        <code>/.well-known/sp.json</code> にある。接尾辞 <code>sp.json</code>
+        は、[[RFC8615]] が設ける Well-Known URIs レジストリに登録されていない。
+      </p>
+      <p>
+        本仕様は DNS における名前もリソースレコードも定義しない。名前、レコード
+        型、その形式は Core Specification [[OPF-CORE]] と [[?OPF-DNS]] のもの
+        であり、本仕様は独自のものを何も追加しない（<a href="#origin"></a>）。
+      </p>
+      <p>
+        本仕様には、記録すべき結果も無い。このユースケースには結果を記録
+        する場所が無く、その形式も定めていない（<a href="#result"></a>）ので、
+        方式名を登録すべき対象が存在しない。また本仕様は文書を、メッセージや
+        他の multipart なオブジェクトの一部として配送しない
+        （<a href="#page-delivery-in-page"></a>）。したがって、そうした部分の
+        メディアタイプも要請しない。そうしたメディアタイプは Email [=Use Case
+        Specification=] [[OPF-EMAIL]] が必要とするものである。文書そのものの
+        形式はすべてのユースケースで 1 つであり、
+        どの [=Use Case Specification=] も定義していない。その形式についての登録は、
+        Originator Profile Blueprints [[?Originator Profile Blueprints]] の
+        作業とともに一度行われるものであり、本仕様が要する登録ではない。
+      </p>
+      <div class="issue" title="2 つのメディアタイプの登録がどこに属するか">
+        <p>
+        ページが [=Originator Profile Bundle=] と、それとともに運ばれる文書を
+        どう運ぶかは確定しており、<code>script</code> 要素が何を運ぶかは 2 つの
+        メディアタイプ、<code>application/ca-set+json</code> と
+        <code>application/op-set+json</code> のいずれかによって識別される
+        （<a href="#page-delivery-in-page"></a>）。ただし、その最終の形は検討中である。
+        Originator Profile Blueprints [[?Originator Profile Blueprints]]
+        が述べるとおり、どちらも登録されておらず、どの文書がそれらを
+        登録するべきかは確認されていない。この 2 つの値の形は [[RFC6838]]
+        の standards tree のものであり、その登録は認められた標準化団体を
+        通じて行われる。
+        </p>
+        <p>
+        言えることは 2 つある。この 2 つのタイプは本仕様の定義しない対象を
+        名指ししているので、どちらの登録も本仕様が自らの責任において行うもの
+        ではない。Email [=Use Case Specification=] が要請している
+        [[OPF-EMAIL]]、[=Originator Profile Bundle=] を運ぶ部分のメディア
+        タイプはこの種の登録であり、この 2 つのいずれかであることが判明するかもしれ
+        ない。登録がどこに属するかを確定させる
+        版が、その答えをここに書く。
+        </p>
+      </div>
+    </section>
+
+    <section id="differences" class="informative appendix">
+      <h2>Email Use Case Specification との違い</h2>
+      <p>
+        本付録は、本仕様が Email [=Use Case Specification=] [[OPF-EMAIL]] とどう異なるか
+        を示す。構造としての結論は、違いが次の 5 つであるということである。
+      </p>
+      <ol>
+        <li>[=Originator=] 自身のゾーンへの DNSSEC と、許された [=Core Profile Issuers=] を挙げること
+        とが必須であるかどうか。</li>
+        <li>[=Presented Identity=] をどう取り、どの文書が binding を宣言するか。</li>
+        <li>外側の certificate の層があるかどうか。</li>
+        <li>検証がどこで行われ、どの時点を基準として判断し、その結果が保持される
+        かどうか。</li>
+        <li>[=Originator Profile=] が何から成るか。</li>
+      </ol>
+      <p>
+        DNS の発行者側にあるものはすべて両ユースケースに共通
+        であり、それを担っているのが Core Specification [[OPF-CORE]] である。
+      </p>
+      <p>
+        この表と、[[OPF-EMAIL]] の付録「Differences from the Web Media Use Case
+        Specification」の表とは 1 つの表であり、それぞれ自分の側から書いたものである。両者は
+        整合が保たれるべきものであり、一方に行を足したら他方にも足す。列見出し
+        はあちらと同じにしてあり、両者を突き合わせて読めるようにしてある。
+        「Web media」の見出しの列が本仕様のものである。
+      </p>
+      <table class="simple">
+        <thead>
+          <tr>
+            <th>比較する観点</th>
+            <th>Web media</th>
+            <th>電子メール</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>binding を担うもの</td>
+            <td>
+              [=Content=] は [=Content Attestation=] において
+              [=Core Profile=] の [=Originator Verification Key=] で署名され、
+              同じく そのような鍵で署名された [=Website Profile=] が、
+              [=Originator Profile=] を提示してよい origin を挙げる
+              （<a href="#page-outside"></a>）
+            </td>
+            <td>
+              メッセージが [=Core Profile=] の鍵の下で S/MIME で署名され、
+              From ヘッダフィールドが DMARC によってドメインに結びつけられる
+            </td>
+          </tr>
+          <tr>
+            <td>コンテンツが届く際の identity</td>
+            <td>
+              [=Page Origin=]、すなわちページの origin [[RFC6454]]
+              （<a href="#presented-identity"></a>）
+            </td>
+            <td>Sending Domain</td>
+          </tr>
+          <tr>
+            <td>[=Originator=] の [=Identity=] との関係</td>
+            <td>
+              [=Page Origin=] の host が [=Originator=] の [=Identity=] であるか
+              その下にあること。あるいは、その [=Identity=] のゾーンの
+              [=Permitted Host Record=] がそれを許していること
+              （<a href="#binding"></a>）
+            </td>
+            <td>その [=Identity=] そのものか、その配下。[=Permitted Host Record=]
+              は用いない</td>
+          </tr>
+          <tr>
+            <td>[=Originator=] 自身のゾーンへの DNSSEC</td>
+            <td>
+              必須ではない。ただし自身の [=Identity=] の外の host を挙げる
+              [=Originator=] は別で、[=Permitted Host Record=] が効力を持つ
+              ためにその [=Identity=] のゾーンに署名しなければならない
+              （<a href="#origin-zone"></a>）
+            </td>
+            <td>必須</td>
+          </tr>
+          <tr>
+            <td>[=Issuer Pinning Record=]</td>
+            <td>
+              必須ではない。[=Originator=] の [=Identity=] のゾーンが署名されて
+              いる場合は推奨される（<a href="#origin-zone"></a>）。認証された
+              不在と <span class="dns-state">Insecure</span> な応答は、別名を経て到達した応答を後者として
+              読んだうえで、[=Originator=] を pinning されていない状態のままとし、
+              検証は続く。[=Page Origin=] を与えないすべての状況で引かれ、
+              与える状況では [=Verifier=] の選択で引かれる
+              （<a href="#origin-zone"></a>）
+            </td>
+            <td>要求される。認証された不在と <span class="dns-state">Insecure</span> な応答は、別名を経て
+              到達した応答を後者として読んだうえで、いずれも失敗である</td>
+          </tr>
+          <tr>
+            <td>外側の certificate の層</td>
+            <td>
+              無い。ページとともに運ばれる文書の外側にあるものがページに署名
+              しないので、validity の層は一般モデルの 4 つである
+              （<a href="#validity-layers"></a>）
+            </td>
+            <td>
+              署名者の X.509 certificate。この枠組みとは鍵の同一性によってのみ
+              結ばれ、別の当事者が別の手段で撤回する
+            </td>
+          </tr>
+          <tr>
+            <td>検証が行われる場所</td>
+            <td>
+              ブラウザ拡張のようなブラウジングソフトウェア内の [=Verifier=]、
+              またはページを取得するサービス
+              （<a href="#verification-parties"></a>）
+            </td>
+            <td>
+              Mail Client。
+              resolver に対する要求は web media と同じである
+            </td>
+          </tr>
+          <tr>
+            <td>validity を判断する基準時点</td>
+            <td>
+              すべての当事者について、検証の時点
+              （<a href="#time-of-judgement"></a>）
+            </td>
+            <td>
+              表示の時点、または Mail Client 自身が記録した受信の時点
+            </td>
+          </tr>
+          <tr>
+            <td>結果の記録</td>
+            <td>
+              無い。チャネルが結果を残しておける場所を提供せず、判断は提示の
+              たびに改めて行われる（<a href="#result"></a>）
+            </td>
+            <td>
+              [[OPF-EMAIL]] では無し。Mail Client は自身の結果の記録を保ってよい
+            </td>
+          </tr>
+          <tr>
+            <td>[=Presented Identity=] を正規形に直すこと</td>
+            <td>
+              することが無い。末尾のドットを除けば、ページの URL を parse した
+              時点で既に小文字の ASCII の host が得られている
+              （<a href="#presented-identity"></a>）
+            </td>
+            <td>
+              From ヘッダフィールドのドメイン。そのラベルは [[RFC8616]] が
+              定めるとおり A-label に変換される
+            </td>
+          </tr>
+          <tr>
+            <td>置き換えられた署名鍵を retired として残すか withdraw するか</td>
+            <td>
+              コンテンツを新しい鍵で署名し直せるので、古い鍵を withdraw
+              できる（<a href="#key-retirement"></a>）
+            </td>
+            <td>
+              既に配送されたメッセージは署名し直せないので、古い鍵は退役した鍵
+              として残し、古いメッセージはその鍵を運ぶ前の [=Core Profile=] が
+              期限切れになるか失効するまで検証できる
+            </td>
+          </tr>
+          <tr>
+            <td>[=Originator Profile=] の構成</td>
+            <td>
+              [=Core Profile=] とその [=Profile Annotations=]。Web Media の
+              ユースケースでは、[=Originator Profile=] は Web Media の [=Use Case Specification=] が加え、求める
+              [=Web Media Profile=] も含む。[=Web Media Profile=] が有効でなくなると
+              [=Originator Profile=] も有効でなくなる（<a href="#page-outside"></a>）
+            </td>
+            <td>
+              [=Core Profile=] とその [=Profile Annotations=]。Email の
+              [=Use Case Specification=] はこれに文書を加えない
+            </td>
+          </tr>
+          <tr>
+            <td>コンテンツとともに運ばれるもの</td>
+            <td>
+              [=Originator Profile=] の全体とその chain。ページの中か
+              [=Page Origin=] の well-known リソースにあり、両者を合わせて取る
+              （<a href="#page-delivery"></a>）
+            </td>
+            <td>
+              [=Originator Profile=] 全体とその連鎖。S/MIME 署名の内側にある
+            </td>
+          </tr>
+          <tr>
+            <td>DNS における名前とレコード</td>
+            <td colspan="2">
+              両者で同じ。どちらの [=Use Case Specification=] も、独自の名前やレコードを
+              定義しない
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </body>
+</html>
