@@ -32,7 +32,7 @@ jobs:
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan github.com >> ~/.ssh/known_hosts
         env:
-          REPO_DEPLOY_KEY: "${{ secrets[matrix.secret] }}"
+          REPO_DEPLOY_KEY: "${{ matrix.name == 'aov' && secrets.AOV_REPO_DEPLOY_KEY }}"
       - name: Configure Git
         run: |
           git config user.name github-actions[bot]
