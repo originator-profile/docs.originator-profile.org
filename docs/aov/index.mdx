@@ -4,13 +4,6 @@
 「[Architectural Overview](pathname:///aov/)」に移動します。
 :::
 
-import { useEffect } from "react";
+import PathnameRedirect from "@site/src/components/PathnameRedirect";
 
-export function AovRedirect() {
-  useEffect(() => {
-    window.location.replace("/aov/");
-  }, []);
-  return null;
-}
-
-<AovRedirect />
+<PathnameRedirect to="/aov/" />

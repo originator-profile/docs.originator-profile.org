@@ -46,20 +46,33 @@ This repository uses [Docusaurus's multilingual support feature](https://docusau
 - Documents concerning deprecated specifications should have a "⚠" symbol in the title.
   　Example: `# Certificate ⚠`
 
-### Integration of Architectural Overview (AOV) Documents
+### Integration of OPF Documents
 
-This repository integrates the [Architectural Overview documents](https://github.com/originator-profile/doc-opf-architectural-overview) using Git Subtree and publishes them at https://docs.originator-profile.org/aov/.
+This repository integrates OPF document repositories into `opf-source/<name>/` using Git Subtree and publishes them at `https://docs.originator-profile.org/<name>/`.
 
-During the build process, the files are copied from `aov-source/` to `aov/`, and the HTML files are renamed.
+| name  | Repository                                                                                             |
+| ----- | ------------------------------------------------------------------------------------------------------ |
+| `aov` | [doc-opf-architectural-overview](https://github.com/originator-profile/doc-opf-architectural-overview) |
 
-#### How to Update AOV Documents
+During the build process, `copy-opf.mjs` copies the English HTML file in `opf-source/<name>/` to `pages/<name>/index.html`, and the Japanese HTML file, if any, to `pages/ja/<name>/index.html`. Assets such as drawings are copied into each directory. The Japanese version overwrites the page generated from the sidebar stub `docs/<name>/index.mdx`.
 
-If the contents of the AOV repository are updated, you can obtain the latest version using the following command. Currently, the doc-opf-architectural-overview repository is still private, so if you do not have read permissions, please request permission from the administrator.
+#### How to Update OPF Documents
+
+`.github/workflows/update-opf-source.yml` fetches the latest version of each repository daily and pushes it to main. To fetch it manually, use the following command. `<url>` is `https://github.com/originator-profile/<repository>.git` for public repositories and `git@github.com:originator-profile/<repository>.git` for private repositories. For private repositories, if you do not have read permissions, please request permission from the administrator.
 
 ```bash
-git subtree pull --prefix=aov-source \
-　git@github.com:originator-profile/doc-opf-architectural-overview.git main --squash
+git subtree pull --prefix=opf-source/<name> <url> main --squash
 ```
+
+#### How to Add OPF Documents
+
+1. Add the repository with `git subtree add --prefix=opf-source/<name> <url> main --squash`
+2. Add the HTML file name (and `jaHtml` if there is a Japanese version) and asset directories to `sources` in `copy-opf.mjs`
+3. Add `name` and `url` to `matrix` in `.github/workflows/update-opf-source.yml`. For a private repository, use its SSH URL, register a deploy key, and add a step that sets up the SSH key (register the secret in the `update-opf-source` environment and reference it statically as `secrets.<NAME>`)
+4. Add a redirect from `/en/<name>/*` to `/<name>/:splat` in `public/_redirects`. If there is no Japanese version, also add one from `/ja/<name>/*`
+5. Add `/<name>/` to the locale-independent path check in `public/404.html`
+6. Add `docs/<name>/` (a stub like `docs/aov/`) and register it in `TOP_LEVEL_RULES` of `scripts/check-numbering.js`
+7. Add links to `src/pages/index.mdx`, `docs/getting-started.md`, and their English versions
 
 ## About Originator Profile Project
 

@@ -42,20 +42,33 @@ https://docs.originator-profile.org/
 - 非推奨（deprecated）となった仕様に関する文書は、タイトルに「⚠」をつけてください。
   例: `# Certificate ⚠`
 
-### Architectural Overview (AOV) 文書の統合
+### OPF 文書の統合
 
-本リポジトリでは、[Architectural Overview 文書](https://github.com/originator-profile/doc-opf-architectural-overview)を Git Subtree を使用して統合し、https://docs.originator-profile.org/aov/ で公開しています。
+本リポジトリでは、OPF 文書のリポジトリを Git Subtree を使用して `opf-source/<name>/` に統合し、`https://docs.originator-profile.org/<name>/` で公開しています。
 
-ビルド時に `aov-source/` から `aov/` にコピーされ、html のリネームも行われます。
+| name  | リポジトリ                                                                                             |
+| ----- | ------------------------------------------------------------------------------------------------------ |
+| `aov` | [doc-opf-architectural-overview](https://github.com/originator-profile/doc-opf-architectural-overview) |
 
-#### AOV 文書の更新方法
+ビルド時に `copy-opf.mjs` が `opf-source/<name>/` の英語版 HTML を `pages/<name>/index.html` に、日本語版 HTML があれば `pages/ja/<name>/index.html` にコピーします。図などの資産はそれぞれのディレクトリにコピーします。日本語版は、サイドバー用のスタブ `docs/<name>/index.mdx` が出力したページを上書きします。
 
-AOV リポジトリの内容が更新された場合、以下のコマンドで最新版を取得できます。現在はまだ doc-opf-architectural-overview リポジトリが非公開なので、読み取り権限がなければ、管理者に権限追加を依頼してください。
+#### OPF 文書の更新方法
+
+`.github/workflows/update-opf-source.yml` が毎日各リポジトリの最新版を取得し、main に push します。手動で取得する場合は以下のコマンドを使用します。`<url>` は公開リポジトリなら `https://github.com/originator-profile/<repository>.git`、非公開リポジトリなら `git@github.com:originator-profile/<repository>.git` です。非公開のリポジトリは、読み取り権限がなければ管理者に権限追加を依頼してください。
 
 ```bash
-git subtree pull --prefix=aov-source \
-  git@github.com:originator-profile/doc-opf-architectural-overview.git main --squash
+git subtree pull --prefix=opf-source/<name> <url> main --squash
 ```
+
+#### OPF 文書の追加方法
+
+1. `git subtree add --prefix=opf-source/<name> <url> main --squash` で取り込む
+2. `copy-opf.mjs` の `sources` に HTML ファイル名（日本語版があれば `jaHtml` も）と資産ディレクトリを追加する
+3. `.github/workflows/update-opf-source.yml` の `matrix` に `name` と `url` を追加する。非公開リポジトリは SSH の URL にし、deploy key を登録して SSH 鍵を用意するステップを追加する（secret は environment `update-opf-source` に登録し、`secrets.<NAME>` の形で静的に参照する）
+4. `public/_redirects` に `/en/<name>/*` から `/<name>/:splat` へのリダイレクトを追加する。日本語版が無い場合は `/ja/<name>/*` も追加する
+5. `public/404.html` のロケール非依存パスの判定に `/<name>/` を追加する
+6. `docs/<name>/`（`docs/aov/` と同様のスタブ）を追加し、`scripts/check-numbering.js` の `TOP_LEVEL_RULES` に登録する
+7. `src/pages/index.mdx`・`docs/getting-started.md` とそれぞれの英語版にリンクを追加する
 
 ## Originator Profile プロジェクトについて
 
