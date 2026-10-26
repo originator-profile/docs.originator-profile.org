@@ -11,7 +11,12 @@ import shell from "shelljs";
 
 /** @type {{ name: string; html: string; jaHtml?: string; assets: string[] }[]} */
 const sources = [
-  { name: "aov", html: "opf-aov-pub.html", assets: ["Drawings"] },
+  {
+    name: "aov",
+    html: "opf-aov-pub.html",
+    jaHtml: "opf-aov-pub.ja.html",
+    assets: ["Drawings"],
+  },
   {
     name: "core",
     html: "opf-core-pub.html",

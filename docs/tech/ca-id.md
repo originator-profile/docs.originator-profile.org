@@ -118,9 +118,9 @@ CAS から削除しても、CA そのものは失効しません。
 削除した CA の CA ID は、別のコンテンツに再利用しないでください。
 再利用すると、異なる複数のコンテンツに同じ CA ID が割り当てられ、コンテンツと CA ID の対応関係が崩れます。
 
-[^aov-ca]: [OP Architectural Overview (AOV)](pathname:///aov/#dfn-content-attestation) の「Content Attestation」の定義。
+[^aov-ca]: [OP Architectural Overview (AOV)](pathname:///ja/aov/#dfn-content-attestation) の「Content Attestation」の定義。
 
-[^aov-content]: [AOV](pathname:///aov/#dfn-content) の「Content」の定義。Web ページとしての配信は、AOV の Web Media Specific Model で説明される配信方法の一つです。
+[^aov-content]: [AOV](pathname:///ja/aov/#dfn-content) の「Content」の定義。Web ページとしての配信は、AOV の Web Media Specific Model で説明される配信方法の一つです。
 
 [^ca-id]: [Content Attestation の `credentialSubject` のプロパティ一覧](/opb/ca.md#credential-subject-properties)。各 CA モデル ([Article Data Model](/opb/ca-model/article.md) など) にも同じ定めがあります。
 
