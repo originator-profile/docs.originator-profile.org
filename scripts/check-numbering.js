@@ -28,6 +28,7 @@ const TOP_LEVEL_RULES = {
   tech: RANGE_EXPLANATION,
   aov: RANGE_REFERENCE,
   core: RANGE_REFERENCE,
+  "dns-opkey": RANGE_REFERENCE,
   "web-media": RANGE_REFERENCE,
   email: RANGE_REFERENCE,
   opb: RANGE_REFERENCE,

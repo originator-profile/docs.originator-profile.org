@@ -60,6 +60,7 @@ If you want to explore the specifications in more detail, please refer to the fo
 
 - [Architectural Overview (AOV)](pathname:///aov/)
 - [Core Specification](pathname:///core/)
+- [Using Secure DNS for Originator Profile (Internet Draft: draft-shigeya-dns-opkey-00)](https://datatracker.ietf.org/doc/draft-shigeya-dns-opkey/)
 - [Web Media Use Case Specification](pathname:///web-media/)
 - [Email Use Case Specification](pathname:///email/)
 - [Originator Profile Blueprint (OPB)](../opb/)

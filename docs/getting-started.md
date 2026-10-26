@@ -59,6 +59,7 @@ Originator Profile では、発行や検証のために以下のツールとガ�
 
 - [Architectural Overview (AOV)](pathname:///ja/aov/)
 - [Core Specification](pathname:///ja/core/)
+- [Using Secure DNS for Originator Profile (Internet Draft: draft-shigeya-dns-opkey-00)](https://datatracker.ietf.org/doc/draft-shigeya-dns-opkey/)
 - [Web Media Use Case Specification](pathname:///ja/web-media/)
 - [Email Use Case Specification](pathname:///ja/email/)
 - [Originator Profile Blueprint (OPB)](../opb/)

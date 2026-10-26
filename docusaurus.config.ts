@@ -159,6 +159,10 @@ export default {
               href: "https://github.com/originator-profile/doc-opf-core-specification",
             },
             {
+              label: "Using Secure DNS for Originator Profile",
+              href: "https://datatracker.ietf.org/doc/draft-shigeya-dns-opkey/",
+            },
+            {
               label: "Web Media Use Case Specification",
               href: "https://github.com/originator-profile/doc-opf-web-media",
             },
