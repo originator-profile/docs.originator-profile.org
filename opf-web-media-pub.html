@@ -1,0 +1,3681 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Originator Profile Framework &mdash; Web Media Use Case Specification v0.2 (Public Draft)</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <script
+      src="https://www.w3.org/Tools/respec/respec-w3c"
+      class="remove"
+    ></script>
+    <script type="text/javascript" class="remove">
+      var respecConfig = {
+        latestVersion: null,
+        edDraftURI: "https://docs.originator-profile.org/web-media/",
+        shortName: "op-web-media",
+        publishDate: "2026-10-27",
+        github: "https://github.com/originator-profile/doc-opf-web-media",
+
+        editors: [ {
+          name: "Shigeya Suzuki",
+          company: "Originator Profile Collaborative Innovation Partnership, Keio University"
+        }],
+
+        authors: [ {
+          name: "Shigeya Suzuki",
+          company: "Originator Profile Collaborative Innovation Partnership, Keio University"
+        }],
+
+        maxTocLevel: 4,
+
+        postProcess: [
+          function setTabTitle() {
+            document.title = document.title.replace(/^Originator Profile Framework — /, "") + " — Originator Profile Framework";
+          },
+        ],
+
+        localBiblio: {
+          "OPF-AOV": {
+            title: "Originator Profile Framework — Architectural Overview",
+            href: "https://docs.originator-profile.org/aov/",
+            publisher: "Originator Profile Collaborative Innovation Partnership"
+          },
+          "OPF-CORE": {
+            title: "Originator Profile Framework — Core Specification",
+            href: "https://docs.originator-profile.org/core/",
+            publisher: "Originator Profile Collaborative Innovation Partnership"
+          },
+          "OPF-EMAIL": {
+            title: "Originator Profile Framework — Email Use Case Specification",
+            href: "https://docs.originator-profile.org/email/",
+            publisher: "Originator Profile Collaborative Innovation Partnership"
+          },
+          "OPF-GOV": {
+            title: "Originator Profile Framework — Operational Governance Requirements",
+            publisher: "Originator Profile Collaborative Innovation Partnership",
+            status: "Not yet published"
+          },
+          "OPF-OPS": {
+            title: "Originator Profile Framework — Operations",
+            publisher: "Originator Profile Collaborative Innovation Partnership",
+            status: "Not yet published"
+          },
+          "OPF-WEB-AD": {
+            title: "Originator Profile Framework — Web Advertisement Use Case Specification",
+            publisher: "Originator Profile Collaborative Innovation Partnership",
+            status: "Not yet published"
+          },
+          "OPF-DNS": {
+            title: "Using Secure DNS for Originator Profile",
+            href: "https://datatracker.ietf.org/doc/draft-shigeya-dns-opkey/",
+            date: "2026-10-23",
+            status: "Individual Internet-Draft, work in progress"
+          },
+          "Originator Profile Blueprints": {
+            title: "Originator Profile Blueprints",
+            href: "https://docs.originator-profile.org/en/opb/",
+            publisher: "Originator Profile Collaborative Innovation Partnership"
+          },
+          "The Originator Profile Charter": {
+            title: "The Originator Profile Charter",
+            href: "https://originator-profile.org/en-US/charter/",
+            publisher: "Originator Profile Collaborative Innovation Partnership",
+          }
+        },
+        addSectionLinks: true, // Turn on § section marker
+        logos: [
+          {
+            src: "https://design.originator-profile.org/downloads/op_logos/png/cip-default-type-vertical.png",
+            url: "https://originator-profile.org/",
+            alt: "Originator Profile CIP",
+            width: 180,
+            height: 80,
+            id: "op-cip-logo",
+          }
+        ]
+      }
+    </script>
+    <style>
+      pre .highlight {
+        font-weight: bold;
+        color: green;
+      }
+      pre .comment {
+        font-weight: bold;
+        color: Gray;
+      }
+      ol.algorithm {
+        counter-reset: numsection;
+        list-style-type: none;
+      }
+      ol.algorithm > li {
+        position: relative;
+        margin: 0.5em 0;
+        padding-left: 2em;
+      }
+      ol.algorithm > li:before {
+        position: absolute;
+        left: 0;
+        font-weight: bold;
+        counter-increment: numsection;
+        content: counters(numsection, ".") ")";
+      }
+      ol.algorithm > li > p:first-child {
+        margin-top: 0;
+      }
+      table.simple {
+        border: 1px solid #999;
+      }
+      table.simple th,
+      table.simple td {
+        border: 1px solid #999;
+      }
+      .dns-state {
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <p class="copyright">
+        Copyright © 2022-2026 <a
+        href="https://originator-profile.org/en-US/">Originator Profile
+        Collaborative Innovation Partnership (OP-CIP)</a>, All rights
+        reserved.
+    </p>
+
+    <section id="abstract">
+      <p>
+        This document is the Web Media [=Use Case Specification=] of the
+        Originator Profile Framework: the specification that applies the
+        framework to content published on a website and presented to a
+        [=Recipient=] in a web page. It defines how an Originator Profile is
+        carried in such a page, which records in the DNS a [=Verifier=] consults
+        and which of them an [=Originator=] is required, or recommended, to
+        publish. It also
+        defines how a [=Verifier=] verifies the profile, and as of what time
+        validity and revocation are judged.
+      </p>
+      <p>
+        It adds one document to the [=Originator Profile=], the [=Web Media
+        Profile=], and adds no record to the DNS design of the framework.
+        What it adds is the binding between
+        the origin of the page and the [=Originator=] of the content, and the
+        rules for where and when a page is verified. The general model, the
+        data models and the DNS procedures on which this specification builds
+        are defined in the Architectural Overview [[OPF-AOV]] and the Core
+        Specification [[OPF-CORE]] and are not repeated here.
+      </p>
+    </section>
+
+    <section id="sotd" class="override">
+      <h2>Status of this Document</h2>
+      <p>
+        This document is a description of the current design of the Web Media
+        [=Use Case Specification=] of the Originator Profile Framework (OPF)
+        developed by the Originator Profile Collaborative Innovation
+        Partnership (OP-CIP). It is in DRAFT status, which means it has no
+        official standing of any kind and does not represent the consensus of
+        the OP-CIP Membership.
+      </p>
+      <p>
+        This is the first draft of this document. Points that this revision
+        leaves open are marked as issues where they arise in the body. The
+        work of moving into this document what the Originator Profile
+        Blueprints say of web media is in progress (<a
+        href="#relationship-to-other-documents"></a>).
+      </p>
+
+      <div class="note" title="Every document of the framework is under development">
+        Every document of the Originator Profile Framework, this one included,
+        is under development, as is the Internet-Draft [[?OPF-DNS]] on which
+        the framework relies, and no section cited here is yet stable. A
+        reference to a section of a document, whichever document it is, is
+        therefore made by the name of the thing referred to rather than by
+        section number.
+      </div>
+    </section>
+
+    <section id="introduction" class="informative">
+      <h2>Introduction</h2>
+      <p>
+        The Originator Profile Framework lets a [=Recipient=] of content learn
+        who the [=Originator=] of that content is, and what third parties have
+        validated about that [=Originator=], from data that the [=Originator=]
+        itself presents. The Architectural Overview [[OPF-AOV]] describes the
+        general model. The Core Specification [[OPF-CORE]] specifies the part
+        of the framework that every use case shares, and leaves what depends
+        on how content is delivered to a [=Use Case Specification=] for each
+        way of delivering it. This document is the [=Use Case Specification=]
+        for content published on a website and presented in a web page, and
+        it also defines the model for that use case, the [=Web Media Specific
+        Model=].
+      </p>
+      <p>
+        In outline, the use case consists of three things.
+      </p>
+      <ul>
+        <li>
+          The [=Originator Profile=] travels in the page, together with the
+          documents that bind it to the page and to the content: a [=Content
+          Attestation=] over the content, and a [=Website Profile=], served
+          from a well-known resource of the site, that names the origins on
+          which the [=Originator Profile=] may be presented. Both of those are signed with an [=Originator Verification Key=] of
+          the [=Core Profile=]. In this use case the [=Originator Profile=]
+          also includes a [=Web Media Profile=], which the [=Core Profile
+          Issuer=] issues rather than the [=Originator=]. The [=Content
+          Attestation=] and the [=Website Profile=] lie outside the
+          [=Originator Profile=] itself.
+        </li>
+        <li>
+          The DNS plays the role that the Core Specification gives it in
+          every use case, namely currency and revocation (<a
+          data-cite="OPF-CORE#ordering-and-parallelism">[[OPF-CORE]],
+          Ordering of Local and DNS Steps</a>). The records that an
+          [=Originator=] publishes in the zone of its own [=Identity=] are
+          optional in the Core Specification, which allows a [=Use Case
+          Specification=] to require them. This use case leaves them
+          optional, except that an [=Originator=] whose [=Website Profile=]
+          names a host outside its [=Identity=] needs the [=Permitted Host
+          Record=] (<a href="#binding"></a>), so an organization whose zone is
+          not signed with DNSSEC can still use the framework.
+        </li>
+        <li>
+          Verification is performed when the page is presented, by a
+          [=Verifier=] within browsing software, such as a browser extension,
+          or by a service that retrieves the page. The delivery
+          channel offers no place in which a result can be recorded, so the
+          judgement is made afresh each time a page is presented and validity
+          is judged as of the time of verification.
+        </li>
+      </ul>
+
+      <section id="relationship-to-other-documents">
+        <h3>Relationship to Other Documents</h3>
+        <p>
+          This document is a [=Use Case Specification=] in the sense of the Core
+          Specification [[OPF-CORE]]: it applies that document to one way of
+          delivering content and settles the matters that document leaves to
+          a [=Use Case Specification=]. Those matters are:
+        </p>
+        <ul>
+          <li>how the documents of an [=Originator Profile=] are delivered;</li>
+          <li>under what identity the content is presented, and how that
+          identity is bound to the [=Originator=];</li>
+          <li>which of the [=Originator=]'s own records are consulted;</li>
+          <li>where and when verification happens;</li>
+          <li>what becomes of the result;</li>
+          <li>what stands for the attested content, which this revision
+          settles only in part (<a href="#page-outside"></a>);</li>
+          <li>the security and privacy considerations that follow from those
+          choices.</li>
+        </ul>
+        <p>
+          This document does not restate what other documents of the framework
+          define. In particular:
+        </p>
+        <ul>
+          <li>
+            The Base Model and the data models of the [=Core Profile=] and
+            the [=Profile Annotation=] are defined in the Architectural
+            Overview [[OPF-AOV]], and the [=Web Media Specific Model=] that
+            extends the Base Model is defined in this document. The terms this
+            document uses are defined in the Core Specification [[OPF-CORE]],
+            except for those of the web media use case, which
+            <a href="#terminology-web"></a> defines.
+          </li>
+          <li>
+            The Core Specification [[OPF-CORE]] defines the normative
+            procedures for verifying an [=Originator Profile=], the contents
+            and format of the DNS records, and the derivation of a [=Key
+            Identifier=] and the digest algorithm it uses. It also defines the
+            rule by which two domain names are compared, the meaning of each
+            resolution outcome, and the general rule for the time as of which
+            validity is judged. The two names this use case compares are the
+            host of the [=Page Origin=] and the [=Identity=] of the
+            [=Originator=]. The resource record type is defined in
+            [[?OPF-DNS]].
+          </li>
+          <li>
+            The corresponding specification for electronic mail is
+            [[OPF-EMAIL]]. The two documents are the two [=Use Case
+            Specifications=] of the same framework; <a href="#differences"></a>
+            sets out how they differ, and the same comparison appears in that
+            document.
+          </li>
+          <li>
+            The Originator Profile Blueprints [[?Originator Profile
+            Blueprints]], published by the Originator Profile Collaborative
+            Innovation Partnership, describe the documents and resources of
+            the framework as they are implemented today. This document cites
+            them for information: where it has not yet defined the contents
+            or the form of a document, it leaves them as the Blueprints state
+            them (<a href="#page-outside"></a>), and what it requires is only
+            what it states itself. The work of moving into this document what
+            the Blueprints say of web media is in progress. On the following
+            points the Blueprints, as they stand, differ from this document,
+            and the work of bringing them into line with it is in progress;
+            the points on which they differ from the Core Specification are
+            listed there (<a
+            data-cite="OPF-CORE#relationship-to-other-documents">[[OPF-CORE]],
+            Relationship to Other Documents</a>).
+            <ul>
+              <li>The binding of the [=Page Origin=]. This document requires
+                each of the conditions of <a href="#binding"></a>; the
+                Blueprints make the comparison of the origin optional and set
+                no condition on how the host stands to the [=Identity=] of the
+                [=Originator=].</li>
+              <li>The URL of the page. This document requires a [=Verifier=]
+                to check <code>allowedUrl</code> (<a
+                href="#verification-allowed-url"></a>); the Blueprints
+                leave the check to the [=Verifier=].</li>
+              <li>[=Profile Annotations=] in the bundle. This document
+                requires an [=Originator=] to present at least one (<a
+                href="#page-bundle"></a>); in the Blueprints the annotations of
+                an Originator Profile Set are optional.</li>
+              <li>The well-known resource. This document requires a
+                [=Verifier=] to request it whether or not the page carries any
+                document (<a href="#page-delivery-requests"></a>); the
+                Blueprints leave the request to the [=Verifier=].</li>
+              <li>The [=Web Media Profile=]. This document requires an
+                [=Originator=] to present one in its bundle (<a
+                href="#page-bundle"></a>) and a [=Verifier=] to check its
+                issuer, its signature and its [=Signature Validity Period=]
+                (<a href="#verification-wmp"></a>); in the
+                Blueprints the media of an Originator Profile Set is
+                optional.</li>
+            </ul>
+          </li>
+        </ul>
+
+        <p>
+          The scope of this document is web media: content that an
+          [=Originator=] publishes and that is presented in a page whose
+          origin its [=Website Profile=] names. The host of that origin need
+          not be the [=Originator=]'s own [=Identity=], and the relation in which
+          it has to stand to that [=Identity=] is the one that
+          <a href="#binding"></a> states.
+        </p>
+        <p>
+          Content supplied for advertising is not within the scope of this
+          document. It is the subject of a separate [=Use Case
+          Specification=] for web advertisement [[?OPF-WEB-AD]], which is
+          expected to override parts of this document; the question of which
+          origin such content is bound to is left to that document.
+        </p>
+      </section>
+    </section>
+
+    <section id="conformance">
+      <p>
+        A conforming implementation of this specification is one that presents
+        an [=Originator Profile=] in a web page, or verifies one presented in
+        a web page, as this document requires of that role. Where a
+        requirement is placed on a particular party, namely the
+        [=Originator=] or the [=Verifier=], it applies to an implementation acting
+        in that role.
+      </p>
+      <p>
+        In normative text, a sentence that uses none of the key words either
+        restates a requirement stated elsewhere, citing it, defines a term or
+        a value, or explains; a requirement that has no other place is stated
+        with a key word.
+      </p>
+      <p>
+        The DNSSEC validation states of [[?RFC4035]] are written in italics,
+        as in <span class="dns-state">Secure</span> and
+        <span class="dns-state">Insecure</span>, also where they qualify a
+        noun, and the field names of the SVCB record [[?RFC9460]], such as
+        <code>ServiceMode</code> and <code>TargetName</code>, are written in
+        code type.
+      </p>
+    </section>
+
+    <section id="terminology">
+      <h2>Terminology</h2>
+      <p>
+        The terms below that are marked as imported are used in this document
+        with the meaning given to them in the Core Specification
+        [[OPF-CORE]]. They are listed here only so that they resolve within
+        this document; the definition of record is the one in [[OPF-CORE]],
+        and where the two differ, [[OPF-CORE]] prevails. The remaining terms
+        are those of the web media use case and are defined here; the
+        definition of record of each of them is the one in this document.
+      </p>
+      <div class="issue" title="Imported terms are restated, not cross-referenced">
+        The imported terms are restated in this document rather than resolved
+        against [[OPF-CORE]] by cross-document reference, because the
+        cross-reference database that would resolve them automatically covers
+        only published specifications, and [[OPF-CORE]] is not in it. Each
+        entry links to its definition in [[OPF-CORE]]. When the publication
+        arrangements for the framework's documents are settled, these entries
+        are to be replaced by cross-document references and removed from this
+        document.
+      </div>
+
+      <section id="terminology-imported">
+        <h3>Imported Terms</h3>
+        <dl>
+          <dt><dfn data-lt="Accreditation Chains">Accreditation Chain</dfn></dt>
+          <dd>
+            Imported. See <a
+            data-cite="OPF-CORE#dfn-accreditation-chain">[[OPF-CORE]],
+            Accreditation Chain</a>.
+          </dd>
+
+          <dt><dfn data-lt="Contents">Content</dfn></dt>
+          <dd>
+            Imported. See <a data-cite="OPF-CORE#dfn-content">[[OPF-CORE]],
+            Content</a>.
+          </dd>
+
+          <dt><dfn data-lt="Content Attestations">Content Attestation</dfn></dt>
+          <dd>
+            Imported. See <a
+            data-cite="OPF-CORE#dfn-content-attestation">[[OPF-CORE]], Content
+            Attestation</a>.
+          </dd>
+
+          <dt><dfn data-lt="Content Validity Periods">Content Validity Period</dfn></dt>
+          <dd>
+            Imported. See <a
+            data-cite="OPF-CORE#dfn-content-validity-periods">[[OPF-CORE]],
+            Content Validity Period</a>. 
+          </dd>
+
+          <dt><dfn data-lt="Core Profiles">Core Profile</dfn></dt>
+          <dd>
+            Imported. See <a data-cite="OPF-CORE#dfn-core-profile">[[OPF-CORE]],
+            Core Profile</a>.
+          </dd>
+
+          <dt><dfn data-lt="Core Profile Issuers">Core Profile Issuer</dfn></dt>
+          <dd>
+            Imported. See <a
+            data-cite="OPF-CORE#dfn-core-profile-issuer">[[OPF-CORE]], Core
+            Profile Issuer</a>.
+          </dd>
+
+          <dt><dfn>current</dfn></dt>
+          <dd>
+            Imported. See <a data-cite="OPF-CORE#dfn-current">[[OPF-CORE]],
+            current</a>.
+          </dd>
+
+          <dt><dfn data-lt="Identities">Identity</dfn></dt>
+          <dd>
+            Imported. See <a data-cite="OPF-CORE#dfn-identity">[[OPF-CORE]],
+            Identity</a>.
+          </dd>
+
+          <dt><dfn data-lt="Issuer Key Records">Issuer Key Record</dfn></dt>
+          <dd>
+            Imported. See <a
+            data-cite="OPF-CORE#dfn-issuer-key-record">[[OPF-CORE]], Issuer
+            Key Record</a>.
+          </dd>
+
+          <dt><dfn>Issuer Pinning Record</dfn></dt>
+          <dd>
+            Imported. See <a
+            data-cite="OPF-CORE#dfn-issuer-pinning-record">[[OPF-CORE]], Issuer
+            Pinning Record</a>.
+          </dd>
+
+          <dt><dfn data-lt="Key Identifiers">Key Identifier</dfn></dt>
+          <dd>
+            Imported. See <a data-cite="OPF-CORE#dfn-key-identifier">[[OPF-CORE]],
+            Key Identifier</a>.
+          </dd>
+
+          <dt><dfn data-lt="Originators">Originator</dfn></dt>
+          <dd>
+            Imported. See <a data-cite="OPF-CORE#dfn-originator">[[OPF-CORE]],
+            Originator</a>.
+          </dd>
+
+          <dt><dfn data-lt="Originator Key Records">Originator Key Record</dfn></dt>
+          <dd>
+            Imported. See <a
+            data-cite="OPF-CORE#dfn-originator-key-record">[[OPF-CORE]],
+            Originator Key Record</a>.
+          </dd>
+
+          <dt><dfn data-lt="Originator Profiles">Originator Profile</dfn></dt>
+          <dd>
+            Imported. See <a
+            data-cite="OPF-CORE#dfn-originator-profile">[[OPF-CORE]], Originator
+            Profile</a>.
+          </dd>
+
+          <dt><dfn data-lt="Originator Profile Bundles">Originator Profile Bundle</dfn></dt>
+          <dd>
+            Imported. See <a
+            data-cite="OPF-CORE#dfn-originator-profile-bundles">[[OPF-CORE]],
+            Originator Profile Bundle</a>. In this specification it is carried
+            in the page or at the well-known resource of the [=Page Origin=]
+            (<a href="#page-bundle"></a>, <a href="#page-delivery"></a>).
+          </dd>
+
+          <dt><dfn data-lt="Originator Verification Keys">Originator Verification Key</dfn></dt>
+          <dd>
+            Imported. See <a
+            data-cite="OPF-CORE#dfn-originator-verification-key">[[OPF-CORE]],
+            Originator Verification Key</a>.
+          </dd>
+
+          <dt><dfn data-lt="Permitted Host Records">Permitted Host Record</dfn></dt>
+          <dd>
+            Imported. See <a
+            data-cite="OPF-CORE#dfn-permitted-host-record">[[OPF-CORE]],
+            Permitted Host Record</a>.
+          </dd>
+
+          <dt><dfn data-lt="Presented Identities">Presented Identity</dfn></dt>
+          <dd>
+            Imported. See <a
+            data-cite="OPF-CORE#dfn-presented-identity">[[OPF-CORE]], Presented
+            Identity</a>.
+          </dd>
+
+          <dt><dfn data-lt="Profile Annotations">Profile Annotation</dfn></dt>
+          <dd>
+            Imported. See <a data-cite="OPF-CORE#dfn-profile-annotation">[[OPF-CORE]],
+            Profile Annotation</a>.
+          </dd>
+
+          <dt><dfn data-lt="Profile Annotation Issuers">Profile Annotation Issuer</dfn></dt>
+          <dd>
+            Imported. See <a
+            data-cite="OPF-CORE#dfn-profile-annotation-issuer">[[OPF-CORE]],
+            Profile Annotation Issuer</a>.
+          </dd>
+
+          <dt><dfn data-lt="Recipients">Recipient</dfn></dt>
+          <dd>
+            Imported. See <a data-cite="OPF-CORE#dfn-recipient">[[OPF-CORE]],
+            Recipient</a>.
+          </dd>
+
+          <dt><dfn>retired</dfn></dt>
+          <dd>
+            Imported. See <a data-cite="OPF-CORE#dfn-retired">[[OPF-CORE]],
+            retired</a>.
+          </dd>
+
+          <dt><dfn data-lt="Revocation Records">Revocation Record</dfn></dt>
+          <dd>
+            Imported. See <a
+            data-cite="OPF-CORE#dfn-revocation-record">[[OPF-CORE]], Revocation
+            Record</a>.
+          </dd>
+
+          <dt><dfn data-lt="Root Core Profiles">Root Core Profile</dfn></dt>
+          <dd>
+            Imported. See <a data-cite="OPF-CORE#dfn-root-core-profile">[[OPF-CORE]],
+            Root Core Profile</a>.
+          </dd>
+
+          <dt><dfn data-lt="Root Issuers">Root Issuer</dfn></dt>
+          <dd>
+            Imported. See <a data-cite="OPF-CORE#dfn-root-issuer">[[OPF-CORE]],
+            Root Issuer</a>.
+          </dd>
+
+          <dt><dfn data-lt="Signature Validity Periods">Signature Validity Period</dfn></dt>
+          <dd>
+            Imported. See <a
+            data-cite="OPF-CORE#dfn-signature-validity-periods">[[OPF-CORE]],
+            Signature Validity Period</a>. 
+          </dd>
+
+          <dt><dfn data-lt="Use Case Specifications">Use Case Specification</dfn></dt>
+          <dd>
+            Imported. See <a
+            data-cite="OPF-CORE#dfn-use-case-specifications">[[OPF-CORE]], Use
+            Case Specification</a>.
+          </dd>
+
+          <dt><dfn data-lt="Validated Attributes">Validated Attribute</dfn></dt>
+          <dd>
+            Imported. See <a
+            data-cite="OPF-CORE#dfn-validated-attribute">[[OPF-CORE]],
+            Validated Attribute</a>.
+          </dd>
+
+          <dt><dfn data-lt="Verifiers">Verifier</dfn></dt>
+          <dd>
+            Imported. See <a data-cite="OPF-CORE#dfn-verifier">[[OPF-CORE]],
+            Verifier</a>.
+          </dd>
+
+          <dt><dfn>withdrawn</dfn></dt>
+          <dd>
+            Imported. See <a data-cite="OPF-CORE#dfn-withdrawn">[[OPF-CORE]],
+            withdrawn</a>.
+          </dd>
+        </dl>
+      </section>
+
+      <section id="terminology-web">
+        <h3>Terms Specific to this Specification</h3>
+        <dl>
+
+          <dt><dfn data-lt="Page Origins">Page Origin</dfn></dt>
+          <dd>
+            The [=Page Origin=] of a presentation is the origin [[RFC6454]] of
+            the page in which the [=Content=] is presented to the
+            [=Recipient=]. It is the identity under which the [=Content=]
+            arrives, and it is what this specification binds to the
+            [=Originator=]; it is the [=Presented Identity=] of this use case,
+            obtained and put into canonical form as
+            <a href="#presented-identity"></a> requires.
+          </dd>
+
+          <dt><dfn data-lt="Web Media Profiles">Web Media Profile</dfn></dt>
+          <dd>
+            A [=Web Media Profile=] is a set of [=Validated Attributes=]
+            about an [=Originator=] that publishes [=Content=] on a website. It
+            includes domain-specific [=Validated Attributes=] for the web
+            media, such as editorial policy and contact information. In this
+            use case it is part of the [=Originator Profile=], together with
+            the [=Core Profile=] and the [=Profile Annotations=], and the
+            [=Originator Profile=] ceases to be valid when it does.
+          </dd>
+
+          <dt><dfn data-lt="Web Media Profile Issuers">Web Media Profile Issuer</dfn></dt>
+          <dd>
+            A [=Web Media Profile Issuer=] is the role of a [=Core Profile
+            Issuer=] when it issues a [=Web Media Profile=] for an
+            [=Originator=] under [=Web Media Specific Policy=]; it is not a
+            separate Entity. The [=Web Media Profile=] of an [=Originator=]
+            is issued by the [=Core Profile Issuer=] that issued that
+            [=Originator=]'s [=Core Profile=], as this specification
+            requires. The issuer is responsible for
+            validating the Attributes included in the profile and ensuring
+            that they accurately represent the [=Originator=].
+          </dd>
+
+          <dt><dfn data-lt="Web Media Specific Models">Web Media Specific Model</dfn></dt>
+          <dd>
+            A [=Web Media Specific Model=] is a model that extends the Base
+            Model for Web Media use cases, incorporating domain-specific
+            [=Validated Attributes=] and validation mechanisms.
+          </dd>
+
+          <dt><dfn data-lt="Web Media Specific Policies">Web Media Specific Policy</dfn></dt>
+          <dd>
+            A [=Web Media Specific Policy=] is a set of policies that govern
+            the issuance and management of the [=Web Media Profile=], which a
+            [=Core Profile Issuer=] issues, and of the [=Website Profile=],
+            which the [=Originator=] itself issues.
+          </dd>
+
+          <dt><dfn data-lt="Website Profiles">Website Profile</dfn></dt>
+          <dd>
+            A [=Website Profile=] is Signed Data from Originator, issued
+            by the [=Originator=] itself, that states the websites on which
+            the [=Originator=] publishes its [=Content=]. The [=Verifier=]
+            needs it to bind a web page to the [=Originator=]. This profile
+            includes information such as the origins of the websites. It is
+            not part of the [=Originator Profile=]: like a [=Content
+            Attestation=], it sits outside it. It ceases to have effect
+            when the key that signed it is no longer [=current=], when the
+            [=Core Profile=] that carries that key ceases to be valid, or when
+            its own [=Signature Validity Period=] ends (<a
+            href="#validity-layers"></a>).
+          </dd>
+        </dl>
+      </section>
+    </section>
+
+    <section id="page">
+      <h2>Page Structure</h2>
+      <p>
+        A page that presents an [=Originator Profile=] under this
+        specification carries three kinds of thing: the [=Originator Profile
+        Bundle=], the documents that lie outside that profile and travel with
+        it, and the content itself. This section says what each of them is;
+        what a [=Verifier=] does with them is in <a href="#verification"></a>.
+      </p>
+
+      <section id="page-bundle">
+        <h3>The Originator Profile Bundle</h3>
+        <p>
+          <strong>What the bundle carries.</strong> An [=Originator=] MUST
+          include in its [=Originator Profile Bundle=] the documents that the
+          Core Specification defines an [=Originator Profile Bundle=] to carry
+          (<a data-cite="OPF-CORE#originator-profile-bundle">[[OPF-CORE]],
+          Originator Profile Bundle</a>). The format of each of these
+          documents is defined in the Core Specification [[OPF-CORE]].
+        </p>
+        <p>
+          <strong>What an Originator presents in its bundle.</strong> An
+          [=Originator=] MUST present, in its [=Originator Profile
+          Bundle=], at least one of its [=Profile Annotations=]; this is the
+          requirement that the Core Specification has each [=Use Case
+          Specification=] place on the party that assembles the [=Originator
+          Profile Bundle=] (<a
+          data-cite="OPF-CORE#use-case-interface">[[OPF-CORE]], Requirements
+          on Use Case Specifications</a>).
+          In this use case the [=Originator Profile=] includes the
+          [=Originator=]'s [=Web Media Profile=] (<a
+          href="#page-outside"></a>), and an [=Originator=] MUST also present
+          its [=Web Media Profile=] in its [=Originator Profile Bundle=], in
+          the page or at the well-known resource (<a
+          href="#page-delivery"></a>).
+        </p>
+        <p>
+          <strong>The whole chain travels with the page.</strong> The
+          [=Originator Profile Bundle=] MUST carry the whole of each
+          [=Accreditation Chain=]. A [=Verifier=] is not required to obtain any
+          part of an [=Originator Profile=] beyond what the page and the
+          well-known resource of the [=Page Origin=] carry (<a
+          href="#page-delivery"></a>). The [=Core Profile=] of the [=Core
+          Profile Issuer=] and of each [=Profile Annotation Issuer=], each
+          with its [=Accreditation Chain=], is in the [=Originator Profile
+          Bundle=], except a [=Root Core Profile=] the [=Verifier=] holds.
+        </p>
+        <p>
+          <strong>A document a Verifier does not use is not a failure.</strong>
+          As the Core Specification requires (<a
+          data-cite="OPF-CORE#originator-profile-bundle">[[OPF-CORE]],
+          Originator Profile Bundle</a>), a [=Verifier=] does not treat the
+          verification as failed because the [=Originator Profile Bundle=]
+          carries a document that it does not use or does not recognize. That
+          is what allows a later revision to add a document to the page, or to
+          obtain part of the [=Originator Profile Bundle=] by another route,
+          without breaking [=Verifiers=] already deployed.
+        </p>
+      </section>
+
+      <section id="page-outside">
+        <h3>The Documents Outside the Originator Profile</h3>
+        <p>
+          <strong>Two documents outside the profile, and the Web Media
+          Profile within it.</strong> Two documents lie outside the
+          [=Originator Profile=] and travel with it: the [=Content
+          Attestation=] and the [=Website Profile=]. The [=Content
+          Attestation=] attests that the [=Content=] of the page originated
+          from the [=Originator=]. The [=Website Profile=] names the origins
+          on which the [=Originator Profile=] may be presented, and it is the
+          document that <a href="#binding"></a> compares the [=Page Origin=]
+          with. The [=Web Media Profile=], which carries information specific
+          to the [=Originator=]'s web media, is in this use case part of the
+          [=Originator Profile=], as the Core Specification allows a [=Use
+          Case Specification=] to provide; the procedure of <a
+          href="#verification"></a> checks its issuer, its signature and its
+          [=Signature Validity Period=], and this revision does not define
+          what else a [=Verifier=] does with one.
+        </p>
+        <p>
+          <strong>Who issues the Website Profile, and with which key.</strong>
+          A [=Website Profile=] MUST be issued by the [=Originator=] itself,
+          its issuer being the [=Identity=] of that [=Originator=]. The
+          [=Originator=] signs it and the [=Content Attestation=] with an
+          [=Originator Verification Key=] of its [=Core Profile=].
+        </p>
+        <p>
+          <strong>Who issues the Web Media Profile, and with which
+          key.</strong> A [=Web
+          Media Profile=] MUST be issued by the [=Core Profile Issuer=] that
+          issued the [=Core Profile=] of the [=Originator=] it is about, not by
+          the [=Originator=] itself, and signed with a key of that issuer's own
+          [=Core Profile=]. That issuer signs it as it signs a [=Core
+          Profile=]; this specification calls that role the [=Web Media
+          Profile Issuer=].
+          A [=Web Media Profile=] is issued under the [=Web Media Specific Policy=]; what that
+          policy requires of the issuer is stated in the Operational
+          Governance Requirements [[?OPF-GOV]], not here.
+        </p>
+        <p>
+          <strong>Validity follows the profile and the signing key.</strong>
+          Neither of these two documents is registered in the DNS and neither
+          has a revocation mechanism of its own; their validity follows the
+          [=Originator Profile=] and the key that signed them, as the Core
+          Specification [[OPF-CORE]] states for documents outside an
+          [=Originator Profile=]. The [=Web Media Profile=] has no record in
+          the DNS and no revocation mechanism of its own either, and it and
+          the [=Originator Profile=] end together (the layers each of the
+          three is subject to: <a href="#validity-layers"></a>; what the
+          position of the two documents outside means for retracting a claim
+          on one site: <a href="#security-retraction"></a>).
+        </p>
+        <p>
+          <strong>What allowedUrl may name.</strong> The [=Originator=] MUST
+          write each URL Pattern string [[URLPATTERN]] in the
+          <code>allowedUrl</code> of a [=Content Attestation=] with the scheme
+          <code>https</code>, or <code>http</code> where the host is
+          <code>localhost</code>, and with a fixed host name. The host name is
+          fixed in the sense of [[RFC1123]], Section 2.1, and its only
+          permitted wildcard is a leading <code>*.</code> label. What else
+          <code>allowedUrl</code> names is bounded by the Operational
+          Governance Requirements [[?OPF-GOV]].
+        </p>
+        <div class="issue" title="The contents of the documents outside the profile and of the Web Media Profile are not yet defined here">
+          <p>
+            The Core Specification [[OPF-CORE]] leaves it to a [=Use Case
+            Specification=] to define what a document outside an [=Originator
+            Profile=] contains and what a [=Verifier=] does with it, and this
+            revision does not yet do so. For each of those documents, and for
+            the [=Web Media Profile=] that this use case adds to the
+            [=Originator Profile=], the list below gives what this document
+            settles, the page of the
+            Originator Profile Blueprints [[?Originator Profile Blueprints]]
+            that describes it as the Blueprints stand, and what is not yet
+            defined here.
+          </p>
+          <ul>
+            <li>
+              <strong>[=Website Profile=].</strong>
+              <ul>
+                <li>Settled here: it carries a representative URL of the site
+                  and one or more origins in the sense of [[RFC6454]], namely
+                  scheme, host and non-default port. Its issuer and the key
+                  that signs it are stated in this section.</li>
+                <li>In the Blueprints: <a
+                  href="https://docs.originator-profile.org/en/opb/website-profile/">Website
+                  Profile</a>. There a value is written as the ASCII
+                  serialization of an origin, without path, query or
+                  fragment, and with a default port omitted, as the URL
+                  Standard [[URL]] serializes an origin. The comparison of <a
+                  href="#binding"></a> is defined so that a value written
+                  otherwise still names the origin it parses to.</li>
+                <li>Not yet defined here: the property names, the cardinality
+                  and the form in which an origin is written, which are to be
+                  taken from the Blueprints.</li>
+              </ul>
+            </li>
+            <li>
+              <strong>[=Content Attestation=].</strong>
+              <ul>
+                <li>Settled here: the one property this revision names is
+                  <code>allowedUrl</code>, and it names it to state what it may
+                  name (this section) and to require a [=Verifier=] to check it
+                  (<a href="#verification-allowed-url"></a>). The key
+                  that signs it is stated in this section.</li>
+                <li>In the Blueprints: <a
+                  href="https://docs.originator-profile.org/en/opb/content-integrity-descriptor/">Content
+                  Integrity Descriptor</a>. For a web page the Blueprints
+                  register three kinds of Content Integrity Descriptor, in the
+                  sense of [[OPF-AOV]]: an HTML fragment (its outerHTML), the
+                  text within a DOM subtree (its textContent), and an external
+                  resource. A fourth, the visible text within a DOM subtree
+                  (its innerText), is deprecated there. Apart from
+                  <code>allowedUrl</code>, what a
+                  [=Content Attestation=] is to carry remains as the
+                  Blueprints state it.</li>
+                <li>Not yet defined here: which of those kinds a [=Content
+                  Attestation=] carries, and in what form, and, from that, how
+                  a [=Verifier=] checks a [=Content Attestation=] against the
+                  [=Content=] of a page.</li>
+              </ul>
+            </li>
+            <li>
+              <strong>[=Web Media Profile=].</strong>
+              <ul>
+                <li>Settled here: its issuer and the key that signs it, stated
+                  in this section, and what a [=Verifier=] checks of it (<a
+                  href="#verification-wmp"></a>).</li>
+                <li>In the Blueprints: <a
+                  href="https://docs.originator-profile.org/en/opb/web-media-profile/">Web
+                  Media Profile</a>. There it carries [=Validated Attributes=]
+                  specific to the [=Originator=]'s web media that are not
+                  organization registration information, such as its
+                  editorial policy, privacy policy, contact information, logo
+                  and official URL.</li>
+                <li>Not yet defined here: its contents, and from them what a
+                  [=Verifier=] does with a [=Web Media Profile=] beyond the
+                  checks of <a href="#verification-wmp"></a>.</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+
+      </section>
+
+      <section id="page-delivery">
+        <h3>How the Originator Profile Bundle and the Content Attestation Reach the Verifier</h3>
+
+        <p>
+          The [=Originator Profile Bundle=], which in this use case carries
+          the [=Web Media Profile=], and the two documents that lie outside
+          the [=Originator Profile=], namely the [=Website Profile=] and the
+          [=Content Attestation=] (<a href="#page-outside"></a>), reach a
+          [=Verifier=] by two routes: the page carries the [=Originator
+          Profile Bundle=] and the [=Content Attestation=], and the well-known
+          resource of the [=Page Origin=] carries the [=Originator Profile
+          Bundle=] and the [=Website Profile=].
+          Documents a [=Verifier=] carries with it can be added to them. No
+          part of an [=Originator Profile=] is fetched from the DNS. The
+          documents of all these sources are taken together, in the order
+          of <a href="#page-delivery-order"></a>; the meaning of that order is
+          the one the Core Specification [[OPF-CORE]] gives it.
+        </p>
+        <p>The subsections below say:</p>
+        <ul>
+          <li>how a page carries the documents (<a
+            href="#page-delivery-in-page"></a>);</li>
+          <li>when a [=Verifier=] reads the page, and when a result ends (<a
+            href="#page-delivery-reading"></a>);</li>
+          <li>how the two routes and the documents a [=Verifier=] carries with
+            it are used together (<a href="#page-delivery-routes"></a>);</li>
+          <li>in what order the documents are taken (<a
+            href="#page-delivery-order"></a>);</li>
+          <li>how a [=Verifier=] chooses among issuances of one document (<a
+            href="#page-delivery-issuances"></a>);</li>
+          <li>how the [=Originators=] of one page are kept apart (<a
+            href="#page-delivery-originators"></a>);</li>
+          <li>how the requests for the well-known resource and for referenced
+            documents are made (<a href="#page-delivery-requests"></a>);</li>
+          <li>what holds for [=Content=] presented in a frame (<a
+            href="#page-delivery-frames"></a>).</li>
+        </ul>
+
+        <section id="page-delivery-in-page">
+          <h4>Documents Carried in the Page</h4>
+        <p>
+          A page carries
+          these documents in <code>script</code> elements
+          [[HTML]]. Such an element MUST carry a <code>type</code> attribute,
+          whose value is <code>application/ca-set+json</code> where the element
+          carries a Content Attestation Set and
+          <code>application/op-set+json</code> where it carries an Originator
+          Profile Set. The element takes one of two forms, and a page MAY use
+          either.
+        </p>
+        <ul>
+          <li>
+            Embedded: the content of the <code>script</code> element is the
+            JSON object itself.
+          </li>
+          <li>
+            Referenced: the element names the object by a URL in a
+            <code>src</code> attribute, and the [=Verifier=] retrieves the
+            object from that URL. This specification does not require an
+            <code>integrity</code> attribute [[?SRI]] on such an element, and
+            places no requirement on a [=Verifier=] with respect to one that is
+            present. Browsing software does not itself retrieve the URL of such
+            an element, since it processes no script element whose type it does
+            not know [[HTML]]; the retrieval is the [=Verifier=]'s.
+          </li>
+        </ul>
+        <div class="issue" title="The final media types of the two sets">
+          The values <code>application/ca-set+json</code> and
+          <code>application/op-set+json</code> are those the Originator
+          Profile Blueprints [[?Originator Profile Blueprints]] require. The
+          Blueprints deprecate the values used before them,
+          <code>application/cas+json</code> and
+          <code>application/ops+json</code>, which they stop supporting on 1
+          November 2027; until then a page should not use them, and a
+          [=Verifier=] should treat each as the value that replaces it.
+          Whether this specification takes over that transition is not
+          settled. What the media types are finally to be is under
+          consideration, and where they are to be registered is a separate
+          question (<a href="#iana"></a>).
+        </div>
+        <p>
+          <strong>What this specification leaves open about the
+          page.</strong> This specification lays down none of the following:
+        </p>
+        <ul>
+          <li>where in the page such an element stands, in the head or in
+            the body;</li>
+          <li>beyond when a [=Verifier=] reads the page (<a
+            href="#page-delivery-reading"></a>), the procedure by which it
+            takes the documents out of a page it is given;</li>
+          <li>what each of the two kinds of set contains, any more than it
+            defines the contents of the individual documents (<a
+            href="#page-outside"></a>);</li>
+          <li>whether a single Originator Profile Set gives a single order for
+            the [=Profile Annotations=] it carries. That follows from the form
+            of that set rather than from anything this specification states;
+            the revision that defines that form is to settle it and, where it
+            gives none, to state the order here.</li>
+        </ul>
+        <p>
+          <strong>What each form lets the page determine.</strong> Where this
+          specification speaks of a document as carried in the page, it
+          covers both forms. They differ in what the page determines. In the
+          embedded form the page determines the document itself. In the
+          referenced form it determines only the URL: whoever serves that URL
+          chooses what the retrieval yields, and may return no document, an
+          earlier one or another one, although anything it returns that does
+          not carry its issuer's signature fails to verify (what that does and
+          does not establish: <a href="#security-delivery"></a>).
+        </p>
+        <div class="note" title="What the transport protects and what it does not">
+          The authenticity of the [=Originator Profile Bundle=] rests on the
+          signatures the documents in it carry, and on nothing else. Serving
+          the page over HTTPS establishes the [=Page Origin=], which is what
+          <a href="#binding"></a> needs, but it says nothing about the
+          [=Originator=]: whoever controls the origin controls what the page
+          carries. No signature outside the documents protects the content
+          and the presence of the [=Originator Profile Bundle=] together,
+          which is part of why <a href="#binding"></a> requires more than the
+          [=Website Profile=]'s own word. Because the authenticity of each
+          document rests on its own signature, no
+          <code>integrity</code> attribute is required on an element that
+          refers to the documents: whoever can replace what it refers to gains
+          no more than a page that does not verify, the denial that <a
+          href="#security-delivery-denial"></a> describes.
+        </div>
+
+        </section>
+
+        <section id="page-delivery-reading">
+          <h4>When the Page Is Read</h4>
+        <p>
+          <strong>Reading begins when an element is inserted.</strong> A
+          [=Verifier=] MUST begin to look for the documents of an element whose
+          <code>type</code> is <code>application/ca-set+json</code> when that
+          element is inserted into the Document [[HTML]], whether the parser
+          or a script inserts it. An element within the content of a
+          <code>template</code> element, or within a shadow tree, is not
+          inserted into the Document in this sense and is not read. A service
+          that retrieves the page runs no script, so it reads the elements of
+          the source it retrieved.
+        </p>
+        <p>
+          <strong>The input of one attestation's procedure.</strong> The
+          documents that the procedure for one [=Content Attestation=] uses
+          MUST be taken from a single Document as it stands at a single
+          moment. They come from the elements of that Document, from the
+          well-known resource of its [=Page Origin=] where it is a top-level
+          document (<a href="#page-delivery-frames"></a>), and from what the
+          [=Verifier=] carries with it. No element of a parent or a sibling
+          document is used. The URL of the page that <a
+          href="#verification-allowed-url"></a> compares is the URL of that
+          Document at that moment.
+        </p>
+        <p>
+          <strong>A result ends when what it relied on changes.</strong> A
+          [=Verifier=] MUST invalidate the result for a [=Content
+          Attestation=] once any of the following happens:
+        </p>
+        <ul>
+          <li>an element that carried a document the procedure used no longer
+            stays in the Document;</li>
+          <li>what that [=Content Attestation=] covers changes;</li>
+          <li>the check of <code>allowedUrl</code> is to be made again (<a
+            href="#verification-allowed-url"></a>).</li>
+        </ul>
+        <p>
+          After invalidating a result, a [=Verifier=] MAY verify that
+          [=Content Attestation=] again. An invalidated result is not a failed
+          verification, and is not presented as one.
+        </p>
+        <p>
+          <strong>What a page that builds its content by script does.</strong>
+          A page whose script builds the [=Content=] that a [=Content
+          Attestation=] covers MUST insert the element that carries the
+          Content Attestation Set only after it has built that [=Content=]. It
+          MUST insert the elements that carry the Originator Profile Sets that
+          the verification of that attestation needs no later than that
+          element.
+        </p>
+        <div class="issue" title="When the input is taken from the Document">
+          When, after an element is inserted, the input of the procedure is
+          taken from the Document is not settled in this revision.
+        </div>
+        </section>
+
+        <section id="page-delivery-routes">
+          <h4>Both Routes, and the Documents a Verifier Carries</h4>
+        <p>
+          <strong>Both routes are used, and neither takes
+          precedence.</strong> The well-known resource of the [=Page Origin=]
+          is the resource at the path <code>/.well-known/sp.json</code>
+          [[RFC8615]] of that origin, in the form the Originator Profile
+          Blueprints [[?Originator Profile Blueprints]] give that resource.
+          That resource carries an Originator Profile Set and [=Website
+          Profiles=]; it carries no [=Content Attestation=], which reaches a
+          [=Verifier=] only in the page or among the documents the
+          [=Verifier=] carries with it. A page carries no [=Website
+          Profile=], which reaches a [=Verifier=] only from that resource or
+          among the documents the [=Verifier=] carries with it. A
+          [=Verifier=] MUST use the documents carried in the page, in either
+          form, together with the documents at that resource. Neither route
+          takes precedence over the other: each document is verified on its
+          own as <a href="#verification-procedure"></a> states, and every
+          document that verifies is used, whichever route it came by. A
+          document one route leaves out is therefore not missing where the
+          other route carries it.
+        </p>
+        <p>
+          <strong>A route that yields nothing.</strong> Where the page
+          carries no such element, or the well-known resource cannot be
+          obtained, that route yields nothing, which is not by itself a
+          failure of the verification. Where a page carries a [=Content Attestation=]
+          and the [=Core Profile=] of its [=Originator=] comes from neither
+          route and is not among the documents the [=Verifier=] carries with
+          it, the verification of that [=Content Attestation=] fails. That
+          follows from the procedure of the Core Specification [[OPF-CORE]],
+          in which a check that does not succeed is a failure. Where a [=Page
+          Origin=] is supplied, a [=Website Profile=] comes only from the
+          well-known resource or from the documents the [=Verifier=] carries
+          with it, so that where neither yields one the binding of <a
+          href="#binding"></a> fails.
+        </p>
+        <p>
+          <strong>Both routes before any query.</strong> A [=Verifier=] MUST
+          take the documents of both routes before it issues any DNS query, as
+          a [=Verifier=] is required to hold the [=Originator Profile Bundle=]
+          and the [=Content Attestation=] before querying [[OPF-CORE]]. A route
+          the [=Verifier=] has abandoned yields nothing, and a document that
+          arrives after the queries have begun is not added to that
+          verification; when to abandon a route is for the [=Verifier=] to
+          decide. In a setting that supplies no [=Page Origin=] (<a
+          href="#presented-identity"></a>), and for a page whose origin is
+          opaque, there is no well-known resource, and the documents are those
+          the page carries and those the [=Verifier=] carries with it.
+        </p>
+        <p>
+          <strong>Documents a Verifier carries with it.</strong> A
+          [=Verifier=] MAY in addition use documents that it carries with it.
+          Each of them is verified on its own in the same way and is used only
+          where it verifies, and they are taken after the documents of the two
+          routes, in the order of <a href="#page-delivery-order"></a>.
+        </p>
+        </section>
+
+        <section id="page-delivery-order">
+          <h4>The Order in Which the Documents Are Taken</h4>
+        <p>
+          A [=Verifier=] MUST
+          take the documents of these sources, the documents of <a
+          href="#page-outside"></a> among them, in the following order, which
+          is the order in which the Core Specification [[OPF-CORE]] has the
+          [=Verifier=] take the documents of the [=Originator Profile Bundle=]
+          and apply its bounds to them. The documents the [=Originator=]
+          publishes come first, and documents a [=Verifier=] carries with it
+          come after all of those:
+        </p>
+        <ol>
+          <li>the documents at the well-known resource of the [=Page
+            Origin=];</li>
+          <li>the documents carried in the page, in the order of the elements
+            in the page;</li>
+          <li>documents a [=Verifier=] carries with it.</li>
+        </ol>
+        <p>
+          Within one route or one element, the documents are taken in the
+          order in which it gives them.
+        </p>
+        <div class="note" title="The order between the sources">
+          The order of processing is the order of priority within the bounds
+          of the Core Specification [[OPF-CORE]], and that priority is the
+          [=Originator=]'s to give. A document a [=Verifier=] carries with it
+          is therefore not to displace one the [=Originator=] presented. For
+          an [=Originator=] other than the one that controls the [=Page
+          Origin=], such as the [=Originator=] of a syndicated article, the
+          order at the well-known resource is that of the controlling party,
+          which can do with it no more than the denial that <a
+          href="#security-delivery-denial"></a> describes.
+        </div>
+        <p>
+          <strong>Duplicates, and what the order governs.</strong> A document
+          that has already been taken is not taken again where it appears a
+          second time, from the same source or from another, so that it counts
+          once toward the bounds. A document is the same as one already taken
+          where its signed form is identical to that one's, character for
+          character. This order governs what a [=Verifier=] processes within
+          the bounds and nothing else; the order in which a [=Verifier=]
+          presents what it has verified is not governed by it (<a
+          href="#presentation"></a>).
+        </p>
+        </section>
+
+        <section id="page-delivery-issuances">
+          <h4>Choosing Among Issuances of One Document</h4>
+        <p>
+          Where the documents that verify include more than one issuance of
+          one document, a [=Verifier=] uses one of them and treats the others
+          as documents the procedure does not use. Which issuances are of one
+          document, and which of them is used, is as follows.
+        </p>
+        <p>
+          <strong>Issuances of a Profile Annotation.</strong>
+          Two [=Profile Annotations=] are issuances of one document
+          where they are of the same kind and issued by the same [=Profile
+          Annotation Issuer=] about the same [=Originator=]. Where the
+          documents that verify include more than one such issuance, a
+          [=Verifier=] MUST use the one whose [=Signature Validity Period=]
+          begins latest among those whose [=Signature Validity Period=]
+          contains the time of judgement (<a href="#time-of-judgement"></a>).
+          The [=Verifier=] treats the others as
+          documents the procedure does not use. Where two begin at the same
+          time, the one taken first under the order of <a
+          href="#page-delivery-order"></a> is used.
+        </p>
+        <p>
+          <strong>Website Profiles of one site.</strong> The same holds of more
+          than one [=Website Profile=] issued by the same [=Originator=] for the
+          same representative URL of a site: those are issuances of one
+          document. [=Website Profiles=] that the same [=Originator=] issues
+          for different sites are separate documents, and each of them is
+          used.
+        </p>
+        <p>
+          <strong>Web Media Profiles of one Originator.</strong> The same
+          holds of more than one [=Web Media Profile=] issued by the same
+          [=Core Profile Issuer=] for the same [=Originator=]: those are
+          issuances of one document, and the one used is chosen among those
+          that pass the checks of <a href="#verification-wmp"></a>.
+        </p>
+
+        <p>
+          <strong>What the choice decides.</strong> The choice is made among
+          documents that verify and are valid at the time of judgement, so
+          that a document that does not verify, or is not valid at that
+          time, cannot displace one that is. Among those, the beginning of
+          the [=Signature Validity Period=] serves only to choose between
+          issuances, and the representative URL only to tell which issuances
+          belong to one document (<a href="#binding"></a>).
+        </p>
+        <div class="issue" title="Issuances of one document in different languages">
+          The Originator Profile Blueprints [[?Originator Profile
+          Blueprints]], as they stand, distribute a [=Profile Annotation=] or
+          a [=Website Profile=] in several languages as separate documents
+          side by side. Under this section such documents, having the same
+          kind, issuer and subject, or the same issuer and representative URL,
+          are issuances of one document, and a [=Verifier=] uses one of them.
+          Whether the language of a document is to tell one document from
+          another is not settled.
+        </div>
+        </section>
+
+        <section id="page-delivery-originators">
+          <h4>Several Originators on One Page</h4>
+        <p>
+          A page can carry
+          the documents of more than one [=Originator=]: a page that carries
+          articles syndicated from other [=Originators=], or an aggregator's
+          page. Each [=Content Attestation=] names its [=Originator=] and
+          travels with the [=Content=] it covers, so there is no doubt which
+          [=Originator Profile=] it is verified against. The procedure of <a
+          href="#verification-procedure"></a> is run for each [=Content
+          Attestation=], with the [=Core Profile=] whose [=Identity=] is the
+          issuer that attestation names, and the bounds of the Core
+          Specification [[OPF-CORE]] apply to each [=Originator Profile=]
+          separately.
+        </p>
+        <p>
+          <strong>What one attestation's procedure counts.</strong> In the
+          procedure run for one [=Content Attestation=], the [=Originator
+          Profile Bundle=] of that procedure is the documents tied to that
+          attestation. Those are the documents of the [=Originator=] it names,
+          together with the [=Accreditation Chains=] of the issuers of its
+          [=Core Profile=] and [=Profile Annotations=],
+          whichever route or element of the page they come from. A document of
+          the page that is tied only to other attestations is not counted
+          toward the bounds of that procedure. A document that serves a
+          chain of this attestation is counted for it even where it is also a
+          document of another [=Originator=] of the page.
+        </p>
+        <p>
+          <strong>The Originators of a page are independent.</strong> A
+          [=Verifier=] MAY carry out the procedure for the [=Originators=] of
+          one page in parallel, since they are independent of one another;
+          within one [=Originator=]'s procedure the order of <a
+          href="#verification-procedure"></a> stands. Where the procedures for
+          several [=Content Attestations=] of one Document use the same
+          [=Originator Profile=], a [=Verifier=] MAY verify it once and use
+          that result in each of them while the result has not been
+          invalidated (<a href="#page-delivery-reading"></a>). The outcome is
+          reached for each [=Content Attestation=], as the Core Specification
+          provides.
+        </p>
+        </section>
+
+        <section id="page-delivery-requests">
+          <h4>Requests for the Well-Known Resource and Referenced Documents</h4>
+        <p>
+          <strong>Every Verifier requests the well-known resource.</strong> A
+          [=Verifier=] MUST request the well-known resource of the [=Page
+          Origin=] of a page whether or not the page carries any of the
+          documents of this section, since a page that carries a [=Content
+          Attestation=] but not the [=Originator Profile Bundle=] would
+          otherwise fail. A
+          [=Verifier=] MAY use a response held in an HTTP cache [[RFC9111]].
+          What it obtains is kept within the bounds of <a
+          href="#caching-and-revisiting"></a>.
+        </p>
+        <p>
+          <strong>When a Verifier within browsing software may make the
+          request.</strong> A [=Verifier=] within browsing software MUST NOT
+          make that request before the browsing software has begun to
+          navigate to the page, so that no request reaches an origin the
+          [=Recipient=] has not chosen to visit. In particular, it does not do
+          so while an address is still being typed, nor for a page that the
+          browsing software has prepared in advance of a navigation the
+          [=Recipient=] has not yet made. This specification does not
+          otherwise fix when the request is made.
+        </p>
+        <p>
+          <strong>No credentials with the requests.</strong> A [=Verifier=]
+          MUST NOT send credentials with the request for a referenced document
+          or for the well-known resource: the request is made with the
+          credentials mode "omit" [[FETCH]], so that it carries no cookie and
+          no authorization header field. The header fields a request
+          ordinarily carries, which are not credentials, are sent as usual (<a
+          href="#privacy"></a>). For a referenced document, whose URL the page
+          chooses, a request made with credentials would deliver the
+          [=Recipient=]'s credentials to a host of the page's choosing.
+        </p>
+        <p>
+          <strong>A service that retrieves pages.</strong> A service that
+          retrieves pages on request SHOULD refuse to retrieve a referenced
+          document from a URL whose host is, or resolves to, a non-public
+          address, such as a loopback, link-local or private-use address or an
+          address of the service's own infrastructure. It SHOULD apply the
+          same rule to the page itself and to every URL reached by following a
+          redirection of either request.
+        </p>
+        <div class="issue" title="Whether a redirection is followed to reach the well-known resource">
+          A [=Verifier=] requests the well-known resource from the [=Page
+          Origin=]. Whether it is to follow a redirection returned for that
+          request, and in particular one to another origin, is not settled in
+          this revision. Where a [=Verifier=] follows a redirection to another
+          origin, whoever serves that origin chooses what the [=Verifier=]
+          receives from this route (<a href="#security-delivery"></a>) and
+          learns that a verification is taking place
+          (<a href="#privacy"></a>).
+        </div>
+        </section>
+
+        <section id="page-delivery-frames">
+          <h4>Content Presented in a Frame</h4>
+        <p>
+          The documents obtained from the well-known resource of the [=Page
+          Origin=] of a top-level document [[HTML]] MUST NOT be used in
+          verifying [=Content=] presented in a frame, that is, in a document
+          nested within that top-level document.
+        </p>
+        <div class="issue" title="Content presented in a frame">
+          Which origin is the [=Page Origin=] of [=Content=] presented in a frame,
+          and whether a [=Verifier=] obtains the well-known resource of the
+          frame's origin, is not settled in this revision. The answer may
+          also depend on the treatment of advertising, which the [=Use Case
+          Specification=] for web advertisement [[?OPF-WEB-AD]] is expected
+          to give (<a href="#relationship-to-other-documents"></a>).
+        </div>
+        </section>
+      </section>
+    </section>
+
+    <section id="origin">
+      <h2>The Presented Identity and the Originator's Records</h2>
+      <p>
+        This specification adds no resource record and no name to the DNS
+        design of the framework. The names, record types and formats are
+        defined in the Core Specification [[OPF-CORE]] and in [[?OPF-DNS]].
+        What this specification fixes is which of those records a [=Verifier=]
+        consults in this use case, which of them an [=Originator=] is required
+        to publish, and what their absence means.
+      </p>
+
+      <section id="presented-identity">
+        <h3>The Presented Identity</h3>
+        <p>
+          <strong>What the Presented Identity is.</strong> The identity under
+          which the [=Content=] of a page is presented is the [=Page Origin=],
+          namely the origin [[RFC6454]] of the page in which the [=Content=]
+          is presented: its scheme, its host, and its port where that port is
+          not the default for the scheme. It is the [=Presented Identity=] of
+          this use case.
+        </p>
+        <p>
+          <strong>Settings that supply no Page Origin.</strong> Content
+          published under this specification can also be read outside a
+          navigation of browsing software, as it is in an archive viewer, in
+          an offline reader or in the viewer of a mail attachment. Those are
+          the settings that supply no [=Page Origin=], in which the delivery
+          gives no [=Presented Identity=] (<a
+          data-cite="OPF-CORE#procedure">[[OPF-CORE]], Procedure</a>, step 3),
+          and this specification covers them. A page that browsing software
+          presents is not among them, even under an opaque origin; such a page
+          is treated in the block "Hosts that cannot be put into canonical
+          form" of this section.
+        </p>
+        <p>
+          <strong>The host is the name compared.</strong> The [=Presented
+          Identity=] is compared through its host: before the comparison, a
+          [=Verifier=] takes the host of the [=Page Origin=], and that host is
+          the name that this specification compares with the [=Identity=] the
+          [=Core Profile=] carries.
+          A [=Verifier=] MUST put that host into the canonical form in which
+          the Core Specification [[OPF-CORE]] compares domain names. Parsing
+          the URL of the page produces that form, a domain host in a parsed
+          URL being a lower-case ASCII name, except that a parsed URL may keep
+          a trailing dot; a [=Verifier=] removes that dot before the
+          comparison, since the canonical form has none.
+        </p>
+        <p>
+          <strong>The comparison itself is the Core Specification's.</strong>
+          The origin as a whole is compared as <a href="#binding"></a> states.
+          Beyond that, this specification defines no conversion of its own,
+          and the comparison itself, including what it means for one name to
+          lie below another, is the rule of the Core Specification
+          [[OPF-CORE]].
+        </p>
+        <p>
+          <strong>Hosts that cannot be put into canonical form.</strong> A
+          host that is not a domain name, such as an IP address literal,
+          cannot be put into that form. The Core Specification [[OPF-CORE]]
+          makes a value that cannot be put into canonical form a failure of
+          the check that needed it, so the binding of <a href="#binding"></a>
+          fails for a page whose origin has such a host. An opaque origin,
+          such as that of a page read from a local file, from a
+          <code>data:</code> URL or within a sandboxed frame, has no host that
+          can be put into canonical form. The binding therefore fails for a
+          page presented under one as well, and no query is made for it.
+        </p>
+        <div class="note" title="An opaque origin and the unchecked path">
+          Were a page under an opaque origin counted among the settings that
+          supply no [=Page Origin=], whoever assembles a page could choose the
+          path on which the binding is reported as not checked. A sandboxed
+          frame or a <code>data:</code> URL is of the page's making; an
+          archive viewer or an offline reader is not.
+        </div>
+      </section>
+
+      <section id="binding">
+        <h3>Binding the Page Origin to the Originator</h3>
+        <p>
+          <strong>What a Verifier establishes.</strong> A [=Verifier=] MUST
+          establish all of the following before it treats the [=Content=] of a
+          page as that of the [=Originator=] whose [=Identity=] the [=Core
+          Profile=] carries.
+        </p>
+        <ul>
+          <li>
+            The [=Website Profile=] verifies under an [=Originator
+            Verification Key=] of that [=Core Profile=] and is within its own
+            [=Signature Validity Period=] at the time of judgement
+            (<a href="#time-of-judgement"></a>), and the issuer of the
+            [=Website Profile=] is the [=Identity=] of that [=Originator=].
+          </li>
+          <li>
+            The [=Page Origin=] is one of the origins that the [=Website
+            Profile=] names.
+          </li>
+          <li>
+            The host of the [=Page Origin=] is the [=Identity=] of the
+            [=Originator=] or lies below it, or the zone of that [=Identity=]
+            publishes a [=Permitted Host Record=] for that host as
+            authenticated data.
+          </li>
+        </ul>
+        <p>
+          <strong>When the Page Origin is one of the named origins.</strong>
+          The [=Page Origin=] is one of the origins the [=Website Profile=]
+          names if, and only if, its serialization as an origin ([[HTML]])
+          equals that of the origin of the URL obtained by parsing, as
+          a URL [[URL]], a value the [=Website Profile=] carries. The trailing
+          dot that a [=Verifier=] removes from the host before the comparison
+          of <a href="#presented-identity"></a> is not removed for this
+          comparison. A value that does not parse, or whose origin is opaque,
+          names no origin.
+        </p>
+        <p>
+          <strong>A host outside the Identity that its zone does not
+          permit.</strong> Where the host of the [=Page Origin=] is not the
+          [=Identity=] of the [=Originator=] and does not lie below it, an
+          authenticated absence of the [=Permitted Host Record=] and an <span
+          class="dns-state">Insecure</span> answer both cause verification to
+          fail. They do so as the Core Specification requires (<a
+          data-cite="OPF-CORE#originator-records">[[OPF-CORE]], Records
+          Published by the Originator</a>) and as any failure to resolve does. An <span
+          class="dns-state">Insecure</span> answer is one from a zone that is
+          not signed. Such a host MUST NOT be treated as one
+          presenting an unpinned [=Originator Profile=] (<a
+          href="#origin-zone"></a>): the [=Website Profile=] has claimed the
+          host, and the failure is that the zone of the [=Originator=]'s
+          [=Identity=] does not bear the claim out.
+        </p>
+        <p>
+          <strong>Which name the Permitted Host Record is consulted
+          for.</strong> Where the [=Permitted Host Record=] is consulted, a
+          [=Verifier=] consults it for the host of the [=Page Origin=], in the
+          canonical form of <a href="#presented-identity"></a>. Which names a
+          record covers, and how its presence and absence are read, are the
+          Core Specification's (<a
+          data-cite="OPF-CORE#originator-records">[[OPF-CORE]], Records
+          Published by the Originator</a>), and a [=Verifier=] applies them
+          here unchanged.
+        </p>
+        <div class="note" title="A Website Profile an attacker signs itself">
+          An attacker who obtains a [=Core Profile=] issued in error for the
+          [=Originator=]'s [=Identity=] can sign a [=Website Profile=] naming a
+          site of its own, because a [=Website Profile=] is issued by the
+          [=Originator=] itself. Were the comparison with the named origins
+          the whole of the binding, that single failure would be enough for
+          impersonation. The requirement that the host stand in a relation to
+          the [=Originator=]'s [=Identity=], witnessed either by the name itself
+          or by a record in the [=Originator=]'s own zone, is what makes a
+          second failure necessary.
+        </div>
+        <p>
+          <strong>The representative URL takes no part.</strong> The
+          [=Website Profile=] also carries a representative URL of the site.
+          That URL takes no part in the binding or in any judgement of
+          verification; it is information for presentation, and serves
+          otherwise only to tell which issuances of a [=Website Profile=] are
+          versions of one document (<a href="#page-delivery-issuances"></a>).
+        </p>
+      </section>
+
+      <section id="origin-zone">
+        <h3>The Originator's Records and Its Zone</h3>
+        <p>
+          <strong>Where the records are published.</strong> Both of the
+          records that an [=Originator=] can publish are published
+          in the zone of the [=Originator=]'s own [=Identity=], at the names the
+          Core Specification [[OPF-CORE]] defines. The zone of the host of the
+          [=Page Origin=], where that host is not the [=Originator=]'s
+          [=Identity=] and does not lie below it, carries no record of this
+          framework and is not required to be signed with DNSSEC.
+        </p>
+        <p>
+          <strong>The Issuer Pinning Record is optional, and when it is
+          consulted.</strong> An [=Originator=] is not required to publish its
+          [=Issuer Pinning Record=], the record that names the [=Core Profile
+          Issuers=] permitted to issue for it, and is therefore not required
+          to sign the zone of its [=Identity=] at all. Whether a [=Verifier=]
+          consults that record depends on the setting: where the setting
+          supplies no [=Page Origin=], a [=Verifier=] MUST consult it, and
+          where a [=Page Origin=] is supplied, a [=Verifier=] MAY consult it. A
+          [=Verifier=] that consults the record treats its outcomes as the
+          Core Specification requires (<a
+          data-cite="OPF-CORE#originator-records">[[OPF-CORE]], Records
+          Published by the Originator</a>).
+        </p>
+        <p>
+          <strong>The outcomes are the Core Specification's.</strong> An
+          authenticated absence and an <span class="dns-state">Insecure</span>
+          answer, and an answer reached through an alias, leave the
+          [=Originator=] unpinned, and verification goes on. Every other
+          outcome either pins the [=Originator=] or fails the verification, as
+          the Core Specification states (<a
+          data-cite="OPF-CORE#originator-records">[[OPF-CORE]], Records
+          Published by the Originator</a>; <a
+          data-cite="OPF-CORE#dnssec-and-resolution-outcomes">[[OPF-CORE]],
+          DNSSEC Requirements and Resolution Outcomes</a>), and this
+          specification adds nothing to them. How a [=Verifier=] that obtains
+          the validation state from a resolver sees an <span
+          class="dns-state">Indeterminate</span> outcome, and why the state
+          does not arise under the assurance of <a
+          href="#verification-parties"></a>, is noted there as well.
+        </p>
+        <p>
+          <strong>The recommendation to publish the record.</strong> An
+          [=Originator=] the zone of whose [=Identity=] is signed with DNSSEC
+          SHOULD publish its [=Issuer Pinning Record=]. A record has effect
+          only where the answer is authenticated. A record in a zone that is
+          not signed, or in a zone delegated at
+          <code>_op.&lt;originator&gt;</code> without a DS record in the zone
+          of the [=Originator=]'s [=Identity=], therefore has none. This
+          specification requires no [=Originator=] to sign that zone, so that
+          an organization that cannot sign it can still take part (<a
+          href="#security-pinning"></a>).
+        </p>
+        <p>
+          <strong>The rest of the zone.</strong> A
+          wildcard or a DNAME elsewhere in the zone of the [=Originator=]'s
+          [=Identity=], and what publishing the record does to them, are as
+          the Core Specification states; how an [=Originator=] checks the name
+          is in [[?OPF-OPS]].
+        </p>
+        <p>
+          <strong>When the Originator's zone has to be signed.</strong> A
+          [=Permitted Host Record=] is needed only in the case that <a
+          href="#binding"></a> gives, namely for a host that the [=Website
+          Profile=] names and that is not the [=Originator=]'s [=Identity=] and
+          does not lie below it. It follows from <a href="#binding"></a> that
+          an [=Originator=] that names such a host has to sign the zone of its
+          [=Identity=], since a [=Verifier=] acts on that record only where the
+          answer is authenticated. An [=Originator=] that names only hosts that
+          are its own [=Identity=] or lie below it does not.
+        </p>
+        <p>
+          <strong>The issuers' records are the Core Specification's.</strong>
+          The records published by the issuers, namely the [=Issuer Key
+          Record=] of each, the [=Originator Key Records=] of a [=Core Profile
+          Issuer=] and the [=Revocation Records=] of a [=Profile Annotation
+          Issuer=], are common to every use case and are defined in the Core
+          Specification (<a data-cite="OPF-CORE#issuer-key-record">[[OPF-CORE]],
+          Issuer Key Record</a>; <a
+          data-cite="OPF-CORE#originator-key-records">[[OPF-CORE]],
+          Originator Key Records</a>; <a
+          data-cite="OPF-CORE#revocation-records">[[OPF-CORE]], Revocation
+          Records</a>). This specification places no requirement on them
+          beyond those.
+        </p>
+      </section>
+    </section>
+
+    <section id="verification">
+      <h2>Verification</h2>
+      <p>
+        This section fixes, for this use case, which party carries out the
+        verification procedure of the Core Specification [[OPF-CORE]], what
+        that party needs to hold in order to establish a DNSSEC validation state
+        where it runs, how it checks the [=Web Media Profile=] and matches the
+        URL of the page with <code>allowedUrl</code>, and what becomes of the
+        result. The time as of which validity is judged is in <a
+        href="#time-of-judgement"></a>.
+      </p>
+
+      <section id="verification-parties">
+        <h3>The Verifying Party</h3>
+        <p>
+          <strong>Two placements of the Verifier.</strong> The party that verifies is the party that presents the page to the
+          [=Recipient=], or a service that retrieves the page and verifies it.
+          This specification gives no name of its own to that party: the term
+          for the role is [=Verifier=], imported from [[OPF-CORE]]
+          (<a href="#terminology-imported"></a>), and the two placements differ in what they are able to obtain rather
+          than in what they have to check. Whether a service conveys the
+          outcome it reaches to another party that then presents the page, and
+          what that party may rely on in it, is not settled
+          (<a href="#result"></a>).
+        </p>
+        <p>
+          <strong>Two means of establishing the validation state.</strong> A
+          [=Verifier=] establishes the DNSSEC validation state of every answer
+          it acts on as the Core Specification requires (<a
+          data-cite="OPF-CORE#dnssec-and-resolution-outcomes">[[OPF-CORE]],
+          DNSSEC Requirements and Resolution Outcomes</a>), by validating with
+          its own trust anchor or over a channel that authenticates a
+          validating resolver and protects its answer. Where it relies on a
+          resolver, it has assurance, by configuration or by test, that the
+          resolver validates. A [=Verifier=] that can do neither cannot carry
+          out the procedure at all, as the Core Specification states.
+        </p>
+        <p>
+          <strong>An answer from a resolver that does not validate is not
+          Insecure.</strong> An answer from such a resolver carries no
+          validation state, and a [=Verifier=] does not read it as <span
+          class="dns-state">Insecure</span>, as [[OPF-CORE]] requires. In
+          this use case the reading matters
+          because, for the [=Originator=]'s [=Issuer Pinning Record=], an
+          <span class="dns-state">Insecure</span> answer leaves the [=Originator=] unpinned
+          (<a href="#origin-zone"></a>; <a
+          data-cite="OPF-CORE#dnssec-and-resolution-outcomes">[[OPF-CORE]],
+          DNSSEC Requirements and Resolution Outcomes</a>).
+        </p>
+        <p>
+          <strong>A Verifier within browsing software carries its own
+          means.</strong> A [=Verifier=] that runs within browsing software, as an extension does,
+          MUST NOT treat an answer obtained through the resolution that the
+          browsing software performs for its own purposes as authenticated
+          data on that ground alone. Browsing software does not in general
+          validate DNSSEC, and an indication that an answer was validated, if
+          that indication itself arrives unauthenticated, can be written by
+          anyone on the network path.
+          Such a [=Verifier=] therefore carries one of the two means with it: a
+          validator of its own, or an authenticated channel to a validating
+          resolver.
+        </p>
+        <p>
+          <strong>A service that retrieves the page.</strong> Either means is
+          a matter of the service's own deployment, with what it does with the result in
+          <a href="#result"></a> and what it learns about the [=Recipient=] in
+          <a href="#privacy-verification-service"></a>.
+        </p>
+      </section>
+
+      <section id="verification-procedure">
+        <h3>Verification Procedure</h3>
+        <p>
+          <strong>Steps numbered as the general procedure.</strong> A
+          [=Verifier=] that verifies an [=Originator Profile=] presented in a
+          page MUST perform the following steps. The steps follow the general
+          procedure of the Core Specification [[OPF-CORE]] and are numbered as
+          that procedure numbers them; only the content that is specific to
+          this specification is given here. A step that says "as in the
+          general procedure" is that procedure's step, with only what the step
+          adds.
+        </p>
+        <p>
+          <strong>Which queries wait for what.</strong> Each step that queries
+          the DNS is marked. As in the general procedure, no query is made for
+          an issuer until that issuer's [=Accreditation Chain=] has been
+          verified locally; for a [=Root Issuer=], its [=Root Core Profile=]
+          serves as that chain. The names queried in
+          steps 3 and 4 are built from the [=Identity=] the [=Core Profile=]
+          carries. Those two queries are therefore made only after the chain
+          of the [=Core Profile Issuer=] has been verified locally and the
+          signature
+          on the [=Core Profile=] has been verified with that issuer's key. The
+          verification of the [=Website Profile=] and the comparison of the
+          [=Page Origin=] with the origins it names need no query and need not
+          wait for the chain.
+        </p>
+        <ol class="algorithm">
+          <li>
+            <p>
+              <strong>Take the inputs.</strong> A [=Verifier=] holds, before it
+              begins, what the general procedure requires of it: the [=Root
+              Core Profiles=] it accepts, a means of establishing a DNSSEC
+              validation state (<a href="#verification-parties"></a>), and a
+              clock. It takes the [=Originator Profile Bundle=], the [=Content
+              Attestation=] and the [=Website Profile=], as <a
+              href="#page"></a> defines them, from three sources:
+            </p>
+            <ul>
+              <li>the page, which carries the first two and embeds them or
+                names them by a URL;</li>
+              <li>the well-known resource of the [=Page Origin=], which carries
+                the first and the third;</li>
+              <li>what it carries with it.</li>
+            </ul>
+            <p>
+              It retrieves nothing besides. It takes the documents of both
+              routes before any DNS query, as <a href="#page-delivery-routes"></a>
+              requires, and a route it has abandoned yields nothing.
+            </p>
+            <p>
+              <strong>What binds the Content, and the documents not
+              used.</strong> In this use case the [=Content Attestation=] is
+              itself what binds the [=Originator Profile=] to the [=Content=]
+              (<a data-cite="OPF-CORE#use-case-interface">[[OPF-CORE]],
+              Requirements on Use Case Specifications</a>, item 7), and there is
+              no signature outside the [=Originator Profile Bundle=] and the
+              [=Content Attestation=] for a [=Verifier=] to verify first. Of
+              the [=Web Media Profile=], which is part of the [=Originator
+              Profile=] in this use case, the steps below check the issuer, the
+              signature and the [=Signature Validity Period=] (step 5). This
+              revision does not define what else a [=Verifier=] does with one
+              (<a href="#page-outside"></a>). The presence in the page of a
+              document that this procedure does not use is not a failure.
+            </p>
+          </li>
+          <li>
+            <p>
+              <strong>Verify the Accreditation Chains locally</strong> (DNS for
+              the checks that follow the local verification). This step is as
+              in the general procedure, and precedes any DNS query for the
+              issuer concerned. Everything the local verification needs is in
+              the [=Originator Profile Bundle=] (<a href="#page-bundle"></a>),
+              so nothing is retrieved to perform it beyond what step 1 obtains,
+              and a chain that does not verify locally costs no query at all.
+            </p>
+            <p>
+              <strong>The checks in the DNS, and a chain already kept.</strong>
+              The checks in the DNS that the general procedure requires for
+              each step of a verified chain are made as that procedure states,
+              and this specification adds nothing to them. A
+              [=Verifier=] that has already verified and kept a chain, as the
+              Core Specification permits (<a
+              data-cite="OPF-CORE#chain-verification">[[OPF-CORE]],
+              Accreditation Chain Verification and Caching</a>) within the
+              bounds of <a href="#caching-and-revisiting"></a>, repeats none of
+              those queries.
+            </p>
+          </li>
+          <li>
+            <p>
+              <strong>Bind the identity</strong> (DNS in one case). Establish
+              each of the conditions of <a href="#binding"></a>:
+            </p>
+            <ul>
+              <li>that the [=Website Profile=] verifies under an [=Originator
+                Verification Key=] of the [=Core Profile=], is issued by the
+                [=Originator=] whose [=Identity=] that profile carries, and is
+                within its own [=Signature Validity Period=] at the time of
+                judgement (<a href="#time-of-judgement"></a>);</li>
+              <li>that the [=Page Origin=] is one of the origins the [=Website
+                Profile=] names;</li>
+              <li>that the host of the [=Page Origin=] stands in the required
+                relation to that [=Identity=].</li>
+            </ul>
+            <p>
+              The [=Permitted Host Record=] is consulted only where that host
+              is not the [=Identity=] of the [=Originator=] and does not lie
+              below it; where it is consulted, the failures that <a
+              href="#binding"></a> states apply.
+            </p>
+            <p>
+              <strong>Settings that supply no Page Origin.</strong> Where the
+              delivery gives no [=Page Origin=] (<a
+              href="#presented-identity"></a>), the conditions of <a
+              href="#binding"></a> cannot be established and this step is not
+              carried out. The [=Verifier=]
+              reports the binding as not checked, which the general procedure
+              provides for and which is not by itself a failure of the
+              verification; the remaining steps are carried out, step 4 among
+              them, which is then required.
+            </p>
+            <p>
+              <strong>A page under an opaque origin.</strong> A page that
+              browsing software presents under an opaque origin, such as one
+              read from a local file, from a <code>data:</code> URL or within a
+              sandboxed frame, does supply a [=Page Origin=]. Its host cannot
+              be put into canonical form (<a href="#presented-identity"></a>),
+              and the binding fails.
+            </p>
+          </li>
+          <li>
+            <p>
+              <strong>Consult the [=Originator=]'s [=Issuer Pinning
+              Record=]</strong> (DNS, after step 2 for the [=Core Profile
+              Issuer=] and the verification of the [=Core Profile=]'s
+              signature, since the name is built from the [=Identity=] that
+              profile carries).
+            </p>
+            <p>
+              <strong>When the record is consulted, and its outcomes.</strong> Where
+              the setting supplies no [=Page Origin=], so that step 3 is not
+              carried out, the [=Issuer Pinning Record=] in the zone of the
+              [=Originator=]'s [=Identity=] is consulted; where a [=Page
+              Origin=] is supplied, consulting it is the [=Verifier=]'s choice,
+              as <a href="#origin-zone"></a> requires (why the two settings
+              differ: <a href="#security-pinning"></a>). In
+              neither case is an [=Originator=] required to publish the record
+              in this use case. A [=Verifier=] that consults it treats each
+              outcome as <a href="#origin-zone"></a> requires, and whether the
+              [=Originator=] was pinned or unpinned, or that its [=Issuer
+              Pinning Record=] was not consulted, is carried into the outcome.
+            </p>
+          </li>
+          <li>
+            <p>
+              <strong>Check that the [=Core Profile=] is current</strong>
+              (DNS). As in the general procedure (<a
+              data-cite="OPF-CORE#procedure">[[OPF-CORE]], Procedure</a>, step
+              5), the time of judgement being that of
+              <a href="#time-of-judgement"></a>. The key of the [=Core Profile
+              Issuer=] is taken from that issuer's own [=Core Profile=] in the
+              [=Accreditation Chain=] of the [=Originator Profile Bundle=] or in
+              a [=Root Core Profile=] the [=Verifier=] holds, and nothing is
+              fetched to obtain it. The check that the general
+              procedure then makes, that the key which signed the [=Core
+              Profile=] is one that issuer currently publishes, is made in the
+              DNS.
+            </p>
+            <p>
+              <strong>The Web Media Profile.</strong> Check also the [=Web
+              Media Profile=] of the [=Originator=] as <a
+              href="#verification-wmp"></a> states. Where the Bundle carries
+              none, where none passes the checks of its issuer and its key, or
+              where none that passes is valid at the time of judgement, this
+              step fails.
+            </p>
+          </li>
+          <li>
+            <strong>Check the [=Originator Key Record=]</strong> (DNS). As in
+            the general procedure: the [=Originator Key Record=] whose name the
+            [=Core Profile=] carries is present. This specification adds
+            nothing to that step.
+          </li>
+          <li>
+            <p>
+              <strong>Verify the [=Content Attestation=].</strong>
+            </p>
+            <p>
+              <strong>The key that signed the Content Attestation.</strong> As
+              in the general procedure: the key that signed it is an
+              [=Originator Verification Key=] of the [=Core Profile=], selected
+              by its [=Key Identifier=], and is [=current=] for that [=Core
+              Profile=], as <a data-cite="OPF-CORE#procedure">[[OPF-CORE]],
+              Procedure</a>, step 7 requires. A key is [=withdrawn=] by
+              removing its record from the [=Originator Key Records=], so the
+              key is [=current=] only while the [=Originator Key Record=] of
+              that [=Core Profile=] lists its [=Key Identifier=].
+            </p>
+            <p>
+              <strong>The key of the Website Profile, and the [=Signature
+              Validity Periods=].</strong> The key that signed the [=Website Profile=] on
+              which step 3 relied MUST be [=current=] in the same sense, since a
+              document outside an [=Originator Profile=] is of use only while
+              the key that signed it is [=current=] (<a
+              href="#validity-layers"></a>). The [=Content Attestation=] MUST be
+              within its own [=Signature Validity Period=] at the time of
+              judgement. A
+              [=Content Attestation=] or a [=Website Profile=] whose
+              [=Signature Validity Period=] does not contain that time is a
+              document the procedure does not use
+              (<a href="#validity-layers"></a>).
+            </p>
+            <p>
+              <strong>The URL of the page and <code>allowedUrl</code>.</strong>
+              The [=Verifier=] MUST check, as <a
+              href="#verification-allowed-url"></a> states, that the URL of the
+              page in which the [=Content Attestation=] is presented matches the
+              <code>allowedUrl</code> property of the [=Content Attestation=],
+              which the Originator Profile Blueprints [[?Originator Profile
+              Blueprints]] define. Its value is a URL Pattern string
+              [[URLPATTERN]] or an array of such strings. A [=Content
+              Attestation=] whose <code>allowedUrl</code> the URL of the page
+              does not match MUST NOT be used for that page.
+            </p>
+            <div class="note" title="What a Content Attestation fixes">
+              A [=Content Attestation=] fixes the [=Content=] it covers, and
+              nothing else in it fixes the page on which it may be presented.
+              A [=Verifier=] that omitted the check would therefore accept a
+              genuine [=Content Attestation=] on a page that merely reproduces
+              that [=Content=] (<a href="#security-delivery-other-page"></a>).
+            </div>
+          </li>
+          <li>
+            <strong>Check each [=Profile Annotation=]</strong> (DNS). As in
+            the general procedure, the time of judgement being that of <a
+            href="#time-of-judgement"></a>: the [=Signature Validity Period=]
+            of an annotation contains that time, a [=Content Validity
+            Period=] it carries contains its [=Signature Validity Period=],
+            and no [=Revocation Record=] for the annotation is present. This
+            specification adds nothing to that step.
+          </li>
+          <li>
+            <strong>Derive and report the outcome.</strong> As in the general
+            procedure, whose requirements on what an outcome distinguishes and
+            on reporting the freshness of the checks of presence and absence
+            apply here unchanged; the outcome then goes to
+            <a href="#result"></a> and <a href="#presentation"></a>.
+          </li>
+        </ol>
+        <p>
+          <strong>The query this procedure adds.</strong> The number of DNS
+          queries this procedure makes is that of the general procedure, with
+          at most one query added: the [=Permitted Host Record=], in the case
+          where the host of the [=Page Origin=] is not the [=Originator=]'s
+          [=Identity=] and does not lie below it. A revisit to a site whose
+          chains are already verified and kept makes fewer (<a
+          href="#caching-and-revisiting"></a>).
+        </p>
+        <div class="issue" title="A Content Attestation that carries allowedOrigin but no allowedUrl">
+          Step 7 requires the [=Verifier=] to check <code>allowedUrl</code>.
+          A [=Content Attestation=] of an older form may carry only
+          <code>allowedOrigin</code> and no <code>allowedUrl</code>. Whether
+          such a [=Content Attestation=] is not to be used, is to be checked
+          against <code>allowedOrigin</code> instead, or is accepted for a
+          transitional period that ends on a stated date, is not settled.
+          Whether such documents are in circulation is not established here.
+        </div>
+
+        <div class="issue" title="The check of allowedUrl where the page has no URL">
+          Step 3 is not carried out in the settings that supply no [=Page
+          Origin=] (<a href="#presented-identity"></a>). It is not settled
+          what the check of <a href="#verification-allowed-url"></a> then
+          does: whether it is likewise not carried
+          out and reported as not checked, is made against a URL that the
+          setting records for the page, or causes the [=Content
+          Attestation=] not to be used.
+        </div>
+      </section>
+
+      <section id="verification-wmp">
+        <h3>Checking the Web Media Profile</h3>
+        <p>
+          <strong>What is checked of a Web Media Profile.</strong> In step 5
+          of <a href="#verification-procedure"></a>, a [=Verifier=] checks
+          that the [=Originator Profile Bundle=] carries a
+          [=Web Media Profile=] of the [=Originator=] (<a
+          href="#page-bundle"></a>). Of each one it carries, it checks that it
+          is issued by the [=Core Profile Issuer=] that issued the [=Core
+          Profile=] that step verified (<a href="#page-outside"></a>), and that
+          its signature verifies with a key taken from that issuer's own [=Core
+          Profile=] in the [=Accreditation Chain=] or in a [=Root Core
+          Profile=] the [=Verifier=] holds. It checks also that this key is one
+          that issuer currently publishes, using the [=Issuer Key Record=]
+          that step obtained, with no further query. A [=Web Media
+          Profile=] that fails any of these checks is a document the procedure
+          does not use.
+        </p>
+        <p>
+          <strong>The [=Signature Validity Period=] of a Web Media
+          Profile.</strong> Of the [=Web Media Profiles=] that pass the checks
+          of their issuer and their key, the [=Signature Validity Period=] of
+          one has to contain the time of judgement, since the [=Originator
+          Profile=] ends with its [=Web Media Profile=] (<a
+          href="#validity-layers"></a>). Nothing else of a [=Web Media
+          Profile=] is checked (<a href="#page-outside"></a>).
+        </p>
+      </section>
+
+      <section id="verification-allowed-url">
+        <h3>Matching the URL of the Page with allowedUrl</h3>
+        <p>
+          Step 7 of <a href="#verification-procedure"></a> requires a
+          [=Verifier=] to check that the URL of the page matches the
+          <code>allowedUrl</code> of the [=Content Attestation=]; this section
+          states how the match is made.
+        </p>
+        <p>
+          <strong>How the URL of the page is matched.</strong> The URL of
+          the page is the URL of the Document from which the input is
+          taken (<a href="#page-delivery-reading"></a>), with all its
+          components, the query and the fragment among them. For a service
+          that followed a redirection, it is the URL of the Document it was
+          finally given. The URL matches a string where it matches the
+          pattern constructed from that string, and an array where it
+          matches any one of its strings. A [=Verifier=] MUST treat a
+          string that does not parse as a pattern, or that does not meet
+          the constraints of <a href="#page-outside"></a>, as matching no
+          URL.
+        </p>
+        <p>
+          <strong>A change of URL within the Document.</strong> Where the
+          URL of the Document changes without a new Document, as in a
+          navigation to a fragment, the [=Verifier=] MUST make the check of
+          <code>allowedUrl</code> again against the new URL. A result that
+          rested on the earlier match ends (<a
+          href="#page-delivery-reading"></a>).
+        </p>
+      </section>
+
+      <section id="result">
+        <h3>What Becomes of the Result</h3>
+        <p>
+          <strong>No place in which a result is recorded.</strong> The
+          delivery channel offers no place in which a result could be
+          recorded, and this specification defines neither a form for a
+          recorded result nor a means of sealing one. A
+          page is a document that a [=Verifier=] reads, not a message to which the
+          parties that handle it add fields of their own, and nothing a
+          [=Verifier=] writes travels with the page to the next party that reads
+          it. A [=Verifier=] therefore judges afresh at each presentation
+          (<a href="#time-of-judgement"></a>).
+        </p>
+        <p>
+          <strong>Whether an outcome passes between parties.</strong> Where the party that verifies is the party that presents, which is
+          the case of a [=Verifier=] within browsing software, no result passes
+          between parties at all: the outcome is derived and presented
+          (<a href="#presentation"></a>), and nothing survives the
+          presentation. Where a service verifies and the party that presents the page is
+          another, the outcome reaches that party by whatever arrangement
+          holds between the two. This specification does not define that
+          arrangement.
+        </p>
+        <div class="issue" title="What a party that receives a result from a verification service may rely on">
+          <p>
+            The Core Specification [[OPF-CORE]] requires a [=Use Case
+            Specification=] to say what a party that receives an outcome from
+            another party may rely on. Three things that bear on it are not
+            settled in this revision:
+          </p>
+          <ul>
+            <li>Whether a service that retrieves the page conveys its outcome
+            to another party that presents the page.
+            <a href="#verification-parties"></a> admits a service as one of
+            two placements of the [=Verifier=]. This section says only
+            that the outcome reaches the party that presents by whatever
+            arrangement holds between the two, without saying whether they are
+            the same party.
+            </li>
+            <li>Where they are not, the form in which the outcome is conveyed
+            and what the receiving party may rely on.</li>
+            <li>Whether a boundary of trust is needed within which an outcome
+            passed from one party to another may be relied on. This use case
+            defines none.</li>
+          </ul>
+          <p>
+            This use case records no outcome and so defines no values in which
+            one is recorded; it has no means of keeping one (<a
+            href="#time-of-judgement"></a>).
+          </p>
+        </div>
+
+      </section>
+
+      <section id="presentation">
+        <h3>Presentation</h3>
+        <p>
+          <strong>What the Core Specification already requires of what is
+          presented.</strong> The outcome of a verification is presented to the [=Recipient=]
+          alongside the [=Content=] it concerns.
+          The Core Specification [[OPF-CORE]] states what a [=Verifier=] is
+          not to present as though a [=Profile Annotation=] were in force, and
+          what an outcome distinguishes about pinning, namely a pinned
+          [=Originator=], an unpinned one, and one whose [=Issuer Pinning
+          Record=] was not consulted. Neither is restated here. In this use
+          case an [=Issuer Pinning Record=] goes unconsulted only where a [=Page Origin=] was supplied and
+          the [=Verifier=] did not elect to consult the record
+          (<a href="#origin-zone"></a>).
+        </p>
+        <p>
+          <strong>A binding that was not checked.</strong> The Core
+          Specification also requires that an outcome report a binding which
+          was not checked as such. In this use case that holds for the
+          settings that supply no [=Page Origin=]. A page
+          presented in browsing software has one and its binding is checked,
+          whereas content read in one of the settings that supply no [=Page
+          Origin=] (<a href="#presented-identity"></a>) has none, and the
+          outcome then carries that the binding was not checked.
+        </p>
+        <p>
+          <strong>A judgement of the time it was made.</strong> What a [=Verifier=] presents is a judgement made at the time it
+          verified, and it is not a statement about any other time
+          (<a href="#time-of-judgement"></a>). The things a [=Verifier=] may keep
+          from one verification to another are listed in the Core
+          Specification [[OPF-CORE]] and in
+          <a href="#caching-and-revisiting"></a>; an outcome is not among
+          them.
+        </p>
+        <p>
+          <strong>The current implementation.</strong> In the current implementation the [=Verifier=] is a browser
+          extension, which also presents the outcome to the [=Recipient=]; it
+          is the user interface of the demonstrations. Modifications to
+          browsing software itself, to give the [=Recipient=] key visual
+          information, are being explored.
+        </p>
+        <div class="issue" title="A page that carries no Content Attestation">
+          This specification does not evaluate a page that carries no
+          [=Content Attestation=] (<a href="#security-delivery-denial"></a>).
+          The Originator Profile Blueprints [[?Originator Profile
+          Blueprints]], as they stand, verify the [=Website Profile=] such a
+          page obtains from its well-known resource and present the
+          [=Originator=] that operates the site. Whether a [=Verifier=] may
+          present anything for such a page, and on what conditions, is not
+          settled.
+        </div>
+      </section>
+    </section>
+
+    <section id="validity">
+      <h2>Validity, Revocation and Time</h2>
+      <p>
+        This section records how the layers of validity of the general model
+        appear in this use case and what invariants issuance is subject to.
+        It also records whether a replaced key is kept as a retired key or
+        withdrawn here, as of what time validity is judged, and what a
+        [=Verifier=] may carry from one presentation of a page to the next.
+      </p>
+
+      <section id="validity-layers">
+        <h3>The Layers of Validity</h3>
+        <p>
+          <strong>The four layers are the Core Specification's.</strong> In
+          this use case no layer of validity lies outside the four of the Core
+          Specification (<a data-cite="OPF-CORE#revocation-model">[[OPF-CORE]],
+          Revocation Model and Time Constraints</a>), since nothing outside
+          the documents carried with the page signs it. Two things are particular to this use case.
+          The key layer covers the key with which the [=Content Attestation=]
+          and the [=Website Profile=] are signed. The declaration by which an
+          [=Originator=] ends its registration has effect only where a
+          [=Verifier=] consults its [=Issuer Pinning Record=]
+          (<a href="#origin-zone"></a>).
+        </p>
+
+        <p>
+          <strong>The documents outside the profile form no layer.</strong>
+          The [=Content Attestation=] and the [=Website Profile=] carry no
+          name in the DNS and no revocation mechanism
+          (<a href="#page-outside"></a>). They cease to have effect in
+          one of three ways:
+        </p>
+        <ul>
+          <li>the key that signed them ceases to be [=current=] (the key
+          layer);</li>
+          <li>the [=Core Profile=] that carries that key ceases to be valid
+          (the Core Profile layer, or the registration layer, which ends every
+          [=Core Profile=] of the [=Originator=]);</li>
+          <li>their own [=Signature Validity Period=] ends.</li>
+        </ul>
+        <p>
+          <strong>The Web Media Profile and the Originator Profile end
+          together.</strong> The [=Web Media Profile=] ceases to be valid when the
+          [=Originator=]'s [=Core Profile=] does, and the [=Originator
+          Profile=] ceases to be valid when the [=Signature Validity Period=]
+          of its [=Web Media Profile=] ends. A [=Verifier=] checks that end
+          (<a href="#verification-wmp"></a>). This adds no
+          layer: the [=Web Media Profile=] carries no name in the DNS and no
+          revocation mechanism of its own. It also ends when the [=Core
+          Profile Issuer=] no longer publishes the key that signed it (<a
+          href="#verification-wmp"></a>).
+        </p>
+        <p>
+          <strong>A Website Profile is not subordinate to the Web Media
+          Profile.</strong> The two documents can be arranged and carried
+          together, but the validity of a [=Website Profile=] does not depend
+          on that of the [=Web Media Profile=], and the three ways listed above
+          are the only ways in which a [=Website Profile=] ceases to have
+          effect. Where the [=Web Media Profile=] has ended, the verification
+          of each [=Content Attestation=] of that [=Originator=] fails at step
+          5 of <a href="#verification-procedure"></a>, whatever its [=Website
+          Profile=]. The [=Website Profile=] itself is unaffected, and serves
+          again once the [=Originator Profile=] carries a [=Web Media
+          Profile=] that is valid.
+        </p>
+        <p>
+          <strong>A claim on one site cannot be retracted by itself.</strong>
+          Since those three ways are the only ones, the retraction of a claim
+          about a site is folded, in this use case, into the revocation of a
+          key or of a [=Core Profile=]. There is no third thing to revoke. That is a simplicity
+          and it is also a coarseness, since an [=Originator=] that wishes to
+          stop presenting its [=Originator Profile=] on one of the origins its [=Website
+          Profile=] names has no means of retracting that one claim; what
+          follows from it is in <a href="#security-retraction"></a>.
+        </p>
+        <div class="note" title="Correcting a Web Media Profile issued in error">
+          A [=Verifier=] that holds the erroneous issuance and a later one
+          uses the later (<a href="#page-delivery-issuances"></a>), which is
+          what corrects the error; the earlier one goes on verifying until
+          its [=Signature Validity Period=] ends. A [=Core Profile Issuer=]
+          that cannot wait for that end revokes the [=Core Profile=], which
+          ends both.
+        </div>
+      </section>
+
+      <section id="validity-invariants">
+        <h3>Invariants on Issuance</h3>
+        <p>
+          <strong>The Core Specification's invariants apply
+          unchanged.</strong> This use case adds nothing to the invariants
+          the Core Specification places on
+          issuance (<a data-cite="OPF-CORE#revocation-model">[[OPF-CORE]],
+          Revocation Model and Time Constraints</a>). First, the validity of a [=Profile Annotation=] lies
+          within that of the [=Core Profile=] it annotates. Second, the record
+          of a [=retired=] key is kept until the [=Core Profile=] that carries
+          it has expired, with the retention margin and the exceptions that
+          document states. Third, an issuer keeps a [=Key Identifier=] in its
+          [=Issuer Key Record=] for as long as <a
+          data-cite="OPF-CORE#revocation-model">[[OPF-CORE]], Revocation Model
+          and Time Constraints</a> requires. A [=Verifier=] checks the
+          [=Signature Validity Periods=] of both in any case, so the first is
+          a rule on issuers not to issue documents that
+          contradict one another, rather than a simplification for
+          [=Verifiers=].
+        </p>
+        <p>
+          <strong>How long content signed with a replaced key
+          verifies.</strong> A [=retired=] key is not [=withdrawn=]: its record
+          remains, so a document signed with it still passes step 7 of
+          <a href="#verification-procedure"></a>. How long
+          already published content signed with a replaced key remains
+          verifiable is therefore bounded by the [=Signature Validity
+          Period=] of the
+          [=Core Profile=] that carries the key, and is cut short if the key
+          is [=withdrawn=], as it is where an [=Originator=] chooses to
+          withdraw the key rather than retire it (<a
+          href="#key-retirement"></a>).
+        </p>
+        <p>
+          <strong>The [=Signature Validity Period=] of a Website Profile
+          bounds a claim the Originator has stopped making.</strong> One
+          requirement this specification does place on issuance concerns the
+          [=Signature Validity Period=] of a [=Website Profile=]: an [=Originator=] SHOULD make that period
+          no longer than the delay it can accept between ceasing to name an
+          origin and that claim ceasing to be presentable. That period bounds
+          how long an origin the [=Originator=] no longer names can still be
+          presented, since a [=Website Profile=] has no revocation mechanism
+          of its own.
+        </p>
+        <p>
+          <strong>No length is fixed.</strong> This requirement is a bound on
+          one period rather than a relation between two. This
+          specification fixes no length and none follows from the framework;
+          no recommended value has been set yet
+          (<a href="#parameters"></a>), and the reasoning is in
+          <a href="#security-retraction"></a>.
+        </p>
+        <p>
+          <strong>A replacement Website Profile does not expire
+          first.</strong> A second requirement concerns a [=Website Profile=] issued to
+          replace another. An [=Originator=] that issues a [=Website
+          Profile=] to replace another for the same site SHOULD NOT let its
+          [=Signature Validity Period=] end before that of the one it
+          replaces. Once the
+          replacement has expired, a [=Verifier=] uses the one it replaced
+          again, and an origin the [=Originator=] had ceased to name becomes
+          presentable again. A [=Verifier=] does so because it uses the
+          issuance that begins latest among those whose [=Signature Validity
+          Period=] contains the time of judgement (<a
+          href="#page-delivery-issuances"></a>).
+        </p>
+        <p>
+          <strong>No further invariant.</strong> Beyond the two requirements
+          on a [=Website Profile=], this specification adds no invariant. In particular the
+          framework places none between the [=Signature Validity Period=] of
+          a document outside the [=Originator Profile=] and that of the
+          [=Core Profile=], and none is needed. Such a document is of use only
+          while the key and the [=Core Profile=] are current, whatever its own
+          [=Signature Validity Period=] says
+          (<a href="#validity-layers"></a>).
+        </p>
+      </section>
+
+      <section id="key-retirement">
+        <h3>Keeping a Replaced Key as Retired or Withdrawing It</h3>
+        <p>
+          <strong>Web media signs again and withdraws the replaced
+          key.</strong> In this use case an [=Originator=] that replaces a
+          signing key SHOULD sign the documents it
+          presents afresh with the new key: the [=Content
+          Attestations=] of the content it publishes and the documents of
+          <a href="#page-outside"></a> that it signs itself. It SHOULD then
+          have its [=Core Profile Issuer=] withdraw the replaced key. Content
+          published on a site is served by the [=Originator=] itself and can
+          be signed again after it has been published. That is what the Core
+          Specification makes the choice turn on (<a
+          data-cite="OPF-CORE#security-key-compromise">[[OPF-CORE]], Key
+          Compromise</a>), and what makes this course available here.
+        </p>
+        <p>
+          <strong>The choice the Core Specification leaves to the use
+          case.</strong> An [=Originator=] that replaces a signing key chooses
+          between two ways. It can keep the replaced key as a [=retired=] key,
+          whose record stays in the [=Originator Key Record=] of each [=Core
+          Profile=] that carries it until that [=Core Profile=] has expired
+          (<a href="#validity-invariants"></a>). Or it can have its [=Core
+          Profile Issuer=] withdraw it, which removes its record from every [=Originator Key Record=] that lists
+          it. The Core Specification states what the
+          choice exchanges and leaves it to each [=Use Case Specification=] to
+          say which way suits it.
+        </p>
+        <p>
+          <strong>A Core Profile is not altered once signed.</strong> A
+          [=Core Profile=] that carries the replaced key therefore stays in
+          force until it expires.
+          The [=Core Profile=] issued for the new key is not to carry the
+          replaced one, as the Core Specification [[OPF-CORE]] recommends to
+          the [=Core Profile Issuer=].
+        </p>
+        <p>
+          <strong>Keeping the key as retired leaves a window that does not
+          narrow.</strong> What keeping the replaced key as a [=retired=] key would
+          cost is stated in the Core Specification [[OPF-CORE]]. For as long
+          as a [=Core Profile=] that carries the key is in force, whoever holds its
+          private half can sign a
+          [=Content Attestation=] that a [=Verifier=] cannot tell from a genuine
+          older one. That is because the [=Verifier=] has no trustworthy
+          account of when that attestation was signed (<a
+          href="#time-of-judgement"></a>). The
+          window does not narrow with time. A key thought to have been
+          compromised is accordingly [=withdrawn=] at once, whatever content
+          ceases to verify as a result, as the Core Specification
+          [[OPF-CORE]] states.
+        </p>
+      </section>
+
+      <section id="time-of-judgement">
+        <h3>The Time of Judgement</h3>
+        <p>
+          <strong>Validity is judged as of the time of verification.</strong>
+          The Core Specification [[OPF-CORE]] judges validity as of the time
+          of verification unless a [=Use Case Specification=] defines otherwise,
+          and confines any other time to one the delivery channel gives the
+          [=Verifier=]. This specification does not define otherwise: validity is
+          judged as of the time at which the verification is performed, and
+          every check of a [=Signature Validity Period=] in <a
+          href="#verification-procedure"></a> is made against that time. The
+          channel gives no other time that could be named. The tolerance a
+          [=Verifier=] allows for clock skew, at either end of that period, is
+          that of the general procedure of the Core Specification
+          [[OPF-CORE]].
+        </p>
+        <div class="note" title="A time the page could carry">
+          What a page carries is written by the party that publishes it, and
+          a time that party wrote is one the general rule excludes, since the
+          party whose documents are being judged would choose its value. Nor
+          is there anything in which such a time could be preserved
+          (<a href="#result"></a>).
+        </div>
+        <p>
+          <strong>A judgement made by a service.</strong> Where a service
+          verifies and the party that presents the page is another, the
+          judgement is the one made at the time that service verified. How
+          old it may be when it is presented belongs to the arrangement that
+          <a href="#result"></a> leaves open.
+        </p>
+        <p>
+          <strong>No outcome is kept, so none shows validity at
+          publication.</strong> This use case has no means of keeping the outcome of a verification,
+          and none is defined for it. Neither an archived copy of a page nor a
+          later verification of it can therefore show, within this framework,
+          that a profile was valid at the time the page was published. Where
+          such a showing is wanted, it is to be had from outside the
+          framework. How an archived copy of a page is to be treated is a
+          separate question, which this specification does not settle.
+        </p>
+      </section>
+
+      <section id="caching-and-revisiting">
+        <h3>Caching and Revisiting a Page</h3>
+        <p>
+          <strong>The bounds are the Core Specification's, and a cache of
+          verified chains outlives the execution context.</strong> The bounds
+          within which a [=Verifier=] may keep what it obtains are those of the
+          Core Specification (<a data-cite="OPF-CORE#caching">[[OPF-CORE]],
+          Caching</a>; <a data-cite="OPF-CORE#chain-verification">[[OPF-CORE]],
+          Accreditation Chain Verification and Caching</a>), and this
+          specification does not extend them. A [=Verifier=] that
+          runs within browsing software SHOULD keep its
+          cache of verified [=Accreditation Chains=] in storage that outlives
+          the execution context in which a verification ran.
+        </p>
+        <div class="note" title="The execution context and the cache">
+          The execution context in which a verification ran is commonly
+          stopped when it falls idle, so a cache held in its memory alone is
+          empty again at the next presentation. The value of the cache is that a later verification need not repeat
+          the queries of an earlier one, and that value is realized only if
+          the cache survives.
+        </div>
+        <p>
+          <strong>A revisit repeats fewer queries.</strong> On a revisit to
+          a site whose issuers' chains are already verified and kept, the
+          queries that concern those chains are not repeated. What remains are
+          the queries about the [=Originator=] and its [=Core Profile=] and
+          those about each [=Profile Annotation=], and any of those may in
+          turn be answered from a cache of DNS answers within its time to
+          live.
+        </p>
+        <p>
+          <strong>A page in the cache of the browsing software carries no
+          judgement.</strong> Verification of a page held in the cache of the
+          browsing software is performed again at each presentation, since no
+          outcome is kept
+          (<a href="#time-of-judgement"></a>), so a revocation takes effect at
+          the first presentation whose answers are not read from a cache still
+          within its time to live. The delay with which a revocation is
+          detected is bounded by those times to live, as it is in the general
+          model, and the long-lived caching of a page does not lengthen it.
+        </p>
+        <div class="issue" title="Whether an outcome may be reused within its bounds">
+          It is not settled in this revision whether a [=Verifier=] may reuse
+          the outcome of a verification for a later presentation, for example
+          on a reload or on another page of the same origin. Any such reuse
+          would end no later than the earliest of the ends of the [=Signature
+          Validity Periods=] of the documents, and of the times to live of the DNS
+          answers, on which the outcome rests
+          (<a href="#time-of-judgement"></a>). The Originator Profile
+          Blueprints [[?Originator Profile Blueprints]], as they stand, allow
+          reuse only while what is verified, and every input to it, is
+          unchanged and the earliest of those ends has not passed, and they
+          allow the outcome for the documents at the well-known resource to be
+          reused for another page of the same origin.
+        </div>
+      </section>
+
+      <section id="parameters" class="informative">
+        <h3>Parameters</h3>
+        <p>
+          The parameters of the general model take effect in this use case as
+          follows. The values given are recommendations offered to guide
+          deployment; they are not requirements, and they have not been
+          validated against operational experience.
+        </p>
+        <p>
+          The recommended values below are those of the Operations document
+          of the framework [[?OPF-OPS]], which is where such values belong.
+          That document has not been published; until it is, the values that
+          concern this use case are stated here, and a later version of this
+          specification will refer to the Operations document instead.
+        </p>
+        <table class="simple">
+          <thead>
+            <tr>
+              <th>Parameter</th>
+              <th>Effect in this use case</th>
+              <th>Recommended value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>[=Signature Validity Period=] of a [=Core Profile=] or [=Profile Annotation=]</td>
+              <td>
+                Whether the time at which a page is presented falls within the
+                period. A page may be presented long after it was published,
+                so the period bounds how long a page continues to verify
+                unless the [=Originator=] presents a new [=Core Profile=], or
+                a [=Profile Annotation=] issued again, with it.
+              </td>
+              <td>
+                At most 398 days and typically one year for a [=Core
+                Profile=], a provisional figure to be reviewed. A [=Profile
+                Annotation=]'s is bounded by its [=Core
+                Profile=]'s, a requirement of the framework restated in
+                <a href="#validity-invariants"></a> rather than a recommended
+                value
+              </td>
+            </tr>
+            <tr>
+              <td>Time to live of an [=Originator Key Record=]</td>
+              <td>
+                The delay before the removal of a key reaches the resolver the
+                [=Verifier=] uses. The revocation of a single [=Core
+                Profile=], by the removal of its [=Originator Key Record=], is
+                delayed by the same time.
+              </td>
+              <td>
+                One hour
+              </td>
+            </tr>
+            <tr>
+              <td>Negative caching time of a [=Profile Annotation Issuer=]'s zone</td>
+              <td>The delay before the revocation of an annotation is detected.</td>
+              <td>
+                Depends on the issuer's DNS provider; the recommended target
+                is one hour, and at most one day
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Time to live of the [=Originator=]'s own records: the
+                [=Issuer Pinning Record=] and the [=Permitted Host Record=]
+              </td>
+              <td>
+                How soon a change in the [=Core Profile Issuers=] an
+                [=Originator=] permits, or a declaration that it has no
+                [=Originator Profile=], takes effect for a [=Verifier=] that
+                consults the [=Issuer Pinning Record=]
+                (<a href="#origin-zone"></a>); and, once the record for a host
+                is removed, how soon that host stops being permitted
+                (<a href="#security-retraction"></a>). A record first
+                published is seen only after the zone's negative caching
+                time has passed, a time the provider commonly sets.
+              </td>
+              <td>
+                The records are static, which admits a long time, while how
+                quickly a declaration of having no [=Originator Profile=] takes effect argues
+                for a short one. The recommended value is one hour
+              </td>
+            </tr>
+            <tr>
+              <td>[=Signature Validity Period=] of a [=Website Profile=]</td>
+              <td>
+                How long a claim on a site that the [=Originator=] has stopped
+                making can still be presented. The [=Website Profile=] has no
+                revocation mechanism of its own, so this period is what bounds
+                the retraction of a claim on one site
+                (<a href="#validity-invariants"></a>,
+                <a href="#security-retraction"></a>).
+              </td>
+              <td>
+                Bounded by what <a href="#validity-invariants"></a> requires
+                of an [=Originator=]. No recommended value has been set yet;
+                the Originator Profile Blueprints [[?Originator Profile
+                Blueprints]] recommend one year or less
+              </td>
+            </tr>
+            <tr>
+              <td>[=Signature Validity Period=] of a [=Web Media Profile=]</td>
+              <td>
+                Ends the [=Originator Profile=] in this use case (<a
+                href="#validity-layers"></a>); <a
+                href="#verification-wmp"></a> checks it, with the issuer
+                and the key of the [=Web Media Profile=].
+              </td>
+              <td>
+                No recommended value has been set yet
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </section>
+
+    <section id="security" class="informative">
+      <h2>Security Considerations</h2>
+      <p>
+        This section explains what the security of this use case rests on and
+        what it does not cover. It states no requirement: every requirement it
+        relies on is stated in <a href="#page"></a>, <a href="#origin"></a>,
+        <a href="#verification"></a> and <a href="#validity"></a>.
+      </p>
+      <p>
+        The security properties of the framework that do not depend on the use
+        case are in the security considerations of the Core Specification
+        [[OPF-CORE]] and are not repeated here; those that concern the records
+        themselves, their size and their transitional form are in
+        [[?OPF-DNS]].
+      </p>
+
+      <section id="security-delivery">
+        <h3>How the Originator Profile Bundle and the Content Attestation Are Delivered</h3>
+        <p>
+          The [=Originator Profile Bundle=] and the documents that
+          travel with it reach a [=Verifier=] by the routes of
+          <a href="#page-delivery"></a>: embedded in the page, named by it
+          under a URL, or obtained from the well-known resource of the [=Page
+          Origin=]. A [=Verifier=] can add documents it carries with it. None
+          of it is fetched from the DNS. Where the documents are embedded, a
+          [=Verifier=] holds what the page gives it before it queries
+          anything, and the only retrieval left for an attacker to block or
+          to watch is the request for the well-known resource, which is made
+          in any case (<a href="#page-delivery-requests"></a>).
+        </p>
+        <p>The subsections below take up:</p>
+        <ul>
+          <li>what the routes establish and what they do not (<a
+            href="#security-delivery-routes"></a>);</li>
+          <li>why what is open to an attacker, or to any party that carries
+            the documents, is denial and not a false result (<a
+            href="#security-delivery-denial"></a>);</li>
+          <li>what keeps the documents from being moved to another page (<a
+            href="#security-delivery-other-page"></a>);</li>
+          <li>what bounds the work a page can put in front of a [=Verifier=]
+            (<a href="#security-delivery-cost"></a>).</li>
+        </ul>
+
+        <section id="security-delivery-routes">
+          <h4>What the Routes Establish</h4>
+        <p>
+          Where the documents are referenced or obtained from the well-known
+          resource, there is a retrieval, and whoever serves the resource, or
+          can interfere with the retrieval, chooses what the [=Verifier=]
+          receives. It can withhold a document, return an earlier issuance of
+          it, or return documents in another order, which is the denial of <a
+          href="#security-delivery-denial"></a>; but whatever it puts in place of a document does not
+          verify unless that document's issuer signed it.
+        </p>
+        <p>
+          What a route establishes has to be kept apart from what the
+          signatures establish. No route establishes anything about the
+          [=Originator=]: an attacker who can alter the page can alter the
+          references in it as freely as it can alter what is embedded in it,
+          and whoever serves a referenced resource or the well-known resource
+          chooses what it returns. The authenticity of each document rests,
+          whatever the route, on the signature that document carries and on
+          the binding of <a href="#binding"></a>, and that is why the routes
+          make no difference to anything else in this section.
+        </p>
+        <p>
+          What this use case does not have is a signature over the page, and
+          the transport establishes the [=Page Origin=] and nothing about the
+          [=Originator=] (<a href="#page-delivery-in-page"></a>, the note on what the
+          transport protects).
+          What holds the documents to the page is the signatures those
+          documents carry, the binding of <a href="#binding"></a> and, for the
+          [=Content Attestation=], the check of the URL of the page (<a
+          href="#verification-allowed-url"></a>). When the framework's
+          checks fail there is no second judgement left standing: the whole of
+          what a [=Recipient=] is told under this specification falls at once.
+        </p>
+        </section>
+
+        <section id="security-delivery-denial">
+          <h4>Denial, Not a False Result</h4>
+        <p>
+          An attacker who can alter the page can take the documents away,
+          leaving a page that presents no [=Originator Profile=]. That
+          produces no false result. Where the [=Originator=] also serves the
+          [=Originator Profile Bundle=] from the well-known resource of the
+          [=Page Origin=], taking it out of the page does not remove it, since
+          a [=Verifier=] obtains that resource whether or not the page carries
+          it (<a href="#page-delivery-requests"></a>); the [=Website Profile=]
+          is served only there. Taking the [=Content
+          Attestation=] out of the page leaves a page that presents no
+          [=Originator Profile=], which is the case the next paragraph
+          describes.
+        </p>
+        <p>
+          A page that carries a [=Content
+          Attestation=] presents an [=Originator Profile=], even where the
+          [=Core Profile=] of its [=Originator=] cannot be obtained; the
+          verification then fails (<a href="#page-delivery-routes"></a>), and the
+          page is not left unevaluated. A page that carries no [=Content
+          Attestation=] presents no [=Originator Profile=], whatever the
+          well-known resource of its [=Page Origin=] carries: the outcome is
+          reached for each [=Content Attestation=]
+          (<a href="#page-delivery-originators"></a>), and a page that carries none has
+          no outcome. Such a page is not evaluated under this specification,
+          and this specification says nothing about it, so the absence of a
+          result is not itself a result. The framework's endorsement can thus be denied to content
+          on its way to a [=Recipient=]; it cannot be forged onto content.
+        </p>
+        <p>
+          Denial, and not a false result, is also all that is open to every
+          party that carries or assembles the documents on their way to a
+          [=Verifier=], and not only to one that can alter the page. Such
+          parties include whoever answers for the
+          well-known resource of the [=Page Origin=] or for a URL a page
+          names (<a href="#page-delivery"></a>), a party that distributes
+          [=Content Attestations=] for an [=Originator=], and whoever supplies
+          the documents a [=Verifier=] carries with it. Each of them can change
+          the order in which the documents of an [=Originator Profile
+          Bundle=] reach the [=Verifier=], and which of them reach it; none of
+          them can alter a document, since each is signed on its own.
+        </p>
+        <p>
+          What such a party gains is denial and not a false result. Changing
+          the order or the selection amounts to withholding a document, as the
+          Core Specification [[OPF-CORE]] states of the order of the
+          [=Profile Annotations=], and a document it adds a second time does
+          not push another out of the bounds, since <a
+          href="#page-delivery-order"></a> takes it once. Removing the [=Web
+          Media Profile=] from the page and from the well-known resource
+          likewise yields a failure (<a href="#verification-procedure"></a>,
+          step 5), not a false result.
+        </p>
+        </section>
+
+        <section id="security-delivery-other-page">
+          <h4>Moving the Documents to Another Page</h4>
+        <p>
+          The documents cannot be moved to another page either. An attacker
+          that copies the
+          [=Originator Profile Bundle=] and the [=Content Attestation=] from a
+          genuine page of the [=Originator=] onto a page of its own, and the
+          [=Website Profile=] onto the well-known resource of its own origin,
+          is stopped by
+          <a href="#binding"></a> rather than by any signature over the page.
+          The [=Page Origin=] of that page has to be one of the origins the
+          [=Website Profile=] names, and the host of it has to be the
+          [=Originator=]'s [=Identity=], or lie below it, or be permitted by a
+          record in the zone of that [=Identity=].
+        </p>
+        <p>
+          The [=Content Attestation=] is
+          also held to the page by a second check: the URL of the page has to
+          match the <code>allowedUrl</code> that the [=Content Attestation=]
+          carries (<a href="#verification-allowed-url"></a>). That check
+          stops a genuine [=Content Attestation=] placed on a page whose URL it
+          does not name. It does so even where the page reproduces the
+          [=Content=] the attestation covers, a case the attestation's own
+          content cannot stop, and even where the page is on an origin the
+          [=Website Profile=] names.
+        </p>
+        <p>
+          What the check of <code>allowedUrl</code> gains depends on how
+          narrowly <code>allowedUrl</code> is written: a pattern that names a
+          whole host admits every page of that host. Writing it no wider than
+          the content needs is a discipline of the [=Originator=] and of the
+          operator that signs on its behalf, which the Operational Governance
+          Requirements [[?OPF-GOV]] place on them. A pattern written wider
+          than needed and then abused is a failure of operation, not of the
+          check.
+        </p>
+        <p>
+          How far the [=Content Attestation=] carried on a page assembled from
+          another's documents would also be found not to cover its content
+          cannot be answered in this revision, because what a [=Content
+          Attestation=] contains is not defined here. The kinds of Content
+          Integrity Descriptor from which it is to be defined are those the
+          Originator Profile Blueprints [[?Originator Profile Blueprints]]
+          describe (<a href="#page-outside"></a>). Until it is, the binding
+          and the check of <code>allowedUrl</code> are the whole of what this
+          document states against a page assembled from another's documents.
+        </p>
+        </section>
+
+        <section id="security-delivery-cost">
+          <h4>The Cost of Verification</h4>
+        <p>
+          Delivery also means that whoever can bring a page before a [=Verifier=]
+          can put work in front of it. This use case has no precondition that
+          stops an attacker before the checks of the Core Specification
+          begin, since there is no signature outside the [=Originator Profile
+          Bundle=] and the [=Content Attestation=] to verify first (<a
+          href="#verification-procedure"></a>, step 1). A [=Verifier=]
+          evaluates whatever page it is brought.
+        </p>
+        <p>
+          What bounds the cost is the order of the general procedure, under
+          which the [=Accreditation Chains=] of the [=Originator Profile
+          Bundle=] are verified locally before any DNS query is made for the
+          issuer concerned (<a href="#verification-procedure"></a>, step 2). A
+          page carrying a fabricated [=Originator Profile Bundle=] therefore
+          costs local verification and no queries, the queries for the
+          [=Originator=]'s own records included, since their names come from
+          the [=Core Profile=] and wait for its chain. The consequences are
+          those the Core Specification [[OPF-CORE]] states.
+        </p>
+        <p>
+          Who can make a [=Verifier=] do that work differs with the placement
+          of the [=Verifier=]. A [=Verifier=] within browsing software is brought pages
+          by the [=Recipient=]'s own browsing, so an attacker has first to
+          bring the [=Recipient=] to a page; a service that retrieves pages
+          on request is brought pages by whoever may ask it
+          (<a href="#verification-parties"></a>).
+        </p>
+        <p>
+          A referenced document is retrieved from a URL the page chose, and a
+          service that retrieves on request occupies a network position that
+          the page's author does not hold. A URL whose host is or resolves to
+          an address inside the service's network, or a credential sent along
+          with the request, would turn the retrieval
+          into a request made on the page's behalf from the [=Verifier=]'s
+          position. The rules of <a href="#page-delivery-requests"></a> on credentials
+          and non-public addresses prevent that.
+        </p>
+        <p>
+          Where a page carries the documents of more than one [=Originator=]
+          (<a href="#page-delivery-originators"></a>), the cost of a verification is
+          incurred once for each [=Content Attestation=]. Documents copied from
+          the genuine pages of other [=Originators=] verify locally, but the
+          comparison of <a href="#binding"></a>, which needs no query, fails
+          for them. A [=Verifier=] that makes that comparison before it issues
+          the queries of the other steps for that attestation therefore spends
+          no query on them.
+        </p>
+        <p>
+          A page that gathers content from many [=Originators=], such as the
+          front page of a news aggregator, can carry a large number of
+          [=Content Attestations=]. A page designed to take content in
+          dynamically carries as many as the content it takes in brings with
+          it, a number that can vary from one presentation to the next. Each
+          attestation adds the cost of its own verification, so the number on
+          one page bears directly on the cost of verifying it. The operator of
+          such a page can take that into account when it chooses how the page
+          gathers its content.
+        </p>
+        </section>
+      </section>
+
+      <section id="security-presented-identity">
+        <h3>Obtaining and Binding the Presented Identity</h3>
+        <p>
+          The identity under which content is presented in this use case is
+          the [=Page Origin=], and a [=Verifier=] takes it from the URL of the
+          page it is evaluating (<a href="#presented-identity"></a>). Nothing
+          in the framework establishes that the content arrived under that
+          origin; that is the work of the transport, and it is the only other
+          layer this channel has. Where the page is served over HTTPS, the
+          assurance that the host is the one named is that of the transport
+          and of the authorities it rests on, and it establishes the [=Page
+          Origin=] and nothing more (<a href="#page-delivery-in-page"></a>).
+        </p>
+        <p>
+          Where a page is
+          served without TLS there is no such assurance at all, and an
+          attacker on the network path chooses the content and the documents
+          that travel with it alike. The scheme is part of the origin that
+          <a href="#binding"></a> compares, so for an [=Originator=] whose
+          [=Website Profile=] names only origins whose scheme is
+          <code>https</code> the binding fails on a page served without TLS.
+          The [=Page Origin=] of such a page is not one of the origins named.
+        </p>
+        <p>
+          Putting the identity into the form in which it is compared costs
+          next to nothing here. Parsing the URL of the page has already
+          produced a lower-case ASCII host, apart from a trailing dot that a
+          [=Verifier=] removes, so this specification defines no conversion of
+          its own (<a href="#presented-identity"></a>). The class of mistake
+          that a conversion opens is confined here to the few names on which
+          the conversion the URL parser applies and the A-label form of the
+          Core Specification [[OPF-CORE]] differ.
+        </p>
+        <p>
+          What the Core Specification places on the comparison holds unchanged
+          (<a data-cite="OPF-CORE#security-resolution-failures">[[OPF-CORE]],
+          Resolution Failures and the Pinning Downgrade</a>): it is made on
+          canonical forms and is exact. A host registered because it
+          resembles another is therefore bound to itself and to nothing else,
+          and what a [=Recipient=] makes of a name that resembles one it
+          knows is not a question the framework answers.
+        </p>
+        <p>
+          The Core Specification [[OPF-CORE]] requires each [=Use Case
+          Specification=] to say what binds content to its [=Originator=]
+          independently of the [=Core Profile Issuer=], so that a [=Core
+          Profile=] issued for an [=Identity=] it should not have been issued for
+          is not by itself enough. In this use case the factor that binds
+          content to its [=Originator=] independently of the [=Core Profile
+          Issuer=] is the relation that <a href="#binding"></a> requires
+          between the host of the [=Page Origin=] and the [=Originator=]'s
+          [=Identity=].
+        </p>
+        <p>
+          The holder of a [=Core Profile=] issued in error has to present its
+          page under one of two kinds of host. One is a host that is that [=Identity=] or lies below it, which
+          requires control of a name in the [=Originator=]'s own namespace and
+          of the means of serving it. The other is a host that the
+          [=Originator=]'s own zone permits, which requires control of that
+          zone. Either is a second failure, separate from the first and in the
+          hands of a different party. The [=Website Profile=] is not that
+          factor, for the reason the note in <a href="#binding"></a> gives:
+          the factor is the name, not the document.
+        </p>
+        <p>
+          A host that lies below the [=Originator=]'s [=Identity=] binds the
+          page only as strongly as the [=Originator=] controls every name
+          below that [=Identity=]. A name
+          below it that the [=Originator=] has delegated, handed to its
+          users, or left pointing at a service it no longer holds, can be
+          served by another party without any change to the [=Originator=]'s
+          zone. Such a party that also holds a wrongly issued [=Core Profile=]
+          meets the binding.
+        </p>
+        <p>
+          The means an [=Originator=] itself has against a [=Core Profile=]
+          issued in error for its [=Identity=] are a different question from
+          what the binding establishes. The Core
+          Specification does not require the record naming the permitted
+          [=Core Profile Issuers=] and lets a [=Use Case Specification=] require it, in which
+          case every [=Originator=] holds a means of its own (<a
+          data-cite="OPF-CORE#security-pinning">[[OPF-CORE]], What Pinning
+          Protects, and Why It Is Optional</a>). This use case does not
+          require it (<a href="#origin-zone"></a>), and where a [=Page Origin=] is
+          supplied a [=Verifier=] need not consult it.
+        </p>
+        <p>
+          An [=Originator=] that has not published its [=Issuer Pinning
+          Record=] depends on its [=Core Profile Issuer=] to revoke a [=Core
+          Profile=] it did not ask for. One whose zone is signed is recommended
+          to publish it, and thereby to hold such a means wherever the record
+          is consulted (<a href="#security-pinning"></a>). The binding of <a
+          href="#binding"></a> is unaffected by which of the two an
+          [=Originator=] is: it holds for pinned and unpinned [=Originators=]
+          alike.
+        </p>
+        <p>
+          Where a host is admitted by a [=Permitted Host Record=], it is
+          admitted by the [=Originator=] and not by the [=Core Profile
+          Issuer=], and the
+          security of that admission is the security of the [=Originator=]'s
+          zone. A record set at the name of the [=Permitted Host Record=]
+          which holds no record of the form the Core Specification
+          [[OPF-CORE]] defines, such as one synthesized from a wildcard
+          elsewhere in the zone, is read as absence
+          (<a href="#binding"></a>).
+        </p>
+        <p>
+          The zone of the admitted host carries no record of this
+          framework and is not required to be signed
+          (<a href="#origin-zone"></a>), so this framework asks nothing of
+          the party that runs it; what that party can do is what anyone who
+          serves a host can do. The [=Originator=] permits the host, and stops
+          permitting it, in its own zone alone, and what stopping reaches and
+          what it does not is in
+          <a href="#security-retraction"></a>.
+        </p>
+      </section>
+
+      <section id="security-verifier-placement">
+        <h3>Where the Verifier Is Placed, and How It Obtains DNSSEC Validation</h3>
+
+        <p>
+          Both placements of <a href="#verification-parties"></a> need a
+          DNSSEC validation state they can rely on, by one of the two means
+          the Core Specification [[OPF-CORE]] allows, and they differ in how
+          readily they have it. A [=Verifier=] within browsing software runs
+          where the [=Recipient=] is, on networks the [=Recipient=] does not
+          control and with whatever resolver the device has been given.
+          Browsing software does not in general validate DNSSEC, and an
+          indication that an answer was validated, if that indication itself
+          arrives unauthenticated, can be written by anyone on the network
+          path. That is why <a href="#verification-parties"></a> states the
+          requirement explicitly and rules out that ground.
+        </p>
+        <p>
+          A service that retrieves the page holds either means as a matter of
+          its own deployment and is the easier of the two in this one respect.
+          What it costs is elsewhere, in what it learns about the
+          [=Recipient=] (<a href="#privacy-verification-service"></a>) and in the result having to
+          reach the party that will present the page
+          (<a href="#result"></a>).
+        </p>
+        <p>
+          What matters most here is that an unpinned path exists at all. The
+          Core Specification lets a [=Verifier=] proceed unpinned only where
+          the [=Use Case Specification=] accepts an unpinned [=Originator=];
+          one that requires the record makes its absence a failure, and then
+          no unpinned path exists (<a
+          data-cite="OPF-CORE#security-pinning">[[OPF-CORE]], What Pinning
+          Protects, and Why It Is Optional</a>). This use case does not
+          require the record. An authenticated absence and an
+          <span class="dns-state">Insecure</span> answer both leave the
+          [=Originator=] unpinned, and verification goes on
+          (<a href="#origin-zone"></a>); an answer reached through an alias is
+          read as an <span class="dns-state">Insecure</span> answer. Where a
+          [=Page Origin=] is supplied, a [=Verifier=] need not consult the
+          record at all (<a href="#origin-zone"></a>), and
+          then no answer is read for it.
+        </p>
+        <p>
+          The [=Permitted Host Record=], the second of the [=Originator=]'s
+          two records, admits no unpinned outcome: for it, an authenticated
+          absence and an <span class="dns-state">Insecure</span> answer are
+          each a failure. Such a host is
+          not treated as presenting an unpinned [=Originator Profile=]
+          (<a href="#binding"></a>), because there the [=Website Profile=]
+          has claimed the host and something is expected to bear it out. One
+          of the two records admits an unpinned outcome and the other does
+          not, and that asymmetry is what an attacker meets.
+        </p>
+        <p>
+          What an attacker on the network path can do with the unpinned
+          outcome is what the Core Specification describes (<a
+          data-cite="OPF-CORE#security-resolution-failures">[[OPF-CORE]],
+          Resolution Failures and the Pinning Downgrade</a>). Neither outcome
+          that leads to the unpinned path can be fabricated, and a disrupted
+          resolution is a failure and never absence
+          (<a href="#origin-zone"></a>). What is left to the attacker is to
+          replay a proof of absence made before the [=Originator=] published
+          its [=Issuer Pinning Record=], or its denying form, until the
+          signatures in it expire. A resolver that does not validate would
+          make every answer look <span class="dns-state">Insecure</span>, and
+          the assurance <a href="#verification-parties"></a> requires is what
+          excludes it.
+        </p>
+        <p>
+          The same replay works in the opposite direction for a [=Permitted
+          Host Record=]. An authenticated answer that carried the record,
+          made before the [=Originator=] removed it, can be presented until
+          its signatures expire, and for that long hides that the host is no
+          longer permitted (<a href="#security-retraction"></a>).
+        </p>
+        <p>
+          Apart from replaying an authenticated answer, an attacker on the
+          network path cannot turn a pinned
+          [=Originator=] into an unpinned one. It can suppress the
+          verification, and that is all. A [=Recipient=] shown a failure
+          cannot tell such an attacker from a zone that is temporarily
+          unreachable, the same outcome being reported in both cases. Where
+          the queries reach the resolver in the clear, the names say
+          which [=Originator=] is being verified, so the suppression can be
+          aimed at one.
+        </p>
+        <p>
+          The bound on what an attacker on the network path can do holds only
+          for a [=Verifier=] that meets the requirement of
+          <a href="#verification-parties"></a>. A [=Verifier=] that took an
+          unauthenticated indication that an answer had been validated at
+          face value has no bound at all. Every answer is then in the
+          attacker's choice, including one it would read as an absence, so
+          for such a [=Verifier=] the unpinned path is the attacker's to open;
+          the framework adds nothing to what the documents carried with
+          the page already assert. The Core Specification [[OPF-CORE]] gives this
+          as the reason for the requirement.
+        </p>
+        <p>
+          The requirement falls hardest on
+          the placement this use case is most likely to see, since a
+          [=Verifier=] within browsing software is the one that has no
+          validating resolver of its own to fall back on.
+          A [=Verifier=] that holds neither of the two means cannot verify at
+          all, and there is no weaker check for it to fall back to.
+        </p>
+        <p>
+          What the unpinned path costs is, apart from the replay window, not
+          what an attacker can take from it but that it is the path
+          ordinarily followed.
+          Publishing the
+          record is not required of an [=Originator=] and is recommended only
+          where the zone of its [=Identity=] is signed
+          (<a href="#origin-zone"></a>). For the [=Originators=] that
+          publish nothing, the second factor against a [=Core Profile=] issued
+          in error is simply absent, and the binding of
+          <a href="#binding"></a> carries the whole of it
+          (<a href="#security-presented-identity"></a>). The same holds for
+          every [=Originator=] where a [=Page Origin=] is supplied and the
+          [=Verifier=] does not consult the record.
+        </p>
+        <p>
+          Whether the
+          [=Originator=] was pinned, was unpinned, or was not consulted is
+          carried into the outcome
+          (<a data-cite="OPF-CORE#outcome">[[OPF-CORE]], Outcome and Time of
+          Judgement</a>), so a party that
+          receives one can see that it was unpinned, or that the record was
+          not consulted. What it cannot see is
+          which of the two authenticated outcomes produced that: an
+          [=Originator=] that publishes no such record in a signed zone, or
+          one whose zone is not signed at all. The two are different
+          validation states and a [=Verifier=] knows which it obtained, but
+          this document gives it no occasion to tell them apart, since the
+          general model carries neither into the outcome.
+        </p>
+        <p>
+          The placement decides one further thing, which is who holds the
+          assurance. A [=Verifier=] within browsing software obtains its own
+          answers and knows what it validated. Where a service verifies and
+          the party that presents the page is another, the assurance about the
+          DNS is the service's, and the presenting party has none of its own:
+          it holds what the service tells it. What it may rely on in that is
+          not settled
+          (<a href="#result"></a>), and it is the question the Core
+          Specification requires a [=Use Case Specification=] to answer and
+          this use case leaves open (<a
+          data-cite="OPF-CORE#use-case-interface">[[OPF-CORE]], Requirements
+          on Use Case Specifications</a>).
+        </p>
+      </section>
+
+      <section id="security-pinning">
+        <h3>Why Naming the Core Profile Issuer Is Recommended and Not Required</h3>
+        <p>
+          Publishing the record that names the permitted [=Core Profile
+          Issuers=] is optional in this use case, so the second and
+          independent factor against a [=Core Profile=] issued in error is
+          present for some [=Originators=] and absent for others.
+          Publishing it cannot be made a requirement. The record lives in the zone of the
+          [=Originator=]'s own [=Identity=] and a [=Verifier=] acts on it only where
+          the answer is authenticated, so requiring it would require that zone
+          to be signed with DNSSEC, and this use case declines to require that
+          (<a href="#origin-zone"></a>).
+        </p>
+        <p>
+          The cost of signing falls on the
+          [=Originator=] and on the zone of its [=Identity=] alone. A host
+          that a [=Permitted Host Record=]
+          permits carries no record of this framework, so an [=Originator=]
+          with many sites has one zone to sign and not one for each site.
+        </p>
+        <p>
+          What publishing the record can be, and what <a href="#origin-zone"></a> makes it, is a
+          recommendation to the [=Originators=] for whom publishing costs
+          nothing further, namely those whose zone is already signed. For those [=Originators=] the second and independent
+          factor is then present wherever the record is consulted, and an
+          [=Originator=] that cannot sign its zone is not shut out of the use
+          case by it.
+        </p>
+        <p>
+          A [=Verifier=] is not required to consult the record in every
+          setting either. Where the setting supplies a [=Page Origin=], the binding of
+          <a href="#binding"></a> is itself a second factor, independent of the
+          [=Core Profile Issuer=] (<a href="#security-presented-identity"></a>), and this
+          specification leaves the consultation to the [=Verifier=]. Where
+          the setting supplies none, the binding is not checked and the record
+          is the only such factor, so a [=Verifier=] is required to consult
+          it (<a href="#origin-zone"></a>).
+        </p>
+        <p>
+          A [=Verifier=]
+          that does not consult the record makes one query fewer
+          (<a href="#privacy-what-the-queries-name"></a>), and forgoes both the pin and the
+          declaration of the record's denying form. The recommendation of
+          <a href="#origin-zone"></a> therefore has its effect in the
+          settings that supply no [=Page Origin=] and with the [=Verifiers=]
+          that elect to consult the record.
+        </p>
+        <p>
+          Publishing the record does not protect against every attacker at
+          once. A proof of absence served before the record was published
+          can be replayed until its signatures expire
+          (<a href="#security-verifier-placement"></a>), so an [=Originator=]
+          that pins itself is protected against an attacker on the network
+          path only from then on. The same holds for the declaration of
+          the denying form. How long that takes is the
+          RRSIG validity period of the [=Originator=]'s zone,
+          which is commonly set by its DNS provider. Once the record is
+          published, only a change to the [=Originator=]'s own zone can
+          remove it, and no other zone can supply or remove a pin, as the
+          Core Specification describes (<a
+          data-cite="OPF-CORE#security-resolution-failures">[[OPF-CORE]],
+          Resolution Failures and the Pinning Downgrade</a>).
+        </p>
+        <p>
+          The same record carries the other thing an [=Originator=] can say
+          for itself. In its denying form it declares that the [=Originator=]
+          has no [=Originator Profile=] at all, and a [=Verifier=] that reads
+          that declaration as authenticated data fails the verification
+          wherever it meets it. The Core Specification [[OPF-CORE]] defines
+          both forms at the one name, and
+          <a href="#validity-layers"></a> records the declaration among the
+          means by which a [=Core Profile=] ceases to be valid.
+        </p>
+        <p>
+          The declaration is subject
+          to the condition it shares with the pinning: it has effect only
+          where the zone is signed. It has a second condition in this use
+          case: it has effect only where a [=Verifier=] consults the record,
+          which is in every setting that supplies no [=Page Origin=] and, in
+          the others, where the [=Verifier=] elects to.
+        </p>
+        <p>
+          An [=Originator=]
+          whose zone is signed holds a means, independent of its
+          [=Core Profile Issuer=], of stopping the use of its [=Originator
+          Profile=] on the web wherever the record is consulted. An
+          [=Originator=] whose zone is not signed holds none and depends on
+          its [=Core Profile Issuer=] to remove the registration. That is the
+          consequence that <a href="#origin-zone"></a> leaves to this
+          section. It concerns an [=Originator=]'s [=Originator Profile=] as a
+          whole;
+          retracting the claim on one site while the rest stands is a
+          different matter and is in
+          <a href="#security-retraction"></a>.
+        </p>
+      </section>
+
+      <section id="security-retraction">
+        <h3>Retracting the Claim on a Single Site</h3>
+        <p>
+          The [=Website Profile=] has no revocation mechanism of its own, so
+          an [=Originator=] that wishes to stop presenting its [=Originator
+          Profile=] on one
+          of the origins it has named cannot do so by revoking that claim
+          alone. It has to issue a new [=Website Profile=], and the one it
+          replaces goes on being verifiable until its own [=Signature
+          Validity Period=] ends.
+        </p>
+        <p>
+          The answer to the coarseness of retraction is the length of the
+          [=Signature Validity Period=], not a new mechanism. Where a [=Website Profile=] is valid for a short time, a
+          claim it makes is retracted, in effect, by not making it again in the
+          [=Website Profile=] that replaces it. The interval over
+          which the old claim can still be presented is then the remainder of that
+          period. The framework adds no resource record for this, so the
+          coarseness of retraction in this use case is a matter of how long an
+          [=Originator=] makes a [=Website Profile=] valid for.
+        </p>
+        <p>
+          The two recommendations that follow from the length of the
+          [=Signature Validity Period=], on how long it is and on a replacement that is not to expire
+          first, are in <a href="#validity-invariants"></a>, which is where
+          this section's reasoning takes effect. What the length should be is
+          an operational value and is not fixed here; it is a matter for the
+          Operations document, no value has been set yet, and
+          <a href="#parameters"></a> records it among the parameters of this
+          use case.
+        </p>
+        <p>
+          One asymmetry remains and is not removed by shortening the validity.
+          Removing a [=Permitted Host Record=] stops permitting the host that
+          record permitted. It takes effect as soon as the removal is seen, that
+          is, after the time to live of the record set has run out and,
+          against an attacker on the network path, after the signatures on
+          the earlier answer have expired
+          (<a href="#security-verifier-placement"></a>). It does
+          nothing for a host that is the [=Originator=]'s own [=Identity=] or
+          lies below it, since no such record was consulted for it
+          (<a href="#binding"></a>). An [=Originator=] that wishes the faster
+          retraction for a site can obtain it only for the sites whose hosts
+          lie outside its own [=Identity=].
+        </p>
+      </section>
+    </section>
+
+    <section id="privacy" class="informative">
+      <h2>Privacy Considerations</h2>
+      <p>
+        This section says what verification in this use case reveals, to whom,
+        and what this use case does to limit it. It states no requirement.
+        What the queries of <a href="#verification-procedure"></a> reveal in
+        general, and the measures against it, are in the privacy
+        considerations of the Core Specification [[OPF-CORE]] and are not
+        repeated here. What this use case adds is what that document leaves
+        to a [=Use Case Specification=]. That is when the queries are made,
+        what obtaining the documents discloses, by
+        which party and where that party runs, what the queries made in the
+        [=Originator=]'s own zone name, and what a [=Verifier=] that retrieves
+        the page comes to know.
+      </p>
+
+      <section id="privacy-when-queries-are-made">
+        <h3>When the Queries Are Made</h3>
+      <p>
+        The queries are made when a page is presented. No outcome of a
+        verification is kept and the judgement is made afresh each time
+        (<a href="#result"></a>, <a href="#time-of-judgement"></a>). A
+        page held in the cache of the browsing software is therefore verified
+        again when it is displayed again (<a href="#caching-and-revisiting"></a>),
+        and the timing of the queries that the caches do not answer is the
+        timing of the [=Recipient=]'s browsing.
+      </p>
+      <p>
+        Caching narrows what the timing of the queries reveals without
+        removing it. A revisit to a site whose
+        chains are already verified and kept repeats none of the queries
+        about those chains, and an answer from the DNS may be used until its
+        time to live runs out (<a href="#caching-and-revisiting"></a>). What
+        the queries mark is therefore a first visit, and a visit after the
+        caches have expired, rather than every reading of a page.
+      </p>
+      </section>
+
+      <section id="privacy-document-retrieval">
+        <h3>What Obtaining the Documents Discloses</h3>
+      <p>
+        The queries reach the [=Originator=] only through the servers of its
+        zone, and only in the aggregate those servers receive; what
+        the retrieval of the documents discloses depends instead on the route
+        by which the documents are obtained. Where the documents are embedded in the page,
+        nothing beyond the request for the well-known resource is retrieved
+        to obtain the [=Originator Profile=].
+      </p>
+      <p>
+        Where the documents are
+        obtained from the well-known resource of the [=Page Origin=]
+        (<a href="#page-delivery"></a>), the [=Verifier=] retrieves them from
+        the server that serves the page, which already knows that the page
+        was obtained. No party learns of the reading that did not know of it
+        before, and what the retrieval adds is that the [=Recipient=] is using
+        a [=Verifier=]. The same holds where the page names a document by a
+        URL on the host that serves the page. Where that URL is on another
+        host, the [=Verifier=] retrieves the document from it, and that host,
+        which does not serve the page, learns that a page naming it is being
+        verified.
+      </p>
+      <p>
+        Because the request for the well-known resource is made whether or
+        not a page carries an [=Originator Profile=]
+        (<a href="#page-delivery-requests"></a>), the fact that the [=Recipient=] is
+        using a [=Verifier=] is disclosed to every site the [=Recipient=]
+        visits, including sites that take no part in the framework. That
+        fact can serve to distinguish one [=Recipient=] from another.
+      </p>
+      <p>
+        The request is not made before the [=Recipient=] has chosen to visit
+        the page. It carries what the browsing software ordinarily sends, such
+        as the languages the [=Recipient=] prefers, and where a response is
+        held in an HTTP cache, no request is made at all.
+      </p>
+      </section>
+
+      <section id="privacy-which-party">
+        <h3>Which Party Makes the Queries</h3>
+      <p>
+        Which party makes the queries, and where that party runs, decides who
+        sees them. A [=Verifier=] within browsing software runs on the
+        [=Recipient=]'s own device and uses the resolver that device or its
+        network was given, or validates for itself. Either way that resolver,
+        or the authoritative servers it reaches, see which [=Originator
+        Profiles=] are being verified and when: which of the
+        sites that present an [=Originator Profile=] the [=Recipient=] reads, and when it
+        reads them.
+      </p>
+      <p>
+        A [=Verifier=] within browsing software that carries its
+        own channel to a validating resolver
+        (<a href="#verification-parties"></a>) thereby chooses that
+        resolver, which sees every query of this procedure from the
+        [=Recipient=]'s own address; the choice is the [=Verifier=]'s and not
+        the [=Recipient=]'s. In this use case no party takes this exposure
+        away from the [=Recipient=] by aggregating it unless a service
+        verifies.
+      </p>
+      </section>
+
+      <section id="privacy-what-the-queries-name">
+        <h3>What the Queries Name</h3>
+      <p>
+        What the queries name follows the same division as in the general
+        model. The [=Originator Key Records=] and [=Revocation Records=] an
+        issuer publishes carry opaque labels, so an
+        observer between a resolver and an authoritative server learns that
+        one of the issuer's records is being checked and not whose; that property is
+        the Core Specification's [[OPF-CORE]] and holds here unchanged.
+        It
+        does not extend to the records in the [=Originator=]'s own zone,
+        whose names carry the domains themselves.
+      </p>
+      <p>
+        That an [=Originator=] is
+        not required to publish the record naming its permitted [=Core
+        Profile Issuers=] does
+        not reduce the exposure, because a [=Verifier=] that consults that
+        record queries it whether or not it is there. A [=Verifier=] is
+        required to consult it only in the settings that supply no [=Page
+        Origin=] and may consult it in the others
+        (<a href="#origin-zone"></a>). One that consults it
+        in every verification makes the query, and the [=Originator=]'s zone
+        sees it, for every page it evaluates; one that consults it only
+        where it is required makes none for a page presented in browsing
+        software.
+      </p>
+      <p>
+        The zone's servers see the query only in the aggregate
+        that the resolvers querying them produce, reduced by caching, since
+        one record serves every page of that [=Originator=]. They do not
+        learn which [=Recipient=] asked, the query reaching them from a
+        resolver. A [=Permitted Host Record=] is consulted only for a host
+        that is not the [=Originator=]'s [=Identity=] and does not lie below it
+        (<a href="#binding"></a>), and its name
+        carries that host.
+      </p>
+      </section>
+
+      <section id="privacy-verification-service">
+        <h3>What a Service That Retrieves the Page Learns</h3>
+      <p>
+        A [=Verifier=] that retrieves the page learns something a [=Verifier=] within
+        browsing software does not. To verify, it has to have the page, so it
+        has the URL of that page and learns which page is being verified, and
+        not merely which [=Originator=]. Where the service retrieves the page
+        because a [=Recipient=] is about to be shown that page, the service
+        learns of the reading at the time it happens; whether that is how such a service is
+        placed is not settled (<a href="#verification-parties"></a>,
+        <a href="#result"></a>). A [=Verifier=] within browsing software learns
+        nothing beyond
+        what the [=Recipient=]'s own device already holds.
+      </p>
+      <p>
+        The exchange runs
+        the other way at the resolver: a service verifies for many
+        [=Recipients=], so what its resolver and the zones it queries see is
+        aggregated across them, whereas a [=Verifier=] within browsing software, on the
+        [=Recipient=]'s own device, aggregates nothing. The two placements of
+        <a href="#verification-parties"></a> thus differ in privacy as they
+        do in security (<a href="#security-verifier-placement"></a>), and the
+        exchange is between exposure to a resolver and exposure to the
+        service itself.
+      </p>
+      <div class="issue" title="What a verification service may do with what it learns">
+        This specification places no limit on what a party that verifies for
+        another may do with the pages it retrieves, or with the knowledge of
+        which [=Recipient=] was about to read which page, and the framework
+        gives that party no standing of any kind. The arrangement between it
+        and the party that presents the page is left open
+        (<a href="#result"></a>), and this specification defines no boundary
+        of trust within which such a party stands. Whether this
+        specification should require anything of
+        such a party, or whether the matter belongs to the governance of the
+        framework rather than to this document, is not settled in this
+        revision. It is the privacy half of the question
+        <a href="#result"></a> raises about reliance.
+      </div>
+      </section>
+    </section>
+
+    <section id="iana">
+      <h2>IANA Considerations</h2>
+      <p>
+        This specification makes no registration request. It uses one
+        well-known URI, which is not registered, and requires no other
+        registration.
+      </p>
+      <p>
+        The well-known resource of <a href="#page-delivery-routes"></a> is at the
+        path <code>/.well-known/sp.json</code>. The suffix
+        <code>sp.json</code> is not registered in the Well-Known URIs
+        registry that [[RFC8615]] establishes.
+      </p>
+      <p>
+        This specification defines no name and no resource record in the
+        DNS: the names, the
+        record types and their formats are those of the Core Specification
+        [[OPF-CORE]] and of [[?OPF-DNS]], and this specification adds none of
+        its own (<a href="#origin"></a>).
+      </p>
+      <p>
+        This specification has no result to record either: this use case has no place in which a
+        result is recorded and defines no form for one
+        (<a href="#result"></a>), so there is nothing for which a method name
+        would be registered. Nor does it deliver the documents as a part of a
+        message or of another multipart object
+        (<a href="#page-delivery-in-page"></a>), so it requests no media type for
+        such a part, which the Email [=Use Case Specification=] [[OPF-EMAIL]]
+        requires. The documents themselves have one
+        format in every use case, which no [=Use Case
+        Specification=] defines; a registration for that format is made once,
+        with the work on the Originator Profile Blueprints [[?Originator
+        Profile Blueprints]], and is not a registration this specification
+        requires.
+      </p>
+      <div class="issue" title="Where the registration of the two media types belongs">
+        <p>
+          The way a page carries the [=Originator Profile Bundle=] and the
+          documents that travel with it is fixed, and it identifies what a
+          <code>script</code> element carries by one of two media types,
+          <code>application/ca-set+json</code> and
+          <code>application/op-set+json</code> (<a href="#page-delivery-in-page"></a>),
+          whose final form is under consideration. Neither is registered, as
+          the Originator Profile Blueprints [[?Originator Profile Blueprints]]
+          state, and which document is to register them has not been
+          established. The form of the two values is that of the standards
+          tree of [[RFC6838]], whose registrations are made through a
+          recognized standards body.
+        </p>
+        <p>
+          Two things can be said. The two types name objects this
+          specification does not define, so neither registration is one this
+          specification makes on its own account. The media type of the part
+          that carries an [=Originator Profile Bundle=], which the Email
+          [=Use Case Specification=] requests [[OPF-EMAIL]], is a registration
+          of this kind, and may turn out to be one of these two. The revision
+          that establishes where the registration belongs is to state the
+          answer here.
+        </p>
+      </div>
+    </section>
+
+    <section id="differences" class="informative appendix">
+      <h2>Differences from the Email Use Case Specification</h2>
+      <p>
+        This appendix sets out how this specification differs from the Email
+        [=Use Case Specification=] [[OPF-EMAIL]]. The structural conclusion is
+        that the differences are five:
+      </p>
+      <ol>
+        <li>whether DNSSEC on the [=Originator=]'s own zone and the naming of
+        its permitted [=Core Profile Issuers=] are required;</li>
+        <li>how the [=Presented Identity=] is taken and which document
+        declares the binding;</li>
+        <li>whether an outer certificate layer is present;</li>
+        <li>where verification happens, as of what time it judges, and
+        whether its outcome is kept;</li>
+        <li>what the [=Originator Profile=] consists of.</li>
+      </ol>
+      <p>
+        Everything on the issuers' side of the DNS is common to the two use
+        cases, and that is what the Core Specification [[OPF-CORE]] carries.
+      </p>
+      <p>
+        This table and the table in the appendix of [[OPF-EMAIL]],
+        Differences from the Web Media Use Case Specification, are one table, each
+        written from its own side; the two are to be kept consistent, and a row added to one is
+        added to the other. The columns are headed as they are there, so that
+        the two can be read against each other: the column headed Web media
+        is this specification's.
+      </p>
+      <table class="simple">
+        <thead>
+          <tr>
+            <th>Aspect</th>
+            <th>Web media</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>What carries the binding</td>
+            <td>
+              The [=Content=] is signed with an [=Originator Verification
+              Key=] of the [=Core Profile=] in a [=Content Attestation=], and
+              the [=Website Profile=], signed with such a key too, names the
+              origins on which the [=Originator Profile=] may be presented
+              (<a href="#page-outside"></a>)
+            </td>
+            <td>
+              The message is signed with S/MIME under a key of the [=Core
+              Profile=], and the From header field is bound to the domain by
+              DMARC
+            </td>
+          </tr>
+          <tr>
+            <td>The identity the content arrives under</td>
+            <td>
+              The [=Page Origin=], namely the origin [[RFC6454]] of the page
+              (<a href="#presented-identity"></a>)
+            </td>
+            <td>The Sending Domain</td>
+          </tr>
+          <tr>
+            <td>Relation to the [=Originator=]'s [=Identity=]</td>
+            <td>
+              The host of the [=Page Origin=] is the [=Originator=]'s
+              [=Identity=] or lies below it, or a [=Permitted Host Record=] in
+              the zone of that [=Identity=] permits it
+              (<a href="#binding"></a>)
+            </td>
+            <td>The [=Identity=] itself or below it; the [=Permitted Host
+              Record=] is not used</td>
+          </tr>
+          <tr>
+            <td>DNSSEC on the [=Originator=]'s own zone</td>
+            <td>
+              Not required, except of an [=Originator=] that names a host
+              outside its own [=Identity=], which has to sign the zone of that
+              [=Identity=] for the [=Permitted Host Record=] to have effect
+              (<a href="#origin-zone"></a>)
+            </td>
+            <td>Required</td>
+          </tr>
+          <tr>
+            <td>[=Issuer Pinning Record=]</td>
+            <td>
+              Not required; recommended where the zone of the
+              [=Originator=]'s [=Identity=] is signed
+              (<a href="#origin-zone"></a>). An authenticated absence
+              and an <span class="dns-state">Insecure</span> answer, an answer reached through an alias
+              being read as the latter, leave the [=Originator=] unpinned and
+              verification goes on. Consulted in every setting that supplies
+              no [=Page Origin=], and at the [=Verifier=]'s choice where one
+              is supplied (<a href="#origin-zone"></a>)
+            </td>
+            <td>Required; an authenticated absence and an <span class="dns-state">Insecure</span> answer, an
+              answer reached through an alias being read as the latter, are
+              each a failure</td>
+          </tr>
+          <tr>
+            <td>An outer certificate layer</td>
+            <td>
+              None. Nothing outside the documents carried with the page signs
+              it, so the layers of validity are the four of the general
+              model (<a href="#validity-layers"></a>)
+            </td>
+            <td>
+              The X.509 certificate of the signer, joined to the framework
+              only by the identity of the key, and withdrawn by other parties
+              through other means
+            </td>
+          </tr>
+          <tr>
+            <td>Where verification is performed</td>
+            <td>
+              A [=Verifier=] within browsing software, such as a browser
+              extension, or a service that retrieves the page
+              (<a href="#verification-parties"></a>)
+            </td>
+            <td>
+              The Mail Client.
+              The requirement on the resolver is the same as for web media
+            </td>
+          </tr>
+          <tr>
+            <td>The time as of which validity is judged</td>
+            <td>
+              The time of verification, for every party
+              (<a href="#time-of-judgement"></a>)
+            </td>
+            <td>
+              The time of display, or the Mail Client's own recorded time
+              of receipt
+            </td>
+          </tr>
+          <tr>
+            <td>Recording of the outcome</td>
+            <td>
+              None. The channel offers no place in which a result could be
+              left, and the judgement is made afresh at each presentation
+              (<a href="#result"></a>)
+            </td>
+            <td>
+              None in [[OPF-EMAIL]]; a Mail Client may keep a record
+              of its own results
+            </td>
+          </tr>
+          <tr>
+            <td>Putting the [=Presented Identity=] into canonical form</td>
+            <td>
+              Nothing to do: apart from a trailing dot, parsing the page's URL
+              has already produced a lower-case ASCII host
+              (<a href="#presented-identity"></a>)
+            </td>
+            <td>
+              The domain of the From header field, whose labels are converted
+              to A-labels as [[RFC8616]] defines
+            </td>
+          </tr>
+          <tr>
+            <td>Keeping a replaced signing key as retired or withdrawing it</td>
+            <td>
+              The content can be signed again with the new key, so the old key
+              can be withdrawn
+              (<a href="#key-retirement"></a>)
+            </td>
+            <td>
+              A message already delivered cannot be signed again, so the old
+              key is kept as a retired key, and old messages verify until the
+              earlier [=Core Profile=], which carries it, expires or is
+              revoked
+            </td>
+          </tr>
+          <tr>
+            <td>What the [=Originator Profile=] consists of</td>
+            <td>
+              The [=Core Profile=] and its [=Profile Annotations=]. In the web
+              media use case the [=Originator Profile=] also includes a [=Web Media
+              Profile=], which the Web Media [=Use Case Specification=] adds
+              and requires, and the [=Originator Profile=] ceases to be valid when the [=Web
+              Media Profile=] does (<a href="#page-outside"></a>)
+            </td>
+            <td>
+              The [=Core Profile=] and its [=Profile Annotations=]. The Email
+              [=Use Case Specification=] adds no document to it
+            </td>
+          </tr>
+          <tr>
+            <td>What is carried with the content</td>
+            <td>
+              The whole [=Originator Profile=] and its chains, in the page or
+              at the well-known resource of the [=Page Origin=], the two taken
+              together (<a href="#page-delivery"></a>)
+            </td>
+            <td>The whole [=Originator Profile=] and its chains, within the
+              S/MIME signature</td>
+          </tr>
+          <tr>
+            <td>Names and records in the DNS</td>
+            <td colspan="2">
+              The same in both; neither [=Use Case Specification=] defines a name
+              or a record of its own
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </body>
+</html>
