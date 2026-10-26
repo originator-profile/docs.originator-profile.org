@@ -51,7 +51,7 @@ Follows [Content Attestation](../ca.md).
 
 _This section is non-normative._
 
-The following are specific examples of audio.
+The following is a specific example of audio.
 
 ```json
 {
