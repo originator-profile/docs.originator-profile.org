@@ -1,0 +1,3158 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <title>Originator Profile Framework &mdash; Architectural Overview v0.2 (Public Draft)</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <script
+      src="https://www.w3.org/Tools/respec/respec-w3c"
+      class="remove"
+    ></script>
+    <script type="text/javascript" class="remove">
+      var respecConfig = {
+        latestVersion: null,
+        edDraftURI: "https://docs.originator-profile.org/ja/aov/",
+        shortName: "op-aov",
+        publishDate: "2026-10-27",
+        github: "https://github.com/originator-profile/doc-opf-architectural-overview",
+        lang: "ja",
+
+        editors: [ {
+          name: "Shigeya Suzuki",
+          company: "Originator Profile Collaborative Innovation Partnership, Keio University"
+        }],
+
+        authors: [ {
+          name: "Shigeya Suzuki",
+          company: "Originator Profile Collaborative Innovation Partnership, Keio University"
+        }, {
+          name: "Michiko Kuriyama",
+          company: "Originator Profile Collaborative Innovation Partnership"
+        }],
+
+        maxTocLevel: 3,
+        localBiblio: {
+          "Originator Profile Blueprints": {
+            title: "Originator Profile Blueprints",
+            href: "https://docs.originator-profile.org/en/opb/",
+            publisher: "Originator Profile Collaborative Innovation Partnership"
+          },
+          "A Model For Claim Validation": {
+            title: "A Conceptual Model for Claim Validation Based on Cryptographically Signed Data",
+            href: "https://ieeexplore.ieee.org/document/10819374",
+            publisher: "IEEE Access",
+            authors: [
+              "Ryosuke Abe",
+              "Shigeya Suzuki",
+              "Osamu Nakamura"
+            ],
+            date: "2024"
+          },
+          "SoK-DR": {
+            title: "SoK: Delegation and Revocation, the Missing Links in the Web's Chain of Trust",
+            href: "https://ieeexplore.ieee.org/abstract/document/9230363",
+            publisher: "IEEE",
+            authors: [
+              "Laurent Chuat",
+              "AbdelRahman Abdou",
+              "Ralf Sasse",
+              "Christoph Sprenger",
+              "David Basin",
+              "Adrian Perrig"
+            ],
+            date: "2020"
+          },
+          "OPF-CORE": {
+            title: "Originator Profile Framework — Core Specification",
+            href: "https://docs.originator-profile.org/core/",
+            publisher: "Originator Profile Collaborative Innovation Partnership"
+          },
+          "OPF-WEB-MEDIA": {
+            title: "Originator Profile Framework — Web Media Use Case Specification",
+            href: "https://docs.originator-profile.org/web-media/",
+            publisher: "Originator Profile Collaborative Innovation Partnership"
+          },
+          "OPF-EMAIL": {
+            title: "Originator Profile Framework — Email Use Case Specification",
+            href: "https://docs.originator-profile.org/email/",
+            publisher: "Originator Profile Collaborative Innovation Partnership"
+          },
+          "OPF-DNS": {
+            title: "Using Secure DNS for Originator Profile",
+            href: "https://datatracker.ietf.org/doc/draft-shigeya-dns-opkey/",
+            authors: ["Shigeya Suzuki"],
+            date: "2026-10-23",
+            status: "Individual Internet-Draft, work in progress"
+          },
+          "RFC9919": {
+            title: "The Lightweight Online Certificate Status Protocol (OCSP) Profile for High-Volume Environments",
+            href: "https://www.rfc-editor.org/rfc/rfc9919",
+            authors: ["T. Ito", "C. Wilson", "C. Bonnell", "S. Turner"],
+            publisher: "IETF",
+            date: "July 2026",
+            status: "Proposed Standard"
+          },
+          "IaI-CR": {
+            title: "Investigate and Improve the Certificate Revocation in Web PKI",
+            href: "https://ieeexplore.ieee.org/document/10575605",
+            publisher: "IEEE",
+            authors: [
+              "Chengyuan Zhang",
+              "Changqing An",
+              "Tao Yu",
+              "Zhiyan Zheng",
+              "Jilong Wang"
+            ],
+            date: "2024"
+          },
+          "C2PA-SPEC": {
+            title: "Content Credentials: C2PA Technical Specification, version 2.4",
+            href: "https://spec.c2pa.org/specifications/specifications/2.4/specs/C2PA_Specification.html",
+            publisher: "Coalition for Content Provenance and Authenticity",
+            date: "April 2026"
+          },
+          "C2PA-CONFORMANCE": {
+            title: "C2PA Conformance Program",
+            href: "https://c2pa.org/conformance/",
+            publisher: "Coalition for Content Provenance and Authenticity",
+          },
+          "IPTC-OVNPL": {
+            title: "IPTC Origin Verified News Publishers List",
+            href: "https://iptc.org/verified-news-publishers-list/",
+            publisher: "International Press Telecommunications Council",
+          },
+          "Trusted Web White Paper 3.0": {
+            title: "Trusted Web White Paper 3.0 (in Japanese)",
+            href: "https://trustedweb.go.jp/en/documents/",
+            publisher: "Trusted Web Promotion Council",
+            date: 2023
+          },
+          "A Study on Governance funded by JFSA": {
+            title: "A Study on Governance for Decentralized Finance Systems Using Blockchain Technologies",
+            authors: ["Keio Research Institute at SFC"],
+            href: "https://www.fsa.go.jp/en/policy/bgin/information.html",
+            publisher: "The Financial Services Agency, Japan",
+            date: 2020
+          },
+          "ICANN": {
+            title: "Internet Corporation for Assigned Names and Numbers",
+            href: "https://www.icann.org/",
+          },
+          "The Originator Profile Charter": {
+            title: "The Originator Profile Charter",
+            href: "https://originator-profile.org/en-US/charter/",
+            publisher: "Originator Profile Collaborative Innovation Partnership",
+          }
+        },
+        addSectionLinks: true, // Turn on § section marker
+        logos: [
+          {
+            src: "https://design.originator-profile.org/downloads/op_logos/png/cip-default-type-vertical.png",
+            url: "https://originator-profile.org/",
+            alt: "Originator Profile CIP",
+            width: 180,
+            height: 93,
+            id: "op-cip-logo",
+          }
+        ],
+        postProcess: [
+          function setTabTitle() {
+            document.title = "[JA] " + document.title.replace(/^Originator Profile Framework — /, "") + " — Originator Profile Framework";
+          },
+          function fixReferenceIds() {
+            const ids = { "規範的参考文献": "normative-references", "参照用参考文献": "informative-references" };
+            const label = (el) => el.textContent.replace(/^\s*[A-Z](\.\d+)*\s*/, "").trim();
+            for (const sec of document.querySelectorAll('section[id="generatedID"]')) {
+              const h = sec.querySelector("h1, h2, h3, h4, h5, h6");
+              const id = h && ids[label(h)];
+              if (id && !document.getElementById(id)) sec.id = id;
+            }
+            for (const a of document.querySelectorAll('a[href="#generatedID"]')) {
+              const host = a.closest("section");
+              const id = a.classList.contains("self-link") && host && host.id !== "generatedID" ? host.id : ids[label(a)];
+              if (id) a.setAttribute("href", "#" + id);
+            }
+          },
+        ],
+      }
+    </script>
+    <style>
+      pre .highlight {
+        font-weight: bold;
+        color: green;
+      }
+      pre .comment {
+        font-weight: bold;
+        color: Gray;
+      }
+      .color-text {
+        font-weight: bold;
+        text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+      }
+      ol.algorithm {
+        counter-reset: numsection;
+        list-style-type: none;
+      }
+      ol.algorithm li {
+        margin: 0.5em 0;
+      }
+      ol.algorithm li:before {
+        font-weight: bold;
+        counter-increment: numsection;
+        content: counters(numsection, ".") ") ";
+      }
+      table.simple {
+        border: 1px solid #999;
+      }
+      table.simple th,
+      table.simple td {
+        border: 1px solid #999;
+      }
+      .dns-state {
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <p class="copyright">
+        Copyright © 2022-2026 <a
+        href="https://originator-profile.org/en-US/">Originator Profile
+        Collaborative Innovation Partnership (OP-CIP)</a>, All rights
+        reserved.
+    </p>
+
+    <p class="translation-notice">
+      <strong>本文書は参考訳である。</strong>規範となるのは
+      <a href="https://docs.originator-profile.org/aov/">英語版</a>であり、
+      本日本語版と英語版とで内容が食い違う場合は英語版が優先する。
+    </p>
+
+    <section id="abstract">
+      <p>
+        本文書は Originator Profile Framework (OPF) のアーキテクチャの概観を
+        与える。デジタルメディアと広告のエコシステム、そして電子メールにおいて、この枠組みは
+        コンテンツの受け手に 2 つのものを与える。一つは、コンテンツの originator
+        に関する豊富で検証可能な情報であり、これが Originator Profile (OP)、
+        すなわち originator について validate された属性の集合である。もう一つは
+        attribution、すなわちコンテンツをその originator に検証可能に結びつける
+        ことである。本文書は、
+        コンテンツの originator のプロファイルを検証可能にする主要な概念、
+        データモデル、運用プロセス、ガバナンスモデルを紹介する。そのような
+        プロファイルは、第三者が validate した originator の属性から組み立て
+        られる。本概観には、
+        C2PA との比較、現在のユースケース、そこから抽出した要件も
+        含まれる。本文書は主に、技術的な読者と技術に詳しいエンドユーザが
+        Originator Profile Framework の設計を理解するためのものである。
+      </p>
+    </section>
+
+    <section id="sotd" class="override">
+      <h2>文書の位置づけ</h2>
+      <p class="note">
+        <strong>本日本語版は参考訳である。</strong>英語版から AI 支援で作成したものであり、規範となるのは<a
+        href="https://docs.originator-profile.org/aov/">英語版</a>で
+        ある。齟齬があれば英語版が優先する。用語は英語のまま残している。
+      </p>
+      <p>
+        本文書は、Originator Profile Collaborative Innovation Partnership
+        (OP-CIP) が開発した Originator Profile Framework (OPF) の現在の設計を
+        記述したものである。本文書は DRAFT の段階にあり、いかなる公式な位置づけ
+        も持たず、OP-CIP メンバーシップの合意を表すものでもない。
+      </p>
+    </section>
+
+    <section id="introduction">
+      <h2>はじめに</h2>
+
+      <p>
+        今日、私たちは受け取る情報が正当なものかどうかを判断する必要に迫られて
+        いる。偽情報や誤情報は、主として正当な組織を装う不正な website を
+        通じて拡散する。広告のエコシステムでは、メディアが自らの website に不正な
+        広告を意図せず表示してしまい、その広告と結びつけられることで評判を損ねる。
+        逆に、広告主は自らの広告が不正な website に掲載されていることに気づかず、
+        不正なサイトと結びつけられることでブランドの評判を損ねる。したがってこの
+        状況は、読者だけでなく、すべての stakeholder に害を与える。
+      </p>
+
+      <p>
+        では、このエコシステムにおいて行儀のよい stakeholder は何を期待するの
+        だろうか。読者の観点からは、メディアは自らが名乗るとおりのものであるべきで
+        あり、メディアが届けるものは合理的に信頼できるべきである。少なくともメディアは、意図したとおりに情報を正確に読者へ
+        届けなければならない。読者は情報がどこから来たかを検証でき、それが
+        どのような情報源かを理解できなければならない。何をもって正確な配信と
+        するかについては見方が分かれる。それでも情報は、メディアが意図した
+        とおりに、正確かつ適時に読者へ届くべきである。メディアの側は、情報が
+        読者へ正確に届けられることを期待する。また、自らの website に適切な
+        広告が表示されることも期待する。広告主は、自らの広告が適切なメディアに
+        表示されることを期待する。
+      </p>
+      <p>
+        Originator Profile Framework は、これらの期待に応えるために、主として
+        web メディア、デジタル広告、メールのユースケースに向けて設計された技術と運用
+        ガイドラインの集合である。技術的に言えば、Originator Profile Framework
+        は attribution、すなわちコンテンツをその originator に検証可能に
+        結びつけることを提供し、それとあわせて、コンテンツの出所に
+        ついての検証可能なプロファイル情報を提供する。このプロファイル情報が
+        Originator Profile である。すなわち、複数の第三者によって validate され
+        提供された属性を、一つのプロファイルに組み立てたものである。
+      </p>
+      <p>
+        いま読んでいる本文書は、Originator Profile Framework の文書群のうちの
+        一つである。現在、次の 2 種類の文書群が準備されている。
+      </p>
+      <ul>
+        <li>
+            <b>Originator Profile Framework &mdash; Architectural Overview</b>
+            （本文書）は Originator Profile Framework の入門的な概観を与える。
+            この枠組みが何に取り組もうとしているかの議論、枠組みの高水準の
+            概念、複数の抽象度で見た枠組みを含む。ユースケースと要件の簡単な
+            記述も含む。
+        </li>
+        <li>
+            <b>Originator Profile Blueprints (OPB)</b> は、今日実装されている
+            Originator Profile を記述する話題別の文書群である。OPB は
+            [[Originator Profile Blueprints]] の website で参照できる。OPB は
+            技術的な実装、すなわちどう実装するかに焦点を置いている。設計の背後に
+            ある理由は本文書で述べる。
+        </li>
+      </ul>
+
+      <p>
+        現在、次の文書が編まれつつある。本文書の一部も、これらの文書へ移り
+        つつある。
+      </p>
+
+      <ul>
+        <li>
+          <b>Originator Profile Framework &mdash; Core Specification</b>
+            は、すべてのユースケースに共通する部分を記述する。すなわち、
+            [=Core Profile=] と [=Profile Annotation=] のデータモデル、
+            [=Root Core Profile=] と [=Accreditation Chain=]、DNSSEC の下で DNS に
+            置く、issuer の鍵、Originator の鍵、revocation のそれぞれのレコードの
+            公開、およびコンテンツの配信方法に依存しない検証手順の部分である。
+        </li>
+        <li>
+          <b>Originator Profile Framework &mdash; Web Media Use Case
+              Specification</b>,
+          <b>&hellip; Email Use Case Specification</b>、および予定されている
+          <b>&hellip; Web Advertisement Use Case Specification</b>
+            は、Core Specification の上に載る一つのユースケースをそれぞれ記述
+            し、[=Use Case Specifications=]（ユースケースごとの仕様）と呼ばれる。
+            記述するのは、[=Originator Profile=] がどのように配信されるか、
+            [=Presented Identity=]（コンテンツがその下で届く identity）が
+            どのように [=Originator=] へ結びつけられるか、検証がどこでいつ
+            行われるか、そしてそれらの選択から導かれる security considerations
+            である。各ユースケースは、それ自身の高水準の
+            ガバナンスモデルを持つこともある。
+        </li>
+        <li>
+          <b>Originator Profile Framework &mdash; Operational Governance
+              Requirements</b>（公開予定）
+            は、枠組みを運用する当事者が何をしなければならないかと、その要求の
+            強さを述べる。
+        </li>
+        <li>
+          <b>Originator Profile Framework &mdash; Operations</b>（公開予定。
+            Operations の文書）は、issuer、または DNS レコードを公開するか枠組みの下で
+            メールを送る [=Originator=] が、それらの要求を満たすための値、
+            サービスレベル、手順を持つ。
+        </li>
+      </ul>
+      <p>
+        Core Specification が用いる DNS resource record type は、枠組みから
+        独立して登録し配備できるように、Internet-Draft
+        draft-shigeya-dns-opkey [[OPF-DNS]] で定義する。
+      </p>
+
+      <p>
+        本文書は informative である。枠組みの要件は、Core Specification、
+        [=Use Case Specifications=]、Operational Governance Requirements が
+        述べる。それらを満たすための値、サービスレベル、手順は Operations の
+        文書が持つ。この二つの文書は、まだ公開されていない。
+      </p>
+
+      <p class="note">
+        Originator Profile Blueprints は、現在の実装に合わせた living document
+        であり、本文書は実装の詳細については OPB を参照し、その記述に依拠する。
+        現在の OPB が Core Specification や
+        [=Use Case Specification=] と異なる所は、それらの文書が主な違いを挙げて
+        おり、OPB をそれらに合わせる作業が進行中である。OPB は、
+        上記の文書群の公開後も、将来の改善提案と議論の場として残る可能性がある。
+        <br/>
+        <strong>Blueprints の言語。</strong>
+        Blueprints は日本語で書かれ、その英語訳は AI 支援による人間の作業で
+        作られている。そのため、二つの版は所々で食い違いうる。いずれの版も
+        [[Originator Profile Blueprints]] の website で参照できる。
+      </p>
+
+      <p>
+        本文書は次の節から成る。
+      </p>
+      
+      <ul>
+        <li>
+            <a href="#terminology"></a> 節は、本文書を通じて用いる用語の定義を
+            再掲する。それらは Core Specification と
+            [=Use Case Specifications=] が定めるものである。あわせて、本文書にしか要らない用語を定める。
+        </li>
+
+        <li>
+            <a href="#architecture"></a> 節は、アーキテクチャの構成要素とその
+            相互作用の概観を与える。
+        </li>
+
+        <li>
+            <a href="#base-model"></a> 節は、Originator Profile のさまざまな
+            ユースケースに共通する概念のモデルを記述する。
+        </li>
+
+        <li>
+            <a href="#jurisdiction-specific-model"></a> 節は、特定の法域
+            （国や地域を含むが、それらに限らない）に固有の要件と特性を捉えるために
+            設計されたモデルを記述する。
+        </li>
+
+        <li>
+            <a href="#web-media-specific-model"></a> 節は、Web Media の
+            ユースケースの要件を満たすために Base Model の上に拡張した Web Media
+            Specific Model を記述する。
+        </li>
+
+        <li>
+            <a href="#email-specific-model"></a> 節は、S/MIME で署名した電子
+            メールに Base Model を適用した Email Specific Model を記述する。
+        </li>
+
+        <li>
+            <a href="#governance"></a> 節は、Originator Profile Framework の
+            ガバナンスの側面を記述する。
+        </li>
+
+        <li>
+            <a href="#comparison-to-related-works"></a> 節は、Originator Profile
+            と関連する研究や他のプロジェクトとの比較を記述する。
+        </li>
+
+        <li>
+            <a href="#known-issues-and-future-changes"></a> 節は、現在の既知の
+            課題と将来ありうる変更を論じる。
+        </li>
+
+        <li>
+            最後に、<a href="#use-cases"></a> が Originator Profile の
+            ユースケースを記述し、<a href="#requirements"></a> がユースケースから
+            抽出した要件とエンティティを与える。
+        </li>
+      </ul>
+
+      <p>
+        本文書は主に、技術的な読者と技術に詳しいエンドユーザが Originator Profile
+        Framework の設計を理解するためのものである。
+      </p>
+
+      <section id="what-op-provides">
+        <h2>簡単な絵: Originator Profile が提供するもの</h2>
+        <p>
+          <a href="#fig-what-op-provides"></a> は、[=Originator Profile
+          Framework=] の機能を簡単な絵で示している。
+        </p>
+        <figure id="fig-what-op-provides">
+          <img src="Drawings/Architecture-What-OP-Provides.drawio.svg"
+            alt="What Originator Profile Provides" width="70%"/>
+          <figcaption>Originator Profile が提供するもの</figcaption>
+        </figure>
+        <p>
+          第一に、[=Originator Profile Framework=] は [=Originator=] に関する
+          豊富な情報、すなわち枠組みの名称の由来である [=Originator Profile=] を
+          提供する（①）。これは組織に関する基本的な属性だけでなく、[=Recipient=] が
+          [=Content=] を評価するのに役立つ、複数の第三者によって validate された
+          さまざまな属性を含む。
+        </p>
+        <p>
+          第二に、この枠組みは、[=Content=] の integrity を検証し、[=Content=]
+          をその出所である [=Originator Profile=] に結びつける手段を与える（②）。
+        </p>
+        <p>
+          最後に、[=Content=] の [=Recipient=] は、提供された情報を用いて
+          [=Content=] の integrity と authenticity を検証でき、また
+          [=Originator Profile=] を参照して [=Originator=] の属性を知ることが
+          できる（③）。
+        </p>
+        <p>
+          この枠組みは、さまざまなユースケースへ拡張し適応できるよう設計されて
+          いる。[=Originator Profile=] については、複数の当事者が提供する
+          [=Validated Attributes=] を追加できる。[=Content=] の integrity に
+          ついては、異なる種類の serialization による異なる種類のメディアを
+          受け入れられるように拡張できる。たとえば [=Web Media Specific Model=] は、
+          web ページ内のテキスト断片やその他のメディアの保護を可能にする。
+        </p>
+      </section>
+
+    </section>
+
+    <section id="terminology">
+      <h1>用語</h1>
+      <p>
+        本節では、[=Originator Profile Framework=] が依拠する主要な用語と概念、
+        および [=Originator Profile Framework=] の文脈で用いる用語を述べる。
+      </p>
+      <p>
+        これらの用語と概念のいくつかはさまざまな標準や文献で定義されているが、
+        その記述はしばしば異なる。私たちの意図を明確にするため、ここでこれらの
+        用語と概念を述べる。
+      </p>
+      <p>
+        本文書では、Originator Profile を OP、Originator Profile Framework を
+        OPF、Core Profile を CP、Profile Annotation を PA、Originator Profile
+        Collaborative Innovation Partnership を OP-CIP と略す。
+      </p>
+      <p>用語はアルファベット順に並ぶ。</p>
+
+      <section id="terminology-aov">
+      <h2>本文書に固有の用語</h2>
+      <p>
+        これらの用語の一部は枠組みそのものの用語であり、残りは、本文書が
+        枠組みを記述するために用いるモデルの名である。
+      </p>
+      <section id="terminology-aov-framework">
+      <h3>枠組みの用語</h3>
+      <dl>
+        <dt>
+          <dfn>Attribute</dfn>
+          <dd>
+            [=Attribute=] は [=Originator=] に関する一片の情報である。
+          </dd>
+        </dt>
+
+
+        <dt>
+          <dfn>Content Integrity Descriptor</dfn>
+          <dd>
+            [=Content Integrity Descriptor=] は、どの [=Content=] が attest の
+            対象であるか、およびその [=Content=] に対する integrity の要件を
+            指定するデータ構造である。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Entity</dfn>
+          <dd>
+            [=Entity=] は、特定の役割を果たす、区別でき識別可能な主体である。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Organization Profile</dfn>
+          <dd>
+            [=Organization Profile=] は、[=Originator=] の組織としての文脈に
+            関する [=Validated Attributes=] の集合である。名称、住所、登記情報
+            などがあり、法域ごとに localize されることがある。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Originator Profile Framework</dfn>
+          <dd>
+            [=Originator Profile Framework=] は、[=Originator Profile=] および
+            関連するモデル（データモデルと関連するポリシーを含む）を実現する
+            技術的な設計とガバナンスモデルの集合である。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Validate</dfn>
+          <dd>
+            [=Validate=] するとは、ある [=Entity=] に関する一片の情報の真実性を、
+            その [=Entity=] を直接確認するか、政府のデータベースのような高い
+            信頼性を持つ情報源に照会することによって評価することである。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Verify</dfn>
+          <dd>
+            [=Verify=] は、[=Signed Data=] の中で参照または埋め込まれている
+            [=Verification Key=] を用いて payload とそれに結びついた署名を
+            検証することにより、[=Signed Data=] の integrity を確かめるだけの
+            働きである。
+          </dd>
+        </dt>
+
+      </dl>
+      </section>
+
+      <section id="terminology-aov-models">
+      <h3>本文書のモデルの用語</h3>
+      <dl>
+        <dt>
+          <dfn>Base Model</dfn>
+          <dd>
+            [=Base Model=] は [=Originator Profile Framework=] における基礎と
+            なるモデルであり、[=Originator=] の本質的な属性と関係を表現するための
+            共通の構造を与える。[=Jurisdiction Specific Model=] や [=Web Media
+            Specific Model=] といった、より特化したモデルの出発点となる。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Jurisdiction Specific Model</dfn>
+          <dd>
+            [=Jurisdiction Specific Model=] は、特定の法域（地域や国を含むが、
+            それらに限らない）に固有の要件と特性を表現する具体的なデータモデルの
+            集合である。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Signed Data</dfn>
+          <dd>
+            [=Signed Data=] は 3 つの要素、すなわち [=Verification Key=] または
+            それへの参照、payload、署名から成る。これにより、署名がその
+            [=Verification Key=] に結びつけられた [=Signing Key=] によって
+            payload に対して作られたことを検証できる。このことが payload の
+            integrity を保証し、[=Verification Key=] はデータに署名した
+            [=Entity=] を識別する。<a
+            href="#model-of-digital-certificates"></a> で詳しく論じる。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Signed Data with Policy</dfn>
+          <dd>
+            [=Signed Data with Policy=] は、特定のポリシーの下で作られた署名済み
+            データ構造を表す抽象データモデルである。<a
+            href="#architecture"></a> で詳しく論じる。
+          </dd>
+        </dt>
+      </dl>
+      </section>
+      </section>
+
+      <section id="terminology-copied">
+      <h2>Core Specification と Web Media Use Case Specification が定める用語</h2>
+      <p>
+        次の用語は Core Specification [[OPF-CORE]] が定め、web メディアの
+        ユースケースの用語は Web Media Use Case Specification
+        [[OPF-WEB-MEDIA]] が定める。本概観が単独で読めるよう、その定義を
+        ここに変えずに写している。写しと定義元の文書が食い違う場合は、定義元の
+        文書が優先する。
+      </p>
+
+      <dl>
+        <dt>
+          <dfn>Accreditation Body</dfn>
+          <dd>
+            [=Accreditation Body=] は、[=Root Issuer=] が、直接に、またはその
+            権限を受けた [=Entity=] を介して、[=Issuer Accreditations=] を発行
+            する権限を与えた [=Entity=] である。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Accreditation Chain</dfn>
+          <dd>
+            [=Accreditation Chain=] は、ある issuer から [=Root Core Profile=] までの
+            [=Issuer Accreditations=] の列であり、各 issuer の [=Core Profile=]
+            を伴う。各 [=Issuer Accreditation=] は、それが accredit する issuer の
+            parent issuer が発行したものである。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Content</dfn>
+          <dd>
+            [=Content=] は [=Originator=] に由来する情報である。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Content Attestation</dfn>
+          <dd>
+            [=Content Attestation=] は [=Signed Data from Originator=] の一種で
+            あり、[=Content=] が対応する [=Originator=] に由来することを確認する。
+            [=Content Attestation=] は、[=Originator=] の [=Originator Profile=]
+            の一部である [=Core Profile=] が載せる [=Originator Verification
+            Key=] で [=Verify|検証される=]。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn class="lint-ignore" data-lt="Content Validity Periods">Content Validity Period</dfn>（内容の有効期間）
+          <dd>
+            内容の有効期間は、[=Profile Annotation=] が述べることのできる期間で
+            あり、その間、annotation が述べることが成り立つ。annotation の
+            署名の有効期間を含まなければならず、どの時刻もこれとは比べない。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Core Profile</dfn>
+          <dd>
+            [=Core Profile=] は、ある [=Originator=] に関する本質的な
+            [=Validated Attributes=] の集合であり、[=Core Profile Issuer=] が
+            発行する。ただし [=Root Core Profile=] は、その [=Root Issuer=] が
+            自らについて発行し、他の者は validate しない。これはその
+            [=Originator=] の [=Originator Verification Keys=] を載せる。
+
+            [=Root Core Profile=] 以外の [=Core Profile=] は
+            [=Originator Profile=] の一部である。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Core Profile Issuer</dfn>
+          <dd>
+            [=Core Profile Issuer=] は、自身の [=Core Profile Policy=] の下で
+            [=Core Profile=] を発行する [=Entity=] である。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Core Profile Policy</dfn>
+          <dd>
+            [=Core Profile Policy=] は、[=Core Profiles=] の発行と管理を律する
+            ポリシーの集合である。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Identity</dfn>
+          <dd>
+            [=Originator=] の [=Identity=] は、その [=Originator=] が枠組みの中で
+            知られるドメイン名である。[=Core Profile=] がこれを載せ、
+            [=Verifier=] は [=Presented Identity=] をこれと照合する。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Issuer Pinning Record</dfn>
+          <dd>
+            [=Issuer Pinning Record=] は、[=Originator=] が自身の [=Identity=]
+            の zone で公開する DNS のレコードの集合であり、その [=Originator=]
+            のために [=Core Profile=] を発行することを許された [=Core Profile
+            Issuers=] を名指しするか、その [=Originator=] が [=Originator
+            Profile=] を持たないことを宣言する。レコードが issuer を名指して
+            いる [=Originator=] は、それらの issuer に pin されている
+            （pinned）。このレコードを公開していない [=Originator=]、または zone
+            が署名されていない [=Originator=] は、[=Use Case Specification=]
+            が unpinned の [=Originator=] を認める場合には unpinned である。
+            [=Use Case Specification=] は、代わりにこのレコードを要求してもよく、
+            その場合にはレコードの不在は失敗である。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Issuer Accreditation</dfn>
+          <dd>
+            [=Issuer Accreditation=] は、issuer 自身の [=Core Profile=] に
+            対する [=Profile Annotation=] であり、枠組みにおけるその issuer の
+            立場、たとえば [=Core Profile Issuer=] や [=Profile Annotation
+            Issuer=] としての立場を述べる。これは [=Root Issuer=] または
+            [=Accreditation Body=] が発行する。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Issuer Key Record</dfn>
+          <dd>
+            [=Issuer Key Record=] は、鍵そのものではなく [=Key Identifiers=]
+            を列挙する DNS record set である。issuer が自身の名前の下でこれを
+            公開し、これは、その issuer の文書の上の署名が受け入れられるべき鍵を
+            名指す。すなわち、issuer が署名に用いている鍵、これから署名に用いる
+            鍵、およびその署名がまだ検証されうる鍵である。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Key Identifier</dfn>
+          <dd>
+            [=Key Identifier=] は [=Originator Verification Keys=] のうちの
+            一つ、または issuer の [=Verification Key=] のうち、その issuer が
+            発行する文書の検証に用いるものを識別する。
+            これは鍵そのものから導かれ、Core Specification が
+            定めるとおりに計算した public key の digest である。したがって同じ鍵は、
+            [=Content Attestation=] の中、[=Core Profile=] の中、DNS の中の
+            どこに現れても同じ [=Key Identifier=] を持つ。二つの鍵は、同じ digest
+            アルゴリズムで計算した [=Key Identifiers=] が等しいとき同じ鍵である。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Originator</dfn>
+          <dd>
+            [=Originator=] は、なんらかの [=Content=] を [=Recipients=] へ送る
+            [=Entity=] である。[=Originator Profile Framework=] において
+            [=Originator=] は、[=Content Attestation=] のようなさまざまな形の
+            [=Signed Data from Originator=] を作る [=Entity=] でもある。この
+            枠組みではすべての issuer も [=Originator=] である。issuer 自身の
+            [=Core Profile=] はその issuer についてのものであり、issuer が発行
+            する文書は [=Signed Data from Originator=] である。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Originator Key Record</dfn>
+          <dd>
+            [=Originator Key Record=] は、鍵そのものではなく [=Key
+            Identifiers=] を列挙する DNS record set である。[=Core Profile
+            Issuer=] は、自らが発行する [=Core Profile=] ごとに一つを自身の
+            名前の下で公開し、それはその [=Core Profile=] の [=Originator
+            Verification Keys=] のうち取り下げられていないものの [=Key
+            Identifiers=] を列挙する。それが存在することは、その [=Core
+            Profile=] が revoke されていないことを意味する。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Originator Profile</dfn>
+          <dd>
+            [=Originator Profile=] は、ある [=Originator=] に関する
+            [=Validated Attributes=] のうち、枠組みが検証可能にするものの集合で
+            ある。
+
+            [=Originator Profile=] は一つの [=Core Profile=] と一つ以上の
+            [=Profile Annotations=] から成り、[=Use Case Specification=] は
+            これにそのユースケースに固有の文書を加えることができる。[=Core Profile=] は
+            [=Originator Verification Keys=] などの本質的な情報を含み、
+            [=Profile Annotations=] は [=Originator=] に関する追加の
+            [=Validated Attributes=] を与える。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Originator Verification Key</dfn>
+          <dd>
+            [=Originator Verification Key=] は、[=Originator=] の [=Core
+            Profile=] が載せる [=Verification Key=] であり、[=Signed Data from
+            Originator=] はそれで検証される。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Permitted Host Record</dfn>
+          <dd>
+            [=Permitted Host Record=] は、[=Originator=] が自身の [=Identity=] の
+            zone で公開する DNS のレコードの集合であり、その [=Identity=] でも
+            その配下でもない host が当該 [=Originator=] の [=Originator Profile=]
+            を提示することを許す。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Presented Identity</dfn>
+          <dd>
+            [=Presented Identity=] は、[=Content=] がその下で [=Recipient=] に
+            届く identity であり、[=Verifier=] が [=Use Case Specification=] の
+            定める方法で配信の経路から得る。たとえば web ページの origin や、
+            メッセージの author のドメインである。[=Verifier=] は、これを
+            [=Core Profile=] にある [=Originator=] の [=Identity=] と照合する。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Profile Annotation</dfn>
+          <dd>
+            [=Profile Annotation=] は [=Signed Data=] であり、[=Profile
+            Annotation Issuer=] が [=Profile Annotation Policy=] の下で発行し、
+            [=Validated Attributes=] の集合を、両者が対象とする [=Identity=] を介して、
+            ある [=Originator=] の [=Core Profile=] へ結びつける。
+            [=Profile Annotation=] の種類はそれぞれ特定の目的に仕える。たとえば
+            [=Organization Profile=] や、ある法域に固有の annotation である。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Profile Annotation Issuer</dfn>
+          <dd>
+            [=Profile Annotation Issuer=] は、一つ以上の種類の [=Profile
+            Annotations=] を発行する [=Entity=] である。それとしての立場と、
+            発行してよい種類は、その [=Issuer Accreditation=] が述べる。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Profile Annotation Policy</dfn>
+          <dd>
+            [=Profile Annotation Policy=] は、[=Profile Annotations=] の発行と
+            管理を律するポリシーの集合である。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Recipient</dfn>
+          <dd>
+            [=Recipient=] は [=Content=] を受け取る [=Entity=] である。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Revocation Record</dfn>
+          <dd>
+            [=Revocation Record=] は、[=Profile Annotation=] の issuer が自身の
+            名前の下で公開する DNS のレコードの集合であり、それが存在することは、
+            その annotation が revoke されたことを意味する。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Root Core Profile</dfn>
+          <dd>
+            [=Root Core Profile=] は、[=Root Issuer=] の self-signed な
+            [=Core Profile=] である。すべての [=Accreditation Chain=] は
+            [=Root Core Profile=] で終わる。[=Verifier=] は、[=Recipient=] に
+            代わって、自身が受け入れる [=Root Core Profiles=] を手元に保持する。
+            これは検証ソフトウェアとともに配布される。当初は一つである。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Root Issuer</dfn>
+          <dd>
+            [=Root Issuer=] は [=Root Core Profile=] の発行者である。すなわち、
+            枠組みを統治する body であり、自らの各 [=Root Core Profile=] に、
+            その [=Root Core Profile=] が載せる鍵で署名する。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn class="lint-ignore" data-lt="Signature Validity Periods">Signature Validity Period</dfn>（署名の有効期間）
+          <dd>
+            署名の有効期間は、署名された文書の署名に拠ってよい期間である。それは
+            文書の securing mechanism がその署名について記す期間であり、始まりを
+            含み、終わりを含まない。署名された文書はすべてこれを持ち、
+            Core Specification が時刻と比べる期間はこれだけである。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Signed Data from Originator</dfn>
+          <dd>
+            [=Signed Data from Originator=] は、枠組みの署名済み文書の一般形である。
+            すなわち、それが帰属する当事者、つまり [=Originator=]（すべての issuer
+            はその一つである）が署名し、Core Specification が定める共通の
+            プロパティを持つ文書である。[=Core Profile=]、[=Profile
+            Annotation=]、[=Content Attestation=]、[=Root Core Profile=] はその種類で
+            あり、それらが導かれるモデルは <a href="#architecture"></a> が与える。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Signing Key</dfn>
+          <dd>
+            [=Signing Key=]（private key とも呼ばれる）は、
+            [=Signed Data=] の署名を作るために用いる非対称暗号の鍵ペアの
+            片方である。鍵ペアのもう片方が [=Verification Key=] である。
+            [=Signing Key=] は特定の [=Entity=]（signer）が自身の管理下に
+            置き、[=Signed Data=] の一部となる署名を生成するために用いる。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Use Case Specification</dfn>
+          <dd>
+            [=Use Case Specification=] は、Web Media や Email のような一つの
+            ユースケースについての [=Originator Profile Framework=] の仕様であり、
+            Core Specification の上に載る。[=Originator Profile=] とそれに伴う
+            文書がどのように [=Verifier=] に届くか、[=Presented Identity=] が何で
+            あり、それがどのように [=Originator=] へ結びつけられるか、検証が
+            どこでいつ行われるか、そしてそこから導かれる security
+            considerations を定める。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Validated Attribute</dfn>
+          <dd>
+            [=Validated Attribute=] は、ある [=Originator=] に関する情報のうち、
+            それを保持する文書を発行する前に、issuer がその真偽を評価したもので
+            ある。[=Core Profile=] と [=Profile Annotation=] は
+            [=Validated Attributes=] から成り、それぞれ [=Core Profile Issuer=] と
+            [=Profile Annotation Issuer=] が発行の前にそれらを検証する。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Verification Key</dfn>
+          <dd>
+            [=Verification Key=]（しばしば public key とも呼ばれる）は、
+            [=Signed Data=] の署名を検証するために用いる。これは
+            [=Signing Key=] を自身の管理下に置く特定の signer と結びついており、
+            [=Signed Data=] の integrity を [=Verify=] するために用いる。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Verifier</dfn>
+          <dd>
+            [=Verifier=] は、[=Recipient=] に代わって [=Originator Profile=] と
+            [=Content Attestation=] を検証するソフトウェア部品である。それが
+            どこに置かれるかは [=Use Case Specification=] が定める。たとえば
+            ブラウザ拡張、メールクライアント、受信メールサーバである。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Web Media Profile</dfn>
+          <dd>
+            [=Web Media Profile=] は、website で [=Content=] を公開する
+            [=Originator=] に関する [=Validated Attributes=] の集合である。
+            編集方針や連絡先情報のように、web メディア向けの領域固有な
+            [=Validated Attributes=] を含む。この use case では、これは
+            [=Core Profile=] および [=Profile Annotations=] とともに
+            [=Originator Profile=] の一部であり、これが有効でなくなると
+            [=Originator Profile=] も有効でなくなる。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Web Media Profile Issuer</dfn>
+          <dd>
+            [=Web Media Profile Issuer=] は、[=Core Profile Issuer=] が
+            [=Web Media Specific Policy=] の下で [=Originator=] のために
+            [=Web Media Profile=] を発行するときの役割であり、独立した
+            [=Entity=] ではない。Web Media Use Case Specification が求める
+            とおり、ある [=Originator=] の [=Web Media Profile=] は、その
+            [=Originator=] の [=Core Profile=] を発行した [=Core Profile
+            Issuer=] が発行する。
+            この issuer は、プロファイルに含まれる [=Attributes=] を
+            validate し、それらが [=Originator=] を正確に表していることを保証する
+            責任を負う。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Web Media Specific Model</dfn>
+          <dd>
+            [=Web Media Specific Model=] は、Web Media のユースケースに向けて
+            [=Base Model=] を拡張したモデルであり、領域固有な
+            [=Validated Attributes=] と validation の仕組みを取り込む。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Web Media Specific Policy</dfn>
+          <dd>
+            [=Web Media Specific Policy=] は、[=Core Profile Issuer=] が発行する
+            [=Web Media Profile=] と、[=Originator=] 自身が発行する
+            [=Website Profile=] について、その発行と管理を律するポリシーの集合
+            である。
+          </dd>
+        </dt>
+
+        <dt>
+          <dfn>Website Profile</dfn>
+          <dd>
+            [=Website Profile=] は [=Signed Data from Originator=] であり、
+            [=Originator=] 自身が発行し、その [=Originator=] が自身の
+            [=Content=] を公開する website を述べる。[=Verifier=] は、web
+            ページを [=Originator=] に結びつけるためにこれを必要とする。この
+            プロファイルは、それらの website の origin などの情報を含む。
+            これは [=Originator Profile=] の一部ではない。[=Content
+            Attestation=] と同じくその外側にあり、[=Originator Profile=] と
+            それに署名した鍵が有効である間だけ有効である。
+          </dd>
+        </dt>
+
+      </dl>
+      </section>
+    </section>
+  
+    <section id="architecture">
+      <h1>Originator Profile Framework のアーキテクチャ</h1>
+      <p>
+        [=Originator Profile Framework=] のアーキテクチャは、幅広いユースケースと
+        応用を支えるように設計されている。これはモジュール構成の枠組みであり、
+        既存のシステムやサービスへ容易に統合できる。
+      </p>
+      <p>
+        以降の節では、[=Originator Profile Framework=] の高水準の概念と構成要素を
+        紹介する。
+      </p>
+
+      <section id="model-of-digital-certificates">
+        <h2>抽象モデル: Signed Data with Policy</h2>
+        <p>
+          本文書では、論文 [[A Model For Claim Validation]] で詳しく論じられて
+          いる "Cryptographically Signed Data" に基づいて [=Signed Data=] と
+          [=Signed Data with Policy=] を定義する。また同じ論文が示す
+          "Certificate" の概念に基づいて [=Core Profile=] と
+          [=Profile Annotation=] を定義する。以降の節で、定義とその含意を詳述
+          する。
+        </p>
+        <p class="note">
+          論文 [[A Model For Claim Validation]] で用いられている用語、とくに
+          "verify" と "validate" は、本文書で用いる用語とは異なる。同論文の著者は、
+          この 2 つの行為の違いを validation における文脈の欠如として述べている。
+          本文書では "verify" を、[=Verification Key=] を用いて [=Signed Data=] の
+          integrity を確かめる行為の意味で用い、"validate" を、[=Entity=] 自体を
+          直接確認するか、政府のデータベースのような高い信頼性を持つ情報源に
+          照会することによって一片の情報の真実性を評価する行為の意味で用いる。
+          この区別は [=Originator Profile Framework=] の文脈において本質的で
+          ある。エコシステムに関わる異なる [=Entities=] の役割と責任を明確にする
+          助けになるからである。
+          これらの語は [[vc-data-model-2.0]] の語とも異なる。そこでの validation
+          は、ある claim が verifier の業務上の要件を満たすことを verifier が
+          確かめることである。ここでの [=Validate=] は issuer が文書を発行する
+          前に行う行為であり、[=Verify=] は [=Verifier=] の行為である。
+        </p>
+        <section id="signed-data">
+          <h3>Signed Data</h3>
+          <p>
+            [[A Model For Claim Validation]] における "Cryptographically Signed
+            Data" は、originator が payload に署名し、3 つの要素、すなわち (1)
+            verification key（またはそれへの参照）、(2) payload（attest の対象）、
+            (3) その鍵と payload に対するデジタル署名を束ねる概念モデルである。
+            この構造により、recipient は対応する verification key を用いて出所の
+            authenticity と payload の integrity を確かめられる。
+          </p>
+          <figure id="fig-signed-data">
+            <img src="Drawings/Architecture-Signed-Data.drawio.svg"
+              alt="Signed Data" width="70%"/>
+            <figcaption>Signed Data</figcaption>
+          </figure>
+          <p>
+            重要なことに、"Cryptographically Signed Data" だけでは payload に
+            符号化された claim の真実性は確立されない。確認できるのは出所の
+            authenticity とデータの integrity だけである。ある claim が valid で
+            あるかの判断には、追加の証拠と、validator 固有の validation policy
+            （すなわち判断基準や意図）が必要であり、これは単なる暗号学的な
+            verification とは別のものである。
+          </p>
+          <p>
+            本文書において、
+            [=Signed Data=] は 3 つの要素、すなわち [=Verification Key=] または
+            それへの参照、payload、署名から成る。これにより、署名がその
+            [=Verification Key=] に結びつけられた [=Signing Key=] によって
+            payload に対して作られたことを検証できる。このことが payload の
+            integrity を保証し、[=Verification Key=] はデータに署名した
+            [=Entity=] を識別する。
+          </p>
+        </section>
+        <section id="signed-data-with-policy">
+          <h3>Signed Data with Policy</h3>
+          <p>
+            [=Originator Profile Framework=] では、すべてのデータモデルが特定の
+            ポリシーの下にある [=Signed Data=] に基づく。本文書ではこれを
+            [=Signed Data with Policy=] と呼ぶ。[=Signed Data with Policy=] は、
+            あらかじめ定められ共有されたポリシーに基づいて、署名の意図と文脈を
+            表現する手段を与えうる。[=Signed Data with Policy=] は、digital
+            credentials（たとえば [[vc-data-model-2.0]]）や digital certificates
+            （たとえば [[X509V3]]）の抽象概念である。
+          </p>
+          <figure id="fig-signed-data-with-policy">
+            <img src="Drawings/Architecture-Signed-Data-with-Policy.drawio.svg"
+              alt="Signed Data with Policy" width="70%"/>
+            <figcaption>Signed Data with Policy</figcaption>
+          </figure>
+          <p>
+            [[A Model For Claim Validation]] において著者らは、signed data with
+            policy と関連するプロセスの関係を詳述している。"Certificate" とは、
+            certifier が発行する signed data の一形態であり、(i) その certifier が
+            特定の claim を validate したことを主張し、(ii) その validation が
+            certifier の certification policy（その判断基準）に従うものであることを
+            attest する。具体的には 3 つの要素、すなわち (1) certifier の
+            verification key（またはその参照）、(2) 何が certify されたかを述べる
+            payload、(3) その鍵と payload に対する certifier のデジタル署名を
+            束ねる。その署名が示そうとするのは、誰が発行したかだけではなく、
+            発行者が自身のポリシーに従ってその claim を certify しているという
+            ことである。validator はそのうえで、certificate を verify し、自身の
+            validation policy の下で certifier を信頼することによって、claim を
+            受け入れられる。
+          </p>
+            <p class="note">
+              [=Originator Profile Framework=] の中の signed data を指すのに、
+              本文書では "Certificate" や "Credentials" という語を用いないように
+              している。デジタルの文脈における "Certificate" は通常 public key
+              certificate（たとえば [[X509V3]]）を指し、"Credentials" は claim や
+              属性のより広い集合を含意することが多い。しかしデジタルでない世界
+              では、certification と credentials をめぐる概念の多くはより流動的で
+              文脈依存である。この混乱は、"certification" に関する個々の
+              デジタルでない活動との関係でとくに当てはまる。したがってこれらの語を
+              用いると、ここで論じている signed data の性質と範囲について誤解を
+              招きうる。避けているのは本文の地の文でのこれらの語であり、名前に
+              これらの語を含む securing mechanism ではない。枠組みの文書は、
+              Core Specification が述べる形でそうした仕組みにより secure
+              される。現在の形は Verifiable Credential である（<a
+              href="#base-model-data-models"></a>）。
+            </p>
+        </section>
+      </section>
+
+      <section id="limitation-of-digital-certificate-schemes">
+        <h2>Originator Profile Framework を実装するうえでの X.509 PKI の限界</h2>
+        <p>
+          デジタル署名の方式を用いるときには、signer の [=Verification Key=] を
+          見つけ、対応する [=Signing Key=] が正しい [=Entity=] に属することを
+          確かめる必要がある。これを実現するために、通常は X.509 [[X509V3]] の
+          public key certificate 方式に依拠する。この方式はさまざまな応用で広く
+          用いられ、よく理解されている。
+          しかし現在の X.509 の設計は、[=Originator Profile Framework=] の
+          実装が必要とする柔軟性を欠く。本節では、鍵を [=Originator=] に
+          結びつけ、それに属性を加える手段としての X.509 の限界を論じる。
+        </p>
+
+          <p class="note">
+            配信の経路が既に X.509 を運んでいるところでは、X.509 は引き続き
+            使える。メールでは S/MIME の署名が
+            signer の鍵を X.509 certificate に入れて運び、Email Specific Model
+            （<a href="#email-specific-model-the-model"></a>）は署名と
+            certificate path を S/MIME の実装に任せ、その certificate が運ぶ鍵が
+            [=Core Profile=] に載っている鍵であることの確認を加える。枠組みが
+            certificate を [=Core Profile=] に埋め込まない理由は
+            <a href="#issue-key-rollover"></a> にある。
+          </p>
+        <ul>
+          <li><strong>属性の柔軟な追加が難しい</strong>
+            <p>
+              特定の応用目的のための属性を X.509 certificate に追加できる
+              場合でも、certificate の issuer は certificate が運ぶすべての
+              属性を validate しなければならない。さらに、すべての属性が一枚の certificate に載るため、
+              提示のために certificate を分割することも、他の issuer による
+              certificate と組み合わせることもできない。
+            </p>
+          </li>
+
+          <li><strong>改訂した発行ポリシーの導入が難しい</strong>
+            <p>
+              特定のコミュニティが、署名に用いる
+              public key が特定のポリシー要件を満たすことを示すために、特定の目的
+              向けに専用の public key certificate の集合を運用するというユース
+              ケースがある。コミュニティのポリシーを満たす certificate の
+              このような「仮想的なリスト」を実現するには、
+              Certificate Authority (CA) の運用を含む certificate のツリー全体を
+              立てる必要があるかもしれない。そのような CA の運用には相当の作業と
+              複雑さが伴うため、小規模なコミュニティや専門的なユースケースでは
+              現実的でないことが多い。
+            </p>
+          </li>
+
+          <li><strong>certificate の状態確認のスケーラビリティ要件を満たすことが
+                        難しい</strong>
+            <p>
+              public key certificate は、定期的またはオンデマンドの有効性確認を
+              要する。現在は [[OCSP]] や CRL [[RFC5280]] のようなプロトコルが
+              使われている。しかし、web サーバが用いる public key certificate の
+              範囲においてすら、OCSP はスケーラビリティ要件を満たせておらず、CRL は
+              プライバシーの懸念をもたらす。改善についての議論はいくつかあるが、
+              論文 [[SoK-DR]] が論じるとおり、まだ妥当な解決はない。
+              大量の確認が行われる環境に向けた近年の OCSP の profile
+              [[RFC9919]] は、応答のコストを下げる。応答はあらかじめ作られ、
+              nonce を持たず、クライアントと responder の間のキャッシュが保持
+              できるよう HTTP GET で取得され、次の更新までクライアントが保持
+              する。これにより一回ごとの確認は安くなり、クライアントは応答を
+              使い回せる。しかし、各 certificate の状態を一枚ずつその issuer に
+              問い合わせるという点は変わらない。[=Originator Profile
+              Framework=] が対象とする領域の規模が負担をかけるのは、まさにこの
+              点である。これらの要因が、
+              certificate の有効期間を短くする流れを後押ししている。さらに 
+              [=Originator Profile Framework=] が対象とする領域では、はるかに多くの
+              [=Entities=] が著しく多くの signed data を生成し、それを桁違いに
+              多くのクライアントが検証することを考えると、関わる規模は何桁も大きく
+              なると見込まれる。したがって、現在の仕組みに依拠しない新しい取り組み
+              が必要である。
+            </p>
+          </li>
+        </ul>
+        <p>
+        [=Originator Profile Framework=] では、これらの限界に対して、より柔軟で
+        拡張しやすい枠組みによって取り組む。
+        </p>
+      </section>
+
+      <section id="architectural-design-of-originator-profile-framework">
+        <h2>Originator Profile Framework のアーキテクチャ設計</h2>
+        <p>
+          [=Originator Profile Framework=] は、コンテンツをその originator に
+          結びつける attribution を提供し、同時に、
+          validate された属性を運ぶより柔軟で拡張しやすい方法によって、上で述べた
+          現在のデジタル public key certificate 方式の限界に取り組む。枠組みの中の
+          signed data はすべて [=Signed Data from Originator=] であり、これは
+          [=Signed Data with Policy=] の一種である。すなわちそれは、発行した当事者の
+          ポリシーの下で、意図をもって署名されている。
+        </p>
+        <p>
+          [=Originator Profile Framework=] のアーキテクチャは現在、3 つのモデル群
+          から成る。領域に依存しないモデルである [=Base Model=]、特定の法域を
+          支えるために [=Base Model=] を拡張した [=Jurisdiction Specific Model=]、
+          そしてユースケースに固有のモデルである [=Web Media Specific Model=]
+          と Email Specific Model である。ユースケースに固有のモデルは、それぞれ
+          コンテンツの一つの届け方に [=Base Model=] を当てはめる。将来の応用領域
+          それぞれにも、同様のモデルを導入すると見込んでいる。各モデルはそれぞれの
+          節、<a href="#base-model"></a>、<a href="#jurisdiction-specific-model"></a>、
+          <a href="#web-media-specific-model"></a>、<a
+          href="#email-specific-model"></a> で述べる。ユースケースに固有の
+          モデルはそこでは概要だけを述べ、[=Use Case Specifications=] がそれを
+          定める。
+        </p>
+        <p>
+          以降の小節では、<a href="#base-model"></a> が詳しく述べる 3 つの主要な
+          データモデル、すなわち [=Originator Profile=]、
+          [=Signed Data from Originator=]、[=Content Attestation=] の概要を述べる。
+        </p>
+
+        <section id="originator-profile">
+          <h3>Originator Profile</h3>
+          <p>
+            [=Originator Profile Framework=] において、検証可能であるべき
+            [=Originator=] に関する情報は [=Signed Data from Originator=] の形を
+            とる。すなわち、それを出す当事者が特定のポリシーの下で署名した
+            データである。[=Core Profile=] の場合、その当事者は
+            [=Core Profile Issuer=] であり、これ自身も枠組みの中では
+            [=Originator=] である（<a
+            href="#root-core-profile-and-issuer-accreditation"></a>）。
+            ある [=Originator=] に関する情報は、その [=Originator Profile=] と
+            して表現される。
+            [=Originator Profile=] は、[=Originator Verification Keys=] を
+            含む一つの [=Core Profile=] と、[=Validated Attributes=] を
+            [=Core Profile=] へ付す一つ以上の [=Profile Annotations=] から成る。
+            [=Use Case Specification=] は、これにそのユースケースに固有の文書を
+            加えることができる。Web Media の use case は [=Web Media Profile=]
+            を加え（<a href="#web-media-specific-model-the-model"></a>）、
+            Email の use case は何も加えない。
+          </p>
+          <p>
+            [=Originator Profile=] が少なくとも一つの [=Profile Annotation=] を
+            持つことは、Core Specification [[OPF-CORE]] の述べるとおり、
+            [=Use Case Specification=] が文書を揃える者に求めることである。
+            [=Verifier=] は annotation の数を数えず、効力のある annotation が一つも
+            無い結果（outcome）は、失敗とはならずにそのことを述べる。
+          </p>
+          <figure id="architecture-issuing-op">
+            <img src="Drawings/Architecture-Originator_Profile.drawio.svg"
+              alt="Issuing and using Originator Profile" width="70%"/>
+            <figcaption>Originator Profile の発行と利用</figcaption>
+          </figure>
+          <p>
+            [=Core Profile=] は、次節で述べる [=Signed Data from Originator=] の
+            一種である。これは [=Originator=] の [=Verification Keys=] と
+            [=Originator Profile=] の本質的な属性を載せ、[=Core Profile Issuer=]
+            が自身の [=Core Profile Policy=] の下でこれを発行する。
+          </p>
+          <p>
+            [=Profile Annotation=] は、[=Profile Annotation Issuers=] が自身の
+            署名、すなわち [=Core Profile=] の署名とは独立した署名の下で発行する
+            追加の属性の集合である。
+            [=Profile Annotation=] もまた [=Signed Data from Originator=] に
+            基づく。[=Core Profile=] は、[=Profile Annotation Policy=] で定める
+            ところに従い、複数の [=Profile Annotation Issuers=] が提供する
+            一つ以上の [=Profile Annotations=] へ結びつけられうる。
+            [=Profile Annotation=] は抽象的な概念であり、特化した種類の
+            [=Profile Annotations=] がさまざまに存在する。これは各応用領域に
+            対する拡張点の一つである。
+          </p>
+        </section>
+
+        <section id="signed-data-from-originator">
+          <h3>Signed Data from Originator</h3>
+          <p>
+            [=Signed Data from Originator=] は、[=Originator Profile Framework=]
+            における本質的な種類の [=Signed Data=] である。これは [=Signed Data with Policy=]
+            に基づく抽象データモデルで、[=Originator=] に由来し、[=Originator=] が
+            述べたポリシーに対応する特定の意図をもって署名されたものと想定する。
+            これは、その [=Originator=] の [=Identity=] によって、その
+            [=Originator=] の [=Originator Profile=] へ結びつけられる。
+          </p>
+          <figure id="fig-signed-data-from-originator">
+            <img src="Drawings/Architecture-Signed-Data-from-Originator.drawio.svg"
+              alt="Signed Data from Originator" width="70%"/>
+            <figcaption>Signed Data from Originator</figcaption>
+          </figure>
+
+        </section>
+
+        <section id="content-attestation">
+          <h3>Content Attestation</h3>
+          <p>
+            [=Content Attestation=] は [=Signed Data from Originator=] の一種で
+            あり、[=Content=] が対応する [=Originator=] に由来し、かつ改変されて
+            いないことを確認する。[=Content Attestation=] は、
+            [=Originator Profile=] の一部である [=Core Profile=] に含まれる
+            [=Verification Key=] を用いて [=Verify|Verified=] できる。したがって
+            [=Recipient=] は、[=Content=] の integrity を検証し、それが参照する
+            [=Originator Profile=] を通じて、[=Originator=] が誰であり、その
+            [=Originator=] が何を約束しているかを知ることができる。
+          </p>
+          <figure id="architecture-content-attestation">
+            <img src="Drawings/Architecture-Content_Attestation.drawio.svg"
+              alt="Creating and using Content Attestation" width="70%"/>
+            <figcaption>Content Attestation の作成と利用</figcaption>
+          </figure>
+          <p>
+            [=Content Attestation=] は [=Content=] 自体の中、またはそれと並べて
+            提供される。[=Content Attestation=] の payload の一部である
+            [=Content Integrity Descriptor=] は、そのコンテンツの integrity に
+            関する追加の情報を与える。web メディアに対する
+            [=Content Integrity Descriptor=] は、Web Media Use Case
+            Specification [[OPF-WEB-MEDIA]] で記述される予定である（<a
+            href="#base-content-attestation"></a>）。
+          </p>
+        </section>
+      </section>
+
+    </section>
+
+    <section id="base-model">
+      <h2>Base Model</h2>
+      <p>
+        [=Base Model=] は、すべてのユースケースが共有するエンティティ、
+        データモデル、プロセス、ポリシーを定める。ユースケースに固有のモデルは
+        その上に載る。
+      </p>
+
+      <section id="base-model-entities">
+        <h2>エンティティ</h2>
+        <p>
+          Base Model における主要な [=Entities=] は次のとおりである。
+        </p>
+        <ul>
+          <li>[=Originator=]</li>
+          <li>[=Recipient=]</li>
+          <li>[=Core Profile Issuer=]</li>
+          <li>[=Profile Annotation Issuer=]</li>
+          <li>[=Verifier=]（[=Recipient=] のために働くソフトウェア部品）</li>
+          <li>[=Root Issuer=]</li>
+          <li>[=Accreditation Body=]</li>
+        </ul>
+      </section>
+
+      <section id="base-model-data-models">
+        <h2>データモデル</h2>
+        <p>
+          本節では [=Base Model=] の 4 つのデータモデル、すなわち
+          [=Signed Data from Originator=]、[=Core Profile=]、
+          [=Profile Annotation=]、[=Content Attestation=] を述べる。
+        </p>
+        <p>
+          枠組みの文書はどれも、Verifiable Credentials [[vc-data-model-2.0]]
+          のそれのような securing mechanism によって secure された
+          [=Signed Data=] である。枠組みがどの mechanism をどの形で用いるかは
+          Core Specification が述べる。
+        </p>
+        <section id="signed-data-from-originator-0">
+          <h3>Signed Data from Originator</h3>
+          <p>
+            [=Signed Data from Originator=] は、[=Originator Profile=] で用いる
+            [=Signed Data=] を表す抽象データモデルである。[=Signed Data=] の
+            authenticity と integrity を [=Verify=] するために必要な情報を
+            すべて含む。
+          </p>
+          <p>[=Signed Data from Originator=] は次のプロパティを含む。</p>
+          <ul>
+            <li>Originator: [=Originator=] の [=Identity=]。この
+            [=Signed Data=] はこれによって自身の [=Originator Profile=] に
+            結びつく。</li>
+            <li>Key Identifier: これに署名した鍵の [=Key Identifier=]。</li>
+          </ul>
+          <p>
+            上記に加えて、具体的な各データモデルには payload としてさまざまな
+            プロパティが含まれる。
+          </p>
+        </section>
+
+        <section id="core-profile">
+          <h3>Core Profile</h3>
+          <p>
+            [=Core Profile=] は [=Signed Data from Originator=] の一種である。
+            これは [=Originator=] の [=Verification Keys=] と
+            [=Originator Profile=] の本質的な属性を載せ、[=Core Profile Issuer=]
+            が自身の [=Core Profile Policy=] の下でこれを発行する。
+          </p>
+          <p>
+            [=Core Profile=] は、[=Signed Data from Originator=] のプロパティに
+            加えて、次のプロパティを含む。
+          </p>
+          <ul>
+            <li>[=Originator Verification Keys=]: [=Originator=] の
+            [=Signed Data from Originator=] を検証するための
+            [=Verification Keys=] の集合。</li>
+            <li>
+            <i>Originator Key Record Name</i>: この [=Core Profile=] の
+            [=Originator Key Record=] の名前。すなわち [=Core Profile=] ごとに
+            新しく、[=Core Profile Issuer=] が自身の名前の下で割り当てる DNS 名
+            であり、issuer はそこに、この [=Core Profile=] の鍵のうち取り下げ
+            られていないものの [=Key Identifiers=] を公開する。
+            [=Verifier=]（[=Recipient=] に代わって検証を行うソフトウェア）は、
+            その名前が、Core Specification の定めるとおり、これらのレコードの
+            ための issuer の node（<code>_originator-key._op.&lt;issuer&gt;</code>）
+            の配下にあることを確かめ、その名前を
+            導出せずにそのまま引く。
+            <p>
+              名前を導出させずに運ぶのは、仕様が issuer のレコードの名前の導出の
+              規則を定めずに済み、issuer が自身の zone を思うように配置できるように
+              するためである。そのような名前を
+              [=Verifier=] が自分で組み立てると、正規化のわずかな食い違いでレコードが
+              見つからないことがありうる。[=Originator Key Record=] では効力のある
+              [=Core Profile=] を失敗させ、[=Revocation Record=] では revoke された
+              annotation を revoke されていないと読むことになる。
+            </p></li>
+          </ul>
+          <p>
+            現在の実装の詳細は <a
+            href="https://docs.originator-profile.org/en/opb/cp/">Originator
+            Profile Blueprints: Core Profile Data Model</a> を参照。
+          </p>
+          <p>
+            [=Originator Verification Keys=] は集合である。各鍵は、鍵そのものから
+            導かれる [=Key Identifier=] によって識別される。二つの鍵は、同じ digest
+            アルゴリズムで計算した [=Key Identifiers=] が等しいとき同じ鍵である。
+            [=Core Profile Issuer=] は、次の段落で述べるとおり、この集合の鍵の
+            [=Key Identifiers=] を、その [=Core Profile=] の [=Originator Key
+            Record=] として DNS に
+            公開する。この段落で鍵のレコードというときは、その鍵を運ぶ
+            [=Core Profile=] の [=Originator Key Record=] の中の、その鍵の
+            レコードを指す。
+            [=Core Profile=] は、いったん署名されたら書き換えられない。それが運ぶ
+            鍵の集合は、発行のときに固定される。[=Originator=] の鍵が変わるときは、
+            新しい集合を運ぶ新しい [=Core Profile=] が発行され、前のものは期限が
+            来るか revoke されるまで有効のまま残る。[=Core Profile=] は、理由を問わず、たとえば
+            二つのアルゴリズムで並べて署名するために、複数の鍵を運んでよい。
+            ただし、鍵を置き換えるために発行する [=Core Profile=] は、置き換え
+            られる鍵を運ばない。運べば、その鍵は新しい [=Core Profile=] が期限
+            切れになるか revoke されるまで使えるままになるからである。新しい鍵のレコードは、その鍵が使われる前に
+            公開される。置き換えられた鍵は退役（retired）し、新しい署名には
+            使われなくなる。そのレコードは、その鍵を運ぶ最後の [=Core Profile=]
+            が期限切れになるか revoke されるまで、そしてその後、キャッシュと時計のずれを吸収する
+            短い期間が過ぎるまで DNS に残り、削除してよいのはその後である。
+            これにより、鍵の rollover がコンテンツを検証不能なまま残すことは
+            無い。鍵は、そのレコードが、それを列挙するすべての
+            [=Originator Key Record=] から削除されたときに取り下げられる
+            （withdrawn）。侵害された鍵は直ちに取り下げられる。
+          </p>
+
+          <p>
+            [=Core Profile Issuer=] は、自らが発行した各 [=Core Profile=] に
+            ついて、自身の DNS 名の下で DNSSEC に保護された形で、その
+            [=Core Profile=] の鍵のうち取り下げられていないものの [=Key
+            Identifiers=]、すなわちその [=Core Profile=] の [=Originator Key
+            Record=] を公開する。
+            [=Core Profile=] は、このレコードの名前を <i>Originator Key Record
+            Name</i> として保持する。
+            レコードが存在することは、その [=Core Profile=] が revoke されて
+            おらず、かつそこに [=Key Identifiers=] が列挙された鍵がその
+            [=Core Profile=] の鍵のうち
+            取り下げられていないものであることを意味する。レコードが存在しない
+            ことは、その [=Core Profile=] が revoke されたことを意味する。
+            [=Originator=] の登録は、issuer がその [=Originator=] の
+            [=Originator Key Records=] を全部削除したときに終わる。
+            [=Core Profile=] に現れるがその [=Originator Key Record=] には無い鍵、
+            あるいはそのレコードにはあるが [=Core Profile=] に無い鍵は、
+            受け入れられない。
+          </p>
+        </section>
+
+        <section id="profile-annotation">
+          <h3>Profile Annotation</h3>
+          <p>
+            [=Profile Annotation=] は、[=Core Profile=] に
+            [=Validated Attributes=] を加える抽象モデルである。
+            [=Profile Annotation=] は [=Signed Data from Originator=] に基づく。
+            [=Profile Annotation=] の各種類は、対応する
+            [=Profile Annotation Issuer=] が、[=Core Profile=] の署名とは独立した
+            自身の署名の下で発行する。その issuer は [=Core Profile Issuer=]
+            自身であってもよく、別の者であってもよい。[=Core Profile=] は、[=Profile Annotation Policy=] で
+            定めるところに従い、複数の [=Profile Annotation Issuers=] が提供する
+            一つ以上の [=Profile Annotations=] へ結びつけられうる。
+          </p>
+          <p>[=Profile Annotation=] は次のプロパティを含む。</p>
+          <ul>
+            <li>
+            Subject: この annotation が注釈する [=Originator=] の [=Identity=]。
+            [=Profile Annotation=] は、特定の [=Core Profile=] 文書への参照ではなく
+            その [=Identity=] によって [=Core Profile=] へ結びつけられる。これにより、
+            annotation を無効にすることなく新しい [=Core Profile=] を発行できる。
+            目的ごとに別々の annotation の集合を持ちたい [=Originator=] は、
+            それぞれに別の [=Identity=] を用いる。</li>
+            <li>
+            <i>Annotation Data</i>: 具体的な annotation の型に応じて、
+            その annotation を記述する追加の [=Attributes=] やその他の情報。</li>
+            <li>
+            <i>Content Validity Period</i>: 任意で、annotation が述べることが
+            成り立つ期間、すなわち内容の有効期間。annotation の
+            署名の有効期間を含まなければならない。[=Verifier=] は、Core Specification の
+            定めるとおり、validity を判断する時刻と比べるのは署名の有効期間だけであり、
+            内容の有効期間がその署名の有効期間を含まない annotation は用いない。</li>
+            <li>
+            <i>Revocation Record Name</i>: この annotation の
+            [=Revocation Record=] の名前。すなわち annotation の issuer が
+            自身の名前の下で割り当てる DNS 名であり、この annotation が署名の有効期間の
+            終わりより前に revoke された場合に限り、そこにレコードが公開される。
+            [=Verifier=] は、その名前が、Core Specification の定めるとおり、
+            これらのレコードのための issuer の node
+            （<code>_revocation._op.&lt;issuer&gt;</code>）の配下にあることを
+            確かめ、DNSSEC の下でその名前を引く。<span class="dns-state">Secure</span> な不在の証明
+            （denial of existence）が得られれば、その annotation は
+            revoke されていない。</li>
+          </ul>
+          <p>
+            現在の実装の詳細は <a
+            href="https://docs.originator-profile.org/en/opb/pa/">Originator
+            Profile Blueprints: Profile Annotation Data Model</a> を参照。
+            [=Profile Annotation=] の具体例の一つは <a
+            href="#organization-model-japan"></a> を参照。また、profile annotation
+            一般の実装に関するより多くの情報は
+            <a
+            href="https://docs.originator-profile.org/en/opb/pa-model/">Originator
+            Profile Blueprints: PA Data Models</a> を参照。
+          </p>
+
+        </section>
+
+        <section id="base-content-attestation">
+          <h3>Content Attestation</h3>
+          <p>
+            [=Content Attestation=] は [=Signed Data from Originator=] の特定の
+            型であり、[=Content=] をその [=Originator=] に結びつける
+            attribution に焦点を置く。
+          </p>
+          <p>[=Content Attestation=] は次のプロパティを含む。</p>
+          <ul>
+            <li>Target: attest の対象となる項目と、その項目に対する
+            integrity の要件を記述する [=Content Integrity Descriptor=]。</li>
+          </ul>
+          <p>
+            [=Content Integrity Descriptor=] は、特定の型のコンテンツに対する
+            integrity の要件を構造化して表現したものである。content type、
+            content locator、content hash といったメタデータを含む。現在、
+            [=Content Integrity Descriptor=] の型はすべて Web Media 向けに設計
+            されているため、それらを記述する場所は Web Media Use Case
+            Specification [[OPF-WEB-MEDIA]] である。同仕様はまだそれらを定義して
+            おらず、定義するまでは [[Originator Profile Blueprints]] の記述の
+            とおりである。
+          </p>
+          <p>
+            現在の実装の詳細は [[Originator Profile Blueprints]]: <a
+            href="https://docs.originator-profile.org/en/opb/ca/">Content
+            Attestation Data Model</a> を参照。また
+            [=Content Integrity Descriptor=] の詳細は
+            [[Originator Profile Blueprints]]: <a
+            href="https://docs.originator-profile.org/en/opb/content-integrity-descriptor/">Content
+            Integrity Descriptor</a> を参照。
+          </p>
+        </section>
+      </section>
+
+      <section id="base-model-processes">
+        <h2>プロセス</h2>
+        <p>
+          本節では [=Base Model=] の 2 つのプロセス、すなわち
+          [=Originator Profile=] の発行と、[=Content Attestation=] を伴う
+          [=Content=] の配信を述べ、続いてそれらのプロセスの問い合わせが何を
+          明かすかを述べる（<a href="#base-model-privacy"></a>）。
+        </p>
+        <section id="process-issuing-an-originator-profile">
+          <h3>Originator Profile の発行</h3>
+          <figure id="issuing-op">
+            <img src="Drawings/BaseModel-Issuing_OP_CP+PA.drawio.svg"
+              alt="Issuing Originator Profile" width="70%"/>
+            <figcaption>Originator Profile の発行</figcaption>
+          </figure>
+          <p>
+            このプロセスは次の手順から成る。
+          </p>
+          <ol class="algorithm">
+            <li>[=Originator=] が鍵ペア（[=Signing Key=]、[=Verification Key=]）を
+            作る。
+            </li>
+            <li>[=Originator=] が [=Core Profile Issuer=] に [=Core Profile=] を
+            申請する。申請には [=Verification Key=] と、[=Core Profile Policy=]
+            が求める情報を含める。</li>
+            <li>[=Core Profile Issuer=] が、[=Originator=] の申請が
+            [=Core Profile Policy=] の要件を満たすことを確かめ、その中の情報を
+            [=Validates=] し、[=Core Profile=] を発行する。</li>
+            <li>[=Originator=] が [=Profile Annotation Issuers=] へ一つ以上の
+            [=Profile Annotations=] を要求する。</li>
+            <li>各 [=Profile Annotation Issuer=] が該当する属性を
+            [=Validates=] し、[=Profile Annotations=] を発行する。</li>
+            <li>[=Originator=] が [=Core Profile=] と [=Profile Annotations=] を
+            集めて [=Originator Profile=] を形づくる。</li>
+          </ol>
+        </section>
+        <section id="process-delivering-a-content">
+          <h3>Content Attestation を伴う Content の配信</h3>
+          <figure>
+            <img src="Drawings/BaseModel-Originator-Recipient-Detailed.drawio.svg"
+              alt="Delivering Content with Content Attestation" width="70%"/>
+            <figcaption>Content Attestation を伴う Content の配信</figcaption>
+          </figure>
+          <p>
+            [=Originator=] が既に [=Originator Profile=] を得ているものとすると、
+            このプロセスは次の手順から成る。
+          </p>
+          <ol class="algorithm">
+            <li>
+            [=Originator=] が配信のために [=Content=] を用意する。</li>
+            <li>
+            [=Originator=] が、attest された [=Content=] を
+            [=Content Attestation=] とともに [=Recipient=] へ送る。あわせて、
+            [=Originator Profile=] を、[=Verifier=] がその中から検証するものを
+            選ぶ、その [=Originator=] についての [=Core Profiles=]（前のものと
+            後のものが並んでいることがある）とともに送り、その issuer から
+            [=Root Core Profile=] へ至る [=issuer accreditations=] の連鎖も送る。これらがコンテンツとともに
+            運ばれるか、別に取得されるかは、[=Use Case Specification=] が
+            定める。現在のユースケースではコンテンツとともに運ばれ、web では
+            [=Verifier=] がページの origin の well-known resource からも
+            取得する。</li>
+            <li>
+            [=Verifier=] が、DNS への問い合わせを一切行わず手元で、自身が
+            受け入れる [=Root Core Profile=] から、[=Root Issuer=] を除く
+            [=Core Profile Issuer=] と各 [=Profile Annotation Issuer=] に至る
+            [=issuer accreditations=] の連鎖を
+            検証し、続いて [=Core Profile=]、[=Profile Annotations=]、
+            [=Content Attestation=] の署名を検証する。[=Content Attestation=] の
+            署名は、[=Core Profile=] がそのために運ぶ鍵で検証する。</li>
+            <li>
+            [=Verifier=] が、[=Presented Identity=] が [=Core Profile=] にある
+            [=Originator=] の [=Identity=] に対して、[=Use Case Specification=]
+            が認める関係にあることを確認する。その関係とは、同じ名前、その配下の
+            名前、またはユースケースが定める場合には [=Originator=] が
+            [=Permitted Host Record=] で許した host である。
+            [=Presented Identity=] をどう取得し、どの関係を認めるかは、
+            [=Use Case Specification=] が定める。</li>
+            <li>
+            [=Verifier=] が、DNSSEC の下で、手順 3 で検証した issuer について、
+            [=Root Issuer=] について、
+            またユースケースが定める場合には [=Originator=] 自身の zone について、
+            DNS に問い合わせる。それ以外の名前は引かない。issuer の名前では、
+            各 issuer が署名に用いた鍵がその issuer の [=Issuer Key Record=] になお列挙されて
+            いること、[=Core Profile=] の [=Originator Key Record=] がなお公開
+            されていて、したがってその [=Core Profile=] が revoke されておらず、
+            かつそれが [=Content Attestation=] に用いられた鍵を列挙していること、
+            そして使用中の
+            [=Profile Annotation=] のいずれも revoke されていないことを確かめる。
+            これらの問い合わせは互いに独立で、並行に発してよい。issuer の名前に
+            対するこれらの問い合わせでは、名前解決の失敗は、不在ではなく検証の
+            失敗として扱う。DNSSEC が保護していない応答も同様である。
+            [=Originator=] 自身の zone は、一つの点でだけ扱いが異なる。ユースケースが
+            [=Verifier=] にその zone を参照させる場合、[=Verifier=] はそこで
+            [=Issuer Pinning Record=] も読む。そこでの名前解決の失敗と、検証に
+            失敗した応答や状態が <span class="dns-state">Indeterminate</span> の応答は、issuer の名前と同じく
+            失敗である。レコードが issuer を名指して
+            おり、[=Core Profile=] の issuer がその中に無い場合、またはレコードが
+            その [=Originator=] は [=Originator Profile=] を持たないと宣言して
+            いる場合、検証は失敗する。ユースケースが unpinned の [=Originator=]
+            を認める場合には、DNSSEC の下で証明された不在と、署名されていない
+            zone は、どちらも [=Originator=] を pin されていない状態（unpinned）に
+            置き、結果（outcome）はそのことを記録する。ユースケースは代わりに
+            このレコードを要求してもよく、その場合はレコードの不在は、署名されて
+            いない zone と同じく失敗となる。
+            この問い合わせも、[=Core Profile Issuer=] の連鎖と [=Core Profile=]
+            の署名を検証した後にはじめて行う。その名前は [=Core Profile=] が運ぶ
+            [=Identity=] から組み立てるからである。
+            <p>
+              [=Originator=] を unpinned のままにするか失敗とするかの線は、
+              攻撃者が何を引き起こせるかに従う。不在の証明と署名されていない zone
+              は、経路上の攻撃者が偽造できない状態である。これに対し
+              名前解決の失敗は攻撃者が引き起こせるので、名前解決の失敗が
+              [=Originator=] を unpinned のままにすることは決してない。issuer の名前では、署名されて
+              いない応答を不在と読めば revocation が黙って無かったことになるので、
+              そこでは署名されていない応答も失敗である。
+            </p></li>
+            <li>
+            [=Content Attestation=] に署名した鍵が現行であることを手順 5 で
+            確かめた上で、[=Verifier=] が、[=Core Profile=] と有効な
+            [=Profile Annotations=] から結果（outcome）を導く。有効性は検証の時点で判断する。ただし
+            [=Use Case Specification=] が、Core Specification の許す範囲で、
+            受信の時刻など別の時点を定める場合はそれによる。
+            <p>
+              有効性を判断する時刻は、常に配送の経路が [=Verifier=] に与えるもので
+              あり、署名者が書いたものではない。署名者は自分が書くものを選べるから
+              である。その時刻がどれであっても、DNS での確認は問い合わせの時点の
+              状態についてのものである。DNS はその時点についてしか答えないから
+              である。ある鍵で署名されたコンテンツは、その鍵を運ぶ
+              [=Core Profile=] が効力を持ち、その [=Originator Key Record=] が
+              なおその鍵を列挙している間、検証できる。コンテンツがより前の
+              時点で有効だったことを後から示すには、その時点で検証した当事者が
+              残した記録に拠ることになる。枠組みはそのような記録を定めない。
+            </p></li>
+          </ol>
+          <p>
+            この手順には、Core Specification がはっきりと保っている切れ目が
+            一つある。署名の検証まで（手順 3 と 4。[=Content Attestation=] の
+            署名を含む）、[=Verifier=] は手元に
+            あるものだけで作業し、何も送り出さない。[=issuer accreditations=]
+            の連鎖も、必要な鍵も、[=Presented Identity=] もすべて手元にあり、
+            どの署名の検証にも DNS は要らない。最初の問い合わせが [=Verifier=]
+            から出るのはその後であり、しかも署名を検証した文書から取った名前に
+            ついてだけである。Core Specification がこの時点より前の問い合わせを
+            禁じる理由は二つある。そうしなければ偽造された文書が、偽造者の選んだ
+            名前を [=Verifier=] に引かせることができる。また、問い合わせそのものが、
+            検証が行われたことをその名前の持ち主に知らせる。切れ目を過ぎれば、
+            検証済みの文書から導かれる問い合わせは互いに独立で、一度に発して
+            よい。手順の順序は依存の順序であって、時間の順序ではない。
+          </p>
+          <p>
+            Core Specification の worked example では、一回の検証が発する
+            問い合わせは、[=Verifier=] が issuer ごとにキャッシュしてよい
+            accreditation chain の分を除いて 7 である。Core Specification の上限は、何もキャッシュしていない
+            ときの一回の検証を 151 の問い合わせ（[=Permitted Host Record=] を
+            参照する場合はもう 1 つ）に、chain をキャッシュした後は 43 に抑える。
+          </p>
+          <p>
+            [=Verifier=] が DNS から受け取るものは、決して裸の応答ではない。
+            どの応答も DNSSEC の検証状態を伴い、その検証状態は [=Verifier=] が
+            自ら確立する。すなわち、自身の trust anchor で validate するか、resolver を認証し
+            応答を保護する経路で到達する validating resolver に依拠するかである。
+            後者の場合、その resolver が validate することを、設定または試験に
+            よって自ら確かめておく。認証されずに届く検証の印、たとえば平文の応答の
+            AD ビットは、何の保証も与えない。validate しない resolver からの応答は、
+            そもそも検証状態を持たない。Web ブラウザとメールクライアントは通常、自身では
+            DNSSEC を validate しないので、各 [=Use Case Specification=] が、その
+            [=Verifier=] が検証状態を得るためにこの二つの道のどちらを取るかを
+            定める。
+          </p>
+        </section>
+
+        <section id="base-model-privacy">
+          <h3>プライバシー</h3>
+          <p>
+            Core Specification [[OPF-CORE]] の検証手順が他の当事者に届く道は
+            一つで、DNS の問い合わせである。ユースケースが文書の届け方によって
+            加えるもの、たとえば Web での well-known resource の取得は、その
+            [=Use Case Specification=] が述べる。問い合わせが何を誰に明かすかは、
+            Core Specification がその privacy considerations で述べる。要点は
+            次のとおりである。
+          </p>
+          <ul>
+            <li>[=Verifier=] が用いる resolver は、問い合わせた名前を見る。
+            どの issuer のレコードか、またユースケースが参照する場合は、どの
+            [=Originator=] のレコードかである。これは、[=Recipient=] がどの名前を
+            引くときにも resolver に対して負う露出と同じであり、同じ対策が効く。
+            すなわち、自ら選び信頼する resolver、そこへの暗号化された経路、
+            その resolver 側の query name minimisation である。</li>
+            <li>issuer の権威サーバが見るのは resolver が転送するもの、すなわち
+            resolver ごとに集約され、キャッシュで減った問い合わせである。issuer の
+            各レコードの名前は、issuer が割り当てた label を持つ。その label は
+            他者には opaque で、[=Originator=] の名前から導かれない。issuer は
+            それを割り当てたので、ある [=Originator=]
+            の profile の検証が行われていることを、resolver と time to live の
+            粒度で知りうる。しかし、どの [=Verifier=] やどの [=Recipient=] が
+            問い合わせたかは知らない。bootstrap の段階（<a
+            href="#governance-model-for-web-media-while-in-the-bootstrap-phase-in-japan"></a>）
+            のように一つの issuer がすべての [=Originator=] に発行する場合、その
+            見え方はそのすべてに及ぶ。issuer がそれを用いて何を
+            してよいかは、枠組みのガバナンスの事柄である。</li>
+            <li>resolver と issuer のサーバの間の経路上の観測者は、issuer の名前と
+            opaque な label を見るが、誰のレコードが確かめられているかは見ない。
+            例外は [=Originator=] 自身のレコードへの問い合わせで、これはその
+            [=Identity=] を運ぶ。</li>
+            <li>[=Originator=] は、issuer のレコードへの問い合わせからは何も知らない。
+            どの問い合わせもその zone へは行かないからである。また、枠組み自身の
+            レコードを [=Originator=] から HTTPS で取得することはない。そうすれば、
+            各 [=Recipient=] が、自らの読むコンテンツの [=Originator=] に知られて
+            しまう。Web では、[=Verifier=] はページの origin の well-known resource
+            を実際に要求する。Web Media の [=Use Case Specification=] がすべての
+            ページにそれを求めるからである。その要求は、すでにページを配信している
+            origin に、[=Recipient=] が [=Verifier=] を動かしていることを示す。
+            このことは同仕様の privacy considerations が述べる。</li>
+          </ul>
+        </section>
+      </section>
+
+      <section id="base-model-policy">
+        <h2>ポリシー</h2>
+        <p>
+          本節では、[=Core Profile=] と [=Profile Annotation=] の発行と管理を
+          律する [=Base Model=] の高水準のポリシーを論じる。これらは具体的な
+          ポリシーではなく、個々のポリシーと手順の策定に指針を与える設計の方向性で
+          ある。ガバナンスモデル全体の議論は <a href="#governance"></a> で示す。
+        </p>
+        <section id="root-core-profile-and-issuer-accreditation">
+          <h3>Root Core Profile と Issuer Accreditation</h3>
+          <p>
+            すべての issuer、すなわち [=Core Profile Issuer=]、[=Profile
+            Annotation Issuer=]、[=Accreditation Body=]、[=Root Issuer=] の
+            いずれも、それ自身が [=Originator=] である。issuer 自身の
+            [=Core Profile=] はその issuer についてのものであり、issuer はその
+            [=Core Profile=] に載る鍵で署名し、issuer が発行する文書は
+            [=Signed Data from Originator=] である。[=Root Issuer=] 以外の
+            issuer の立場は、issuer 自身の [=Core Profile=] に対する
+            [=Profile Annotation=]、すなわち [=Root Issuer=] または
+            [=Accreditation Body=] が発行する [=Issuer Accreditation=] によって
+            表現される。これらの accreditation は [=Accreditation Chain=] を
+            形づくり、その連鎖は [=Root Core Profile=]、すなわち [=Root Issuer=]
+            （枠組みを統治する body）の self-signed な [=Core Profile=] で
+            終わる。
+          </p>
+          <p>
+            [=Verifier=] は、[=Recipient=] に代わって、自身が受け入れる
+            [=Root Core Profiles=] を手元に保持する。これは検証ソフトウェアとともに
+            配布される。当初は一つである。
+            これらは集合として保持される。そうすれば、構造を変えずに後からもう
+            一つの root を追加できる。[=Root Core Profile=] は期限切れにならず、
+            同じ配布を通じて置き換えられる。[=Verifier=] はそれを署名の有効期間で 
+            判定しない。DNSSEC の validator が、trust anchor の日付が過ぎても
+            検証を止めないのと同じである。[=Root Core Profile=] を日付で判定するとすれば、その
+            置き換えの配布が遅れただけで、すべての検証が一度に失敗する。
+          </p>
+          <p>
+            accreditation の連鎖は、その中の各 issuer の [=Core Profile=] とともに
+            コンテンツに伴って運ばれる。[=Verifier=] はまず、受け取ったものだけを
+            用いて、[=Root Core Profile=] から始めて連鎖の全体を手元で検証する。DNS に
+            問い合わせるのは、連鎖の中での位置が検証された issuer と
+            [=Root Issuer=] についてのみである。その目的は、その issuer の
+            [=Issuer Key Record=] で、それが署名に用いた鍵がなお列挙されていること、
+            および [=Issuer Accreditation=] と連鎖中のいずれの annotation も revoke
+            されていないことの確認である。したがって、偽造されたプロファイルが DNS
+            への問い合わせを引き起こすことは無い。[=Verifier=] が [=Core Profile=]
+            や [=Issuer Accreditation=] から名前を取るのは、その [=Core Profile=]
+            や [=Issuer Accreditation=] を検証した後だけである。[=Originator=]
+            自身のレコードは、形の上でだけ例外である。その名前は、引くべき名前として
+            そこに載っているのではなく、[=Core Profile=] が載せる
+            [=Identity=] から組み立てる。それでも [=Verifier=] がそれを問い合わせる
+            のは、やはり [=Core Profile Issuer=] の連鎖と [=Core Profile=] の署名を
+            検証した後だけである。[=Verifier=] は、検証した連鎖を issuer 単位で
+            cache してよい。その連鎖は、問い合わせた DNS レコードの寿命を超えて
+            保持せず、連鎖中で [=Root Core Profile=] 以外のいずれの
+            [=Core Profile=] や [=Issuer Accreditation=] の署名の有効期間も超えて
+            保持しない。
+          </p>
+        </section>
+        <section id="core-profile-policy">
+          <h3>Core Profile Policy</h3>
+          <p>
+            [=Core Profile=] の発行に際して、[=Core Profile Issuer=] は
+            必要に応じて [=Originator=] の identity と [=Attributes=] を
+            [=Validates=] する。[=Core Profile Issuer=] は、[=Core Profile=] が
+            定められたポリシーと手順に従って発行されることを保証する責任を負う。
+          </p>
+          <p>
+            [=Core Profile Issuer=] が [=Core Profile=] を発行するために必要な
+            手順には、次のものが含まれる。
+          </p>
+          <ul>
+            <li>[=Originator=] の identity と属性の validation。</li>
+            <li>[=Originator=] が [=Core Profile Policy=] に適合しているかの
+            評価。</li>
+            <li>validation と評価が成功したことを受けての [=Core Profile=] の
+            発行。</li>
+          </ul>
+          <p>
+            [=Core Profile Issuer=] は、発行したすべての [=Core Profiles=] と、
+            それに結びついた [=Originators=] の記録を保持する。
+            この記録には、実施した validation と評価のプロセスの詳細、および
+            裏づけとなる文書が含まれる。
+          </p>
+          <p>
+            このポリシーは X.509 に基づく Certificate Authority (CA) の
+            ポリシーと似ており、そのエコシステムの経験から学べることは多い。
+            ただし [=Core Profile=] と [=Profile Annotations=] が分解されている
+            という性質のため、各構成要素に固有の側面に取り組むための追加の考慮が
+            必要になることがある。
+          </p>
+          <p>
+            OP-CIP は現在、他のポリシーとあわせて、初期の配備に向けた最初の
+            [=Core Profile Policy=] を策定している。
+          </p>
+          <p class="note">
+            OP-CIP は現在、[=Core Profile=] を発行する条件として、[=Originator=] が
+            [[The Originator Profile Charter]] にコミットすることを求めている。
+            すべての [=Originator=] が一つの原則と実践の集合を守るようにするためで
+            ある。この条件は初期配備の段階のものであり、エコシステムの成熟に
+            ともなって変わりうる。
+          </p>
+        </section>
+
+        <section id="profile-annotation-policy">
+          <h3>Profile Annotation Policy</h3>
+          <p>
+            [=Profile Annotation=] を発行するとき、
+            [=Profile Annotation Issuer=] はまず [=Originator=] の identity を
+            [=Validates=] し、続いてその annotation が載せる個々の属性を
+            [=Validates=] する。[=Profile Annotation Issuer=] は、
+            [=Profile Annotation=] が定められたポリシーと手順に従って発行される
+            ことを保証する責任を負う。
+          </p>
+          <ul>
+            <li>[=Profile Annotation Issuer=] は、[=Profile Annotation=] を
+            発行する前に、[=Core Profile=] を用いて [=Originator=] の identity を
+            [=Validates=] する。</li>
+            <li>[=Profile Annotation=] は、定められたポリシーと手順が定めるところ
+            に従い、[=Originator=] の個々の属性やその他の情報を含む。</li>
+            <li>[=Profile Annotation=] は、[=Originator=] の identity と、当該
+            [=Profile Annotation=] に関わる属性の validation と評価が成功したことを
+            受けて発行される。</li>
+          </ul>
+          <p>
+            ポリシーの詳細は、個々のユースケースと領域の要件に依存する。したがって
+            [=Profile Annotation=] はそれらの目的に特化され、特化した annotation に
+            対するポリシーを用意する必要がある。
+          </p>
+          <p>
+            OP-CIP は現在、他のポリシーとあわせて、初期の配備に向けた最初の
+            [=Profile Annotation Policy=] を策定している。
+          </p>
+        </section>
+      </section>
+  
+    </section>
+
+    <section id="jurisdiction-specific-model">
+      <h1>Jurisdiction Specific Model</h1>
+      <p>
+        [=Jurisdiction Specific Models=] は、さまざまな法域それぞれの異なる
+        必要に応える。何よりも、これらのモデルは、法域ごとにエンティティの
+        モデルがどう違うか（たとえば法人がどう定義されるか。ただしそれに
+        限らない）を捉える必要がある。[=Jurisdiction Specific Models=] は、
+        特定の法域に固有の追加の属性や validation の仕組みを定義することがある。
+      </p>
+      <p>
+        [=Originator Profile Framework=] は世界での配備を想定して設計しているが、
+        まず日本国内で枠組みを配備するため、現在は日本に固有の要件に焦点を置いて
+        いる。ただし将来は、他の法域に対しても同様のモデルを導入すると見込んで
+        いる。
+      </p>
+      <section id="organization-profile-model">
+        <h2>Organization Profile</h2>
+        <p>
+          [=Organization Profile=] は [=Profile Annotation=] の具体的な型の一つで
+          あり、[=Originator=] の背後にある組織に関する validate された情報を
+          与える。
+        </p>
+        <p>
+          異なる法域にまたがって組織の主要な属性を表現するには抽象データモデルが
+          必要であると認識している。ただしこのモデルの要件については、関係する
+          すべての側面を捉えられるように、法域間でさらなる分析を要する。
+        </p>
+        <p>
+          このモデルには、次のような属性が含まれうる。
+        </p>
+        <ul>
+          <li>名称</li>
+          <li>住所</li>
+          <li>連絡先情報</li>
+          <li>登記の詳細</li>
+        </ul>
+        <p>
+          これらの属性、とくに登記の詳細は、各法域に固有の要件に従って法域ごとに
+          かなり異なる。また、当該法域の外の読者に向けた多言語対応も必要で
+          ある。
+        </p>
+        <section id="organization-model-japan">
+          <h3>日本の組織に対するデータモデル</h3>
+          <p>
+            日本では、組織が存在することを validate するとは、通常、関係する
+            行政機関におけるその組織の登記を確かめることである。そのような validation には、
+            その組織の登記番号、税務上の識別番号、その他の公的な文書の確認が
+            含まれうる（注: 登記番号と税務上の識別番号は別のものである）。さらに
+            組織は、国内の
+            事業所の住所や連絡先情報など、日本における物理的な存在の証明を求め
+            られる。
+          </p>
+          <p>
+            会社の登記番号がいったん validate され、検証可能な形で運ばれれば、
+            関係する行政機関からさらに詳細な情報を取得する手段にもなる。
+          </p>
+          <p>
+            現在の実装の詳細は [[Originator Profile Blueprints]]: <a
+            href="https://docs.originator-profile.org/en/opb/pa-model/existence/">
+            Existence Certificate in Japan</a> を参照。
+          </p>
+        </section>
+      </section>
+
+    </section>
+
+    <section id="web-media-specific-model">
+      <h2>Web Media Specific Model</h2>
+      <p>
+        [=Web Media Specific Model=] は、web ページとして配信される
+        [=Content=] に [=Base Model=] を当てはめる。
+      </p>
+
+      <section id="web-media-specific-model-entities">
+        <h2>エンティティ</h2>
+        <p>
+          [=Web Media Specific Model=] は、<a href="#base-model-entities"></a>
+          の [=Entities=] に [=Entity=] を加えない。
+        </p>
+      </section>
+
+      <section id="web-media-specific-model-the-model">
+        <h2>モデル</h2>
+        <p>
+          次の図は、web ページとして配信される [=Content=] を示す。その後の
+          一覧は、Web Media Use Case Specification が述べるところに従い、
+          このモデルを 5 つの軸で要約する。
+        </p>
+        <figure id="figure-process-delivering-content-via-a-web-page">
+          <img src="Drawings/WebSpecificModel-Originator-Recipient-Detailed.drawio.svg"
+            alt="Delivering Content as a Web Page" width="90%"/>
+          <figcaption>web ページとしてのコンテンツの配信</figcaption>
+        </figure>
+        <dl>
+          <dt>配信（Delivery）</dt>
+          <dd>
+            web ページは、[=Content=] をその [=Content Attestation=] とともに
+            運び、あわせて [=Originator Profile=]（この use case では
+            [=Web Media Profile=] を含む）と [=issuer accreditations=] の
+            連鎖を運ぶ。[=Originator Profile=] は、代わりにページの origin の
+            well-known resource にだけ置いてもよい。その well-known resource は
+            [=Website Profile=] も運ぶ。[=Verifier=] は、ページとその
+            well-known resource の両方から [=Originator Profile=] を取得し、
+            それぞれが載せるものを用いる。
+          </dd>
+          <dt>束縛（Binding）</dt>
+          <dd>
+            [=Presented Identity=] はページの origin である。[=Verifier=] は、
+            その origin が [=Website Profile=] の挙げるものであること、その
+            host が [=Originator=] の [=Identity=] であるか、その配下にあるか、
+            [=Permitted Host Record=] で許されていること、そしてページの URL が
+            [=Content Attestation=] の <code>allowedUrl</code> プロパティの
+            挙げるものであることを確かめる。[=Verifier=] は、[=Website Profile=]
+            だけを根拠に location を受け入れない。host の規則がなければ、
+            誤発行された [=Core Profile=] 一つで、任意の website を当該
+            [=Originator=] のものとして提示できてしまう。
+          </dd>
+          <dt>検証の場所と時刻（Where and when）</dt>
+          <dd>
+            [=Verifier=] は browsing software の中で、たとえばブラウザ拡張と
+            して、あるいはページを取得するサービスの中で動き、有効性を検証の
+            時点で判断する。[=Originator=] には
+            [=Issuer Pinning Record=] の公開が求められない。ページの origin が
+            無い設定では [=Verifier=] はそのレコードを参照し、ある設定では
+            参照するかどうかを [=Verifier=] が選べる。結果には、その
+            [=Originator=] が pin されていたか（pinned）、されていなかったか
+            （unpinned）、レコードが参照されなかったか（not consulted）を
+            引き継ぐ。
+          </dd>
+          <dt>結果（Result）</dt>
+          <dd>
+            結果は Core Specification の規則に従う。ページの origin が無い
+            設定では、[=Verifier=] は束縛を検査しなかったと報告する。結果は
+            browsing software の中で [=Recipient=] に提示される。
+          </dd>
+          <dt>このユースケースの要求（Requirements of this use case）</dt>
+          <dd>
+            [=Web Media Profile=] は、[=Originator=] の [=Core Profile=] を
+            発行した [=Core Profile Issuer=] が [=Web Media Specific Policy=] の
+            下で発行し、この use case では [=Originator Profile=] の一部である。
+            [=Originator Profile=] はそれで終わる。[=Verifier=] は、与えられた
+            [=Web Media Profile=] が、その [=Core Profile Issuer=] によって発行・
+            署名されたものであり、判断の時刻においてその署名の有効期間内にある
+            ことを確かめる。それ以外に
+            それをどう扱うかは、Web Media Use Case Specification でまだ定まって
+            いない。その発行に
+            関する要求は Operational Governance Requirements（公開予定）が
+            述べる。
+            [=Website Profile=] は [=Originator=] 自身が発行する。
+          </dd>
+        </dl>
+        <p>
+          これらはそれぞれ Web Media Use Case Specification [[OPF-WEB-MEDIA]]
+          が定める。
+        </p>
+      </section>
+
+
+    </section>
+
+    <section id="email-specific-model">
+      <h2>Email Specific Model</h2>
+      <p>
+        本節では Email Specific Model を述べる。これは S/MIME [[RFC8551]] で
+        署名した電子メールに [=Base Model=] を適用したものである。このモデルは
+        [=Base Model=] の DNS 設計に何も加えない。加えるのは、送信ドメインと
+        [=Originator=] の間の結びつけ、およびメッセージをどこでいつ検証するかの
+        規則である。
+      </p>
+
+      <section id="email-specific-model-entities">
+        <h2>エンティティ</h2>
+        <p>
+          [=Originator=] はメッセージを送る組織である。[=Verifier=] は
+          メールクライアントである。受信側のメールサーバ（MTA または MDA）による
+          受信時の検証は、この版の Email Use Case Specification では定めず、
+          将来の課題とする。[=Verifier=] の定義が例に挙げる受信側のメール
+          サーバは、この置き場所のことである。
+          メールクライアントは DMARC [[RFC9989]] を
+          strict alignment の下で自身で評価する。自身の受信サーバが DMARC の失敗を記録している場合、
+          クライアントはそれを尊重し、そこに記録された成功は自身の評価の代わりに
+          ならない。
+        </p>
+      </section>
+
+      <section id="email-specific-model-the-model">
+        <h2>モデル</h2>
+        <p>
+          次の一覧は、Email Use Case Specification が述べるところに従い、
+          このモデルを 5 つの軸で要約する。
+        </p>
+        <dl>
+          <dt>配信（Delivery）</dt>
+          <dd>
+            <p>
+            [=Originator Profile=] と [=issuer accreditations=] の連鎖は、
+            署名される MIME 構造の一部として運ばれ、S/MIME の署名が本文と
+            あわせてそれを覆う。メッセージは [=Content Attestation=] を運ばない。
+            Email Use Case Specification の述べるとおり、本文と profile の部分を
+            覆う S/MIME の署名がその役を務め、署名鍵は [=Core Profile=] にある
+            [=Originator Verification Keys=] の一つに対応する。
+            </p>
+            <p>
+            署名の検証と
+            signer の X.509 certificate の certificate path の validation は、
+            S/MIME の定めるとおり S/MIME の実装が行う。枠組みが加えるのは、
+            署名鍵が [=Originator=] のものであることの確認である。
+            [=Verifier=] はその certificate が運ぶ鍵を [=Key Identifier=] で
+            [=Core Profile=] と照合し、その鍵を通じて [=Originator Profile=]、
+            すなわち受信者に示される [=Identity=] と [=Validated Attributes=] を
+            確かめる。
+            </p>
+          </dd>
+          <dt>束縛（Binding）</dt>
+          <dd>
+            From ドメインが [=Presented Identity=] であり、[=Originator=] の
+            [=Identity=] であるか、その配下にある必要がある。
+            [=Permitted Host Record=] は用いない。<code>d=</code> のドメインが
+            From ドメインである DKIM 署名によって DMARC の下で整合していない
+            メッセージは評価されない。
+          </dd>
+          <dt>検証の場所と時刻（Where and when）</dt>
+          <dd>
+            メールクライアントは表示の時点で、または自身が記録した受信の時点で
+            判断する。メールクライアントは S/MIME の署名を検証し、次に [=Originator Profile=] をローカルに検証し、次に
+            DMARC を評価する（DMARC の評価は DKIM の鍵と DMARC の policy record
+            を問い合わせる）。また DNS にある枠組みのレコードを問い合わせる。
+            そこでは
+            [=Originator=] の zone が DNSSEC で署名され、[=Issuer Pinning
+            Record=] を置いている必要があり、それらが無ければ検証は失敗する。
+          </dd>
+          <dt>結果（Result）</dt>
+          <dd>
+            結果は、評価されなかったメッセージに対する <code>none</code>（失敗
+            とは区別される）、pass、fail のいずれかであり、メールクライアントは
+            その区別を保って結果を提示する。受信側のメールサーバによる受信時の
+            検証とその結果の記録は、将来の課題とする。枠組みに対応しないクライアントはプロファイルの部分を
+            添付として扱い、S/MIME の署名はそれでも検証される。
+          </dd>
+          <dt>このユースケースの要求（Requirements of this use case）</dt>
+          <dd>
+            送信ドメインが DNSSEC で署名され、strict alignment を求める DMARC の
+            ポリシーレコードを公開していること。メッセージがそのドメインの DKIM
+            署名によって DMARC の下で整合し、その DKIM の鍵とその DMARC の
+            レコードの名前が authenticated data として解決されること。そして
+            [=Originator=] が、自身の [=Identity=] の zone で、自身に対して
+            発行することを許された [=Core Profile Issuers=] を名指しする
+            [=Issuer Pinning Record=] を公開すること。最後のものは、自身の [=Core Profile Issuer=] から
+            独立して、自身のプロファイルが電子メールで使われないようにする手段を
+            [=Originator=] に与える。
+          </dd>
+        </dl>
+        <p>
+          これらはそれぞれ Email Use Case Specification [[OPF-EMAIL]] が
+          定める。
+        </p>
+      </section>
+
+    </section>
+
+    <section id="governance">
+      <h1>ガバナンス</h1>
+      <p>
+        データモデルのアーキテクチャ設計により、[=Originator Profile Framework=] は
+        さまざまなユースケースと stakeholder の要件を受け止める柔軟な
+        ガバナンスモデルを提供できる。言い換えれば、
+        [=Originator Profile Framework=] は、コンテンツのエコシステムとその先に
+        関わるさまざまな stakeholder の多様な必要を支えるように設計されている。
+      </p>
+      <p>
+        この枠組みでは、[=Originator=] に関する情報、すなわちその
+        [=Verification Keys=] と [=Validated Attributes=] が、後から柔軟に
+        組み合わせられるように、[=Core Profile=] と複数の
+        [=Profile Annotations=] へ解かれている。[=Validated Attributes=] の
+        それぞれは、個々のポリシーへ結びつけられうる。これらのポリシーと発行の運用は、
+        枠組みを統治する body である [=Root Issuers=] が適切に統治する。
+      </p>
+      <p>
+        以降の節ではまず一般的なガバナンスモデルを紹介し、次にガバナンスモデルの
+        例として X.509 PKI に基づくシステムを示す。続いて、日本で計画されている
+        [=Originator Profile Framework=] の最小のガバナンスモデルを含む、
+        さまざまなユースケースに対するガバナンスモデルの例を示す。さらに議論を
+        他の法域に対するガバナンスモデルへ、そして最後に世界のコミュニティに対する
+        ものへと広げる。これらの拡張はいずれも、システムを実効的に統治するために
+        より多くの stakeholder の関与を要する。
+      </p>
+      <p>
+        技術的な設計は、枠組みの運用に要件を課す。その要件は、枠組みを運用する
+        当事者が満たすことを求められ、各 [=Root Issuer=] が課すものである。
+        すなわち、その [=Root Issuer=] の [=Root Core Profiles=] をどのように
+        [=Verifiers=] へ配布し置き換えるか。[=Core Profile Issuer=] が自身の
+        [=Originators=] の [=Originator Key Records=] をどのように運用するか
+        （危殆化した鍵を取り下げるまでの有界の遅延を含む）。
+        [=Profile Annotation=] の issuer が自身の [=Revocation Records=] を
+        どのように運用するか。そして、
+        検証手順を将来簡略化しうるための条件として、issuer の
+        [=Issuer Accreditation=] の revocation と、その issuer 自身の
+        [=Core Profile=] の issuer が公開する、その issuer 自身の
+        [=Originator Key Records=] の削除が同時に効力を生じること。これらの要件は Operational Governance
+        Requirements が述べ、その遅延のような値と、要件を満たす手順は
+        Operations の文書が持つ（<a href="#introduction"></a>）。どちらの文書も
+        本文書と共には公開されない。公開されるまでは、推奨値のうちユースケースに
+        関わるものはその [=Use Case Specification=] が述べ、issuer の zone に
+        関わるものは、定めたものがある場合、レコードを定める Internet-Draft が
+        述べる。
+      </p>
+
+      <section id="a-generic-governance-model">
+        <h2>一般的なガバナンスモデル</h2>
+        <p>
+          下の図は、[[Trusted Web White Paper 3.0]] の議論から抽出した、大きく
+          単純化した一般的なガバナンスモデルを示す。（注: 同白書で論じられている
+          ガバナンスモデルは、本文書の著者の一人による論文 [[A Study on Governance funded
+          by JFSA]] における議論に基づく。同論文は [[ICANN]] のマルチ
+          ステークホルダモデルの分析を含む。）
+        </p>
+        <figure id="generic-governance-model">
+          <img src="Drawings/Governance-HighLevel.drawio.svg"
+            alt="Generic Governance Model based on the Trusted Web discussion" width="70%"/>
+          <figcaption>Trusted Web の議論に基づく一般的なガバナンスモデル</figcaption>
+        </figure>
+        <p>
+          デジタルのエコシステムにおけるガバナンスは、通常 "Data Under
+          Governance" を中心に回る。"Governing Body" が "Operator" を統制する。
+          "Operator" が "Data Under Governance" を管理する。"Operator" は、運用上の
+          ポリシーを含む "Policy" の下で、このデータの管理と保護を監督する責任を
+          負う。"Operator" はポリシーの下で忠実に運用し、"Governing Body" は
+          "Policy" を通じて "Data Under Governance" を統制できる。
+        </p>
+      </section>
+
+      <section id="x-509-pki-based-system-with-the-generic-governance-model">
+        <h2>一般的なガバナンスモデルで見た X.509 PKI に基づくシステム</h2>
+        <p>
+          以下は、前節で論じた一般的なモデルに基づく、X.509 PKI システムに対する
+          ガバナンスモデルを単純化して表したものである。
+        </p>
+        <figure id="x509-goverance-example">
+          <img src="Drawings/Governance-Simplified-X509.drawio.svg"
+            alt="Example of Governance of X.509 PKI" width="70%">
+          <figcaption>X.509 PKI の単純化したガバナンスモデル</figcaption>
+        </figure>
+        <p>
+          この図は X.509 Public Key Infrastructure (PKI) システムの単純化した
+          ガバナンス構造を示す。階層の最上位にあるのは governing body であり、
+          PKI エコシステム全体を覆うポリシーと信頼の枠組みを定める。trust list は
+          governing body とともに、それに依拠するコミュニティにとっての
+          root of trust である。
+        </p>
+        <p>
+          governing body の下で、Certificate Authority (CA) がこれらのポリシーに
+          従って digital certificate を発行し管理する責任を負う。CA は信頼された
+          第三者として働き、certificate を要求するエンティティの identity を
+          validate し、ガバナンス上の要件への適合を確かめる。ユーザ、
+          アプリケーション、組織などの relying party は、identity を認証し通信を
+          保護するために、CA の信頼性と、CA が発行する certificate の integrity に
+          依存する。この図は、これらのエンティティ間における信頼の流れ、ポリシーの
+          強制、運用上の責任を示し、X.509 PKI の環境の中でガバナンスがどのように
+          保たれ、信頼がどのように伝播するかを明らかにする。
+        </p>
+        <p>
+          図の中の検証を行うエンティティ（本文書の [=Verifier=] にあたる）は、オペレーティングシステムまたは
+          アプリケーションを介して "Trust List" を参照する。trust list は信頼された
+          root CA のリストを含む。trust list は通常、オペレーティングシステムまたは
+          アプリケーションのベンダが管理し、ソフトウェア更新の仕組みを通じて
+          更新される。
+        </p>
+        <p>
+          検証を行うエンティティの観点からは、trust list は通常見えない。
+          オペレーティングシステムやアプリケーションが、そのリストにある
+          root CA を自動的に信頼する。そして、ガバナンスが信頼のツリー全体に
+          結びついているため、検証を行うエンティティが依拠できるポリシーは、
+          trust list を維持する body と各 CA が定めたものだけである。
+        </p>
+      </section>
+      <section id="governance-model-for-web-media-while-in-the-bootstrap-phase-in-japan">
+        <h2>日本における bootstrap 段階での Web Media 向けガバナンスモデル</h2>
+        <p>
+          以下は、bootstrap 段階において日本国内のメディアに向けて計画されている
+          Originator Profile のガバナンスモデルを単純化して表したものである。
+        </p>
+        <figure id="governance-bootstrap-phase-japan">
+          <img src="Drawings/Governance-Simplified-OP-Current-Japan.drawio.svg"
+            alt="Governance model of Originator Profile for the bootstrap phase in Japan (Planned)" width="75%"/>
+          <figcaption>日本における bootstrap 段階の Originator Profile の
+          ガバナンスモデル（計画）</figcaption>
+        </figure>
+        <p>
+          まず Web Media のエコシステムにおいて、[=Originator Profile=] は 3 つの
+          [=Validated Attributes=] の集合、すなわち [=Core Profile=]、
+          [=Organization Profile=]、そして場合により
+          少なくとも一つの "Media Association's Membership" から構成される。
+          Web Media の use case では、[=Originator Profile=] は
+          [=Web Media Profile=] も含む。
+        </p>
+        <p>
+          日本における bootstrap 段階では、[=Core Profile=]、
+          [=Organization Profile=]、[=Web Media Profile=] を OP-CIP が発行する。
+        </p>
+        <p>
+          "Media Association's Membership" については、日本のメディア団体の一つが
+          発行する形を計画している。"Media Association's Membership" の実際の発行は、
+          メディア団体に代わって OP-CIP が運用する可能性がある。その場合も、
+          membership の validation はメディア団体が統制し、その責任を負う。
+        </p>
+        <p>
+          [=Originator=]（メディア）は、[=Core Profile Policy=] と
+          [=Web Media Specific Policy=] を満たすために必要な情報を提供して、
+          OP-CIP へ [=Core Profile=] と [=Web Media Profile=] を要求する。OP-CIP は
+          その情報を validate し、[=Originator=] へプロファイルを発行する。OP-CIP は
+          また、その組織の日本における存在を validate することで
+          [=Organization Profile=] を発行する。
+        </p>
+        <p>
+          [=Verifier=] は、自身が保持する [=Root Core Profile=]（bootstrap 段階では
+          OP-CIP のもの）に照らして、[=Originator=] の
+          [=Originator Profile=] を検証する。OP-CIP は [=Root Issuer=] であり、
+          [=Root Core Profile=] を発行し、[=Issuer Accreditation=] を持たずに
+          [=Originators=] の [=Core Profiles=] を発行する。続いて [=Verifier=] は、
+          [=Originator=] の [=Core Profile=] にある [=Verification Key=] を用いて
+          [=Content Attestation=] を検証する。
+        </p>
+        <p>
+          現在のブラウザ拡張の実装は、OP-CIP の [=Root Core Profile=] を拡張自体の
+          中に埋め込んでいる。したがってこの拡張は、外部の trust list を一切
+          参照せずに、OP-CIP が発行した [=Originator Profile=] を検証できる。
+          この段階では、埋め込まれた [=Root Core Profile=] が、他の仕組みで
+          trust list が果たす役を、項目が一つだけの形で果たす。root の集合を
+          広げていくためのガバナンスは <a
+          href="#governance-model-for-global-community"></a> が述べる。
+        </p>
+        <p>
+          以降の節の図では、簡潔にするため、ガバナンスモデルのうち発行の部分のみを
+          示す。これは <a href="#governance-bootstrap-phase-japan"></a> で "(A)" と
+          記した部分である。
+        </p>
+
+
+      </section>
+
+      <section id="governance-model-for-other-jurisdictions">
+        <h2>他の法域に対するガバナンスモデル</h2>
+        <p>
+          以下は、他の法域での利用に向けて計画されている Originator Profile の
+          ガバナンスモデルを単純化して表したものである。
+        </p>
+        <figure id="planned-op-goverance-1">
+          <img src="Drawings/Governance-Simplified-OP-Future-Other-Jurisdictions.drawio.svg"
+            alt="Governance Model for other jurisdictions (Planned)" width="75%"/>
+          <figcaption>他の法域に対するガバナンスモデル（計画）</figcaption>
+        </figure>
+        <p>
+          このモデルでは、日本に対するモデルと同様に、[=Core Profile=] は
+          OP-CIP が発行する。日本向けの [=Organization Profile=] は OP-CIP が
+          発行し、法域 XX 向けに localize された [=Organization Profile=] は、
+          OP-CIP が recognize した法域 XX の [=Profile Annotation Issuer=] が
+          発行する。この現地の
+          [=Profile Annotation Issuer=] は、その法域における組織の存在に固有の
+          属性を validate し、現地の規制と基準への適合を確かめる責任を負う。
+        </p>
+        <p>
+          現地の [=Profile Annotation Issuer=] を OP-CIP が recognize するための
+          仕組みを確立する必要がある。これは公式な recognition のプロセスを含みうる。
+          すなわち OP-CIP が、現地の issuer に法域向けに localize された
+          [=Organization Profiles=] を発行する権限を与える前に、その issuer の
+          ポリシー、手順、信頼性を評価する。OP-CIP は、現地の
+          [=Profile Annotation Issuer=] へ [=Issuer Accreditation=] を発行する
+          ことで、その issuer を accredit してよい。
+        </p>
+      </section>
+
+      <section id="governance-model-for-global-community">
+        <h2>世界のコミュニティに対するガバナンスモデル</h2>
+        <p>
+          以下は、世界のコミュニティに向けて計画されている Originator Profile の
+          ガバナンスモデルを単純化して表したものである。
+        </p>
+        <figure id="planned-op-goverance-global">
+          <img src="Drawings/Governance-Simplified-OP-Future-Global.drawio.svg"
+            alt="Governance Model for Global Community (Planned)" width="90%"/>
+          <figcaption>世界のコミュニティに対するガバナンスモデル（計画）</figcaption>
+        </figure>
+        <p>
+          このモデルでは複数の [=Core Profile Issuers=] が存在し、それぞれが
+          [=Originators=] へ [=Core Profiles=] を発行する責任を負い、自身の
+          ガバナンスの下で運用する。すべての [=Core Profile Issuers=] は、
+          直接または [=Accreditation Body=] を介して、枠組みを統治する body、
+          すなわち [=Root Issuer=] によって accredit される。その
+          [=Root Core Profile=] は self-signed な [=Core Profile=] である。
+          [=Core Profile Issuers=] は、自身のガバナンスとポリシーに基づいて、
+          [=Web Media Profile=] を、また [=Profile Annotation Issuers=] として
+          [=Profile Annotations=] を発行してもよい。
+        </p>
+
+        <p>
+          このモデルを確立することにより、中央集権的なガバナンスを避け、
+          多様なガバナンスを実現できる。[=Root Issuer=] のガバナンスは、[[ICANN]] の
+          マルチステークホルダガバナンスモデルと同様に、さまざまな stakeholder の
+          参加と多様な視点の取り込みを許す包摂的なものとすることを意図している。
+        </p>
+        <p>
+          そのようなマルチステークホルダガバナンスモデルを確立し運用するには、
+          綿密な計画、継続的な協働、そしてすべての参加者による透明性と説明責任への
+          コミットメントを要する。ガバナンスの枠組みが実効的に機能するようにする
+          ため、役割、責任、意思決定のプロセスについて共通の理解を作り上げることが
+          不可欠である。[[ICANN]] の経験から学べることは多い。本文書の著者の一人
+          による論文 [[A Study on Governance funded by JFSA]] は、マルチステーク
+          ホルダガバナンスモデルにまつわる課題と機会についていくらかの洞察を
+          与えうるもので、この文脈に関心を持つ新たな参加者にとって有用である。
+        </p>
+      </section>
+
+    </section>
+
+    <section id="comparison-to-related-works">
+      <h1>関連する研究やプロジェクトとの比較</h1>
+      <section id="comparison-to-c2pa">
+        <h2>C2PA との比較</h2>
+        <p>
+          <strong>Coalition for Content Provenance and Authenticity</strong>
+          (C2PA) は、その技術を利用者には Content Credentials の名で示す
+          [[C2PA-SPEC]]。C2PA は、content provenance と authenticity のためのオープンな標準を
+          確立するために協働する、主要なメディア企業と技術企業のコンソーシアムで
+          ある。C2PA の目標は、コンテンツの authenticity のメタデータを作成、共有、
+          検証するための枠組みを提供し、ユーザが自らの消費するコンテンツを信頼
+          できるようにすることである。
+        </p>
+        <p>
+          このプロジェクトは主に、デジタルメディアにおける content provenance と
+          authenticity の課題に取り組むことに焦点を置く。これにはメディアファイルの
+          integrity を保証すること、およびその出所に関する検証可能な情報を提供する
+          ことが含まれる。したがって C2PA の範囲は、その目標と目的において
+          [=Originator Profile Framework=] と重なる。そこで私たちは、共通の目的を
+          達するために協働し、互いの取り組みを揃えたいと考えている。
+        </p>
+        <p>
+          とはいえ、C2PA と [=Originator Profile Framework=] の間には、いくつかの
+          重要な違いがある。
+        </p>
+        <ul>
+          <li><strong>C2PA は provenance を asset に結びつける</strong>。asset とは
+          たとえばファイルである。これに対し [=Originator Profile Framework=] は、
+          配信されたままのページやメッセージに attribution を結びつける。違いは
+          メディアの種類ではなく、結びつける単位にある。C2PA の manifest は、画像、
+          動画、音声、PDF のような文書、そして仕様の近年の版ではテキストと HTML
+          文書にも埋め込める [[C2PA-SPEC]]。</li>
+          <li><strong>C2PA は履歴のデータを提供する</strong>。すなわち、asset の
+          履歴、それを生み出した ingredient と action、そしてその署名者である。
+          [=Originator Profile Framework=] は主に、第三者が validate した属性に
+          よって [=Originator=] が誰であるかを、エンドユーザによる検証のために
+          示す。履歴は Web Media の内部の作業のような用途には不可欠だが、
+          エンドユーザが通常必要とする以上のものである。
+          <p class="note">OP-CIP のメンバーの一部はコンテンツの
+          アーカイブの提供に関心を持っており、それは当然ながら履歴の情報を含みうる。
+          ただしそれは別の形で、おそらくメディアのデータ自体の外側で実現される。
+          </p>
+          </li>
+          <li><strong>[=Originator Profile Framework=] は [=Originator=] に関する
+          豊富な情報の提供を目指す</strong>。複数の [=Validated Attribute=] の
+          提供者を通じ、柔軟な枠組みの中でさまざまなユースケースと stakeholder の
+          要件を受け止める。</li>
+          <li><strong>C2PA の trust model は X.509 PKI に基づく</strong>。署名に
+          用いるのは X.509 certificate だけである [[C2PA-SPEC]]。したがって
+          <a href="#limitation-of-digital-certificate-schemes"></a> で論じた課題を
+          同じく抱える。</li>
+          <li><strong>C2PA の trust model は trust list に依る</strong>。依る先は、
+          2025 年半ばから C2PA Conformance Program の下で維持される certification
+          authority の一覧である C2PA Trust List [[C2PA-CONFORMANCE]] と、
+          ニュースの領域では IPTC Origin Verified News Publishers List
+          [[IPTC-OVNPL]] のような一覧である。[=Originator Profile Framework=] も、
+          [=Verifier=] が保持する root である [=Root Core Profile=] から始まる
+          （<a
+          href="#governance-model-for-web-media-while-in-the-bootstrap-phase-in-japan"></a>）
+          が、その root は [[ICANN]] の下の DNS と同様のマルチステークホルダ
+          モデルで統治される予定であり（<a
+          href="#governance-model-for-global-community"></a>）、
+          各 [=Core Profile Issuer=] と [=Profile Annotation Issuer=] は、その [=Issuer Accreditation=]
+          が与える立場の範囲内で自らのポリシーを定め、自身のレコードを自身の
+          名前の下で公開し、[=Originator=] は自身の zone で、自らのために発行して
+          よい [=Core Profile Issuers=] を名指す（[=Issuer Pinning Record=]）
+          ので、この仕組みは完全に中央集権的ではなく、分散している。新たなエコシステムの要件を満たす、個々のユースケース
+          向けの trust list を確立することは、どちらのモデルでも難題として
+          残る。</li>
+          </ul>
+      </section>
+
+    </section>
+
+    <section id="known-issues-and-future-changes">
+      <h1>既知の課題と将来の変更</h1>
+      <p class="ednote">
+        本節はフィードバックを得るに応じて更新する。
+      </p>
+      <section id="lacking-op-and-ca">
+        <h2>本文書は integrity が保護されておらず、Originator Profile も伴っていない</h2>
+        <p>
+          本文書の後の版は [=Originator Profile=] と [=Content Attestation=] を
+          伴う。この版は伴わない。
+        </p>
+      </section>
+
+      <section id="terminology-challenges">
+        <h2>用語の課題</h2>
+        <p>
+          標準化の作業には、常に用語の課題がある。
+        </p>
+        <p>
+          いくつかの用語が異なる意味で使われていること、また特定の stakeholder に
+          とって直観に反しうることを理解している。次の用語はとくに注意を要する。
+        </p>
+        <ul>
+          <li>Certificate</li>
+          <li>Validate と Verify</li>
+        </ul>
+        <p>
+          <a href="#architecture"></a> で概念を導入する際には慎重を期し、補足の
+          注を付した。これらの用語に限らず、文書全体についてフィードバックを
+          いただきたい。
+        </p>
+        <p class="note">
+          日本では "verify" と "validate" がしばしばどちらも「検証」（ken-shō）と
+          訳され、互換に用いられており、このデジタル署名の応用領域において誤解を
+          招いている。したがって本文書の機械翻訳は、本文書が拠って立つこの 2 語の
+          区別を反映できない。
+        </p>
+        <p>
+          また、現在利用できる文書の中で用いられている用語には、なお不整合が残る
+          ことに留意されたい。[[Originator Profile Blueprints]] は文書群の内部では
+          おおむね整合しているが、用語の一部は本 Architectural Overview 文書とは
+          わずかに異なる用法になっている。[[Originator Profile Blueprints]] を
+          [=Originator Profile Framework=] の文書群へ統合する過程で、これらの
+          不整合に対処する。
+        </p>
+      </section>
+
+      <section id="internationalization-and-multilingual-support">
+        <h2>国際化と多言語対応</h2>
+        <p>
+          [[vc-data-model-2.0]] の利用には、国際化と多言語に関する課題がいくつか
+          ある。[=Originator Profile Framework=] のデータモデルの現在の版は、
+          signed data のオブジェクトごとに単一の言語を用いている。この判断は、現在の JSON-LD に基づく
+          多言語の構造が verifier 側で解釈するには複雑であるという事実に由来する。
+          私たちの場合、verifier はブラウザの中にある。そのコストは無視できない。
+          そのため現在は、多言語の文字列を含みうる [=Profile Annotation=] モデル
+          全体に一つの言語を適用している。同じ型の [=Profile Annotations=] を
+          異なる言語で複数提供することは可能だが、現在のブラウザ拡張はまだこれに
+          対応していない。そのような annotation の配り方は
+          [[Originator Profile Blueprints]] が記述している。言語だけが異なる
+          文書群を、[=Verifier=] がそのうち一つを用いる一つの文書とみるか、
+          複数の文書とみるかは、Web Media Use Case Specification
+          [[OPF-WEB-MEDIA]] の未決の問いである。
+        </p>
+        <p>
+          また、Web Media のユースケースのコンテンツは通常ページごとに一つの言語で
+          あるため広範な多言語対応を要しないが、[=Originator Profile=] の中の情報は
+          コンテンツにかかわらず多言語対応を要することに留意されたい。
+        </p>
+        <p>
+          もう一つの課題は、含める言語の選定である。日本語の場合は日本語と英語の
+          双方を含めることが必要だが、他の言語については明らかでない。
+        </p>
+        <p>
+          この課題に取り組むためさまざまな選択肢を検討しており、私たちのユース
+          ケースにより適した別の方式を提案する可能性がある。
+        </p>
+      </section>
+
+      <section id="issue-key-rollover">
+        <h2>鍵の配送と発見</h2>
+        <p>
+          データモデルの初期の版は [=Core Profile=] に単一の verification key を
+          埋め込み、鍵の発見の仕組みを持たなかった。これは事実上、鍵の rollover を
+          排除していた。現在の枠組みは、[=Core Profile=] の中の鍵を、その
+          [=Core Profile=] の発行のときに固定される集合として扱い、各鍵をその
+          [=Key Identifier=] で識別する。鍵を変えるには新しい [=Core Profile=] を
+          発行する。[=Core Profile Issuer=] は、DNSSEC の下で DNS に、自身が発行した
+          [=Core Profile=] ごとに、その [=Core Profile=] の鍵のうち取り下げられていないものの [=Key Identifiers=] を公開する（<a href="#base-model-data-models"></a> と
+          <a href="#root-core-profile-and-issuer-accreditation"></a> を参照）。
+        </p>
+        <p>
+          枠組みが DNS を、DNSSEC の下で用いるのは、三つの狙いのためである。
+          一つは、下の一覧が詳しく述べるとおり、鍵の交換とその revocation の
+          管理の障壁を下げること。二つめは、各 issuer が自身の名前の下、自身の
+          zone で公開できるようにし、ガバナンスがそう意図されているように、公開も
+          issuer の間に分散させること（<a
+          href="#governance-model-for-global-community"></a>）。三つめは、送信者が既に鍵とポリシーを
+          DNS に公開している電子メールと整合させることである。DNSSEC が要るのは
+          issuer の側であり、そこでは当事者は少なく、それを運用できる。
+          [=Base Model=] は [=Originator=] にそれを求めず、[=Recipient=] は
+          それを運用しない。自身では validate しない [=Verifier=] は、各
+          [=Use Case Specification=] が述べるとおり、認証された経路で到達する
+          validating resolver に依拠する（<a
+          href="#process-delivering-a-content"></a>）。zone の署名を求めるのは
+          issuer に対してであり、[=Originator=] に対しては、電子メールのように
+          ユースケースが求める場合に限られる。
+        </p>
+        <p>
+          DNSSEC を選んだのは、追加の仕掛けなしに次のものが得られるためである。
+        </p>
+        <ol>
+          <li>
+          一つの [=Core Profile=] の複数の鍵が一つの record set の中に共存し、
+          それぞれを他と独立に削除できること。</li>
+          <li>
+          一定期間、前の [=Core Profile=] と後の [=Core Profile=] がどちらも有効で
+          ある間、両者のレコードを並行して公開できること。これにより鍵の rollover
+          は、新しい名前の下に record set を一つ追加し、後で古いものを削除する
+          だけのことになる。</li>
+          <li>
+          鍵と [=Core Profiles=] については削除による revocation、annotation に
+          ついては存在による revocation。該当するレコードを削除することで、鍵は
+          取り下げられ、[=Core Profile=] は revoke され、登録は終わる。一方
+          [=Profile Annotation=] は、その [=Revocation Record=] を公開することで
+          revoke される。極性が異なる理由は二つある。[=Core Profile=] の
+          レコードはその鍵の集合を運び、取り下げた鍵はその集合から除かれるので、
+          存在するレコードでしかありえない。一方 annotation は自身の鍵を持たず、
+          そのためのレコードが運べるのはその存在だけである。また annotation は
+          数が多く、それぞれにレコードを置けば issuer の zone が膨らむ。他方
+          annotation の通常の終わりは期限切れであり、公開しなければならないのは
+          署名の有効期間中の revocation だけである。どちらの場合も、状態は DNSSEC が 
+          [=Verifier=] に対して証明する存在または不在である。</li>
+        </ol>
+        <p>
+          レコードは [=Originator=] ではなく issuer 自身の DNS 名の下で公開する。
+          こうすれば [=Originator=] は、参加するために DNSSEC を運用する必要が
+          ない。枠組みは [=Originator=] の zone に 2 つのレコードを定める。
+          すなわち、[=Originator=] が自身のために発行してよい
+          [=Core Profile Issuers=] を名指しするか、自身が [=Originator
+          Profile=] を持たないことを宣言する [=Issuer Pinning Record=] と、
+          [=Permitted Host Record=] である。[=Originator Profile=] を持たないと
+          宣言することは、たとえば鍵が漏れたときに、[=Originator=] が [=Core Profile Issuer=] の
+          助けなしに自身の profile を止める一つの手段であり、その宣言はそれらを
+          すべて一度に止める。ユースケースが [=Originator=] に
+          それらの公開を求めるかどうか、またその [=Verifier=] がそれらを参照
+          するかどうかは、そのユースケースの [=Use Case Specification=] が
+          述べる。zone が
+          署名されている [=Originator=] には、[=Issuer Pinning Record=] を
+          公開することを勧める。
+        </p>
+        <p>
+          DNS が運ぶのは、原則として、鍵そのものではなく鍵の
+          [=Key Identifiers=] であり、これにより鍵のアルゴリズムにかかわらず
+          レコードは小さく保たれる。鍵を運ぶこの record type は、digest の
+          代わりに public key 全体を運ぶ形（Matching Type 0）も許している。
+          [=Originator Profile Framework=] はその形を使わない。issuer はそのような
+          レコードを公開せず、[=Verifier=] は出会ったものを無視する。鍵そのものは常に
+          [=Core Profile=] から得る。この record type は、枠組みから独立して IANA に
+          登録され DNS ソフトウェアが対応できるよう、Internet-Draft
+          draft-shigeya-dns-opkey で定義する。
+        </p>
+        <p>
+          枠組みは次の道を採らない。この段落はその理由を記録する。
+          X.509 [[X509V3]] certificate を [=Core Profile=] の中に埋め込み、その
+          [=Core Profile=] に複数の [=Profile Annotations=] で注釈することは
+          できる。しかし X.509
+          certificate を用いると、鍵の rollover の手順が複雑になるだけでなく、
+          DNSSEC の利点、とくにオーバヘッドの小さい revocation も失われる。
+        </p>
+        <p>
+          [=Core Profile=] は 1 年程度の署名の有効期間を持ちうる。その revoke は、
+          その期間が終わるのを待たないからである。[=Verifier=] は検証のたびに
+          issuer のレコードを参照し、validate できない応答を失敗として扱う。
+          したがって、取り下げられた鍵や revoke された [=Core Profile=] は、
+          その [=Originator Key Record=] の time to live の範囲で見えるように
+          なる。期間の短縮は、
+          relying party が当てにできない revocation の確認を Web PKI が補う方法で
+          ある。枠組みはそのような補いを必要としない。
+        </p>
+      </section>
+
+      <section id="identity-is-a-domain-name">
+        <h2>Identity はドメイン名である</h2>
+        <p>
+          [=Originator=] の [=Identity=] は DNS 名なので、ドメイン名が人手に
+          渡るとき、失効するとき、乗っ取られるときには、それに従う。名前の新しい
+          保有者は、前の保有者の [=Core Profile=] の鍵を持たないので、それで
+          署名することはできない。一方、前の保有者は、その [=Core Profile=] が
+          期限切れになるか revoke されるまで、その鍵を持ち続ける。その鍵でなお
+          できることは、各ユースケースの binding によって限られる。コンテンツが
+          その [=Originator=] のものとして数えられるのは、[=Presented Identity=]、
+          すなわちページの origin、または From ヘッダフィールドのドメインが、
+          その名前であるかその下にある場合に限られ、前の保有者は
+          もはやそれを制御していない。残るのは [=Presented Identity=] なしに
+          示されるコンテンツ、たとえばアーカイブから読まれるコンテンツであり、
+          Core Specification の security considerations がこれを pinning の下で
+          扱う。ユースケースが
+          参照する場合、新しい保有者は、その名前の zone に、他の
+          [=Core Profile Issuers=] を名指しするか、[=Originator=] が
+          [=Originator Profile=] を持たないことを宣言する [=Issuer Pinning
+          Record=] を公開できる。また [=Core Profile Issuer=] は、その
+          [=Originator=] がもはや名前を保有していない [=Core Profile=] を
+          revoke できる。[=Originator=] がなお自身の名前を保有していることを
+          issuer がどう確かめるかは、その issuer の [=Core Profile Policy=] の
+          事柄である。
+        </p>
+      </section>
+
+      <section id="profile-delivery-retrieval">
+        <h2>プロファイルの配送と取得</h2>
+        <p>
+          [=Originator Profile=] がどのように [=Recipient=] に届くかは、枠組み
+          全体ではなく各ユースケースが定める。現在のユースケースでは、
+          [=Core Profile=]、[=Profile Annotations=]、[=issuer accreditations=] の
+          連鎖が [=Content=] とともに運ばれる。すなわち web ではページの中と
+          そのページの origin の well-known resource で、電子メールでは署名された
+          メッセージの一部としてである。DNS はそれらの配布には用いない。
+          DNS の役割は、[=Verifier=] が既に保持しているものがなお現行であるかを
+          述べることである。すなわち、鍵がなお有効か、[=Core Profile=] がなお有効か、annotation が
+          なお revoke されていないかである。
+        </p>
+        <p>
+          文書をコンテンツとともに運ぶことは、issuer に見えるものを resolver が
+          転送するものにとどめることになる。文書をその issuer から HTTPS で
+          取得すれば、各 [=Recipient=] がその issuer に見えてしまう。
+        </p>
+        <p>
+          あるユースケースは将来、コンテンツとともに運ばれるものの一部、たとえば
+          [=issuer accreditations=] の連鎖を、コンテンツの一件ごとに運ぶ代わりに
+          issuer の DNS や別の経路から取得することを選んでもよい。そのような変更は
+          経路を取り除くのではなく加えるものである。[=Verifier=] は受け取った
+          もののうち自身が必要としない部分を無視するので、その追加が既存の
+          [=Verifiers=] に影響することはない。
+        </p>
+      </section>
+
+      <section id="extension-of-profile-annotation">
+        <h2>Profile Annotation の拡張</h2>
+        <p>
+          [=Originator Profile Framework=] の主要な特徴の一つは拡張性であり、
+          これは [=Profile Annotations=] の利用によって実現される。
+          [=Profile Annotation=] はそれぞれ、個々のユースケースと要件を受け止める
+          ように定義でき、柔軟で適応しやすい枠組みを可能にする。以下は
+          [=Profile Annotation=] のありうる用途の一部である。
+        </p>
+        <section id="profile-annotation-issuer-recognition">
+          <h3>Profile Annotation Issuer による recognition</h3>
+          <p>
+            ある種の membership の annotation は、[=Profile Annotation=] の拡張性の
+            一例である。
+          </p>
+          <p>
+            興味深いことに、特定の [=Profile Annotation Issuer=] が発行した
+            [=Profile Annotation=] が存在すること自体が、[=Profile Annotation
+            Policy=] の下での追加の [=Validated Attributes=] がなくても、当該
+            [=Profile Annotation Issuer=] の意図を示すのに十分に有用である。
+            たとえばメディア団体がメディア企業へ membership の
+            [=Profile Annotation=] を発行した場合、その [=Profile Annotation=] が
+            追加の [=Validated Attributes=] を含まなくても、membership の
+            [=Profile Annotation=] が存在すること自体が、そのメディア企業が
+            当該団体の会員であることを示すのに十分である。
+          </p>
+          <p>
+            この取り方により、[=Profile Annotation=] の中に大量のデータを置く
+            必要なく、[=Originator=] の所属や会員資格を軽量かつ効率的に認識できる。
+          </p>
+          <p>
+            この考え方は、特定の基準を満たす [=Originators=] の一種のリストを、
+            データベースとしてのリストを作り管理することなく作る必要がある
+            さまざまなユースケースへ適用できる。
+          </p>
+        </section>
+        <section id="vocabularies-and-profile-annotations">
+          <h3>語彙と Profile Annotation</h3>
+          <p>
+            語彙は [=Profile Annotations=] の意味を定めるうえで決定的な役割を
+            果たす。語彙は個々の概念を表現し伝達する標準化された手段を与え、
+            異なるシステムが [=Profile Annotation=] に含まれる情報を理解し処理する
+            ことを容易にする。既存の語彙を活用し、あるいは新しい語彙を作ることに
+            より、[=Profile Annotations=] の表現力と相互運用性を高められる。
+          </p>
+          <p>
+            既存の語彙とスキーマは複数存在し、[=Profile Annotations=] に活用できる。
+            これらの語彙は、[=Originator=] やその属性のさまざまな側面を記述するのに
+            使える豊富な用語と定義の集合を与える。
+          </p>
+        </section>
+      </section>
+
+    </section>
+
+
+    <section id="use-cases" class="appendix">
+      <h1>ユースケース</h1>
+      <p>
+        本節では、私たちが現在取り組もうとしているユースケースのいくつかを紹介
+        する。各ユースケースの叙述の後に、そのユースケースに対する要件の一覧を
+        置く。本節は <a href="https://www.w3.org/TR/vc-use-cases/">W3C’s Verifiable
+        Credentials Use Cases</a> の様式に緩やかに従う。
+      </p>
+      <p>
+        ユースケースは 3 つの分類に分けられる。Web Media のユースケース、地方
+        自治体のユースケース、web サービスサイトのユースケースである。
+      </p>
+
+      <section id="web-media-use-cases">
+        <h2>Web Media のユースケース</h2>
+        <p>
+          Web Media のユースケースは、新聞社のサイトや放送局のサイトのような
+          メディアをユーザが読む場面に焦点を置く。
+        </p>
+
+        <section id="paul-a-user-who-reads-news-articles-on-a-media-site">
+          <h3>Paul: メディアのサイトでニュース記事を読むユーザ</h3>
+          <p>
+            Paul は熱心なニュース記事の読者で、たいていは好みの新聞社の website で
+            その記事を読む。新聞社の website は個々の記事だけでなく全体として
+            編まれているため、Paul がその時々に読みたい記事へ容易にたどり着ける。
+            そのサイトが OP を活用していれば、Paul が常に訪れている正しいサイトに
+            アクセスしていることを容易に確認でき、偽のサイトへ誤って接続する危険が
+            下がる。これはありがたいことである。最近、ある新聞社が編集方針の変更を
+            発表し、Paul はその新聞社の現在の方針を確かめたくなった。OP があれば、
+            その新聞社の行動規範に関する情報へ容易かつ確実にたどり着ける。OP を通じて提供されるメディアの運用ガイドラインは、サイト
+            にかかわらず同じインタフェースを通じて参照できるため、情報へのアクセスと、
+            必要なら関係者への連絡が容易である。
+          </p>
+          <p><strong>要件:</strong></p>
+          <ul>
+            <li>web ページに結びつけられた OP を見つけること</li>
+            <li>OP を検証すること</li>
+            <li>web ページ内の保護されたコンテンツを見つけること</li>
+            <li>OP の中の基本的な情報を示すこと</li>
+            <li>OP の中の originator のポリシーを示すこと</li>
+            <li>OP の中の originator の連絡先を示すこと</li>
+          </ul>
+        </section>
+
+        <section id="nancy-a-user-who-reads-news-articles-via-a-portal-site">
+          <h3>Nancy: ポータルサイトを介してニュース記事を読むユーザ</h3>
+          <p>
+            Nancy はコンピュータを使う時間をできるだけ短くしたいユーザである。
+            ニュースは最低限得られれば十分だと考えており、主に慣れ親しんだ
+            ポータルサイトで提供されるニュース記事に目を通す。今日、そのポータル
+            サイトで目を引く記事に行き当たったが、あまりによく書けているので疑わしく
+            思い、その記事がどこから来たのかを知りたくなった。その記事には OP が
+            付いていたので、記事の出所は明らかだった。さらにその記事は要約だったので、
+            全文を読むために出所のサイトを訪れた。要約には元記事へのリンクが含まれ、
+            それは Originator Profile Framework によって保護されているため、安心してそのリンクを
+            クリックして記事にたどり着ける。彼女は、元記事と要約の関係、要約に責任を
+            負う者、そして元記事に許可なく改変されたリンクが含まれていないかを確認
+            できる。
+          </p>
+          <p><strong>要件:</strong></p>
+          <ul>
+            <li>web ページ内の保護されたコンテンツを見つけること</li>
+            <li>保護されたコンテンツに結びつけられた OP を見つけること</li>
+            <li>attest されたコンテンツに関する情報を示すこと</li>
+            <li>OP の中の基本的な情報を示すこと</li>
+            <li>コンテンツの中の元記事の場所を見つけること</li>
+            <li>コンテンツを検証すること</li>
+            <li>OP を検証すること</li>
+          </ul>
+        </section>
+
+        <section id="john-a-user-who-receives-the-latest-news-from-social-networks">
+          <h3>John: ソーシャルネットワークから最新のニュースを受け取るユーザ</h3>
+          <p>
+            John はソーシャルネットワークを積極的に使うインターネットユーザである。
+            オンライン新聞を購読し、ときおりその website を訪れるが、手軽なので主に
+            ソーシャルネットワーク上のニュースに頼っている。ソーシャルネットワークで
+            共有された記事のいくつかは彼の関心を引き、ときおりそれをクリックして
+            さらに読む。しかし、クリックを誘うソーシャルネットワーク上の見出しや写真が
+            実際の記事と合っていないことがしばしばあり、何度も苛立ちを覚えてきた。
+            さらに、リンク先の記事が犯罪に関わる内容である可能性もあり、強い危険を
+            感じている。ソーシャルネットワーク上の見出しと実際の記事の関係がもっと
+            信頼できるものであれば、危険への懸念が下がり、それによって具体的な問題も
+            最小限になると期待される。
+          </p>
+          <p><strong>要件:</strong></p>
+          <ul>
+            <li>web ページ内の保護されたコンテンツを見つけること</li>
+            <li>保護されたコンテンツに結びつけられた OP を見つけること</li>
+            <li>OP の中の基本的な情報を示すこと</li>
+            <li>コンテンツの中の元記事の場所を見つけること</li>
+            <li>コンテンツを検証すること</li>
+            <li>OP を検証すること</li>
+          </ul>
+        </section>
+
+        <section id="robert-a-pc-expert-who-visits-news-websites-directly">
+          <h3>Robert: ニュースの website へ直接アクセスする PC の達人</h3>
+          <p>
+            Robert は検索エンジンが登場する前からインターネットを使ってきた、
+            高い技能を持つ PC の達人である。マウスに頼るよりキーボードだけで
+            コンピュータを操作するほうが快適だと感じている。website を閲覧するとき、
+            訪れたいサイトを指定するために URL バーへ直接 URL を入力する。ほとんどの
+            サイトは頻繁に訪れるため、ブラウザが URL を自動補完し、目的の website に
+            たどり着ける。しかし、ときおり入力を誤る。犯罪者は、よく知られたサイトと
+            ありがちな打ち間違い一つだけ異なる website 名を登録することがある。ある日
+            Robert は誤ってそのようなサイトを訪れてしまった。幸い Robert はブラウザに
+            Originator Profile のブラウザ拡張を入れていたので、そのサイトに OP が
+            付いていないことに気づいた。
+            Robert が普段使う website には OP があるため、彼はその異常に気づき、
+            問題を避けられた。
+          </p>
+          <p><strong>要件:</strong></p>
+          <ul>
+            <li>web ページに結びつけられた OP を見つけること</li>
+            <li>OP を検証すること</li>
+          </ul>
+        </section>
+
+        <section id="emma-a-user-who-views-an-ad-on-social-media">
+          <h3>Emma: ソーシャルメディアで広告を見るユーザ</h3>
+          <p>
+            Emma は個人投資家で、好みのソーシャルメディアでビジネス記事を読む。
+            ある日、目を引いた記事の横に Z 証券会社が開くセミナーの広告が表示されて
+            いるのに気づいた。その広告をクリックして website を開き、念のため
+            そのサイトの OP を確かめたが、有効な attest 済みの OP は見つからなかった。
+            そこで広告の画像に戻ってみると、こちらにも有効な OP が無いことが
+            分かった。Emma は、Z 証券が普段テレビとインターネットで広告を出しており、
+            自社の website で OP を使っていることを知っていた。その結果、広告も
+            website もどちらも Z 証券を装った不正なものだと判断でき、投資詐欺に
+            引っかかるのを避けられた。
+          </p>
+          <p><strong>要件:</strong></p>
+          <ul>
+            <li>web ページ内の保護されたコンテンツを見つけること</li>
+            <li>保護されたコンテンツに結びつけられた OP を見つけること</li>
+            <li>その広告に検証済みの OP があることを示すしるしを見つけること</li>
+          </ul>
+        </section>
+
+        <section id="ichiro-a-user-who-determines-candidates-policies-on-social-media-ahead-of-an-election">
+          <h3>Ichiro: 選挙前にソーシャルメディアで候補者の政策を見定めるユーザ</h3>
+          <p>
+            来たる選挙について調べていた Ichiro は、よく知られたメディアからの
+            ソーシャルメディア上の投稿に行き当たった。そこには候補者の演説の動画への
+            リンクが含まれていた。彼はその演説の内容に問題があると考え、より多くの
+            人に知らせるためその投稿を共有しようかと考えた。そうする前に、OP を
+            確かめた。そのメディアの公式 website には通常有効な OP があるが、そのメディアの
+            website に見えたリンク先のサイトには無かった。Ichiro はその website が
+            なりすましであると素早く見抜き、人を欺きうるコンテンツを広めるのを避けた。
+          </p>
+          <p><strong>要件:</strong></p>
+          <ul>
+            <li>web ページ内の保護されたコンテンツを見つけること</li>
+            <li>保護されたコンテンツに結びつけられた OP を見つけること</li>
+            <li>そのコンテンツが AI によって作られたことを示す OP を見つけること</li>
+            <li>OP を検証すること</li>
+          </ul>
+        </section>
+      </section>
+
+      <section id="local-government-use-cases">
+        <h2>地方自治体のユースケース</h2>
+        <p>
+          本節では、Originator Profile Framework を活用する地方自治体のサイトのさまざまな
+          ユースケースを述べる。
+        </p>
+        <section id="ken-a-public-relations-officer-at-a-local-government-office-on-the-day-of-a-major-earthquake">
+          <h3>Ken: 大地震の当日、自治体の役場にいる広報担当者</h3>
+          <p>
+            Ken が働く村を大地震が襲った。地震の直後から、村を津波が襲ったと主張する
+            動画がソーシャルメディアで拡散し始めた。しかしこれらの動画は、実際には
+            別の日に別の場所で撮られたものだった。そして実際には、Ken の村を津波が
+            襲ってはいなかった。
+          </p>
+          <p>
+            それでも役場には、津波についてのソーシャルメディアの投稿を見た人々から
+            数多くの問い合わせが寄せられた。「ソーシャルメディアで A 地点を津波が
+            襲い住民が取り残されていると伝えられている。救助隊を出してほしい」と
+            いった訴えは、緊急時における多くの種類の業務に支障をもたらす。
+          </p>
+          <p>
+            Ken は役場の website に次のような案内を掲げた。「ソーシャルメディアで
+            村の災害の映像を見たら、まずそのコンテンツの OP を確かめてください。
+            OP があれば、その情報が originator によって責任をもって投稿されたことを
+            意味します。」その結果、混乱は次第に収まった。
+          </p>
+          <p><strong>要件:</strong></p>
+          <ul>
+            <li>web ページに結びつけられた OP を見つけること</li>
+            <li>web ページ内の保護されたコンテンツを見つけること</li>
+            <li>保護されたコンテンツに結びつけられた OP を見つけること</li>
+            <li>OP を検証すること</li>
+          </ul>
+        </section>
+      </section>
+
+      <section id="web-service-site-use-cases">
+        <h2>web サービスサイトのユースケース</h2>
+        <p>
+          本節では、Originator Profile Framework を活用する web サービスサイトのさまざまな
+          ユースケースを述べる。
+        </p>
+        <section id="rodney-a-user-accesses-a-credit-card-service-website">
+          <h3>Rodney: クレジットカードサービスの website にアクセスするユーザ</h3>
+          <p>
+            Rodney が使っているクレジットカード会社 Japan Express は、オンライン
+            サービスを提供している。彼は普段、スマートフォンのアプリを使って自身の
+            口座情報に安全にアクセスしている。Rodney は請求情報をダウンロードする
+            ために、月に一度 Japan Express の website にアクセスする。Japan Express は
+            [=Originator Profile=] を完全に採用している。Japan Express の website に
+            アクセスすると、Rodney はそのサイトが日本の会社によって運営されている
+            ことを示すアイコンと、クレジットカードサービスを提供していることを示す
+            アイコンの双方を確認できる。これにより Rodney がフィッシングサイトへ
+            誘導されていないことが確かめられ、安心して取引を行える。
+          </p>
+          <p><strong>要件:</strong></p>
+          <ul>
+            <li>web ページに結びつけられた OP を見つけること</li>
+            <li>OP を検証すること</li>
+            <li>OP の中の検証可能な属性を参照すること</li>
+            <li>URL バーのアイコンを通じて OP の中の属性を示すこと</li>
+          </ul>
+        </section>
+
+      </section>
+
+    </section>
+
+    <section id="requirements" class="appendix">
+      <h1>要件</h1>
+      <p>
+        本節では、ユースケースから抽出した [=Originator Profile Framework=] に
+        対する要件を述べる。詳細は付録 <a href="#use-cases"></a> を参照。
+      </p>
+
+      <section id="entities-of-op">
+        <h2>OP のエンティティ</h2>
+        <p>次の [=Entities=] が、直接に、または issuer の背後で、ユースケースに
+        関わる（<a href="#base-model-entities"></a>）。</p>
+        <ul>
+          <li>[=Originator=]</li>
+          <li>[=Recipient=]</li>
+          <li>[=Core Profile Issuer=]</li>
+          <li>[=Profile Annotation Issuer=]</li>
+          <li>[=Verifier=]</li>
+          <li>[=Root Issuer=]</li>
+          <li>[=Accreditation Body=]</li>
+        </ul>
+      </section>
+
+      <section id="requirements-from-the-use-cases">
+        <h2>ユースケースから導かれる要件</h2>
+        <p>ユースケースから次の要件を特定した。</p>
+        <ul>
+          <li>[=Originator=] の初期設定</li>
+          <ul>
+            <li>[=Originator=] が、それぞれの issuer へ [=Core Profile=] と
+            [=Profile Annotation=] を要求することで、自身の
+            [=Originator Profile=] を用意すること。</li>
+          </ul>
+          <li>保護されたコンテンツを見つけること</li>
+            <ul>
+            <li>web ページ内の保護されたコンテンツを見つけること</li>
+            </ul>
+          <li>OP を見つけること</li>
+            <ul>
+              <li>保護されたコンテンツに結びつけられた OP を見つけること</li>
+              <li>web ページに結びつけられた OP を見つけること</li>
+            </ul>
+          <li>OP を示すこと</li>
+            <ul>
+              <li>OP の中の基本的な情報を示すこと</li>
+              <li>OP の中の originator のポリシーを示すこと</li>
+              <li>OP の中の originator の連絡先を示すこと</li>
+              <li>URL バーのアイコンを通じて OP の中の属性を示すこと</li>
+            </ul>
+          <li>属性の第三者による validation を見つけるために OP を参照すること</li>
+          <li>attest されたコンテンツに関する情報を示すこと</li>
+          <li>コンテンツを検証すること</li>
+          <li>OP を検証すること</li>
+          <li>コンテンツの中の詳細な情報を使うこと</li>
+          <li>コンテンツの中の元記事の場所を見つけること</li>
+        </ul>
+      </section>
+    </section>
+
+  </body>
+</html>

@@ -1,5 +1,0 @@
-pnpm-lock.yaml
-
-# OPF documents from external repositories
-# ReSpec formatted HTML should not be formatted by Prettier
-opf-source/
