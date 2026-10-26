@@ -1,0 +1,2899 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Originator Profile Framework &mdash; Email Use Case Specification v0.2 (Public Draft)</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <script
+      src="https://www.w3.org/Tools/respec/respec-w3c"
+      class="remove"
+    ></script>
+    <script type="text/javascript" class="remove">
+      var respecConfig = {
+        latestVersion: null,
+        edDraftURI: "https://docs.originator-profile.org/email/",
+        shortName: "op-email",
+        publishDate: "2026-10-27",
+        github: "https://github.com/originator-profile/doc-opf-email",
+
+        editors: [ {
+          name: "Shigeya Suzuki",
+          company: "Originator Profile Collaborative Innovation Partnership, Keio University"
+        }],
+
+        authors: [ {
+          name: "Shigeya Suzuki",
+          company: "Originator Profile Collaborative Innovation Partnership, Keio University"
+        }],
+
+        maxTocLevel: 3,
+        localBiblio: {
+          "OPF-AOV": {
+            title: "Originator Profile Framework — Architectural Overview",
+            href: "https://docs.originator-profile.org/aov/",
+            publisher: "Originator Profile Collaborative Innovation Partnership"
+          },
+          "OPF-CORE": {
+            title: "Originator Profile Framework — Core Specification",
+            href: "https://docs.originator-profile.org/core/",
+            publisher: "Originator Profile Collaborative Innovation Partnership"
+          },
+          "OPF-WEB-MEDIA": {
+            title: "Originator Profile Framework — Web Media Use Case Specification",
+            href: "https://docs.originator-profile.org/web-media/",
+            publisher: "Originator Profile Collaborative Innovation Partnership"
+          },
+          "OPF-DNS": {
+            title: "Using Secure DNS for Originator Profile",
+            href: "https://datatracker.ietf.org/doc/draft-shigeya-dns-opkey/",
+            date: "2026-10-23",
+            status: "Individual Internet-Draft, work in progress"
+          },
+          "OPF-OPS": {
+            title: "Originator Profile Framework — Operations",
+            publisher: "Originator Profile Collaborative Innovation Partnership",
+            status: "Not yet published"
+          },
+          "Originator Profile Blueprints": {
+            title: "Originator Profile Blueprints",
+            href: "https://docs.originator-profile.org/en/opb/",
+            publisher: "Originator Profile Collaborative Innovation Partnership"
+          },
+          "The Originator Profile Charter": {
+            title: "The Originator Profile Charter",
+            href: "https://originator-profile.org/en-US/charter/",
+            publisher: "Originator Profile Collaborative Innovation Partnership",
+          }
+        },
+        addSectionLinks: true, // Turn on § section marker
+        logos: [
+          {
+            src: "https://design.originator-profile.org/downloads/op_logos/png/cip-default-type-vertical.png",
+            url: "https://originator-profile.org/",
+            alt: "Originator Profile CIP",
+            width: 180,
+            height: 80,
+            id: "op-cip-logo",
+          }
+        ],
+        postProcess: [
+          function setTabTitle() {
+            document.title = document.title.replace(/^Originator Profile Framework — /, "") + " — Originator Profile Framework";
+          },
+        ],
+      }
+    </script>
+    <style>
+      pre .highlight {
+        font-weight: bold;
+        color: green;
+      }
+      pre .comment {
+        font-weight: bold;
+        color: Gray;
+      }
+      ol.algorithm {
+        counter-reset: numsection;
+        list-style-type: none;
+      }
+      ol.algorithm > li {
+        position: relative;
+        margin: 0.5em 0;
+        padding-left: 2em;
+      }
+      ol.algorithm > li:before {
+        position: absolute;
+        left: 0;
+        font-weight: bold;
+        counter-increment: numsection;
+        content: counters(numsection, ".") ")";
+      }
+      ol.algorithm > li > p:first-child {
+        margin-top: 0;
+      }
+      table.simple {
+        border: 1px solid #999;
+      }
+      table.simple th,
+      table.simple td {
+        border: 1px solid #999;
+      }
+      .dns-state {
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <p class="copyright">
+        Copyright © 2022-2026 <a
+        href="https://originator-profile.org/en-US/">Originator Profile
+        Collaborative Innovation Partnership (OP-CIP)</a>, All rights
+        reserved.
+    </p>
+
+    <section id="abstract">
+      <p>
+        This document is the Email [=Use Case Specification=] of the
+        Originator Profile Framework: the specification that applies the framework to an
+        electronic mail message signed with S/MIME [[RFC8551]]. It defines how
+        an Originator Profile is carried in such a message, what the sending
+        domain publishes in the DNS, how a recipient verifies that profile,
+        and as of what time validity and revocation are judged.
+      </p>
+      <p>
+        It introduces no new profile document and adds no record to the DNS
+        design of the framework. What it adds is the binding between the
+        sending domain and the originator of the message, and the rules for
+        where and when a message is verified. The general model, the data models and the DNS
+        procedures on which this specification builds are defined in the
+        Architectural Overview [[OPF-AOV]] and the Core Specification
+        [[OPF-CORE]] and are not repeated here.
+      </p>
+    </section>
+
+    <section id="sotd" class="override">
+      <h2>Status of this Document</h2>
+      <p>
+        This document is a description of the current design of the Email [=Use
+        Case Specification=] of the Originator Profile Framework (OPF), which
+        is developed by the Originator Profile Collaborative Innovation
+        Partnership (OP-CIP). It
+        is in DRAFT status, which means it has no official standing of any
+        kind and does not represent the consensus of the OP-CIP Membership.
+      </p>
+      <p>
+        This is the first draft of this document. It does not itself settle
+        any design question. Points that are deliberately left open are
+        marked as issues in the body and are not resolved here.
+      </p>
+      <p>
+        <strong>What has been checked.</strong> The data models and the DNS
+        layer on which this document builds have been exercised in an
+        experimental implementation and measured against signed test zones in
+        a local laboratory. The checks cover the documents of an
+        [=Originator Profile=], the verification procedure and DNS records of
+        the Core Specification [[OPF-CORE]], and the DNSSEC outcomes this
+        document relies on. A proof of concept composes and signs a message as
+        this document specifies, with DKIM and S/MIME, and verifies it under
+        the procedure of this document against such zones. Those zones include
+        a key and a policy record reached through an alias into an unsigned
+        zone. None of this has run against the public DNS or deployed mail
+        software.
+      </p>
+      <p>
+        <strong>What has not been checked.</strong> The mechanisms of the mail
+        system on which this document relies have been implemented only in
+        that proof of concept, which has not been tested against deployed mail
+        software and has sent no message over the Internet. They are DKIM
+        [[RFC6376]] as updated by [[RFC8301]] and [[RFC8463]], DMARC
+        [[RFC9989]], the Authentication-Results header field [[RFC8601]], and
+        internationalized email addresses [[RFC8616]]. The same holds for the
+        carriage of the [=Originator Profile Bundle=] in a message signed with
+        S/MIME [[RFC8551]], whose handling by deployed mail clients has not been
+        tested.
+      </p>
+      <p>
+        <strong>What remains to be settled with practitioners.</strong> Which
+        of the options those standards leave open this document should take,
+        and how an [=Originator=] and a [=Mail Client=] deploy and operate
+        what it requires, depend on how those standards are deployed, and some
+        of them are recent or revised. Those choices and procedures await
+        substantial review with practitioners of email authentication and of
+        mail operation, which this document has not yet had.
+      </p>
+      <div class="note" title="Every document of the framework is under development">
+        Every document of the Originator Profile Framework, this one included,
+        is under development, as is the Internet-Draft [[?OPF-DNS]] on which
+        the framework relies, and no section cited here is yet stable. A
+        reference to a section of a document, whichever document it is, is
+        therefore made by the name of the thing referred to rather than by
+        section number.
+      </div>
+    </section>
+
+    <section id="introduction" class="informative">
+      <h2>Introduction</h2>
+      <p>
+        The Originator Profile Framework lets a [=Recipient=] of content learn,
+        from data that the [=Originator=] itself presents, who the
+        [=Originator=] of that content is and what third parties have
+        validated about that [=Originator=]. The Architectural Overview [[OPF-AOV]] describes the general
+        model. The Core Specification [[OPF-CORE]] specifies the part of the
+        framework that every use case shares, and leaves what depends on how
+        content is delivered to a [=Use Case Specification=] for each way of
+        delivering it. This document is the [=Use Case
+        Specification=] for electronic mail.
+      </p>
+      <p>
+        In outline, the design of this use case consists of four things.
+      </p>
+      <ul>
+        <li>
+          The message is signed with S/MIME, and the [=Originator Profile
+          Bundle=] is carried as one part of the content that the signature
+          covers. The framework does not take part in the signature itself.
+          Over the key with which the message was signed it places the
+          [=Core Profile=], which binds that key to the [=Originator=]'s
+          [=Identity=], and on that profile the [=Profile Annotations=], which
+          carry the [=Validated Attributes=] that third parties have
+          established about the [=Originator=].
+        </li>
+        <li>
+          The DNS plays the role the Core Specification [[OPF-CORE]] gives
+          it, namely currency and revocation. Because the zone of the
+          [=Sending Domain=] in this use case is required to be signed with
+          DNSSEC, the records that the [=Originator=] publishes in its own
+          zone always reach the [=Verifier=] as authenticated data, which the
+          Core Specification does not require.
+        </li>
+        <li>
+          Verification is performed by the [=Mail Client=], which evaluates
+          DMARC [[RFC9989]] itself from the DKIM signature of the message and
+          verifies the [=Originator Profile=]. It cannot be assumed that a
+          [=Receiving Mail Server=] evaluates DMARC; where it does, and
+          records a failure, the [=Mail Client=] honours it.
+        </li>
+        <li>
+          The time as of which validity is judged is the time of display, or
+          the Mail Client's own recorded time of receipt. The S/MIME
+          verification of the message, the validation of the signer's
+          certificate path included, is the S/MIME implementation's and lies
+          outside the framework. What the framework adds is the check that the
+          signer's key is one of the [=Originator=]'s and, through that key,
+          the [=Originator Profile=]: the [=Identity=] and the [=Validated
+          Attributes=] that the [=Recipient=] is shown.
+        </li>
+
+      </ul>
+
+      <section id="relationship-to-other-documents">
+        <h3>Relationship to Other Documents</h3>
+        <p>
+          This document is a [=Use Case Specification=] in the sense of the Core
+          Specification [[OPF-CORE]]: it applies that document to one way of
+          delivering content. For that way, it defines the matters the Core
+          Specification leaves to a [=Use Case Specification=]: how the documents
+          of an [=Originator Profile=] are delivered, under what identity the
+          content is presented and how that identity is bound to the
+          [=Originator=], where and when verification happens, and what
+          becomes of the result.
+        </p>
+        <p>
+          This document does not restate what other documents of the framework
+          define. In particular:
+        </p>
+        <ul>
+          <li>
+            The Base Model and the data models of the [=Core Profile=] and
+            the [=Profile Annotation=] are defined in the Architectural
+            Overview [[OPF-AOV]]. The terms this document uses are defined in
+            the Core Specification [[OPF-CORE]] and, for the terms of the web
+            media use case, in [[OPF-WEB-MEDIA]].
+          </li>
+          <li>
+            The normative procedures for verifying an [=Originator Profile=],
+            the contents and format of the DNS records, the derivation of a
+            [=Key Identifier=] and the digest algorithm it uses, the rule by
+            which two domain names are compared (in this use case, the
+            [=Sending Domain=] of a message and the [=Identity=] of the
+            [=Originator=]), and the general rule for the time as of which
+            validity is judged, are defined in the Core Specification
+            [[OPF-CORE]]. The resource record type is defined in
+            [[?OPF-DNS]].
+          </li>
+          <li>
+            The cryptographic verification of an S/MIME signature, and the
+            validation of the certificate path of the signer's certificate,
+            are the work of the S/MIME implementation and are defined in
+            [[RFC8551]] and [[RFC5280]]. This document neither restates nor
+            relaxes those rules. What it adds is the check that the key the
+            signer's certificate carries is one of the [=Originator=]'s
+            (<a href="#message-certificate"></a>); through that key the
+            [=Originator Profile=], with the [=Validated Attributes=] its
+            [=Profile Annotations=] carry, is attached to the message.
+          </li>
+        </ul>
+      </section>
+    </section>
+
+    <section id="conformance">
+      <p>
+        A conforming implementation of this specification is one that presents an
+        [=Originator Profile=] in a message, or verifies one presented in a
+        message, and that meets the requirements this document places on the
+        role in which it acts. The roles are the [=Originator=], which sends
+        the message, and the [=Mail Client=], which verifies it. A
+        [=Receiving Mail Server=] appears in this document only as the party
+        whose recorded DMARC result a [=Mail Client=] honours
+        (<a href="#alignment"></a>).
+      </p>
+      <p>
+        In normative text, a sentence that uses none of the key words either
+        restates, with a reference to its source, a requirement stated
+        elsewhere, defines a term or a value, or explains; a requirement that
+        is stated nowhere else is stated with a key word. The DNSSEC
+        validation states, which this document takes from the Core
+        Specification [[OPF-CORE]], are written in italics, as in
+        <span class="dns-state">Secure</span> and
+        <span class="dns-state">Insecure</span>, also where they qualify a
+        noun.
+      </p>
+    </section>
+
+    <section id="terminology">
+      <h2>Terminology</h2>
+      <p>
+        The terms below that are marked as imported are used in this document
+        with the meaning given to them in the Core Specification [[OPF-CORE]]
+        and, for the terms of the web media use case, in [[OPF-WEB-MEDIA]].
+        They are listed here only so that they resolve within this document;
+        the authoritative definition is the one in the document cited, and
+        where the two differ, that document prevails. The remaining terms are
+        specific to this specification and are defined here.
+      </p>
+
+      <section id="terminology-imported">
+        <h3>Imported Terms</h3>
+        <dl>
+          <dt><dfn data-lt="Accreditation Chains">Accreditation Chain</dfn></dt>
+          <dd>
+            Imported. See <a
+            data-cite="OPF-CORE#dfn-accreditation-chain">[[OPF-CORE]],
+            Accreditation Chain</a>. It is unrelated to the certificate path of
+            an X.509 certificate.
+          </dd>
+
+          <dt><dfn data-lt="Content Attestations">Content Attestation</dfn></dt>
+          <dd>
+            Imported. See <a
+            data-cite="OPF-CORE#dfn-content-attestation">[[OPF-CORE]], Content
+            Attestation</a>.
+          </dd>
+
+          <dt><dfn class="lint-ignore" data-lt="Content Validity Periods">Content Validity Period</dfn></dt>
+          <dd>
+            Imported. See <a
+            data-cite="OPF-CORE#dfn-content-validity-periods">[[OPF-CORE]],
+            Content Validity Period</a>. 
+          </dd>
+
+          <dt><dfn data-lt="Core Profiles">Core Profile</dfn></dt>
+          <dd>
+            Imported. See <a data-cite="OPF-CORE#dfn-core-profile">[[OPF-CORE]],
+            Core Profile</a>.
+          </dd>
+
+          <dt><dfn data-lt="Core Profile Issuers">Core Profile Issuer</dfn></dt>
+          <dd>
+            Imported. See <a
+            data-cite="OPF-CORE#dfn-core-profile-issuer">[[OPF-CORE]], Core
+            Profile Issuer</a>.
+          </dd>
+
+          <dt><dfn data-lt="Identities">Identity</dfn></dt>
+          <dd>
+            Imported. See <a data-cite="OPF-CORE#dfn-identity">[[OPF-CORE]],
+            Identity</a>.
+          </dd>
+
+          <dt><dfn data-lt="Issuer Key Records">Issuer Key Record</dfn></dt>
+          <dd>
+            Imported. See <a
+            data-cite="OPF-CORE#dfn-issuer-key-record">[[OPF-CORE]], Issuer Key
+            Record</a>.
+          </dd>
+
+          <dt><dfn>Issuer Pinning Record</dfn></dt>
+          <dd>
+            Imported. See <a
+            data-cite="OPF-CORE#dfn-issuer-pinning-record">[[OPF-CORE]], Issuer
+            Pinning Record</a>.
+          </dd>
+
+          <dt><dfn data-lt="Key Identifiers">Key Identifier</dfn></dt>
+          <dd>
+            Imported. See <a data-cite="OPF-CORE#dfn-key-identifier">[[OPF-CORE]],
+            Key Identifier</a>.
+          </dd>
+
+          <dt><dfn data-lt="Originators">Originator</dfn></dt>
+          <dd>
+            Imported. See <a data-cite="OPF-CORE#dfn-originator">[[OPF-CORE]],
+            Originator</a>.
+          </dd>
+
+          <dt><dfn data-lt="Originator Key Records">Originator Key Record</dfn></dt>
+          <dd>
+            Imported. See <a
+            data-cite="OPF-CORE#dfn-originator-key-record">[[OPF-CORE]],
+            Originator Key Record</a>.
+          </dd>
+
+          <dt><dfn data-lt="Originator Profiles">Originator Profile</dfn></dt>
+          <dd>
+            Imported. See <a
+            data-cite="OPF-CORE#dfn-originator-profile">[[OPF-CORE]], Originator
+            Profile</a>.
+          </dd>
+
+          <dt><dfn data-lt="Originator Profile Bundles">Originator Profile Bundle</dfn></dt>
+          <dd>
+            Imported. See <a
+            data-cite="OPF-CORE#dfn-originator-profile-bundles">[[OPF-CORE]],
+            Originator Profile Bundle</a>. In this specification it is carried
+            as a single MIME part of the signed content of a message
+            (<a href="#bundle"></a>).
+          </dd>
+
+          <dt><dfn data-lt="Originator Verification Keys">Originator Verification Key</dfn></dt>
+          <dd>
+            Imported. See <a
+            data-cite="OPF-CORE#dfn-originator-verification-key">[[OPF-CORE]],
+            Originator Verification Key</a>.
+          </dd>
+
+          <dt><dfn data-lt="Permitted Host Records">Permitted Host Record</dfn></dt>
+          <dd>
+            Imported. See <a
+            data-cite="OPF-CORE#dfn-permitted-host-record">[[OPF-CORE]],
+            Permitted Host Record</a>.
+          </dd>
+
+          <dt><dfn data-lt="Presented Identities">Presented Identity</dfn></dt>
+          <dd>
+            Imported. See <a
+            data-cite="OPF-CORE#dfn-presented-identity">[[OPF-CORE]], Presented
+            Identity</a>.
+          </dd>
+
+          <dt><dfn data-lt="Profile Annotations">Profile Annotation</dfn></dt>
+          <dd>
+            Imported. See <a
+            data-cite="OPF-CORE#dfn-profile-annotation">[[OPF-CORE]], Profile
+            Annotation</a>.
+          </dd>
+
+          <dt><dfn data-lt="Profile Annotation Issuers">Profile Annotation Issuer</dfn></dt>
+          <dd>
+            Imported. See <a
+            data-cite="OPF-CORE#dfn-profile-annotation-issuer">[[OPF-CORE]],
+            Profile Annotation Issuer</a>.
+          </dd>
+
+          <dt><dfn data-lt="Recipients">Recipient</dfn></dt>
+          <dd>
+            Imported. See <a data-cite="OPF-CORE#dfn-recipient">[[OPF-CORE]],
+            Recipient</a>.
+          </dd>
+
+          <dt><dfn data-lt="Revocation Records">Revocation Record</dfn></dt>
+          <dd>
+            Imported. See <a
+            data-cite="OPF-CORE#dfn-revocation-record">[[OPF-CORE]], Revocation
+            Record</a>.
+          </dd>
+
+          <dt><dfn data-lt="Root Core Profiles">Root Core Profile</dfn></dt>
+          <dd>
+            Imported. See <a data-cite="OPF-CORE#dfn-root-core-profile">[[OPF-CORE]],
+            Root Core Profile</a>.
+          </dd>
+
+          <dt><dfn data-lt="Root Issuers">Root Issuer</dfn></dt>
+          <dd>
+            Imported. See <a data-cite="OPF-CORE#dfn-root-issuer">[[OPF-CORE]],
+            Root Issuer</a>.
+          </dd>
+
+          <dt><dfn data-lt="Signature Validity Periods">Signature Validity Period</dfn></dt>
+          <dd>
+            Imported. See <a
+            data-cite="OPF-CORE#dfn-signature-validity-periods">[[OPF-CORE]],
+            Signature Validity Period</a>. 
+          </dd>
+
+          <dt><dfn data-lt="Use Case Specifications">Use Case Specification</dfn></dt>
+          <dd>
+            Imported. See <a
+            data-cite="OPF-CORE#dfn-use-case-specifications">[[OPF-CORE]], Use
+            Case Specification</a>.
+          </dd>
+
+          <dt><dfn data-lt="Validated Attributes">Validated Attribute</dfn></dt>
+          <dd>
+            Imported. See <a
+            data-cite="OPF-CORE#dfn-validated-attribute">[[OPF-CORE]],
+            Validated Attribute</a>.
+          </dd>
+
+          <dt><dfn data-lt="Verifiers">Verifier</dfn></dt>
+          <dd>
+            Imported. See <a data-cite="OPF-CORE#dfn-verifier">[[OPF-CORE]],
+            Verifier</a>.
+          </dd>
+
+          <dt><dfn data-lt="Website Profiles">Website Profile</dfn></dt>
+          <dd>
+            Imported. See <a data-cite="OPF-WEB-MEDIA#dfn-website-profiles">[[OPF-WEB-MEDIA]],
+            Website Profile</a>. It is issued by the [=Originator=] itself and
+            lies outside the [=Originator Profile=]. It belongs to the Web
+            Media Use Case Specification [[OPF-WEB-MEDIA]] and plays no part
+            in this specification; it is listed here because <a
+            href="#differences"></a> names it.
+          </dd>
+        </dl>
+      </section>
+
+      <section id="terminology-email">
+        <h3>Terms Specific to this Specification</h3>
+        <dl>
+
+          <dt><dfn data-lt="Sending Domains">Sending Domain</dfn></dt>
+          <dd>
+            The [=Sending Domain=] of a message is the domain of the From
+            header field [[RFC5322]] of that message, provided that the
+            message is aligned under DMARC [[RFC9989]] with that domain as <a
+            href="#alignment"></a> establishes; a message that is not so
+            aligned has no [=Sending Domain=]. It is
+            the domain under which the content of the message arrives, and it
+            is what this specification binds to the [=Originator=]. It is the
+            [=Presented Identity=] of this use case, obtained and put into
+            canonical form as <a href="#presented-identity"></a> requires, and
+            compared with the [=Identity=] of the [=Originator=].
+          </dd>
+
+          <dt><dfn data-lt="Receiving Mail Servers">Receiving Mail Server</dfn></dt>
+          <dd>
+            A [=Receiving Mail Server=] is the mail transfer agent or message
+            delivery agent that accepts a message on behalf of its recipient.
+            It may evaluate DMARC, and it may record that result in the
+            Authentication-Results header field [[RFC8601]].
+          </dd>
+
+          <dt><dfn data-lt="Mail Clients">Mail Client</dfn></dt>
+          <dd>
+            A [=Mail Client=] is the user agent that displays a message to its
+            recipient. In this use case it is the party that verifies the
+            [=Originator Profile=].
+          </dd>
+
+          <dt><dfn data-lt="Times of Judgement">Time of Judgement</dfn></dt>
+          <dd>
+            The [=Time of Judgement=] of a verification is the point in time
+            against which the [=Signature Validity Periods=] of the documents
+            of an [=Originator Profile=] are tested. In this use case it is the time
+            of display or the [=Mail Client=]'s recorded time of receipt; see
+            <a href="#time-of-judgement"></a>. The
+            general rule is that of the Core Specification [[OPF-CORE]]; the
+            rule of this specification is an override of it, which the Core
+            Specification allows.
+          </dd>
+        </dl>
+      </section>
+    </section>
+
+    <section id="message">
+      <h2>Message Structure</h2>
+
+      <section id="message-signing">
+        <h3>Signing</h3>
+        <p>
+          <strong>What an Originator signs, and with which key.</strong> An
+          [=Originator=] that presents an [=Originator Profile=] in a
+          message under this specification MUST sign the message with S/MIME
+          [[RFC8551]]. It MUST carry the [=Originator Profile Bundle=] in the
+          form in which a message carries an attachment, as a body part of a
+          multipart entity, within the content that the signature covers. The
+          [=Originator=] MUST sign the message with one of the [=Originator
+          Verification Keys=] of the [=Core Profile=] carried in the message.
+        </p>
+        <p>
+          <strong>The structure of the message.</strong> An [=Originator=]
+          MUST give the message the following structure; the forms listed
+          after it are every form that meets it:
+        </p>
+
+        <ul>
+          <li>
+            The top-level body of the message is an S/MIME signature or,
+            where the message is encrypted, an encryption layer whose content,
+            once decrypted, is that signature.
+          </li>
+          <li>
+            The signature is in one of the two forms of S/MIME signed data.
+            One is an <code>application/pkcs7-mime</code> body of smime-type
+            <code>signed-data</code>, in which a CMS SignedData [[RFC5652]]
+            encapsulates the signed content; the other is a
+            <code>multipart/signed</code> body [[RFC1847]], whose first body
+            part is the signed content and whose second carries a detached
+            CMS SignedData over it.
+          </li>
+          <li>
+            The signed content is a <code>multipart/mixed</code> entity that
+            also holds the body of the message, and the [=Originator Profile
+            Bundle=] is a body part immediately within that
+            <code>multipart/mixed</code> entity.
+          </li>
+        </ul>
+        <p>
+          Where the signature is an <code>application/pkcs7-mime</code> body,
+          an [=Originator=] MUST give that body the smime-type parameter with
+          the value <code>signed-data</code>, which [[RFC8551]] makes optional.
+        </p>
+        <p>
+          <strong>The forms that meet the structure.</strong> The forms of message that
+          meet these requirements are the following, and only these:
+        </p>
+        <ul>
+          <li>
+            a <code>multipart/signed</code> body whose first body part, the
+            signed content, is a <code>multipart/mixed</code> entity holding
+            the body of the message and the [=Originator Profile Bundle=];
+          </li>
+          <li>
+            an <code>application/pkcs7-mime</code> body of smime-type
+            <code>signed-data</code> whose SignedData encapsulates a
+            <code>multipart/mixed</code> entity holding the body of the
+            message and the [=Originator Profile Bundle=];
+          </li>
+          <li>
+            either of the first two forms, enclosed in an encryption layer, an
+            <code>application/pkcs7-mime</code> body of smime-type
+            <code>enveloped-data</code> or <code>authEnveloped-data</code>
+            [[RFC8551]]: the message is signed and then encrypted. Such a
+            message can be verified only by the [=Mail Client=] that decrypts
+            it;
+          </li>
+          <li>
+            any of the three forms in which the body of the message is itself
+            a multipart entity, such as <code>multipart/alternative</code> or
+            <code>multipart/related</code>. That entity and the [=Originator
+            Profile Bundle=] are then both body parts immediately within the
+            signed <code>multipart/mixed</code> entity, and the bundle is not
+            within the entity of the body.
+          </li>
+        </ul>
+        <div class="note" title="What each of the two signatures asserts">
+          The S/MIME signature, which protects the body of the message and
+          with it the presence and the contents of the bundle, asserts that
+          this bundle was attached to this message by this signer. The
+          signature of each issuer on a document in the bundle asserts that
+          the issuer endorsed the party, or the key, that the document names.
+          The second is independent of the first, so the fact that the [=Core
+          Profile=] that carries the signing key is itself covered by a
+          signature made with that key raises no circularity. Placing the bundle outside the signature
+          would leave it open to substitution and would break the integrity of
+          the endorsement.
+        </div>
+      </section>
+
+      <section id="signature-and-bundle">
+        <h3>The Signature and the Bundle a Verifier Uses</h3>
+        <p>
+          <strong>Which bundle a Verifier uses.</strong> A [=Verifier=] uses
+          the [=Originator Profile Bundle=] placed as
+          <a href="#message-signing"></a> requires, within the content that
+          the signature covers, and the signature that covers it. A part of
+          the media type of the [=Originator Profile Bundle=]
+          (<a href="#bundle"></a>) in any other place, the place outside the
+          signed content included, is not an [=Originator Profile Bundle=]
+          under this specification and is not used in verification. A message
+          that carries a part of that media type only in such places is a
+          message whose signed content carries no [=Originator Profile
+          Bundle=] (step 1 of <a href="#verification-procedure"></a>).
+        </p>
+
+        <p>
+          <strong>The smime-type parameter.</strong> A [=Verifier=] takes the
+          form of an <code>application/pkcs7-mime</code> body from its
+          smime-type parameter alone, not from the CMS content it carries: a
+          body whose smime-type parameter is absent or has another value than
+          <code>signed-data</code> is not a signature in a form this
+          specification accepts.
+        </p>
+        <p>
+          <strong>Which signature, and its SignerInfos.</strong> The signature
+          this specification refers to is the SignedData whose signed content
+          immediately holds the [=Originator Profile Bundle=], placed as
+          <a href="#message-signing"></a> requires. Of its SignerInfos, those
+          that identify a certificate whose key is an [=Originator
+          Verification Key=] of a [=Core Profile=] in the bundle are the
+          signatures of the same signer, the [=Originator=], whatever their
+          algorithm. A [=Core Profile=] can carry keys of more than one
+          algorithm, as during a transition between algorithms, and each of
+          those keys signs as the same [=Originator=]. The key match of <a
+          href="#message-certificate"></a> is satisfied where there is at
+          least one.
+        </p>
+
+        <p>
+          Where that SignedData carries more than one SignerInfo, a
+          [=Verifier=] treats them as follows:
+        </p>
+        <ul>
+          <li>
+            The signature of the [=Originator=] verifies (step 1) if one of the
+            [=Originator=]'s SignerInfos verifies with an algorithm the
+            [=Verifier=] supports, as [[RFC5652]] treats the signatures of one
+            signer. One whose algorithm the [=Verifier=] does not support does
+            not by itself cause failure.
+          </li>
+          <li>
+            A SignerInfo whose key is in no [=Core Profile=] does not by itself
+            cause failure, even where its signature does not verify.
+          </li>
+          <li>
+            A [=Verifier=] MUST fail verification where a further SignerInfo
+            identifies a certificate whose key is an [=Originator Verification
+            Key=] of a [=Core Profile=] of an [=Identity=] other than that of
+            the [=Originator=]. It fails just as it does where [=Core
+            Profiles=] of more than one [=Identity=] meet the conditions by
+            which the [=Originator=] is determined (<a
+            href="#presented-identity"></a>).
+          </li>
+        </ul>
+        <div class="note" title="A SignerInfo of a third party">
+          A party on the path, such as a gateway that signs what it relays,
+          can add a SignerInfo with a key of its own. That key is in no
+          [=Core Profile=], and were such a SignerInfo a cause of failure, any
+          such party could make a message fail. A SignerInfo whose key is in
+          the [=Core Profile=] of another [=Identity=], by contrast, puts a
+          second [=Identity=]'s signature on the message, and the procedure
+          fails it as it fails a key that [=Core Profiles=] of more than one
+          [=Identity=] carry, rather than choose.
+        </div>
+      </section>
+
+      <section id="bundle">
+        <h3>The Originator Profile Bundle</h3>
+        <p>
+          <strong>What the bundle carries.</strong> An [=Originator=] MUST
+          include in its [=Originator Profile Bundle=]
+          the documents that the Core Specification defines an [=Originator
+          Profile Bundle=] to carry (<a
+          data-cite="OPF-CORE#originator-profile-bundle">[[OPF-CORE]],
+          Originator Profile Bundle</a>). The format of each of
+          these documents is defined in the Core Specification [[OPF-CORE]].
+        </p>
+        <p>
+          <strong>The whole chain travels with the message.</strong> An
+          [=Originator=] MUST carry the whole of each [=Accreditation
+          Chain=] in the [=Originator Profile Bundle=]; a [=Verifier=] is not required to retrieve any
+          part of an [=Originator Profile=] from the network, and the
+          [=Core Profile Issuer=] and every [=Profile Annotation Issuer=]
+          are discovered from the bundle. This is how a
+          [=Verifier=] comes to hold each chain locally before it issues any
+          DNS query, as the Core Specification requires (<a
+          data-cite="OPF-CORE#originator-profile-bundle">[[OPF-CORE]],
+          Originator Profile Bundle</a>).
+        </p>
+        <p>
+          <strong>One part, labelled with its media type.</strong> An
+          [=Originator=] MUST label the [=Originator Profile Bundle=] with
+          the media type registered for it; see <a href="#iana"></a>. An
+          [=Originator=] MUST NOT place more than one part of that media type
+          in the signed content. A part within an enclosed
+          <code>message/rfc822</code> body belongs to the enclosed message and
+          is not counted. A [=Verifier=] that finds more than one MUST fail
+          verification rather than choose among them; a message whose signed
+          content carries none is not evaluated (step 1 of
+          <a href="#verification-procedure"></a>).
+        </p>
+        <div class="issue" title="Media type not yet registered">
+          The media type of the [=Originator Profile Bundle=] is not yet
+          registered, and its registration is to be aligned with the
+          corresponding work on the Originator Profile Blueprints
+          [[?Originator Profile Blueprints]]. Until it is registered this
+          specification cannot be implemented interoperably.
+        </div>
+      </section>
+
+      <section id="message-certificate">
+        <h3>The Signer's Certificate</h3>
+        <p>
+          <strong>The key the Verifier matches.</strong> A [=Verifier=] MUST
+          derive the [=Key Identifier=] from the
+          SubjectPublicKeyInfo [[RFC5280]] of the certificate that the S/MIME
+          implementation used to verify the signature, normalized as the Core
+          Specification [[OPF-CORE]] requires of the key from which a [=Key
+          Identifier=] is derived. The [=Verifier=] MUST match that [=Key
+          Identifier=] against the [=Key Identifiers=] of the [=Originator
+          Verification Keys=] of the [=Core Profile=]. A message whose
+          signature the S/MIME implementation does not accept fails
+          verification (step 1 of <a href="#verification-procedure"></a>).
+        </p>
+        <div class="note" title="S/MIME's work and the check on the key">
+          S/MIME carries the signer's public key in an X.509 certificate. The
+          S/MIME implementation verifies the signature and validates the
+          certificate path as [[RFC8551]] and [[RFC5280]] require; this
+          specification neither restates nor relaxes those rules, and whether
+          the certificate and the certificates of its path are carried in the
+          SignedData or obtained otherwise is the S/MIME signer's matter, not
+          this specification's. What this specification adds is the check on
+          the key in this section: it ties the message to the [=Originator
+          Profile=], with the [=Validated Attributes=] its [=Profile
+          Annotations=] carry, rather than to a certificate alone. The key is
+          normalized so that the same key yields the same identifier here as
+          in the [=Core Profile=].
+        </div>
+
+        <p>
+          <strong>Certificates are outside the Originator Profile.</strong> A
+          certificate MUST NOT be placed in a [=Core Profile=]; a [=Core
+          Profile=] carries keys, not certificates, and the signer's
+          certificate is not part of the [=Originator Profile=]. A
+          [=Verifier=] MUST NOT treat the certificate
+          path of the signer's certificate as part of the [=Originator
+          Profile=].
+        </p>
+        <div class="note" title="The two layers in time">
+          The validity period of the certificate, and its revocation through 
+          CRL or OCSP, belong to the S/MIME layer and are outside this
+          framework. The only thing that joins the two layers is the identity
+          of the key; see <a href="#validity-layers"></a>.
+        </div>
+      </section>
+
+      <section id="message-headers">
+        <h3>Header Fields</h3>
+        <p>
+          <strong>Header fields beyond the DKIM <code>h=</code> tag are not
+          protected here.</strong> This specification does not require protection of
+          header fields beyond
+          what S/MIME provides, other than the coverage that
+          <a href="#presented-identity"></a> requires of the DKIM signature in
+          its <code>h=</code> tag. The identity that this specification
+          matches is the [=Sending Domain=], and the binding of a message to
+          that domain is the work of DMARC [[RFC9989]], not of the S/MIME
+          signature. S/MIME practice recommends protecting header fields
+          within the S/MIME signature; this specification does not require it.
+        </p>
+      </section>
+
+      <section id="message-compatibility" class="informative">
+        <h3>Backward Compatibility</h3>
+        <p>
+          A mail client that does not implement this specification, and so is
+          not a [=Mail Client=] in the sense of this document, treats the
+          [=Originator Profile Bundle=] as an attachment of an unknown type
+          and ignores it. The S/MIME signature still verifies, because the
+          bundle is an ordinary part of the signed content. Deployment can
+          therefore proceed one client at a time.
+        </p>
+        <p>
+          An [=Originator=] can therefore send messages under this
+          specification before its recipients are able to verify them; they
+          are verified wherever the receiving side is able to. On that
+          side verification is expected to arrive at first as a plug-in to an
+          existing mail client, or in a mail client distributed with
+          verification built in.
+        </p>
+      </section>
+    </section>
+
+    <section id="sending-domain">
+      <h2>Requirements on the Sending Domain and the DNS</h2>
+      <p>
+        This specification adds no resource record and no name to the DNS design of
+        the framework. The names, record types and formats are defined in the
+        Core Specification [[OPF-CORE]] and in [[?OPF-DNS]]. What this specification
+        fixes is which of those records the [=Originator=] is required to
+        publish, and what their absence means.
+      </p>
+      <p>
+        Two zones are concerned, and
+        they are kept apart below: the zone of the [=Sending Domain=], which
+        is required to be signed, and the zone of the [=Originator=]'s
+        [=Identity=], which holds the [=Issuer Pinning Record=]
+        (<a href="#sending-domain-zone"></a>). The [=Sending Domain=] is that
+        [=Identity=] or lies below it (<a href="#presented-identity"></a>), so
+        the two are the same zone or the first lies below the second. Where
+        the DKIM key and the DMARC policy record are published is a separate
+        matter, set out in <a href="#presented-identity"></a>. How a
+        [=Verifier=] establishes that a message is aligned, and so which
+        [=Sending Domain=] it takes, is in <a href="#alignment"></a>.
+      </p>
+      <p>
+        In this specification the DNSSEC states are the four that DNSSEC
+        itself defines for a validating resolver [[RFC4033]] [[RFC4035]],
+        as the Core Specification [[OPF-CORE]] gives them:
+      </p>
+      <ul>
+        <li><span class="dns-state">Secure</span>: the resolver has a
+          trust anchor and a chain of trust to the answer, and verifies
+          every signature in it;</li>
+        <li><span class="dns-state">Insecure</span>: the resolver has a
+          trust anchor and a chain of trust, and a signed proof that at
+          some delegation on the way there is no DS record, so that the
+          zone of the answer is shown to be unsigned;</li>
+        <li><span class="dns-state">Bogus</span>: the resolver has a trust
+          anchor and a secure delegation indicating that the answer is
+          signed, but the answer fails to validate;</li>
+        <li><span class="dns-state">Indeterminate</span>: there is no
+          trust anchor that would indicate whether that part of the tree is
+          signed.</li>
+      </ul>
+      <p>
+        Data is authenticated only where the answer is <span class="dns-state">Secure</span>. An
+        authenticated denial is a denial of existence that is <span class="dns-state">Secure</span>, which
+        the Core Specification calls a <span class="dns-state">Secure</span> proof of absence, and the
+        absence it proves is an authenticated absence.
+      </p>
+      <section id="presented-identity">
+        <h3>The Presented Identity</h3>
+        <p>
+          <strong>What the Presented Identity is.</strong> The identity under
+          which the content of a message is presented is the [=Sending
+          Domain=], namely the domain of the From header field
+          [[RFC5322]] with which alignment under DMARC [[RFC9989]] through
+          DKIM [[RFC6376]] was established. It is the [=Presented Identity=]
+          of this use case, the value with which the [=Identity=] a [=Core
+          Profile=] carries is compared to determine the [=Originator=]. This
+          section states what an [=Originator=] does so that a message is
+          aligned and bound, and how a [=Verifier=] takes the [=Sending
+          Domain=].
+        </p>
+        <p>
+          <strong>Which Core Profile is the Originator's.</strong> The
+          signature does not name the [=Originator=]. The [=Originator=] is
+          the party whose [=Core Profile=] in the [=Originator Profile
+          Bundle=], other than a [=Root Core Profile=], meets two conditions:
+          it carries the key of the signer's certificate, matched as <a
+          href="#message-certificate"></a> requires, and its [=Identity=] is
+          the [=Sending Domain=] or a domain below which the [=Sending
+          Domain=] lies, compared by the rule of the Core Specification
+          [[OPF-CORE]].
+        </p>
+        <p>
+          <strong>Alignment through DKIM.</strong> An [=Originator=] that
+          presents an [=Originator Profile=] in a message MUST sign the
+          message with DKIM under a <code>d=</code> domain identical to the
+          domain of the From header field, so that the message is aligned
+          under DMARC through DKIM, in strict alignment.
+        </p>
+
+         An [=Originator=] MUST ensure
+          that the following two names resolve as authenticated data through
+          any CNAME or delegation they pass through, as a record where one exists and as an
+          authenticated denial where none does:
+        </p>
+        <ul>
+          <li>the name at which the DKIM key of that signature is published;</li>
+          <li>
+            the name of the DMARC policy record of the domain of the From
+            header field.
+          </li>
+        </ul>
+        <p>
+          An [=Originator=] that has another party publish its key MUST have
+          that party's zone signed.
+        </p>
+        <div class="note" title="A key or policy record in another zone">
+          The requirement of <a href="#sending-domain-zone"></a> that the zone
+          of the [=Sending Domain=] be signed does not by itself secure these
+          names where the selector or the policy record is aliased or
+          delegated into a zone of another party, as when a mail service
+          provider holds the key. Under strict alignment the <code>d=</code>
+          domain is the domain of the From header field, so a key or a policy
+          record in another zone arises only by such an alias or by a
+          delegation of the name.
+        </div>
+        <p>
+          <strong>The DKIM signature.</strong> An [=Originator=] MUST NOT use
+          the <code>l=</code> tag [[RFC6376]] in the DKIM signature. An
+          [=Originator=] MUST include in the <code>h=</code> tag of the DKIM
+          signature the From, To, Cc, Subject, Date, Reply-To and Message-ID
+          header fields. It lists the name of each of them once more than the
+          field occurs in the message, and the name of a field that is absent
+          once. The [=Originator=] MUST NOT vary the DKIM selector by
+          recipient or by message.
+        </p>
+        <div class="note" title="The l= tag, oversigning and the selector">
+          <p>
+            A DKIM signature that carries the <code>l=</code> tag also
+            verifies over content appended after the length it covers, which
+            the S/MIME signature does not protect.
+          </p>
+          <p>
+            The listing of the header fields in <code>h=</code> is the
+            practice known as oversigning. DKIM signs the instances of a
+            header field named more than once in <code>h=</code> from the last
+            upward, and a name listed beyond the instances present signs the
+            absence of a further instance, so a field of that name added
+            afterwards breaks the signature ([[RFC6376]], Signatures Involving
+            Multiple Instances of a Field; Attacks Involving Extra Header
+            Fields). A message replayed unchanged to another recipient
+            (<a href="#re-verification"></a>) is unchanged only in what the
+            signature covers; a header field outside <code>h=</code> can be
+            replaced on the way, and a Reply-To so replaced would redirect the
+            recipient's reply while every check of this specification passes.
+          </p>
+          <p>
+            A [=Mail Client=] queries the key published under the selector,
+            and a selector that differs by recipient or by message would let
+            those queries tell the [=Originator=] which message was opened
+            (<a href="#privacy-what-the-queries-name"></a>). A [=Verifier=]
+            cannot detect such use of selectors; the requirement is one on the
+            [=Originator=].
+          </p>
+        </div>
+        <p>
+          <strong>The DMARC policy record.</strong> An [=Originator=] MUST
+          publish, at the domain of the From header field, a DMARC policy
+          record [[RFC9989]] whose <code>adkim</code> tag requests strict
+          alignment for DKIM (<code>adkim=s</code>). With a record at that
+          domain and strict alignment, the evaluation of [[RFC9989]] makes no
+          DNS Tree Walk, so that every name a [=Verifier=] queries for DMARC
+          lies under the domain of the From header field.
+        </p>
+        <div class="note" title="Strict and relaxed alignment">
+          Relaxed alignment rests on the organizational domain, which
+          [[RFC9989]] determines by a DNS Tree Walk and [[?RFC7489]] determined
+          with a list of public suffixes; a verifier that follows the one can
+          reach a different result from a verifier that follows the other
+          ([[RFC9989]], Changes from RFC 7489). Strict alignment compares the
+          two domains as they are and depends on neither. It also keeps every
+          name the evaluation queries under the domain of the From header
+          field, which is why this specification requires it.
+        </div>
+        <p>
+          <strong>Keeping the message verifiable.</strong> The [=Originator=]
+          SHOULD keep publishing the key of a DKIM selector it no longer signs
+          with for as long as messages signed under that selector might still
+          be verified. Publishing the record with an empty <code>p=</code> tag,
+          which [[RFC6376]] reads as revoked, ends its publication as removing
+          the record does. The [=Originator=] SHOULD either omit the
+          <code>x=</code> tag of [[RFC6376]] from its DKIM signatures or set
+          it beyond the period during which the message might still be
+          verified. The length of these periods is not fixed here; it is a
+          matter for the Operations document of the framework, and no
+          recommended value has been set yet (<a href="#parameters"></a>).
+        </p>
+        <div class="note" title="An unpublished key or a passed x=">
+          A [=Mail Client=] that evaluates DMARC when it displays a message
+          fails that evaluation once the key is no longer published, and it can
+          treat a signature whose <code>x=</code> has passed as expired, as
+          [[RFC6376]] permits (Validate the Signature Header Field); in either
+          case the message is no longer aligned (step 3 of
+          <a href="#verification-procedure"></a>).
+        </div>
+        <p>
+          <strong>The Sending Domain.</strong> An [=Originator=] MUST send a
+          message under this specification only from a [=Sending Domain=]
+          that is its [=Identity=] or lies below it. An [=Originator=] MUST
+          NOT send under this specification a message whose From header field
+          carries more than one address, or that carries more than one From
+          header field. An [=Originator=] MUST NOT send a message whose
+          [=Originator Profile Bundle=] contains, for more than one
+          [=Identity=], a [=Core Profile=] that carries the key of the
+          signer's certificate and whose [=Identity=] the [=Sending Domain=]
+          is or lies below (step 3 of <a href="#verification-procedure"></a>).
+          This specification does not use the [=Permitted Host Record=].
+        </p>
+        <div class="note" title="A key shared by nested Identities">
+          Where [=Core Profiles=] of more than one [=Identity=] carry the
+          signer's key and the [=Sending Domain=] is each of those
+          [=Identities=] or lies below it,
+          nothing in the message says which [=Originator=] signed it, and the
+          procedure fails rather than choose. An organization that holds
+          nested [=Identities=], such as <code>example.jp</code> and
+          <code>mail.example.jp</code>, therefore does not sign mail with a
+          key that both their [=Core Profiles=] carry: it uses a separate key
+          for each [=Identity=], or carries only one of the [=Core Profiles=]
+          in the bundle.
+        </div>
+        <div class="note" title="Delegated sending and the Permitted Host Record">
+          Delegated sending needs no [=Permitted Host Record=]: under strict
+          alignment the <code>d=</code> domain is the domain of the From
+          header field, so a mail service provider signs under the
+          [=Originator=]'s own domain, with the key published there or reached
+          from there by an alias or a delegation. An [=Originator=] that sends
+          from a registered domain outside its [=Identity=] presents, for that
+          domain, a [=Core Profile=] whose [=Identity=] it is.
+        </div>
+        <div class="note" title="A Permitted Host Record in a later revision">
+          A later revision could permit a [=Sending Domain=] outside the
+          [=Identity=] of the [=Originator=] by a [=Permitted Host Record=]. The record
+          would then be queried before the queries of step 3 of
+          <a href="#verification-procedure"></a>, so that no query for the
+          DKIM key or the DMARC policy record is made for a message whose
+          [=Sending Domain=] is not bound.
+        </div>
+        <p>
+          <strong>How a Verifier takes the Sending Domain.</strong> A
+          [=Verifier=] MUST put the [=Sending Domain=] into the canonical
+          form in which the Core Specification [[OPF-CORE]] compares domain
+          names. A [=Sending Domain=] that cannot be put into that form fails
+          verification (step 1), as the Core Specification requires of any
+          value that cannot be put into canonical form. Where the domain of the From
+          header field is an internationalized domain name, as it can be in a
+          message sent under [[RFC6531]], a [=Verifier=] MUST convert it to
+          A-labels as [[RFC8616]] defines for email authentication. That is
+          the form in which alignment under DMARC is also established. This
+          specification defines no other conversion; the comparison itself,
+          including what it means for one name to lie below another, is the
+          Core Specification's rule.
+        </p>
+
+        <p>
+          <strong>Messages outside the scope.</strong> A message whose DKIM
+          signature does not survive its path is outside the scope of this
+          specification. That is the case where a mailing list alters the
+          message, and where a gateway on the receiving side alters it by
+          tagging the subject, adding a notice to the body or rewriting its
+          links. This specification does not rely on ARC [[?RFC8617]] to carry
+          an authentication result across such an intermediary.
+        </p>
+        <div class="note" title="Alteration within the recipient's mail system">
+          A message altered within the recipient's own mail system is not
+          aligned for its [=Mail Client=], which evaluates DMARC itself
+          (<a href="#alignment"></a>). The deployment this
+          specification has in view is one whose principal purpose is
+          protection against phishing, such as mail that a bank sends to its
+          customers, and it does not include mailing lists.
+        </div>
+      </section>
+
+      <section id="alignment">
+        <h3>Establishing Alignment</h3>
+        <p>
+          <strong>The Mail Client evaluates DMARC itself.</strong> This
+          section states how a [=Verifier=] establishes that a message
+          is aligned, from which the [=Sending Domain=] is taken
+          (<a href="#presented-identity"></a>), and which message is not
+          aligned and so is not evaluated. A [=Mail Client=] MUST evaluate
+          DMARC [[RFC9989]] itself, from the DKIM [[RFC6376]] signatures of
+          the message alone and under strict alignment, whatever the
+          <code>adkim</code> tag of the DMARC policy record requests.
+        </p>
+        <p>
+          <strong>A DMARC result recorded on the way.</strong> The [=Mail
+          Client=] MUST disregard Authentication-Results header fields from
+          outside the trust boundary that the authserv-id of [[RFC8601]]
+          defines. A DMARC result that an Authentication-Results header field
+          added by its own [=Receiving Mail Server=] within that boundary
+          records is treated as follows:
+        </p>
+        <ul>
+          <li>
+            <code>fail</code>: the [=Mail Client=] MUST treat the message as
+            not aligned even where its own evaluation passes (step 3 of
+            <a href="#verification-procedure"></a>);
+          </li>
+          <li>
+            <code>pass</code>: it does not take the place of the [=Mail
+            Client=]'s own evaluation;
+          </li>
+          <li>
+            any other value, such as <code>none</code> or
+            <code>temperror</code>: it has no effect on that evaluation.
+          </li>
+        </ul>
+        <p>
+          A [=Mail Client=] that cannot tell which header fields its own
+          [=Receiving Mail Server=] added has no recorded result to honour and
+          proceeds on its own evaluation.
+        </p>
+        <p>
+          <strong>Which DKIM signatures count.</strong> A [=Verifier=]
+          establishes alignment only from a DKIM signature that:
+        </p>
+        <ul>
+          <li>verifies;</li>
+          <li>
+            has a <code>d=</code> domain identical to the domain of the From
+            header field, which is the strict alignment of [[RFC9989]];
+          </li>
+          <li>does not carry the <code>l=</code> tag; and</li>
+          <li>
+            lists in its <code>h=</code> tag the header fields
+            <a href="#presented-identity"></a> requires, as many times as it
+            requires them.
+          </li>
+        </ul>
+        <p>
+          As [[RFC9989]] provides, one such signature suffices. A
+          [=Verifier=] takes no [=Sending Domain=] from a message that
+          carries no From header field or more than one, or whose From
+          header field cannot be parsed as [[RFC5322]] defines or does not
+          carry exactly one address. Step 3 of
+          <a href="#verification-procedure"></a> gives the result for a
+          message that is not aligned.
+        </p>
+        <p>
+          <strong>What verifies.</strong> A signature verifies as [[RFC6376]],
+          as updated by [[RFC8301]] and [[RFC8463]], defines. A signature made
+          with rsa-sha1, or with an RSA key of fewer than 1024 bits, does not
+          verify, and a [=Verifier=] implements ed25519-sha256, as [[RFC8463]]
+          requires of a verifier.
+        </p>
+
+        <p>
+          <strong>The names and their answers.</strong> The [=Mail Client=]
+          MUST obtain the DKIM key and the DMARC policy record of the domain
+          of the From header field as authenticated data
+          (<a href="#sending-domain-zone"></a>). The key that matters is that
+          of a signature whose <code>d=</code> domain is the domain of the
+          From header field; the answer for the key of any other signature
+          has no bearing on the result. The two names are queried under this
+          specification and obtained as [[RFC6376]] and [[RFC9989]] define;
+          the Core Specification's rule on names and aliases, which covers
+          only the names the Core Specification [[OPF-CORE]] defines, does not
+          reach them.
+        </p>
+        <div class="note" title="The key of an unaligned signature">
+          DMARC considers only the signatures whose domain aligns with the
+          From header field, and this specification follows that form. A
+          signature added by
+          another party under its own domain neither helps nor harms the
+          result, so the answer for its key is not asked.
+        </div>
+        <p>
+          <strong>What is not aligned, and what fails.</strong> A
+          [=Verifier=] does not evaluate under this specification a message
+          that is not aligned. A message is not aligned where:
+        </p>
+        <ul>
+          <li>
+            an authenticated denial shows that the domain of the From header
+            field has no DMARC policy record, so DMARC does not apply;
+          </li>
+          <li>
+            no DKIM signature counts under this section; this includes a
+            signature whose key an authenticated denial shows to be no longer
+            published, as after the key has been replaced, and one whose
+            <code>x=</code> has passed;
+          </li>
+          <li>
+            the message has no [=Sending Domain=], having no From header
+            field or more than one, or a From header field that cannot be
+            parsed or does not carry exactly one address;
+          </li>
+          <li>
+            the [=Mail Client=]'s own [=Receiving Mail Server=] recorded a
+            DMARC result of <code>fail</code>, which the [=Mail Client=]
+            honours as this section states; or
+          </li>
+          <li>
+            the message is otherwise not aligned under [[RFC9989]].
+          </li>
+        </ul>
+        <p>
+          Step 3 of <a href="#verification-procedure"></a> gives the results:
+          <code>fail</code> where the DMARC policy record, or the key of a
+          signature whose <code>d=</code> domain is the domain of the From
+          header field, cannot be obtained as authenticated data, and
+          <code>none</code> for a message that is not aligned. The first row of
+          its table that applies decides. A message that has already failed an
+          earlier step of that procedure has failed, whether or not it is
+          aligned.
+        </p>
+        <div class="note" title="Reliance on the receiving side">
+          The sender of a message under this specification controls its own
+          deployment and can be required to sign with DKIM
+          (<a href="#presented-identity"></a>). The receiving side cannot be
+          so controlled: the recipients of a message from an [=Originator=]
+          such as a large bank may number in the tens of millions, and nothing
+          can be presumed about their environment, including whether their
+          receiving servers evaluate DMARC. A rule that relied on the
+          receiving server would leave many of them without a result.
+        </div>
+        <div class="note" title="DKIM alone, and strict alignment alone">
+          The DKIM signature is what allows a [=Mail Client=] to evaluate
+          DMARC itself. DMARC lets either SPF [[?RFC7208]] or DKIM make
+          a message aligned. This specification narrows that to DKIM, because
+          a [=Mail Client=] evaluates DMARC from the DKIM signature of the
+          message; a message aligned only through SPF is therefore not
+          aligned for the purpose of this specification
+          (<a href="#presented-identity"></a>). It narrows alignment likewise
+          to strict; a message aligned only under relaxed alignment is not
+          aligned for the purpose of this specification.
+        </div>
+      </section>
+
+      <section id="sending-domain-zone">
+        <h3>DNSSEC and the Issuer Pinning Record</h3>
+        <p>
+          <strong>The zone of the Sending Domain.</strong> An [=Originator=]
+          MUST have the zone of the [=Sending Domain=] signed with DNSSEC, so
+          that a [=Verifier=] can obtain the records of that zone as
+          authenticated data (<a href="#alignment"></a>). The [=Originator=] MUST have the zone signed so
+          that the absence of a name in it is shown by an authenticated
+          denial: with NSEC records, or with NSEC3 records without the
+          Opt-Out flag [[?RFC5155]].
+        </p>
+        <p>
+          <strong>Present only from a Secure answer, absent only from an
+          authenticated denial.</strong> When a [=Verifier=] queries a name
+          in that zone that this
+          specification has it query, a <span class="dns-state">Secure</span>
+          answer alone shows the name present, and an authenticated denial
+          alone shows it absent
+          (<a href="#alignment"></a>). The Core Specification
+          states the same for the names it defines (<a
+          data-cite="OPF-CORE#dnssec-and-resolution-outcomes">[[OPF-CORE]],
+          DNSSEC Requirements and Resolution Outcomes</a>).
+        </p>
+        <p>
+          <strong>An unsigned or unauthenticated zone fails
+          verification.</strong> Where the zone of the [=Sending Domain=] is
+          unsigned, or the [=Verifier=] cannot authenticate its records, the
+          answer being <span class="dns-state">Insecure</span>,
+          <span class="dns-state">Bogus</span> or
+          <span class="dns-state">Indeterminate</span>, verification fails
+          under this specification, as the first row of the table of step 3
+          of <a href="#verification-procedure"></a> states. A [=Verifier=]
+          MUST NOT treat such a message as one presenting an unpinned
+          [=Originator=] in the sense of the Core Specification [[OPF-CORE]].
+        </p>
+        <div class="note" title="A denial under NSEC3 Opt-Out">
+          Under Opt-Out the denial of a name, such as the key of a DKIM
+          selector that is no longer published, is
+          <span class="dns-state">Insecure</span>, which fails verification
+          (step 3 of <a href="#verification-procedure"></a>), where an
+          authenticated denial would leave the message not aligned.
+        </div>
+        <p>
+          <strong>The Issuer Pinning Record.</strong> In the zone of its
+          [=Identity=], an [=Originator=] MUST name the [=Core Profile
+          Issuers=] permitted to issue a [=Core Profile=] for it, in the
+          [=Issuer Pinning Record=] of that [=Identity=], the record that the
+          Core Specification [[OPF-CORE]] defines for that purpose. The Core
+          Specification does not require this record of the [=Originator=];
+          in this use case it is required.
+        </p>
+        <p>
+          A [=Verifier=] MUST check the [=Core Profile=] it has received
+          against that record. A [=Verifier=] MUST fail verification (step 4
+          of <a href="#verification-procedure"></a>) in each of the following
+          cases:
+        </p>
+        <ul>
+          <li>the record is absent as authenticated data;</li>
+          <li>the answer is <span class="dns-state">Insecure</span>;</li>
+          <li>
+            the answer is reached through an alias, which the Core
+            Specification reads as an <span class="dns-state">Insecure</span>
+            answer for this record;
+          </li>
+          <li>the record does not name the issuer of that [=Core Profile=].</li>
+        </ul>
+        <p>
+          None of these leaves the [=Originator=] unpinned, as the Core
+          Specification's reading of an authenticated absence and of an
+          <span class="dns-state">Insecure</span> answer would.
+        </p>
+        <div class="note" title="The Identity's zone and a delegated record">
+          The zone of the [=Identity=] is signed in any case: the [=Sending
+          Domain=] is that [=Identity=] or lies below it
+          (<a href="#presented-identity"></a>), and its records reach the
+          [=Verifier=] as authenticated data only along a signed path that
+          passes through the zone of the [=Identity=]. That does not reach a
+          zone to which the name of the record is delegated, as the Core
+          Specification permits (<a
+          data-cite="OPF-CORE#originator-records">[[OPF-CORE]], Records
+          Published by the Originator</a>): without its DS record in the zone
+          of the [=Identity=], every answer from that zone is
+          <span class="dns-state">Insecure</span>.
+        </div>
+        <div class="note" title="Cost and gain of requiring the record">
+          The cost of the requirement is one static record in a zone
+          that is signed in any case. What it buys is a means, independent of
+          the [=Core Profile Issuer=], by
+          which an [=Originator=] can stop the use of its [=Originator Profile=]
+          in email, and a second factor against a [=Core Profile=] issued
+          in error. Against phishing, which is the principal threat to email,
+          that independent means is worth its cost.
+        </div>
+        <p>
+          <strong>The issuers' records are the Core Specification's.</strong>
+          The records published by the issuers, namely the
+          [=Issuer Key Record=] of each, the [=Originator Key Records=] of a
+          [=Core Profile Issuer=] and the [=Revocation Records=] of a
+          [=Profile Annotation Issuer=], are defined in the Core Specification
+          [[OPF-CORE]]. This specification places no requirement on them beyond
+          those of the Core Specification.
+        </p>
+      </section>
+    </section>
+
+    <section id="verification">
+      <h2>Verification</h2>
+      <p>
+        This section fixes, for this use case, which party carries out the
+        verification procedure and what becomes of the result. That party is
+        the [=Mail Client=], and the result is presented to the [=Recipient=]
+        (<a href="#presentation"></a>). This specification defines no form in
+        which a result is recorded in the message. A [=Mail Client=] MAY
+        keep a sealed record, or a cache, of its own results
+        (<a href="#re-verification"></a>). The time as of which validity is
+        judged is in <a href="#time-of-judgement"></a>.
+      </p>
+
+      <section id="verification-parties">
+        <h3>The Verifying Parties</h3>
+        <p>
+          <strong>The Mail Client verifies, and evaluates DMARC
+          itself.</strong> In this use case the [=Originator Profile=] of a
+          message is verified by the [=Mail Client=] that displays it, which
+          evaluates DMARC itself in order to do so
+          (<a href="#alignment"></a>). A [=Receiving Mail
+          Server=] can evaluate DMARC and record the result in the
+          Authentication-Results header field [[RFC8601]], but this
+          specification does not assume that it does; how a recorded result
+          is treated is stated there. Verification of an [=Originator
+          Profile=] by a [=Receiving Mail Server=] is outside this
+          specification.
+        </p>
+        <p>
+          <strong>When the Mail Client evaluates DMARC.</strong> A [=Mail
+          Client=] ordinarily evaluates DMARC when it displays the message. A
+          [=Mail Client=] that evaluates DMARC when it takes the message in,
+          and keeps a record of that evaluation, can use that record as the
+          evaluation as of the time of receipt, as
+          <a href="#time-of-judgement"></a> permits.
+        </p>
+        <p>
+          <strong>Order.</strong> The queries that a message's [=Originator
+          Profile Bundle=] occasions under this specification are made only
+          after the local checks of <a href="#verification-procedure"></a>. An
+          evaluation of DMARC that a [=Verifier=] makes for every message it
+          takes in, independently of this specification, is not bound by that
+          order.
+        </p>
+        <p>
+          <strong>DNSSEC validation.</strong> How a [=Verifier=] establishes
+          the DNSSEC validation state of an answer, by validating itself or
+          through a validating resolver it has assurance of, is the same at
+          the two names this specification has it query as at the names the
+          Core Specification defines. The two names are those of the DKIM key
+          and the DMARC policy record. The Core Specification states this (<a
+          data-cite="OPF-CORE#dnssec-and-resolution-outcomes">[[OPF-CORE]],
+          DNSSEC Requirements and Resolution Outcomes</a>). What the state
+          means at those two names is this specification's: an answer that
+          carries no validation state is not authenticated data, and a
+          [=Verifier=] treats it as a record it cannot authenticate
+          (<a href="#sending-domain-zone"></a>).
+        </p>
+
+
+      </section>
+
+      <section id="verification-procedure">
+        <h3>Verification Procedure</h3>
+        <p>
+          <strong>Steps numbered as the general procedure.</strong> A
+          [=Verifier=] that verifies an [=Originator Profile=] presented in a
+          message MUST perform the following steps. The steps follow the
+          general procedure of the Core Specification [[OPF-CORE]] and are
+          numbered as that procedure numbers them. Only the content that is
+          specific to this specification is given here, and a step that says
+          "as in the general procedure" is that procedure's step unchanged.
+          The steps that decide a result of <code>none</code> or
+          <code>fail</code> under this specification say so; other sections
+          refer to them.
+        </p>
+        <p>
+          <strong>Which queries wait for what.</strong> Each step that
+          queries the DNS is marked (DNS). The order of the
+          queries is that of the general procedure: none for an issuer before
+          its [=Accreditation Chain=] is verified locally (step 2), and none
+          whose name is built from the [=Core Profile=] before its signature
+          is verified (step 5). The queries of this specification's own, for
+          the DKIM key and the DMARC policy record (step 3), follow the local
+          checks of steps 1 to 3.
+        </p>
+
+        <ol class="algorithm">
+          <li>
+            <p>
+              <strong>Take the inputs.</strong> Take the [=Core Profile=],
+              the [=Profile Annotations=] and the [=Accreditation Chains=]
+              from the [=Originator Profile Bundle=] within the signed content
+              (<a href="#signature-and-bundle"></a>). The identity under which
+              the content is presented is the [=Sending Domain=], obtained and
+              put into canonical form as <a href="#presented-identity"></a>
+              requires; until step 3 has established alignment it is the
+              domain of the From header field, in that canonical form.
+            </p>
+            <p>
+              <strong>The local check of this step.</strong> The S/MIME
+              signature MUST be accepted by the S/MIME implementation as
+              [[RFC8551]] requires, the validation of the certificate path
+              included. In the SignedData layer that carries the bundle, at
+              least one SignerInfo of the [=Originator=] MUST so verify, with
+              an algorithm the [=Verifier=] supports
+              (<a href="#signature-and-bundle"></a>). Such a SignerInfo
+              identifies a certificate whose key is an [=Originator
+              Verification Key=] of the [=Core Profile=] of the
+              [=Originator=] (the key match of step 3). In this use case the
+              S/MIME signature stands for the [=Content Attestation=] (<a
+              data-cite="OPF-CORE#use-case-interface">[[OPF-CORE]],
+              Requirements on Use Case Specifications</a>, item 7); it is
+              verified here, and steps 3 and 7 rely on that.
+            </p>
+
+            <p>
+              The outcome of this step is as follows; the first case that
+              applies decides it:
+            </p>
+            <ul>
+              <li>
+                The signed content carries no [=Originator Profile Bundle=],
+                or the message is not signed with S/MIME: the message is not
+                evaluated, whatever the local check of this step would have
+                found. Its
+                result is <code>none</code> and the procedure ends here.
+              </li>
+              <li>
+                The S/MIME implementation does not accept the signature: the
+                result is <code>fail</code>.
+              </li>
+              <li>
+                The From header field yields one address whose domain cannot
+                be put into canonical form: verification fails
+                (<a href="#presented-identity"></a>), and the result is
+                <code>fail</code>.
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Verify the Accreditation Chains locally.</strong> Verify
+            each [=Accreditation Chain=] from the documents of the
+            [=Originator Profile Bundle=] alone, as the general procedure
+            requires (<a
+            data-cite="OPF-CORE#chain-verification">[[OPF-CORE]],
+            Accreditation Chain Verification and Caching</a>). The chain is
+            verified downward, from a [=Root Core Profile=] the [=Verifier=]
+            accepts, issuer by issuer, to the issuer whose document is being
+            verified, whatever the order in which the bundle carries those
+            documents. No query is made for
+            an issuer whose chain has not been verified; for a [=Root
+            Issuer=], its [=Root Core Profile=] serves as that chain.
+            This is unrelated to
+            the certificate path of any X.509 certificate. The checks in the
+            DNS that the general procedure requires for each step of
+            a verified chain are made as that procedure states (DNS).
+          </li>
+          <li>
+            <p><strong>Bind the identity</strong> (DNS for alignment under
+            DMARC: the DKIM key and the DMARC policy record).</p>
+            <p>
+              <strong>The key match and the Sending Domain.</strong> A message
+              from which no [=Sending Domain=] is taken
+              (<a href="#alignment"></a>) is not aligned: no match is made, no
+              name is queried, and the outcome below gives <code>none</code>.
+              Where the
+              SignedData layer that carries the bundle has more than one
+              SignerInfo, the signer's certificate in this step is the
+              certificate of each SignerInfo in turn
+              (<a href="#signature-and-bundle"></a>). The [=Key Identifier=]
+              derived from the SubjectPublicKeyInfo of the signer's
+              certificate equals the [=Key Identifier=] of one of the
+              [=Originator Verification Keys=] of the [=Core Profile=] of the
+              [=Originator=], as <a href="#message-certificate"></a> requires.
+              The [=Sending Domain=] MUST be the [=Identity=]
+              of the [=Originator=] or lie below it, compared by the rule of
+              the Core Specification [[OPF-CORE]].
+            </p>
+            <p>
+              <strong>Which Core Profile is the Originator's.</strong> The
+              [=Originator=] is determined as <a
+              href="#presented-identity"></a> states. Where [=Core Profiles=]
+              of more than one [=Identity=] meet its two conditions,
+              verification fails. The
+              Core Specification then proceeds on the [=Originator=] so
+              determined: its limit on the number of [=Core Profiles=] about
+              one [=Originator=], and its choice among them, apply to the
+              [=Core Profiles=] whose [=Identity=] is the [=Originator=]'s.
+            </p>
+            <div class="note" title="An issuer's Core Profile as a candidate">
+              The [=Core Profile=] of an issuer along an [=Accreditation
+              Chain=] carries that issuer's own keys, and so meets both
+              conditions only where the issuer holds the key of the signer;
+              the [=Originator=] can itself be such an issuer, and its [=Core
+              Profile=] then serves both roles. The match is what establishes
+              that this message was signed with a key of this [=Originator
+              Profile=]; the S/MIME signature, which stands for the [=Content
+              Attestation=], was verified in step 1.
+            </div>
+            <div class="note" title="The Root Core Profile, set aside by name">
+              A [=Root Core Profile=] is set aside by name because a
+              [=Verifier=] knows the [=Root Core Profiles=] it accepts before
+              it verifies anything. Which [=Core Profile=] is an issuer's is
+              known only from the verified chain. Setting such a profile aside
+              at that point would run in a circle with the Core
+              Specification's bound on the number of [=Core Profiles=] about
+              one [=Originator=], which is applied once the [=Originator=] is
+              determined; an issuer's [=Core Profile=] is therefore left to
+              the condition on the signer's key.
+            </div>
+
+            <p>
+              <strong>Alignment under DMARC.</strong> After the local match
+              of this step, a [=Mail Client=] establishes by its own
+              evaluation, from the DKIM signatures that count under
+              <a href="#alignment"></a>, whether the message is aligned under
+              DMARC as <a href="#presented-identity"></a> requires of the
+              [=Originator=]. The outcome below gives the result.
+            </p>
+
+            <p>
+              <strong>The queries of this step.</strong> The DKIM key and the
+              DMARC policy record are queried only after the S/MIME signature
+              has been verified (step 1), the [=Sending Domain=] has been
+              compared locally with the [=Originator=]'s [=Identity=] earlier
+              in this step, and the [=Accreditation Chains=] have been verified
+              locally (step 2). No name taken from an unverified message is
+              then queried.
+            </p>
+            <p>
+              <strong>Outcome.</strong> The first row that applies decides
+              it.
+            </p>
+            <table class="simple">
+              <thead>
+                <tr><th>Case</th><th>Result</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    The answer for the DMARC policy record is not
+                    authenticated data, being
+                    <span class="dns-state">Insecure</span>,
+                    <span class="dns-state">Bogus</span> or
+                    <span class="dns-state">Indeterminate</span>, or the
+                    answer holds a record but none that can be used, the
+                    evaluation ending in a permanent error (permerror) of
+                    [[RFC9989]] or [[RFC9989]] keeping none of the records
+                    found, as where none begins with <code>v=DMARC1</code> or
+                    more than one does ([[RFC9989]], DNS Tree Walk); or no DKIM signature
+                    counts under <a href="#alignment"></a> and the answer for
+                    the key of a signature whose <code>d=</code> domain is
+                    identical to the domain of the From header field, the key
+                    that counts under <a href="#alignment"></a>, is not
+                    authenticated data (<a href="#sending-domain-zone"></a>)
+
+                  </td>
+                  <td>Verification fails: <code>fail</code></td>
+                </tr>
+                <tr>
+                  <td>
+                    The message is not aligned, in any of the cases
+                    <a href="#alignment"></a> lists
+                  </td>
+                  <td>
+                    The message is not aligned and is not evaluated further:
+                    <code>none</code>, not a failure
+                  </td>
+                </tr>
+                <tr>
+                  <td>The message is aligned</td>
+                  <td>The procedure continues with step 4</td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
+          <li>
+            <strong>Consult the Originator's Issuer Pinning Record</strong>
+            (DNS). Required in this use case. Check that the
+            [=Issuer Pinning Record=] in the zone of the [=Originator=]'s
+            [=Identity=] names the issuer of the [=Core Profile=] among the
+            permitted [=Core Profile Issuers=]; the cases in which this check
+            fails, an authenticated absence and an
+            <span class="dns-state">Insecure</span> answer among them, are
+            those <a href="#sending-domain-zone"></a> lists. The query follows
+            the verification of the signature on the [=Core Profile=]
+            (step 5), since its name is built from the [=Identity=] the
+            [=Core Profile=] carries.
+          </li>
+          <li>
+            <strong>Check the Core Profile</strong> (DNS). As in the general
+            procedure (<a data-cite="OPF-CORE#procedure">[[OPF-CORE]],
+            Procedure</a>, step 5), the [=Time of Judgement=] being that of
+            <a href="#time-of-judgement"></a>. The key of the issuer is taken
+            from the issuer's [=Core Profile=] in the [=Accreditation Chain=]
+            carried in the message, or from a [=Root Core Profile=] the
+            [=Verifier=] accepts.
+            The verification of the signature is the
+            local part of this step and precedes the queries of steps 4
+            and 6.
+
+          </li>
+          <li>
+            <strong>Check the Originator Key Record</strong> (DNS). As in the
+            general procedure. The query follows the verification of the
+            signature on the [=Core Profile=] (step 5), since its name is
+            taken from the [=Core Profile=].
+          </li>
+          <li>
+            <p>
+              <strong>Verify the Content Attestation.</strong> The S/MIME
+              signature stands for the [=Content Attestation=]; it was
+              verified in step 1 and its key matched in step 3. Check, as in
+              the general procedure, that the key is current for the [=Core
+              Profile=]: that the [=Originator Key Record=] retrieved in
+              step 6 lists its [=Key Identifier=]. In this specification the
+              [=Key Identifier=] is derived by the [=Verifier=] from the
+              signer's certificate (<a href="#message-certificate"></a>)
+              rather than named by a [=Content Attestation=]; in every other
+              respect this step is as in the general procedure.
+            </p>
+
+          </li>
+          <li>
+            <p>
+              <strong>Check each Profile Annotation</strong> (DNS). As in the
+              general procedure, the [=Time of Judgement=] being that of
+              <a href="#time-of-judgement"></a>. An annotation whose [=Signature
+              Validity Period=] has ended at the time of verification is not in force,
+              whatever the [=Time of Judgement=], as that procedure states;
+              its having ended is not a failure of verification. Where the
+              [=Time of Judgement=] is the time of receipt, what was in force
+              on receipt is established only from a record made at the time
+              (<a href="#re-verification"></a>).
+            </p>
+
+          </li>
+          <li>
+            <strong>Derive and report the outcome.</strong> As in the general
+            procedure. A result of <code>none</code> is presented as such,
+            distinct from a failure (<a href="#presentation"></a>). A
+            [=Verifier=] MUST report the
+            outcome of the framework's checks separately from the outcome of
+            the S/MIME signature verification.
+          </li>
+        </ol>
+        <p>
+          <strong>The queries this procedure adds.</strong> The number of DNS
+          queries this procedure makes is that of the general procedure, with
+          the following added in step 3: the DKIM key of the evaluated
+          signature and the DMARC policy record of the domain of the From
+          header field. The evaluation under <a href="#alignment"></a> makes
+          no DNS Tree Walk, so no other name is queried for DMARC. The
+          queries of step 3 are made for every message a [=Mail Client=]
+          evaluates. No [=Permitted Host Record=] is queried
+          (<a href="#presented-identity"></a>).
+        </p>
+
+
+
+      </section>
+
+      <section id="presentation">
+        <h3>Presentation</h3>
+        <p>
+          <strong>What a Mail Client presents.</strong> A [=Mail Client=]
+          presents to the [=Recipient=] the result of its own
+          verification, and with it what the [=Originator Profile=] says about
+          the [=Originator=]. Where the result is <code>pass</code>, the
+          outcome of the general procedure (<a
+          data-cite="OPF-CORE#outcome">[[OPF-CORE]], Outcome and Time of
+          Judgement</a>) also yields the [=Identity=] of the [=Originator=]
+          and the [=Profile Annotations=] in force, each with its issuer.
+        </p>
+        <p>
+          <strong>Which attributes are shown, and how.</strong> What the
+          [=Mail Client=] presents is the [=Validated Attributes=] that the
+          [=Core Profile=] and the [=Profile Annotations=] in force carry about
+          the [=Originator=], or the part of them that this use case calls for.
+          The value alone would say only that an issuer established under a
+          [=Root Core Profile=] the [=Verifier=] accepts has verified the
+          [=Originator=].
+           Which attributes are shown,
+          and how, for example in stages, is a matter for the design of the
+          [=Mail Client=]'s user experience.
+        </p>
+        <p>
+          <strong>The three results.</strong> The result of verification
+          under this specification is one of three values:
+        </p>
+        <ul>
+          <li>
+            <code>pass</code>: every check of
+            <a href="#verification-procedure"></a> succeeded.
+          </li>
+          <li>
+            <code>fail</code>: the signed content carries an [=Originator
+            Profile Bundle=] and a check of
+            <a href="#verification-procedure"></a> failed, the verification of
+            the S/MIME signature in step 1 included.
+          </li>
+          <li>
+            <code>none</code>: the message was not evaluated under this
+            specification, because it is not signed with S/MIME or its signed
+            content carries no [=Originator Profile Bundle=] (step 1), or
+            because it is not aligned (step 3). It is not a failure.
+          </li>
+        </ul>
+        <p>
+          <strong>The first step that decides, and how none is
+          presented.</strong> The procedure runs in order; the first step at
+          which a message fails, or at which it is found not to be
+          evaluated, decides its result. A [=Mail Client=] MUST present a
+          message whose result is <code>none</code> as one that this
+          specification did not evaluate, and not as a failure; the
+          distinction is part of what the presentation has to carry.
+        </p>
+
+        <p>
+          <strong>Which DMARC result is presented.</strong> The DMARC result
+          on which a [=Mail Client=] relies is that of its
+          own evaluation (<a href="#alignment"></a>). Whether the
+          presentation distinguishes it from a result its [=Receiving Mail
+          Server=] can also have recorded is a matter for the design of the
+          user interface. This specification does not require that it be
+          distinguished.
+        </p>
+        <p>
+          <strong>What the Core Specification already requires of the
+          presentation.</strong> The Core Specification [[OPF-CORE]] states
+          what a [=Verifier=] is not to present as though an annotation were
+          in force. It also requires the distinction between a pinned [=Originator=], an unpinned one and
+          one whose [=Issuer Pinning Record=] was not consulted to be kept
+          wherever an outcome is passed on; neither is restated here. In this
+          use case the last does not arise.
+        </p>
+        <p>
+          <strong>A result retained as of receipt.</strong> A [=Mail
+          Client=] that keeps a sealed record, or a cache, of its own results
+          can use it to retain a result as of the time of receipt, as
+          <a href="#time-of-judgement"></a> permits.
+        </p>
+      </section>
+    </section>
+
+    <section id="validity">
+      <h2>Validity, Revocation and Time</h2>
+
+      <section id="validity-layers">
+        <h3>The Layers of Validity</h3>
+        <p>
+          <strong>The four layers are the Core Specification's, and the
+          Issuer Pinning Record ends one of them too.</strong>
+          The four layers of validity within the framework, the key, the
+          [=Core Profile=], the registration of the [=Originator=] and each
+          [=Profile Annotation=], and what ends each of them, are those of the
+          Core Specification (<a
+          data-cite="OPF-CORE#revocation-model">[[OPF-CORE]], Revocation
+          Model and Time Constraints</a>) and are not restated here. One
+          thing specific to this use case is in the registration layer: the
+          removal of the [=Issuer Pinning Record=] also ends validity, since
+          its authenticated absence fails verification
+          (<a href="#sending-domain-zone"></a>).
+        </p>
+        <p>
+          <strong>The layer outside the framework.</strong> The other thing
+          specific to this use case is a layer outside the framework: the
+          X.509 certificate of the signer, whose validity is judged by the
+          S/MIME implementation. It is ended by CRL or OCSP or by a decision
+          not to trust, and is held by the certification authority and the
+          receiving party's policy.
+        </p>
+        <p>
+          <strong>The layers are independent.</strong> Each of the four
+          layers within the framework, and the layer outside it, is judged on
+          its own; verification fails if either the framework's
+          checks or the S/MIME verification fails. The only
+          thing that joins them is the identity of the key, so no invariant
+          over time is needed between them: a certificate can be revoked while
+          the [=Originator Profile=] remains valid, and the converse can
+          equally hold.
+        </p>
+      </section>
+
+      <section id="validity-invariants">
+        <h3>Invariants on Issuance</h3>
+        <p>
+          <strong>The Core Specification's invariants apply
+          unchanged.</strong> This specification adds no invariant on
+          issuance to those of the Core Specification (<a
+          data-cite="OPF-CORE#revocation-model">[[OPF-CORE]], Revocation
+          Model and Time Constraints</a>), which apply in this use case as
+          they stand. First, the validity of a
+          [=Profile Annotation=] lies within that of the [=Core Profile=] it
+          annotates. Second, the record of a retired key is kept until the
+          [=Core Profile=] that carries it has expired, with the retention
+          margin and the exceptions that document states. Third, an issuer's
+          keys overlap for the period it requires. The second of these
+          governs what can be verified after the fact
+          (<a href="#re-verification"></a>): a retired key is not withdrawn,
+          so a message signed with it still passes step 7 of
+          <a href="#verification-procedure"></a>.
+        </p>
+
+      </section>
+
+      <section id="key-retirement">
+        <h3>Keeping a Replaced Key as Retired or Withdrawing It</h3>
+        <p>
+          <strong>Email keeps a replaced key as retired.</strong> In this use
+          case an [=Originator=] SHOULD keep a replaced key as a retired key
+          rather than withdraw it, since a message that has been delivered
+          cannot be signed again. A message signed with the
+          replaced key then remains verifiable until the earlier [=Core
+          Profile=], which carries that key, expires or is revoked.
+        </p>
+        <p>
+          <strong>What the Core Specification leaves to the use
+          case.</strong> The Core Specification leaves this choice to each
+          [=Use Case
+          Specification=], and states the two ways, keeping the key as a
+          retired key or signing the content again with the new key and
+          withdrawing the replaced one, and what the choice exchanges, the
+          cost of keeping the key included (<a
+          data-cite="OPF-CORE#security-key-compromise">[[OPF-CORE]], Key
+          Compromise</a>).
+        </p>
+        <p>
+          <strong>A retired key is of use only while its Core Profile is
+          current.</strong> The [=Core Profile=] that carries a retired key
+          has itself to be valid at the [=Time of Judgement=], so the key is
+          of use only while that profile is current; verification beyond that
+          point falls into the
+          second and third stages of <a href="#re-verification"></a>.
+        </p>
+      </section>
+
+      <section id="time-of-judgement">
+        <h3>The Time of Judgement</h3>
+        <p>
+          <strong>Display, or the recorded time of receipt.</strong> For a
+          [=Mail Client=], the [=Time of Judgement=] is either the time
+          of display or its recorded time of receipt, as follows. This is
+          another time that the Core Specification [[OPF-CORE]] lets a [=Use
+          Case Specification=] name, in place of the time of verification, and
+          it is one the delivery channel gives the [=Verifier=]. The
+          tolerance a [=Verifier=] allows for clock skew is that of the
+          general procedure of the Core Specification.
+        </p>
+        <p>
+          <strong>Either time, and the Mail Client reports which.</strong> A
+          [=Mail Client=] MUST judge validity
+          either as of the time at which it displays the message, or as of the
+          time of receipt it recorded when it took the message in, reproducing
+          the judgement that would have been made on receipt.
+          Either is permitted, and a [=Mail Client=] MUST report which it
+          used.
+        </p>
+        <p>
+          <strong>Receipt only with a recorded evaluation.</strong> A [=Mail
+          Client=] MAY judge as of the time of receipt only
+          where it evaluated DMARC when it took the message in and kept a
+          record of that evaluation (<a href="#verification-parties"></a>). A
+          [=Mail Client=] that evaluates DMARC only when it displays the
+          message therefore judges as of the time of display.
+        </p>
+
+        <p>
+          <strong>Where the time of receipt comes from.</strong> A [=Mail
+          Client=] that judges as of the time of receipt MUST take that time
+          from one of two sources. One is its own record of when it took the
+          message in, made together with the evaluation of DMARC that
+          <a href="#alignment"></a> requires of it. The other is a header
+          field that it can establish was added by its own [=Receiving Mail
+          Server=] within the trust boundary that the authserv-id of
+          [[RFC8601]] defines, since a time recorded outside that boundary is
+          one the sender of the message could have chosen. This specification
+          names no such field: a
+          Received header field [[RFC5322]] carries no authserv-id by which
+          that could be established.
+        </p>
+        <div class="note" title="What the time of receipt stands for">
+          The time of receipt is the time at which the message was capable of
+          deceiving its recipient, and, for a [=Mail Client=] that judges as of
+          it, the time at which that client evaluated DMARC on taking the
+          message in. Judging as of receipt therefore answers the question
+          that matters against phishing. Whether the recorded time of receipt can
+          be relied upon is the same question as whether the recorded result
+          can be; see <a href="#re-verification"></a>.
+        </div>
+        <p>
+          <strong>The signingTime attribute is not the Time of
+          Judgement.</strong> The signingTime attribute of CMS [[RFC5652]]
+          plays no part in a [=Verifier=]'s judgement. The Core Specification
+          [[OPF-CORE]] excludes from the judgement any time value written by
+          the signer, a time carried as an attribute of a signature included,
+          and signingTime is such an attribute.
+        </p>
+        <div class="issue" title="Divergence between signingTime and receipt">
+          Whether a [=Verifier=] should note in its result a large divergence
+          between the signingTime attribute and the time of receipt, and what
+          divergence should count as large, has not been settled. It is not
+          specified here.
+        </div>
+      </section>
+
+      <section id="re-verification">
+        <h3>Verification After the Fact</h3>
+        <p>
+          <strong>Three stages.</strong> A [=Mail Client=] verifies a message
+          each time it displays it, so
+          verification after the fact is simply that verification repeated at
+          a later time. It succeeds on a best-effort basis and degrades in
+          three stages.
+        </p>
+        <ol>
+          <li>
+            While the [=Core Profile=] and the [=Profile Annotations=] have
+            not expired, the message can be verified by the same procedure as
+            on receipt. The state of withdrawal and revocation is the state as
+            of now, so a key withdrawn after the message was received causes
+            the verification to fail. This is the intended behaviour.
+          </li>
+          <li>
+            After the [=Core Profile=] has expired, but while the record for
+            the signing key is still retained in the [=Originator Key
+            Record=] of that [=Core Profile=] under the rule of
+            <a href="#validity-invariants"></a>, the key can still be matched
+            against that [=Originator Key Record=]. The [=Core Profile=]
+            itself, though, has expired. That the [=Core Profile=] was valid
+            at the time of receipt can then be established only from a
+            record made at the time: the [=Mail Client=]'s own sealed record
+            or cache.
+          </li>
+          <li>
+            Thereafter, nothing in the DNS answers for a past state, and only
+            a record made at the time, the [=Mail Client=]'s own sealed record
+            or cache, establishes what was true on receipt.
+          </li>
+        </ol>
+        <p>
+          <strong>The first stage lasts as long as the Core Profile, and
+          nothing lengthens it.</strong> How long a message stays in the first
+          of these stages is set by the [=Core Profile=] that carries the key
+          the message was signed with: it lasts until that [=Core Profile=]
+          expires or is revoked (<a href="#key-retirement"></a>). Neither the
+          framework nor this specification lengthens it by other means,
+          because the DNS answers only for the moment of the query. The
+          absence of a [=Revocation Record=] carries no time, a record is removed when what it revokes
+          expires, and a registration that simply lapses leaves no trace of
+          having been there. This is why the stages end in such a record
+          and not in a further query.
+        </p>
+        <p>
+          <strong>Forwarded as an attachment.</strong> A message enclosed in
+          a <code>message/rfc822</code> part can be
+          verified as a message in its own right; its bundle lies within the
+          enclosed body and is not counted as a part of the outer message
+          (<a href="#bundle"></a>). A [=Mail Client=] MUST judge the inner
+          message as of the time at which it displays it
+          (<a href="#time-of-judgement"></a>), and disregards the
+          Authentication-Results header fields the inner message carries.
+        </p>
+        <div class="note" title="The inner message of a forward">
+          The inner message is unchanged, which is why it can be verified. The
+          [=Mail Client=] holds no record of its own of when the inner message
+          was received, and the Authentication-Results header fields the
+          inner message carries were written for its original recipient.
+        </div>
+        <p>
+          <strong>Forwarded inline.</strong> A message forwarded inline cannot
+          be verified, because neither the signature nor the bundle survives.
+        </p>
+        <p>
+          <strong>Replayed.</strong> A message replayed unchanged to another
+          recipient remains aligned under DMARC, since its DKIM signature is
+          unchanged, and verifies for that recipient as it did for the first.
+          It is unchanged only in what the DKIM signature covers; a header
+          field outside its <code>h=</code> tag can be replaced on the way,
+          which the oversigning that <a href="#presented-identity"></a>
+          requires guards against. What a replay achieves is that a genuine message of
+          the [=Originator=] verifies for a [=Recipient=] it was not sent to;
+          it does not let content be presented under an identity that did not
+          send it.
+        </p>
+      </section>
+
+      <section id="parameters" class="informative">
+        <h3>Parameters</h3>
+        <p>
+          The parameters of the general model take effect in this use case as
+          follows. The values given are recommendations offered to guide
+          deployment; they are not requirements, and they have not been
+          validated against operational experience.
+        </p>
+        <p>
+          The recommended values below are those of the Operations document of
+          the framework [[?OPF-OPS]], which is where such values belong. That
+          document has not been published; until it is, the values that
+          concern this use case are stated here, and a later version of this
+          specification will refer to the Operations document instead.
+        </p>
+        <table class="simple">
+          <thead>
+            <tr>
+              <th>Parameter</th>
+              <th>Effect in this use case</th>
+              <th>Recommended value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>[=Signature Validity Period=] of a [=Core Profile=] or [=Profile Annotation=]</td>
+              <td>
+                Whether the [=Time of Judgement=] falls within the period. The
+                period needs to be comfortably longer than the period over
+                which a bulk mailing is delivered, which is of the order of
+                days.
+              </td>
+              <td>
+                At most 398 days and typically one year for a [=Core Profile=],
+                a provisional figure to be reviewed. A [=Profile Annotation=]'s is bounded by its
+                [=Core Profile=]'s, a requirement of the Core Specification
+                [[OPF-CORE]] rather than a recommended value
+              </td>
+            </tr>
+            <tr>
+              <td>Time to live of an [=Originator Key Record=]</td>
+              <td>
+                The delay before the removal of a key reaches the resolver of
+                the [=Verifier=].
+              </td>
+              <td>
+                Days are acceptable; one hour is recommended
+              </td>
+            </tr>
+            <tr>
+              <td>Negative caching time of a [=Profile Annotation Issuer=]'s zone</td>
+              <td>The delay before the revocation of an annotation is detected.</td>
+              <td>
+                Depends on the issuer's DNS provider; the recommended target
+                is one hour, and at most one day
+              </td>
+            </tr>
+            <tr>
+              <td>Time to live of the [=Originator=]'s [=Issuer Pinning Record=]</td>
+              <td>
+                How soon a change in the [=Core Profile Issuers=] an
+                [=Originator=] permits, or a declaration that it has no
+                [=Originator Profile=], takes effect for a [=Verifier=]
+                (<a href="#sending-domain-zone"></a>). A record first
+                published is seen only after the zone's negative caching time
+                has passed, a time the provider commonly sets.
+              </td>
+              <td>
+                The record is static, which admits a long time, while how
+                quickly a declaration of having no [=Originator Profile=]
+                takes effect argues for a short one; the recommended value is
+                one hour
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </section>
+
+    <section id="security" class="informative">
+      <h2>Security Considerations</h2>
+      <p>
+        This section explains what the security of this use case rests on and
+        what it does not cover. It states no requirement: every requirement it
+        relies on is stated in <a href="#message"></a>,
+        <a href="#sending-domain"></a>, <a href="#verification"></a> and
+        <a href="#validity"></a>, and this section says why those requirements
+        are there and what an attacker whom they do not stop can achieve.
+      </p>
+      <p>
+        The security properties of the framework that do not depend on the use
+        case are in the security considerations of the Core Specification
+        [[OPF-CORE]] and are not repeated here; those that concern the records
+        themselves, their size and their transitional form are in [[?OPF-DNS]].
+        The security of the mechanisms this specification builds upon, namely
+        S/MIME [[RFC8551]] and DMARC [[RFC9989]] as evaluated from DKIM
+        [[RFC6376]] (<a href="#alignment"></a>), is that of those
+        specifications and is not restated. The strength of the DKIM
+        signature, in its algorithms and key sizes, is that of [[RFC6376]] as
+        updated by [[RFC8301]] and [[RFC8463]]; this specification adds no
+        algorithm to DKIM, and DKIM defines no post-quantum signature
+        algorithm. A message that verifies carries, besides the DKIM
+        signature, the S/MIME signature under a key of the [=Core Profile=]
+        (<a href="#message-signing"></a>), whose algorithms are the Core
+        Specification's.
+      </p>
+      <p>
+        The security and privacy
+        considerations of S/MIME processing itself are taken as given and are
+        not discussed here or in <a href="#privacy"></a>; what this section
+        and that one discuss is what follows from an [=Originator Profile
+        Bundle=] being carried in a message. What
+        an [=Originator=] exposes by keeping a replaced signing key as a
+        retired key, which is the course this use case takes, is stated where that
+        choice is made (<a href="#key-retirement"></a>) and is not repeated
+        here either.
+      </p>
+
+      <section id="security-delivery">
+        <h3>How the Originator Profile Bundle and the S/MIME Signature Are Delivered</h3>
+        <p>
+          The [=Originator Profile Bundle=] travels inside the message, as a
+          part of the content that the S/MIME signature covers
+          (<a href="#message-signing"></a>), and no part of an [=Originator
+          Profile=] is fetched from the network (<a href="#bundle"></a>). An
+          attacker on the path, or in a store the message passes through,
+          therefore cannot substitute a bundle or add one, because either is a
+          change to signed content. Nor is there a retrieval for such an
+          attacker to block or to watch. For the same reason, the displacement
+          of genuine documents, that is, crowding them out with others, beyond
+          the bounds that the Core Specification [[OPF-CORE]] describes is
+          open to the sender alone.
+        </p>
+        <p>
+          What that attacker can do is take the signature and the bundle away
+          together, leaving an ordinary unsigned message. This produces no
+          false result. A message that presents no [=Originator Profile=] is
+          simply not evaluated under this specification, and a client that does
+          not implement this specification behaves the same way
+          (<a href="#message-compatibility"></a>). The framework's endorsement
+          can thus be denied to a message in transit; it cannot be forged onto
+          one.
+        </p>
+        <p>
+          About a message that presents no profile, this specification says
+          nothing beyond the result <code>none</code>, which records only that
+          the message was not evaluated (<a href="#presentation"></a>). That
+          result is not a judgement of the message. A [=Recipient=] who needs to
+          know that a domain signs all of its mail does not learn it here.
+        </p>
+        <p>
+          Delivery also means that whoever can send mail to a [=Recipient=] can
+          put work in front of that recipient's [=Verifier=]. The order of
+          <a href="#verification-procedure"></a> bounds it. A message that
+          carries a bundle and whose S/MIME signature does not verify fails
+          at the first step, so an attacker that cannot produce such a
+          signature reaches no further than one signature verification.
+        </p>
+        <p>
+          Past that point the ordering of
+          the general procedure applies, under which no DNS query is made on
+          behalf of a document whose signature has not been verified locally,
+          and the consequences are those the Core Specification [[OPF-CORE]]
+          states. The queries of the DMARC evaluation fall under the same
+          ordering: the DKIM selector and the <code>d=</code> domain are
+          values the sender writes, and they are queried only once the
+          message has passed the local checks.
+        </p>
+      </section>
+
+      <section id="security-presented-identity">
+        <h3>Obtaining and Binding the Presented Identity</h3>
+        <p>
+          The identity under which content is presented in this use case is the
+          [=Sending Domain=], and it is obtained from the message by DMARC
+          [[RFC9989]] (<a href="#presented-identity"></a>). The assurance that
+          the content arrived under that domain is therefore the assurance
+          DMARC gives, which this section takes as given. What this
+          specification adds is two rules. A [=Mail Client=] evaluates DMARC
+          from DKIM [[RFC6376]] alone and under strict alignment alone
+          (<a href="#alignment"></a>).
+          And whoever can pass DKIM for a domain, and so present content under
+          it, needs in addition a key of the [=Core Profile=] with which to
+          sign that content if it is to verify under this specification
+          (<a href="#message-signing"></a>).
+        </p>
+        <p>
+          This is what makes the binding independent of the [=Core Profile
+          Issuer=], an independence the Core Specification [[OPF-CORE]]
+          requires each [=Use Case Specification=] to state. A [=Core
+          Profile=] issued for an [=Identity=] it should not have been issued
+          for is of use only to an attacker who can also send aligned mail
+          from that [=Identity=]. That is a second and separate failure, in
+          the hands of a different party.
+        </p>
+        <p>
+          This use case does not rest on that factor alone. The [=Issuer
+          Pinning Record=] is required here, and its authenticated absence is
+          a failure (<a href="#sending-domain-zone"></a>). An [=Originator=]
+          therefore holds a means of its own against a profile it did not ask
+          for, and does not depend on the [=Core Profile Issuer=] to revoke
+          one.
+           A [=Sending
+          Domain=] that is not the [=Originator=]'s [=Identity=] and does not
+          lie below it is not admitted, since this specification does not use
+          the [=Permitted Host Record=] (<a href="#presented-identity"></a>).
+        </p>
+        <p>
+          The reach of that means stops at the [=Identity=] itself. A subdomain
+          is an identity in its own right, as the Core Specification
+          [[OPF-CORE]] states, so a name under the [=Originator=]'s
+          [=Identity=] can hold an [=Originator Profile=] of its own, with its
+          own [=Issuer Pinning Record=]. The [=Issuer Pinning Record=] in the
+          zone of the parent [=Identity=] says nothing about it. What an
+          [=Originator=] delegates below its [=Identity=], it delegates with
+          that consequence.
+        </p>
+        <p>
+          The comparison between the [=Sending Domain=] and the [=Identity=] the
+          [=Core Profile=] carries is made on canonical forms and is exact
+          (<a href="#presented-identity"></a>). Two domains whose canonical
+          forms differ are two different domains however alike they look, as
+          the Core Specification [[OPF-CORE]] states. A domain registered
+          because it resembles another is therefore bound to itself and to
+          nothing else; what a [=Recipient=] makes of a name that resembles one
+          it knows is not a question the framework answers.
+        </p>
+        <p>
+          The weight this places on the conversion falls here on one step. The
+          [=Sending Domain=] has to be put into the same form in which
+          alignment was established, which for an internationalized name is
+          the conversion of [[RFC8616]] (<a href="#presented-identity"></a>).
+          A name produced by any other conversion fails the comparison, so such
+          a mistake ends in a failed verification and not in one that passes.
+        </p>
+        <p>
+          The requirement of this specification that an authenticated absence
+          be a failure (<a href="#sending-domain-zone"></a>) is a separate
+          matter. The record it concerns is queried at a name built from the
+          [=Originator=]'s [=Identity=] and not from the [=Sending Domain=], so no
+          conversion of the [=Sending Domain=] reaches it.
+        </p>
+        <p>
+          A message whose From header field does not yield a single domain has
+          no [=Sending Domain=]. An [=Originator=] does not send such a
+          message (<a href="#presented-identity"></a>), and a [=Verifier=]
+          takes it as not aligned, so that its result is <code>none</code>
+          (<a href="#alignment"></a>).
+        </p>
+      </section>
+
+      <section id="security-layers">
+        <h3>The Layers Fail Independently</h3>
+        <p>
+          A message under this specification is covered by two judgements,
+          that of S/MIME and that of the framework
+          (<a href="#validity-layers"></a>), and the only thing that joins
+          them is the identity of the signing key. Acceptance of the signature
+          by the S/MIME implementation is a precondition of the framework's
+          checks rather than a judgement made beside them: where the signature
+          is not accepted, the framework's result is the <code>fail</code> of
+          <a href="#presentation"></a>.
+          <a href="#verification-procedure"></a> requires the two outcomes to
+          be reported separately.
+        </p>
+        <p>
+          When the S/MIME signature of a message that carries a bundle fails,
+          the framework's result is <code>fail</code>, and nothing else it has
+          to say about the message survives. The [=Originator Profile Bundle=] is
+          bound to this message by that signature and by nothing else
+          (<a href="#message-signing"></a>). A signature that does not verify
+          therefore leaves a bundle that may have been lifted from another message
+          of the same [=Originator=], or that the [=Originator=] never attached
+          to anything. A [=Verifier=] that reported a passing result for such
+          a message would be reporting an endorsement over content the
+          endorsed party had not signed.
+        </p>
+        <p>
+          When the S/MIME signature verifies and the framework's checks fail,
+          what remains is that the message was signed with the key the
+          certificate carries. It is not established that the key belongs to
+          the [=Originator=] that the [=Core Profile=] names, since that is
+          what failed.
+        </p>
+        <p>
+          Nor does the framework's failure, as this document leaves it, say
+          which failure it was. A
+          revocation, an expiry, a zone that cannot be reached, and a profile
+          presented from a domain it does not cover all end in the same
+          outcome, because the Core Specification [[OPF-CORE]] fails closed in
+          each of them. An attack and an operational fault are not
+          distinguished by the result.
+        </p>
+        <p>
+          The independence also runs over time. What ends the framework's
+          endorsement of a key is the removal of its record from every
+          [=Originator Key Record=] that lists it, or the expiry of every
+          [=Core Profile=] that carries it (<a href="#validity-layers"></a>,
+          <a href="#key-retirement"></a>). Neither stops S/MIME from accepting
+          the signature, so a party that wants a message to stop verifying
+          altogether has to see it withdrawn on both sides.
+        </p>
+        <div class="issue" title="What a verifier presents when the layers disagree">
+          <a href="#verification-procedure"></a> requires the outcome of the
+          framework's checks to be reported separately from the outcome of the
+          S/MIME signature verification, and
+          <a href="#presentation"></a> does not fix how either is displayed.
+          What a [=Recipient=] is shown when S/MIME accepts the signature and
+          the framework's checks fail is therefore not settled, and the
+          separate reporting achieves nothing where the two are combined into
+          a single indication at the point of display. Whether this
+          specification should say anything about that is not settled in this
+          revision.
+        </div>
+      </section>
+
+      <section id="security-verifier-placement">
+        <h3>Where the Verifier Is Placed, and How It Obtains DNSSEC Validation</h3>
+        <p>
+          A [=Mail Client=] needs a DNSSEC validation state it can rely on.
+          That state is obtained by one of the two means the Core
+          Specification [[OPF-CORE]] allows: validating with its own
+          trust anchor, or taking a validating resolver's word over a channel
+          that authenticates the resolver and protects the answer. A
+          [=Mail Client=] runs where its user is, on networks it does not
+          control and with whatever resolver its device has been given, and it
+          is for that party that <a href="#verification-parties"></a> states
+          the requirement explicitly.
+        </p>
+        <p>
+          Consider an attacker who holds the path between a [=Mail Client=] and
+          its resolver. Where the client meets that requirement, the attacker
+          can prevent answers from arriving but cannot choose them. What it
+          gains is bounded by this use case never reading a failure as absence.
+          Every name the procedure consults fails closed, and a record the
+          [=Verifier=] cannot authenticate is a failure and never an unpinned
+          outcome (<a href="#sending-domain-zone"></a>).
+        </p>
+        <p>
+          The downgrade that the Core Specification [[OPF-CORE]] guards most
+          carefully, the turning of a pinned [=Originator=] into an unpinned
+          one, has no analogue here. The [=Issuer Pinning Record=] is required
+          in this use case and its authenticated absence is a failure, where
+          the Core Specification does not require the record and reads its
+          absence as leaving the [=Originator=] unpinned. A [=Verifier=]
+          following the Core Specification alone proceeds when the record is
+          absent, and that is what this use case does not do
+          (<a href="#differences"></a>).
+        </p>
+        <p>
+          Such an attacker can therefore suppress verification for as long as
+          it holds the path. Where the queries reach the resolver in the
+          clear, as they may where the client validates for itself, it can do
+          so for a chosen [=Originator=], since the query names say which one
+          is being verified.
+        </p>
+        <p>
+          What it cannot do is forge an answer: a record it composes is not
+          authenticated, and a client that meets the requirement does not act
+          on one that is not. It may, however, be able to replay an answer
+          that was authenticated when it was signed, a different attack with
+          a different bound (<a href="#security-replay"></a>).
+        </p>
+        <p>
+          A client that did not meet the requirement has no such bound. Taking
+          an unauthenticated indication of validation, such as the AD bit in a
+          plaintext answer, leaves every DNS answer in the attacker's choice.
+          The framework then adds nothing to what the documents in the
+          [=Originator Profile Bundle=] already assert; the Core Specification
+          [[OPF-CORE]] states this as the reason for the requirement.
+        </p>
+        <p>
+          Suppression is not nothing. A [=Recipient=] who is shown a failure
+          cannot tell an attacker on the path from a zone that is temporarily
+          unreachable, and the same outcome is reported in both cases. Nor is
+          there a weaker check to fall back to. A [=Mail Client=] with neither
+          means cannot verify at all, and every message it is to evaluate
+          under this specification fails. A message that presents no profile
+          is not evaluated in the first place
+          (<a href="#security-delivery"></a>).
+        </p>
+      </section>
+
+      <section id="security-replay">
+        <h3>Replay of an Authenticated Absence</h3>
+        <p>
+          The general form of this attack is in the Core Specification
+          [[OPF-CORE]]. An attacker on the path between a [=Verifier=] and the
+          authoritative servers can replay an answer that was true when it was
+          signed, for as long as the signature over that answer is valid. The
+          answer may be a proof that a [=Revocation Record=] did not exist. The names
+          at which this procedure checks for an absence are not all affected
+          alike by this attack.
+        </p>
+        <p>
+          At the [=Revocation Record=] of a [=Profile Annotation=], absence is
+          what lets the annotation stand
+          (<a href="#verification-procedure"></a>, steps 2 and 8), and it is
+          the only name of this procedure at which that is so. Replaying an
+          absence there hides a revocation, and the annotation goes on
+          verifying. At every other name of the framework the procedure
+          consults, namely the [=Issuer Key Record=] of each issuer, the
+          [=Issuer Pinning Record=] and the [=Originator Key Record=], what is
+          required is a presence,
+          and an absence is a failure
+          (<a href="#sending-domain-zone"></a>,
+          <a href="#verification-procedure"></a>). Replaying an absence there
+          produces a failed verification, and gains an attacker nothing
+          beyond what blocking the query would have given it.
+        </p>
+        <p>
+          What is particular to mail is that the same message is verified again
+          and again. A [=Mail Client=] verifies each time it displays a message
+          (<a href="#re-verification"></a>). An attacker holding the path
+          therefore has an occasion at every reading rather than one occasion
+          at delivery, and a message that is kept is read long after it
+          arrived.
+        </p>
+        <p>
+          The same fact works in the recipient's favour once the attacker is
+          gone: a
+          message accepted under a replayed absence is verified afresh at the
+          next display, and the revocation then shows. The window remains the
+          RRSIG validity period of the zone that gave that absence, as the Core Specification
+          [[OPF-CORE]] states, and it does not lengthen because the message is
+          old.
+        </p>
+      </section>
+
+      <section id="security-forwarding">
+        <h3>Forwarding</h3>
+        <p>
+          A message forwarded inline, its text quoted in the body of another
+          message, does not carry the [=Originator Profile Bundle=], so
+          nothing about the original message can be checked
+          (<a href="#re-verification"></a>). An assertion within such a body
+          that the original was verified is part of the quoted text and is
+          worth exactly what the forwarder is worth.
+        </p>
+        <p>
+          Where the forwarding message is itself signed under this
+          specification, what verifies is the forwarder. The [=Sending Domain=]
+          is that of the message being evaluated
+          (<a href="#presented-identity"></a>), so a [=Recipient=] shown a
+          valid result over a message that quotes another holds a valid result
+          about the party that quoted and none about the party quoted. This is
+          the case in which an inline forward is most easily misread, because
+          there is a result to display and it is not a result about the content
+          the reader is looking at.
+        </p>
+        <p>
+          A message forwarded as a <code>message/rfc822</code> part is the
+          other case: the inner message is intact and is verified as a
+          message in its own right. Its bundle lies within the enclosed body
+          and is not counted among the parts of the outer message
+          (<a href="#bundle"></a>, <a href="#re-verification"></a>), and a
+          [=Mail Client=] disregards the Authentication-Results header fields
+          the inner message carries (<a href="#re-verification"></a>). A message replayed unchanged to
+          another recipient is a third case, which
+          <a href="#re-verification"></a> describes.
+        </p>
+      </section>
+    </section>
+
+    <section id="privacy" class="informative">
+      <h2>Privacy Considerations</h2>
+      <p>
+        This section states no requirement. What the queries of
+        <a href="#verification-procedure"></a> reveal, to whom, and what the
+        design does to limit it, is in the privacy considerations of the Core
+        Specification [[OPF-CORE]] and is not repeated here. What this use case
+        adds is what that specification leaves to a [=Use Case Specification=]:
+        when the queries are made, by which party, and what the queries made
+        in the [=Originator=]'s own zone name.
+      </p>
+
+      <section id="privacy-when-queries-are-made">
+        <h3>When the Queries Are Made</h3>
+        <p>
+          A [=Mail Client=] verifies a message each time it displays it
+          (<a href="#re-verification"></a>). The queries it makes that its
+          cache does not answer are therefore made when a message is opened,
+          and the time of the query is the time at which the message was read.
+        </p>
+        <p>
+          Apart from the recipient's own provider, which sees the message
+          being fetched, nothing in mail discloses when a message is read. A
+          message is delivered before it is read, the reading happens on the
+          recipient's own systems, and the documents of an [=Originator
+          Profile=] are not fetched from anywhere when it happens
+          (<a href="#bundle"></a>). What is left is the DNS queries. Verifying
+          at display gives them the timing of the reading, so that an event
+          which was visible nowhere outside the recipient's own systems
+          becomes visible to the parties that see those queries.
+        </p>
+        <p>
+          Among those queries are the ones a [=Mail Client=] makes to evaluate
+          DMARC, which it does for every message it verifies
+          (<a href="#alignment"></a>): the DKIM key of the
+          signature and the DMARC policy record of the domain. A [=Mail
+          Client=] that evaluates DMARC when it displays the message makes
+          them at the time of reading, like the others. One that evaluates
+          DMARC when it takes the message in, as a client that synchronizes
+          in the background may, makes them when the message arrives,
+          independently of when it is read.
+        </p>
+      </section>
+
+      <section id="privacy-what-the-queries-name">
+        <h3>What the Queries Name</h3>
+        <p>
+          The [=Originator Key Records=] and [=Revocation Records=] an issuer
+          publishes are named with opaque labels, so that
+          an observer between a resolver and an authoritative server learns
+          that one of the issuer's records is being checked but not whose.
+          This is the property the Core Specification [[OPF-CORE]] describes,
+          and it holds here unchanged. It does not extend to the records in
+          the [=Originator=]'s own zone.
+        </p>
+        <p>
+          The [=Issuer Pinning Record=] is published under a name built from
+          the [=Originator=]'s [=Identity=], and that name carries the domain
+          itself. This use case requires that record, which the Core
+          Specification does not require (<a href="#differences"></a>), so the
+          query is made for every message evaluated under this specification.
+          In the general procedure, by contrast, a [=Verifier=] consults that
+          record only if its [=Use Case Specification=] requires it or the
+          [=Verifier=] elects to. No [=Permitted Host Record=] is queried in
+          this use case (<a href="#presented-identity"></a>).
+        </p>
+        <p>
+          Taken with the previous section, this means that the resolver a
+          [=Mail Client=] uses sees which domains its user reads mail from, and
+          when. That resolver is the one the user's device has been given, and
+          it is also the resolver the client is required to reach over an
+          authenticated path (<a href="#verification-parties"></a>). The
+          exposure is toward the resolver the user or the network chose, and
+          the measures against it are those the Core Specification
+          [[OPF-CORE]] names for any query.
+        </p>
+        <p>
+          The [=Originator=]'s own zone sees those queries in the aggregate its
+          resolvers produce, reduced by caching, since one record serves every
+          message from that [=Originator=]. It does not learn which
+          [=Recipient=] asked, because the query reaches it from a resolver.
+        </p>
+        <p>
+          The queries of the DMARC evaluation name the domain of the From
+          header field, and the DKIM key is queried under a name formed from
+          the selector and the <code>d=</code> domain of the signature, which
+          under strict alignment is that same domain. The selector is a value
+          the sender writes into each message.
+        </p>
+        <p>
+          Were the selector to differ by recipient or by message, the name
+          queried would identify the message. A query for it reaching the
+          sender's zone would then tell the sender that that message was
+          opened, at about what time, and through which resolver. Caching
+          would not aggregate it away, since no other message shares the name.
+        </p>
+        <p>
+          <a href="#presented-identity"></a> forbids the
+          [=Originator=] the use of selectors in that way. A [=Mail Client=]
+          cannot detect such use, so the protection rests on the requirement on
+          the sender and not on anything the client does.
+        </p>
+        <div class="issue" title="Verification at display discloses the time of reading">
+          That a [=Mail Client=] verifies when it displays a message, and so
+          discloses to its resolver, and in the aggregate to the
+          [=Originator=]'s zone, that a message from that [=Originator=] was
+          read at about that time, follows from
+          <a href="#re-verification"></a> together with the records that
+          <a href="#sending-domain-zone"></a> requires. Judging as of the time
+          of receipt does not take it away. A check of presence or absence in
+          the DNS is a check of the state at the moment of the query whatever
+          time validity is judged as of. A [=Mail Client=] that judges as
+          of receipt (<a href="#time-of-judgement"></a>) therefore queries
+          when it displays all the same. Whether this specification should say
+          anything about the disclosure is not settled in this revision.
+        </div>
+      </section>
+    </section>
+
+    <section id="iana">
+      <h2>IANA Considerations</h2>
+      <p>
+        This specification requires one registration. None has been made.
+      </p>
+      <ul>
+        <li>
+          A media type for the [=Originator Profile Bundle=], so that the part
+          carrying it can be identified. Its registration is to be aligned
+          with the corresponding work on the Originator Profile Blueprints
+          [[?Originator Profile Blueprints]].
+        </li>
+      </ul>
+      <div class="issue" title="Registration of the media type not yet drafted">
+        The registration template of the media type, and its name and
+        structure, are not drafted. The timing of the registrations rests
+        with the OP-CIP.
+      </div>
+    </section>
+
+    <section id="differences" class="informative appendix">
+      <h2>Differences from the Web Media Use Case Specification</h2>
+      <p>
+        This appendix sets out how this specification differs from the Web
+        Media Use Case Specification [[OPF-WEB-MEDIA]]. The structural conclusion is that the
+        Email use case adds not one line to the DNS design of the framework.
+        The differences fall under five heads: (1) what is required of the
+        [=Originator=]'s own records; (2) how the [=Presented Identity=] is taken,
+        and which document declares the binding; (3) whether an outer
+        certificate layer is present; (4) where verification happens, as
+        of what time it judges, and whether its outcome is kept; and (5) what
+        the [=Originator Profile=] consists of.
+      </p>
+      <p>
+      <p>
+        This table and the table in the appendix "Differences from the Email
+        Use Case Specification" of the Web Media [=Use Case Specification=]
+        are one table written from the two sides; they are kept consistent,
+        and a row added to one is added to the other.
+      </p>
+      <table class="simple">
+        <thead>
+          <tr>
+            <th>Aspect</th>
+            <th>Web media</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>What carries the binding</td>
+            <td>
+              The Content is signed with an [=Originator Verification
+              Key=] of the [=Core Profile=] in a [=Content Attestation=], and
+              the [=Website Profile=], signed with such a key too, names the
+              origins on which the [=Originator Profile=] may be presented
+            </td>
+            <td>
+              The message is signed with S/MIME under a key of the [=Core
+              Profile=], and the From header field is bound to the domain by
+              DMARC
+            </td>
+          </tr>
+          <tr>
+            <td>The identity the content arrives under</td>
+            <td>
+              The Page Origin, namely the origin [[RFC6454]] of the page
+            </td>
+            <td>The [=Sending Domain=]</td>
+          </tr>
+          <tr>
+            <td>Relation to the [=Originator=]'s [=Identity=]</td>
+            <td>
+              The host of the Page Origin is the [=Originator=]'s
+              [=Identity=] or lies below it, or a [=Permitted Host Record=] in
+              the zone of that [=Identity=] permits it
+            </td>
+            <td>The [=Identity=] itself or below it; the [=Permitted Host
+              Record=] is not used</td>
+          </tr>
+          <tr>
+            <td>DNSSEC on the [=Originator=]'s own zone</td>
+            <td>
+              Not required, except of an [=Originator=] that names a host
+              outside its own [=Identity=], which has to sign the zone of that
+              [=Identity=] for the [=Permitted Host Record=] to have effect
+            </td>
+            <td>Required</td>
+          </tr>
+          <tr>
+            <td>[=Issuer Pinning Record=]</td>
+            <td>
+              Not required; recommended where the zone of the
+              [=Originator=]'s [=Identity=] is signed. An authenticated absence
+              and an <span class="dns-state">Insecure</span> answer, an answer reached through an alias
+              being read as the latter, leave the [=Originator=] unpinned and
+              verification goes on. Consulted in every setting that supplies
+              no Page Origin, and at the [=Verifier=]'s choice where one is
+              supplied
+            </td>
+            <td>Required; an authenticated absence and an <span class="dns-state">Insecure</span> answer, an
+              answer reached through an alias being read as the latter, are
+              each a failure</td>
+          </tr>
+          <tr>
+            <td>An outer certificate layer</td>
+            <td>
+              None. Nothing outside the documents carried with the page signs
+              it, so the layers of validity are the four of the general
+              model
+            </td>
+            <td>
+              The X.509 certificate of the signer, joined to the framework
+              only by the identity of the key, and withdrawn by other parties
+              through other means (<a href="#validity-layers"></a>)
+            </td>
+          </tr>
+          <tr>
+            <td>Where verification is performed</td>
+            <td>
+              A [=Verifier=] within browsing software, such as a browser
+              extension, or a service that retrieves the page
+            </td>
+            <td>
+              The [=Mail Client=].
+              The requirement on the resolver is the same as for web media
+            </td>
+          </tr>
+          <tr>
+            <td>The time as of which validity is judged</td>
+            <td>The time of verification, for every party</td>
+            <td>
+              The time of display, or the [=Mail Client=]'s own recorded time
+              of receipt
+            </td>
+          </tr>
+          <tr>
+            <td>Recording of the outcome</td>
+            <td>
+              None. The channel offers no place in which a result could be
+              left, and the judgement is made afresh at each presentation
+            </td>
+            <td>
+              None in this specification; a [=Mail Client=] may keep a record
+              of its own results
+            </td>
+          </tr>
+          <tr>
+            <td>Putting the [=Presented Identity=] into canonical form</td>
+            <td>
+              Nothing to do: apart from a trailing dot, parsing the page's URL
+              has already produced a lower-case ASCII host
+            </td>
+            <td>
+              The domain of the From header field, whose labels are converted
+              to A-labels as [[RFC8616]] defines
+              (<a href="#presented-identity"></a>)
+            </td>
+          </tr>
+          <tr>
+            <td>Keeping a replaced signing key as retired or withdrawing it</td>
+            <td>
+              The content can be signed again with the new key, so the old key
+              can be withdrawn
+            </td>
+            <td>
+              A message already delivered cannot be signed again, so the old
+              key is kept as a retired key, and old messages verify until the
+              earlier [=Core Profile=], which carries it, expires or is
+              revoked (<a href="#key-retirement"></a>)
+            </td>
+          </tr>
+          <tr>
+            <td>What the [=Originator Profile=] consists of</td>
+            <td>
+              The [=Core Profile=] and its [=Profile Annotations=]. In the web
+              media use case the [=Originator Profile=] also includes a Web Media
+              Profile, which the Web Media [=Use Case Specification=] adds
+              and requires, and the [=Originator Profile=] ceases to be valid when the Web
+              Media Profile does
+            </td>
+            <td>
+              The [=Core Profile=] and its [=Profile Annotations=]. The Email
+              [=Use Case Specification=] adds no document to it
+            </td>
+          </tr>
+          <tr>
+            <td>What is carried with the content</td>
+            <td>
+              The whole [=Originator Profile=] and its chains, in the page or
+              at the well-known resource of the Page Origin, the two taken
+              together
+            </td>
+            <td>
+              The whole [=Originator Profile=] and its chains, within the
+              S/MIME signature (<a href="#message-signing"></a>)
+            </td>
+          </tr>
+          <tr>
+            <td>Names and records in the DNS</td>
+            <td colspan="2">
+              The same in both; neither [=Use Case Specification=] defines a name
+              or a record of its own
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </body>
+</html>

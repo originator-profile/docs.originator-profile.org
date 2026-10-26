@@ -1,0 +1,2702 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <title>Originator Profile Framework &mdash; Email Use Case Specification v0.2 (Public Draft)</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <script
+      src="https://www.w3.org/Tools/respec/respec-w3c"
+      class="remove"
+    ></script>
+    <script type="text/javascript" class="remove">
+      var respecConfig = {
+        latestVersion: null,
+        edDraftURI: "https://docs.originator-profile.org/ja/email/",
+        shortName: "op-email",
+        publishDate: "2026-10-27",
+        github: "https://github.com/originator-profile/doc-opf-email",
+        lang: "ja",
+
+        editors: [ {
+          name: "Shigeya Suzuki",
+          company: "Originator Profile Collaborative Innovation Partnership, Keio University"
+        }],
+
+        authors: [ {
+          name: "Shigeya Suzuki",
+          company: "Originator Profile Collaborative Innovation Partnership, Keio University"
+        }],
+
+        maxTocLevel: 3,
+        localBiblio: {
+          "OPF-AOV": {
+            title: "Originator Profile Framework — Architectural Overview",
+            href: "https://docs.originator-profile.org/aov/",
+            publisher: "Originator Profile Collaborative Innovation Partnership"
+          },
+          "OPF-CORE": {
+            title: "Originator Profile Framework — Core Specification",
+            href: "https://docs.originator-profile.org/core/",
+            publisher: "Originator Profile Collaborative Innovation Partnership"
+          },
+          "OPF-WEB-MEDIA": {
+            title: "Originator Profile Framework — Web Media Use Case Specification",
+            href: "https://docs.originator-profile.org/web-media/",
+            publisher: "Originator Profile Collaborative Innovation Partnership"
+          },
+          "OPF-DNS": {
+            title: "Using Secure DNS for Originator Profile",
+            href: "https://datatracker.ietf.org/doc/draft-shigeya-dns-opkey/",
+            date: "2026-10-23",
+            status: "Individual Internet-Draft, work in progress"
+          },
+          "OPF-OPS": {
+            title: "Originator Profile Framework — Operations",
+            publisher: "Originator Profile Collaborative Innovation Partnership",
+            status: "Not yet published"
+          },
+          "Originator Profile Blueprints": {
+            title: "Originator Profile Blueprints",
+            href: "https://docs.originator-profile.org/en/opb/",
+            publisher: "Originator Profile Collaborative Innovation Partnership"
+          },
+          "The Originator Profile Charter": {
+            title: "The Originator Profile Charter",
+            href: "https://originator-profile.org/en-US/charter/",
+            publisher: "Originator Profile Collaborative Innovation Partnership",
+          }
+        },
+        addSectionLinks: true, // Turn on § section marker
+        logos: [
+          {
+            src: "https://design.originator-profile.org/downloads/op_logos/png/cip-default-type-vertical.png",
+            url: "https://originator-profile.org/",
+            alt: "Originator Profile CIP",
+            width: 180,
+            height: 80,
+            id: "op-cip-logo",
+          }
+        ],
+        postProcess: [
+          function setTabTitle() {
+            document.title = "[JA] " + document.title.replace(/^Originator Profile Framework — /, "") + " — Originator Profile Framework";
+          },
+          function fixReferenceIds() {
+            const ids = { "規範的参考文献": "normative-references", "参照用参考文献": "informative-references" };
+            const label = (el) => el.textContent.replace(/^\s*[A-Z](\.\d+)*\s*/, "").trim();
+            for (const sec of document.querySelectorAll('section[id="generatedID"]')) {
+              const h = sec.querySelector("h1, h2, h3, h4, h5, h6");
+              const id = h && ids[label(h)];
+              if (id && !document.getElementById(id)) sec.id = id;
+            }
+            for (const a of document.querySelectorAll('a[href="#generatedID"]')) {
+              const host = a.closest("section");
+              const id = a.classList.contains("self-link") && host && host.id !== "generatedID" ? host.id : ids[label(a)];
+              if (id) a.setAttribute("href", "#" + id);
+            }
+          },
+        ],
+      }
+    </script>
+    <style>
+      pre .highlight {
+        font-weight: bold;
+        color: green;
+      }
+      pre .comment {
+        font-weight: bold;
+        color: Gray;
+      }
+      ol.algorithm {
+        counter-reset: numsection;
+        list-style-type: none;
+      }
+      ol.algorithm > li {
+        position: relative;
+        margin: 0.5em 0;
+        padding-left: 2em;
+      }
+      ol.algorithm > li:before {
+        position: absolute;
+        left: 0;
+        font-weight: bold;
+        counter-increment: numsection;
+        content: counters(numsection, ".") ")";
+      }
+      ol.algorithm > li > p:first-child {
+        margin-top: 0;
+      }
+      table.simple {
+        border: 1px solid #999;
+      }
+      table.simple th,
+      table.simple td {
+        border: 1px solid #999;
+      }
+      .dns-state {
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <p class="copyright">
+        Copyright © 2022-2026 <a
+        href="https://originator-profile.org/en-US/">Originator Profile
+        Collaborative Innovation Partnership (OP-CIP)</a>, All rights
+        reserved.
+    </p>
+
+    <p class="translation-notice">
+      <strong>本文書は参考訳である。</strong>規範となるのは
+      <a href="https://docs.originator-profile.org/email/">英語版</a>であり、
+      本日本語版と英語版とで内容が食い違う場合は英語版が優先する。
+    </p>
+
+    <section id="abstract">
+      <p>
+        本文書は Originator Profile Framework の Email
+        [=Use Case Specification=]（Web Media や Email のような一つのユース
+        ケースについて、Core Specification の上に立てる仕様）である。すなわち、S/MIME [[RFC8551]] で署名した電子メールのメッセージに
+        この枠組みを適用する仕様である。本文書は、Originator Profile が
+        そのようなメッセージの中でどのように運ばれるか、送信ドメインが DNS に
+        何を公開するか、受信者がそのプロファイルをどのように検証するか、そして
+        有効性と失効をどの時点を基準に判断するかを定める。
+      </p>
+      <p>
+        本文書は新しいプロファイル文書を導入せず、この枠組みの DNS 設計にレコードを加えることもしない。
+        加えるのは、送信ドメインとメッセージの originator との間の結びつけと、
+        メッセージをどこでいつ検証するかの規則である。本仕様が土台とする一般の
+        モデル、データモデル、および DNS の手順は Architectural Overview
+        [[OPF-AOV]] と Core Specification [[OPF-CORE]] が定めるものであり、
+        ここでは繰り返さない。
+      </p>
+    </section>
+
+    <section id="sotd" class="override">
+      <h2>文書の位置づけ</h2>
+      <p class="note">
+        <strong>本日本語版は参考訳である。</strong>英語版から
+        AI 支援で作成したものであり、規範となるのは<a href="https://docs.originator-profile.org/email/">英語版</a>である。齟齬があれば英語版が優先する。
+        用語は英語のまま残している。
+      </p>
+      <p>
+        本文書は、Originator Profile Framework (OPF) の Email [=Use Case
+        Specification=] の現在の設計を記述したものである。OPF は Originator
+        Profile Collaborative Innovation Partnership (OP-CIP) が開発している。本文書は DRAFT の
+        段階にあり、いかなる公式な位置づけも持たず、OP-CIP メンバーシップの
+        合意を表すものでもない。
+      </p>
+      <p>
+        本文書はその最初のドラフトである。本文書自体が設計上の問いを決着させる
+        ことはない。意図的に開いたままにしている点は、本文中に issue として印を
+        付けてあり、ここで解決はしない。
+      </p>
+      <p>
+        <strong>確かめたこと。</strong>本文書が依るデータモデルと DNS layer は、
+        実験的な実装で動かし、手元の実験環境で署名したテストゾーンに対して実測
+        した。確かめたのは、[=Originator Profile=] の文書、Core Specification
+        [[OPF-CORE]] の検証手順と DNS レコード、および本文書が依る DNSSEC の結果
+        である。概念実証の実装は、本文書のとおりにメッセージを組み立てて DKIM と
+        S/MIME で署名し、本文書の手順でそうしたゾーンに対して検証する。その
+        ゾーンには、別名を経て未署名のゾーンに至る鍵とポリシーレコードが含まれる。
+        これらはいずれも、公開の DNS にも、配備されているメールソフトウェアにも、
+        当てていない。
+      </p>
+      <p>
+        <strong>確かめていないこと。</strong>本文書が依るメールシステムの仕組みは、
+        その概念実証の実装でしか実装していない。その実装は配備されているメール
+        ソフトウェアに対して試しておらず、インターネット上にメッセージを送った
+        ことがない。その仕組みとは、DKIM [[RFC6376]]（[[RFC8301]] と [[RFC8463]]
+        による更新を含む）、DMARC [[RFC9989]]、Authentication-Results ヘッダ
+        フィールド [[RFC8601]]、国際化電子メールアドレス [[RFC8616]] である。
+        S/MIME [[RFC8551]] で署名したメッセージで [=Originator Profile Bundle=]
+        を運ぶことについても同じで、配備されているメールクライアントがそれを
+        どう扱うかは試していない。
+      </p>
+      <p>
+        <strong>実務家と決めるべきこと。</strong>それらの標準が開いたままにしている
+        選択肢のどれを本文書が採るべきか、また本文書が求めるものを [=Originator=]
+        と [=Mail Client=] がどう配備し運用するかは、それらの標準がどう配備されて
+        いるかに依る。それらの標準の一部は新しいか、改訂されたばかりである。これらの
+        選択と手順は、電子メール認証とメール運用の実務家による十分なレビューを
+        待っており、本文書はまだそのレビューを受けていない。
+      </p>
+      <div class="note" title="フレームワークの文書はすべて策定中である">
+        本文書を含め Originator Profile Framework の文書はすべて策定中であり、
+        フレームワークが依拠する Internet-Draft [[?OPF-DNS]] も同じである。
+        ここで引用している節はどれもまだ安定していない。したがって、文書の
+        節への参照は、どの文書のものであっても、節番号ではなく、指し示す対象の
+        名前によって行っている。
+      </div>
+    </section>
+    <section id="introduction" class="informative">
+      <h2>はじめに</h2>
+      <p>
+        Originator Profile Framework は、コンテンツの [=Recipient=] が、
+        [=Originator=] 自身が提示するデータから、そのコンテンツの
+        [=Originator=] が誰であるか、およびその [=Originator=] について第三者が
+        何を validate したかを知ることを可能にする。Architectural Overview [[OPF-AOV]] は、一般のモデルを
+        述べている。Core Specification [[OPF-CORE]] はすべての use case が
+        共有するフレームワークの部分を定め、コンテンツをどう届けるかに依る部分は、
+        届け方ごとの [=Use Case Specification=] に委ねている。本文書は、
+        電子メールについての [=Use Case Specification=] である。
+      </p>
+      <p>
+        このユースケースの設計は、概略としては次の四つからなる。
+      </p>
+      <ul>
+        <li>
+          メッセージは S/MIME で署名され、[=Originator Profile Bundle=]
+          （プロファイルを運ぶ単一の MIME パート）が、その署名が覆う内容の
+          一部として運ばれる。この枠組みは署名そのものには関与しない。
+          メッセージの署名に用いられた鍵の上に、その鍵を [=Originator=] の
+          [=Identity=] に結びつける [=Core Profile=] を置き、そのプロファイルの
+          上に、第三者が [=Originator=] について確かめた
+          [=Validated Attributes=] を運ぶ [=Profile Annotations=] を置く。
+        </li>
+        <li>
+          DNS は Core Specification [[OPF-CORE]] が与える役割、すなわち
+          現行性と失効の役割を果たす。このユースケースでは [=Sending Domain=] の
+          zone が DNSSEC で署名されていることを要求するので、[=Originator=] が
+          自身の zone に公開するレコードは [=Verifier=]（Recipient に代わって
+          Originator Profile を検証するソフトウェアの構成要素）に常に
+          authenticated data として届く。Core Specification はこれを求めていない。
+        </li>
+        <li>
+          検証は [=Mail Client=]（メールクライアント）が行う。Mail Client
+          はメッセージの DKIM 署名から DMARC [[RFC9989]] を自身で評価し、
+          [=Originator Profile=] を検証する。[=Receiving Mail Server=]（受信側
+          メールサーバ）が DMARC を評価することは前提にできない。評価して
+          失敗を記録している場合、[=Mail Client=] はそれを尊重する。
+        </li>
+        <li>
+          有効性を判断する時点は、表示の時点か、Mail Client 自身が記録した受信の
+          時点である。メッセージの S/MIME の検証は、signer の certificate path の
+          validation を含め、S/MIME 実装のものであってこの枠組みの外にある。
+          この枠組みが加えるのは、signer の鍵が [=Originator=] の鍵の一つで
+          あることの検査と、その鍵を通じた [=Originator Profile=]、すなわち
+          [=Recipient=] に示される [=Identity=] と [=Validated Attributes=] で
+          ある。
+        </li>
+      </ul>
+
+      <section id="relationship-to-other-documents">
+        <h3>他の文書との関係</h3>
+        <p>
+          本文書は、Core Specification [[OPF-CORE]] の意味における [=Use Case
+          Specification=] である。すなわち、コンテンツを届ける一つのやり方に
+          当該文書を適用し、そのやり方について、Core Specification が [=Use Case
+          Specification=] に委ねる事項を定める。すなわち、[=Originator Profile=]
+          を構成する文書をどう届けるか、コンテンツがどの identity の下で
+          提示されその identity が [=Originator=] とどのように結びつけられるか、
+          検証がどこでいつ行われるか、そしてその結果がどうなるかである。
+        </p>
+        <p>
+          本文書は、この枠組みの他の文書が定めるものを述べ直さない。とくに
+          次のとおりである。
+        </p>
+        <ul>
+          <li>
+            Base Model と、[=Core Profile=] と [=Profile Annotation=] の
+            データモデルは、Architectural Overview [[OPF-AOV]] が定める。
+            本文書が用いる用語は Core Specification [[OPF-CORE]] が定め、
+            web media の use case の用語は [[OPF-WEB-MEDIA]] が定める。
+          </li>
+          <li>
+            [=Originator Profile=] を検証する規範的な手順、DNS レコードの内容と
+            形式、[=Key Identifier=] の導出とそれが用いるダイジェストアルゴリズム、
+            2 つのドメイン名（本ユースケースでは、メッセージの [=Sending
+            Domain=] と [=Originator=] の [=Identity=]）を比較する規則、および
+            有効性をどの時点を基準に判断するかの一般の規則は、Core
+            Specification [[OPF-CORE]] が定める。リソースレコード型は
+            [[?OPF-DNS]] が定める。
+          </li>
+          <li>
+            S/MIME 署名の暗号学的な検証と、signer の certificate の certificate
+            path の validation は、S/MIME 実装の仕事であり、[[RFC8551]] と
+            [[RFC5280]] が定める。本文書はそれらの規則を述べ直すことも緩める
+            こともしない。本文書が加えるのは、signer の certificate が運ぶ鍵が
+            [=Originator=] の鍵の一つであることの検査である
+            （<a href="#message-certificate"></a>）。その鍵を通じて、
+            [=Originator Profile=] が、その [=Profile Annotations=] の運ぶ
+            [=Validated Attributes=] とともにメッセージに結びつく。
+          </li>
+        </ul>
+      </section>
+    </section>
+
+    <section id="conformance">
+      <p>
+        本仕様に適合する実装とは、メッセージの中で [=Originator Profile=] を
+        提示するか、またはメッセージの中で提示されたそれを検証する実装であって、
+        自身が振る舞う役割に本文書が置く要求を満たすもののことである。役割は、
+        メッセージを送る [=Originator=] と、それを検証する [=Mail Client=] で
+        ある。[=Receiving Mail Server=] は、本文書では、記録した DMARC の結果を
+        [=Mail Client=] が尊重する当事者としてだけ現れる
+        （<a href="#alignment"></a>）。
+      </p>
+      <p>
+        規範的な本文で key word を一つも使わない文は、他所で述べた要件を
+        その出典を示して言い直すか、語や値を定めるか、説明するものである。
+        他のどこにも述べていない要件は key word で述べる。本文書が Core
+        Specification [[OPF-CORE]] から受け取る DNSSEC の validation state は、
+        <span class="dns-state">Secure</span> や
+        <span class="dns-state">Insecure</span> のように italic で書き、名詞を
+        修飾する形で使う場合も同じとする。
+      </p>
+    </section>
+
+    <section id="terminology">
+      <h2>用語</h2>
+      <p>
+        以下の用語のうち引用（imported）と記したものは、Core Specification
+        [[OPF-CORE]]、web media の use case の用語は [[OPF-WEB-MEDIA]] が
+        それらに与えた意味で本文書において用いる。ここに挙げるのは本文書の中で
+        それらが解決されるようにするためだけであり、正式の定義は引いた文書の
+        ものである。両者が食い違う場合はその文書が優先する。
+        残りの用語は本仕様に固有のものであり、ここで定義する。
+      </p>
+
+      <section id="terminology-imported">
+        <h3>引用した用語</h3>
+        <dl>
+          <dt><dfn data-lt="Accreditation Chains">Accreditation Chain</dfn></dt>
+          <dd>
+            引用した用語である。<a
+            data-cite="OPF-CORE#dfn-accreditation-chain">[[OPF-CORE]],
+            Accreditation Chain</a> を参照。これは X.509 certificate の
+            certificate path とは無関係である。
+          </dd>
+
+          <dt><dfn data-lt="Content Attestations">Content Attestation</dfn></dt>
+          <dd>
+            引用した用語である。<a
+            data-cite="OPF-CORE#dfn-content-attestation">[[OPF-CORE]], Content
+            Attestation</a> を参照。
+          </dd>
+
+          <dt><dfn class="lint-ignore" data-lt="Content Validity Periods">Content Validity Period</dfn>（内容の有効期間）</dt>
+          <dd>
+            引用した用語である。<a
+            data-cite="OPF-CORE#dfn-content-validity-periods">[[OPF-CORE]],
+            Content Validity Period</a> を参照。 
+          </dd>
+
+          <dt><dfn data-lt="Core Profiles">Core Profile</dfn></dt>
+          <dd>
+            引用した用語である。<a data-cite="OPF-CORE#dfn-core-profile">[[OPF-CORE]],
+            Core Profile</a> を参照。
+          </dd>
+
+          <dt><dfn data-lt="Core Profile Issuers">Core Profile Issuer</dfn></dt>
+          <dd>
+            引用した用語である。<a
+            data-cite="OPF-CORE#dfn-core-profile-issuer">[[OPF-CORE]], Core
+            Profile Issuer</a> を参照。
+          </dd>
+
+          <dt><dfn data-lt="Identities">Identity</dfn></dt>
+          <dd>
+            引用した用語である。<a data-cite="OPF-CORE#dfn-identity">[[OPF-CORE]],
+            Identity</a> を参照。
+          </dd>
+
+          <dt><dfn data-lt="Issuer Key Records">Issuer Key Record</dfn></dt>
+          <dd>
+            引用した用語である。<a
+            data-cite="OPF-CORE#dfn-issuer-key-record">[[OPF-CORE]], Issuer Key
+            Record</a> を参照。
+          </dd>
+
+          <dt><dfn>Issuer Pinning Record</dfn></dt>
+          <dd>
+            引用した用語である。<a
+            data-cite="OPF-CORE#dfn-issuer-pinning-record">[[OPF-CORE]], Issuer
+            Pinning Record</a> を参照。
+          </dd>
+
+          <dt><dfn data-lt="Key Identifiers">Key Identifier</dfn></dt>
+          <dd>
+            引用した用語である。<a data-cite="OPF-CORE#dfn-key-identifier">[[OPF-CORE]],
+            Key Identifier</a> を参照。
+          </dd>
+
+          <dt><dfn data-lt="Originators">Originator</dfn></dt>
+          <dd>
+            引用した用語である。<a data-cite="OPF-CORE#dfn-originator">[[OPF-CORE]],
+            Originator</a> を参照。
+          </dd>
+
+          <dt><dfn data-lt="Originator Key Records">Originator Key Record</dfn></dt>
+          <dd>
+            引用した用語である。<a
+            data-cite="OPF-CORE#dfn-originator-key-record">[[OPF-CORE]],
+            Originator Key Record</a> を参照。
+          </dd>
+
+          <dt><dfn data-lt="Originator Profiles">Originator Profile</dfn></dt>
+          <dd>
+            引用した用語である。<a
+            data-cite="OPF-CORE#dfn-originator-profile">[[OPF-CORE]], Originator
+            Profile</a> を参照。
+          </dd>
+
+          <dt><dfn data-lt="Originator Profile Bundles">Originator Profile Bundle</dfn></dt>
+          <dd>
+            引用した用語である。<a
+            data-cite="OPF-CORE#dfn-originator-profile-bundles">[[OPF-CORE]],
+            Originator Profile Bundle</a> を参照。本仕様では、メッセージの
+            署名された内容の中の単一の MIME パートとして運ばれる
+            （<a href="#bundle"></a>）。
+          </dd>
+
+          <dt><dfn data-lt="Originator Verification Keys">Originator Verification Key</dfn></dt>
+          <dd>
+            引用した用語である。<a
+            data-cite="OPF-CORE#dfn-originator-verification-key">[[OPF-CORE]],
+            Originator Verification Key</a> を参照。
+          </dd>
+
+          <dt><dfn data-lt="Permitted Host Records">Permitted Host Record</dfn></dt>
+          <dd>
+            引用した用語である。<a
+            data-cite="OPF-CORE#dfn-permitted-host-record">[[OPF-CORE]],
+            Permitted Host Record</a> を参照。
+          </dd>
+
+          <dt><dfn data-lt="Presented Identities">Presented Identity</dfn></dt>
+          <dd>
+            引用した用語である。<a
+            data-cite="OPF-CORE#dfn-presented-identity">[[OPF-CORE]], Presented
+            Identity</a> を参照。
+          </dd>
+
+          <dt><dfn data-lt="Profile Annotations">Profile Annotation</dfn></dt>
+          <dd>
+            引用した用語である。<a
+            data-cite="OPF-CORE#dfn-profile-annotation">[[OPF-CORE]], Profile
+            Annotation</a> を参照。
+          </dd>
+
+          <dt><dfn data-lt="Profile Annotation Issuers">Profile Annotation Issuer</dfn></dt>
+          <dd>
+            引用した用語である。<a
+            data-cite="OPF-CORE#dfn-profile-annotation-issuer">[[OPF-CORE]],
+            Profile Annotation Issuer</a> を参照。
+          </dd>
+
+          <dt><dfn data-lt="Recipients">Recipient</dfn></dt>
+          <dd>
+            引用した用語である。<a data-cite="OPF-CORE#dfn-recipient">[[OPF-CORE]],
+            Recipient</a> を参照。
+          </dd>
+
+          <dt><dfn data-lt="Revocation Records">Revocation Record</dfn></dt>
+          <dd>
+            引用した用語である。<a
+            data-cite="OPF-CORE#dfn-revocation-record">[[OPF-CORE]], Revocation
+            Record</a> を参照。
+          </dd>
+
+          <dt><dfn data-lt="Root Core Profiles">Root Core Profile</dfn></dt>
+          <dd>
+            引用した用語である。<a data-cite="OPF-CORE#dfn-root-core-profile">[[OPF-CORE]],
+            Root Core Profile</a> を参照。
+          </dd>
+
+          <dt><dfn data-lt="Root Issuers">Root Issuer</dfn></dt>
+          <dd>
+            引用した用語である。<a data-cite="OPF-CORE#dfn-root-issuer">[[OPF-CORE]],
+            Root Issuer</a> を参照。
+          </dd>
+
+          <dt><dfn class="lint-ignore" data-lt="Signature Validity Periods">Signature Validity Period</dfn>（署名の有効期間）</dt>
+          <dd>
+            引用した用語である。<a
+            data-cite="OPF-CORE#dfn-signature-validity-periods">[[OPF-CORE]],
+            Signature Validity Period</a> を参照。 
+          </dd>
+
+          <dt><dfn data-lt="Use Case Specifications">Use Case Specification</dfn></dt>
+          <dd>
+            引用した用語である。<a
+            data-cite="OPF-CORE#dfn-use-case-specifications">[[OPF-CORE]], Use
+            Case Specification</a> を参照。
+          </dd>
+
+          <dt><dfn data-lt="Validated Attributes">Validated Attribute</dfn></dt>
+          <dd>
+            引用した用語である。<a
+            data-cite="OPF-CORE#dfn-validated-attribute">[[OPF-CORE]],
+            Validated Attribute</a> を参照。
+          </dd>
+
+          <dt><dfn data-lt="Verifiers">Verifier</dfn></dt>
+          <dd>
+            引用した用語である。<a data-cite="OPF-CORE#dfn-verifier">[[OPF-CORE]],
+            Verifier</a> を参照。
+          </dd>
+
+          <dt><dfn data-lt="Website Profiles">Website Profile</dfn></dt>
+          <dd>
+            引用した用語である。<a data-cite="OPF-WEB-MEDIA#dfn-website-profiles">[[OPF-WEB-MEDIA]],
+            Website Profile</a> を参照。これは [=Originator=] 自身が発行するもの
+            であり、[=Originator Profile=] の外にある。これは Web Media Use
+            Case Specification [[OPF-WEB-MEDIA]] に属し、本仕様では何の役割も
+            果たさない。ここに挙げてあるのは、<a href="#differences"></a> が
+            これに言及しているためである。
+          </dd>
+        </dl>
+      </section>
+
+      <section id="terminology-email">
+        <h3>本仕様に固有の用語</h3>
+        <dl>
+
+          <dt><dfn data-lt="Sending Domains">Sending Domain</dfn></dt>
+          <dd>
+            メッセージの [=Sending Domain=]（送信ドメイン）とは、そのメッセージの
+            From ヘッダフィールド [[RFC5322]] のドメインのことである。ただし、
+            メッセージがそのドメインと、<a href="#alignment"></a> が定める DMARC
+            [[RFC9989]] の下での整合をしている場合に限る。そのように整合していないメッセージは [=Sending Domain=] を
+            持たない。これはメッセージの内容がその下で届くドメインであり、
+            本仕様が [=Originator=] に結びつける対象である。すなわち、この
+            ユースケースの [=Presented Identity=] であり、
+            <a href="#presented-identity"></a> が求めるとおりに得て正準形にし、
+            [=Originator=] の [=Identity=] と比べられる。
+          </dd>
+
+          <dt><dfn data-lt="Receiving Mail Servers">Receiving Mail Server</dfn></dt>
+          <dd>
+            [=Receiving Mail Server=]（受信側メールサーバ）とは、受信者に代わって
+            メッセージを受け取る mail transfer agent または message delivery
+            agent のことである。これは DMARC を評価することがあり、その結果を
+            Authentication-Results ヘッダフィールド [[RFC8601]] に記録することが
+            ある。
+          </dd>
+
+          <dt><dfn data-lt="Mail Clients">Mail Client</dfn></dt>
+          <dd>
+            [=Mail Client=]（メールクライアント）とは、受信者にメッセージを
+            表示するユーザエージェントのことである。このユースケースにおいて、
+            これは [=Originator Profile=] を検証する当事者である。
+          </dd>
+
+          <dt><dfn data-lt="Times of Judgement">Time of Judgement</dfn></dt>
+          <dd>
+            ある検証の [=Time of Judgement=]（判断時点）とは、[=Originator
+            Profile=] を構成する文書の署名の有効期間を、それに照らして判定する
+            時点のことである。このユースケースにおいてこれは表示の時点か、[=Mail Client=] が記録した受信の時点である。
+            <a href="#time-of-judgement"></a> を参照。一般の規則は Core
+            Specification [[OPF-CORE]] のものである。本仕様の規則はその上書きで
+            あり、Core Specification はそれを認めている。
+          </dd>
+
+        </dl>
+      </section>
+    </section>
+
+    <section id="message">
+      <h2>メッセージの構造</h2>
+
+      <section id="message-signing">
+        <h3>署名</h3>
+        <p>
+          <strong>Originator が何に、どの鍵で署名するか。</strong>本仕様の下でメッセージの中に [=Originator Profile=] を提示する
+          [=Originator=] は、そのメッセージを S/MIME [[RFC8551]] で署名し
+          なければならない（MUST）。また [=Originator Profile Bundle=] を、メッセージが
+          添付を運ぶ形で、すなわち multipart のエンティティの body part として、
+          署名が覆う内容の中に置かなければならない（MUST）。[=Originator=] は、
+          そのメッセージが運ぶ [=Core Profile=] の [=Originator Verification
+          Keys=] の一つでメッセージに署名しなければならない（MUST）。
+        </p>
+        <p>
+          <strong>メッセージの構造。</strong>[=Originator=] は、メッセージに次の構造を与えなければならない
+          （MUST）。この構造を満たす形は、後に挙げるものがすべてである。
+        </p>
+        <ul>
+          <li>
+            メッセージの最上位の body は S/MIME の署名であるか、メッセージが
+            暗号化されている場合は、復号した内容がその署名である暗号化の層で
+            ある。
+          </li>
+          <li>
+            署名は S/MIME の署名データの二つの形のいずれかをとる。一つは
+            smime-type が <code>signed-data</code> の
+            <code>application/pkcs7-mime</code> の body で、CMS SignedData
+            [[RFC5652]] が署名された内容を内包する。もう一つは
+            <code>multipart/signed</code> の body [[RFC1847]] で、最初の body
+            part が署名された内容、2 番目がそれに対する分離された CMS
+            SignedData を運ぶ。
+          </li>
+          <li>
+            署名された内容は、メッセージの body も収める
+            <code>multipart/mixed</code> のエンティティであり、[=Originator
+            Profile Bundle=] はその <code>multipart/mixed</code> のエンティティの
+            直下の body part である。
+          </li>
+        </ul>
+        <p>
+          署名が <code>application/pkcs7-mime</code> の body である場合、
+          [=Originator=] はその body に、[[RFC8551]] では任意とされる
+          smime-type parameter を値 <code>signed-data</code> で付けなければ
+          ならない（MUST）。
+        </p>
+        <p>
+          <strong>構造を満たす形。</strong>これらの要件を満たすメッセージの形は次のとおりであり、これに限る。
+        </p>
+        <ul>
+          <li>
+            <code>multipart/signed</code> の body で、その最初の body part、
+            すなわち署名された内容が、メッセージの body と [=Originator Profile
+            Bundle=] を収める <code>multipart/mixed</code> のエンティティである
+            もの。
+          </li>
+          <li>
+            smime-type が <code>signed-data</code> の
+            <code>application/pkcs7-mime</code> の body で、その SignedData が、
+            メッセージの body と [=Originator Profile Bundle=] を収める
+            <code>multipart/mixed</code> のエンティティを内包するもの。
+          </li>
+          <li>
+            最初の二つの形のいずれかを、暗号化の層、すなわち smime-type が
+            <code>enveloped-data</code> または <code>authEnveloped-data</code>
+            の <code>application/pkcs7-mime</code> の body [[RFC8551]] が包む
+            もの。メッセージは署名されてから暗号化される。このようなメッセージ
+            は、それを復号する [=Mail Client=] だけが検証できる。
+          </li>
+          <li>
+            三つの形のいずれかで、メッセージの body 自体が
+            <code>multipart/alternative</code> や <code>multipart/related</code>
+            のような multipart のエンティティであるもの。そのときそのエンティティと
+            [=Originator Profile Bundle=] はどちらも、署名された
+            <code>multipart/mixed</code> のエンティティの直下の body part であり、bundle は body のエンティティ
+            の中には無い。
+          </li>
+        </ul>
+        <div class="note" title="2 つの署名がそれぞれ主張すること">
+          メッセージの body を保護し、それとともに bundle が存在することと
+          その内容とを保護する S/MIME の署名は、この bundle がこの署名者によって
+          このメッセージに添えられたことを主張する。bundle の中の文書に対する
+          各 issuer の署名は、その文書が名指す当事者または鍵を、その issuer が
+          endorse したことを主張する。後者は前者から独立しているので、署名鍵を
+          運ぶ [=Core Profile=] がその鍵で作られた署名に覆われているという
+          事実は、循環を生まない。bundle を署名の外に置けば、差し替えに対して
+          無防備になり、endorsement の integrity が壊れる。
+        </div>
+      </section>
+
+      <section id="signature-and-bundle">
+        <h3>Verifier が用いる署名と bundle</h3>
+        <p>
+          <strong>Verifier がどの bundle を用いるか。</strong>[=Verifier=] は、署名が覆う内容の中に
+          <a href="#message-signing"></a> が要求するとおりに置かれた
+          [=Originator Profile Bundle=] と、それを覆う署名を用いる。
+          [=Originator Profile Bundle=] のメディアタイプ（<a
+          href="#bundle"></a>）の part がそれ以外の場所（署名された内容の外を
+          含む）にあれば、それは本仕様にいう [=Originator Profile Bundle=] では
+          なく、検証に用いられない。そのメディアタイプの part をそのような場所に
+          しか持たないメッセージは、署名された内容が
+          [=Originator Profile Bundle=] を運ばないメッセージである
+          （<a href="#verification-procedure"></a> の手順 1）。
+        </p>
+        <p>
+          <strong>smime-type parameter。</strong>[=Verifier=] は、
+          <code>application/pkcs7-mime</code> の body の形をその smime-type
+          parameter だけから判断し、body が運ぶ CMS の内容からは判断しない。
+          smime-type parameter が無いか、<code>signed-data</code> 以外の値で
+          ある body は、本仕様が受け入れる形の署名ではない。
+        </p>
+        <p>
+          <strong>どの署名か、その SignerInfo。</strong>本仕様がいう署名とは、
+          <a href="#message-signing"></a> が要求するとおりに置かれた
+          [=Originator Profile Bundle=] を、署名された内容の直下に収める
+          SignedData である。その SignerInfo のうち、bundle の中の
+          [=Core Profile=] の [=Originator Verification Key=] を鍵とする
+          certificate を指すものは、アルゴリズムが何であれ、同じ署名者、
+          すなわち [=Originator=] の署名である。アルゴリズムの移行期のように、
+          一つの [=Core Profile=] は複数のアルゴリズムの鍵を持つことができ、
+          それらの鍵はどれも同じ [=Originator=] として署名する。
+          <a href="#message-certificate"></a> の鍵の照合は、
+          それが少なくとも一つあれば満たされる。
+        </p>
+        <p>
+          その SignedData が複数の SignerInfo を持つ場合、[=Verifier=] はそれらを
+          次のように扱う。
+        </p>
+        <ul>
+          <li>
+            [[RFC5652]] が一つの署名者の署名を扱うのと同じく、[=Originator=] の
+            署名は、[=Originator=] の SignerInfo のうち一つが [=Verifier=] の
+            対応するアルゴリズムで通れば通る（手順 1）。[=Verifier=] が対応
+            しないアルゴリズムのものは、それだけでは失敗にならない。
+          </li>
+          <li>
+            どの [=Core Profile=] にも鍵が無い SignerInfo は、その署名が通らない
+            場合を含め、それだけでは失敗にならない。
+          </li>
+          <li>
+            [=Verifier=] は、ほかの SignerInfo が [=Originator=] とは別の
+            [=Identity=] の [=Core Profile=] の [=Originator Verification Key=] を
+            鍵とする certificate を指していれば、検証を失敗させなければならない
+            （MUST）。複数の [=Identity=] の [=Core Profiles=] が、[=Originator=]
+            を決める条件（<a href="#presented-identity"></a>）を満たす場合と
+            ちょうど同じく失敗する。
+          </li>
+        </ul>
+        <div class="note" title="第三者の SignerInfo">
+          中継するものに署名する gateway のように、経路上の当事者は自身の鍵で
+          SignerInfo を足すことができる。その鍵はどの [=Core Profile=] にも無く、
+          そのような SignerInfo が失敗の原因になるなら、そうした当事者の誰もが
+          メッセージを失敗させられることになる。これに対し、別の [=Identity=] の
+          [=Core Profile=] に鍵がある SignerInfo は、メッセージに第二の
+          [=Identity=] の署名を置くものであり、手順は、複数の [=Identity=] の
+          [=Core Profiles=] が運ぶ鍵を失敗させるのと同じように、選ばずにそれを
+          失敗させる。
+        </div>
+      </section>
+
+      <section id="bundle">
+        <h3>Originator Profile Bundle</h3>
+        <p>
+          <strong>bundle が運ぶもの。</strong>[=Originator=] は、自身の [=Originator Profile Bundle=] に、Core
+          Specification が [=Originator Profile Bundle=] の運ぶものとして定める
+          文書を含めなければならない（MUST）（<a
+          data-cite="OPF-CORE#originator-profile-bundle">[[OPF-CORE]],
+          Originator Profile Bundle</a>）。これらの文書の
+          それぞれの形式は Core Specification [[OPF-CORE]] が定める。
+        </p>
+        <p>
+          <strong>chain の全体がメッセージとともに運ばれる。</strong>[=Originator=] は、各 [=Accreditation Chain=] の全体を
+          [=Originator Profile Bundle=] で運ばなければならない（MUST）。[=Verifier=] は [=Originator Profile=] の
+          いかなる部分もネットワークから取得することを要求されず、
+          [=Core Profile Issuer=] とすべての
+          [=Profile Annotation Issuer=] は bundle から見つける。これによって
+          [=Verifier=] は、Core Specification が求めるとおり、DNS の問い合わせを
+          発する前に各 chain を手元に持つ（<a
+          data-cite="OPF-CORE#originator-profile-bundle">[[OPF-CORE]],
+          Originator Profile Bundle</a>）。
+        </p>
+        <p>
+          <strong>media type を付けた一つの part。</strong>[=Originator=] は、[=Originator Profile Bundle=] に、そのために登録
+          された media type を付けなければならない（MUST）。<a href="#iana"></a>
+          を参照。[=Originator=] は、署名された内容にその media type の part を
+          二つ以上置いてはならない（MUST NOT）。囲まれた
+          <code>message/rfc822</code> の body の中の part は、囲まれた
+          メッセージに属し、数えない。複数を見つけた [=Verifier=] は、その中から
+          選ばず、検証を失敗させなければならない（MUST）。署名された内容が一つも
+          運ばないメッセージは評価しない
+          （<a href="#verification-procedure"></a> の手順 1）。
+        </p>
+        <div class="issue" title="media type がまだ登録されていない">
+          [=Originator Profile Bundle=] の media type はまだ登録されておらず、
+          その登録は Originator Profile Blueprints
+          [[?Originator Profile Blueprints]] における対応する作業と揃える
+          こととしている。登録されるまで、本仕様は相互運用可能な形では実装
+          できない。
+        </div>
+      </section>
+
+      <section id="message-certificate">
+        <h3>署名者の certificate</h3>
+        <p>
+          <strong>Verifier が照合する鍵。</strong>[=Verifier=] は、S/MIME 実装が署名の検証に用いた certificate の
+          SubjectPublicKeyInfo [[RFC5280]] を、[=Key Identifier=] の導出元の鍵に
+          ついて Core Specification [[OPF-CORE]] が要求するとおりに正規化した
+          うえで、そこから [=Key Identifier=] を導出しなければならない（MUST）。
+          [=Verifier=] は、その [=Key Identifier=] を [=Core Profile=] の
+          [=Originator Verification Keys=] の [=Key Identifiers=] と照合しなければ
+          ならない（MUST）。S/MIME 実装が署名を受け入れないメッセージは、検証に
+          失敗する（<a href="#verification-procedure"></a> の手順 1）。
+        </p>
+        <div class="note" title="S/MIME の仕事と鍵の検査">
+          S/MIME は署名者の公開鍵を X.509 certificate で運ぶ。S/MIME 実装は、
+          [[RFC8551]] と [[RFC5280]] が要求するとおりに、署名を検証し
+          certificate path を validate する。本仕様はそれらの規則を述べ直すことも
+          緩めることもしない。certificate とその path の certificate を SignedData
+          の中に入れて運ぶか、他の方法で得るかは、S/MIME の署名者の事柄であって、
+          本仕様の事柄ではない。本仕様が加えるのは、この節の鍵の検査である。
+          それはメッセージを、certificate だけにではなく、その
+          [=Profile Annotations=] の運ぶ [=Validated Attributes=] とともに
+          [=Originator Profile=] に結びつける。鍵を
+          正規化するのは、同じ鍵がここでも [=Core Profile=] におけるのと同じ
+          識別子を与えるようにするためである。
+        </div>
+        <p>
+          <strong>certificate は Originator Profile の外にある。</strong>certificate を [=Core Profile=] に入れてはならない（MUST NOT）。
+          [=Core Profile=] が運ぶのは鍵であって certificate ではなく、署名者の
+          certificate は [=Originator Profile=] の一部ではない。[=Verifier=] は、
+          署名者の certificate の certificate path を、[=Originator Profile=] の
+          一部として扱ってはならない（MUST NOT）。
+        </p>
+        <div class="note" title="時間の上での 2 つの層">
+          certificate の有効期間と、CRL または OCSP によるその失効は、S/MIME の 
+          層に属し、この枠組みの外にある。2 つの層を結ぶ唯一のものは鍵の同一性で
+          ある。<a href="#validity-layers"></a> を参照。
+        </div>
+      </section>
+
+      <section id="message-headers">
+        <h3>ヘッダフィールド</h3>
+        <p>
+          <strong>DKIM の <code>h=</code> タグの外のヘッダフィールドはここでは保護されない。</strong>本仕様は、S/MIME が与える以上のヘッダフィールドの保護を要求しない。
+          ただし、<a href="#presented-identity"></a> が DKIM 署名の
+          <code>h=</code> タグに求める範囲は除く。本仕様が照合する identity は
+          [=Sending Domain=] であり、メッセージをそのドメインに結びつけるのは
+          DMARC [[RFC9989]] の仕事であって、S/MIME の署名の仕事ではない。S/MIME
+          の実務は S/MIME の署名の中でヘッダフィールドを保護することを勧めるが、
+          本仕様はそれを求めない。
+        </p>
+      </section>
+
+      <section id="message-compatibility" class="informative">
+        <h3>後方互換性</h3>
+        <p>
+          本仕様を実装していないメールクライアント（したがって本文書の意味での
+          [=Mail Client=] ではないもの）は、
+          [=Originator Profile Bundle=] を未知の型の添付として扱い、無視する。
+          bundle は署名された内容の通常の一部であるから、S/MIME の署名は
+          それでも検証される。したがって、配備はクライアントごとに一つずつ
+          進められる。
+        </p>
+        <p>
+          したがって [=Originator=] は、受信者が検証できるようになる前から
+          本仕様の下でメッセージを送ることができる。メッセージは、受信側が検証
+          できるところでは検証される。受信側では、検証は当初、既存のメールクライアントへの
+          プラグインとして、あるいは検証を組み込んで配布されるメールクライアント
+          として届くと見込まれる。
+        </p>
+      </section>
+    </section>
+
+    <section id="sending-domain">
+      <h2>送信ドメインと DNS に対する要求</h2>
+      <p>
+        本仕様は、この枠組みの DNS 設計にリソースレコードも名前も加えない。
+        名前、レコード型および形式は Core Specification [[OPF-CORE]] と
+        [[?OPF-DNS]] が定める。本仕様が定めるのは、それらのレコードのうち
+        どれを [=Originator=] が公開することを要求されるか、および
+        それらが無いことが何を意味するかである。
+      </p>
+      <p>
+        関わる zone は二つあり、以下では
+        区別する。署名されていることを要求される [=Sending Domain=] の zone と、
+        [=Issuer Pinning Record=] を持つ [=Originator=] の [=Identity=] の zone で
+        ある（<a href="#sending-domain-zone"></a>）。[=Sending Domain=] はその
+        [=Identity=] であるかその下にある（<a href="#presented-identity"></a>）ので、
+        二つは同じ zone であるか、前者が後者の下にある。DKIM の鍵と DMARC
+        policy record がどこに公開されるかは別の事柄で、
+        <a href="#presented-identity"></a> が定める。[=Verifier=] がメッセージの
+        整合をどう確かめ、したがってどの [=Sending Domain=] を取るかは、
+        <a href="#alignment"></a> にある。
+      </p>
+      <p>
+        本仕様において、DNSSEC の状態は、DNSSEC 自身が検証を行う resolver に
+        ついて定める四つ [[RFC4033]] [[RFC4035]] であり、Core Specification
+        [[OPF-CORE]] が与えるとおりである。
+      </p>
+      <ul>
+        <li><span class="dns-state">Secure</span>: resolver が trust anchor と
+          応答までの chain of trust を持ち、応答の中のすべての署名を検証できる。</li>
+        <li><span class="dns-state">Insecure</span>: resolver が trust anchor と
+          chain of trust を持ち、途中のある委任点で DS レコードが無いことの署名
+          された証明を持つ。そのため、応答の zone は署名されていないことが示される。</li>
+        <li><span class="dns-state">Bogus</span>: resolver が trust anchor と、
+          応答が署名されていることを示す安全な委任を持つが、応答が検証に失敗する。</li>
+        <li><span class="dns-state">Indeterminate</span>: その部分の木が
+          署名されているかどうかを示す trust anchor が無い。</li>
+      </ul>
+      <p>
+        データが認証されている（authenticated）のは、応答が <span class="dns-state">Secure</span> である場合に
+        限る。認証された否定（authenticated denial）とは、<span class="dns-state">Secure</span> である存在の
+        否定であり、Core Specification が <span class="dns-state">Secure</span> proof of absence と呼ぶもので
+        ある。それが証明する不在が、認証された不在（authenticated absence）で
+        ある。
+      </p>
+      <section id="presented-identity">
+        <h3>Presented Identity</h3>
+        <p>
+          <strong>Presented Identity とは何か。</strong>メッセージの内容がその下で提示される identity は [=Sending Domain=]、
+          すなわち DKIM [[RFC6376]] による DMARC [[RFC9989]] の下での整合が
+          確立された From ヘッダフィールド [[RFC5322]] のドメインである。これは
+          このユースケースの [=Presented Identity=] であり、[=Originator=]
+          を決めるために、[=Core Profile=] の運ぶ [=Identity=] と比べられる値
+          である。本節は、メッセージが整合し結び
+          つけられるために [=Originator=] が行うことと、[=Verifier=] が
+          [=Sending Domain=] をどう取るかを定める。
+        </p>
+        <p>
+          <strong>どの Core Profile が Originator のものか。</strong>署名は
+          [=Originator=] を名指ししない。[=Originator=] とは、
+          [=Originator Profile Bundle=] の中の [=Core Profile=]
+          （[=Root Core Profile=] 以外）が二つの条件を満たす当事者である。
+          すなわち、その [=Core Profile=] が署名者の certificate の鍵を
+          <a href="#message-certificate"></a> が求めるとおりに照合して運び、
+          かつその [=Identity=] が、Core Specification [[OPF-CORE]] の規則で
+          比較して、[=Sending Domain=] そのものであるか [=Sending Domain=] を
+          その配下に持つ。
+        </p>
+        <p>
+          <strong>DKIM による整合。</strong>メッセージの中で
+          [=Originator Profile=] を提示する [=Originator=] は、メッセージが DKIM
+          によって DMARC の下で、strict な整合で整合するように、From
+          ヘッダフィールドのドメインと同一の <code>d=</code> のドメインで、
+          メッセージに DKIM の署名をしなければならない（MUST）。
+        </p>
+        <p>
+          <strong>DNS の名前。</strong>[=Originator=] は、次の 2 つの名前が、途中で経由
+          する CNAME や委任を通じて、レコードがあればレコードとして、無ければ認証された
+          否定として、authenticated data として解決されるようにしなければならない
+          （MUST）。
+        </p>
+        <ul>
+          <li>その署名の DKIM 鍵が公開されている名前</li>
+          <li>From ヘッダフィールドのドメインの DMARC ポリシーレコードの名前</li>
+        </ul>
+        <p>
+          鍵の公開を他者に任せる [=Originator=] は、その他者のゾーンを署名させ
+          なければならない（MUST）。
+        </p>
+        <div class="note" title="別のゾーンにある鍵やポリシーレコード">
+          [=Sending Domain=] のゾーンが署名されていることという
+          <a href="#sending-domain-zone"></a> の要求は、メールサービスの事業者が
+          鍵を持つ場合のように、selector やポリシーレコードが他者のゾーンへ alias
+          または委任されている場合には、それだけではこれらの名前を守らない。
+          strict な整合の下では <code>d=</code> ドメインは From ヘッダフィールドの
+          ドメインなので、別のゾーンの鍵やポリシーレコードは、そのような alias
+          か、その名前の委任によってだけ生じる。
+        </div>
+        <p>
+          <strong>DKIM の署名。</strong>[=Originator=] は、DKIM の署名に
+          <code>l=</code> タグ [[RFC6376]] を使ってはならない（MUST NOT）。
+          [=Originator=] は、DKIM の署名の <code>h=</code> タグに From、To、Cc、
+          Subject、Date、Reply-To および Message-ID のヘッダフィールドを
+          挙げなければならない（MUST）。それぞれの名前は、そのフィールドが
+          メッセージにある数より 1 回多く挙げ、存在しないフィールドの名前は
+          1 回挙げる。
+          [=Originator=] は、DKIM の selector を受信者ごと、またはメッセージごとに
+          変えてはならない（MUST NOT）。
+        </p>
+        <div class="note" title="l= タグ、oversigning、selector">
+          <p>
+            <code>l=</code> タグを持つ DKIM の署名は、署名が覆う長さの後ろに
+            付け足された内容があっても検証に通り、その内容は S/MIME の署名が
+            保護しない。
+          </p>
+          <p>
+            <code>h=</code> にヘッダフィールドをこのように挙げるのは oversigning
+            と呼ばれるやり方である。DKIM は、<code>h=</code> に複数回挙げられた
+            ヘッダフィールドの実体を最後のものから上へ順に署名し、存在する実体の
+            数を超えて挙げた名前は、さらにもう一つの実体が無いことを署名する。
+            そのため、後からその名前のフィールドが付け加えられると署名が壊れる
+            （[[RFC6376]], Signatures Involving Multiple Instances of a Field;
+            Attacks Involving Extra Header Fields）。変更されずに別の受信者へ
+            replay されたメッセージ（<a href="#re-verification"></a>）が変わって
+            いないのは署名が覆う範囲だけである。<code>h=</code> の外のヘッダ
+            フィールドは途中で置き換えられうる。そのように置き換えられた
+            Reply-To は、本仕様の検査がすべて通るまま、受信者の返信を別の宛先へ
+            向けてしまう。
+          </p>
+          <p>
+            [=Mail Client=] はその selector の下に公開された鍵を問い合わせる
+            ので、受信者ごと・メッセージごとに違う selector は、その問い合わせに
+            よって、どのメッセージが開かれたかを [=Originator=] に知らせてしまう
+            （<a href="#privacy-what-the-queries-name"></a>）。[=Verifier=] は
+            そのような selector の使い方を検出できない。これは [=Originator=] に
+            対する要件である。
+          </p>
+        </div>
+        <p>
+          <strong>DMARC のポリシーレコード。</strong>[=Originator=] は、From
+          ヘッダフィールドのドメインに、DKIM について strict な整合を求める
+          <code>adkim</code> タグ（<code>adkim=s</code>）を持つ DMARC ポリシー
+          レコード [[RFC9989]] を公開しなければならない（MUST）。そのドメインに
+          レコードがあり整合が strict であれば、[[RFC9989]] の評価は DNS Tree Walk
+          を行わず、[=Verifier=] が DMARC のために問い合わせる名前はすべて From
+          ヘッダフィールドのドメインの下にある。
+        </p>
+        <div class="note" title="strict な整合と relaxed な整合">
+          relaxed な整合は組織ドメインに拠る。組織ドメインを [[RFC9989]] は DNS
+          Tree Walk で決め、[[?RFC7489]] は公開接尾辞の一覧で決めていた。一方に
+          従う verifier は、他方に従う verifier と異なる結果に至りうる
+          （[[RFC9989]], Changes from RFC 7489）。strict な整合は 2 つのドメインを
+          そのまま比べ、どちらにも依存しない。また、評価が問い合わせる名前を
+          すべて From ヘッダフィールドのドメインの下に留める。これが、本仕様が
+          strict な整合を求める理由である。
+        </div>
+        <p>
+          <strong>メッセージを検証できるまま保つ。</strong>[=Originator=] は、
+          署名に使うのをやめた DKIM の selector の鍵を、その selector で署名した
+          メッセージがまだ検証されうる間、公開し続けるべきである（SHOULD）。
+          [[RFC6376]] が失効と読む空の <code>p=</code> タグでレコードを公開する
+          ことは、レコードを削除するのと同じく、その公開を終える。
+          [=Originator=] は、DKIM 署名から [[RFC6376]] の <code>x=</code> タグを
+          省くか、メッセージがまだ検証されうる期間より先に設定するべきである
+          （SHOULD）。これらの期間の長さはここでは定めない。この枠組みの
+          Operations document の事項であり、推奨値はまだ設定されていない
+          （<a href="#parameters"></a>）。
+        </p>
+        <div class="note" title="公開されなくなった鍵と過ぎた x=">
+          メッセージを表示するときに DMARC を評価する [=Mail Client=] は、その鍵が
+          公開されなくなるとその評価に失敗し、<code>x=</code> を過ぎた署名を、
+          [[RFC6376]] が認めるとおり期限切れとして扱うことができる（Validate the
+          Signature Header Field）。どちらの場合も、メッセージはもはや整合していない
+          （<a href="#verification-procedure"></a> の手順 3）。
+        </div>
+        <p>
+          <strong>Sending Domain。</strong>[=Originator=] は、本仕様の下の
+          メッセージを、自身の [=Identity=] であるかその配下にある
+          [=Sending Domain=] からだけ送らなければならない（MUST）。
+          [=Originator=] は、From ヘッダフィールドが複数のアドレスを運ぶ
+          メッセージ、または複数の From ヘッダフィールドを運ぶメッセージを、
+          本仕様の下で送ってはならない（MUST NOT）。[=Originator=] は、署名者の
+          certificate の鍵を運び、かつ [=Sending Domain=] がその [=Identity=] で
+          あるかその配下にある [=Core Profile=] を、複数の [=Identity=] について
+          含む [=Originator Profile Bundle=] を持つメッセージを送ってはならない
+          （MUST NOT）（<a href="#verification-procedure"></a> の手順 3）。本仕様は
+          [=Permitted Host Record=] を用いない。
+        </p>
+        <div class="note" title="入れ子の Identity が共有する鍵">
+          複数の [=Identity=] の [=Core Profiles=] が署名者の鍵を運び、
+          [=Sending Domain=] がそれらの [=Identity=] のそれぞれであるかその
+          配下にある場合、どの [=Originator=] が
+          署名したかはメッセージのどこにも書かれておらず、手順は選ばずに失敗
+          する。そのため、<code>example.jp</code> と
+          <code>mail.example.jp</code> のように入れ子の [=Identity=] を持つ組織は、
+          両方の [=Core Profile=] が運ぶ鍵でメールに署名しない。[=Identity=] ごとに
+          別の鍵を使うか、bundle に [=Core Profile=] の一方だけを入れる。
+        </div>
+        <div class="note" title="代理送信と Permitted Host Record">
+          代理送信に [=Permitted Host Record=] は要らない。strict な整合の下では
+          <code>d=</code> のドメインは From ヘッダフィールドのドメインなので、
+          メールサービス事業者は [=Originator=] 自身のドメインの下で署名し、鍵は
+          そこに公開されるか、そこから別名または委任で辿られる。自身の
+          [=Identity=] の外にある登録ドメインから送る [=Originator=] は、その
+          ドメインについて、そのドメインを [=Identity=] とする [=Core Profile=] を
+          示す。
+        </div>
+        <div class="note" title="後の改訂における Permitted Host Record">
+          後の改訂で、[=Originator=] の [=Identity=] の外にある [=Sending Domain=] を
+          [=Permitted Host Record=] によって認めることがありうる。その場合、
+          そのレコードは <a href="#verification-procedure"></a> の手順 3 の
+          問い合わせより前に問い合わせる。[=Sending Domain=] が結び付けられて
+          いないメッセージについて、DKIM の鍵や DMARC のポリシーレコードを
+          問い合わせないためである。
+        </div>
+        <p>
+          <strong>Verifier が Sending Domain をどう取るか。</strong>[=Verifier=] は、Core Specification [[OPF-CORE]] がドメイン名を比較する
+          際の正準形に [=Sending Domain=] を変換しなければならない（MUST）。
+          その形にできない [=Sending Domain=] は、正準形にできない値すべてに
+          ついて Core Specification が求めるとおり、検証の失敗となる（手順 1）。From ヘッダフィールドのドメインが国際化ドメイン名で
+          ある場合（[[RFC6531]] の下で送られたメッセージではありうる）、
+          [=Verifier=] は、[[RFC8616]] がメール認証のために定めるとおりにそれを
+          A-label に変換しなければならない（MUST）。これは DMARC の下で整合が
+          確立される際の形でもある。本仕様は他の変換を定めない。比較そのものは、
+          ある名前が別の名前の配下にあるとはどういうことかを含めて、Core
+          Specification の規則である。
+        </p>
+        <p>
+          <strong>範囲外のメッセージ。</strong>経路の途中で DKIM の署名が壊れる
+          メッセージは本仕様の範囲外である。メーリングリストがメッセージを
+          書き換える場合や、受信側のゲートウェイが件名に印を付け、本文に注意書きを
+          加え、またはリンクを書き換える場合がそれに当たる。本仕様は、そのような
+          中継者を越えて認証結果を運ぶために ARC [[?RFC8617]] に依拠しない。
+        </p>
+        <div class="note" title="受信者のメールシステムの中での書き換え">
+          受信者自身のメールシステムの中で書き換えられたメッセージは、DMARC を
+          自ら評価するその [=Mail Client=] にとって整合していない
+          （<a href="#alignment"></a>）。本仕様が想定する配備は、銀行が
+          顧客に送るメールのようにフィッシング対策を主目的とするものであり、
+          メーリングリストを含まない。
+        </div>
+      </section>
+
+      <section id="alignment">
+        <h3>整合の確立</h3>
+        <p>
+          <strong>Mail Client は DMARC を自身で評価する。</strong>本節は、[=Verifier=] がメッセージの整合をどう確立するか（[=Sending
+          Domain=] はそこから取られる。<a href="#presented-identity"></a>）と、
+          どのメッセージが整合せず、したがって評価されないかを定める。
+          [=Mail Client=] は、メッセージの DKIM [[RFC6376]] の署名だけから、
+          DMARC のポリシーレコードの <code>adkim</code> タグが何を求めていても
+          strict な整合の下で、自身で DMARC [[RFC9989]] を評価しなければならない
+          （MUST）。
+        </p>
+        <p>
+          <strong>途中で記録された DMARC の結果。</strong>[=Mail Client=] は、
+          [[RFC8601]] の authserv-id が定める信頼境界の外から来た
+          Authentication-Results ヘッダフィールドを無視しなければならない
+          （MUST）。その境界の内側で、自身の [=Receiving Mail Server=] が付けた
+          Authentication-Results ヘッダフィールドが記録する DMARC の結果は、
+          次のように扱う。
+        </p>
+        <ul>
+          <li>
+            <code>fail</code>：[=Mail Client=] は、自身の評価が pass であっても、
+            そのメッセージを整合していないものとして扱わなければならない
+            （MUST）（<a href="#verification-procedure"></a> の手順 3）。
+          </li>
+          <li>
+            <code>pass</code>：それは [=Mail Client=] 自身の評価の代わりには
+            ならない。
+          </li>
+          <li>
+            それ以外の値（たとえば <code>none</code> や <code>temperror</code>）：
+            その評価に影響しない。
+          </li>
+        </ul>
+        <p>
+          自身の [=Receiving Mail Server=] が付けたヘッダフィールドを見分けられない
+          [=Mail Client=] には尊重すべき記録された結果が無く、自身の評価に基づいて
+          進む。
+        </p>
+        <p>
+          <strong>数えられる DKIM の署名。</strong>[=Verifier=] が整合を確立する
+          のは、次の DKIM の署名からだけである。
+        </p>
+        <ul>
+          <li>検証できる。</li>
+          <li>
+            その <code>d=</code> のドメインが From ヘッダフィールドのドメインと
+            同一である。これは [[RFC9989]] の strict な整合である。
+          </li>
+          <li><code>l=</code> タグを持たない。</li>
+          <li>
+            <code>h=</code> タグが <a href="#presented-identity"></a> の要求する
+            ヘッダフィールドを、要求される回数だけ挙げている。
+          </li>
+        </ul>
+        <p>
+          [[RFC9989]] が定めるとおり、
+          そのような署名が一つあれば足りる。From ヘッダフィールドを運ばないか
+          複数運ぶメッセージ、または From ヘッダフィールドが [[RFC5322]] の
+          定めるとおりに parse できないか、ちょうど一つのアドレスを運ばない
+          メッセージからは、[=Verifier=] は [=Sending Domain=] を取らない。
+          整合していないメッセージの結果は
+          <a href="#verification-procedure"></a> の手順 3 が与える。
+        </p>
+        <p>
+          <strong>検証に通るもの。</strong>署名は、[[RFC8301]] と [[RFC8463]]
+          で更新された [[RFC6376]] が定めるとおりに検証に通る。rsa-sha1 で、または
+          1024 ビット未満の RSA 鍵で作られた署名は検証に通らず、[=Verifier=] は、
+          [[RFC8463]] が verifier に求めるとおり ed25519-sha256 を実装する。
+        </p>
+        <p>
+          <strong>名前とその応答。</strong>[=Mail Client=] は DKIM の鍵と、From
+          ヘッダフィールドのドメインの DMARC のポリシーレコードを authenticated
+          data として得なければならない（MUST）（<a href="#sending-domain-zone"></a>）。
+          問題になる鍵は、<code>d=</code> のドメインが From ヘッダフィールドの
+          ドメインである署名の鍵である。それ以外の署名の鍵への応答は結果に
+          関わらない。
+          二つの名前は本仕様の下で問い合わせ、[[RFC6376]] と [[RFC9989]] が
+          定めるとおりに得る。名前と別名についての Core Specification の規則は、
+          Core Specification [[OPF-CORE]] が定義する名前だけを対象とし、これらには
+          及ばない。
+        </p>
+        <div class="note" title="整合しない署名の鍵">
+          DMARC は、ドメインが From ヘッダフィールドと整合する署名だけを
+          考慮し、本仕様はその形に従う。別の当事者が自身のドメインの下で足した
+          署名は、結果を助けも損ないもしないので、その鍵への応答は問わない。
+        </div>
+        <p>
+          <strong>整合しないもの、失敗するもの。</strong>[=Verifier=] は、整合
+          していないメッセージを本仕様の下で評価しない。メッセージが整合して
+          いないのは、次の場合である。
+        </p>
+        <ul>
+          <li>
+            From ヘッダフィールドのドメインに DMARC のポリシーレコードが無いことを
+            authenticated denial が示し、DMARC が適用されない。
+          </li>
+          <li>
+            本節の下で数えられる DKIM の署名が無い。鍵がもう公開されていない
+            ことを authenticated denial が示す署名（たとえば鍵が入れ替えられた後）
+            と、<code>x=</code> を過ぎた署名もこれに含む。
+          </li>
+          <li>
+            メッセージに [=Sending Domain=] が無い。From ヘッダフィールドを
+            運ばないか複数運ぶ、または From ヘッダフィールドが parse できないか、
+            ちょうど一つのアドレスを運ばない。
+          </li>
+          <li>
+            [=Mail Client=] 自身の [=Receiving Mail Server=] が DMARC の結果
+            <code>fail</code> を記録しており、[=Mail Client=] は本節が述べる
+            とおりそれを尊重する。
+          </li>
+          <li>
+            その他、[[RFC9989]] の下でメッセージが整合していない。
+          </li>
+        </ul>
+        <p>
+          結果は <a href="#verification-procedure"></a> の手順 3 が与える。DMARC
+          のポリシーレコード、または <code>d=</code> のドメインが From ヘッダ
+          フィールドのドメインである署名の鍵を authenticated data として得られ
+          ない場合は <code>fail</code>、整合していないメッセージは
+          <code>none</code> である。その表の、最初に当てはまる行が決める。その
+          手順より前の手順で既に失敗したメッセージは、整合しているか否かに
+          かかわらず失敗している。
+        </p>
+        <div class="note" title="受信側への依拠">
+          本仕様の下でメッセージを送る側は自身の配備を制御でき、DKIM で署名する
+          ことを要求できる（<a href="#presented-identity"></a>）。受信側はそのように
+          制御できない。大手銀行のような [=Originator=] からのメッセージの受信者は
+          数千万人に達しうる。その環境については、受信サーバが DMARC を評価するか
+          どうかを含めて何も前提にできない。受信サーバに依拠する規則は、その多くを
+          結果の無いままにしてしまう。
+        </div>
+        <div class="note" title="DKIM だけ、strict な整合だけ">
+          この DKIM の署名があることで、[=Mail Client=] が自身で DMARC を評価
+          できる。DMARC は、SPF [[?RFC7208]] と DKIM のどちらでもメッセージを
+          整合させうる。本仕様はそれを DKIM に絞る。[=Mail Client=] はメッセージの
+          DKIM 署名から DMARC を評価するからである。したがって、SPF によってのみ
+          整合するメッセージは本仕様の目的の上では整合していない
+          （<a href="#presented-identity"></a>）。本仕様は同じように整合を strict
+          に絞る。relaxed な整合の下でだけ整合するメッセージは、本仕様の目的の
+          上では整合していない。
+        </div>
+      </section>
+
+      <section id="sending-domain-zone">
+        <h3>DNSSEC と Issuer Pinning Record</h3>
+        <p>
+          <strong>Sending Domain の zone。</strong>[=Originator=] は
+          [=Sending Domain=] の zone を、[=Verifier=] がその zone のレコードを
+          認証されたデータとして得られるように（<a href="#alignment"></a>）、
+          DNSSEC で署名させなければならない（MUST）。[=Originator=] は、その zone を、そこにある名前の不在が
+          認証された否定で示されるように署名させなければならない（MUST）。
+          NSEC レコードで、または Opt-Out フラグを持たない NSEC3 レコード
+          [[?RFC5155]] で署名させる。
+        </p>
+        <p>
+          <strong>存在は Secure な応答からだけ、不在は認証された否定からだけ。</strong>[=Verifier=] が、本仕様が問い合わせさせる、その zone の中の名前を
+          問い合わせるとき、その名前が存在することを示すのは
+          <span class="dns-state">Secure</span> な応答だけであり、不在であることを
+          示すのは認証された否定だけである（<a href="#alignment"></a>）。
+          Core Specification が定める名前についても、Core Specification が同じ
+          ことを述べている（<a
+          data-cite="OPF-CORE#dnssec-and-resolution-outcomes">[[OPF-CORE]],
+          DNSSEC Requirements and Resolution Outcomes</a>）。
+        </p>
+        <p>
+          <strong>署名されていない、または認証できない zone は検証に失敗する。</strong>[=Sending Domain=] の zone が署名されていない場合、または
+          [=Verifier=] がそのレコードを認証できない（応答が
+          <span class="dns-state">Insecure</span>、<span class="dns-state">Bogus</span>
+          または <span class="dns-state">Indeterminate</span> である）場合、
+          <a href="#verification-procedure"></a> の手順 3 の表の 1 行目が述べる
+          とおり、本仕様の下での検証は失敗する。[=Verifier=] は、
+          そのようなメッセージを、Core Specification [[OPF-CORE]] の意味で pin
+          されていない [=Originator=] を提示しているものとして扱ってはならない
+          （MUST NOT）。
+        </p>
+        <div class="note" title="NSEC3 Opt-Out の下での否定">
+          Opt-Out の下では、名前の否定、たとえばもう公開されていない DKIM の
+          selector の鍵の否定は <span class="dns-state">Insecure</span> となり、
+          検証を失敗させる（<a href="#verification-procedure"></a> の手順 3）。
+          認証された否定であれば、メッセージは整合していないままになるところで
+          ある。
+        </div>
+        <p>
+          <strong>Issuer Pinning Record。</strong>[=Originator=] は、自身の
+          [=Identity=] の zone において、自身に対して [=Core Profile=] を発行する
+          ことを許された [=Core Profile Issuers=] を、その [=Identity=] の
+          [=Issuer Pinning Record=]、すなわち Core Specification [[OPF-CORE]] が
+          その目的のために定めるレコードにおいて名指ししなければならない
+          （MUST）。Core Specification は [=Originator=] にこのレコードを要求
+          しない。このユースケースでは要求される。
+        </p>
+        <p>
+          [=Verifier=] は、受け取った [=Core Profile=] をそのレコードに照らして
+          検査しなければならない（MUST）。[=Verifier=] は、次のいずれの場合も
+          検証を失敗させなければならない（MUST）（<a href="#verification-procedure"></a>
+          の手順 4）。
+        </p>
+        <ul>
+          <li>そのレコードが認証されたデータとして不在である。</li>
+          <li>応答が <span class="dns-state">Insecure</span> である。</li>
+          <li>
+            応答が別名を経て到達したものである（Core Specification はこの
+            レコードについてそれを <span class="dns-state">Insecure</span> な応答
+            として読む）。
+          </li>
+          <li>そのレコードがその [=Core Profile=] の issuer を名指ししていない。</li>
+        </ul>
+        <p>
+          これらのいずれも、Core Specification が認証された不在と
+          <span class="dns-state">Insecure</span> な応答に与える読みのように
+          [=Originator=] を pin されていない状態のままとはしない。
+        </p>
+        <div class="note" title="Identity の zone と委任されたレコード">
+          [=Identity=] の zone はいずれにせよ署名されている。[=Sending Domain=] は
+          その [=Identity=] そのものであるかその配下にあり
+          （<a href="#presented-identity"></a>）、そのレコードが認証された
+          データとして [=Verifier=] に届くのは、その [=Identity=] の zone を通る
+          署名された経路に沿ってだけだからである。ただしこのことは、Core
+          Specification が認めるとおりこのレコードの名前が委任された先の zone
+          には及ばない（<a
+          data-cite="OPF-CORE#originator-records">[[OPF-CORE]], Records
+          Published by the Originator</a>）。[=Identity=] の zone にその DS
+          レコードが無ければ、その zone からの応答はすべて
+          <span class="dns-state">Insecure</span> である。
+        </div>
+        <div class="note" title="レコードを要求する費用と得るもの">
+          この要求の費用は、いずれにせよ署名される zone における
+          静的なレコード一つ分である。それによって得られるのは、[=Core Profile Issuer=] から独立した
+          手段、すなわち [=Originator=] が電子メールでの自身の
+          [=Originator Profile=] の利用を止める手段であり、また誤って発行された
+          [=Core Profile=] に対する第二の要素である。電子メールに対する主たる
+          脅威であるフィッシングに対して、その独立した手段は費用に見合う。
+        </div>
+        <p>
+          <strong>issuer のレコードは Core Specification のものである。</strong>issuer が公開する
+          レコード、すなわち各 issuer の [=Issuer Key Record=]、[=Core Profile Issuer=] の
+          [=Originator Key Records=]、および [=Profile Annotation Issuer=] の
+          [=Revocation Records=] は、
+          Core Specification [[OPF-CORE]] が定める。本仕様はそれらに対して
+          Core Specification の要求以上のものを置かない。
+        </p>
+      </section>
+    </section>
+
+    <section id="verification">
+      <h2>検証</h2>
+      <p>
+        本節は、このユースケースについて、どの当事者が検証手順を実行するか、
+        およびその結果がどうなるかを定める。その当事者は [=Mail Client=] であり、
+        結果は [=Recipient=] に提示される（<a href="#presentation"></a>）。
+        本仕様は、メッセージの中に結果を記録する形を定めない。[=Mail Client=] は、
+        自身の結果について seal した記録または cache を保ってよい（MAY）
+        （<a href="#re-verification"></a>）。
+        有効性をどの時点を基準に判断するかは <a href="#time-of-judgement"></a>
+        にある。
+      </p>
+
+      <section id="verification-parties">
+        <h3>検証する当事者</h3>
+        <p>
+          <strong>Mail Client が検証し、DMARC を自身で評価する。</strong>このユースケースにおいて、メッセージの [=Originator Profile=] を
+          検証するのはそれを表示する [=Mail Client=] であり、[=Mail Client=] は
+          そのために DMARC を自身で評価する（<a href="#alignment"></a>）。[=Receiving Mail Server=] は DMARC を
+          評価して、その結果を Authentication-Results ヘッダフィールド
+          [[RFC8601]] に記録することができるが、本仕様はそれを前提にしない。
+          記録された結果をどう扱うかはそこに述べる。[=Receiving Mail Server=]
+          による [=Originator Profile=] の検証は本仕様の範囲外である。
+        </p>
+        <p>
+          <strong>Mail Client が DMARC を評価する時。</strong>[=Mail Client=] は
+          通常、メッセージを表示するときに DMARC を評価する。メッセージを
+          取り込むときに DMARC を評価し、その評価の記録を手元に保つ
+          [=Mail Client=] は、<a href="#time-of-judgement"></a> が認めるとおり、
+          その記録を受信時の評価として使うことができる。
+        </p>
+        <p>
+          <strong>順序。</strong>メッセージの [=Originator Profile Bundle=] が
+          本仕様の下で引き起こす問い合わせは、<a href="#verification-procedure"></a>
+          のローカルの検査の後にだけ行う。[=Verifier=] が本仕様とは無関係に、
+          取り込むすべてのメッセージについて行う DMARC の評価は、この順序に
+          縛られない。
+        </p>
+        <p>
+          <strong>DNSSEC の validation。</strong>[=Verifier=] が応答の DNSSEC
+          の validation の状態をどう得るか、すなわち自身で validate するか、
+          確証を持つ validating resolver を通すかは、本仕様が問い合わせさせる
+          二つの名前においても、Core Specification が定める名前においてと
+          同じである。二つの名前とは、DKIM の鍵と DMARC の policy record の
+          名前である。Core Specification がこのことを述べている（<a
+          data-cite="OPF-CORE#dnssec-and-resolution-outcomes">[[OPF-CORE]],
+          DNSSEC Requirements and Resolution Outcomes</a>）。その二つの名前で
+          状態が何を意味するかは本仕様が定める。validation の状態を持たない
+          応答は authenticated data ではなく、[=Verifier=] はそれを自身が認証
+          できないレコードとして扱う（<a href="#sending-domain-zone"></a>）。
+        </p>
+      </section>
+
+      <section id="verification-procedure">
+        <h3>検証手順</h3>
+        <p>
+          <strong>一般の手順と同じ番号の手順。</strong>メッセージの中で提示された [=Originator Profile=] を検証する [=Verifier=]
+          は、次の手順を実行しなければならない（MUST）。手順は Core
+          Specification [[OPF-CORE]] の一般の手順に従い、その手順と同じ番号を
+          振る。ここに記すのは本仕様に固有の内容だけであり、「一般の手順と同様」
+          とある手順は、その手順をそのまま行う。本仕様の下で <code>none</code>
+          または <code>fail</code> の結果を決める手順は、その旨を述べる。他の節は
+          それを引く。
+        </p>
+        <p>
+          <strong>どの問い合わせが何を待つか。</strong>DNS に問い合わせる手順には（DNS）と記してある。問い合わせの順は一般の
+          手順のとおりである。issuer については、その [=Accreditation Chain=] を
+          手元で検証する前には問い合わせず（手順 2）、名前を [=Core Profile=] から
+          組み立てるものは、その署名を検証する前には問い合わせない（手順 5）。
+          本仕様に固有の、DKIM の鍵と DMARC ポリシーレコードの問い合わせ
+          （手順 3）は、手順 1〜3 のローカルな検査の後に行う。
+        </p>
+        <ol class="algorithm">
+          <li>
+            <p>
+              <strong>入力を取る。</strong> 署名された内容の中の
+              [=Originator Profile Bundle=]（<a href="#signature-and-bundle"></a>）
+              から、[=Core Profile=]、[=Profile Annotations=] および
+              [=Accreditation Chains=] を取り出す。コンテンツがその下で提示される
+              identity は [=Sending Domain=] であり、
+              <a href="#presented-identity"></a> が要求するとおりに取得し、
+              正準形にする。手順 3 で整合が確立するまでは、それは From
+              ヘッダフィールドのドメインを、その正準形にしたものである。
+            </p>
+            <p>
+              <strong>この手順のローカルな検査。</strong> S/MIME の署名は、
+              certificate path の validation を含め、[[RFC8551]] が要求するとおりに
+              S/MIME 実装に受け入れられなければならない（MUST）。bundle を運ぶ
+              SignedData の層において、[=Originator=] の SignerInfo の少なくとも
+              一つが、[=Verifier=] の対応するアルゴリズムでそのように通らなければ
+              ならない（MUST）（<a href="#signature-and-bundle"></a>）。そのような
+              SignerInfo は、[=Originator=] の [=Core Profile=] の
+              [=Originator Verification Key=] を鍵とする certificate を指す
+              （手順 3 の鍵の照合）。このユースケースでは、
+              S/MIME の署名が [=Content Attestation=] に当たる
+              （<a data-cite="OPF-CORE#use-case-interface">[[OPF-CORE]],
+              Requirements on Use Case Specifications</a>、第 7 項）。それはここで
+              検証され、手順 3 と手順 7 はそれに拠る。
+            </p>
+            <p>
+              この手順の結果は次のとおりであり、最初に当てはまる場合が決める。
+            </p>
+            <ul>
+              <li>
+                署名された内容が [=Originator Profile Bundle=] を運ばない、
+                またはメッセージが S/MIME で署名されていない。メッセージは、
+                この手順のローカルな検査が何を見出すとしても評価されない。その結果は
+                <code>none</code> であり、手順はここで終わる。
+              </li>
+              <li>
+                S/MIME 実装が署名を受け入れない。結果は <code>fail</code> で
+                ある。
+              </li>
+              <li>
+                From ヘッダフィールドから得られるアドレスが 1 つで、そのドメインを
+                正準形にできない。検証は失敗し
+                （<a href="#presented-identity"></a>）、結果は <code>fail</code>
+                である。
+              </li>
+            </ul>
+          </li>
+          <li>
+            <strong>Accreditation Chain を手元で検証する。</strong> 各
+            [=Accreditation Chain=] を、一般の手順が要求するとおり
+            （<a data-cite="OPF-CORE#chain-verification">[[OPF-CORE]],
+            Accreditation Chain Verification and Caching</a>）、
+            [=Originator Profile Bundle=] の文書だけから検証する。向きは上から下で、
+            [=Verifier=] が受け入れる [=Root Core Profile=] から issuer を一つずつ
+            たどり、検証しようとする文書の issuer に至る。bundle がそれらの文書を
+            どの順で運んでいるかには依らない。連鎖が検証されていない issuer に
+            ついては問い合わせを行わない。[=Root Issuer=] については、その
+            [=Root Core Profile=] が連鎖の役を果たす。
+            これは X.509 certificate の
+            certificate path とは無関係である。検証した連鎖の各段に
+            ついて一般の手順が要求する DNS での検査は、その手順が述べるとおりに
+            行う（DNS）。
+          </li>
+          <li>
+            <p><strong>identity を結びつける</strong>（DMARC の下での整合のための
+            DNS。DKIM の鍵と DMARC の policy record）。</p>
+            <p>
+              <strong>鍵の照合と Sending Domain。</strong>
+              [=Sending Domain=] を取らないメッセージ（<a href="#alignment"></a>）は
+              整合しない。照合はせず、名前は問い合わせず、下の結果は
+              <code>none</code> を与える。bundle を運ぶ
+              SignedData の層が複数の SignerInfo を持つ場合、この手順でいう署名者の
+              certificate は、各 SignerInfo の certificate を順に指す
+              （<a href="#signature-and-bundle"></a>）。署名者の certificate の
+              SubjectPublicKeyInfo から導出した [=Key Identifier=] は、
+              [=Originator=] の [=Core Profile=] の [=Originator Verification
+              Keys=] の一つの [=Key Identifier=] と、
+              <a href="#message-certificate"></a> が要求するとおり等しい。
+              [=Sending Domain=] は、Core Specification [[OPF-CORE]] の
+              規則で比較して、[=Originator=] の [=Identity=] であるか、その配下に
+              なければならない（MUST）。
+            </p>
+            <p>
+              <strong>どの Core Profile が Originator のものか。</strong>
+              [=Originator=] は <a href="#presented-identity"></a> が述べるとおりに
+              決まる。その二つの条件を満たす [=Core Profiles=] が複数の
+              [=Identity=] について存在する場合、検証は失敗する。Core Specification は、こうして決まった [=Originator=]
+              についてその先の処理を行う。一つの [=Originator=] についての
+              [=Core Profiles=] の数に同文書が置く上限と、その中からの選択は、
+              [=Identity=] が [=Originator=] のものである [=Core Profiles=] に
+              当てはまる。
+            </p>
+            <div class="note" title="候補としての issuer の Core Profile">
+              [=Accreditation Chain=] に沿った issuer の [=Core Profile=] は
+              その issuer 自身の鍵を運ぶので、両方の条件を満たすのは、その issuer
+              が署名者の鍵を持つ場合に限られる。[=Originator=] 自身がそのような
+              issuer であることもあり、その場合その [=Core Profile=] は両方の役割を
+              果たす。この照合が、このメッセージがこの [=Originator Profile=] の
+              鍵で署名されたことを確立する。[=Content Attestation=] に当たる
+              S/MIME の署名は、手順 1 で検証した。
+            </div>
+            <div class="note" title="名指しで除かれる Root Core Profile">
+              [=Root Core Profile=] を名指しで除くのは、[=Verifier=] が受け入れる
+              [=Root Core Profiles=] を何かを検証する前から知っているからである。
+              どの [=Core Profile=] が issuer のものかは、検証された chain からしか
+              分からない。その時点でそれを除くと、一つの [=Originator=] についての
+              [=Core Profiles=] の数に対する Core Specification の上限と循環する。
+              この上限は [=Originator=] が決まってから当てるものだからである。
+              そのため、issuer の [=Core Profile=] は署名者の鍵についての条件に
+              任せる。
+            </div>
+            <p>
+              <strong>DMARC の下での整合。</strong> この手順の手元の照合の後に、
+              [=Mail Client=] は、<a href="#alignment"></a> の下で数えられる
+              DKIM の署名からの自身の評価によって、メッセージが
+              <a href="#presented-identity"></a> が [=Originator=] に要求する
+              とおりに DMARC の下で整合しているかを確立する。結果は下の表が
+              与える。
+            </p>
+            <p>
+              <strong>この手順の問い合わせ。</strong> DKIM の鍵と DMARC の
+              ポリシーレコードは、S/MIME の署名を検証し（手順 1）、
+              [=Sending Domain=] をこの手順で先に [=Originator=] の [=Identity=]
+              と手元で比較し、[=Accreditation Chains=] を手元で検証した（手順 2）後に
+              だけ問い合わせる。それにより、検証されていないメッセージから
+              取った名前は問い合わせない。
+            </p>
+            <p>
+              <strong>結果。</strong> 最初に当てはまる行が決める。
+            </p>
+            <table class="simple">
+              <thead>
+                <tr><th>場合</th><th>結果</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    DMARC のポリシーレコードへの応答が authenticated data でない。
+                    すなわち <span class="dns-state">Insecure</span>、
+                    <span class="dns-state">Bogus</span> または
+                    <span class="dns-state">Indeterminate</span> である。あるいは
+                    応答はレコードを含むが用いることのできるものが無い。評価が
+                    [[RFC9989]] の permanent error（permerror）に終わる場合と、
+                    見つかったレコードを [[RFC9989]] が一つも残さない場合
+                    （たとえば <code>v=DMARC1</code> で始まるものが無いか、二つ以上
+                    ある場合。[[RFC9989]], DNS Tree Walk）である。または、
+                    <a href="#alignment"></a> の下で数えられる DKIM の署名が無く、
+                    かつ <code>d=</code> のドメインが From ヘッダフィールドの
+                    ドメインと同一の署名（<a href="#alignment"></a> で数える鍵）
+                    の鍵への応答が authenticated data でない
+                    （<a href="#sending-domain-zone"></a>）
+                  </td>
+                  <td>検証は失敗する。<code>fail</code></td>
+                </tr>
+                <tr>
+                  <td>
+                    <a href="#alignment"></a> が挙げるいずれかの場合に当たり、
+                    メッセージが整合していない
+                  </td>
+                  <td>
+                    メッセージは整合しておらず、それ以上評価されない。
+                    <code>none</code> であり、失敗ではない
+                  </td>
+                </tr>
+                <tr>
+                  <td>メッセージが整合している</td>
+                  <td>手順 4 に進む</td>
+                </tr>
+              </tbody>
+            </table>
+          </li>
+          <li>
+            <strong>Originator の Issuer Pinning Record を参照する</strong>（DNS）。
+            このユースケースでは必須である。
+            [=Originator=] の [=Identity=] の zone にある [=Issuer Pinning Record=]
+            が、[=Core Profile=] の issuer を、許された [=Core Profile Issuers=]
+            の一つとして名指ししていることを検査する。この検査が失敗する場合は、
+            認証された不在と <span class="dns-state">Insecure</span> な応答を
+            含め、<a href="#sending-domain-zone"></a> が挙げるものである。
+            この問い合わせは、[=Core Profile=] の署名の検証（手順 5）の後に行う。
+            その名前は [=Core Profile=] の運ぶ [=Identity=] から組み立てるから
+            である。
+          </li>
+          <li>
+            <strong>Core Profile を検査する</strong>（DNS）。一般の手順
+            （<a data-cite="OPF-CORE#procedure">[[OPF-CORE]], Procedure</a>
+            の手順 5）と同じである。ただし [=Time of Judgement=] は
+            <a href="#time-of-judgement"></a> のものとする。issuer の鍵は、
+            メッセージが運ぶ [=Accreditation Chain=] の中の issuer の
+            [=Core Profile=]、または [=Verifier=] が受け入れる
+            [=Root Core Profile=] から取る。
+            署名の検証はこの手順のローカルな部分で
+            あり、手順 4 と手順 6 の問い合わせより前に行う。
+          </li>
+          <li>
+            <strong>Originator Key Record を検査する</strong>（DNS）。一般の手順と
+            同様。この問い合わせは、[=Core Profile=] の署名の検証（手順 5）の
+            後に行う。その名前は [=Core Profile=] から取るからである。
+          </li>
+          <li>
+            <p>
+              <strong>Content Attestation を検証する。</strong> S/MIME の署名が
+              [=Content Attestation=] に当たる。それは手順 1 で検証し、その鍵は
+              手順 3 で照合した。一般の手順と同じく、その鍵が [=Core Profile=]
+              について現に有効であること、すなわち手順 6 で取得した
+              [=Originator Key Record=] がその [=Key Identifier=] を列挙している
+              ことを確かめる。本仕様において [=Key Identifier=] は、
+              [=Content Attestation=] が名指すのではなく、[=Verifier=] が署名者の
+              certificate から導出する（<a href="#message-certificate"></a>）。
+              それ以外の点では、この手順は一般の手順と同じである。
+            </p>
+          </li>
+          <li>
+            <p>
+              <strong>各 Profile Annotation を検査する</strong>（DNS）。一般の
+              手順と同じである。ただし [=Time of Judgement=] は
+              <a href="#time-of-judgement"></a> のものとする。検証の時点で
+              署名の有効期間が終わった annotation は、その手順が述べるとおり、
+              [=Time of Judgement=] がいつであっても効力を持たない。その期間が
+              終わったことは検証の失敗ではない。[=Time of Judgement=] が受信の
+              時点である場合、受信の時点で何が効力を持っていたかは、その時点で
+              作られた記録からしか立証されない（<a href="#re-verification"></a>）。
+            </p>
+          </li>
+          <li>
+            <strong>結果を導き、報告する。</strong> 一般の手順と同様。
+            <code>none</code> の結果は、失敗とは区別して、そのまま提示する
+            （<a href="#presentation"></a>）。[=Verifier=] は、この枠組みの検査の
+            結果を S/MIME 署名の検証の結果とは分けて報告しなければならない
+            （MUST）。
+          </li>
+        </ol>
+        <p>
+          <strong>この手順が加える問い合わせ。</strong>この手順が行う DNS 問い合わせの数は一般の手順のそれに、次のものが
+          加わる。手順 3 における、評価する署名の DKIM の鍵と、From ヘッダ
+          フィールドのドメインの DMARC のポリシーレコードである。
+          <a href="#alignment"></a> の下の評価は DNS Tree Walk を行わないので、
+          DMARC のためにほかの名前は問い合わせない。手順 3 の問い合わせは、[=Mail Client=] が評価するすべての
+          メッセージについて行われる。[=Permitted Host Record=] は問い合わせない
+          （<a href="#presented-identity"></a>）。
+        </p>
+      </section>
+
+
+
+      <section id="presentation">
+        <h3>提示</h3>
+        <p>
+          <strong>Mail Client が提示するもの。</strong>[=Mail Client=] は、自身の検証の結果を、[=Originator Profile=] が
+          [=Originator=] について述べることとともに、[=Recipient=] に提示する。
+          結果が <code>pass</code> である場合、一般の手順の出力（<a
+          data-cite="OPF-CORE#outcome">[[OPF-CORE]], Outcome and Time of
+          Judgement</a>）は、[=Originator=] の [=Identity=] と、効力を持つ
+          [=Profile Annotations=] をそれぞれの issuer とともに与える。
+        </p>
+        <p>
+          <strong>どの属性をどう見せるか。</strong>[=Mail Client=] が提示する
+          のは、[=Core Profile=] と効力を持つ [=Profile Annotations=] が
+          [=Originator=] について運ぶ [=Validated Attributes=]、またはその
+          うちこのユースケースが求める部分である。値だけでは、[=Verifier=] が
+          受け入れる [=Root Core Profile=] の下で立つ issuer が [=Originator=]
+          を検証した、ということしか言わない。
+          どの属性をどのように見せるか（たとえば段階的に見せる）は、
+          [=Mail Client=] の UX の設計の事柄である。
+        </p>
+        <p>
+          <strong>三つの結果。</strong>本仕様の下の検証の結果は、次の三つの値のいずれかである。
+        </p>
+        <ul>
+          <li>
+            <code>pass</code>: <a href="#verification-procedure"></a> の検査が
+            すべて通った。
+          </li>
+          <li>
+            <code>fail</code>: 署名された内容が [=Originator Profile Bundle=] を
+            運び、<a href="#verification-procedure"></a> の検査（手順 1 の
+            S/MIME 署名の検証を含む）のいずれかに落ちた。
+          </li>
+          <li>
+            <code>none</code>: S/MIME で署名されていないか、署名された内容が
+            [=Originator Profile Bundle=] を運ばないため（手順 1）、または
+            整合していないため（手順 3）、メッセージが本仕様の下で評価されな
+            かった。それは失敗ではない。
+          </li>
+        </ul>
+        <p>
+          <strong>決める最初の手順と、none の提示。</strong>手順は順に進む。メッセージが落ちた手順、または評価されないとわかった
+          手順のうち最初のものが、その結果を決める。[=Mail Client=] は、結果が
+          <code>none</code> のメッセージを、本仕様が評価しなかったものとして、
+          失敗としてではなく提示しなければならない（MUST）。この区別は、提示が
+          運ばなければならないものの一部である。
+        </p>
+        <p>
+          <strong>どの DMARC の結果を提示するか。</strong>[=Mail Client=] が依拠する DMARC の結果は、自身の評価によるものである
+          （<a href="#alignment"></a>）。提示でそれを
+          [=Receiving Mail Server=] が記録していることもある結果と区別するかは
+          ユーザインタフェースの設計による。本仕様はその区別を要求しない。
+        </p>
+        <p>
+          <strong>Core Specification が提示に既に求めること。</strong>annotation が有効であるかのように [=Verifier=] が提示してはならない
+          ものは Core Specification [[OPF-CORE]] が述べる。結果が渡される
+          あらゆる場面で pin された [=Originator=]、pin されていないもの、
+          および [=Issuer Pinning Record=] が参照されなかったものを区別する
+          ことも同文書が要求する。どちらもここでは述べ直さない。このユース
+          ケースでは最後のものは生じない。
+        </p>
+        <p>
+          <strong>受信の時点の結果を保つ。</strong>自身の結果に
+          ついて seal した記録、または cache を保つ [=Mail Client=] は、受信の
+          時点の結果を保つために、<a href="#time-of-judgement"></a> が認める
+          とおりそれを用いることができる。
+        </p>
+      </section>
+    </section>
+
+    <section id="validity">
+      <h2>有効性、失効、そして時点</h2>
+
+      <section id="validity-layers">
+        <h3>有効性の層</h3>
+        <p>
+          <strong>四つの層は Core Specification のものであり、Issuer Pinning Record もその一つを終わらせる。</strong>この枠組みの内側にある有効性の四つの層、すなわち鍵、[=Core Profile=]、
+          [=Originator=] の登録、各 [=Profile Annotation=] と、それぞれを
+          終わらせるものは、Core Specification のもの（<a
+          data-cite="OPF-CORE#revocation-model">[[OPF-CORE]], Revocation Model
+          and Time Constraints</a>）であり、ここでは繰り返さない。このユース
+          ケースに固有のことの一つは登録の層にある。[=Issuer Pinning Record=]
+          を取り除くことも有効性を終わらせる。その認証された不在は検証を失敗
+          させるからである（<a href="#sending-domain-zone"></a>）。
+        </p>
+        <p>
+          <strong>枠組みの外の層。</strong>このユースケースに固有のもう一つの
+          ことは、この枠組みの外側にある層である。署名者の X.509 certificate で
+          あり、その有効性は S/MIME 実装が判断する。それは CRL または OCSP、
+          あるいは信頼しないという決定で終わり、certification authority と
+          受信側の当事者のポリシーがその手段を持つ。
+        </p>
+        <p>
+          <strong>層は互いに独立している。</strong>この枠組みの内側の四つの層と外側の一つの層は、それぞれ単独で判断され、この枠組みの
+          検査と S/MIME の検証のどちらが失敗しても検証は失敗する。両者を結ぶ唯一のものは鍵の同一性であるから、
+          両者の間に時間にわたる不変条件は要らない。certificate が失効しても
+          [=Originator Profile=] は有効なままでありうるし、その逆も同様に
+          成り立ちうる。
+        </p>
+      </section>
+
+      <section id="validity-invariants">
+        <h3>発行に対する不変条件</h3>
+        <p>
+          <strong>Core Specification の不変条件がそのまま適用される。</strong>本仕様は、Core Specification が発行に対して置く不変条件（<a
+          data-cite="OPF-CORE#revocation-model">[[OPF-CORE]], Revocation Model
+          and Time Constraints</a>）に何も加えず、それらはこのユースケースでも
+          そのまま適用される。第一に、[=Profile Annotation=] の有効性は、
+          それが annotate する [=Core Profile=] の有効性の内にある。第二に、退役した鍵の
+          レコードは、それを運ぶ [=Core Profile=] が期限切れになるまで、同文書が
+          定める保持の余裕と例外のもとで保持される。第三に、issuer の鍵は、同文書が
+          求める期間だけ重なる。このうち 2 つ目は、事後に何を検証できるかを
+          左右する（<a href="#re-verification"></a>）。退役した鍵は撤回されて
+          いないので、それで署名されたメッセージは
+          <a href="#verification-procedure"></a> の手順 7 を引き続き通る。
+        </p>
+      </section>
+
+      <section id="key-retirement">
+        <h3>置き換えられた鍵を retired として残すか withdraw するか</h3>
+        <p>
+          <strong>電子メールは置き換えた鍵を退役した鍵として残す。</strong>このユースケースにおいて、[=Originator=] は、置き換えた鍵を撤回せず、
+          退役した鍵として残すことが望ましい（SHOULD）。既に配送されたメッセージに
+          署名し直すことはできないからである。そのとき、置き換えた鍵で
+          署名されたメッセージは、その鍵を運ぶ前の [=Core Profile=] が期限切れに
+          なるか失効するまで検証可能なままである。
+        </p>
+        <p>
+          <strong>Core Specification がユースケースに委ねること。</strong>Core Specification は、この選択を各 [=Use Case Specification=] に
+          委ね、2 つの道、すなわち鍵を退役した鍵として残す道と、コンテンツを
+          新しい鍵で署名し直して置き換えた鍵を撤回する道、およびその選択が何と
+          何を引き換えるかを述べている（<a
+          data-cite="OPF-CORE#security-key-compromise">[[OPF-CORE]], Key
+          Compromise</a>）。その引き換えには鍵を残すことの費用も含まれる。
+        </p>
+        <p>
+          <strong>退役した鍵が役に立つのは、その Core Profile が現行である間だけである。</strong>退役した鍵を運ぶ [=Core Profile=] はそれ自身が [=Time of Judgement=]
+          において有効である必要があるので、その鍵が役に立つのはその profile が
+          現行である間だけである。その先の検証は <a href="#re-verification"></a> の
+          第二と第三の段階に当たる。
+        </p>
+      </section>
+
+      <section id="time-of-judgement">
+        <h3>判断時点</h3>
+        <p>
+          <strong>表示の時点か、記録した受信の時点。</strong>[=Mail Client=] にとって、[=Time of Judgement=] は表示の時点か自身が
+          記録した受信の時点のいずれかであり、以下のとおりである。これは、検証の
+          時点に代えて [=Use Case Specification=] が指定することを
+          Core Specification [[OPF-CORE]] が認める別の時点であり、配送経路が
+          [=Verifier=] に与える時点である。[=Verifier=] が時計のずれに対して
+          認める許容は、Core Specification の一般の手順のものである。
+        </p>
+        <p>
+          <strong>どちらの時点でもよく、Mail Client はどちらかを報告する。</strong>[=Mail Client=] は、メッセージ
+          を表示する時点を基準とするか、またはメッセージを取り込んだときに自身が
+          記録した受信時点を基準として、受信時に下されたであろう判断を再現
+          するかのいずれかで、有効性を判断しなければならない（MUST）。どちらも
+          認められ、[=Mail Client=] はどちらを用いたかを報告しなければならない
+          （MUST）。
+        </p>
+        <p>
+          <strong>受信の時点は評価の記録があるときだけ。</strong>[=Mail Client=] が受信の時点を基準に判断してよい（MAY）のは、
+          メッセージを取り込むときに DMARC を評価し、その評価の記録を保って
+          いる場合に限る（<a href="#verification-parties"></a>）。したがって、
+          メッセージを表示するときにだけ DMARC を評価する [=Mail Client=] は、
+          表示の時点を基準に判断する。
+        </p>
+        <p>
+          <strong>受信の時点をどこから取るか。</strong>受信の時点を基準に判断する [=Mail Client=] は、その時点を
+          二つの出所のいずれかから取らなければならない（MUST）。一つは、
+          メッセージを取り込んだ時点についての自身の記録であり、
+          <a href="#alignment"></a> が求める DMARC の評価とともに作る。もう
+          一つは、[[RFC8601]] の authserv-id が定める信頼境界の内側で自身の
+          [=Receiving Mail Server=] が付けたことを確かめられるヘッダフィールド
+          である。その境界の外で記録された時点は、メッセージの送り手が選べた
+          時点だからである。本仕様はそのようなフィールドを名指ししない。
+          Received ヘッダフィールド [[RFC5322]] は、それを確かめるための
+          authserv-id を持たないからである。
+        </p>
+        <div class="note" title="受信の時点が表すもの">
+          受信の時点は、メッセージがその受信者を欺きえた時点であり、受信時を
+          基準に判断する [=Mail Client=] にとっては、メッセージを取り込むときに
+          その client が DMARC を評価した時点でもある。したがって、受信を基準に判断することは、
+          フィッシングに対して問題となる問いに答えている。記録された受信時点に
+          依拠できるかどうかは、記録された結果に依拠できるかどうかと同じ問いで
+          ある。<a href="#re-verification"></a> を参照。
+        </div>
+        <p>
+          <strong>signingTime 属性は Time of Judgement ではない。</strong>CMS [[RFC5652]] の signingTime 属性は、[=Verifier=] の判断に
+          何の役も持たない。Core Specification [[OPF-CORE]]
+          は、署名の属性として運ばれる時刻を含め、署名者が書いた時刻の値を
+          すべて判断から除いており、signingTime はそのような属性である。
+        </p>
+        <div class="issue" title="signingTime と受信時点の食い違い">
+          signingTime 属性と受信の時点との間に大きな食い違いがある場合に、
+          [=Verifier=] がそれを結果に記すべきかどうか、およびどれだけの食い違いを
+          大きいと数えるべきかは、決まっていない。ここでは規定しない。
+        </div>
+      </section>
+
+      <section id="re-verification">
+        <h3>事後の検証</h3>
+        <p>
+          <strong>三つの段階。</strong>[=Mail Client=] はメッセージを表示するたびにそれを検証するので、
+          事後の検証とは、その検証を後の時点で繰り返すことにほかならない。
+          それは best-effort で成功し、三つの段階を追って劣化する。
+        </p>
+        <ol>
+          <li>
+            [=Core Profile=] と [=Profile Annotations=] が期限切れになって
+            いない間は、メッセージは受信時と同じ手順で検証できる。撤回と失効の
+            状態は現時点の状態であるから、メッセージの受信後に撤回された鍵は
+            検証を失敗させる。これは意図された振る舞いである。
+          </li>
+          <li>
+            [=Core Profile=] が期限切れになった後でも、署名鍵のレコードが
+            <a href="#validity-invariants"></a> の規則の下でなお
+            その [=Core Profile=] の [=Originator Key Record=] に保持されている
+            間は、鍵をその [=Originator Key Record=] と照合することはできる。
+            ただし [=Core Profile=] 自体は期限切れになっている。受信の時点で [=Core Profile=] が有効であったことは、そのとき、
+            その時点で作られた記録、すなわち [=Mail Client=] 自身が seal した記録
+            または cache によってのみ立証できる。
+          </li>
+          <li>
+            その後は、DNS の中に過去の状態に答えるものは何もなく、受信時に何が
+            真であったかを立証するのは、その時点で作られた記録、すなわち
+            [=Mail Client=] 自身が seal した記録または cache だけである。
+          </li>
+        </ol>
+        <p>
+          <strong>最初の段階は Core Profile と同じだけ続き、何もそれを延ばさない。</strong>メッセージがこれらのうち最初の段階にとどまる期間は、そのメッセージが
+          署名された鍵を運ぶ [=Core Profile=] で決まる。すなわち、その
+          [=Core Profile=] が期限切れになるか失効するまで続く
+          （<a href="#key-retirement"></a>）。この枠組みも本仕様も、他の手段で
+          それを延ばさない。DNS が答えるのは問い合わせの瞬間についてだけだから
+          である。[=Revocation Record=] の不在は時点を運ばず、record はそれが失効
+          させる対象が期限切れになると取り除かれ、単に失効した登録はそこに
+          あったという痕跡を残さない。段階の果てが更なる問い合わせではなく
+          そのような記録であるのは、このためである。
+        </p>
+        <p>
+          <strong>添付として転送されたもの。</strong><code>message/rfc822</code>
+          のパートに囲まれたメッセージは、それ自体で一通の
+          メッセージとして検証できる。その bundle は囲まれた body の中にあり、
+          外側のメッセージの part としては数えない（<a href="#bundle"></a>）。
+          [=Mail Client=] は、内側のメッセージを表示の時点を基準に判断しなければ
+          ならず（MUST）（<a href="#time-of-judgement"></a>）、内側のメッセージが
+          運ぶ Authentication-Results ヘッダフィールドを無視する。
+        </p>
+        <div class="note" title="転送の内側のメッセージ">
+          内側のメッセージは変更されていないので、検証できる。[=Mail Client=] は
+          内側のメッセージがいつ受信されたかについて自身の記録を持たず、内側の
+          メッセージが運ぶ Authentication-Results ヘッダフィールドは元の受信者の
+          ために書かれたものである。
+        </div>
+        <p>
+          <strong>インラインで転送されたもの。</strong>インラインで転送された
+          メッセージは、署名も bundle も残らないので検証できない。
+        </p>
+        <p>
+          <strong>replay されたもの。</strong>変更されずに別の受信者へ replay
+          されたメッセージは、DKIM 署名が変わらない
+          ので DMARC の下で整合したままであり、その受信者についても最初の
+          受信者のときと同じく検証に通る。それが変わっていないのは
+          DKIM 署名が覆う範囲だけである。その <code>h=</code> タグの外の
+          ヘッダフィールドは途中で置き換えられうるが、
+          <a href="#presented-identity"></a> が求める oversigning はそれを防ぐ。
+          replay が達成するのは、
+          [=Originator=] の本物のメッセージが、送られた先ではない [=Recipient=]
+          について検証に通ることである。それを送っていない identity の下で
+          コンテンツを提示させることはできない。
+        </p>
+      </section>
+
+      <section id="parameters" class="informative">
+        <h3>パラメータ</h3>
+        <p>
+          一般のモデルのパラメータは、このユースケースにおいて次のように効く。
+          示す値は配備の指針として与える推奨であり、要求ではなく、また
+          運用の経験に照らして検証されたものでもない。
+        </p>
+        <p>
+          以下の推奨値は、この枠組みの運用文書 [[?OPF-OPS]] の値である。
+          そうした値は本来その文書に置かれる。その文書はまだ公開されていない。
+          公開されるまでは、このユースケースに関わる値をここに示し、本仕様の
+          後の版では運用文書を参照する形に改める。
+        </p>
+        <table class="simple">
+          <thead>
+            <tr>
+              <th>パラメータ</th>
+              <th>このユースケースにおける効き方</th>
+              <th>推奨値</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>[=Core Profile=] または [=Profile Annotation=] の署名の有効期間</td>
+              <td>
+                [=Time of Judgement=] がその期間に入るかどうか。その期間は、大量送信の配送
+                に要する期間より十分に長い必要がある。その配送の期間は日の桁で
+                ある。
+              </td>
+              <td>
+                [=Core Profile=] は最長 398 日、通常 1 年（見直すべき暫定の値）。
+                [=Profile Annotation=] の署名の有効期間はその [=Core Profile=] の
+                署名の有効期間に収まるが、これは推奨値ではなく Core Specification
+                [[OPF-CORE]] の要求である
+              </td>
+            </tr>
+            <tr>
+              <td>[=Originator Key Record=] の time to live</td>
+              <td>
+                鍵の削除が [=Verifier=] の resolver に届くまでの遅れ。
+              </td>
+              <td>
+                日の桁で許容できる。推奨値は 1 時間である
+              </td>
+            </tr>
+            <tr>
+              <td>[=Profile Annotation Issuer=] の zone の negative caching time</td>
+              <td>annotation の失効が検知されるまでの遅れ。</td>
+              <td>
+                issuer の DNS プロバイダに依る。推奨の目標は 1 時間で、長くとも
+                1 日
+              </td>
+            </tr>
+            <tr>
+              <td>[=Originator=] の [=Issuer Pinning Record=] の time to live</td>
+              <td>
+                [=Originator=] が許す [=Core Profile Issuers=] の変更、または
+                自分には [=Originator Profile=] が無いという宣言が、どれだけ
+                早く [=Verifier=] に対して効力を生じるか
+                （<a href="#sending-domain-zone"></a>）。初めて公開したレコードは、
+                そのゾーンの negative caching 時間が過ぎてから見える。この時間は、
+                通常はプロバイダが設定する。
+              </td>
+              <td>
+                このレコードは静的であり、その点では長くてよい。一方、
+                [=Originator Profile=] が無いという宣言がどれだけ早く効くかという
+                点は短いことを求める。推奨値は 1 時間である
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </section>
+
+    <section id="security" class="informative">
+      <h2>Security Considerations</h2>
+      <p>
+        本節は、このユースケースのセキュリティが何の上に成り立っているか、および
+        何を扱わないかを説明する。本節は何も要求しない。本節が拠る要求はすべて
+        <a href="#message"></a>、<a href="#sending-domain"></a>、
+        <a href="#verification"></a> および <a href="#validity"></a> に
+        述べられており、本節が述べるのは、それらの要求がなぜあるのか、および
+        それらが止めない攻撃者に何ができるのかである。
+      </p>
+      <p>
+        ユースケースに依らないこの枠組みのセキュリティ上の性質は Core
+        Specification [[OPF-CORE]] の security considerations にあり、ここでは
+        繰り返さない。レコードそのもの、その大きさ、および移行期の形に関わる
+        ものは [[?OPF-DNS]] にある。本仕様が土台とする機構、すなわち S/MIME
+        [[RFC8551]] と、DKIM [[RFC6376]] から評価する DMARC [[RFC9989]]
+        （<a href="#alignment"></a>）のセキュリティは、それらの仕様のものであり、述べ直さない。
+        DKIM の署名の強さは、そのアルゴリズムと鍵長において、[[RFC8301]] と
+        [[RFC8463]] で更新された [[RFC6376]] のものである。本仕様は DKIM に
+        アルゴリズムを加えず、DKIM は耐量子の署名アルゴリズムを定めていない。
+        検証に通るメッセージは、DKIM の署名のほかに、[=Core Profile=] の鍵の下の
+        S/MIME の署名（<a href="#message-signing"></a>）を運び、その
+        アルゴリズムは Core Specification のものである。
+      </p>
+      <p>
+        S/MIME の処理そのもののセキュリティとプライバシーに関する考慮事項は
+        与えられたものとし、ここでも <a href="#privacy"></a> でも論じない。
+        本節とその節が論じるのは、[=Originator Profile Bundle=] がメッセージの
+        中で運ばれることから導かれることである。
+        置き換えた署名鍵を退役した鍵として残すことによって [=Originator=] が晒すもの、
+        これはこのユースケースが取る道であるが、それはその選択がなされる場所
+        （<a href="#key-retirement"></a>）に述べてあり、ここでも繰り返さない。
+      </p>
+
+      <section id="security-delivery">
+        <h3>Originator Profile Bundle と S/MIME の署名がどのように配送されるか</h3>
+        <p>
+          [=Originator Profile Bundle=] はメッセージの内側を、S/MIME の署名が
+          覆う内容の一部として運ばれ（<a href="#message-signing"></a>）、
+          [=Originator Profile=] のいかなる部分もネットワークから取得されない
+          （<a href="#bundle"></a>）。したがって、経路上の攻撃者や、メッセージが
+          通過する保管場所にいる攻撃者は、bundle を差し替えることも付け加える
+          こともできない。いずれも署名された内容への変更だからである。また、
+          そのような攻撃者が妨げたり覗いたりする取得も存在しない。同じ理由で、
+          Core Specification [[OPF-CORE]] が述べる上限を越えて本物の文書を
+          押し出すこと（displacement、他の文書で本物を締め出すこと）は、
+          送信者にしかできない。
+        </p>
+        <p>
+          その攻撃者にできるのは、署名と bundle をまとめて取り去り、通常の
+          署名されていないメッセージを残すことである。これは偽の結果を生まない。
+          [=Originator Profile=] を提示しないメッセージは、単に本仕様の下で
+          評価されない。本仕様を実装していないクライアントも同じように振る舞う
+          （<a href="#message-compatibility"></a>）。こうして、この枠組みの
+          endorsement は転送中のメッセージから奪いうるが、メッセージに対して
+          偽造することはできない。
+        </p>
+        <p>
+          プロファイルを提示しないメッセージについて、本仕様は結果
+          <code>none</code> のほかには何も述べない。それはメッセージが評価
+          されなかったことだけを記録する（<a href="#presentation"></a>）。
+          その結果はメッセージに対する判断ではない。あるドメインが自身のメールすべてに署名していることを
+          知る必要のある [=Recipient=] は、ここからそれを知ることはできない。
+        </p>
+        <p>
+          配送はまた、[=Recipient=] にメールを送れる者が、その受信者の [=Verifier=]
+          の前に仕事を積めることをも意味する。<a href="#verification-procedure"></a>
+          の順序がそれを抑える。bundle を運び、S/MIME の署名が検証できない
+          メッセージは、最初の手順で失敗するので、そのような署名を作れない攻撃者は、署名の
+          検証 1 回より先へは届かない。
+        </p>
+        <p>
+          その先は一般の手順の順序が適用され、
+          その下では、署名が手元で検証されていない文書のために DNS 問い合わせが
+          行われることはなく、その帰結は Core Specification [[OPF-CORE]] が
+          述べるとおりである。DMARC の評価のための問い合わせも同じ順序に従う。
+          DKIM の selector と <code>d=</code> のドメインは送信者が書く値であり、
+          メッセージが手元の検査を通った後にだけ問い合わされる。
+        </p>
+      </section>
+
+      <section id="security-presented-identity">
+        <h3>Presented Identity をどう得て、どう結びつけるか</h3>
+        <p>
+          このユースケースにおいてコンテンツがその下で提示される identity は
+          [=Sending Domain=] であり、それは DMARC [[RFC9989]] によってメッセージ
+          から得られる（<a href="#presented-identity"></a>）。したがって、
+          コンテンツがそのドメインの下で届いたという保証は DMARC が与える保証で
+          あり、本節はそれを所与とする。本仕様が加えるのは 2 つの規則である。
+          [=Mail Client=] は DKIM [[RFC6376]] だけから、strict な整合だけで
+          DMARC を評価する（<a href="#alignment"></a>）。そして、あるドメインについて
+          DKIM を通せる者、したがってその下でコンテンツを提示できる者が、
+          そのコンテンツを本仕様の下で検証させるには、それに加えて署名に用いる
+          [=Core Profile=] の鍵が要る（<a href="#message-signing"></a>）。
+        </p>
+        <p>
+          これこそが、その結びつけを [=Core Profile Issuer=] から独立したものに
+          している。この独立性は、Core Specification [[OPF-CORE]] が各
+          [=Use Case Specification=] に述べることを要求しているものである。
+          発行されるべきでなかった [=Identity=] に対して発行された
+          [=Core Profile=] が役に立つのは、その [=Identity=] から整合したメールも
+          送れる攻撃者に対してだけである。それは第二の、別の当事者の手にある、
+          別の失敗である。
+        </p>
+        <p>
+          このユースケースはその要素だけに拠ってはいない。[=Issuer Pinning Record=]
+          がここでは要求され、その認証された不在は失敗である
+          （<a href="#sending-domain-zone"></a>）。したがって [=Originator=] は、
+          自身が求めていないプロファイルに対して自前の手段を持ち、
+          [=Core Profile Issuer=] がそれを revoke することに依存しない。
+          [=Originator=] の [=Identity=] でも
+          その配下でもない [=Sending Domain=] は認められない。本仕様は
+          [=Permitted Host Record=] を用いないからである
+          （<a href="#presented-identity"></a>）。
+        </p>
+        <p>
+          この手段が及ぶのは [=Identity=] そのものまでである。Core Specification
+          [[OPF-CORE]] が述べるとおり、サブドメインはそれ自体が一つの identity
+          であるから、[=Originator=] の [=Identity=] の配下の名前は、自身の
+          [=Issuer Pinning Record=] を伴う自身の [=Originator Profile=] を
+          持ちうる。親の [=Identity=] の zone にある [=Issuer Pinning Record=] はそれについて何も語らない。[=Originator=] が
+          自身の [=Identity=] の配下に委任するものは、この帰結を伴って委任される。
+        </p>
+        <p>
+          [=Sending Domain=] と [=Core Profile=] が運ぶ [=Identity=] との比較は
+          正準形の上で行われ、厳密である（<a href="#presented-identity"></a>）。
+          Core Specification [[OPF-CORE]] が述べるとおり、正準形が異なる 2 つの
+          ドメインは、どれほど似て見えようとも別のドメインである。したがって、
+          他のドメインに似ているという理由で登録されたドメインは、それ自身に
+          結びつけられ、他の何にも結びつけられない。自分の知っている名前に似た
+          名前を [=Recipient=] がどう受け取るかは、この枠組みが答える問いでは
+          ない。
+        </p>
+        <p>
+          このことが変換に置く重みは、ここでは一つの段に落ちる。
+          [=Sending Domain=] は、整合が確立されたのと同じ形にしなければならず、
+          国際化された名前についてそれは [[RFC8616]] の変換である
+          （<a href="#presented-identity"></a>）。他の変換で作られた名前は
+          比較に失敗するので、そのような誤りは、通ってしまう検証ではなく、
+          失敗した検証に終わる。
+        </p>
+        <p>
+          認証された不在を失敗とせよという本仕様の要求（<a href="#sending-domain-zone"></a>）は
+          別の事柄である。そこで問題になるレコードは、[=Sending Domain=] からでは
+          なく [=Originator=] の [=Identity=] から作られる名前のところで問い合わせ
+          られるので、[=Sending Domain=] のいかなる変換もそこには届かない。
+        </p>
+        <p>
+          From ヘッダフィールドから単一のドメインが定まらないメッセージは、
+          [=Sending Domain=] を持たない。[=Originator=] はそのようなメッセージを
+          送らず（<a href="#presented-identity"></a>）、[=Verifier=] はそれを
+          整合していないものとし、その結果は <code>none</code> である
+          （<a href="#alignment"></a>）。
+        </p>
+      </section>
+
+      <section id="security-layers">
+        <h3>層は独立に失敗する</h3>
+        <p>
+          本仕様の下のメッセージは、独立に下される 2 つの判断に覆われている。
+          S/MIME の判断と、この枠組みの判断である
+          （<a href="#validity-layers"></a>）。両者を結ぶ唯一のものは署名鍵の
+          同一性である。S/MIME 実装が署名を受け入れることは、この枠組みの検査と
+          並んで下される判断ではなく、その前提条件であり、署名が受け入れられない
+          場合、この枠組みの結果は <a href="#presentation"></a> の
+          <code>fail</code> である。<a href="#verification-procedure"></a> は、
+          2 つの結果を分けて報告することを要求している。
+        </p>
+        <p>
+          bundle を運ぶメッセージの S/MIME の署名が失敗した場合、この枠組みの
+          結果は <code>fail</code> であり、そのメッセージについてこの枠組みが
+          述べることはほかに何も残らない。[=Originator Profile Bundle=] をこのメッセージに
+          結びつけるのはその署名だけであるから
+          （<a href="#message-signing"></a>）、検証できない署名が残すのは、同じ
+          [=Originator=] の別のメッセージから持ち出されたかもしれない bundle、
+          あるいは [=Originator=] が何にも添えたことのない bundle である。
+          そのようなメッセージについて通った結果を報告する [=Verifier=] は、
+          endorse された当事者が署名していない内容に対する endorsement を報告
+          していることになる。
+        </p>
+        <p>
+          S/MIME の署名が検証でき、この枠組みの検査が失敗した場合に残るのは、
+          そのメッセージが certificate の運ぶ鍵で署名されたという事実である。
+          その鍵が [=Core Profile=] の名指しする [=Originator=] のものである
+          ことは確立されていない。まさにそれが失敗したのだからである。
+        </p>
+        <p>
+          また、この枠組みの失敗は、
+          本文書が定めるままでは、それがどの失敗であったかを述べない。失効、
+          期限切れ、到達できない zone、そしてそれがカバーしないドメインから
+          提示されたプロファイルは、いずれも同じ結果に終わる。Core
+          Specification [[OPF-CORE]] がそのいずれにおいても fail closed である
+          ためである。攻撃と運用上の障害は結果によって区別されない。
+        </p>
+        <p>
+          この独立性は時間にわたっても及ぶ。この枠組みによる鍵の endorsement を
+          終わらせるのは、そのレコードを、それを列挙するすべての
+          [=Originator Key Record=] から取り除くこと、またはその鍵を運ぶすべての
+          [=Core Profile=] が期限切れになることである
+          （<a href="#validity-layers"></a>、<a href="#key-retirement"></a>）。
+          どちらも S/MIME が署名を受け入れることを止めはしない。したがって、
+          あるメッセージの検証を完全に止めたい当事者は、両方の側でそれが撤回
+          されるように図らなければならない。
+        </p>
+        <div class="issue" title="層が食い違ったときに verifier が何を提示するか">
+          <a href="#verification-procedure"></a> は、この枠組みの検査の結果を
+          S/MIME 署名の検証の結果とは分けて報告することを要求しており、
+          <a href="#presentation"></a> はそのどちらをどう表示するかを定めて
+          いない。したがって、S/MIME が署名を受け入れ、この枠組みの検査が
+          失敗したときに [=Recipient=] が何を示されるかは決まっていない。また、
+          表示の時点で両者が単一の表示にまとめられてしまえば、分けて報告する
+          ことは何ももたらさない。本仕様がそれについて何かを述べるべきかどうかは、
+          本版では決まっていない。
+        </div>
+      </section>
+
+      <section id="security-verifier-placement">
+        <h3>Verifier がどこに置かれ、そこで DNSSEC の validation をどう得るか</h3>
+        <p>
+          [=Mail Client=] は、依拠できる DNSSEC の validation 状態を必要とする。
+          その状態は Core Specification [[OPF-CORE]] が認める 2 つの手段の
+          いずれかで得られる。すなわち、自身の trust anchor で
+          validate するか、resolver を認証し応答を保護する経路で validating
+          resolver の言うことを受け取るかである。[=Mail Client=] は利用者のいる
+          ところで動き、それは自身の制御下にないネットワークであり、その端末に
+          与えられた resolver が何であれそれを使う。
+          <a href="#verification-parties"></a> がこの要求を明示的に述べているのは、
+          この当事者のためである。
+        </p>
+        <p>
+          [=Mail Client=] とその resolver との間の経路を押さえた攻撃者を考える。
+          クライアントがその要求を満たしている場合、攻撃者は応答が届くのを
+          妨げられるが、応答を選ぶことはできない。攻撃者が得るものは、
+          このユースケースが失敗を不在と読むことが決して無いことによって
+          抑えられている。手順が参照するすべての名前は fail closed であり、
+          [=Verifier=] が認証できないレコードは失敗であって、pin されていないという
+          結果には決してならない（<a href="#sending-domain-zone"></a>）。
+        </p>
+        <p>
+          Core Specification [[OPF-CORE]] が最も注意して防いでいる格下げ、すなわち
+          pin された [=Originator=] を pin されていないものに変えることは、
+          ここでは対応物を持たない。[=Issuer Pinning Record=] は
+          このユースケースでは要求され、その認証された不在は失敗である。
+          Core Specification はこのレコードを要求せず、その不在を
+          [=Originator=] が pin されていない状態のままとして読む。Core
+          Specification だけに従う [=Verifier=] はレコードが不在でも先へ進む。
+          このユースケースがしないのはそれである
+          （<a href="#differences"></a>）。
+        </p>
+        <p>
+          したがってそのような攻撃者は、経路を押さえている間は検証を抑え込む
+          ことができる。クライアントが自身で validate する場合にありうるように
+          問い合わせが平文で resolver に届く場合には、狙った [=Originator=] に
+          ついてそうすることができる。問い合わせの名前が、どれが検証されて
+          いるかを語るからである。
+        </p>
+        <p>
+          攻撃者にできないのは応答の偽造である。攻撃者が仕立てた
+          レコードは認証されておらず、要求を満たすクライアントは認証されていない
+          ものに基づいて動かない。ただし攻撃者は、署名された時点では認証されて
+          いた応答を replay できる場合がある。これは別の限界を持つ別の攻撃で
+          ある（<a href="#security-replay"></a>）。
+        </p>
+        <p>
+          その要求を満たしていないクライアントには、そのような限界が無い。
+          平文の応答における AD ビットのような、認証されていない validation の
+          しるしを受け取ることは、すべての DNS 応答を攻撃者の選択に委ねることで
+          ある。そのときこの枠組みは、[=Originator Profile Bundle=] の中の文書が
+          既に主張していること以上には何も加えない。Core Specification
+          [[OPF-CORE]] は、これをその要求の理由として述べている。
+        </p>
+        <p>
+          抑え込みは小さなことではない。失敗を示された [=Recipient=] は、経路上の
+          攻撃者と一時的に到達できない zone とを区別できず、どちらの場合も同じ
+          結果が報告される。また、代わりに使える弱い検査も無い。どちらの手段も
+          持たない [=Mail Client=] はそもそも検証できず、本仕様の下で評価される
+          べきメッセージはすべて失敗する。プロファイルを提示しないメッセージは、
+          そもそも評価されない（<a href="#security-delivery"></a>）。
+        </p>
+      </section>
+
+
+      <section id="security-replay">
+        <h3>認証された不在の replay</h3>
+        <p>
+          この攻撃の一般の形は Core Specification [[OPF-CORE]] にある。[=Verifier=]
+          と権威サーバとの間の経路上の攻撃者は、署名された時点では真であった
+          応答を、その応答に対する署名が有効である限り replay できる。これには
+          [=Revocation Record=] が存在しなかったことの証明も含まれる。
+          この手順が不在を確かめる名前は、この攻撃から一様に影響を受ける
+          わけではない。
+        </p>
+        <p>
+          [=Profile Annotation=] の [=Revocation Record=] においては、不在こそが
+          その annotation を有効なままにするものであり
+          （<a href="#verification-procedure"></a> の手順 2 と手順 8）、この手順の中で
+          そうなる唯一の名前である。そこで不在を replay すれば失効は隠され、
+          annotation は検証され続ける。この手順が参照する枠組みの他のすべての名前、
+          すなわち各 issuer の [=Issuer Key Record=]、[=Issuer Pinning Record=] と
+          [=Originator Key Record=] においては、
+          要求されるのは存在であって、不在は失敗である
+          （<a href="#sending-domain-zone"></a>、
+          <a href="#verification-procedure"></a>）。そこで不在を replay しても、
+          検証が失敗するだけであり、問い合わせを妨げた場合に
+          得られるもの以上のものは攻撃者に何ももたらさない。
+        </p>
+        <p>
+          メールに固有なのは、同じメッセージが何度も繰り返し検証されることで
+          ある。[=Mail Client=] はメッセージを表示するたびに検証する
+          （<a href="#re-verification"></a>）。したがって経路を押さえた攻撃者は、
+          配送の 1 回だけではなく、読まれるたびに機会を得る。そして保存された
+          メッセージは、届いてから長く経った後に読まれる。
+        </p>
+        <p>
+          攻撃者が去れば、同じ事実は受信者
+          に有利に働く。replay された不在の下で受け入れられたメッセージは、次の表示の
+          ときに改めて検証され、そのとき失効が現れる。この窓は、Core
+          Specification [[OPF-CORE]] が述べるとおり、その不在を返したゾーンの RRSIG の有効期間のままであり、
+          メッセージが古いからといって延びることはない。
+        </p>
+      </section>
+
+      <section id="security-forwarding">
+        <h3>転送</h3>
+        <p>
+          インラインで転送されたメッセージ、すなわち本文が別のメッセージの
+          body に引用されたものは、[=Originator Profile Bundle=] を運ばないので、
+          元のメッセージについて何も検査できない
+          （<a href="#re-verification"></a>）。そのような body の中にある、
+          元のメッセージが検証されたという主張は、引用された本文の一部であり、
+          転送した者の値打ちとちょうど同じだけの値打ちしかない。
+        </p>
+        <p>
+          転送するメッセージ自体が本仕様の下で署名されている場合、検証される
+          のは転送者である。[=Sending Domain=] は評価されるメッセージのそれで
+          あるから（<a href="#presented-identity"></a>）、別のメッセージを引用
+          するメッセージについて有効な結果を示された [=Recipient=] は、引用した
+          当事者についての有効な結果を持つのであって、引用された当事者について
+          は何も持たない。インラインの転送が最も読み違えられやすいのはこの場合
+          である。表示すべき結果が存在し、しかもそれが、読み手が目にしている
+          内容についての結果ではないからである。
+        </p>
+        <p>
+          <code>message/rfc822</code> のパートとして転送されたメッセージは
+          もう一方の場合である。内側のメッセージは無傷であり、それ自体で一通の
+          メッセージとして検証される。その bundle は囲まれた body の中にあり、
+          外側のメッセージの part には数えない（<a href="#bundle"></a>、
+          <a href="#re-verification"></a>）。
+          [=Mail Client=] は、内側のメッセージが運ぶ Authentication-Results
+          ヘッダフィールドを無視する（<a href="#re-verification"></a>）。変更されずに
+          別の受信者へ replay されたメッセージは第三の場合であり、
+          <a href="#re-verification"></a> がそれを述べている。
+        </p>
+      </section>
+    </section>
+
+    <section id="privacy" class="informative">
+      <h2>Privacy Considerations</h2>
+      <p>
+        本節は何も要求しない。<a href="#verification-procedure"></a> の
+        問い合わせが何を、誰に対して明かすか、およびそれを限るために設計が何を
+        しているかは、Core Specification [[OPF-CORE]] の privacy considerations に
+        あり、ここでは繰り返さない。このユースケースが加えるのは、当該仕様が
+        [=Use Case Specification=] に委ねているもの、すなわち問い合わせがいつ、
+        どの当事者によって行われるか、および [=Originator=] 自身の zone に対して
+        行われる問い合わせが何を名指しするか、である。
+      </p>
+
+      <section id="privacy-when-queries-are-made">
+        <h3>問い合わせがいつ行われるか</h3>
+        <p>
+          [=Mail Client=] はメッセージを表示するたびにそれを検証する
+          （<a href="#re-verification"></a>）。したがって、その cache が答えない
+          問い合わせはメッセージが開かれたときに行われ、問い合わせの時刻は
+          メッセージが読まれた時刻である。
+        </p>
+        <p>
+          メッセージが取得されるのを見ている受信者自身のプロバイダを除けば、
+          メールの中の何も、メッセージがいつ読まれたかを明かさない。メッセージは
+          読まれる前に配送され、読む行為は受信者自身のシステムの上で起こり、
+          そのとき [=Originator Profile=] を構成する文書がどこかから取得される
+          こともない（<a href="#bundle"></a>）。残るのは DNS の問い合わせで
+          ある。表示の時点で検証することは、それに読む行為の時刻を与える。こうして、受信者自身のシステムの外のどこからも見えな
+          かった出来事が、それらの問い合わせを見る当事者に見えるようになる。
+        </p>
+        <p>
+          それらの問い合わせの中には、[=Mail Client=] が DMARC を評価するために
+          行うもの、すなわち署名の DKIM の鍵と、そのドメインの DMARC のポリシー
+          レコードの問い合わせがある。Mail Client は検証するすべての
+          メッセージについてこれを行う（<a href="#alignment"></a>）。
+          メッセージを表示するときに DMARC を評価する [=Mail Client=] は、他の
+          問い合わせと同様、読む時刻にそれらを行う。背景で同期するクライアントの
+          ように、メッセージを取り込むときに DMARC を評価するものは、メッセージが
+          届いたときにそれらを行い、読まれる時刻からは切り離される。
+        </p>
+      </section>
+
+      <section id="privacy-what-the-queries-name">
+        <h3>問い合わせが何を名指しするか</h3>
+        <p>
+          issuer が公開する [=Originator Key Records=] と [=Revocation Records=]
+          は不透明なラベルで名づけられており、そのため
+          resolver と権威サーバとの間の観測者は、issuer の record のどれかが
+          検査されていることは知るが、それが誰のものかは知らない。これは Core Specification
+          [[OPF-CORE]] が述べる性質であり、ここでも変わらずに成り立つ。
+          しかしそれは [=Originator=] 自身の zone にあるレコードには及ばない。
+        </p>
+        <p>
+          [=Issuer Pinning Record=] は [=Originator=] の [=Identity=] から
+          作られる名前の下に公開され、その名前はドメインそのものを運ぶ。
+          このユースケースはそのレコードを要求するが、Core Specification は
+          要求しない
+          （<a href="#differences"></a>）。したがって、その問い合わせは本仕様の
+          下で評価されるすべてのメッセージについて行われる。これに対して一般の
+          手順において [=Verifier=] がそのレコードを参照するのは、その
+          [=Use Case Specification=] が要求する場合か、[=Verifier=] が自ら
+          そうすることを選ぶ場合だけである。このユースケースでは
+          [=Permitted Host Record=] を問い合わせない
+          （<a href="#presented-identity"></a>）。
+        </p>
+        <p>
+          前節と合わせると、これは、[=Mail Client=] が用いる resolver が、その
+          利用者がどのドメインからのメールをいつ読むかを見る、ということを意味
+          する。その resolver は利用者の端末に与えられたものであり、同時に
+          クライアントが認証された経路で到達することを求められる resolver でも
+          ある（<a href="#verification-parties"></a>）。この露出は、利用者または
+          ネットワークが選んだ resolver に向かうものであり、それに対する手立ては
+          Core Specification [[OPF-CORE]] があらゆる問い合わせについて挙げる
+          ものである。
+        </p>
+        <p>
+          [=Originator=] 自身の zone は、それらの問い合わせを、
+          自身の resolver が生む集約の形で、cache によって減じられた上で見る。
+          一つのレコードがその [=Originator=] からのすべてのメッセージに用いら
+          れるからである。そして、問い合わせは resolver から届くので、どの
+          [=Recipient=] が尋ねたかは知らない。
+        </p>
+        <p>
+          DMARC の評価のための問い合わせは、From ヘッダフィールドのドメインを
+          名指しし、DKIM の鍵は署名の selector と <code>d=</code> のドメイン
+          から作られる名前の下で問い合わされる。そのドメインは、
+          strict な整合の下では同じそのドメインである。
+          selector は送信者が各メッセージに書き込む値である。
+        </p>
+        <p>
+          もし selector が受信者ごと、あるいはメッセージごとに異なれば、
+          問い合わされる名前がそのメッセージを特定する。そのとき、送信者の zone に
+          届いたその問い合わせは、そのメッセージが開かれたこと、そのおおよその
+          時刻、どの resolver を通してかを送信者に知らせる。その名前を共有する
+          他のメッセージは無いので、cache によって集約されて消えることもない。
+        </p>
+        <p>
+          <a href="#presented-identity"></a> は、[=Originator=] に対して、
+          そのような selector の使い方を禁じている。[=Mail Client=] はそのような使い方を
+          検出できないので、この保護はクライアントが行う何かではなく、送信側に
+          対する要件に拠っている。
+        </p>
+        <div class="issue" title="表示の時点で検証することが読んだ時刻を明かす">
+          [=Mail Client=] がメッセージを表示するときに検証し、それによって自身の
+          resolver に対して、また集約の形で [=Originator=] の zone に対して、
+          その [=Originator=] からのメッセージがおよそその時刻に読まれたことを
+          明かすことは、<a href="#re-verification"></a> と
+          <a href="#sending-domain-zone"></a> が要求するレコードとから導かれる。
+          受信の時点を基準に判断してもそれは無くならない。DNS における存在または
+          不在の検査は、有効性をどの時点を基準に判断するかにかかわらず、
+          問い合わせの瞬間の状態の検査だからである。したがって、受信を基準に
+          判断する [=Mail Client=]（<a href="#time-of-judgement"></a>）も、
+          表示するときにやはり問い合わせる。
+          本仕様がこの露出について何かを述べるべきかどうかは、本版では決まって
+          いない。
+        </div>
+      </section>
+    </section>
+
+    <section id="iana">
+      <h2>IANA Considerations</h2>
+      <p>
+        本仕様は 1 つの登録を必要とする。いずれもまだ行われていない。
+      </p>
+      <ul>
+        <li>
+          [=Originator Profile Bundle=] のための media type。それを運ぶパートを
+          識別できるようにするためのものである。その登録は Originator Profile
+          Blueprints [[?Originator Profile Blueprints]] における対応する作業と
+          揃えることとしている。
+        </li>
+      </ul>
+      <div class="issue" title="media type の登録がまだ起草されていない">
+        media type の登録テンプレート、およびその名前と構造は、起草されて
+        いない。これらの登録の時期は OP-CIP が決めるところにある。
+      </div>
+    </section>
+
+    <section id="differences" class="informative appendix">
+      <h2>Web Media Use Case Specification との違い</h2>
+      <p>
+        本付録は、本仕様が Web Media Use Case Specification
+        [[OPF-WEB-MEDIA]] とどのように異なるかを述べる。構造上の結論は、Email
+        のユースケースがこの枠組みの DNS 設計に一行も加えないということである。
+        違いは次の五つの項目に分かれる。(1) [=Originator=] 自身のレコードに
+        何が要求されるか。(2) [=Presented Identity=] をどう取り、どの文書が結びつけを宣言
+        するか。(3) 外側の certificate の層があるかどうか。(4) 検証がどこで
+        行われ、どの時点を基準に判断し、その結果が保たれるかどうか。(5)
+        [=Originator Profile=] が何からなるか。
+      </p>
+      <p>
+      <p>
+        この表と、Web Media [=Use Case Specification=] の付録「Differences from
+        the Email Use Case Specification」にある表とは、一つの表を両側から書いた
+        ものである。両者は整合させておくものとし、一方に行を加えたら他方にも
+        加える。
+      </p>
+      <table class="simple">
+        <thead>
+          <tr>
+            <th>比較する観点</th>
+            <th>Web media</th>
+            <th>電子メール</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>binding を担うもの</td>
+            <td>
+              Content は [=Content Attestation=] において
+              [=Core Profile=] の [=Originator Verification Key=] で署名され、
+              同じく そのような鍵で署名された [=Website Profile=] が、
+              [=Originator Profile=] を提示してよい origin を挙げる
+            </td>
+            <td>
+              メッセージが [=Core Profile=] の鍵の下で S/MIME で署名され、
+              From ヘッダフィールドが DMARC によってドメインに結びつけられる
+            </td>
+          </tr>
+          <tr>
+            <td>コンテンツが届く際の identity</td>
+            <td>
+              Page Origin、すなわちページの origin [[RFC6454]]
+            </td>
+            <td>[=Sending Domain=]</td>
+          </tr>
+          <tr>
+            <td>[=Originator=] の [=Identity=] との関係</td>
+            <td>
+              Page Origin の host が [=Originator=] の [=Identity=] であるか
+              その下にあること。あるいは、その [=Identity=] のゾーンの
+              [=Permitted Host Record=] がそれを許していること
+            </td>
+            <td>その [=Identity=] そのものか、その配下。[=Permitted Host Record=]
+              は用いない</td>
+          </tr>
+          <tr>
+            <td>[=Originator=] 自身のゾーンへの DNSSEC</td>
+            <td>
+              必須ではない。ただし自身の [=Identity=] の外の host を挙げる
+              [=Originator=] は別で、[=Permitted Host Record=] が効力を持つ
+              ためにその [=Identity=] のゾーンに署名しなければならない
+            </td>
+            <td>必須</td>
+          </tr>
+          <tr>
+            <td>[=Issuer Pinning Record=]</td>
+            <td>
+              必須ではない。[=Originator=] の [=Identity=] のゾーンが署名されて
+              いる場合は推奨される。認証された不在と <span class="dns-state">Insecure</span> な応答は、
+              別名を経て到達した応答を後者として読んだうえで、
+              [=Originator=] を pinning されていない状態のままとし、検証は続く。
+              Page Origin を与えないすべての状況で引かれ、与える状況では
+              [=Verifier=] の選択で引かれる
+            </td>
+            <td>要求される。認証された不在と <span class="dns-state">Insecure</span> な応答は、別名を経て
+              到達した応答を後者として読んだうえで、いずれも失敗である</td>
+          </tr>
+          <tr>
+            <td>外側の certificate の層</td>
+            <td>
+              無い。ページとともに運ばれる文書の外側にあるものがページに署名
+              しないので、validity の層は一般モデルの 4 つである
+            </td>
+            <td>
+              署名者の X.509 certificate。この枠組みとは鍵の同一性によってのみ
+              結ばれ、別の当事者が別の手段で撤回する
+              （<a href="#validity-layers"></a>）
+            </td>
+          </tr>
+          <tr>
+            <td>検証が行われる場所</td>
+            <td>
+              ブラウザ拡張のようなブラウジングソフトウェア内の [=Verifier=]、
+              またはページを取得するサービス
+            </td>
+            <td>
+              [=Mail Client=]。
+              resolver に対する要求は web media と同じである
+            </td>
+          </tr>
+          <tr>
+            <td>validity を判断する基準時点</td>
+            <td>
+              すべての当事者について、検証の時点
+            </td>
+            <td>
+              表示の時点、または [=Mail Client=] 自身が記録した受信の時点
+            </td>
+          </tr>
+          <tr>
+            <td>結果の記録</td>
+            <td>
+              無い。チャネルが結果を残しておける場所を提供せず、判断は提示の
+              たびに改めて行われる
+            </td>
+            <td>
+              本仕様では無し。[=Mail Client=] は自身の結果の記録を保ってよい
+            </td>
+          </tr>
+          <tr>
+            <td>[=Presented Identity=] を正規形に直すこと</td>
+            <td>
+              することが無い。末尾のドットを除けば、ページの URL を parse した
+              時点で既に小文字の ASCII の host が得られている
+            </td>
+            <td>
+              From ヘッダフィールドのドメイン。そのラベルは [[RFC8616]] が
+              定めるとおり A-label に変換される
+              （<a href="#presented-identity"></a>）
+            </td>
+          </tr>
+          <tr>
+            <td>置き換えられた署名鍵を retired として残すか withdraw するか</td>
+            <td>
+              コンテンツを新しい鍵で署名し直せるので、古い鍵を withdraw
+              できる
+            </td>
+            <td>
+              既に配送されたメッセージは署名し直せないので、古い鍵は退役した鍵
+              として残し、古いメッセージはその鍵を運ぶ前の [=Core Profile=] が
+              期限切れになるか失効するまで検証できる
+              （<a href="#key-retirement"></a>）
+            </td>
+          </tr>
+          <tr>
+            <td>[=Originator Profile=] の構成</td>
+            <td>
+              [=Core Profile=] とその [=Profile Annotations=]。Web Media のユースケースでは、
+              [=Originator Profile=] は Web Media の [=Use Case Specification=] が加え、求める
+              Web Media Profile も含む。Web Media Profile が有効でなくなると
+              [=Originator Profile=] も有効でなくなる
+            </td>
+            <td>
+              [=Core Profile=] とその [=Profile Annotations=]。Email の
+              [=Use Case Specification=] はこれに文書を加えない
+            </td>
+          </tr>
+          <tr>
+            <td>コンテンツとともに運ばれるもの</td>
+            <td>
+              [=Originator Profile=] の全体とその chain。ページの中か
+              Page Origin の well-known リソースにあり、両者を合わせて取る
+            </td>
+            <td>
+              [=Originator Profile=] 全体とその連鎖。S/MIME 署名の内側にある
+              （<a href="#message-signing"></a>）
+            </td>
+          </tr>
+          <tr>
+            <td>DNS における名前とレコード</td>
+            <td colspan="2">
+              両者で同じ。どちらの [=Use Case Specification=] も、独自の名前やレコードを
+              定義しない
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </body>
+</html>
