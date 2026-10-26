@@ -21,7 +21,7 @@ https://originator-profile.org/en-US/charter/
 
 ## License
 
-Copyright 2022-2025 Originator Profile Collaborative Innovation Partnership
+Copyright 2022-2026 Originator Profile Collaborative Innovation Partnership
 
 The documentation and content in this repository are licensed under the [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).
 
