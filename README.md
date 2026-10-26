@@ -71,7 +71,7 @@ git subtree pull --prefix=opf-source/<name> <url> main --squash
 3. Add `name` and `url` to `matrix` in `.github/workflows/update-opf-source.yml`. For a private repository, use its SSH URL, register a deploy key, and add a step that sets up the SSH key (register the secret in the `update-opf-source` environment and reference it statically as `secrets.<NAME>`)
 4. Add a redirect from `/en/<name>/*` to `/<name>/:splat` in `public/_redirects`. If there is no Japanese version, also add one from `/ja/<name>/*`
 5. Add `/<name>/` to the locale-independent path check in `public/404.html`
-6. Add `docs/<name>/` (a stub like `docs/aov/`) and register it in `TOP_LEVEL_RULES` of `scripts/check-numbering.js`
+6. Add `docs/<name>/` (a stub like `docs/aov/`; if there is a Japanese version, also pass `jaTo="/ja/<name>/"` to `PathnameRedirect`) and register it in `TOP_LEVEL_RULES` of `scripts/check-numbering.js`
 7. Add links to `src/pages/index.mdx`, `docs/getting-started.md`, and their English versions
 
 ## About Originator Profile Project

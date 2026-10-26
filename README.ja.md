@@ -67,7 +67,7 @@ git subtree pull --prefix=opf-source/<name> <url> main --squash
 3. `.github/workflows/update-opf-source.yml` の `matrix` に `name` と `url` を追加する。非公開リポジトリは SSH の URL にし、deploy key を登録して SSH 鍵を用意するステップを追加する（secret は environment `update-opf-source` に登録し、`secrets.<NAME>` の形で静的に参照する）
 4. `public/_redirects` に `/en/<name>/*` から `/<name>/:splat` へのリダイレクトを追加する。日本語版が無い場合は `/ja/<name>/*` も追加する
 5. `public/404.html` のロケール非依存パスの判定に `/<name>/` を追加する
-6. `docs/<name>/`（`docs/aov/` と同様のスタブ）を追加し、`scripts/check-numbering.js` の `TOP_LEVEL_RULES` に登録する
+6. `docs/<name>/`（`docs/aov/` と同様のスタブ。日本語版があれば `PathnameRedirect` に `jaTo="/ja/<name>/"` も渡す）を追加し、`scripts/check-numbering.js` の `TOP_LEVEL_RULES` に登録する
 7. `src/pages/index.mdx`・`docs/getting-started.md` とそれぞれの英語版にリンクを追加する
 
 ## Originator Profile プロジェクトについて
