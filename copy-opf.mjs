@@ -12,6 +12,24 @@ import shell from "shelljs";
 /** @type {{ name: string; html: string; jaHtml?: string; assets: string[] }[]} */
 const sources = [
   { name: "aov", html: "opf-aov-pub.html", assets: ["Drawings"] },
+  {
+    name: "core",
+    html: "opf-core-pub.html",
+    jaHtml: "opf-core-pub.ja.html",
+    assets: [],
+  },
+  {
+    name: "web-media",
+    html: "opf-web-media-pub.html",
+    jaHtml: "opf-web-media-pub.ja.html",
+    assets: [],
+  },
+  {
+    name: "email",
+    html: "opf-email-pub.html",
+    jaHtml: "opf-email-pub.ja.html",
+    assets: [],
+  },
 ];
 
 shell.echo("-n", "OPF文書をpagesディレクトリにコピーします…");
@@ -32,6 +50,10 @@ function copy(src, html, assets, dest) {
 
 for (const { name, html, jaHtml, assets } of sources) {
   const src = `opf-source/${name}`;
+  if (!shell.test("-d", src)) {
+    shell.echo(`\n警告: ${src} がないため ${name} をスキップします`);
+    continue;
+  }
   copy(src, html, assets, `pages/${name}`);
   // NOTE: docs/<name>/ のサイドバー用スタブが出力した pages/ja/<name>/index.html を上書きする
   if (jaHtml) copy(src, jaHtml, assets, `pages/ja/${name}`);

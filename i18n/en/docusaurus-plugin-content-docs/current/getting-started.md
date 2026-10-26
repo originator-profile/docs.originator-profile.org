@@ -59,6 +59,9 @@ Please refer to the following guides depending on your intended use.
 If you want to explore the specifications in more detail, please refer to the following:
 
 - [Architectural Overview (AOV)](pathname:///aov/)
+- [Core Specification](pathname:///core/)
+- [Web Media Use Case Specification](pathname:///web-media/)
+- [Email Use Case Specification](pathname:///email/)
 - [Originator Profile Blueprint (OPB)](../opb/)
 
 In addition, the following tool is available for debugging:

@@ -49,7 +49,11 @@
         }
 
         // Skip if locale-independent path
-        if (currentPath.startsWith("/aov/")) {
+        if (
+          ["/aov/", "/core/", "/web-media/", "/email/"].some((path) =>
+            currentPath.startsWith(path),
+          )
+        ) {
           return;
         }
 

@@ -50,15 +50,18 @@ This repository uses [Docusaurus's multilingual support feature](https://docusau
 
 This repository integrates OPF document repositories into `opf-source/<name>/` using Git Subtree and publishes them at `https://docs.originator-profile.org/<name>/`.
 
-| name  | Repository                                                                                             |
-| ----- | ------------------------------------------------------------------------------------------------------ |
-| `aov` | [doc-opf-architectural-overview](https://github.com/originator-profile/doc-opf-architectural-overview) |
+| name        | Repository                                                                                             |
+| ----------- | ------------------------------------------------------------------------------------------------------ |
+| `aov`       | [doc-opf-architectural-overview](https://github.com/originator-profile/doc-opf-architectural-overview) |
+| `core`      | [doc-opf-core-specification](https://github.com/originator-profile/doc-opf-core-specification)         |
+| `web-media` | [doc-opf-web-media](https://github.com/originator-profile/doc-opf-web-media)                           |
+| `email`     | [doc-opf-email](https://github.com/originator-profile/doc-opf-email)                                   |
 
 During the build process, `copy-opf.mjs` copies the English HTML file in `opf-source/<name>/` to `pages/<name>/index.html`, and the Japanese HTML file, if any, to `pages/ja/<name>/index.html`. Assets such as drawings are copied into each directory. The Japanese version overwrites the page generated from the sidebar stub `docs/<name>/index.mdx`.
 
 #### How to Update OPF Documents
 
-`.github/workflows/update-opf-source.yml` fetches the latest version of each repository daily and pushes it to main. To fetch it manually, use the following command. `<url>` is `https://github.com/originator-profile/<repository>.git` for public repositories and `git@github.com:originator-profile/<repository>.git` for private repositories. For private repositories, if you do not have read permissions, please request permission from the administrator.
+`.github/workflows/update-opf-source.yml` fetches the latest version of each repository daily and pushes it to main. To fetch it manually, use the following command. `<url>` is `https://github.com/originator-profile/<repository>.git`.
 
 ```bash
 git subtree pull --prefix=opf-source/<name> <url> main --squash
@@ -66,13 +69,14 @@ git subtree pull --prefix=opf-source/<name> <url> main --squash
 
 #### How to Add OPF Documents
 
-1. Add the repository with `git subtree add --prefix=opf-source/<name> <url> main --squash`
-2. Add the HTML file name (and `jaHtml` if there is a Japanese version) and asset directories to `sources` in `copy-opf.mjs`
-3. Add `name` and `url` to `matrix` in `.github/workflows/update-opf-source.yml`. For a private repository, use its SSH URL, register a deploy key, and add a step that sets up the SSH key (register the secret in the `update-opf-source` environment and reference it statically as `secrets.<NAME>`)
-4. Add a redirect from `/en/<name>/*` to `/<name>/:splat` in `public/_redirects`. If there is no Japanese version, also add one from `/ja/<name>/*`
-5. Add `/<name>/` to the locale-independent path check in `public/404.html`
-6. Add `docs/<name>/` (a stub like `docs/aov/`; if there is a Japanese version, also pass `jaTo="/ja/<name>/"` to `PathnameRedirect`) and register it in `TOP_LEVEL_RULES` of `scripts/check-numbering.js`
-7. Add links to `src/pages/index.mdx`, `docs/getting-started.md`, and their English versions
+1. Add the HTML file name (and `jaHtml` if there is a Japanese version) and asset directories to `sources` in `copy-opf.mjs`
+2. Add `name` and `url` to `matrix` in `.github/workflows/update-opf-source.yml`
+3. Add a redirect from `/en/<name>/*` to `/<name>/:splat` in `public/_redirects`. If there is no Japanese version, also add one from `/ja/<name>/*`
+4. Add `/<name>/` to the locale-independent path check in `public/404.html`
+5. Add `docs/<name>/` (a stub like `docs/aov/`; if there is a Japanese version, also pass `jaTo="/ja/<name>/"` to `PathnameRedirect`) and register it in `TOP_LEVEL_RULES` of `scripts/check-numbering.js`
+6. Add links to `src/pages/index.mdx`, `docs/getting-started.md`, and their English versions, in the form `pathname:///<name>/`
+
+After merging, run the `update-opf-source` workflow with `workflow_dispatch`. Documents without `opf-source/<name>/` are added with `git subtree add`. Until then, `copy-opf.mjs` skips them. Since this repository is public, the contents of a document become public as soon as it is added. Add it to `matrix` only when it may be published.
 
 ## About Originator Profile Project
 
