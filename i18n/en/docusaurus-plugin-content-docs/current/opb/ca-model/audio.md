@@ -27,8 +27,8 @@ Follows [Content Attestation](../ca.md).
 | `type`              | `string[]`             | **REQUIRED.** It MUST be set to `["VerifiableCredential", "ContentAttestation"]`.                                                                                |
 | `issuer`            | `string`               | **REQUIRED.** It MUST be the [OP ID](../op-id.md) of the CA issuer.                                                                                              |
 | `credentialSubject` | `object`               | **REQUIRED.** A JSON-LD Node Object containing the following [credentialSubject properties](#credential-subject-properties).                                     |
-| `allowedUrl`        | `string` \| `string[]` | **REQUIRED.** This is a property defined in Content Attestation. It must not be an empty array.                                                                  |
-| `target`            | `object[]`             | **REQUIRED.** This is a property defined in Content Attestation. It must not be an empty array.                                                                  |
+| `allowedUrl`        | `string` \| `string[]` | **REQUIRED.** This is a property defined in Content Attestation. It MUST NOT be an empty array.                                                                  |
+| `target`            | `object[]`             | **REQUIRED.** This is a property defined in Content Attestation. It MUST NOT be an empty array.                                                                  |
 
 #### List of properties for `credentialSubject` {#credential-subject-properties}
 
