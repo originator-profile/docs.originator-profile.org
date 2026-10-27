@@ -9,7 +9,7 @@ original: https://github.com/originator-profile/docs.originator-profile.org/blob
 
 ## Terminology
 
-For terms not defined in this document, please refer to [Terminology](../terminology.md).
+For terms not explained in this document, please refer to [Terminology](../terminology.md).
 
 - Content Attestation (CA)
 
