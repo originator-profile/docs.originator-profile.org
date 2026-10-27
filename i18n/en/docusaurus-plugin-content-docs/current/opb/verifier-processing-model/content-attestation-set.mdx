@@ -211,9 +211,18 @@ A change in an input dependency means that the result of recomputing the input d
 Because constantly recomputing input dependencies has a large impact on browser performance and power consumption, implementations may approximate this by detecting the following changes:
 
 - parsed DOM: changes to the set of elements matching the CSS selector, and changes to the subtrees of the matched elements
-- rendered result: the same changes as for the parsed DOM, plus changes to the viewport size and to the visibility of the Document
+- rendered result: the same changes as for the parsed DOM, plus changes to the viewport size and changes to the size of the matched elements
 
-For the rendered result, this approximation cannot detect layout changes caused by other factors.
+:::
+
+:::note
+
+For the rendered result, the approximation cannot detect changes that alter the rendering result without changing the size of the matched elements. Examples are cases where the following changes alter the rendering result while the size of the matched elements stays the same:
+
+- Changes to computed styles caused by changes outside the subtrees of the matched elements, such as a change to the `class` attribute of an ancestor element that changes the `visibility` property
+- Changes to style sheets, such as the insertion of a `style` or `link` element, or changes to rules through the CSSOM
+- Changes in matching of pseudo-classes through user interaction, such as `:hover` or `:focus`
+- Changes to media features other than the viewport size, such as `prefers-color-scheme` or printing
 
 :::
 
@@ -268,12 +277,12 @@ _This section is non-normative._
 
 For the correspondence of Document identity, lifecycle, and frame types, see [Appendix A of Site Profile Verifier Processing in HTML Documents](./site-profile.mdx#appendix-a). In addition, the concepts in this document correspond as follows:
 
-| This document                                   | Corresponding API                                                                                             |
-| ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| Insertion of a script element into the Document | Changes to `childList` observed by a `MutationObserver` with `subtree` specified                              |
-| Readiness of the Document                       | `document.readyState` and the `readystatechange` event                                                        |
-| Change in an input dependency (parsed DOM)      | Changes observed by a `MutationObserver` on the Document with `subtree` specified                             |
-| Change in the viewport size                     | The `resize` event                                                                                            |
-| same-document navigation                        | `webNavigation.onHistoryStateUpdated` and `webNavigation.onReferenceFragmentUpdated` of the WebExtensions API |
-| Restoration from the back/forward cache         | A `pageshow` event whose `persisted` is `true`                                                                |
-| Visibility of the Document                      | `document.visibilityState` and the `visibilitychange` event                                                   |
+| This document                                   | Corresponding API                                                                                                                 |
+| ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| Insertion of a script element into the Document | Changes to `childList` observed by a `MutationObserver` with `subtree` specified                                                  |
+| Readiness of the Document                       | `document.readyState` and the `readystatechange` event                                                                            |
+| Change in an input dependency (parsed DOM)      | Changes observed by a `MutationObserver` on the Document with `subtree`, `childList`, `attributes`, and `characterData` specified |
+| Change in the viewport size                     | The `resize` event                                                                                                                |
+| Change in the size of the matched elements      | A `ResizeObserver` observing the matched elements and comparing reported sizes with baselines captured when observation starts    |
+| same-document navigation                        | `webNavigation.onHistoryStateUpdated` and `webNavigation.onReferenceFragmentUpdated` of the WebExtensions API                     |
+| Restoration from the back/forward cache         | A `pageshow` event whose `persisted` is `true`                                                                                    |
