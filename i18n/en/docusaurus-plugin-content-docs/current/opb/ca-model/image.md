@@ -42,7 +42,7 @@ Follows [Content Attestation](../ca.md).
 | `dateCreated`    | `string`   | **OPTIONAL.** This is the creation timestamp. It MUST be of the [`dateTimeStamp` data type](../context.md#the-datetimestamp-datatype).                                                                                                                                                         |
 | `dateModified`   | `string`   | **OPTIONAL.** This is the last-updated timestamp. It MUST be of the [`dateTimeStamp` data type](../context.md#the-datetimestamp-datatype).                                                                                                                                                     |
 | `creator`        | `string[]` | **OPTIONAL.** This is an array of creators.                                                                                                                                                                                                                                                    |
-| `encodingFormat` | `string`   | **OPTIONAL.** This is the encoding format for the content. It MUST be a [MIME type](https://developer.mozilla.org/ja/docs/Web/HTTP/Guides/MIME_types).                                                                                                                                         |
+| `encodingFormat` | `string`   | **OPTIONAL.** This is the encoding format for the content. It MUST be a [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/MIME_types).                                                                                                                                         |
 | `genre`          | `string`   | **OPTIONAL.** It is a genre.                                                                                                                                                                                                                                                                   |
 
 ## Appendix
@@ -51,7 +51,7 @@ Follows [Content Attestation](../ca.md).
 
 _This section is non-normative._
 
-The following is a specific examples of image.
+The following is an example of a Content Attestation for an image.
 
 ```json
 {
