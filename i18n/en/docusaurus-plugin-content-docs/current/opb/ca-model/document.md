@@ -13,13 +13,13 @@ For terms not explained in this document, please refer to [Terminology](../termi
 
 - Content Attestation (CA)
 
-## Document data model
+## Document Data Model
 
-Follow [Content Attestation](../ca.md).
+Complies with [Content Attestation](../ca.md).
 
-### Properties
+### Property
 
-#### Document property list {#document-properties}
+#### Document Properties {#document-properties}
 
 | Name                | Type                   | Description                                                                                                                                                      |
 | ------------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -30,7 +30,7 @@ Follow [Content Attestation](../ca.md).
 | `allowedUrl`        | `string` \| `string[]` | **REQUIRED.** This is a property defined in Content Attestation. It MUST NOT be an empty array.                                                                  |
 | `target`            | `object[]`             | **REQUIRED.** This is a property defined in Content Attestation. It MUST NOT be an empty array.                                                                  |
 
-#### List of properties for `credentialSubject` {#credential-subject-properties}
+#### credentialSubject Properties {#credential-subject-properties}
 
 | Name             | Type       | Description                                                                                                                                                                                                                                                                                                                                       |
 | ---------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -38,12 +38,12 @@ Follow [Content Attestation](../ca.md).
 | `type`           | `string`   | **REQUIRED.** It MUST be a `Document`.                                                                                                                                                                                                                                                                                                            |
 | `name`           | `string`   | **REQUIRED.** This is the document title.                                                                                                                                                                                                                                                                                                         |
 | `description`    | `string`   | **REQUIRED.** This is a description of the document.                                                                                                                                                                                                                                                                                              |
-| `image`          | `object`   | **OPTIONAL.** This is a thumbnail image for the document. It should be provided if available (RECOMMENDED). It MUST be a JSON-LD Node Object of the [`image` data type](../context.md#the-image-datatype). This property can be used to verify the CA (Content Attestation) ([see verification details](../context.md#verifying-image-datatype)). |
+| `image`          | `object`   | **OPTIONAL.** This is a thumbnail image for the document. It should be provided if available (RECOMMENDED). It MUST be a JSON-LD Node Object of the [`image` data type](../context.md#the-image-datatype). This property allows you to [verify](../context.md#verifying-image-datatype) the CA. |
 | `dateCreated`    | `string`   | **OPTIONAL.** This is the creation timestamp. It MUST be of the [`dateTimeStamp` data type](../context.md#the-datetimestamp-datatype).                                                                                                                                                                                                            |
 | `dateModified`   | `string`   | **OPTIONAL.** This is the last-updated timestamp. It MUST be of the [`dateTimeStamp` data type](../context.md#the-datetimestamp-datatype).                                                                                                                                                                                                        |
 | `creator`        | `string[]` | **OPTIONAL.** This is an array of creators.                                                                                                                                                                                                                                                                                                       |
 | `encodingFormat` | `string`   | **OPTIONAL.** This is the content encoding format. It MUST be a [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/MIME_types).                                                                                                                                                                                                 |
-| `genre`          | `string`   | **OPTIONAL.** It is a genre.                                                                                                                                                                                                                                                                                                                      |
+| `genre`          | `string`   | **OPTIONAL.** Genre.                                                                                                                                                                                                                                                                                                                      |
 
 ## Appendix
 
