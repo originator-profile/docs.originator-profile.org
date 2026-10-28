@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/cd99e44/docs/opb/pa-model/membership.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/ea2fa3d/docs/opb/pa-model/membership.md
 tags:
   - Jurisdiction Specific Model
   - Profile Annotation
