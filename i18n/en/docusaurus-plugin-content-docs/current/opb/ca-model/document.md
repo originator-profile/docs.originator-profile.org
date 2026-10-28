@@ -9,7 +9,7 @@ original: https://github.com/originator-profile/docs.originator-profile.org/blob
 
 ## Terminology
 
-For terms not explained in this document, please refer to [Terminology](../terminology.md).
+For terms not explained in this document, please see [Terminology](../terminology.md).
 
 - Content Attestation (CA)
 
@@ -26,9 +26,9 @@ Complies with [Content Attestation](../ca.md).
 | `@context`          | `string[]`             | **REQUIRED.** You MUST follow the [OP VC Data Model](../op-vc-data-model.md). Furthermore, the third value MUST be `"https://originator-profile.org/ns/cip/v1"`. |
 | `type`              | `string[]`             | **REQUIRED.** It MUST be set to `["VerifiableCredential", "ContentAttestation"]`.                                                                                |
 | `issuer`            | `string`               | **REQUIRED.** It MUST be the [OP ID](../op-id.md) of the CA issuer.                                                                                              |
-| `credentialSubject` | `object`               | **REQUIRED.** This is a JSON-LD Node Object that includes the following [credentialSubject properties](#credential-subject-properties).                          |
-| `allowedUrl`        | `string` \| `string[]` | **REQUIRED.** This is a property defined in Content Attestation. It MUST NOT be an empty array.                                                                  |
-| `target`            | `object[]`             | **REQUIRED.** This is a property defined in Content Attestation. It MUST NOT be an empty array.                                                                  |
+| `credentialSubject` | `object`               | **REQUIRED.** A JSON-LD Node Object containing the following [credentialSubject properties](#credential-subject-properties).                            |
+| `allowedUrl`        | `string` \| `string[]` | **REQUIRED.** It is a property defined for Content Attestation. It MUST NOT be an empty array.                                                                  |
+| `target`            | `object[]`             | **REQUIRED.** It is a property defined for Content Attestation. It MUST NOT be an empty array.                                                                  |
 
 #### credentialSubject Properties {#credential-subject-properties}
 
@@ -43,7 +43,7 @@ Complies with [Content Attestation](../ca.md).
 | `dateModified`   | `string`   | **OPTIONAL.** This is the last-updated timestamp. It MUST be of the [`dateTimeStamp` data type](../context.md#the-datetimestamp-datatype).                                                                                                                                                      |
 | `creator`        | `string[]` | **OPTIONAL.** This is an array of creators.                                                                                                                                                                                                                                                     |
 | `encodingFormat` | `string`   | **OPTIONAL.** This is the content encoding format. It MUST be a [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/MIME_types).                                                                                                                                               |
-| `genre`          | `string`   | **OPTIONAL.** Genre.                                                                                                                                                                                                                                                                            |
+| `genre`          | `string`   | **OPTIONAL.** It is a genre.                                                                                                                                                                                                                                                                            |
 
 ## Appendix
 
