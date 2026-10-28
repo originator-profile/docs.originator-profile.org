@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/28038f9/docs/opb/pa-model/profile-annotation-issuer-registration.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/ea2fa3d/docs/opb/pa-model/profile-annotation-issuer-registration.md
 tags:
   - Base Model
   - Profile Annotation
