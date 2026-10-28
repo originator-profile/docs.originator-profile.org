@@ -9,7 +9,7 @@ original: https://github.com/originator-profile/docs.originator-profile.org/blob
 
 ## Terminology
 
-For terms not defined in this document, please refer to [Terminology](../terminology.md).
+For terms not defined in this document, please see [Terminology](../terminology.md).
 
 - Content Attestation (CA)
 
@@ -27,8 +27,8 @@ Follows [Content Attestation](../ca.md).
 | `type`              | `string[]`             | **REQUIRED.** It MUST be set to `["VerifiableCredential", "ContentAttestation"]`.                                                                                |
 | `issuer`            | `string`               | **REQUIRED.** It MUST be the [OP ID](../op-id.md) of the CA issuer.                                                                                              |
 | `credentialSubject` | `object`               | **REQUIRED.** A JSON-LD Node Object that includes the following [credentialSubject properties](#credential-subject-properties).                                  |
-| `allowedUrl`        | `string` \| `string[]` | **REQUIRED.** This is a property defined in Content Attestation. It MUST NOT be an empty array.                                                                  |
-| `target`            | `object[]`             | **REQUIRED.** This is a property defined in Content Attestation. It MUST NOT be an empty array.                                                                  |
+| `allowedUrl`        | `string` \| `string[]` | **REQUIRED.** It is a property defined for Content Attestation. It MUST NOT be an empty array.                                                                  |
+| `target`            | `object[]`             | **REQUIRED.** It is a property defined for Content Attestation. It MUST NOT be an empty array.                                                                  |
 
 #### List of properties for `credentialSubject` {#credential-subject-properties}
 
@@ -43,7 +43,7 @@ Follows [Content Attestation](../ca.md).
 | `dateModified`   | `string`   | **OPTIONAL.** This is the last-updated timestamp. It MUST be of the [`dateTimeStamp` data type](../context.md#the-datetimestamp-datatype).                                                                                                                                                                                                          |
 | `creator`        | `string[]` | **OPTIONAL.** This is an array of creators.                                                                                                                                                                                                                                                                                                         |
 | `encodingFormat` | `string`   | **OPTIONAL.** This is the encoding format for the content. It MUST be a [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/MIME_types).                                                                                                                                                                                           |
-| `genre`          | `string`   | **OPTIONAL.** Genre.                                                                                                                                                                                                                                                                                                                                |
+| `genre`          | `string`   | **OPTIONAL.** It is a genre.                                                                                                                                                                                                                                                                                                                                |
 
 ## Appendix
 
