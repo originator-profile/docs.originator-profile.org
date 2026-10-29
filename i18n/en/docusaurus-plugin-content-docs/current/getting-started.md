@@ -1,5 +1,5 @@
 ---
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/64a80c5/docs/getting-started.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/c6dae7e/docs/getting-started.md
 sidebar_position: 100
 ---
 
