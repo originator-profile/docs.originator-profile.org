@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/a566a3a/docs/opb/pa-model/profile-annotation-issuer-accreditation.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/17b61af/docs/opb/pa-model/profile-annotation-issuer-accreditation.md
 tags:
   - Base Model
   - Profile Annotation
@@ -104,7 +104,7 @@ The following is an example of a Profile Annotation Issuer Accreditation PA.
     "id": "dns:profile-annotation-issuer.example.jp",
     "type": "ProfileAnnotationIssuerAccreditation",
     "name": "Profile Annotation Issuer Accreditation",
-    "description": "This Profile Annotation Issuer is accredited to issue Organization Existence Certificates and Ad Verification Certificates.",
+    "description": "The OP Registry has accredited this organization as an issuer of Organization Existence Certificates and Ad Verification Certificates.",
     "annotationIssuerName": "XX Certification Organization Co., Ltd.",
     "annotationScheme": [
       "urn:uuid:def09cbd-6e8e-4c73-856d-5e00dffde643",
