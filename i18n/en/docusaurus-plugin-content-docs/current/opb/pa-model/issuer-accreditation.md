@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/9c419e8/docs/opb/pa-model/profile-annotation-issuer-accreditation.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/3eaf521/docs/opb/pa-model/issuer-accreditation.md
 tags:
   - Base Model
   - Profile Annotation
@@ -20,7 +20,7 @@ It follows [Profile Annotation](../pa.md).
 
 ### Property
 
-#### Profile Annotation Issuer Accreditation PA Properties {#profile-annotation-issuer-accreditation-properties}
+#### Profile Annotation Issuer Accreditation PA Properties {#issuer-accreditation-properties}
 
 | Name                | Type       | Description                                                                                                                                                                                                                                                          |
 | ------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -122,7 +122,7 @@ The following is an example of a Profile Annotation Issuer Accreditation PA.
       "type": "ProfileAnnotationPolicy",
       "name": "OP Registry Profile Annotation Issuer Accreditation Scheme",
       "description": "Profile Annotation Issuer accreditation scheme run by the OP Registry. The OP Registry issues a Profile Annotation Issuer Accreditation PA to each organization that meets the accreditation requirements.",
-      "ref": "https://op-registry.example.org/profile-annotation-issuer-accreditation"
+      "ref": "https://op-registry.example.org/issuer-accreditation"
     }
   }
 }
