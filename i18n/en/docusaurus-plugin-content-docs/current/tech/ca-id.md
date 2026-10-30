@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/e99183a/docs/tech/ca-id.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/952ab14/docs/tech/ca-id.md
 ---
 
 # How to determine CA ID
