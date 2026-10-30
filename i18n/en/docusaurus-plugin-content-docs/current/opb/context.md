@@ -265,6 +265,15 @@ _This section is non-normative._
     "@protected": true,
     "cip": "https://originator-profile.org/ns/cip/v1#",
     "op": "https://originator-profile.org/ns/credentials/v1#",
+    "ProfileAnnotationIssuerAccreditation": {
+      "@id": "https://originator-profile.org/ns/cip/v1#ProfileAnnotationIssuerAccreditation",
+      "@context": {
+        "@protected": true,
+        "id": "@id",
+        "type": "@type",
+        "annotationIssuerName": "https://schema.org/name"
+      }
+    },
     "ProfileAnnotationIssuerRegistration": {
       "@id": "https://originator-profile.org/ns/cip/v1#ProfileAnnotationIssuerRegistration",
       "@context": {

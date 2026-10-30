@@ -11,7 +11,7 @@ slug: /error-reference/INFO_PA_ISSUER_NOT_REGISTERED
 
 ## Information Code: INFO_PA_ISSUER_NOT_REGISTERED
 
-This information is reported when it cannot be confirmed that the issuer of a Profile Annotation is authorized, by a [Profile Annotation Issuer Registration PA](../../opb/pa-model/profile-annotation-issuer-accreditation.md), to issue PAs based on that PA's `credentialSubject.annotation` ([Profile Annotation Policy](../../opb/pa-model/pa-policy.md)). It is reported as information rather than a warning, and is not treated as a verification failure.
+This information is reported when it cannot be confirmed that the issuer of a Profile Annotation is authorized, by a [Profile Annotation Issuer Accreditation PA](../../opb/pa-model/profile-annotation-issuer-accreditation.md), to issue PAs based on that PA's `credentialSubject.annotation` ([Profile Annotation Policy](../../opb/pa-model/pa-policy.md)). It is reported as information rather than a warning, and is not treated as a verification failure.
 
 ## Information Message
 
@@ -21,14 +21,14 @@ This information is reported when it cannot be confirmed that the issuer of a Pr
 
 ## Causes
 
-- The Profile Annotation Issuer does not hold a Profile Annotation Issuer Registration PA.
-- The `credentialSubject.annotationScheme` of the Profile Annotation Issuer Registration PA does not include the ID of the Profile Annotation Policy being verified.
-- The `issuer` of the Profile Annotation Issuer Registration PA is not an OP Registry trusted by the verifier.
+- The Profile Annotation Issuer does not hold a Profile Annotation Issuer Accreditation PA.
+- The `credentialSubject.annotationScheme` of the Profile Annotation Issuer Accreditation PA does not include the ID of the Profile Annotation Policy being verified.
+- The `issuer` of the Profile Annotation Issuer Accreditation PA is not an OP Registry trusted by the verifier.
 - The PA being verified does not have a Profile Annotation Policy ID set.
 
 ## Examples
 
-- The ID of the Profile Annotation Policy is not included in the `credentialSubject.annotationScheme` of the Profile Annotation Issuer Registration PA.
+- The ID of the Profile Annotation Policy is not included in the `credentialSubject.annotationScheme` of the Profile Annotation Issuer Accreditation PA.
 
 `credentialSubject.annotation` of the PA being verified:
 
@@ -41,7 +41,7 @@ This information is reported when it cannot be confirmed that the issuer of a Pr
 }
 ```
 
-`credentialSubject.annotationScheme` of the Profile Annotation Issuer Registration PA:
+`credentialSubject.annotationScheme` of the Profile Annotation Issuer Accreditation PA:
 
 ```json
 {
@@ -52,11 +52,11 @@ This information is reported when it cannot be confirmed that the issuer of a Pr
 ## Resolution
 
 - Being unable to confirm authorization does not immediately mean that the PA being verified is itself invalid. How unconfirmed PAs are handled depends on the verifier's policy.
-- If you issue PAs, have an OP Registry issue a Profile Annotation Issuer Registration PA to you, and make sure that its `annotationScheme` includes the ID of the Profile Annotation Policy of the PAs you issue.
-  Additional details can be found in [Profile Annotation Issuer Registration PA](../../opb/pa-model/profile-annotation-issuer-accreditation.md).
+- If you issue PAs, have an OP Registry issue a Profile Annotation Issuer Accreditation PA to you, and make sure that its `annotationScheme` includes the ID of the Profile Annotation Policy of the PAs you issue.
+  Additional details can be found in [Profile Annotation Issuer Accreditation PA](../../opb/pa-model/profile-annotation-issuer-accreditation.md).
 
 ## Related Information
 
-- [`Profile Annotation Issuer Registration PA`](../../opb/pa-model/profile-annotation-issuer-accreditation.md)
+- [`Profile Annotation Issuer Accreditation PA`](../../opb/pa-model/profile-annotation-issuer-accreditation.md)
 - [`Profile Annotation`](../../opb/pa.md)
 - [`WARN_CERTIFICATE_DEPRECATED`](./WARN_CERTIFICATE_DEPRECATED.md)
