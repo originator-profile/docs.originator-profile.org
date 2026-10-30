@@ -33,7 +33,7 @@ Profile Annotation Issuer 認定証 PA は、OP レジストリが認定要件�
 | Name                   | Type       | Description                                                                                                                                                                                            |
 | ---------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `id`                   | `string`   | **REQUIRED.** Profile Annotation Issuer 認定証 PA を保有する組織（Profile Annotation Issuer）の [OP ID](../op-id.md) でなければなりません (MUST)。                                                     |
-| `type`                 | `string`   | **REQUIRED.** `ProfileAnnotationIssuerAccreditation` でなければなりません (MUST)。旧値 `ProfileAnnotationIssuerRegistration` については[旧名称との互換性](#backward-compatibility)を参照してください。 |
+| `type`                 | `string`   | **REQUIRED.** `IssuerAccreditation` でなければなりません (MUST)。旧値 `ProfileAnnotationIssuerRegistration` については[旧名称との互換性](#backward-compatibility)を参照してください。 |
 | `name`                 | `string`   | **OPTIONAL.** PA 名です。                                                                                                                                                                              |
 | `annotationIssuerName` | `string`   | **REQUIRED.** Profile Annotation Issuer の名称です。                                                                                                                                                   |
 | `description`          | `string`   | **OPTIONAL.** この Profile Annotation Issuer に関する説明です。                                                                                                                                        |
@@ -46,13 +46,18 @@ Profile Annotation Issuer 認定制度の ID について、同じ OP レジス�
 
 :::
 
+### Issuer Accreditation との関係
+
+`IssuerAccreditation` は、[OPF Core](pathname:///ja/core/) の Issuer Accreditation と同じ type です。
+Issuer Accreditation は Profile Annotation Issuer 以外の立場の認定にも使われるため、`credentialSubject.type` が `IssuerAccreditation` で、かつ `credentialSubject.annotationScheme` を持つ PA を、Profile Annotation Issuer としての認定 (Profile Annotation Issuer 認定証 PA) として扱います。
+
 ### 旧名称との互換性 {#backward-compatibility}
 
 この PA は、以前は「Profile Annotation Issuer 登録証 PA」という名称で、`credentialSubject.type` に `ProfileAnnotationIssuerRegistration` を用いていました。
 `ProfileAnnotationIssuerRegistration` は非推奨 (deprecated) です。
 OP レジストリは、新たに発行する Profile Annotation Issuer 認定証 PA の `credentialSubject.type` に `ProfileAnnotationIssuerRegistration` を使用するべきではありません (SHOULD NOT)。
 
-検証者は、後方互換性のため、`credentialSubject.type` が `ProfileAnnotationIssuerRegistration` である PA を受け付け、`ProfileAnnotationIssuerAccreditation` と同等に扱うべきです (SHOULD)。
+検証者は、後方互換性のため、`credentialSubject.type` が `ProfileAnnotationIssuerRegistration` である PA を受け付け、`IssuerAccreditation` と同等に扱うべきです (SHOULD)。
 
 ## Profile Annotation Issuer 認定証 PA の検証
 
@@ -61,6 +66,8 @@ OP レジストリは、新たに発行する Profile Annotation Issuer 認定�
 ## Profile Annotation Issuer の認可確認
 
 検証者は、PA を受け取った際、その発行者が OP レジストリによって認可された Profile Annotation Issuer であるかどうかを、次の手順で確認できます（SHOULD）。この確認は、検証者自身の要件を満たすかどうかを判断する、[VC Data Model 2.0 の validation](https://www.w3.org/TR/vc-data-model-2.0/#terminology) に相当します。
+
+`credentialSubject.annotationScheme` を持たない `IssuerAccreditation` は、この確認では読み飛ばします。
 
 1. その Profile Annotation Issuer が保有する Profile Annotation Issuer 認定証 PA の `issuer` が、信頼できる OP レジストリの OP ID であることを確認する
 2. 検証対象の PA が準拠する認証制度の ID が、その Profile Annotation Issuer 認定証 PA の `credentialSubject.annotationScheme` プロパティに含まれていることを確認する
@@ -101,7 +108,7 @@ Profile Annotation Issuer 認定証 PA のデータモデルの具体例を次�
   "issuer": "dns:op-registry.example.org",
   "credentialSubject": {
     "id": "dns:profile-annotation-issuer.example.jp",
-    "type": "ProfileAnnotationIssuerAccreditation",
+    "type": "IssuerAccreditation",
     "name": "Profile Annotation Issuer 認定証",
     "description": "OP レジストリは、この組織を組織実在性証明書および広告認証証明書の発行者として認定しました。",
     "annotationIssuerName": "株式会社〇〇認証機構",
