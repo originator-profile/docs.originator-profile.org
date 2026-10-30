@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/710d107/docs/error-reference/warnings/INFO_PA_ISSUER_NOT_REGISTERED.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/a566a3a/docs/error-reference/warnings/INFO_PA_ISSUER_NOT_REGISTERED.md
 tags:
   - Error Reference
   - Profile Annotation
