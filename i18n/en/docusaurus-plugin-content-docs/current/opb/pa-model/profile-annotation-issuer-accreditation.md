@@ -8,7 +8,7 @@ tags:
 
 # Profile Annotation Issuer Accreditation PA
 
-Profile Annotation Issuer Accreditation PA is a Profile Annotation used to indicate that the Profile Annotation Issuer is recognized by the OP Registry as meeting its accreditation requirements.
+Profile Annotation Issuer Accreditation PA is a PA that shows the OP Registry has found a Profile Annotation Issuer to meet its accreditation requirements.
 
 ## Terminology
 
@@ -16,69 +16,69 @@ For terms not explained in this document, please see [Terminology](../terminolog
 
 ## Profile Annotation Issuer Accreditation PA Data Model
 
-Complies with the [Profile Annotation](../pa.md).
+It follows [Profile Annotation](../pa.md).
 
 ### Property
 
 #### Profile Annotation Issuer Accreditation PA Properties {#profile-annotation-issuer-accreditation-properties}
 
-| Name                | Type       | Description                                                                                                                                                                                                                                                                                         |
-| ------------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `@context`          | `string[]` | **REQUIRED.** It MUST comply with [OP VC Data Model](../op-vc-data-model.md). In addition, the third value MUST be `"https://originator-profile.org/ns/cip/v1"`.                                                                                                                                    |
-| `type`              | `string[]` | **REQUIRED.** It MUST be `["VerifiableCredential", "ProfileAnnotation"]`.                                                                                                                                                                                                                           |
-| `issuer`            | `string`   | **REQUIRED.** It MUST be the [OP ID](../op-id.md) of the OP Registry. The Profile Annotation Issuer Accreditation PA is a PA issued by the OP Registry. The OP Registry examines organizations that are candidates for Profile Annotation Issuers and issues this PA when they are deemed eligible. |
-| `credentialSubject` | `object`   | **REQUIRED.** A JSON-LD Node Object containing the following [credentialSubject properties](#credential-subject-properties).                                                                                                                                                                        |
+| Name                | Type       | Description                                                                                                                                                                                                                                                          |
+| ------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@context`          | `string[]` | **REQUIRED.** It MUST comply with [OP VC Data Model](../op-vc-data-model.md). In addition, the third value MUST be `"https://originator-profile.org/ns/cip/v1"`.                                                                                                     |
+| `type`              | `string[]` | **REQUIRED.** It MUST be `["VerifiableCredential", "ProfileAnnotation"]`.                                                                                                                                                                                            |
+| `issuer`            | `string`   | **REQUIRED.** It MUST be the [OP ID](../op-id.md) of the OP Registry. The OP Registry issues the Profile Annotation Issuer Accreditation PA. It reviews organizations that apply to become Profile Annotation Issuers and issues this PA to those it finds eligible. |
+| `credentialSubject` | `object`   | **REQUIRED.** A JSON-LD Node Object containing the following [credentialSubject properties](#credential-subject-properties).                                                                                                                                         |
 
 #### credentialSubject Properties {#credential-subject-properties}
 
 | Name                   | Type       | Description                                                                                                                                                                         |
 | ---------------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `id`                   | `string`   | **REQUIRED.** It MUST be the [OP ID](../op-id.md) of the organization holding the Profile Annotation Issuer Accreditation PA (the Profile Annotation Issuer).                       |
+| `id`                   | `string`   | **REQUIRED.** It MUST be the [OP ID](../op-id.md) of the organization that holds the Profile Annotation Issuer Accreditation PA (the Profile Annotation Issuer).                    |
 | `type`                 | `string`   | **REQUIRED.** It MUST be `ProfileAnnotationIssuerAccreditation`. For the legacy value `ProfileAnnotationIssuerRegistration`, see [Backward Compatibility](#backward-compatibility). |
 | `name`                 | `string`   | **OPTIONAL.** PA name.                                                                                                                                                              |
 | `annotationIssuerName` | `string`   | **REQUIRED.** The name of the Profile Annotation Issuer.                                                                                                                            |
-| `description`          | `string`   | **OPTIONAL.** The description regarding this Profile Annotation Issuer.                                                                                                             |
-| `annotationScheme`     | `string[]` | **REQUIRED.** It MUST be an array of URIs that uniquely identify the Profile Annotations which this Profile Annotation Issuer is authorized to issue.                               |
-| `annotation`           | `object`   | **REQUIRED.** It MUST be a [Profile Annotation Policy](./pa-policy.md) that indicates the Profile Annotation Issuer accreditation scheme.                                           |
+| `description`          | `string`   | **OPTIONAL.** A description of this Profile Annotation Issuer.                                                                                                                      |
+| `annotationScheme`     | `string[]` | **REQUIRED.** It MUST be an array of URIs that uniquely identify the Profile Annotations this Profile Annotation Issuer is authorized to issue.                                     |
+| `annotation`           | `object`   | **REQUIRED.** It MUST be a [Profile Annotation Policy](./pa-policy.md) that identifies the Profile Annotation Issuer accreditation scheme.                                          |
 
 :::note
 
-Regarding the ID of the Profile Annotation Issuer accreditation scheme, if the accreditation requirements are identical across Profile Annotation Issuer accreditation schemes operated by the same OP Registry, the IDs SHOULD be the same value.
+If one OP Registry runs Profile Annotation Issuer accreditation schemes with identical accreditation requirements, those schemes SHOULD share the same ID.
 
 :::
 
 ### Backward Compatibility {#backward-compatibility}
 
-This PA was formerly named "Profile Annotation Issuer Registration PA" and used `ProfileAnnotationIssuerRegistration` as the value of `credentialSubject.type`.
+This PA was formerly named "Profile Annotation Issuer Registration PA", and its `credentialSubject.type` was `ProfileAnnotationIssuerRegistration`.
 `ProfileAnnotationIssuerRegistration` is deprecated.
 The OP Registry SHOULD NOT use `ProfileAnnotationIssuerRegistration` as the `credentialSubject.type` of a newly issued Profile Annotation Issuer Accreditation PA.
 
-For backward compatibility, a verifier SHOULD accept a PA whose `credentialSubject.type` is `ProfileAnnotationIssuerRegistration` and treat it as equivalent to `ProfileAnnotationIssuerAccreditation`.
+For backward compatibility, a verifier SHOULD accept a PA whose `credentialSubject.type` is `ProfileAnnotationIssuerRegistration` and treat it the same as `ProfileAnnotationIssuerAccreditation`.
 
 ## Verification of Profile Annotation Issuer Accreditation PA
 
-A verifier SHOULD perform verification on the Profile Annotation Issuer Accreditation PA held by the Profile Annotation Issuer, in accordance with the [OP VC Data Model](../op-vc-data-model.md) and [Securing Mechanism](../securing-mechanism.md). The verification here concerns confirming the authenticity of the Accreditation PA itself (as defined in [VC Data Model 2.0 verification](https://www.w3.org/TR/vc-data-model-2.0/#terminology)) and does not include determining whether the `issuer` is a trusted OP Registry.
+A verifier SHOULD verify the Profile Annotation Issuer Accreditation PA that a Profile Annotation Issuer holds, following the [OP VC Data Model](../op-vc-data-model.md) and [Securing Mechanism](../securing-mechanism.md). This step checks that the Accreditation PA itself is authentic ([verification in VC Data Model 2.0](https://www.w3.org/TR/vc-data-model-2.0/#terminology)). It does not decide whether the `issuer` is a trusted OP Registry.
 
 ## Verification of Profile Annotation Issuer Authorization
 
-Upon receiving a PA, a verifier SHOULD verify whether the issuer is a Profile Annotation Issuer authorized by the OP Registry using the following procedure. This verification corresponds to the [validation defined in the VC Data Model 2.0](https://www.w3.org/TR/vc-data-model-2.0/#terminology) for determining whether the verifier's own requirements are met.
+When a verifier receives a PA, it SHOULD use the following steps to check whether the issuer of that PA is a Profile Annotation Issuer authorized by the OP Registry. This check corresponds to [validation in VC Data Model 2.0](https://www.w3.org/TR/vc-data-model-2.0/#terminology), where the verifier decides whether a credential meets its own requirements.
 
-1. Verify that the `issuer` of the Profile Annotation Issuer Accreditation PA held by the Profile Annotation Issuer is an OP ID from a trusted OP Registry.
-2. Verify that the ID of the certification scheme to which the PA under verification conforms is included in the `credentialSubject.annotationScheme` property of that Profile Annotation Issuer Accreditation PA.
+1. Confirm that the `issuer` of the Profile Annotation Issuer Accreditation PA held by the Profile Annotation Issuer is the OP ID of a trusted OP Registry.
+2. Confirm that the `credentialSubject.annotationScheme` property of that Profile Annotation Issuer Accreditation PA contains the ID of the certification scheme that the PA under verification follows.
 
-If the Profile Annotation Issuer does not possess a Profile Annotation Issuer Accreditation PA, this check is treated as unperformed (unverified). While the inability to confirm authorization does not immediately imply that the PA under verification is itself invalid, how an unverified PA is handled—whether it is accepted or treated as invalid—depends on the verifier's policy.
+If the Profile Annotation Issuer does not hold a Profile Annotation Issuer Accreditation PA, the check counts as not performed (unverified). Failing to confirm authorization does not by itself make the PA under verification invalid. Whether to accept an unverified PA or treat it as invalid depends on the verifier's policy.
 
-The "Verification of Profile Annotation Issuer Accreditation PA" described in the previous section is a cryptographic verification that yields a definitive result. In contrast, while the procedure for this authorization check is deterministic once the OP Registry trusted by the verifier is established, the result may vary among verifiers because the choice of which OP Registry to trust depends on the verifier's policy.
+[Verification of Profile Annotation Issuer Accreditation PA](#verification-of-profile-annotation-issuer-accreditation-pa) is cryptographic, so it gives a definite result. The authorization check is also deterministic once the verifier has chosen which OP Registry to trust. That choice depends on the verifier's policy, so different verifiers can reach different results.
 
 ## Use Cases
 
-The Profile Annotation Issuer Accreditation PA is used in the following use cases:
+The Profile Annotation Issuer Accreditation PA is used in the following cases:
 
-- The OP Registry manages organizations authorized to issue specific PAs.
-- A verifier confirms that the issuer of a received PA holds the appropriate qualifications.
-- The Profile Annotation Issuer proves its own qualification.
+- The OP Registry keeps track of which organizations may issue specific PAs.
+- A verifier checks whether the issuer of a received PA is qualified to issue it.
+- A Profile Annotation Issuer proves its own qualifications.
 
-For example, when the OP Registry accredits a certification body to issue an "Organization Existence Certificate," it issues a Profile Annotation Issuer Accreditation PA to that body. A verifier can verify that the issuer of a received "Organization Existence PA" has the appropriate qualifications by checking the Profile Annotation Issuer Accreditation PA held by that issuer.
+For example, when the OP Registry accredits a certification body to issue "Organization Existence Certificates", it issues a Profile Annotation Issuer Accreditation PA to that body. A verifier that receives an "Organization Existence PA" checks the Profile Annotation Issuer Accreditation PA held by its issuer to confirm that the issuer is qualified.
 
 ## Appendix
 
@@ -86,7 +86,7 @@ For example, when the OP Registry accredits a certification body to issue an "Or
 
 _This is non-normative._
 
-Below is an example of Profile Annotation Issuer Accreditation PA.
+The following is an example of a Profile Annotation Issuer Accreditation PA.
 
 ```json
 {
@@ -114,11 +114,11 @@ Below is an example of Profile Annotation Issuer Accreditation PA.
       "id": "urn:uuid:5927e1da-e422-47c8-a5b8-efa6f5a45dd7",
       "type": "ProfileAnnotationPolicy",
       "name": "OP Registry Profile Annotation Issuer Accreditation Scheme",
-      "description": "This is the Profile Annotation Issuer accreditation scheme operated by the OP Registry. The Profile Annotation Issuer Accreditation PA is issued to organizations that meet the accreditation requirements.",
+      "description": "Profile Annotation Issuer accreditation scheme run by the OP Registry. The OP Registry issues a Profile Annotation Issuer Accreditation PA to each organization that meets the accreditation requirements.",
       "ref": "https://op-registry.example.org/profile-annotation-issuer-accreditation"
     }
   }
 }
 ```
 
-In this example, the OP Registry, `dns:op-registry.example.org`, issues a Profile Annotation Issuer Accreditation PA to the organization, `dns:profile-annotation-issuer.example.jp`. This organization is accredited to issue PAs that comply with two certification schemes (Organization Existence Certification and Ad Certification).
+In this example, the OP Registry `dns:op-registry.example.org` issues a Profile Annotation Issuer Accreditation PA to the organization `dns:profile-annotation-issuer.example.jp`. This organization is accredited to issue PAs under two certification schemes, Organization Existence Certification and Ad Certification.
