@@ -19,7 +19,7 @@ Profile Annotation Issuer 認定証 PA は、OP レジストリが認定要件�
 
 ### プロパティ
 
-#### Profile Annotation Issuer 認定証 PA のプロパティ一覧 {#profile-annotation-issuer-accreditation-properties}
+#### Profile Annotation Issuer 認定証 PA のプロパティ一覧 {#issuer-accreditation-properties}
 
 | Name                | Type       | Description                                                                                                                                                                                                                                                    |
 | ------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -121,7 +121,7 @@ Profile Annotation Issuer 認定証 PA のデータモデルの具体例を次�
       "type": "ProfileAnnotationPolicy",
       "name": "OP レジストリ Profile Annotation Issuer 認定制度",
       "description": "OP レジストリが運営する Profile Annotation Issuer の認定制度です。認定要件を満たした組織に対して Profile Annotation Issuer 認定証 PA を発行します。",
-      "ref": "https://op-registry.example.org/profile-annotation-issuer-accreditation"
+      "ref": "https://op-registry.example.org/issuer-accreditation"
     }
   }
 }

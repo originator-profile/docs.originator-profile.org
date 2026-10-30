@@ -10,7 +10,7 @@ slug: /error-reference/INFO_PA_ISSUER_NOT_REGISTERED
 
 ## 情報コード: INFO_PA_ISSUER_NOT_REGISTERED
 
-Profile Annotation の発行者が、その PA の `credentialSubject.annotation`（[Profile Annotation Policy](../../opb/pa-model/pa-policy.md)）に基づく PA の発行を、[Profile Annotation Issuer 認定証 PA](../../opb/pa-model/profile-annotation-issuer-accreditation.md) によって認可されていることを確認できなかった場合に通知されます。警告ではなく情報として通知され、検証の失敗としては扱われません。
+Profile Annotation の発行者が、その PA の `credentialSubject.annotation`（[Profile Annotation Policy](../../opb/pa-model/pa-policy.md)）に基づく PA の発行を、[Profile Annotation Issuer 認定証 PA](../../opb/pa-model/issuer-accreditation.md) によって認可されていることを確認できなかった場合に通知されます。警告ではなく情報として通知され、検証の失敗としては扱われません。
 
 ## 情報メッセージ
 
@@ -52,10 +52,10 @@ Profile Annotation Issuer 認定証 PA の `credentialSubject.annotationScheme`:
 
 - 認可を確認できないことは、検証対象の PA 自体が無効であることを直ちに意味しません。未確認の PA をどう扱うかは検証者のポリシーに依存します。
 - PA を発行している場合は、OP レジストリから Profile Annotation Issuer 認定証 PA を発行してもらい、`annotationScheme` に発行する Profile Annotation Policy の ID が含まれていることを確認してください。
-  より詳しくは [Profile Annotation Issuer 認定証 PA](../../opb/pa-model/profile-annotation-issuer-accreditation.md) にて確認することができます。
+  より詳しくは [Profile Annotation Issuer 認定証 PA](../../opb/pa-model/issuer-accreditation.md) にて確認することができます。
 
 ## 関連情報
 
-- [`Profile Annotation Issuer 認定証 PA`](../../opb/pa-model/profile-annotation-issuer-accreditation.md)
+- [`Profile Annotation Issuer 認定証 PA`](../../opb/pa-model/issuer-accreditation.md)
 - [`Profile Annotation`](../../opb/pa.md)
 - [`WARN_CERTIFICATE_DEPRECATED`](./WARN_CERTIFICATE_DEPRECATED.md)
