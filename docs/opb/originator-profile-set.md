@@ -128,6 +128,6 @@ Core Profile は、あらかじめ認めた CP 発行者（レジストリの発
 PA / WMP の発行者についても、その発行者自身の Core Profile が同じトラストアンカーで検証されます。
 
 一方で、レジストリにアンカーされた Core Profile を持つ主体であれば、任意の主体（originator）に関する PA / WMP を原理的には発行できます。
-発行者の適格性が重要となる用途では、[Profile Annotation Issuer 登録証 PA](./pa-model/profile-annotation-issuer-registration.md) による発行者の認可を併せて検証してください。
+発行者の適格性が重要となる用途では、[Profile Annotation Issuer 認定証 PA](./pa-model/issuer-accreditation.md) による発行者の認可を併せて検証してください。
 
 :::

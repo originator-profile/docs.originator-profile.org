@@ -43,5 +43,9 @@
 /en/web-ext/  /en/inspector/ 301
 
 # https://github.com/originator-profile/docs.originator-profile.org/issues/358
-/ja/opb/pa-model/profile-annotator-registration/  /ja/opb/pa-model/profile-annotation-issuer-registration/ 301
-/en/opb/pa-model/profile-annotator-registration/  /en/opb/pa-model/profile-annotation-issuer-registration/ 301
+/ja/opb/pa-model/profile-annotator-registration/  /ja/opb/pa-model/issuer-accreditation/ 301
+/en/opb/pa-model/profile-annotator-registration/  /en/opb/pa-model/issuer-accreditation/ 301
+
+# https://github.com/originator-profile/techdev/issues/79
+/ja/opb/pa-model/profile-annotation-issuer-registration/  /ja/opb/pa-model/issuer-accreditation/ 301
+/en/opb/pa-model/profile-annotation-issuer-registration/  /en/opb/pa-model/issuer-accreditation/ 301
