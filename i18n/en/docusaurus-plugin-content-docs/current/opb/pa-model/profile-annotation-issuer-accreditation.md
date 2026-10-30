@@ -31,15 +31,15 @@ It follows [Profile Annotation](../pa.md).
 
 #### credentialSubject Properties {#credential-subject-properties}
 
-| Name                   | Type       | Description                                                                                                                                                                         |
-| ---------------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `id`                   | `string`   | **REQUIRED.** It MUST be the [OP ID](../op-id.md) of the organization that holds the Profile Annotation Issuer Accreditation PA (the Profile Annotation Issuer).                    |
+| Name                   | Type       | Description                                                                                                                                                        |
+| ---------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `id`                   | `string`   | **REQUIRED.** It MUST be the [OP ID](../op-id.md) of the organization that holds the Profile Annotation Issuer Accreditation PA (the Profile Annotation Issuer).   |
 | `type`                 | `string`   | **REQUIRED.** It MUST be `IssuerAccreditation`. For the legacy value `ProfileAnnotationIssuerRegistration`, see [Backward Compatibility](#backward-compatibility). |
-| `name`                 | `string`   | **OPTIONAL.** PA name.                                                                                                                                                              |
-| `annotationIssuerName` | `string`   | **REQUIRED.** The name of the Profile Annotation Issuer.                                                                                                                            |
-| `description`          | `string`   | **OPTIONAL.** A description of this Profile Annotation Issuer.                                                                                                                      |
-| `annotationScheme`     | `string[]` | **REQUIRED.** It MUST be an array of URIs that uniquely identify the Profile Annotations this Profile Annotation Issuer is authorized to issue.                                     |
-| `annotation`           | `object`   | **REQUIRED.** It MUST be a [Profile Annotation Policy](./pa-policy.md) that identifies the Profile Annotation Issuer accreditation scheme.                                          |
+| `name`                 | `string`   | **OPTIONAL.** PA name.                                                                                                                                             |
+| `annotationIssuerName` | `string`   | **REQUIRED.** The name of the Profile Annotation Issuer.                                                                                                           |
+| `description`          | `string`   | **OPTIONAL.** A description of this Profile Annotation Issuer.                                                                                                     |
+| `annotationScheme`     | `string[]` | **REQUIRED.** It MUST be an array of URIs that uniquely identify the Profile Annotations this Profile Annotation Issuer is authorized to issue.                    |
+| `annotation`           | `object`   | **REQUIRED.** It MUST be a [Profile Annotation Policy](./pa-policy.md) that identifies the Profile Annotation Issuer accreditation scheme.                         |
 
 :::note
 

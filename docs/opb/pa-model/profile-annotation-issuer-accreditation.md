@@ -30,15 +30,15 @@ Profile Annotation Issuer 認定証 PA は、OP レジストリが認定要件�
 
 #### credentialSubject のプロパティ一覧 {#credential-subject-properties}
 
-| Name                   | Type       | Description                                                                                                                                                                                            |
-| ---------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `id`                   | `string`   | **REQUIRED.** Profile Annotation Issuer 認定証 PA を保有する組織（Profile Annotation Issuer）の [OP ID](../op-id.md) でなければなりません (MUST)。                                                     |
+| Name                   | Type       | Description                                                                                                                                                                           |
+| ---------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`                   | `string`   | **REQUIRED.** Profile Annotation Issuer 認定証 PA を保有する組織（Profile Annotation Issuer）の [OP ID](../op-id.md) でなければなりません (MUST)。                                    |
 | `type`                 | `string`   | **REQUIRED.** `IssuerAccreditation` でなければなりません (MUST)。旧値 `ProfileAnnotationIssuerRegistration` については[旧名称との互換性](#backward-compatibility)を参照してください。 |
-| `name`                 | `string`   | **OPTIONAL.** PA 名です。                                                                                                                                                                              |
-| `annotationIssuerName` | `string`   | **REQUIRED.** Profile Annotation Issuer の名称です。                                                                                                                                                   |
-| `description`          | `string`   | **OPTIONAL.** この Profile Annotation Issuer に関する説明です。                                                                                                                                        |
-| `annotationScheme`     | `string[]` | **REQUIRED.** この Profile Annotation Issuer が発行を認められている Profile Annotation を一意に識別する URI の配列でなければなりません (MUST)。                                                        |
-| `annotation`           | `object`   | **REQUIRED.** Profile Annotation Issuer 認定制度を示す [Profile Annotation Policy](./pa-policy.md) でなければなりません (MUST)。                                                                       |
+| `name`                 | `string`   | **OPTIONAL.** PA 名です。                                                                                                                                                             |
+| `annotationIssuerName` | `string`   | **REQUIRED.** Profile Annotation Issuer の名称です。                                                                                                                                  |
+| `description`          | `string`   | **OPTIONAL.** この Profile Annotation Issuer に関する説明です。                                                                                                                       |
+| `annotationScheme`     | `string[]` | **REQUIRED.** この Profile Annotation Issuer が発行を認められている Profile Annotation を一意に識別する URI の配列でなければなりません (MUST)。                                       |
+| `annotation`           | `object`   | **REQUIRED.** Profile Annotation Issuer 認定制度を示す [Profile Annotation Policy](./pa-policy.md) でなければなりません (MUST)。                                                      |
 
 :::note
 
