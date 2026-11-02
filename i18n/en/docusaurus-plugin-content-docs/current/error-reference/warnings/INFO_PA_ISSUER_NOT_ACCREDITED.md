@@ -1,17 +1,20 @@
 ---
 sidebar_position: 5
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/7f170e4/docs/error-reference/warnings/INFO_PA_ISSUER_NOT_REGISTERED.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/b95fb78/docs/error-reference/warnings/INFO_PA_ISSUER_NOT_ACCREDITED.md
 tags:
   - Error Reference
   - Profile Annotation
-slug: /error-reference/INFO_PA_ISSUER_NOT_REGISTERED
+slug: /error-reference/INFO_PA_ISSUER_NOT_ACCREDITED
 ---
 
-# INFO_PA_ISSUER_NOT_REGISTERED
+# INFO_PA_ISSUER_NOT_ACCREDITED
 
-## Information Code: INFO_PA_ISSUER_NOT_REGISTERED
+## Information Code: INFO_PA_ISSUER_NOT_ACCREDITED
 
 The verifier reports this information when it cannot confirm, through a [Profile Annotation Issuer Accreditation PA](../../opb/pa-model/issuer-accreditation.md), that the issuer of a Profile Annotation is authorized to issue PAs under that PA's `credentialSubject.annotation` ([Profile Annotation Policy](../../opb/pa-model/pa-policy.md)). It is information, not a warning, and does not count as a verification failure.
+
+This information code was formerly `INFO_PA_ISSUER_NOT_REGISTERED`.
+`ProblemType.PaIssuerNotRegistered` in the verification package `@originator-profile/verify` remains as a deprecated alias and points to `INFO_PA_ISSUER_NOT_ACCREDITED`.
 
 ## Information Message
 
