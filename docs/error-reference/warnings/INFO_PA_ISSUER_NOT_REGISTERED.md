@@ -14,7 +14,7 @@ Profile Annotation の発行者が、その PA の `credentialSubject.annotation
 
 ## 情報メッセージ
 
-- "Profile Annotation Issuer is not registered for this annotation scheme (OP[`i`].PA[`j`] issuer: `<発行者の OP ID>`, scheme: `<Profile Annotation Policy の ID>`)"
+- "Profile Annotation Issuer is not accredited for this annotation scheme (OP[`i`].PA[`j`] issuer: `<発行者の OP ID>`, scheme: `<Profile Annotation Policy の ID>`)"
 
 `i` は Originator Profile Set 内の OP の位置、`j` はその OP に含まれる PA の位置を表します。`scheme` は Profile Annotation Policy の ID で、取得できない場合は `unknown` になります。
 
