@@ -3,14 +3,17 @@ sidebar_position: 5
 tags:
   - Error Reference
   - Profile Annotation
-slug: /error-reference/INFO_PA_ISSUER_NOT_REGISTERED
+slug: /error-reference/INFO_PA_ISSUER_NOT_ACCREDITED
 ---
 
-# INFO_PA_ISSUER_NOT_REGISTERED
+# INFO_PA_ISSUER_NOT_ACCREDITED
 
-## 情報コード: INFO_PA_ISSUER_NOT_REGISTERED
+## 情報コード: INFO_PA_ISSUER_NOT_ACCREDITED
 
 Profile Annotation の発行者が、その PA の `credentialSubject.annotation`（[Profile Annotation Policy](../../opb/pa-model/pa-policy.md)）に基づく PA の発行を、[Profile Annotation Issuer 認定証 PA](../../opb/pa-model/issuer-accreditation.md) によって認可されていることを確認できなかった場合に通知されます。警告ではなく情報として通知され、検証の失敗としては扱われません。
+
+この情報コードは、以前は `INFO_PA_ISSUER_NOT_REGISTERED` でした。
+検証パッケージ `@originator-profile/verify` の `ProblemType.PaIssuerNotRegistered` は非推奨の別名として残っており、`INFO_PA_ISSUER_NOT_ACCREDITED` を指します。
 
 ## 情報メッセージ
 
