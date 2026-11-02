@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/3eaf521/docs/error-reference/warnings/INFO_PA_ISSUER_NOT_REGISTERED.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/7f170e4/docs/error-reference/warnings/INFO_PA_ISSUER_NOT_REGISTERED.md
 tags:
   - Error Reference
   - Profile Annotation
@@ -15,7 +15,7 @@ The verifier reports this information when it cannot confirm, through a [Profile
 
 ## Information Message
 
-- "Profile Annotation Issuer is not registered for this annotation scheme (OP[`i`].PA[`j`] issuer: `<OP ID of the issuer>`, scheme: `<ID of the Profile Annotation Policy>`)"
+- "Profile Annotation Issuer is not accredited for this annotation scheme (OP[`i`].PA[`j`] issuer: `<OP ID of the issuer>`, scheme: `<ID of the Profile Annotation Policy>`)"
 
 `i` indicates the position of the OP within the Originator Profile Set, and `j` indicates the position of the PA within that OP. `scheme` is the ID of the Profile Annotation Policy; if it cannot be obtained, it is `unknown`.
 
