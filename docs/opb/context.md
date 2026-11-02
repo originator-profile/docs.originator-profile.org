@@ -263,6 +263,15 @@ _このセクションは非規範的です。_
     "@protected": true,
     "cip": "https://originator-profile.org/ns/cip/v1#",
     "op": "https://originator-profile.org/ns/credentials/v1#",
+    "IssuerAccreditation": {
+      "@id": "https://originator-profile.org/ns/cip/v1#IssuerAccreditation",
+      "@context": {
+        "@protected": true,
+        "id": "@id",
+        "type": "@type",
+        "annotationIssuerName": "https://schema.org/name"
+      }
+    },
     "ProfileAnnotationIssuerRegistration": {
       "@id": "https://originator-profile.org/ns/cip/v1#ProfileAnnotationIssuerRegistration",
       "@context": {

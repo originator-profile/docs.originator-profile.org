@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/710d107/docs/error-reference/warnings/WARN_CERTIFICATE_DEPRECATED.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/b95fb78/docs/error-reference/warnings/WARN_CERTIFICATE_DEPRECATED.md
 tags:
   - Error Reference
   - Profile Annotation
@@ -58,4 +58,4 @@ This warning is reported when a Profile Annotation in the deprecated [Certificat
 
 - [`Certificate`](../../opb/certificate.md)
 - [`Profile Annotation`](../../opb/pa.md)
-- [`INFO_PA_ISSUER_NOT_REGISTERED`](./INFO_PA_ISSUER_NOT_REGISTERED.md)
+- [`INFO_PA_ISSUER_NOT_ACCREDITED`](./INFO_PA_ISSUER_NOT_ACCREDITED.md)

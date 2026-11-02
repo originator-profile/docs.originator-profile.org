@@ -57,4 +57,4 @@ slug: /error-reference/WARN_CERTIFICATE_DEPRECATED
 
 - [`Certificate`](../../opb/certificate.md)
 - [`Profile Annotation`](../../opb/pa.md)
-- [`INFO_PA_ISSUER_NOT_REGISTERED`](./INFO_PA_ISSUER_NOT_REGISTERED.md)
+- [`INFO_PA_ISSUER_NOT_ACCREDITED`](./INFO_PA_ISSUER_NOT_ACCREDITED.md)

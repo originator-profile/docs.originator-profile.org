@@ -1,6 +1,6 @@
 ---
 sidebar_position: 102
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/ea2fa3d/docs/opb/context.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/9c419e8/docs/opb/context.md
 ---
 
 # Contexts, Vocabularies, and Types
@@ -265,6 +265,15 @@ _This section is non-normative._
     "@protected": true,
     "cip": "https://originator-profile.org/ns/cip/v1#",
     "op": "https://originator-profile.org/ns/credentials/v1#",
+    "IssuerAccreditation": {
+      "@id": "https://originator-profile.org/ns/cip/v1#IssuerAccreditation",
+      "@context": {
+        "@protected": true,
+        "id": "@id",
+        "type": "@type",
+        "annotationIssuerName": "https://schema.org/name"
+      }
+    },
     "ProfileAnnotationIssuerRegistration": {
       "@id": "https://originator-profile.org/ns/cip/v1#ProfileAnnotationIssuerRegistration",
       "@context": {
