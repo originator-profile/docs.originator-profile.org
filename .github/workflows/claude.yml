@@ -29,6 +29,6 @@ jobs:
         with:
           fetch-depth: 1
       - name: Run Claude Code
-        uses: "originator-profile/originator-profile/.github/actions/claude_code@2287bbeaf9c77bafabad5d989e8f7f3e01bc4670" # main
+        uses: "originator-profile/originator-profile/.github/actions/claude_code@c67ff5659367507d2101621b2734d0a7e9b2455f" # main
         with:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}

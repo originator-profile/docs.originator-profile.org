@@ -17,13 +17,13 @@
     "@docusaurus/theme-mermaid": "3.10.2",
     "@docusaurus/types": "3.10.2",
     "@easyops-cn/docusaurus-search-local": "0.55.3",
-    "@r74tech/docusaurus-plugin-panzoom": "2.4.5",
+    "@r74tech/docusaurus-plugin-panzoom": "2.5.0",
     "@types/shelljs": "0.10.0",
     "dedent": "1.7.2",
     "docusaurus-plugin-image-zoom": "3.0.1",
     "gray-matter": "4.0.3",
-    "prettier": "3.9.9",
+    "prettier": "3.9.10",
     "shelljs": "0.10.0"
   },
-  "packageManager": "pnpm@12.8.1"
+  "packageManager": "pnpm@12.16.1"
 }
