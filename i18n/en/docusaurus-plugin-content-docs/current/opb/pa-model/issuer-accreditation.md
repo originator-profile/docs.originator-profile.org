@@ -1,6 +1,6 @@
 ---
 sidebar_position: 4
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/3eaf521/docs/opb/pa-model/issuer-accreditation.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/e574a50/docs/opb/pa-model/issuer-accreditation.md
 tags:
   - Base Model
   - Profile Annotation
