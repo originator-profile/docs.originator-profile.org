@@ -1,6 +1,6 @@
 ---
 sidebar_position: 5
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/b95fb78/docs/error-reference/warnings/INFO_PA_ISSUER_NOT_ACCREDITED.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/e574a50/docs/error-reference/warnings/INFO_PA_ISSUER_NOT_ACCREDITED.md
 tags:
   - Error Reference
   - Profile Annotation

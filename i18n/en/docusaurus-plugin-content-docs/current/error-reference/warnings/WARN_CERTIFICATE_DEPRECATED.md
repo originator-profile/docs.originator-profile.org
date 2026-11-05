@@ -1,6 +1,6 @@
 ---
 sidebar_position: 1
-original: https://github.com/originator-profile/docs.originator-profile.org/blob/b95fb78/docs/error-reference/warnings/WARN_CERTIFICATE_DEPRECATED.md
+original: https://github.com/originator-profile/docs.originator-profile.org/blob/e574a50/docs/error-reference/warnings/WARN_CERTIFICATE_DEPRECATED.md
 tags:
   - Error Reference
   - Profile Annotation
