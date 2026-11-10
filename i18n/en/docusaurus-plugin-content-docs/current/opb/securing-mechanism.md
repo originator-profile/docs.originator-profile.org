@@ -18,8 +18,55 @@ Although VC-JOSE-COSE specifies both JOSE and COSE methods, currently many use c
 ### Header
 
 - `typ` The header parameter MUST be `vc+jwt`.
-- `kid` The header parameter MUST be a [JWK Thumbprint](https://www.rfc-editor.org/rfc/rfc7638.html).
+- `kid` The header parameter MUST be the [Key Identifier](#kid) of the key used for signing.
 - `cty` The header parameter MUST be `vc`.
+
+#### `kid` {#kid}
+
+The value of the `kid` header parameter is a Key Identifier. A Key Identifier is computed from the public key used to verify the signature as follows.
+
+1. Encode the public key as a DER-encoded SubjectPublicKeyInfo (SPKI) as defined in [RFC 5280](https://www.rfc-editor.org/rfc/rfc5280.html#section-4.1.2.7). The SPKI MUST be in the form standardized for the key type: for an elliptic curve key, `id-ecPublicKey` with the `namedCurve` parameter and the uncompressed point encoding, as specified in [RFC 5480](https://www.rfc-editor.org/rfc/rfc5480.html); for an RSA key, `rsaEncryption`, as specified in [RFC 3279](https://www.rfc-editor.org/rfc/rfc3279.html).
+2. Compute the SHA-256 digest of the octets from step 1.
+3. Encode the digest from step 2 (32 octets) with base64url as defined in [RFC 4648 Section 5](https://www.rfc-editor.org/rfc/rfc4648.html#section-5), and remove the trailing padding characters `=`. The result is a string of 43 characters.
+
+A Key Identifier carries no prefix or other indication of the digest algorithm.
+
+A public key held as a JWK MUST be converted to its SPKI form before its Key Identifier is computed. A [JWK Thumbprint](https://www.rfc-editor.org/rfc/rfc7638.html) MUST NOT be used as a Key Identifier.
+
+The `kid` member of a JWK in the `jwks` of an OP MUST be the Key Identifier of that key, except during the [migration](#kid-migration).
+
+:::note
+
+A Key Identifier is determined by the key alone, and is the same whatever form the key is represented in. The same procedure yields the same value from the public key in an X.509 certificate.
+
+:::
+
+##### Example {#kid-example}
+
+_This section is non-normative._
+
+Below is an example of computing a Key Identifier from a Web Crypto API `CryptoKey` (public key):
+
+```ts
+const spki = await crypto.subtle.exportKey("spki", key);
+const kid = new Uint8Array(
+  await crypto.subtle.digest("SHA-256", spki),
+).toBase64({ alphabet: "base64url", omitPadding: true });
+```
+
+#### Migration of `kid` {#kid-migration}
+
+Previous versions of this specification defined the `kid` header parameter as a JWK Thumbprint. The migration to Key Identifiers is performed as follows.
+
+- The issuer of an OP MAY include the same public key in the `jwks` of the OP as two JWKs, one whose `kid` member is the Key Identifier and the other whose `kid` member is the JWK Thumbprint. The two JWKs MUST have the same members other than the `kid` member.
+- While the key is included in the `jwks` and any VC signed with the JWK Thumbprint as its `kid` header parameter is within its validity period, the JWK whose `kid` member is the JWK Thumbprint SHOULD NOT be removed from the `jwks` alone. After no such VC remains, the JWK whose `kid` member is the JWK Thumbprint MAY still be included until the key is revoked or compromised.
+- In a VC signed after the `kid` header parameter is switched to Key Identifiers, the `kid` header parameter MUST be the Key Identifier. A VC signed earlier with a JWK Thumbprint as its `kid` header parameter can be verified as long as the `jwks` of the OP includes the JWK whose `kid` member is the JWK Thumbprint.
+
+:::note
+
+A verifier does not interpret the format of the `kid` header parameter value, and selects the verification key by an exact string match with the `kid` member of a JWK in the `jwks` of the OP. Migration in the manner above therefore requires no change to verifiers. Note that a verifier that selects the verification key by computing the Key Identifier of each JWK in the `jwks` and comparing it with the `kid` header parameter will not find the verification key for a VC whose `kid` header parameter is a JWK Thumbprint during the migration.
+
+:::
 
 ### Payload
 
@@ -83,7 +130,7 @@ Payload:
           "x": "ypAlUjo5O5soUNHk3mlRyfw6ujxqjfD_HMQt7XH-rSg",
           "y": "1cmv9lmZvL0XAERNxvrT2kZkC4Uwu5i1Or1O-4ixJuE",
           "crv": "P-256",
-          "kid": "jJYs5_ILgUc8180L-pBPxBpgA3QC7eZu9wKOkh9mYPU",
+          "kid": "Tty_QC0BP0mBl9J4Dt1RKw8DxfrdCSwri_AriBTuSvw",
           "kty": "EC"
         }
       ]
