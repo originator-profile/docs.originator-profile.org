@@ -5,7 +5,7 @@ sidebar_position: 3
 # PA 画像の形式
 
 Profile Annotation (PA) の画像（`credentialSubject.image`）は、次の要件を満たすようにご用意ください。
-この画像は、組織のロゴ画像（[ロゴ画像の形式](./logo-format.md)）とは別のものです。
+この画像は、組織のロゴ画像（[ロゴ画像の形式](/faq/logo-format/)）とは別のものです。
 
 ## 提出する画像の要件
 
