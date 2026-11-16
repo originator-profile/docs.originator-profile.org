@@ -50,7 +50,7 @@ Playground モードで発行した CA は本番環境では使用できませ�
 
 ### Site Profile タブ
 
-Site Profile タブでは、入力フォームに JSON を入力をして SP を発行することができます。入力する JSON についての詳細は [Website Profile (WSP) データモデル](/opb/website-profile/#properties)および [Site Profile (SP)](/opb/site-profile/)をご確認ください。
+Site Profile タブでは、入力フォームに JSON を入力して SP を発行することができます。入力する JSON についての詳細は [Website Profile (WSP) データモデル](/opb/website-profile/#properties)および [Site Profile (SP)](/opb/site-profile/)をご確認ください。
 
 :::note
 

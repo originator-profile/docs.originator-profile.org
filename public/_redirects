@@ -59,5 +59,5 @@
 /en/error-reference/INFO_PA_ISSUER_NOT_REGISTERED   /en/error-reference/INFO_PA_ISSUER_NOT_ACCREDITED/  301
 
 # https://github.com/originator-profile/ca-server/issues/179
-/ja/debugger/ /ja/toolkit/debugger 301
-/en/debugger/ /en/toolkit/debugger 301
+/ja/debugger/ /ja/toolkit/debugger/ 301
+/en/debugger/ /en/toolkit/debugger/ 301
