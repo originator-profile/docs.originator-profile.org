@@ -1,5 +1,5 @@
 ---
-sidebar_position: 340
+sidebar_position: 1
 original: https://github.com/originator-profile/docs.originator-profile.org/blob/484ee39/docs/debugger.md
 ---
 
@@ -12,7 +12,7 @@ It allows you to test [Content Attestation Set (CAS)](/opb/ca/) and [Site Profil
 
 ### Screen description
 
-![](assets/debugger.excalidraw.svg)
+![](../assets/debugger.excalidraw.svg)
 
 #### Input field
 

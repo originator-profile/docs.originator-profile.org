@@ -66,5 +66,5 @@ Originator Profile では、発行や検証のために以下のツールとガ�
 
 また、デバッグツールとして、以下のツールも提供されています。
 
-- [Debugger](./debugger.md)  
+- [Debugger](./toolkit/debugger.md)  
   発行した Content Attestation Set や Site Profile のテストができ、検証時のエラーを確認できます。
