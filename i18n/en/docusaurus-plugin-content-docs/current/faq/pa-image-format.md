@@ -26,7 +26,7 @@ This image is separate from your organization's logo image ([Logo image format](
 The following diagram shows the margins and the area for the logo on an image measuring 180px in width by 120px in height.
 The light red band represents the minimum margin, and the area inside the red dashed line is where the logo should be placed.
 
-![An image with a width of 180px and a height of 120px. There is a 12px margin on each side, and the logo should be placed within the dashed-line area inside that margin.](../../../../../docs/faq/assets/pa-image-margin.ja.svg)
+![An image with a width of 180px and a height of 120px. There is a 12px margin on each side, and the logo should be placed within the dashed-line area inside that margin.](./assets/pa-image-margin.ja.svg)
 
 If an organization has its own isolation requirements (specifying the clear space to be maintained around its logo), please compare these with the current requirements and adhere to the one that mandates the larger amount of clear space.
 
