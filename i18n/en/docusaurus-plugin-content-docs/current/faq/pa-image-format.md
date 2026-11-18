@@ -11,7 +11,7 @@ This image is separate from your organization's logo image ([Logo image format](
 ## Requirements for submitted images
 
 - Aspect ratio: 3:2
-- Dimensions: 180px width x 120px height or more
+- Dimensions: 180px width × 120px height or more
   Keep a 3:2 ratio when scaling (e.g. 360px width x 240px height).
 - Image format: one of the following
   - PNG
