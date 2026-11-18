@@ -3,7 +3,7 @@ sidebar_position: 3
 original: https://github.com/originator-profile/docs.originator-profile.org/blob/8ac37ee/docs/faq/pa-image-format.md
 ---
 
-# PA image format
+# PA Image format
 
 Please prepare the Profile Annotation (PA) image (`credentialSubject.image`) so that it meets the following requirements.
 This image is separate from your organization's logo image ([Logo image format](/faq/logo-format/)).
@@ -12,8 +12,8 @@ This image is separate from your organization's logo image ([Logo image format](
 
 - Aspect ratio: 3:2
 - Dimensions: 180px width × 120px height or more
-  Keep a 3:2 ratio when scaling (e.g. 360px width x 240px height).
-- Image format: one of the following
+  Keep a 3:2 ratio when scaling (e.g. 360px width × 240px height).
+- Image format: One of the following
   - PNG
   - JPEG
   - WebP
