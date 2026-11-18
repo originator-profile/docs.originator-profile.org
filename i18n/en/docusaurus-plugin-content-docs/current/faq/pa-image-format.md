@@ -21,7 +21,7 @@ This image is separate from your organization's logo image ([Logo image format](
   Images with transparent backgrounds are displayed composited against a white background.
 - Margins: Ensure a margin of at least 10% of the image height on each side (e.g., 12px or more for a 180px × 120px image).
 - Logo size: Set the logo height to 78–80% of the image height, or the logo width to 128–130% of the image height (for a 180px × 120px image, this would be a height of 94–96px or a width of 154–156px).
-  Place the logo within the margin area, and extend either its vertical or horizontal dimension to fill the available space within those margins.
+  Place the logo in the area bounded by the margins, and scale it so that either its height or its width fills that area without extending into the margins.
 
 The following diagram shows the margins and the area for the logo on an image measuring 180px in width by 120px in height.
 The light red band represents the minimum margin, and the area inside the red dashed line is where the logo should be placed.
