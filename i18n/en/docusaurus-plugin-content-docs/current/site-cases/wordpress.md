@@ -275,7 +275,7 @@ Articles with an ID greater than the maximum ID present at the time the process 
 Because an article's publication status, filtering criteria, and exclusion settings are re-verified at the time of processing, the actual number of articles processed may differ from the number of candidates identified at the start.
 
 The article body, author, publication date, and update date remain unchanged.
-For multi-page (split) articles, a Content Archive (CA) is saved only if responses for all pages are successfully retrieved; if any part fails, the existing CA (if any) is retained.
+For split articles, the CA is saved only if responses are successfully retrieved for all pages; if this fails, the existing CA is retained.
 Note that the system does not perform operations to revoke CAs that have already been issued by the CA server.
 
 ### Timeouts and Retries
