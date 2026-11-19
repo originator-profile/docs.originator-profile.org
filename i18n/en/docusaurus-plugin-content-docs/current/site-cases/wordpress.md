@@ -346,7 +346,7 @@ Through these processes, published content is automatically managed, enabling us
 Images within an image block (`core/image`) are signed as an [External Resource Target](/opb/content-integrity-descriptor/external-resource/).
 
 - `render_block_core/image`: When an image block is rendered, the attachment's integrity metadata (`_profile_attachment_integrity`) is applied as an `integrity` attribute to the `<img>` element.
-- During the signing process, a `cssSelector` (e.g., `img.wp-image-123`) is derived from the `wp-image-{attachment_ID}` class on the `<img>` element and included in the Content Assertion (CA) alongside the `integrity` value.
+- During the signing process, a `cssSelector` (e.g., `img.wp-image-123`) is derived from the `wp-image-{attachment_ID}` class on the `<img>` element and included in the Content Attestation (CA) alongside the `integrity` value.
 
 ```json
 {
