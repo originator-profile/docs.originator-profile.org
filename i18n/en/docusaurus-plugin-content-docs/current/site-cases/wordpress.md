@@ -102,7 +102,7 @@ Example:
 
 The default is Embedded.
 
-- Embedded: Embeds the CAS directly into the HTML.
+- Embedded: Posts the article with the CAS in embedded format.
 - External: References CAS via the WordPress REST API URL. No static JSON files are generated. For details, see "[Delivery when CA Presentation Type is set to link format](#ca-presentation-type-external)."
 
 An example of a portion of the HTML output when "Embedded" is selected:
