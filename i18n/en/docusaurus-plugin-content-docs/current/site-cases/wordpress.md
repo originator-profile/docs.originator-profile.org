@@ -36,7 +36,6 @@ If you are using the Dentsu Soken CA server, please also refer to the Dentsu Sok
 
 ![](../assets/ca-manager.png)
 
-After activating the plugin, you must configure it by entering the following required fields.
 Once the plugin is activated, configure the following items under "Settings > CA Manager" in the WordPress admin dashboard.
 
 **[CA issuer's Originator Profile ID]: Specify your Originator Profile ID**
