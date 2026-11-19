@@ -428,7 +428,7 @@ Example:
 </script>
 ```
 
-For details, please refer to "[Enabling OP Support on Your Site](/tutorial/sp-setup-guide/)" or "[Linking Content Attestation Set and Originator Profile Set to A HTML Document](https://docs.originator-profile.org/opb/link-to-html/)."
+For details, please refer to "[Enabling OP Support on Your Site](/tutorial/sp-setup-guide/)" or "[Linking Content Attestation Set and Originator Profile Set to A HTML Document](/opb/link-to-html/)."
 
 ### Delivery when CA Presentation Type is set to link format {#ca-presentation-type-external}
 
