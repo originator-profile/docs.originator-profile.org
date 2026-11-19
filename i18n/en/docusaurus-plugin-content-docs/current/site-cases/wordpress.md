@@ -101,6 +101,7 @@ Example:
 
 The default is Embedded.
 
+- Embedded: Embeds the CAS directly into the HTML.
 - External: References CAS via the WordPress REST API URL. No static JSON files are generated. For details, see "[Delivery when CA Presentation Type is set to link format](#ca-presentation-type-external)."
 
 An example of a portion of the HTML output when "Embedded" is selected:
@@ -600,6 +601,10 @@ Post ID <Post ID>, page <Page Number>: image(s) with missing or invalid integrit
 ### Can it run on older versions of PHP (e.g., 7.4)? {#older-php}
 
 It will not work with the current codebase.
-However, it might be made to work by modifying the following three areas (note that operation on PHP 7.4 has not been verified). 1. Constructor property promotion (PHP 8.0+): The class constructor argument `public string $issuer` in `includes/class-uca.php` 2. Union types (PHP 8.0+): The return type `string|false` for methods in `includes/class-uca.php` 3. `mixed` type (PHP 8.0+): Used in parts of `includes/issue.php` and `includes/class-uca.php`
+However, it might be made to work by modifying the following three areas (note that operation on PHP 7.4 has not been verified). 
+
+1. Constructor property promotion (PHP 8.0+): The class constructor argument `public string $issuer` in `includes/class-uca.php`
+2. Union types (PHP 8.0+): The return type `string|false` for methods in `includes/class-uca.php`
+3. `mixed` type (PHP 8.0+): Used in parts of `includes/issue.php` and `includes/class-uca.php`
 
 Please note that security updates for PHP 7.4 ended in November 2022; therefore, its use on production sites is not recommended.
