@@ -204,7 +204,8 @@ https://media.example.com/special/**
 
 ### Defining Rules
 
-- `*` matches a string that does not contain `/`, while `**` matches a string that may contain `/`. No other characters are interpreted as regular expressions. - Matching is determined across all rules. `/blog/a` does not match `/blog/abc`. `/blog/**` matches `/blog/a/b`, but does not match `/blog` itself.
+- `*` matches a string that does not contain `/`, while `**` matches a string that may contain `/`. No other characters are interpreted as regular expressions.
+- Each rule must match the entire target string. `/blog/a` does not match `/blog/abc`. `/blog/**` matches `/blog/a/b`, but does not match `/blog` itself.
 - Trailing slashes (`/`) in both URLs and rule paths are treated as identical. Matching is case-sensitive.
 - Rules beginning with `/` are evaluated against the path and query string, while rules defined as absolute URLs are evaluated against the entire public URL. Comparisons are performed without altering the order or content of the query string; therefore, `/?p=123` and `/?p=456` are treated as distinct.
 - Internationalized domain names (such as those containing Japanese characters) are supported. The input format is preserved during matching; no conversion to or from Punycode is performed.
@@ -221,7 +222,7 @@ Please ensure that the URL you enter is the article's public URL, rather than a 
 ### When Exclusions Are Applied
 
 Exclusion checks are performed when an article is first published or when an already published article is updated.
-For multi-page (paginated) articles, the entire article is evaluated based on its primary (canonical) URL; if an exclusion applies, the automatic publication of all pages for that article will be skipped. If a public URL cannot be retrieved or settings cannot be evaluated, the issuance of the CA will be halted, and the reason will be logged.
+For multi-page (paginated) articles, the entire article is evaluated based on its primary (canonical) URL; if an exclusion applies, automatic CA issuance for all pages of that article will be skipped. If a public URL cannot be retrieved or settings cannot be evaluated, the issuance of the CA will be halted, and the reason will be logged.
 In any such case, the publication of the article itself will not be interrupted.
 To review the reasons for any skipped items, please enable the "Log Output Settings."
 
@@ -230,7 +231,7 @@ To review the reasons for any skipped items, please enable the "Log Output Setti
 **Saving exclusion settings will stop the delivery of existing CAs for the affected articles—both those embedded in the HTML and those provided via external URLs.**
 For articles split into multiple parts, the determination is made collectively based on the primary (representative) URL.
 
-Even when delivery is stopped, the saved CA data (stored in the `_profile_post_cas` table in the database) is retained.
+Even when delivery is stopped, the saved CA data (stored as `_profile_post_cas` post metadata in the database) is retained.
 The CA is neither deleted nor revoked from the CA server.
 
 For articles where the "stopped" status has been successfully saved, delivery will not resume simply by removing the exclusion.
@@ -433,16 +434,6 @@ For details, please refer to "[Enabling OP Support on Your Site](/tutorial/sp-se
 
 When the CA Presentation Type is set to "External," the CAS delivers content via the WordPress REST API.
 It does not generate static JSON files.
-
-```
-const PROFILE_DEFAULT_CA_EXTERNAL_DIR = 'cas';
-```
-
-If the document root is `/var/www/html`, the static file will be placed at the following path:
-
-```
-/var/www/html/cas/<post-id>_cas.json
-```
 
 The external URL is `/wp-json/ca-manager/v1/cas/<post-id>/<page-number>`.
 Page numbering starts at 1.
