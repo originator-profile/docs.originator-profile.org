@@ -112,8 +112,6 @@ An example of a portion of the HTML output when "Embedded" is selected:
 </script>
 ```
 
-- External: Generates the CAS as a static file and posts the article using the link format (External). For details on the generated files, please refer to "[File generation for the External CA Presentation Type](#ca-presentation-type-external)."
-
 **Log Output Settings**
 
 The default is disabled.
