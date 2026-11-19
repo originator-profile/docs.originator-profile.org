@@ -157,6 +157,7 @@ Example:
 
 **If the CA does not exist**
 
+- The plugin settings may be incorrect.
 - The article may match the rules for [exclusion from CA issuance](#exclusion).
 - Enable the log output setting, save the page, and check the logs. For log output settings, please refer to [Plugin Settings](#plugin-settings).
 
