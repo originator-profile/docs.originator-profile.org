@@ -601,7 +601,7 @@ Post ID <Post ID>, page <Page Number>: image(s) with missing or invalid integrit
 ### Can it run on older versions of PHP (e.g., 7.4)? {#older-php}
 
 It will not work with the current codebase.
-However, it might be made to work by modifying the following three areas (note that operation on PHP 7.4 has not been verified). 
+However, it might be made to work by modifying the following three areas (note that operation on PHP 7.4 has not been verified).
 
 1. Constructor property promotion (PHP 8.0+): The class constructor argument `public string $issuer` in `includes/class-uca.php`
 2. Union types (PHP 8.0+): The return type `string|false` for methods in `includes/class-uca.php`
