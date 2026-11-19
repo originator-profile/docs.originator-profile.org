@@ -12,6 +12,7 @@ If you are using the Dentsu Soken CA server, please also refer to the Dentsu Sok
 
 ## Prerequisites
 
+- WordPress administrator privileges
 - The operating environment meets the requirements specified in [Operating Environment](#environment).
 
 ## Procedure
