@@ -372,7 +372,7 @@ WordPress-->>利用者: CAS
 
 CA サーバー API の Basic 認証をサポートしています。
 Basic 認証以外の認証方式 (例: OAuth、JWT、API キー) を利用する場合、カスタマイズが必要です。
-カスタマイズの方法については、[includes/issue.php](https://github.com/originator-profile/originator-profile/blob/v0.7/packages/wordpress/includes/issue.php) `issue_ca()` の実装をご確認ください。
+カスタマイズの方法については、[includes/issue.php](https://github.com/originator-profile/originator-profile/blob/main/packages/wordpress/includes/issue.php) `issue_ca()` の実装をご確認ください。
 
 ### OP 対応
 
@@ -509,7 +509,7 @@ OP 登録が行えない場合は、Playground を利用して CA の自動発�
 
 ### プラグインの開発
 
-開発用 WordPress サーバーの構築、テストの実行、パッケージングの方法は、[CA Manager の README](https://github.com/originator-profile/originator-profile/tree/v0.7/packages/wordpress#readme) を参照してください。
+開発用 WordPress サーバーの構築、テストの実行、パッケージングの方法は、[CA Manager の README](https://github.com/originator-profile/originator-profile/tree/main/packages/wordpress#readme) を参照してください。
 
 ## 既知の問題
 
