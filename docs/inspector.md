@@ -169,7 +169,7 @@ Originator Profile に対応していない Web サイトなどでは、以下�
 - ルートノードのアイコンをクリックすると、JSON 全体がコピーされます。
 - 特定のノードのアイコンをクリックすると、そのノード配下の JSON のみがコピーされます。
 
-コピーしたデータは、[Debugger](/debugger/) に貼り付けて詳細な検証を行ったり、問題の報告時に添付したりするのに役立ちます。
+コピーしたデータは、[Debugger](/toolkit/debugger/) に貼り付けて詳細な検証を行ったり、問題の報告時に添付したりするのに役立ちます。
 
 ## OP Inspector の更新
 
@@ -229,7 +229,7 @@ Website Profile の画像は、幅 240px × 高さ 44px の表示領域にアス
 
 ## 関連
 
-- [Debugger](/debugger/) - Originator Profile のデバッグツール
+- [Debugger](/toolkit/debugger/) - Originator Profile のデバッグツール
 - [Content Attestation Server Playground](/playground/) - Content Attestation の発行・検証テスト環境
 - [トラブルシューティング](/troubleshooting/image-access-error/) - 画像が表示されない場合の対処法
 - [エラーリファレンス](/error-reference/) - エラーコードの詳細

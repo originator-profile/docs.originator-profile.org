@@ -1,5 +1,5 @@
 ---
-sidebar_position: 340
+sidebar_position: 1
 ---
 
 # Debugger
@@ -11,7 +11,7 @@ sidebar_position: 340
 
 ### 画面の説明
 
-![](assets/debugger.excalidraw.svg)
+![](../assets/debugger.excalidraw.svg)
 
 #### 入力フィールド
 
