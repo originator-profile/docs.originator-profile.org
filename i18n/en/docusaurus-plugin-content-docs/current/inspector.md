@@ -178,7 +178,7 @@ JSON data displayed in the tree can be copied by clicking the clipboard icon (ðŸ
 - Clicking the root node's icon copies the entire JSON.
 - Clicking a specific node's icon copies only the JSON under that node.
 
-The copied data is useful for detailed verification by pasting it into [Debugger](/debugger/) or attaching it when reporting problems.
+The copied data is useful for detailed verification by pasting it into [Debugger](/toolkit/debugger/) or attaching it when reporting problems.
 
 ## Updating OP Inspector
 
@@ -238,7 +238,7 @@ To display the image correctly, you need to allow external access to the image. 
 
 ## Related
 
-- [Debugger](/debugger/) - Debugging tool for Originator Profile
+- [Debugger](/toolkit/debugger/) - Debugging tool for Originator Profile
 - [Content Attestation Server Playground](/playground/) - Content Attestation publishing and verification test environment
 - [Troubleshooting](/troubleshooting/image-access-error/) - How to deal with images not displaying
 - [Error Reference](/error-reference/) - Details of error codes

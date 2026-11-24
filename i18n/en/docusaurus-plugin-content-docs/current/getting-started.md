@@ -67,5 +67,5 @@ If you want to explore the specifications in more detail, please refer to the fo
 
 In addition, the following tool is available for debugging:
 
-- [Debugger](../debugger/)  
+- [Debugger](../toolkit/debugger/)  
   You can use it to test issued Content Attestation Set and Site Profile, and to check for errors during verification.

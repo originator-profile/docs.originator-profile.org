@@ -142,13 +142,13 @@ CA が正しく発行されているかどうかは、次の 2 つの方法で�
 
 ※ この方法では検証結果までは確認できません。発行されているかどうかの一時確認としてご利用ください。
 
-- [OP Inspector](/inspector) または [Debugger](/debugger) で確認する  
+- [OP Inspector](/inspector) または [Debugger](/toolkit/debugger) で確認する  
   より詳細に確認したい場合は、 OP Inspector または Debugger を使用します。
   - 対象ページに付与された CA が存在するか
   - CA の検証が成功しているか
 
   これらを確認できます。  
-  それぞれ、使い方は [OP Inspector](/inspector) のドキュメント、[Debugger](/debugger) のドキュメントを参照してください。
+  それぞれ、使い方は [OP Inspector](/inspector) のドキュメント、[Debugger](/toolkit/debugger) のドキュメントを参照してください。
 
 **CA が存在しない場合**
 
